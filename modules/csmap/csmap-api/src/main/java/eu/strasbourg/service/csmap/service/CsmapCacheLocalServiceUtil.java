@@ -52,6 +52,14 @@ public class CsmapCacheLocalServiceUtil {
 		return getService().addCsmapCache(csmapCache);
 	}
 
+	public static eu.strasbourg.service.csmap.model.CsmapCache compareJsons(
+			eu.strasbourg.service.csmap.model.CsmapCache cache,
+			com.liferay.portal.kernel.json.JSONObject json, java.util.Date date)
+		throws com.fasterxml.jackson.core.JsonProcessingException {
+
+		return getService().compareJsons(cache, json, date);
+	}
+
 	/**
 	 * Creates a new csmap cache with the primary key. Does not add the csmap cache to the database.
 	 *
@@ -62,6 +70,12 @@ public class CsmapCacheLocalServiceUtil {
 		long cacheId) {
 
 		return getService().createCsmapCache(cacheId);
+	}
+
+	public static eu.strasbourg.service.csmap.model.CsmapCache createCsmapCache(
+		long codeCache, String json, java.util.Date date) {
+
+		return getService().createCsmapCache(codeCache, json, date);
 	}
 
 	/**

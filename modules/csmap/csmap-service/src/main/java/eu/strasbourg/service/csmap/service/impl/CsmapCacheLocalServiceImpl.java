@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.csmap.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.portal.aop.AopService;
@@ -72,6 +73,26 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 	}
 
 	@Override
+	public CsmapCache compareJsons(CsmapCache cache, JSONObject json, Date date) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		if (!mapper.readTree(cache.getCacheJson()).equals(mapper.readTree(json.toString()))) {
+			cache.setCacheJson(json.toString());
+			cache.setModifiedDate(date);
+		}
+		return cache;
+	}
+
+	@Override
+	public CsmapCache createCsmapCache(long codeCache, String json, Date date) {
+		long id = _counterLocalService.increment();
+		CsmapCache cache = csmapCachePersistence.create(id);
+		cache.setCodeCache(codeCache);
+		cache.setCacheJson(String.valueOf(json));
+		cache.setModifiedDate(date);
+		return cache;
+	}
+
+	@Override
 	public JSONObject getJsonVide() {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -94,51 +115,28 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 			if (codeCache == CodeCacheEnum.AGENDA.getId()) {
 				json = ApiCsmapUtil.getAgenda();
 				if (Validator.isNull(cache)) {
-					long id = _counterLocalService.increment();
-					cache = createCsmapCache(id);
-					cache.setCodeCache(codeCache);
-					cache.setCacheJson(String.valueOf(json));
-					cache.setModifiedDate(date);
+					cache = createCsmapCache(codeCache, String.valueOf(json), date);
 				} else {
-					ObjectMapper mapper = new ObjectMapper();
-					if (!mapper.readTree(cache.getCacheJson()).equals(mapper.readTree(json.toString()))) {
-						cache.setCacheJson(json.toString());
-						cache.setModifiedDate(date);
-					}
+					cache = compareJsons(cache, json, date);
 				}
-				cache.setIsLastProcessSuccess(true);
 			} else if (codeCache == CodeCacheEnum.CATEGORIES.getId()) {
 				json = ApiCsmapUtil.getCategories("0","");
 				if (Validator.isNull(cache)) {
-					long id = _counterLocalService.increment();
-					cache = createCsmapCache(id);
-					cache.setCodeCache(codeCache);
-					cache.setCacheJson(String.valueOf(json));
-					cache.setModifiedDate(date);
+					cache = createCsmapCache(codeCache, String.valueOf(json), date);
 				} else {
-					ObjectMapper mapper = new ObjectMapper();
-					if (!mapper.readTree(cache.getCacheJson()).equals(mapper.readTree(json.toString()))) {
-						cache.setCacheJson(json.toString());
-						cache.setModifiedDate(date);
-					}
+					cache = compareJsons(cache, json, date);
 				}
-				cache.setIsLastProcessSuccess(true);
 			} else if(codeCache == CodeCacheEnum.EVENT.getId()) {
 				if (Validator.isNull(cache)) {
-					long id = _counterLocalService.increment();
-					cache = createCsmapCache(id);
-					cache.setCodeCache(codeCache);
-					cache.setCacheJson(String.valueOf(ApiCsmapUtil.getEvents("0")));
-					cache.setModifiedDate(date);
-					cache.setIsLastProcessSuccess(true);
+					cache = createCsmapCache(codeCache, String.valueOf(ApiCsmapUtil.getEvents("0")), date);
 				} else {
 					if(cache.getModifiedDate().before(getLastModifiedEvent())){
 						cache.setCacheJson(String.valueOf(ApiCsmapUtil.getEvents("0")));
 						cache.setModifiedDate(date);
 					}
-					cache.setIsLastProcessSuccess(true);
 				}
 			}
+			cache.setIsLastProcessSuccess(true);
 		}
 		catch(Exception e){
 			log.error(e);

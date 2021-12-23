@@ -79,13 +79,22 @@ public class ProfileApplication extends Application {
             // On récupère le user
             JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
 
+            // On vérifie que le json contient bien modified qui est la date de derniere modification du profile
             if (Validator.isNotNull(jsonPublikUser.getString("modified"))) {
                 try {
+                    // On recupere la date en string puis on parse
+                    // Attention c'est sensible a la casse si la date n'a pas le meme format qu'ecrit ca casse
+                    // Si ca fonctionne on le transforme ensuite en date
                     String str = jsonPublikUser.getString("modified");
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSXXX");
                     LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
                     Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+                    // Si le user n'a pas de date ou que sa date est differente de la date de modif du profile on rentre dans la boucle
+
                     if (Validator.isNull(publikUser.getModifiedDateJSON()) || !publikUser.getModifiedDateJSON().equals(date)) {
+                        // Genere le json et la response
+                        // Si le json est vide alors on ne fait rien
                         Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
                         String jsonValue = (String) map.get(stringJson);
                         if(Validator.isNotNull(jsonValue)){
@@ -95,13 +104,16 @@ public class ProfileApplication extends Application {
                         }
                         response = (Response) map.get(stringResponse);
                     } else {
+                        // La date est la meme que la modified date du profile donc on envoie ce qu'on a enregistré
                         response = WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(publikUser.getCsmapJSON()));
                     }
                 } catch (Exception e){
+                    // Si le parse ne fonctionne pas on genere la response et l'envoie
                     Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
                     response = (Response) map.get(stringResponse);
                 }
             } else {
+                // Si pas de modified date du profile on genere la response
                 Map<String, Object> map = profileCSMapJSON(jsonPublikUser);
                 response = (Response) map.get(stringResponse);
             }
@@ -151,7 +163,7 @@ public class ProfileApplication extends Application {
         }
     }
 
-    //Renvoi une map avec obligatoirement response et json.
+    // Renvoi une map avec obligatoirement response et json.
     public Map<String, Object> profileCSMapJSON(JSONObject jsonPublikUser){
         Map<String, Object> map = new HashMap<>();
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
