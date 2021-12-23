@@ -399,6 +399,8 @@ public abstract class PlaceCategoriesLocalServiceBaseImpl
 
 	@Reference
 	protected BaseNoncePersistence baseNoncePersistence;
+
+	@Reference
 	protected CsmapCachePersistence csmapCachePersistence;
 
 	protected PlaceCategoriesLocalService placeCategoriesLocalService;

@@ -209,7 +209,7 @@ public class PlaceApplication extends Application {
                     json = csmapCacheLocalService.getJsonVide();
                 }
             } else {
-                json = ApiCsmapUtil.getEvents(lastUpdateTimeString);
+                json = ApiCsmapUtil.getCategories(lastUpdateTimeString, idsCategory);
             }
 
             if( json.getJSONArray("ADD").length() == 0 &&

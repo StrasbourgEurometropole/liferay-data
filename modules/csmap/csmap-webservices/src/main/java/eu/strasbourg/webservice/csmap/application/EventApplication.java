@@ -105,7 +105,7 @@ public class EventApplication extends Application {
     @Produces("application/json")
     @Path("/get-themes")
     public Response getThemes(
-            @FormParam("ids_themes") String ids_themes) {
+            @FormParam("ids_theme") String ids_themes) {
         return getThemes("0", ids_themes);
     }
 
@@ -114,7 +114,7 @@ public class EventApplication extends Application {
     @Path("/get-themes/{last_update_time}")
     public Response getThemes(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            @FormParam("ids_themes") String ids_themes) {
+            @FormParam("ids_theme") String ids_themes) {
 
 
         JSONObject json = createJSONObject();
@@ -182,7 +182,7 @@ public class EventApplication extends Application {
     @Produces("application/json")
     @Path("/get-types")
     public Response getTypes(
-            @FormParam("ids_types") String ids_types) {
+            @FormParam("ids_type") String ids_types) {
         return getTypes("0", ids_types);
     }
 
@@ -191,7 +191,7 @@ public class EventApplication extends Application {
     @Path("/get-types/{last_update_time}")
     public Response getTypes(
             @PathParam("last_update_time") String lastUpdateTimeString,
-            @FormParam("ids_types") String ids_types) {
+            @FormParam("ids_type") String ids_types) {
 
 
         JSONObject json = createJSONObject();

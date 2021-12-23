@@ -30,6 +30,7 @@ import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.utils.*;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -94,6 +95,9 @@ public class ApiCsmapUtil {
         if (Validator.isNull(idsCategory)) {
             idsCategory = "";
         }
+
+        List<String> idsCategorySplitted =  Arrays.asList(idsCategory.split(","));
+
         // On récupère les pictos du vocabulaire
         Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
 
@@ -146,7 +150,7 @@ public class ApiCsmapUtil {
             } else
                 pictoURL = pictoDefaultURL;
 
-            if (!idsCategory.contains(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG")))
+            if (!idsCategorySplitted.contains(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG")))
                 jsonAjout.put(placeCategoryCSMapJSON(categ, pictoURL, true));
             else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
                 jsonModif.put(placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
@@ -158,9 +162,9 @@ public class ApiCsmapUtil {
         // On récupère toutes les catégories qui ont été supprimées
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
-        if (idsCategory != "") {
+        if (!idsCategory.equals("")) {
             if (Validator.isNotNull(placeTypeVocabulary))
-                for (String idCategory : idsCategory.split(",")) {
+                for (String idCategory : idsCategorySplitted) {
                     if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
                             (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
                         jsonSuppr.put(idCategory);

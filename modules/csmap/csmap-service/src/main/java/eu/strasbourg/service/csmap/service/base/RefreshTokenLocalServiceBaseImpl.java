@@ -394,6 +394,8 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	@Reference
 	protected BaseNoncePersistence baseNoncePersistence;
+
+	@Reference
 	protected CsmapCachePersistence csmapCachePersistence;
 
 	@Reference

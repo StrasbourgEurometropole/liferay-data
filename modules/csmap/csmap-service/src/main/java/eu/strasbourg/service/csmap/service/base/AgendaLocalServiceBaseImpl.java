@@ -388,6 +388,8 @@ public abstract class AgendaLocalServiceBaseImpl
 
 	@Reference
 	protected BaseNoncePersistence baseNoncePersistence;
+
+	@Reference
 	protected CsmapCachePersistence csmapCachePersistence;
 
 	@Reference
