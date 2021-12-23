@@ -48,15 +48,6 @@ public class CsmapCacheLocalServiceWrapper
 		return _csmapCacheLocalService.addCsmapCache(csmapCache);
 	}
 
-	@Override
-	public eu.strasbourg.service.csmap.model.CsmapCache compareJsons(
-			eu.strasbourg.service.csmap.model.CsmapCache cache,
-			com.liferay.portal.kernel.json.JSONObject json, java.util.Date date)
-		throws com.fasterxml.jackson.core.JsonProcessingException {
-
-		return _csmapCacheLocalService.compareJsons(cache, json, date);
-	}
-
 	/**
 	 * Creates a new csmap cache with the primary key. Does not add the csmap cache to the database.
 	 *

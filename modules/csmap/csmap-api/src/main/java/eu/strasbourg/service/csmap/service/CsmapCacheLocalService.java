@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.csmap.service;
 
-
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
@@ -73,9 +72,6 @@ public interface CsmapCacheLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CsmapCache addCsmapCache(CsmapCache csmapCache);
-
-	public CsmapCache compareJsons(CsmapCache cache, JSONObject json, Date date)
-		throws com.fasterxml.jackson.core.JsonProcessingException;
 
 	/**
 	 * Creates a new csmap cache with the primary key. Does not add the csmap cache to the database.

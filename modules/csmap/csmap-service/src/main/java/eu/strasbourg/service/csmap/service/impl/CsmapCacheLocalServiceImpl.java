@@ -72,8 +72,8 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 		return csmapCachePersistence.findByLastProcessNotSuccess(false);
 	}
 
-	@Override
-	public CsmapCache compareJsons(CsmapCache cache, JSONObject json, Date date) throws JsonProcessingException {
+
+	private CsmapCache compareJsons(CsmapCache cache, JSONObject json, Date date) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		if (!mapper.readTree(cache.getCacheJson()).equals(mapper.readTree(json.toString()))) {
 			cache.setCacheJson(json.toString());
