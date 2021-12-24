@@ -1,28 +1,61 @@
 package eu.strasbourg.webservice.numerique_responsable.utils;
 
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.webservice.numerique_responsable.constants.WSConstants;
 
-public class JournalArticleJSonHelper {
-    static public JSONObject journalArticleJSON(AssetEntry entry) {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put(WSConstants.JSON_WC_TITLE, entry.getTitleCurrentValue());
-        json.put(WSConstants.JSON_WC_SLUG, entry.getClassName());
-        json.put(WSConstants.JSON_WC_SHORT_DESRIPTION, entry.getSummaryCurrentValue());
-        json.put(WSConstants.JSON_WC_TYPE_ARTICLE, entry.getGroupId());
-        json.put(WSConstants.JSON_CATEGORIES, "");
-        json.put(WSConstants.JSON_WC_TAGS, "");
-        json.put(WSConstants.JSON_WC_HTML, "");
-        json.put(WSConstants.JSON_WC_THUMBNAIL_IMAGE, "");
-        json.put(WSConstants.JSON_WC_HEADER_IMAGE, "");
-        json.put(WSConstants.JSON_WC_FEATURED_ARTICLES, "");
-        json.put(WSConstants.JSON_WC_LANGUAGE, entry.getDefaultLanguageId());
-        json.put(WSConstants.JSON_WC_DATE_PUBLISHED, entry.getPublishDate());
-        json.put(WSConstants.JSON_WC_NEWS_HEADLINE, "");
-        json.put(WSConstants.JSON_WC_DESCRIPTION, entry.getDescriptionCurrentValue());
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Locale;
 
+public class JournalArticleJSonHelper {
+    public static JSONObject journalArticleJSON(AssetEntry entry, String localeString) {
+        JournalArticle journalArticle = null;
+        Locale locale = LocaleUtil.fromLanguageId(localeString);
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+        try {
+            journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
+            if (journalArticle != null) {
+                String title = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", locale);
+                if (Validator.isNull(title)) {
+                    title = journalArticle.getTitle(locale);
+                }
+                json.put(WSConstants.JSON_WC_TITLE, title);
+
+                json.put(WSConstants.JSON_WC_SLUG, journalArticle.getUrlTitle(locale));
+
+                String shortDescription = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "shortDescription", locale);
+                json.put(WSConstants.JSON_WC_SHORT_DESRIPTION, shortDescription);
+
+                String thumbnailImage = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnailImage", locale);
+                String imageURL = "";
+                if (!thumbnailImage.isEmpty()) {
+                    imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnailImage);
+                }
+                json.put(WSConstants.JSON_WC_THUMBNAIL_IMAGE, imageURL);
+
+                JSONArray categories = JSONFactoryUtil.createJSONArray();
+                List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(entry);
+                for(AssetCategory assetCategory : assetCategories){
+                    categories.put(assetCategory.getTitle(locale));
+                }
+                json.put(WSConstants.JSON_CATEGORIES, categories);
+            }
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
         return  json;
     }
 

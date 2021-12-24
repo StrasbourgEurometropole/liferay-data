@@ -1,13 +1,17 @@
 package eu.strasbourg.webservice.numerique_responsable.application;
 
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.webservice.numerique_responsable.constants.WSConstants;
 import eu.strasbourg.webservice.numerique_responsable.service.WSSearch;
 import eu.strasbourg.webservice.numerique_responsable.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.GET;
@@ -42,33 +46,33 @@ public class SearchApplication extends Application {
 
     @GET
     @Produces("application/json")
-    @Path("/get-journal-articles/{keywords}/{locale}/{start}/{end}")
+    @Path("/get-journal-articles/{keywords}/{locale}/{start}/{delta}")
     public Response getJournalArticles(
             @PathParam("keywords") String keywords,
             @PathParam("locale") String locale,
             @PathParam("start") String startString,
-            @PathParam("end") String endString) {
+            @PathParam("delta") String deltaString) {
 
         // On vérifie que les attributs sont renseignés
-        if (Validator.isNull(keywords)) {
+        if (Validator.isNull(keywords))
             keywords = "";
-        }
-        if (Validator.isNull(locale)) {
+
+        if (Validator.isNull(locale))
             locale = Locale.FRANCE.getLanguage();
-        }
+
         int start = 0;
-        if (Validator.isNotNull(startString)) {
+        if (Validator.isNotNull(startString))
             start = Integer.parseInt(startString);
-        }
-        int end = 12;
-        if (Validator.isNotNull(endString)) {
-            end = Integer.parseInt(endString);
-        }
+
+        int delta = 12;
+        if (Validator.isNotNull(deltaString))
+            delta = Integer.parseInt(deltaString);
+
 
         JSONObject response;
 
         try {
-            response = WSSearch.getJournalArticles(keywords, locale, start, end);
+            response = search.getJournalArticles(keywords, locale, start, delta);
             int httpResponseCode = (int)response.get(WSConstants.JSON_RESPONSE_CODE);
             String httpResponseMessage = (String)response.get(WSConstants.JSON_ERROR_DESCRIPTION);
 
@@ -86,4 +90,12 @@ public class SearchApplication extends Application {
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
     }
+
+   @Reference(unbind = "-")
+    protected void setWSSearch(WSSearch search) {
+        this.search = search;
+    }
+
+    @Reference
+    protected WSSearch search;
 }
