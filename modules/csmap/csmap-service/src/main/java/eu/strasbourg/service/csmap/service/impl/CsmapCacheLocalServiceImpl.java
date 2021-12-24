@@ -126,6 +126,27 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 				} else {
 					cache = compareJsons(cache, json, date);
 				}
+			} else if (codeCache == CodeCacheEnum.TYPE.getId()) {
+				json = ApiCsmapUtil.getTypes("0","");
+				if (Validator.isNull(cache)) {
+					cache = createCsmapCache(codeCache, String.valueOf(json), date);
+				} else {
+					cache = compareJsons(cache, json, date);
+				}
+			} else if (codeCache == CodeCacheEnum.THEME.getId()) {
+				json = ApiCsmapUtil.getThemes("0","");
+				if (Validator.isNull(cache)) {
+					cache = createCsmapCache(codeCache, String.valueOf(json), date);
+				} else {
+					cache = compareJsons(cache, json, date);
+				}
+			} else if (codeCache == CodeCacheEnum.TERRITOIRE.getId()) {
+				json = ApiCsmapUtil.getTerritoires("0","");
+				if (Validator.isNull(cache)) {
+					cache = createCsmapCache(codeCache, String.valueOf(json), date);
+				} else {
+					cache = compareJsons(cache, json, date);
+				}
 			} else if(codeCache == CodeCacheEnum.EVENT.getId()) {
 				if (Validator.isNull(cache)) {
 					cache = createCsmapCache(codeCache, String.valueOf(ApiCsmapUtil.getEvents("0")), date);
