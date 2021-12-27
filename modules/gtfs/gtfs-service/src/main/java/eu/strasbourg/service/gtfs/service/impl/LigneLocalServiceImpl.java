@@ -325,7 +325,7 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	 * Retourne toutes les lignes avec un status choisi par modifiedDate
 	 */
 	@Override
-	public List<Ligne> getByStatusAndModifiedDate(int status) {
+	public List<Ligne> getByStatusOrderedByModifiedDate(int status) {
 		return this.lignePersistence.findByStatus(status).stream()
 				.sorted(Comparator.comparing(LigneModel::getModifiedDate))
 				.collect(Collectors.toList());
