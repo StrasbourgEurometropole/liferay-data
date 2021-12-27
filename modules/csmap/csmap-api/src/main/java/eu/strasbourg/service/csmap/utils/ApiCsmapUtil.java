@@ -218,13 +218,19 @@ public class ApiCsmapUtil {
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
         if (Validator.isNotNull(idsTerritoires)) {
-            if (Validator.isNotNull(territoryVocabulary))
+            if (Validator.isNotNull(territoryVocabulary)) {
+
+                Map<String, AssetCategory> mapTerritories = new HashMap<>();
+
+                if(Validator.isNotNull(territoryVocabulary))
+                    mapTerritories = AssetVocabularyHelper.getMapCategoriesByExternalId(territoryVocabulary, "SIG");
+
                 for (String idCategory : idsTerritoires.split(",")) {
-                    AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, idCategory);
-                    if (Validator.isNull(category)) {
+                    if (Validator.isNull(mapTerritories.get(idCategory))) {
                         jsonSuppr.put(idCategory);
                     }
                 }
+            }
         }
         json.put("DELETE", jsonSuppr);
 
@@ -266,13 +272,20 @@ public class ApiCsmapUtil {
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
         if (Validator.isNotNull(idsThemes)) {
-            if (Validator.isNotNull(eventThemeVocabulary))
+
+            if (Validator.isNotNull(eventThemeVocabulary)) {
+
+                Map<String, AssetCategory> mapThemes = new HashMap<>();
+
+                if(Validator.isNotNull(eventThemeVocabulary))
+                    mapThemes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventThemeVocabulary, "externalId");
+
                 for (String idCategory : idsThemes.split(",")) {
-                    AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventThemeVocabulary, idCategory);
-                    if (Validator.isNull(category)) {
+                    if (Validator.isNull(mapThemes.get(idCategory))) {
                         jsonSuppr.put(idCategory);
                     }
                 }
+            }
         }
         json.put("DELETE", jsonSuppr);
 
@@ -314,13 +327,19 @@ public class ApiCsmapUtil {
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
         if (Validator.isNotNull(idsTypes)) {
-            if (Validator.isNotNull(eventTypeVocabulary))
+            if (Validator.isNotNull(eventTypeVocabulary)) {
+
+                Map<String, AssetCategory> mapTypes = new HashMap<>();
+
+                if(Validator.isNotNull(eventTypeVocabulary))
+                    mapTypes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventTypeVocabulary, "externalId");
+
                 for (String idCategory : idsTypes.split(",")) {
-                    AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventTypeVocabulary, idCategory);
-                    if (Validator.isNull(category)) {
+                    if (Validator.isNull(mapTypes.get(idCategory))) {
                         jsonSuppr.put(idCategory);
                     }
                 }
+            }
         }
         json.put("DELETE", jsonSuppr);
 
