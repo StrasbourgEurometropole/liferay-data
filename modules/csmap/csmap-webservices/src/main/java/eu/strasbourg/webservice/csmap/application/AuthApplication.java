@@ -90,57 +90,6 @@ public class AuthApplication extends Application {
 
     @GET
     @Produces("application/json")
-    @Path("/authentication/{code}")
-    /**
-     * Utilisé pour RETROCOMPATIBILITE avec l'authentification sans NONCE
-     */
-    public Response authentication(
-            @PathParam("code") String code) {
-        JSONObject jsonResponse =JSONFactoryUtil.createJSONObject();
-
-        try {
-
-            JSONObject authentikJSON = authenticator.sendTokenRequest(code);
-
-            if (Validator.isNull(authentikJSON))
-                throw new AuthenticationFailedException();
-
-            String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
-            String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
-
-            boolean isJwtValid = JWTUtils.checkJWT(
-                    authentikJWT,
-                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(),
-                    StrasbourgPropsUtil.getPublikIssuer());
-
-            if (!isJwtValid)
-                throw new InvalidJWTException();
-
-            String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
-                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
-
-            authenticator.updateUserFromAuthentikInDatabase(authentikJWT, accessToken);
-
-            String csmapJWT = JWTUtils.createJWT(
-                    sub, WSConstants.JWT_VALIDITY_SECONDS,
-                    StrasbourgPropsUtil.getCSMAPInternalSecret());
-            RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
-
-            jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
-            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
-
-        } catch (InvalidJWTException | IOException | AuthenticationFailedException e) {
-            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
-        } catch (RefreshTokenCreationFailedException e) {
-            log.error(e);
-            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
-        }
-
-        return WSResponseUtil.buildOkResponse(jsonResponse);
-    }
-
-    @GET
-    @Produces("application/json")
     @Path("/authentication/{code}/{baseNonce}/{codeVerifier}")
     public Response authentication(
             @PathParam("code") String code,
@@ -228,32 +177,6 @@ public class AuthApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
-    @GET
-    @Produces("application/json")
-    @Path("/get-new-jwt/{refreshToken}")
-    /**
-     * Utilisé comme chemin de transition/retrocomaptibilité avec le POST
-     */
-    public Response getLegacyNewJWT(
-            @PathParam("refreshToken") String refreshTokenvalue) {
-        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-
-        try {
-            RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
-
-            String csmapJWT = JWTUtils.createJWT(
-                    validRefreshToken.getPublikId(), WSConstants.JWT_VALIDITY_SECONDS,
-                    StrasbourgPropsUtil.getCSMAPInternalSecret());
-
-            jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
-
-        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
-            log.error(e.getMessage());
-            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
-        }
-
-        return WSResponseUtil.buildOkResponse(jsonResponse);
-    }
 
     @GET
     @Produces("application/json")
@@ -286,25 +209,6 @@ public class AuthApplication extends Application {
     @Path("/logout")
     public Response logout(
             @FormParam("refreshToken") String refreshTokenvalue) {
-        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-        try {
-            RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
-        } catch (NullPointerException e) {
-            return WSResponseUtil.buildErrorResponse(400, "RefreshToken is invalid");
-        } catch (NoSuchRefreshTokenException e) {
-            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
-        }
-        return WSResponseUtil.buildOkResponse(jsonResponse);
-    }
-
-    @GET
-    @Produces("application/json")
-    @Path("/logout/{refreshToken}")
-    /**
-     * Utilisé comme chemin de transition/retrocomaptibilité avec le POST
-     */
-    public Response legacyLogout(
-            @PathParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         try {
             RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
