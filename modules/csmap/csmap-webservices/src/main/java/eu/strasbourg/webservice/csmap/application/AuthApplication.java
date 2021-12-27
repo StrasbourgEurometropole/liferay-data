@@ -177,6 +177,32 @@ public class AuthApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("/get-new-jwt/{refreshToken}")
+    /**
+     * Utilisé comme chemin de transition/retrocomaptibilité avec le POST
+     */
+    public Response getLegacyNewJWT(
+            @PathParam("refreshToken") String refreshTokenvalue) {
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
+        try {
+            RefreshToken validRefreshToken = authenticator.controlRefreshToken(refreshTokenvalue);
+
+            String csmapJWT = JWTUtils.createJWT(
+                    validRefreshToken.getPublikId(), WSConstants.JWT_VALIDITY_SECONDS,
+                    StrasbourgPropsUtil.getCSMAPInternalSecret());
+
+            jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
+
+        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
+            log.error(e.getMessage());
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        }
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
+    }
 
     @GET
     @Produces("application/json")
