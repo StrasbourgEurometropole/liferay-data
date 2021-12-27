@@ -117,9 +117,8 @@ public class EventApplication extends Application {
             @FormParam("ids_theme") String ids_themes) {
 
 
-        JSONObject json = createJSONObject();
-
-        // On transforme la date string en date
+        JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.THEME.getId());
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
@@ -128,48 +127,27 @@ public class EventApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(ids_themes)) {
-            ids_themes = "";
-        }
-
         try {
-            // On récupère les catégories du vocabulaire des thèmes agenda
-            AssetVocabulary eventThemeVocabulary = AssetVocabularyHelper
-                    .getGlobalVocabulary(VocabularyNames.EVENT_THEME);
-            List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(eventThemeVocabulary))
-                categories = eventThemeVocabulary.getCategories();
-
-            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-            for (AssetCategory categ : categories) {
-                if (lastUpdateTime.before(categ.getCreateDate()))
-                    jsonAjout.put(CSMapJSonHelper.eventThemesCSMapJSON(categ));
-                else if (lastUpdateTime.before(categ.getModifiedDate()))
-                    jsonModif.put(CSMapJSonHelper.eventThemesCSMapJSON(categ));
+            // On vérifie que les ids sont renseignés
+            if (Validator.isNull(ids_themes)) {
+                ids_themes = "";
             }
 
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-            // On récupère toutes les catégories qui ont été supprimées
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-            if (Validator.isNotNull(ids_themes)) {
-                if (Validator.isNotNull(eventThemeVocabulary))
-                    for (String idCategory : ids_themes.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventThemeVocabulary, idCategory);
-                        if (Validator.isNull(category)) {
-                            jsonSuppr.put(idCategory);
-                        }
-                    }
+            if(Validator.isNotNull(cache)){
+                if(lastUpdateTimeString.equals("0")){
+                    json = createJSONObject(cache.getCacheJson());
+                } else if(lastUpdateTime.before(cache.getModifiedDate())){
+                    json = ApiCsmapUtil.getThemes(lastUpdateTimeString, ids_themes);
+                } else {
+                    json = csmapCacheLocalService.getJsonVide();
+                }
+            } else {
+                json = ApiCsmapUtil.getThemes(lastUpdateTimeString, ids_themes);
             }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
-            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            if( json.getJSONArray("ADD").length() == 0 &&
+                    json.getJSONArray("UPDATE").length() == 0 &&
+                    json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (PortalException e) {
             log.error(e);
@@ -194,10 +172,10 @@ public class EventApplication extends Application {
             @FormParam("ids_type") String ids_types) {
 
 
-        JSONObject json = createJSONObject();
-
-        // On transforme la date string en date
+        JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.TYPE.getId());
         Date lastUpdateTime;
+
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
@@ -205,48 +183,27 @@ public class EventApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(ids_types)) {
-            ids_types = "";
-        }
-
         try {
-            // On récupère les catégories du vocabulaire des types agenda
-            AssetVocabulary eventTypeVocabulary = AssetVocabularyHelper
-                    .getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
-            List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(eventTypeVocabulary))
-                categories = eventTypeVocabulary.getCategories();
-
-            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-            for (AssetCategory categ : categories) {
-                if (lastUpdateTime.before(categ.getCreateDate()))
-                    jsonAjout.put(CSMapJSonHelper.eventTypesCSMapJSON(categ));
-                else if (lastUpdateTime.before(categ.getModifiedDate()))
-                    jsonModif.put(CSMapJSonHelper.eventTypesCSMapJSON(categ));
+            // On vérifie que les ids sont renseignés
+            if (Validator.isNull(ids_types)) {
+                ids_types = "";
             }
 
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-            // On récupère toutes les catégories qui ont été supprimées
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-            if (Validator.isNotNull(ids_types)) {
-                if (Validator.isNotNull(eventTypeVocabulary))
-                    for (String idCategory : ids_types.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(eventTypeVocabulary, idCategory);
-                        if (Validator.isNull(category)) {
-                            jsonSuppr.put(idCategory);
-                        }
-                    }
+            if(Validator.isNotNull(cache)){
+                if(lastUpdateTimeString.equals("0")){
+                    json = createJSONObject(cache.getCacheJson());
+                } else if(lastUpdateTime.before(cache.getModifiedDate())){
+                    json = ApiCsmapUtil.getTypes(lastUpdateTimeString, ids_types);
+                } else {
+                    json = csmapCacheLocalService.getJsonVide();
+                }
+            } else {
+                json = ApiCsmapUtil.getTypes(lastUpdateTimeString, ids_types);
             }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
-            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            if( json.getJSONArray("ADD").length() == 0 &&
+                    json.getJSONArray("UPDATE").length() == 0 &&
+                    json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (PortalException e) {
             log.error(e);

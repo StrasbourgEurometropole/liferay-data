@@ -251,7 +251,7 @@ public interface LigneLocalService
 	 * Retourne toutes les lignes avec un status choisi par modifiedDate
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<Ligne> getByStatusAndModifiedDate(int status);
+	public List<Ligne> getByStatusOrderedByModifiedDate(int status);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(

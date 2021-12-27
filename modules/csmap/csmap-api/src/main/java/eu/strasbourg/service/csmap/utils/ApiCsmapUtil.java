@@ -28,6 +28,7 @@ import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.lang.reflect.Array;
@@ -35,6 +36,9 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
 public class ApiCsmapUtil {
 
@@ -91,10 +95,6 @@ public class ApiCsmapUtil {
         lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 
         JSONObject json = JSONFactoryUtil.createJSONObject();
-
-        if (Validator.isNull(idsCategory)) {
-            idsCategory = "";
-        }
 
         List<String> idsCategorySplitted =  Arrays.asList(idsCategory.split(","));
 
@@ -169,6 +169,177 @@ public class ApiCsmapUtil {
                             (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
                         jsonSuppr.put(idCategory);
                 }
+        }
+        json.put("DELETE", jsonSuppr);
+
+        return json;
+    }
+
+    public static JSONObject getTerritoires(String lastUpdateTimeString, String idsTerritoires) throws PortalException {
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On récupère les catégories du vocabulaire des territoires
+        AssetVocabulary territoryVocabulary = AssetVocabularyHelper
+                .getGlobalVocabulary(VocabularyNames.TERRITORY);
+        List<AssetCategory> categories = new ArrayList<>();
+        if (Validator.isNotNull(territoryVocabulary))
+            categories = territoryVocabulary.getCategories();
+
+        // On récupère les catégories enfants de old_france
+        AssetCategory oldFrance = categories.stream().filter(c -> c.getName().equals(CategoryNames.OLD_FRANCE)).findFirst().get();
+        if (Validator.isNotNull(oldFrance)){
+            List<AssetCategory> categoriesOldFrance = AssetVocabularyHelper.getCategoriesWithChild(oldFrance);
+            List<AssetCategory> categoriesOldFranceWithChild = AssetVocabularyHelper.getCategoriesWithChild(categoriesOldFrance);
+            // on enlève les catégories de oldFrance aux catégories
+            categories = categories.stream().filter(c -> !categoriesOldFranceWithChild.contains(c)).collect(Collectors.toList());
+        }
+
+        // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        for (AssetCategory categ : categories) {
+            if (lastUpdateTime.before(categ.getCreateDate()))
+                jsonAjout.put(territoriesCSMapJSON(categ));
+            else if (lastUpdateTime.before(categ.getModifiedDate()))
+                jsonModif.put(territoriesCSMapJSON(categ));
+        }
+
+        json.put("ADD", jsonAjout);
+        json.put("UPDATE", jsonModif);
+
+        // On récupère toutes les catégories qui ont été supprimées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+        if (Validator.isNotNull(idsTerritoires)) {
+            if (Validator.isNotNull(territoryVocabulary)) {
+
+                Map<String, AssetCategory> mapTerritories = new HashMap<>();
+
+                if(Validator.isNotNull(territoryVocabulary))
+                    mapTerritories = AssetVocabularyHelper.getMapCategoriesByExternalId(territoryVocabulary, "SIG");
+
+                for (String idCategory : idsTerritoires.split(",")) {
+                    if (Validator.isNull(mapTerritories.get(idCategory))) {
+                        jsonSuppr.put(idCategory);
+                    }
+                }
+            }
+        }
+        json.put("DELETE", jsonSuppr);
+
+        return json;
+    }
+
+    public static JSONObject getThemes(String lastUpdateTimeString, String idsThemes) throws PortalException {
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On récupère les catégories du vocabulaire des thèmes agenda
+        AssetVocabulary eventThemeVocabulary = AssetVocabularyHelper
+                .getGlobalVocabulary(VocabularyNames.EVENT_THEME);
+        List<AssetCategory> categories = new ArrayList<>();
+        if (Validator.isNotNull(eventThemeVocabulary))
+            categories = eventThemeVocabulary.getCategories();
+
+        // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        for (AssetCategory categ : categories) {
+            if (lastUpdateTime.before(categ.getCreateDate()))
+                jsonAjout.put(eventThemesCSMapJSON(categ));
+            else if (lastUpdateTime.before(categ.getModifiedDate()))
+                jsonModif.put(eventThemesCSMapJSON(categ));
+        }
+
+        json.put("ADD", jsonAjout);
+        json.put("UPDATE", jsonModif);
+        json.put("UPDATE", jsonModif);
+
+        // On récupère toutes les catégories qui ont été supprimées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+        if (Validator.isNotNull(idsThemes)) {
+
+            if (Validator.isNotNull(eventThemeVocabulary)) {
+
+                Map<String, AssetCategory> mapThemes = new HashMap<>();
+
+                if(Validator.isNotNull(eventThemeVocabulary))
+                    mapThemes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventThemeVocabulary, "externalId");
+
+                for (String idCategory : idsThemes.split(",")) {
+                    if (Validator.isNull(mapThemes.get(idCategory))) {
+                        jsonSuppr.put(idCategory);
+                    }
+                }
+            }
+        }
+        json.put("DELETE", jsonSuppr);
+
+        return json;
+    }
+
+
+    public static JSONObject getTypes(String lastUpdateTimeString, String idsTypes) throws PortalException {
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On récupère les catégories du vocabulaire des types agenda
+        AssetVocabulary eventTypeVocabulary = AssetVocabularyHelper
+                .getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+        List<AssetCategory> categories = new ArrayList<>();
+        if (Validator.isNotNull(eventTypeVocabulary))
+            categories = eventTypeVocabulary.getCategories();
+
+        // On récupère toutes les catégories qui ont été ajoutées ou modifiées
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+
+        for (AssetCategory categ : categories) {
+            if (lastUpdateTime.before(categ.getCreateDate()))
+                jsonAjout.put(eventTypesCSMapJSON(categ));
+            else if (lastUpdateTime.before(categ.getModifiedDate()))
+                jsonModif.put(eventTypesCSMapJSON(categ));
+        }
+
+        json.put("ADD", jsonAjout);
+        json.put("UPDATE", jsonModif);
+
+        // On récupère toutes les catégories qui ont été supprimées
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
+
+        if (Validator.isNotNull(idsTypes)) {
+            if (Validator.isNotNull(eventTypeVocabulary)) {
+
+                Map<String, AssetCategory> mapTypes = new HashMap<>();
+
+                if(Validator.isNotNull(eventTypeVocabulary))
+                    mapTypes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventTypeVocabulary, "externalId");
+
+                for (String idCategory : idsTypes.split(",")) {
+                    if (Validator.isNull(mapTypes.get(idCategory))) {
+                        jsonSuppr.put(idCategory);
+                    }
+                }
+            }
         }
         json.put("DELETE", jsonSuppr);
 
@@ -336,5 +507,53 @@ public class ApiCsmapUtil {
         // Return if the string
         // matched the ReGex
         return m.matches();
+    }
+
+    public static JSONObject eventTypesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put("id", externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put("parentId", parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
+            jsonCategory.put("name", nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject eventThemesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put("id", externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put("parentId", parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
+            jsonCategory.put("name", nameJSON);
+        }
+        return  jsonCategory;
+    }
+
+    static public JSONObject territoriesCSMapJSON(AssetCategory category) {
+        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
+        if (category != null) {
+            String externalId = AssetVocabularyHelper.getExternalId(category);
+            jsonCategory.put("id", externalId);
+            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
+            if (Validator.isNotNull(parentExternalId)) {
+                jsonCategory.put("parentId", parentExternalId);
+            }
+            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
+            nameJSON.put("fr_FR", category.getTitle(Locale.FRANCE));
+            jsonCategory.put("name", nameJSON);
+        }
+        return  jsonCategory;
     }
 }
