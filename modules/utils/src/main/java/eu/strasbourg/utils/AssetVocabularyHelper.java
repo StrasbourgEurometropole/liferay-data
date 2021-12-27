@@ -437,6 +437,25 @@ public class AssetVocabularyHelper {
 	}
 
 	/**
+	 * Retourne une map <Catégorie ID, ExternalId> d'un vocabulaire
+	 * @param vocabulary vocabulaire
+	 * @param propertyName Nom de la propriété (externalId ou SIG, par exemple)
+	 * @return la Map <Catégorie ID, ExternalId>
+	 */
+	public static Map<Long, String> getMapExternalIdsByCategory(AssetVocabulary vocabulary, String propertyName) {
+		List<AssetCategory> categories = vocabulary.getCategories();
+		Map<Long, String> map = new HashMap<>();
+		for (AssetCategory category : categories) {
+
+			String property = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), propertyName);
+			if (Validator.isNotNull(property)) {
+				map.put(category.getCategoryId(), property);
+			}
+		}
+		return map;
+	}
+
+	/**
 	 * Ajoute une catégorie à un AssetEntry
 	 * @return
 	 */

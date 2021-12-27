@@ -4,6 +4,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -106,7 +107,7 @@ public class ApiCsmapUtil {
         DLFileEntry picto = pictos.get("Defaut");
         if (Validator.isNull(picto))
             throw new NoDefaultPictoException();
-        pictoDefaultURL = FileEntryHelper.getFileEntryURL(picto);
+        pictoDefaultURL = FileEntryHelper.getFileEntryURLWithTimeStamp(picto);
 
         // On récupère la configuration pour les catégorie de lieu (fait dans le BO)
         String categoriesBo = PlaceCategoriesLocalServiceUtil.getPlaceCategories().getCategoriesIds();
@@ -117,22 +118,30 @@ public class ApiCsmapUtil {
                 .getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
         List<AssetCategory> categories = new ArrayList<>();
         List<AssetCategory> sortedCategories = new ArrayList<>();
+        Map<String, AssetCategory> mapExternalIdTypeLieu = new HashMap<>();
+        Map<Long, String> mapIdTypeLieuExternalId = new HashMap<>();
 
-        if (Validator.isNotNull(placeTypeVocabulary))
+        if (Validator.isNotNull(placeTypeVocabulary)) {
             categories = placeTypeVocabulary.getCategories();
+            mapExternalIdTypeLieu = AssetVocabularyHelper.getMapCategoriesByExternalId(placeTypeVocabulary, "SIG");
+            mapIdTypeLieuExternalId = AssetVocabularyHelper.getMapExternalIdsByCategory(placeTypeVocabulary, "SIG");
+        }
+
 
         for (AssetCategory category : categories) {
             if (Validator.isNotNull(categoriesBo)) {
                 if (categoriesBo.contains(String.valueOf(category.getCategoryId()))) {
                     // On ajoute les catégories de categoriesBo
                     sortedCategories.add(category);
-                    sigIdCategoriesBo += "," + AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
+                    sigIdCategoriesBo += "," + mapIdTypeLieuExternalId.get(category.getCategoryId());
                 }
             } else {
                 // Dans le cas où categoriesBo est null on ajoute toutes les catégories
                 sortedCategories.add(category);
             }
         }
+
+        List<String> sigIdCategoriesBoSplitted =  Arrays.asList(idsCategory.split(","));
 
         // On récupère toutes les catégories qui ont été ajoutées ou modifiées
         JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
@@ -141,16 +150,16 @@ public class ApiCsmapUtil {
         for (AssetCategory categ : sortedCategories) {
             // récupère l'URL du picto de la catégorie
             String pictoURL;
-            picto = pictos.get(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG"));
+            picto = pictos.get(mapIdTypeLieuExternalId.get(categ.getCategoryId()));
             boolean updatePicto = false;
 
             if (picto != null) {
-                pictoURL = FileEntryHelper.getFileEntryURL(picto);
+                pictoURL = FileEntryHelper.getFileEntryURLWithTimeStamp(picto);
                 updatePicto = lastUpdateTime.before(picto.getModifiedDate());
             } else
                 pictoURL = pictoDefaultURL;
 
-            if (!idsCategorySplitted.contains(AssetVocabularyHelper.getCategoryProperty(categ.getCategoryId(), "SIG")))
+            if (!idsCategorySplitted.contains(mapIdTypeLieuExternalId.get(categ.getCategoryId())))
                 jsonAjout.put(placeCategoryCSMapJSON(categ, pictoURL, true));
             else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
                 jsonModif.put(placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
@@ -163,12 +172,13 @@ public class ApiCsmapUtil {
         JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
         if (!idsCategory.equals("")) {
-            if (Validator.isNotNull(placeTypeVocabulary))
+            if (Validator.isNotNull(placeTypeVocabulary)) {
                 for (String idCategory : idsCategorySplitted) {
-                    if (AssetVocabularyHelper.getCategoryByExternalId(placeTypeVocabulary, idCategory) == null ||
-                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
+                    if (mapExternalIdTypeLieu.get(idCategory) == null ||
+                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBoSplitted.contains(String.valueOf(idCategory))))
                         jsonSuppr.put(idCategory);
                 }
+            }
         }
         json.put("DELETE", jsonSuppr);
 
@@ -221,9 +231,7 @@ public class ApiCsmapUtil {
             if (Validator.isNotNull(territoryVocabulary)) {
 
                 Map<String, AssetCategory> mapTerritories = new HashMap<>();
-
-                if(Validator.isNotNull(territoryVocabulary))
-                    mapTerritories = AssetVocabularyHelper.getMapCategoriesByExternalId(territoryVocabulary, "SIG");
+                mapTerritories = AssetVocabularyHelper.getMapCategoriesByExternalId(territoryVocabulary, "SIG");
 
                 for (String idCategory : idsTerritoires.split(",")) {
                     if (Validator.isNull(mapTerritories.get(idCategory))) {
@@ -276,9 +284,7 @@ public class ApiCsmapUtil {
             if (Validator.isNotNull(eventThemeVocabulary)) {
 
                 Map<String, AssetCategory> mapThemes = new HashMap<>();
-
-                if(Validator.isNotNull(eventThemeVocabulary))
-                    mapThemes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventThemeVocabulary, "externalId");
+                mapThemes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventThemeVocabulary, "externalId");
 
                 for (String idCategory : idsThemes.split(",")) {
                     if (Validator.isNull(mapThemes.get(idCategory))) {
@@ -330,9 +336,7 @@ public class ApiCsmapUtil {
             if (Validator.isNotNull(eventTypeVocabulary)) {
 
                 Map<String, AssetCategory> mapTypes = new HashMap<>();
-
-                if(Validator.isNotNull(eventTypeVocabulary))
-                    mapTypes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventTypeVocabulary, "externalId");
+                mapTypes = AssetVocabularyHelper.getMapCategoriesByExternalId(eventTypeVocabulary, "externalId");
 
                 for (String idCategory : idsTypes.split(",")) {
                     if (Validator.isNull(mapTypes.get(idCategory))) {
