@@ -337,7 +337,7 @@ public class PlaceApplication extends Application {
 
 
         JSONObject json;
-        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.THEME.getId());
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.TERRITOIRE.getId());
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
