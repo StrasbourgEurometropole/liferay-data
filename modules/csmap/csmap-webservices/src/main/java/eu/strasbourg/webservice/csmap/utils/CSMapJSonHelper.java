@@ -215,54 +215,6 @@ public class CSMapJSonHelper {
         return SimplePOIsJSON;
     }
 
-    static public JSONObject eventThemesCSMapJSON(AssetCategory category) {
-        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-        if (category != null) {
-            String externalId = AssetVocabularyHelper.getExternalId(category);
-            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
-            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
-            if (Validator.isNotNull(parentExternalId)) {
-                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
-            }
-            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
-            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
-        }
-        return  jsonCategory;
-    }
-
-    static public JSONObject territoriesCSMapJSON(AssetCategory category) {
-        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-        if (category != null) {
-            String externalId = AssetVocabularyHelper.getExternalId(category);
-            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
-            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
-            if (Validator.isNotNull(parentExternalId)) {
-                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
-            }
-            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
-            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
-        }
-        return  jsonCategory;
-    }
-
-    static public JSONObject eventTypesCSMapJSON(AssetCategory category) {
-        JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-        if (category != null) {
-            String externalId = AssetVocabularyHelper.getExternalId(category);
-            jsonCategory.put(WSConstants.JSON_CATEG_ID, externalId);
-            String parentExternalId = AssetVocabularyHelper.getExternalId(category.getParentCategory());
-            if (Validator.isNotNull(parentExternalId)) {
-                jsonCategory.put(WSConstants.JSON_PARENT_ID, parentExternalId);
-            }
-            JSONObject nameJSON = JSONFactoryUtil.createJSONObject();
-            nameJSON.put(WSConstants.JSON_LANGUAGE_FRANCE, category.getTitle(Locale.FRANCE));
-            jsonCategory.put(WSConstants.JSON_NAME, nameJSON);
-        }
-        return  jsonCategory;
-    }
-
     static public JSONObject favoritesCSMapJSON(Favorite favorite) {
         JSONObject jsonFavorite = JSONFactoryUtil.createJSONObject();
         jsonFavorite.put("favoriteId", favorite.getFavoriteId());

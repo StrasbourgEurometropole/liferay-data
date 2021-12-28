@@ -105,7 +105,12 @@ public class TransportApplication extends Application {
                                         jsonArretModif.put(CSMapJSonHelper.arretCSMapJSON(arret));
                                 }
                         }
-                        List<Ligne> lignes = _ligneLocalService.getByStatusAndModifiedDate(WorkflowConstants.STATUS_APPROVED);
+                        // Il peut exister plusieurs entrées de Ligne en BDD corresponsdant à la même ligne (différence de direction/route ou autres)
+                        // Ces différences ne nous intéresse pas dans le cadre des informations envoyés à l'application
+                        // Etant donné qu'on ne sait pas si au moment où on calcule le JSON si on va retomber sur la même entrée en BDD
+                        // On récupère les lignes ordonnées par Date de modification et on gère les doublons de noms de ligne
+                        // Ainsi on en traite chaque Ligne qu'une fois et pour l'update on regarde que par rapport à la dernière modifiée
+                        List<Ligne> lignes = _ligneLocalService.getByStatusOrderedByModifiedDate(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonLigneAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonLigneModif = JSONFactoryUtil.createJSONArray();
                         List<String> lineNumbers = new ArrayList<>();
@@ -116,7 +121,8 @@ public class TransportApplication extends Application {
                                                 jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
                                                 lineNumbers.add(lineName);
                                         } else {
-                                                jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                                if(lastUpdateTime.before(ligne.getModifiedDate()))
+                                                        jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
                                                 lineNumbers.add(lineName);
                                         }
                                 }

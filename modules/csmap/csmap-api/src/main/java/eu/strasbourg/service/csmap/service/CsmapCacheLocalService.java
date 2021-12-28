@@ -82,6 +82,8 @@ public interface CsmapCacheLocalService
 	@Transactional(enabled = false)
 	public CsmapCache createCsmapCache(long cacheId);
 
+	public CsmapCache createCsmapCache(long codeCache, String json, Date date);
+
 	/**
 	 * Deletes the csmap cache from the database. Also notifies the appropriate model listeners.
 	 *

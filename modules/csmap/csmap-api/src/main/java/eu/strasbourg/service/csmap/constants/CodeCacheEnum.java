@@ -8,7 +8,9 @@ public enum CodeCacheEnum {
     AGENDA(1, "Agenda"),
     EVENT(2, "Event"),
     CATEGORIES(3, "Categories"),
-    PROFILE(4, "Profile");
+    TYPE(4, "Type"),
+    THEME(5, "Theme"),
+    TERRITOIRE(6, "Territoire");
 
     private long id;
     private String name;

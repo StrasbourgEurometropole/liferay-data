@@ -302,9 +302,9 @@ public class LigneLocalServiceWrapper
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
-		getByStatusAndModifiedDate(int status) {
+		getByStatusOrderedByModifiedDate(int status) {
 
-		return _ligneLocalService.getByStatusAndModifiedDate(status);
+		return _ligneLocalService.getByStatusOrderedByModifiedDate(status);
 	}
 
 	@Override

@@ -296,9 +296,9 @@ public class LigneLocalServiceUtil {
 	 * Retourne toutes les lignes avec un status choisi par modifiedDate
 	 */
 	public static java.util.List<eu.strasbourg.service.gtfs.model.Ligne>
-		getByStatusAndModifiedDate(int status) {
+		getByStatusOrderedByModifiedDate(int status) {
 
-		return getService().getByStatusAndModifiedDate(status);
+		return getService().getByStatusOrderedByModifiedDate(status);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery

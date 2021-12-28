@@ -335,9 +335,9 @@ public class PlaceApplication extends Application {
             @PathParam("last_update_time") String lastUpdateTimeString,
             @FormParam("ids_territoires") String ids_territoires) {
 
-        JSONObject json = JSONFactoryUtil.createJSONObject();
 
-        // On transforme la date string en date
+        JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.TERRITOIRE.getId());
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
@@ -346,57 +346,27 @@ public class PlaceApplication extends Application {
             return WSResponseUtil.lastUpdateTimeFormatError();
         }
 
-        // On vérifie que les ids sont renseignés
-        if (Validator.isNull(ids_territoires)) {
-            ids_territoires = "";
-        }
-
         try {
-            // On récupère les catégories du vocabulaire des territoires
-            AssetVocabulary territoryVocabulary = AssetVocabularyHelper
-                    .getGlobalVocabulary(VocabularyNames.TERRITORY);
-            List<AssetCategory> categories = new ArrayList<>();
-            if (Validator.isNotNull(territoryVocabulary))
-                categories = territoryVocabulary.getCategories();
-
-            // On récupère les catégories enfants de old_france
-            AssetCategory oldFrance = categories.stream().filter(c -> c.getName().equals(CategoryNames.OLD_FRANCE)).findFirst().get();
-            if (Validator.isNotNull(oldFrance)){
-                List<AssetCategory> categoriesOldFrance = AssetVocabularyHelper.getCategoriesWithChild(oldFrance);
-                List<AssetCategory> categoriesOldFranceWithChild = AssetVocabularyHelper.getCategoriesWithChild(categoriesOldFrance);
-                // on enlève les catégories de oldFrance aux catégories
-                categories = categories.stream().filter(c -> !categoriesOldFranceWithChild.contains(c)).collect(Collectors.toList());
+            // On vérifie que les ids sont renseignés
+            if (Validator.isNull(ids_territoires)) {
+                ids_territoires = "";
             }
 
-            // On récupère toutes les catégories qui ont été ajoutées ou modifiées
-            JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-            for (AssetCategory categ : categories) {
-                if (lastUpdateTime.before(categ.getCreateDate()))
-                    jsonAjout.put(CSMapJSonHelper.territoriesCSMapJSON(categ));
-                else if (lastUpdateTime.before(categ.getModifiedDate()))
-                    jsonModif.put(CSMapJSonHelper.territoriesCSMapJSON(categ));
+            if(Validator.isNotNull(cache)){
+                if(lastUpdateTimeString.equals("0")){
+                    json = createJSONObject(cache.getCacheJson());
+                } else if(lastUpdateTime.before(cache.getModifiedDate())){
+                    json = ApiCsmapUtil.getTerritoires(lastUpdateTimeString, ids_territoires);
+                } else {
+                    json = csmapCacheLocalService.getJsonVide();
+                }
+            } else {
+                json = ApiCsmapUtil.getTerritoires(lastUpdateTimeString, ids_territoires);
             }
 
-            json.put(WSConstants.JSON_ADD, jsonAjout);
-            json.put(WSConstants.JSON_UPDATE, jsonModif);
-
-            // On récupère toutes les catégories qui ont été supprimées
-            JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-            if (Validator.isNotNull(ids_territoires)) {
-                if (Validator.isNotNull(territoryVocabulary))
-                    for (String idCategory : ids_territoires.split(",")) {
-                        AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, idCategory);
-                        if (Validator.isNull(category)) {
-                            jsonSuppr.put(idCategory);
-                        }
-                    }
-            }
-            json.put(WSConstants.JSON_DELETE, jsonSuppr);
-
-            if (jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
+            if( json.getJSONArray("ADD").length() == 0 &&
+                    json.getJSONArray("UPDATE").length() == 0 &&
+                    json.getJSONArray("DELETE").length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (PortalException e) {
             log.error(e);

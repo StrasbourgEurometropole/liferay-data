@@ -61,6 +61,13 @@ public class CsmapCacheLocalServiceWrapper
 		return _csmapCacheLocalService.createCsmapCache(cacheId);
 	}
 
+	@Override
+	public eu.strasbourg.service.csmap.model.CsmapCache createCsmapCache(
+		long codeCache, String json, java.util.Date date) {
+
+		return _csmapCacheLocalService.createCsmapCache(codeCache, json, date);
+	}
+
 	/**
 	 * Deletes the csmap cache from the database. Also notifies the appropriate model listeners.
 	 *
