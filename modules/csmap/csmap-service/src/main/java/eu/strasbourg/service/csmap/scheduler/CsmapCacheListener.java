@@ -51,26 +51,9 @@ public class CsmapCacheListener
 
 	@Override
 	protected void doReceive(Message message) {
-		this.log.info("Start csmap caching");
-		this.log.info("Start csmap event caching");
-		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.EVENT.getId());
-		this.log.info("End csmap event caching");
 		this.log.info("Start csmap agenda caching");
 		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
 		this.log.info("End csmap agenda caching");
-		this.log.info("Start csmap categories caching");
-		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.CATEGORIES.getId());
-		this.log.info("End csmap categories caching");
-		this.log.info("Start csmap type caching");
-		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.TYPE.getId());
-		this.log.info("End csmap type caching");
-		this.log.info("Start csmap theme caching");
-		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.THEME.getId());
-		this.log.info("End csmap theme caching");
-		this.log.info("Start csmap territoire caching");
-		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.TERRITOIRE.getId());
-		this.log.info("End csmap territoire caching");
-		this.log.info("End csmap caching");
 	}
 
 	@Reference(unbind = "-")
