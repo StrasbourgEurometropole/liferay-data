@@ -76,13 +76,11 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
 
     @Reference(unbind = "-")
     protected void setPlaceCategoriesLocalService(PlaceCategoriesLocalService placeCategoriesLocalService) {
-
         _placeCategoriesLocalService = placeCategoriesLocalService;
     }
 
     @Reference(unbind = "-")
     protected void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
-
         _assetCategoryLocalService = assetCategoryLocalService;
     }
 
