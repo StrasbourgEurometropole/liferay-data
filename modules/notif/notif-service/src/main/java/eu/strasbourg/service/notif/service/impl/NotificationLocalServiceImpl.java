@@ -366,7 +366,8 @@ public class NotificationLocalServiceImpl
 			this.updateNotification(notif);
 			for(String broadcastChannel : notif.getBroadcastChannels().split(","))
 				if(Integer.valueOf(broadcastChannel) == BroadcastChannel.CSMAP.getId()) {
-					String topic;
+					String topic = "";
+					String condition = "";
 					String imageUrl = null;
 					try {
 						ServiceNotif service = ServiceNotifLocalServiceUtil.getServiceNotif(notif.getServiceId());
@@ -374,13 +375,14 @@ public class NotificationLocalServiceImpl
 							imageUrl = StrasbourgPropsUtil.getURL() + FileEntryHelper.getFileEntryURL(service.getPictoId());
 						}
 						if (notif.getTypeBroadcast() == TypeBroadcast.DISTRICT.getId()){
-							topic = AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG");
+							condition = "'" + service.getCsmapTopic() + "' in topics && '"
+									+ AssetVocabularyHelper.getCategoryProperty(notif.getDistrict(), "SIG") + "' in topics";
 						} else if (notif.getTypeBroadcast() == TypeBroadcast.DEFAULT.getId()){
 							topic = service.getCsmapTopic();
 						} else {
 							topic = "alerte";
 						}
-						String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic);
+						String response = FCMHelper.sendNotificationToTopic(notif, imageUrl, topic, condition);
 						if(response.contains("fail")){
 							notif.setSendStatusCsmap(SendStatus.ERROR.getId());
 						} else {
