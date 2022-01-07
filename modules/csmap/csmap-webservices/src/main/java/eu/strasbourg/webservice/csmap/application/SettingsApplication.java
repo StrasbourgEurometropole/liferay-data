@@ -33,7 +33,6 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.*;
 
-
 @Component(
         property = {
         JaxrsWhiteboardConstants.JAX_RS_APPLICATION_BASE + "=" + WSConstants.APP_GROUP_BASE + WSConstants.APP_SETTINGS_BASE,
@@ -239,6 +238,41 @@ public class SettingsApplication extends Application {
             return WSResponseUtil.buildOkResponse(json, 201);
 
         return WSResponseUtil.buildOkResponse(json);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-last-recommended-version")
+    public Response getLastRecommendedVersion() {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        try {
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
+            long csmapGroupId = csmapGroup.getGroupId();
+            JournalFolder settingFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_PARAMETRAGE);
+            long settingFolderId = settingFolder.getFolderId();
+
+            List<JournalArticle> settingWebContents = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, settingFolderId));
+
+            for (JournalArticle webContent : settingWebContents) {
+                DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_LAST_VERSION);
+                if(structure.getStructureKey().equals(webContent.getDDMStructureKey()) && webContent.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    JSONObject webContentJson = JSONFactoryUtil.createJSONObject();
+                    webContentJson.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(webContent, "lastVersion", Locale.FRANCE));
+                    json.put(WSConstants.JSON_SETTINGS_LAST_VERSION, webContentJson);
+                    break;
+                }
+            }
+
+            if(json.length() == 0){
+                return WSResponseUtil.buildOkResponse(json,201);
+            }
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+
     }
 
     @Reference
