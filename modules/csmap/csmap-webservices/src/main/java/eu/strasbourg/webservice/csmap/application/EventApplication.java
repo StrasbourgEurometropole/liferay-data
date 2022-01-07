@@ -216,9 +216,32 @@ public class EventApplication extends Application {
     @Produces("application/json")
     @Path("/get-agendas")
     public Response getAgendas() {
+        return getAgendas("0");
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-agendas/{last_update_time}")
+    public Response getAgendas(
+            @PathParam("last_update_time") String lastUpdateTimeString) {
         JSONObject json;
+        CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.AGENDA.getId());
+        Date lastUpdateTime;
+
         try {
-            CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.AGENDA.getId());
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        } catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        if(!lastUpdateTimeString.equals("0")){
+            if(lastUpdateTime.after(cache.getModifiedDate())){
+                return WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(), 201);
+            }
+        }
+
+        try {
             if(Validator.isNotNull(cache)){
                 json = JSONFactoryUtil.createJSONObject(cache.getCacheJson());
             } else {
