@@ -9,7 +9,9 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.PlaceCategories;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -69,10 +71,14 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
         placeCategories.setCategoriesIds(placeTypes.toString());
 
         _placeCategoriesLocalService.updatePlaceCategories(placeCategories);
+
+        // Régénération du cache des catégories de lieu pour CSMap
+        _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.CATEGORIES.getId());
     }
 
     private PlaceCategoriesLocalService _placeCategoriesLocalService;
     private AssetCategoryLocalService _assetCategoryLocalService;
+    private CsmapCacheLocalService _csmapCacheLocalService;
 
     @Reference(unbind = "-")
     protected void setPlaceCategoriesLocalService(PlaceCategoriesLocalService placeCategoriesLocalService) {
@@ -84,6 +90,11 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
     protected void setAssetCategoryLocalService(AssetCategoryLocalService assetCategoryLocalService) {
 
         _assetCategoryLocalService = assetCategoryLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+        _csmapCacheLocalService = csmapCacheLocalService;
     }
 
     private String getTypeVocabularyId() {

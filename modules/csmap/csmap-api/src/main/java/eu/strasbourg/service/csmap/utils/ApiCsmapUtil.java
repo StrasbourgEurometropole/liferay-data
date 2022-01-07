@@ -150,7 +150,9 @@ public class ApiCsmapUtil {
         for (AssetCategory categ : sortedCategories) {
             // récupère l'URL du picto de la catégorie
             String pictoURL;
-            picto = pictos.get(mapIdTypeLieuExternalId.get(categ.getCategoryId()));
+            String externalId = mapIdTypeLieuExternalId.get(categ.getCategoryId());
+            if(Validator.isNotNull(externalId))
+                picto = pictos.get(externalId);
             boolean updatePicto = false;
 
             if (picto != null) {
