@@ -300,7 +300,6 @@ public class ApiCsmapUtil {
         return json;
     }
 
-
     public static JSONObject getTypes(String lastUpdateTimeString, String idsTypes) throws PortalException {
 
         // On transforme la date string en date
