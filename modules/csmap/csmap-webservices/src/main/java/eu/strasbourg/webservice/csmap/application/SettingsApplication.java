@@ -257,9 +257,7 @@ public class SettingsApplication extends Application {
             for (JournalArticle webContent : settingWebContents) {
                 DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_LAST_VERSION);
                 if(structure.getStructureKey().equals(webContent.getDDMStructureKey()) && webContent.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    JSONObject webContentJson = JSONFactoryUtil.createJSONObject();
-                    webContentJson.put("fr_FR", JournalArticleHelper.getJournalArticleFieldValue(webContent, "lastVersion", Locale.FRANCE));
-                    json.put(WSConstants.JSON_SETTINGS_LAST_VERSION, webContentJson);
+                    json.put(WSConstants.JSON_SETTINGS_VERSION, JournalArticleHelper.getJournalArticleFieldValue(webContent, "lastVersion", Locale.FRANCE));
                     break;
                 }
             }
