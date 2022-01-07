@@ -104,6 +104,12 @@ public class FCMHelper {
         }
         log.info("Sent datas to topic. Topic: " + topic + ", " + responseData + " msg " + jsonDatasOutput);
 
+        try {
+            Thread.sleep(1 * 1500);
+        } catch (InterruptedException e) {
+            log.error(e);
+        }
+
         if(responseData.contains("fail")){
             return responseData;
         } else {
@@ -116,6 +122,7 @@ public class FCMHelper {
                 notifBuilder.setImage(imageUrl);
 
             Message.Builder messageNotifBuilder = Message.builder()
+                    .putAllData(datas)
                     .setNotification(notifBuilder.build());
             if(Validator.isNotNull(topic))
                 messageNotifBuilder.setTopic(topic);
