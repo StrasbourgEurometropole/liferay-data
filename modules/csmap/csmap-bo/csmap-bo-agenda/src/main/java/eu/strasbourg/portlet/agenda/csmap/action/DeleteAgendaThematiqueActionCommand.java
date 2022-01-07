@@ -20,7 +20,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -43,6 +45,9 @@ public class DeleteAgendaThematiqueActionCommand
 		try {
 			long agendaId = ParamUtil.getLong(request, "agendaId");
 			_agendaLocalService.deleteAgenda(agendaId);
+
+			// Régénération du cache des agendas pour CSMap
+			_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
 		} catch (PortalException e) {
 			_log.error(e);
 		}
@@ -50,12 +55,16 @@ public class DeleteAgendaThematiqueActionCommand
 	}
 
 	private AgendaLocalService _agendaLocalService;
+	private CsmapCacheLocalService _csmapCacheLocalService;
 
 	@Reference(unbind = "-")
-	protected void setAgendaLocalService(
-			AgendaLocalService agendaLocalService) {
-
+	protected void setAgendaLocalService(AgendaLocalService agendaLocalService) {
 		_agendaLocalService = agendaLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+		_csmapCacheLocalService = csmapCacheLocalService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
