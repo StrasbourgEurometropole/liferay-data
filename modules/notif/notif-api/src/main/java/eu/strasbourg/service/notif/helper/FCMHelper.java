@@ -3,6 +3,10 @@ package eu.strasbourg.service.notif.helper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.ApnsConfig;
+import com.google.firebase.messaging.ApnsFcmOptions;
+import com.google.firebase.messaging.Aps;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.gson.Gson;
@@ -84,9 +88,22 @@ public class FCMHelper {
 
     public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic, String condition, Map<String, String> datas) {
         initializeFCM();
+        Aps aps = Aps.builder().setContentAvailable(true).build();
+        ApnsConfig apnsConfig = ApnsConfig.builder()
+                .setAps(aps)
+                .putHeader("apns-priority", "5")
+                .build();
+
+        AndroidConfig.Priority priority = AndroidConfig.Priority.NORMAL;
+        AndroidConfig androidConfig = AndroidConfig.builder()
+                .setPriority(priority)
+                .build();
 
         // envoi datas
-        Message.Builder messageDatasBuilder = Message.builder().putAllData(datas);
+        Message.Builder messageDatasBuilder = Message.builder()
+                .setApnsConfig(apnsConfig)
+                .setAndroidConfig(androidConfig)
+                .putAllData(datas);
         if(Validator.isNotNull(topic))
             messageDatasBuilder.setTopic(topic);
         else
@@ -122,6 +139,8 @@ public class FCMHelper {
                 notifBuilder.setImage(imageUrl);
 
             Message.Builder messageNotifBuilder = Message.builder()
+                    .setApnsConfig(apnsConfig)
+                    .setAndroidConfig(androidConfig)
                     .putAllData(datas)
                     .setNotification(notifBuilder.build());
             if(Validator.isNotNull(topic))
