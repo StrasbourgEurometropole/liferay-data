@@ -2,15 +2,29 @@
 <#setting locale = locale />
 <div class="event-detail" style="margin-left:60px; margin-right:60px">
   <div class="event-header">
+  
+    <div class="go-back-to-agenda">
+        <a class="go-back-to-agenda" href="https://bibliotheques-ideales.strasbourg.eu/agenda"><p><span>←</span> Retourner au programme</p></a>
+    </div>
+  
     <h4 class="event-title">
       ${entry.getTitle(locale)}
     </h4>
+    
+    <!-- Test sous-titre -->
+    <h5 style="font-size: 30px;">${entry.getSubtitle(locale)}</h5>
+    <!-- -->
+    
+    <p><strong>
+    <#assign categories = entry.getTypeLabel(locale) />
+        ${categories}
+    </strong></p>
    
     <div class="event-dates">
     <h6>
     <ul>
           <#list entry.eventPeriods as period>
-            <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
+            <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></li>
           </#list>
         </ul></h6>
     </div>
@@ -30,14 +44,27 @@
     </#if></i>
   </div>
   <div class="event-info">
-    <div class="event-60">
-      <div class="image-with-copyright-on-hover">
-        <img src="${entry.getImageURL()}" style="max-width: 500px;">
-        <#if entry.getImageCopyright(locale)?has_content>
-          <div class="image-copyright" style="font-style: italic;">
-              ${entry.getImageCopyright(locale)}
+    <div class="event-60"><div class="flex-container">
+        <div class="image-with-copyright-on-hover">
+          <img src="${entry.getImageURL()}">
+          <#if entry.getImageCopyright(locale)?has_content>
+            <div class="image-copyright" style="font-style: italic;">
+                ${entry.getImageCopyright(locale)}
+            </div>
+          </#if>
+        </div>
+        <div class="event-booking">
+        <#if entry.getBookingDescription(locale)?has_content >
+          <div class="event-booking-description">
+            ${entry.getBookingDescription(locale)}
           </div>
         </#if>
+        <#if entry.getBookingURL()?has_content >
+          <div class="event-booking-url">
+            <a class="event_bouton" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking" /></a>
+          </div>
+        </#if>
+        </div>
       </div>
       <#if entry.getDescription(locale)?has_content >
         <div class="event-info-section event-description">
@@ -57,15 +84,25 @@
           </#list>
         </div>
       </#if>
+      
+      <!-- Affichage lien réservation - 2020 -->
+    <#if entry.getPrice(locale)?has_content>
+               
+            <h6><br /><br />Réservation</h6>
+            <p><a href="${entry.getPrice(locale)}" target="_blank">Réservez votre place</a></p>
+
+</#if>
+<!-- Affichage lien réservation - 2020 -->
+      
       <#if entry.getAccess(locale)?has_content >
         <div class="event-info-section event-access">
-          <h6>Infos pratiques <@liferay_ui.message key="eu.access-and-services" /></h6>
+          <h6>Infos pratiques</h6>
           ${entry.getAccess(locale)}
         </div>
       </#if>
       <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
         <div class="event-info-section event-access-for-disabled">
-          <h5></h5>
+          <h6>Accès et services</h6>
           <#if entry.hasAnyAccessForDisabled() >
             <div class="access-for-disabled-icons">
                 <#if entry.accessForWheelchair>
@@ -158,7 +195,7 @@
               <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
                 
               <input type="checkbox" class="notification-email"
-                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
+                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked> <@liferay_ui.message key="eu.do-you-want-a-notification" />
               </label>
             </div>
             <p>
