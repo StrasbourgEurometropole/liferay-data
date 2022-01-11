@@ -3,6 +3,39 @@
 @import 'lib/toastr.min.css';
 @import "tarteaucitron";
 
+//Flex box pour event detail > div contenant l'image et la description
+@media only screen and (min-width: 600px) {
+  .flex-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    .image-with-copyright-on-hover img{
+      max-width: 500px;
+    }
+    .event-booking{
+      margin: 40px
+    }
+  }
+}
+@media only screen and (max-width: 600px) {
+  .flex-container .image-with-copyright-on-hover img{
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.event_bouton {
+    background: rgb(70, 126, 173);
+    display: block;
+    line-height: 40px;
+    width: 120px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+}
+
 // Enleve les border autour des labels de contact
 .form-assembly-portlet form label.preField
 {
