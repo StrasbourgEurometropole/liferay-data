@@ -258,6 +258,7 @@ public class SettingsApplication extends Application {
                 DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_LAST_VERSION);
                 if(structure.getStructureKey().equals(webContent.getDDMStructureKey()) && webContent.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                     json.put(WSConstants.JSON_SETTINGS_VERSION, JournalArticleHelper.getJournalArticleFieldValue(webContent, "lastVersion", Locale.FRANCE));
+                    json.put(WSConstants.JSON_SETTINGS_MESSAGE, JournalArticleHelper.getJournalArticleFieldValue(webContent, "message", Locale.FRANCE));
                     break;
                 }
             }
