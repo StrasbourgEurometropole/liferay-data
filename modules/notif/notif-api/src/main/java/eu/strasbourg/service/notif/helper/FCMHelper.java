@@ -94,7 +94,7 @@ public class FCMHelper {
                 .putHeader("apns-priority", "5")
                 .build();
 
-        AndroidConfig.Priority priority = AndroidConfig.Priority.NORMAL;
+        AndroidConfig.Priority priority = AndroidConfig.Priority.HIGH;
         AndroidConfig androidConfig = AndroidConfig.builder()
                 .setPriority(priority)
                 .build();
