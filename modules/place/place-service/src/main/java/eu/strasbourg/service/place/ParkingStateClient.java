@@ -54,14 +54,14 @@ public class ParkingStateClient {
 		return capacity;
 	}
 
-	static public JSONObject getOccupationState(Place parking) {
-		return ParkingStateClient.getOccupationState(parking.getRTExternalId());
+	static public JSONObject getOccupationState(Place parking, JSONArray parkingJsonArray) {
+		return ParkingStateClient.getOccupationState(parking.getRTExternalId(), parkingJsonArray);
 	}
 	
-	static public JSONObject getOccupationState(String parkingCode) {
+	static public JSONObject getOccupationState(String parkingCode, JSONArray parkingJsonArray) {
 		try {
 			return ParkingStateClient
-					.getJSONObject(parkingCode);
+					.getJSONObject(parkingCode,parkingJsonArray);
 		} catch (Exception e) {
 			return JSONFactoryUtil.createJSONObject();
 		}
@@ -109,6 +109,21 @@ public class ParkingStateClient {
 			JSONObject object = mainArray.getJSONObject(i);
 			if (object.getString("id").equals(parkingCode)) {
 				parking = object;
+				break;
+			}
+		}
+
+		return parking;
+	}
+
+	static private JSONObject getJSONObject(String parkingCode, JSONArray parkingJsonArray)
+			throws Exception {
+		JSONObject parking = null;
+		for (int i = 0; i < parkingJsonArray.length(); i++) {
+			JSONObject object = parkingJsonArray.getJSONObject(i);
+			JSONObject fields = object.getJSONObject("fields");
+			if (fields.getString("ident").equals(parkingCode)) {
+				parking = fields;
 				break;
 			}
 		}
