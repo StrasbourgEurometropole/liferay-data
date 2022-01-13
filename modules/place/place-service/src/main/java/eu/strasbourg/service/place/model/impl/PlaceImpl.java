@@ -790,18 +790,18 @@ public class PlaceImpl extends PlaceBaseImpl {
             case "2":
                 state = OccupationState.NOT_AVAILABLE;
                 switch (this.getRTStatus()) {
-                    case "status_0":
+                    case "0":
                         state = OccupationState.NOT_AVAILABLE;
                         break;
-                    case "status_1":
+                    case "1":
                         state = OccupationState.OPEN;
                         state.setAvailable("" + this.getRTAvailable());
                         state.setCapacity("" + this.getRTCapacity());
                         break;
-                    case "status_2":
+                    case "2":
                         state = OccupationState.CLOSED;
                         break;
-                    case "status_3":
+                    case "3":
                         state = OccupationState.FULL;
                         break;
                 }

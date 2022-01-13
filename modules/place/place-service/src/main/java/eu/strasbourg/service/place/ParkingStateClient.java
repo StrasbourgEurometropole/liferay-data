@@ -77,18 +77,18 @@ public class ParkingStateClient {
 				long capacity = Long.parseLong(parkingJSON.getString("dt"));
 				long available = Long.parseLong(parkingJSON.getString("df"));
 				switch (status) {
-				case "status_0":
+				case "0":
 					state = OccupationState.NOT_AVAILABLE;
 					break;
-				case "status_1":
+				case "1":
 					state = OccupationState.OPEN;
 					state.setAvailable(""+available);
 					state.setCapacity(""+capacity);
 					break;
-				case "status_2":
+				case "2":
 					state = OccupationState.CLOSED;
 					break;
-				case "status_3":
+				case "3":
 					state = OccupationState.FULL;
 				}
 			}
