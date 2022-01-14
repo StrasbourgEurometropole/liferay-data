@@ -18,8 +18,10 @@ package eu.strasbourg.portlet.agenda.csmap.action;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -45,15 +47,22 @@ public class DeactivateAgendaThematiqueActionCommand
 			agenda.setIsActive(false);
 			_agendaLocalService.updateAgenda(agenda);
 		}
+
+		// Régénération du cache des agendas pour CSMap
+		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
 		return true;
 	}
 
 	private AgendaLocalService _agendaLocalService;
+	private CsmapCacheLocalService _csmapCacheLocalService;
 
 	@Reference(unbind = "-")
-	protected void setAgendaLocalService(
-			AgendaLocalService agendaLocalService) {
-
+	protected void setAgendaLocalService(AgendaLocalService agendaLocalService) {
 		_agendaLocalService = agendaLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+		_csmapCacheLocalService = csmapCacheLocalService;
 	}
 }

@@ -66,7 +66,6 @@ import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 

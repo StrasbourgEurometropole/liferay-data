@@ -114,6 +114,8 @@ public class WSConstants {
     public static final String JSON_SETTINGS_CODE = "code";
     public static final String JSON_SETTINGS_ISACTIVE = "isActive";
     public static final String TOPIC_ALERTE = "alerte";
+    public static final String JSON_SETTINGS_VERSION = "version";
+    public static final String JSON_SETTINGS_MESSAGE = "message";
     // Agenda
     public static final String JSON_AGENDA_PRINCIPAL = "principal";
     public static final String JSON_AGENDA_THEMATIQUE = "thematique";
@@ -146,6 +148,7 @@ public class WSConstants {
     public static final String FOLDER_PARAMETRAGE = "Param\u00e9trage";
     public static final String STRUCTURE_SIGNALEMENT = "Signalement";
     public static final String STRUCTURE_STATUT_MODULES = "Statut des modules";
+    public static final String STRUCTURE_LAST_VERSION = "Derni\u00e8re version recommand\u00e9e";
 
     /** Erreurs */
     // Global

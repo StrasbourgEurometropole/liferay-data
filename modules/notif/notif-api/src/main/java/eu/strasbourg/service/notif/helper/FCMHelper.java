@@ -3,6 +3,10 @@ package eu.strasbourg.service.notif.helper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.messaging.AndroidConfig;
+import com.google.firebase.messaging.ApnsConfig;
+import com.google.firebase.messaging.ApnsFcmOptions;
+import com.google.firebase.messaging.Aps;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.google.gson.Gson;
@@ -10,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.notif.constants.SendStatus;
 import eu.strasbourg.service.notif.model.Notification;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -54,7 +59,7 @@ public class FCMHelper {
         return body;
     }
 
-    public static String sendNotificationToTopic(Notification notification, String imageURL, String topic) {
+    public static String sendNotificationToTopic(Notification notification, String imageURL, String topic, String condition) {
         String notifText = generateNotifText(notification);
 
         Locale locale = Locale.FRANCE;
@@ -78,45 +83,84 @@ public class FCMHelper {
         else
             datas.put("isAlert", "false");
 
-        return sendNotificationToTopic(notification.getTitle(locale), notifText, imageURL, topic, datas);
+        return sendNotificationToTopic(notification.getTitle(locale), notifText, imageURL, topic, condition, datas);
     }
 
-    public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic, Map<String, String> datas) {
+    public static String sendNotificationToTopic(String title, String body, String imageUrl, String topic, String condition, Map<String, String> datas) {
         initializeFCM();
-        Message message;
+        Aps aps = Aps.builder().setContentAvailable(true).build();
+        ApnsConfig apnsConfig = ApnsConfig.builder()
+                .setAps(aps)
+                .putHeader("apns-priority", "5")
+                .build();
 
-        if(Validator.isNotNull(imageUrl)){
-            message = Message.builder()
-                    .setTopic(topic)
-                    .setNotification(com.google.firebase.messaging.Notification
-                            .builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            .setImage(imageUrl)
-                            .build())
-                    .putAllData(datas)
-                    .build();
-        } else {
-            message = Message.builder()
-                    .setTopic(topic)
-                    .setNotification(com.google.firebase.messaging.Notification
-                            .builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            .build())
-                    .putAllData(datas)
-                    .build();
-        }
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonOutput = gson.toJson(message);
-        String response = null;
+        AndroidConfig.Priority priority = AndroidConfig.Priority.HIGH;
+        AndroidConfig androidConfig = AndroidConfig.builder()
+                .setPriority(priority)
+                .build();
+
+        // envoi datas
+        Message.Builder messageDatasBuilder = Message.builder()
+                .setApnsConfig(apnsConfig)
+                .setAndroidConfig(androidConfig)
+                .putAllData(datas);
+        if(Validator.isNotNull(topic))
+            messageDatasBuilder.setTopic(topic);
+        else
+            messageDatasBuilder.setCondition(condition);
+
+        Message messageDatas = messageDatasBuilder.build();
+
+        Gson gsonDatas = new GsonBuilder().setPrettyPrinting().create();
+        String jsonDatasOutput = gsonDatas.toJson(messageDatas);
+        String responseData = null;
         try {
-            response = FirebaseMessaging.getInstance().send(message);
+            responseData = FirebaseMessaging.getInstance().send(messageDatas);
         } catch (Exception e) {
             log.error(e);
         }
-        log.info("Sent message to topic. Topic: " + topic + ", " + response + " msg " + jsonOutput);
+        log.info("Sent datas to topic. Topic: " + topic + ", " + responseData + " msg " + jsonDatasOutput);
 
-        return response;
+        try {
+            Thread.sleep(1 * 1500);
+        } catch (InterruptedException e) {
+            log.error(e);
+        }
+
+        if(responseData.contains("fail")){
+            return responseData;
+        } else {
+            // envoi notification
+            com.google.firebase.messaging.Notification.Builder notifBuilder = com.google.firebase.messaging.Notification
+                    .builder()
+                    .setTitle(title)
+                    .setBody(body);
+            if(Validator.isNotNull(imageUrl))
+                notifBuilder.setImage(imageUrl);
+
+            Message.Builder messageNotifBuilder = Message.builder()
+                    .setApnsConfig(apnsConfig)
+                    .setAndroidConfig(androidConfig)
+                    .putAllData(datas)
+                    .setNotification(notifBuilder.build());
+            if(Validator.isNotNull(topic))
+                messageNotifBuilder.setTopic(topic);
+            else
+                messageNotifBuilder.setCondition(condition);
+
+            Message messageNotif = messageNotifBuilder.build();
+
+            Gson gsonNotif = new GsonBuilder().setPrettyPrinting().create();
+            String jsonNotifOutput = gsonNotif.toJson(messageNotif);
+            String responseNotif = null;
+            try {
+                responseNotif = FirebaseMessaging.getInstance().send(messageNotif);
+            } catch (Exception e) {
+                log.error(e);
+            }
+            log.info("Sent notif to topic. Topic: " + topic + ", " + responseNotif + " msg " + jsonNotifOutput);
+
+            return responseNotif;
+        }
     }
 }

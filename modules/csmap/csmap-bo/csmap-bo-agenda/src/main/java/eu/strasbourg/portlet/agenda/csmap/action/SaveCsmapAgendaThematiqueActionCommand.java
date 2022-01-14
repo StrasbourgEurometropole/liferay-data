@@ -12,8 +12,10 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
+import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -137,6 +139,9 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             }
             _agendaLocalService.updateAgenda(agenda);
 
+            // Régénération du cache des agendas pour CSMap
+            _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+
         } catch (PortalException e) {
             e.printStackTrace();
         }
@@ -160,11 +165,16 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
     }
 
     private AgendaLocalService _agendaLocalService;
+    private CsmapCacheLocalService _csmapCacheLocalService;
 
     @Reference(unbind = "-")
     protected void setAgendaExportLocalService(AgendaLocalService agendaLocalService) {
-
         _agendaLocalService = agendaLocalService;
+    }
+
+    @Reference(unbind = "-")
+    protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
+        _csmapCacheLocalService = csmapCacheLocalService;
     }
 
     private String getThemeVocabularyId(){
