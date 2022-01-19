@@ -1,7 +1,6 @@
 .form-builder-layout {
     background-color: #F6F6F6;
     input.ddm-field-text.form-control {
-        border-color: white;
         height: 50px;
     }
     label, .lfr-ddm-legend {
@@ -19,10 +18,6 @@
     .input-group-inset:focus ~ .input-group-inset-item{
         border: none;
         box-shadow: 0.25rem 0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25), 0.25rem -0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25);
-    }
-
-    label{
-        color: #505050;
     }
     // fin ajout mantis 5636
 }
@@ -116,6 +111,7 @@
                 border-radius: 50%;
                 border: solid 3px $core-color;
                 background-image: none !important;
+                background-color: transparent;
             }
             &:after{
                 content: none;
@@ -149,6 +145,7 @@
                 border-radius: 0;
                 border: solid 3px $core-color;
                 background-image: none !important;
+                background-color: transparent;
             }
             &:after{
                 content: none;
@@ -218,6 +215,7 @@
             border-radius: 50%;
             border: solid 3px $core-color;
             background-image: none !important;
+            background-color: transparent;
         }
 
         &:checked::before{
