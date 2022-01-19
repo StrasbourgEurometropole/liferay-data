@@ -19,13 +19,17 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.gtfs.exception.NoSuchCacheHoursJSONException;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.CacheHoursJSONLocalServiceBaseImpl;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,16 +55,37 @@ public class CacheHoursJSONLocalServiceImpl
 	 */
 
 	/**
+	 *  Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public CacheHoursJSON createCacheHoursJSON(String stopCode, int type) {
+
+		CacheHoursJSONPK cacheHoursJSONPK = new CacheHoursJSONPK(stopCode, type);
+		CacheHoursJSON cacheHoursJSON = this.createCacheHoursJSON(cacheHoursJSONPK);
+
+		return cacheHoursJSON;
+	}
+
+	/**
+	 * Retourne le cache d'un arret et type
+	 */
+	@Override
+	public CacheHoursJSON findByStopCodeAndType(String stopCode, int type) {
+		return this.cacheHoursJSONPersistence.fetchByStopCodeAndType(stopCode, type);
+	}
+
+	/**
 	 * Met à jour le jsonHour du stop
 	 */
 	@Override
-	public String getJsonHour(String stopCode) {
+	public String getJsonHour(String stopCode, int type) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 		Date now = new Date();
 		boolean toRegenerated = false;
-		CacheHoursJSON cache = this.fetchCacheHoursJSON(stopCode);
+		CacheHoursJSON cache = null;
+		cache = this.findByStopCodeAndType(stopCode, type);
 		if (Validator.isNull(cache)) {
-			cache = this.createCacheHoursJSON(stopCode);
+			cache = this.createCacheHoursJSON(stopCode, type);
 			cache.setCreationDate(now);
 			cache.setModifiedDate(now);
 			toRegenerated = true;
@@ -74,9 +99,9 @@ public class CacheHoursJSONLocalServiceImpl
 
 		if(toRegenerated){
 			try{
-				JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode);
-				JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+				JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode, type);
 				if (arretsRealTime != null) {
+					JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
 					for (int i = 0; i < arretsRealTime.length(); i++) {
 						JSONObject arretRealTime = arretsRealTime.getJSONObject(i);
 						JSONObject monitoredVehicleJourney = arretRealTime.getJSONObject("MonitoredVehicleJourney");
@@ -87,8 +112,8 @@ public class CacheHoursJSONLocalServiceImpl
 						scheduleJSON.put("departureTime", monitoredCall.getString("ExpectedDepartureTime"));
 						schedulesJSON.put(scheduleJSON);
 					}
+					json.put("schedules", schedulesJSON);
 				}
-				json.put("schedules", schedulesJSON);
 			} catch (Exception e) {
 				log.error(e);
 				json.put("error", e.getMessage());

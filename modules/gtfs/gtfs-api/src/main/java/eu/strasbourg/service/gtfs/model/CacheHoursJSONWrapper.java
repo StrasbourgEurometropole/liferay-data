@@ -60,6 +60,7 @@ public class CacheHoursJSONWrapper
 
 		attributes.put("uuid", getUuid());
 		attributes.put("stopCode", getStopCode());
+		attributes.put("type", getType());
 		attributes.put("jsonHour", getJsonHour());
 		attributes.put("creationDate", getCreationDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -79,6 +80,12 @@ public class CacheHoursJSONWrapper
 
 		if (stopCode != null) {
 			setStopCode(stopCode);
+		}
+
+		Integer type = (Integer)attributes.get("type");
+
+		if (type != null) {
+			setType(type);
 		}
 
 		String jsonHour = (String)attributes.get("jsonHour");
@@ -154,7 +161,9 @@ public class CacheHoursJSONWrapper
 	 * @return the primary key of this cache hours json
 	 */
 	@Override
-	public String getPrimaryKey() {
+	public eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+		getPrimaryKey() {
+
 		return _cacheHoursJSON.getPrimaryKey();
 	}
 
@@ -171,6 +180,16 @@ public class CacheHoursJSONWrapper
 	@Override
 	public String getStopCode() {
 		return _cacheHoursJSON.getStopCode();
+	}
+
+	/**
+	 * Returns the type of this cache hours json.
+	 *
+	 * @return the type of this cache hours json
+	 */
+	@Override
+	public int getType() {
+		return _cacheHoursJSON.getType();
 	}
 
 	/**
@@ -271,7 +290,10 @@ public class CacheHoursJSONWrapper
 	 * @param primaryKey the primary key of this cache hours json
 	 */
 	@Override
-	public void setPrimaryKey(String primaryKey) {
+	public void setPrimaryKey(
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			primaryKey) {
+
 		_cacheHoursJSON.setPrimaryKey(primaryKey);
 	}
 
@@ -288,6 +310,16 @@ public class CacheHoursJSONWrapper
 	@Override
 	public void setStopCode(String stopCode) {
 		_cacheHoursJSON.setStopCode(stopCode);
+	}
+
+	/**
+	 * Sets the type of this cache hours json.
+	 *
+	 * @param type the type of this cache hours json
+	 */
+	@Override
+	public void setType(int type) {
+		_cacheHoursJSON.setType(type);
 	}
 
 	/**

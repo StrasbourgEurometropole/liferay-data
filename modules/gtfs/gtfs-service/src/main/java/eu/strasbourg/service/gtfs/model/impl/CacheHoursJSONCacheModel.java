@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -52,7 +53,9 @@ public class CacheHoursJSONCacheModel
 		CacheHoursJSONCacheModel cacheHoursJSONCacheModel =
 			(CacheHoursJSONCacheModel)obj;
 
-		if (stopCode.equals(cacheHoursJSONCacheModel.stopCode)) {
+		if (cacheHoursJSONPK.equals(
+				cacheHoursJSONCacheModel.cacheHoursJSONPK)) {
+
 			return true;
 		}
 
@@ -61,17 +64,19 @@ public class CacheHoursJSONCacheModel
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, stopCode);
+		return HashUtil.hash(0, cacheHoursJSONPK);
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", stopCode=");
 		sb.append(stopCode);
+		sb.append(", type=");
+		sb.append(type);
 		sb.append(", jsonHour=");
 		sb.append(jsonHour);
 		sb.append(", creationDate=");
@@ -100,6 +105,8 @@ public class CacheHoursJSONCacheModel
 		else {
 			cacheHoursJSONImpl.setStopCode(stopCode);
 		}
+
+		cacheHoursJSONImpl.setType(type);
 
 		if (jsonHour == null) {
 			cacheHoursJSONImpl.setJsonHour("");
@@ -131,9 +138,13 @@ public class CacheHoursJSONCacheModel
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 		stopCode = objectInput.readUTF();
+
+		type = objectInput.readInt();
 		jsonHour = objectInput.readUTF();
 		creationDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
+
+		cacheHoursJSONPK = new CacheHoursJSONPK(stopCode, type);
 	}
 
 	@Override
@@ -152,6 +163,8 @@ public class CacheHoursJSONCacheModel
 			objectOutput.writeUTF(stopCode);
 		}
 
+		objectOutput.writeInt(type);
+
 		if (jsonHour == null) {
 			objectOutput.writeUTF("");
 		}
@@ -165,8 +178,10 @@ public class CacheHoursJSONCacheModel
 
 	public String uuid;
 	public String stopCode;
+	public int type;
 	public String jsonHour;
 	public long creationDate;
 	public long modifiedDate;
+	public transient CacheHoursJSONPK cacheHoursJSONPK;
 
 }

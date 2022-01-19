@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.io.Serializable;
 
@@ -72,11 +73,17 @@ public interface CacheHoursJSONLocalService
 	/**
 	 * Creates a new cache hours json with the primary key. Does not add the cache hours json to the database.
 	 *
-	 * @param stopCode the primary key for the new cache hours json
+	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
 	@Transactional(enabled = false)
-	public CacheHoursJSON createCacheHoursJSON(String stopCode);
+	public CacheHoursJSON createCacheHoursJSON(
+		CacheHoursJSONPK cacheHoursJSONPK);
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	public CacheHoursJSON createCacheHoursJSON(String stopCode, int type);
 
 	/**
 	 * Deletes the cache hours json from the database. Also notifies the appropriate model listeners.
@@ -90,12 +97,13 @@ public interface CacheHoursJSONLocalService
 	/**
 	 * Deletes the cache hours json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json that was removed
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public CacheHoursJSON deleteCacheHoursJSON(String stopCode)
+	public CacheHoursJSON deleteCacheHoursJSON(
+			CacheHoursJSONPK cacheHoursJSONPK)
 		throws PortalException;
 
 	/**
@@ -172,17 +180,23 @@ public interface CacheHoursJSONLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CacheHoursJSON fetchCacheHoursJSON(String stopCode);
+	public CacheHoursJSON fetchCacheHoursJSON(
+		CacheHoursJSONPK cacheHoursJSONPK);
+
+	/**
+	 * Retourne le cache d'un arret et type
+	 */
+	public CacheHoursJSON findByStopCodeAndType(String stopCode, int type);
 
 	/**
 	 * Returns the cache hours json with the primary key.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CacheHoursJSON getCacheHoursJSON(String stopCode)
+	public CacheHoursJSON getCacheHoursJSON(CacheHoursJSONPK cacheHoursJSONPK)
 		throws PortalException;
 
 	/**
@@ -211,7 +225,7 @@ public interface CacheHoursJSONLocalService
 	 * Met à jour le jsonHour du stop
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public String getJsonHour(String stopCode);
+	public String getJsonHour(String stopCode, int type);
 
 	/**
 	 * Returns the OSGi service identifier.

@@ -62,6 +62,7 @@
 	<model name="eu.strasbourg.service.gtfs.model.CacheHoursJSON">
 		<field name="uuid" type="String" />
 		<field name="stopCode" type="String" />
+		<field name="type" type="int" />
 		<field name="jsonHour" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

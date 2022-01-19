@@ -52,14 +52,26 @@ public class CacheHoursJSONLocalServiceWrapper
 	/**
 	 * Creates a new cache hours json with the primary key. Does not add the cache hours json to the database.
 	 *
-	 * @param stopCode the primary key for the new cache hours json
+	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
 	@Override
 	public eu.strasbourg.service.gtfs.model.CacheHoursJSON createCacheHoursJSON(
-		String stopCode) {
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
 
-		return _cacheHoursJSONLocalService.createCacheHoursJSON(stopCode);
+		return _cacheHoursJSONLocalService.createCacheHoursJSON(
+			cacheHoursJSONPK);
+	}
+
+	/**
+	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
+	 */
+	@Override
+	public eu.strasbourg.service.gtfs.model.CacheHoursJSON createCacheHoursJSON(
+		String stopCode, int type) {
+
+		return _cacheHoursJSONLocalService.createCacheHoursJSON(stopCode, type);
 	}
 
 	/**
@@ -78,16 +90,18 @@ public class CacheHoursJSONLocalServiceWrapper
 	/**
 	 * Deletes the cache hours json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json that was removed
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Override
 	public eu.strasbourg.service.gtfs.model.CacheHoursJSON deleteCacheHoursJSON(
-			String stopCode)
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _cacheHoursJSONLocalService.deleteCacheHoursJSON(stopCode);
+		return _cacheHoursJSONLocalService.deleteCacheHoursJSON(
+			cacheHoursJSONPK);
 	}
 
 	/**
@@ -194,24 +208,38 @@ public class CacheHoursJSONLocalServiceWrapper
 
 	@Override
 	public eu.strasbourg.service.gtfs.model.CacheHoursJSON fetchCacheHoursJSON(
-		String stopCode) {
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
 
-		return _cacheHoursJSONLocalService.fetchCacheHoursJSON(stopCode);
+		return _cacheHoursJSONLocalService.fetchCacheHoursJSON(
+			cacheHoursJSONPK);
+	}
+
+	/**
+	 * Retourne le cache d'un arret et type
+	 */
+	@Override
+	public eu.strasbourg.service.gtfs.model.CacheHoursJSON
+		findByStopCodeAndType(String stopCode, int type) {
+
+		return _cacheHoursJSONLocalService.findByStopCodeAndType(
+			stopCode, type);
 	}
 
 	/**
 	 * Returns the cache hours json with the primary key.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Override
 	public eu.strasbourg.service.gtfs.model.CacheHoursJSON getCacheHoursJSON(
-			String stopCode)
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _cacheHoursJSONLocalService.getCacheHoursJSON(stopCode);
+		return _cacheHoursJSONLocalService.getCacheHoursJSON(cacheHoursJSONPK);
 	}
 
 	/**
@@ -246,8 +274,8 @@ public class CacheHoursJSONLocalServiceWrapper
 	 * Met à jour le jsonHour du stop
 	 */
 	@Override
-	public String getJsonHour(String stopCode) {
-		return _cacheHoursJSONLocalService.getJsonHour(stopCode);
+	public String getJsonHour(String stopCode, int type) {
+		return _cacheHoursJSONLocalService.getJsonHour(stopCode, type);
 	}
 
 	/**
