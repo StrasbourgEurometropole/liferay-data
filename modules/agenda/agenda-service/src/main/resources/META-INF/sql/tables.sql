@@ -128,6 +128,17 @@ create table agenda_CampaignEventStatus (
 	userName VARCHAR(75) null
 );
 
+create table agenda_CsmapCacheJson (
+	uuid_ VARCHAR(75) null,
+	eventId LONG not null primary key,
+	jsonEvent TEXT null,
+	createEvent DATE null,
+	modifiedEvent DATE null,
+	isActive BOOLEAN,
+	regeneratedDate DATE null,
+	hasSchedules BOOLEAN
+);
+
 create table agenda_Event (
 	uuid_ VARCHAR(75) null,
 	eventId LONG not null primary key,

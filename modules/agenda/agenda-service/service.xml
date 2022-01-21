@@ -563,7 +563,7 @@
 
 	</entity>
 
-	<entity local-service="true" name="CacheJson"
+	<entity local-service="true" name="CsmapCacheJson"
 			cache-enabled="true" remote-service="false" uuid="true">
 
 		<!-- PK fields -->
@@ -580,7 +580,6 @@
 		<finder name="eventId" return-type="Collection">
 			<finder-column name="eventId" />
 		</finder>
-
 		<finder name="CreatedDateAndIsActive" return-type="Collection">
 			<finder-column comparator="&gt;=" name="createEvent" />
 			<finder-column name="isActive" />

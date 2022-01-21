@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
-import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -30,14 +30,14 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 /**
- * The cache model class for representing CacheJson in entity cache.
+ * The cache model class for representing CsmapCacheJson in entity cache.
  *
  * @author BenjaminBini
  * @generated
  */
 @ProviderType
-public class CacheJsonCacheModel
-	implements CacheModel<CacheJson>, Externalizable {
+public class CsmapCacheJsonCacheModel
+	implements CacheModel<CsmapCacheJson>, Externalizable {
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,13 +45,14 @@ public class CacheJsonCacheModel
 			return true;
 		}
 
-		if (!(obj instanceof CacheJsonCacheModel)) {
+		if (!(obj instanceof CsmapCacheJsonCacheModel)) {
 			return false;
 		}
 
-		CacheJsonCacheModel cacheJsonCacheModel = (CacheJsonCacheModel)obj;
+		CsmapCacheJsonCacheModel csmapCacheJsonCacheModel =
+			(CsmapCacheJsonCacheModel)obj;
 
-		if (eventId == cacheJsonCacheModel.eventId) {
+		if (eventId == csmapCacheJsonCacheModel.eventId) {
 			return true;
 		}
 
@@ -89,53 +90,53 @@ public class CacheJsonCacheModel
 	}
 
 	@Override
-	public CacheJson toEntityModel() {
-		CacheJsonImpl cacheJsonImpl = new CacheJsonImpl();
+	public CsmapCacheJson toEntityModel() {
+		CsmapCacheJsonImpl csmapCacheJsonImpl = new CsmapCacheJsonImpl();
 
 		if (uuid == null) {
-			cacheJsonImpl.setUuid("");
+			csmapCacheJsonImpl.setUuid("");
 		}
 		else {
-			cacheJsonImpl.setUuid(uuid);
+			csmapCacheJsonImpl.setUuid(uuid);
 		}
 
-		cacheJsonImpl.setEventId(eventId);
+		csmapCacheJsonImpl.setEventId(eventId);
 
 		if (jsonEvent == null) {
-			cacheJsonImpl.setJsonEvent("");
+			csmapCacheJsonImpl.setJsonEvent("");
 		}
 		else {
-			cacheJsonImpl.setJsonEvent(jsonEvent);
+			csmapCacheJsonImpl.setJsonEvent(jsonEvent);
 		}
 
 		if (createEvent == Long.MIN_VALUE) {
-			cacheJsonImpl.setCreateEvent(null);
+			csmapCacheJsonImpl.setCreateEvent(null);
 		}
 		else {
-			cacheJsonImpl.setCreateEvent(new Date(createEvent));
+			csmapCacheJsonImpl.setCreateEvent(new Date(createEvent));
 		}
 
 		if (modifiedEvent == Long.MIN_VALUE) {
-			cacheJsonImpl.setModifiedEvent(null);
+			csmapCacheJsonImpl.setModifiedEvent(null);
 		}
 		else {
-			cacheJsonImpl.setModifiedEvent(new Date(modifiedEvent));
+			csmapCacheJsonImpl.setModifiedEvent(new Date(modifiedEvent));
 		}
 
-		cacheJsonImpl.setIsActive(isActive);
+		csmapCacheJsonImpl.setIsActive(isActive);
 
 		if (regeneratedDate == Long.MIN_VALUE) {
-			cacheJsonImpl.setRegeneratedDate(null);
+			csmapCacheJsonImpl.setRegeneratedDate(null);
 		}
 		else {
-			cacheJsonImpl.setRegeneratedDate(new Date(regeneratedDate));
+			csmapCacheJsonImpl.setRegeneratedDate(new Date(regeneratedDate));
 		}
 
-		cacheJsonImpl.setHasSchedules(hasSchedules);
+		csmapCacheJsonImpl.setHasSchedules(hasSchedules);
 
-		cacheJsonImpl.resetOriginalValues();
+		csmapCacheJsonImpl.resetOriginalValues();
 
-		return cacheJsonImpl;
+		return csmapCacheJsonImpl;
 	}
 
 	@Override

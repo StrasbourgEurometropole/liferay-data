@@ -187,7 +187,7 @@ public class CsmapCacheLocalServiceImpl extends CsmapCacheLocalServiceBaseImpl {
 		}
 	}
 
-	private String query_cacheJson = "SELECT modifiedEvent FROM agenda_CacheJson order by modifiedEvent desc limit 1";
+	private String query_cacheJson = "SELECT modifiedEvent FROM agenda_CsmapCacheJson order by modifiedEvent desc limit 1";
 	private String query_historic = "SELECT suppressionDate FROM agenda_Historic order by suppressionDate desc limit 1";
 
 	@Reference(unbind = "-")

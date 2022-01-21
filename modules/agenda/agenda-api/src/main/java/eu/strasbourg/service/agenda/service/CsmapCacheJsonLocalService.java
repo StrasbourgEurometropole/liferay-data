@@ -32,7 +32,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 
 import java.io.Serializable;
 
@@ -40,13 +40,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Provides the local service interface for CacheJson. Methods of this
+ * Provides the local service interface for CsmapCacheJson. Methods of this
  * service will not have security checks based on the propagated JAAS
  * credentials because this service can only be accessed from within the same
  * VM.
  *
  * @author BenjaminBini
- * @see CacheJsonLocalServiceUtil
+ * @see CsmapCacheJsonLocalServiceUtil
  * @generated
  */
 @ProviderType
@@ -54,51 +54,52 @@ import java.util.List;
 	isolation = Isolation.PORTAL,
 	rollbackFor = {PortalException.class, SystemException.class}
 )
-public interface CacheJsonLocalService
+public interface CsmapCacheJsonLocalService
 	extends BaseLocalService, PersistedModelLocalService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link CacheJsonLocalServiceUtil} to access the cache json local service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.CacheJsonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link CsmapCacheJsonLocalServiceUtil} to access the csmap cache json local service. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.CsmapCacheJsonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	 * Adds the cache json to the database. Also notifies the appropriate model listeners.
+	 * Adds the csmap cache json to the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param cacheJson the cache json
-	 * @return the cache json that was added
+	 * @param csmapCacheJson the csmap cache json
+	 * @return the csmap cache json that was added
 	 */
 	@Indexable(type = IndexableType.REINDEX)
-	public CacheJson addCacheJson(CacheJson cacheJson);
+	public CsmapCacheJson addCsmapCacheJson(CsmapCacheJson csmapCacheJson);
 
 	/**
-	 * Creates a new cache json with the primary key. Does not add the cache json to the database.
+	 * Creates a new csmap cache json with the primary key. Does not add the csmap cache json to the database.
 	 *
-	 * @param eventId the primary key for the new cache json
-	 * @return the new cache json
+	 * @param eventId the primary key for the new csmap cache json
+	 * @return the new csmap cache json
 	 */
 	@Transactional(enabled = false)
-	public CacheJson createCacheJson(long eventId);
+	public CsmapCacheJson createCsmapCacheJson(long eventId);
 
 	/**
-	 * Deletes the cache json from the database. Also notifies the appropriate model listeners.
+	 * Deletes the csmap cache json from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param cacheJson the cache json
-	 * @return the cache json that was removed
+	 * @param csmapCacheJson the csmap cache json
+	 * @return the csmap cache json that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public CacheJson deleteCacheJson(CacheJson cacheJson);
+	public CsmapCacheJson deleteCsmapCacheJson(CsmapCacheJson csmapCacheJson);
 
 	/**
-	 * Deletes the cache json with the primary key from the database. Also notifies the appropriate model listeners.
+	 * Deletes the csmap cache json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param eventId the primary key of the cache json
-	 * @return the cache json that was removed
-	 * @throws PortalException if a cache json with the primary key could not be found
+	 * @param eventId the primary key of the csmap cache json
+	 * @return the csmap cache json that was removed
+	 * @throws PortalException if a csmap cache json with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public CacheJson deleteCacheJson(long eventId) throws PortalException;
+	public CsmapCacheJson deleteCsmapCacheJson(long eventId)
+		throws PortalException;
 
 	/**
 	 * @throws PortalException
@@ -123,7 +124,7 @@ public interface CacheJsonLocalService
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -139,7 +140,7 @@ public interface CacheJsonLocalService
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -174,7 +175,7 @@ public interface CacheJsonLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CacheJson fetchCacheJson(long eventId);
+	public CsmapCacheJson fetchCsmapCacheJson(long eventId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
@@ -183,20 +184,20 @@ public interface CacheJsonLocalService
 	 * Retourne les caches d'un event créé après une date et actif
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson> getByCreatedDateAndIsActive(Date date);
+	public List<CsmapCacheJson> getByCreatedDateAndIsActive(Date date);
 
 	/**
 	 * Retourne les caches d'un event créé après une date, actif et avec schedules
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson> getByCreatedDateAndIsActiveAndWithSchedules(
+	public List<CsmapCacheJson> getByCreatedDateAndIsActiveAndWithSchedules(
 		Date date);
 
 	/**
 	 * Retourne les caches d'un event modifié après une date, créé avant cette date et actif
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(
+	public List<CsmapCacheJson> getByCreatedDateAndModifiedDateAndIsActive(
 		Date date);
 
 	/**
@@ -204,46 +205,47 @@ public interface CacheJsonLocalService
 	 * et avec schedules
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson>
+	public List<CsmapCacheJson>
 		getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(Date date);
 
 	/**
 	 * Retourne les caches d'un lieu modifié après une date et inactif
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date);
+	public List<CsmapCacheJson> getByModifiedDateAndIsNotActive(Date date);
 
 	/**
-	 * Returns the cache json with the primary key.
+	 * Returns the csmap cache json with the primary key.
 	 *
-	 * @param eventId the primary key of the cache json
-	 * @return the cache json
-	 * @throws PortalException if a cache json with the primary key could not be found
+	 * @param eventId the primary key of the csmap cache json
+	 * @return the csmap cache json
+	 * @throws PortalException if a csmap cache json with the primary key could not be found
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public CacheJson getCacheJson(long eventId) throws PortalException;
+	public CsmapCacheJson getCsmapCacheJson(long eventId)
+		throws PortalException;
 
 	/**
-	 * Returns a range of all the cache jsons.
+	 * Returns a range of all the csmap cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of csmap cache jsons
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CacheJson> getCacheJsons(int start, int end);
+	public List<CsmapCacheJson> getCsmapCacheJsons(int start, int end);
 
 	/**
-	 * Returns the number of cache jsons.
+	 * Returns the number of csmap cache jsons.
 	 *
-	 * @return the number of cache jsons
+	 * @return the number of csmap cache jsons
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getCacheJsonsCount();
+	public int getCsmapCacheJsonsCount();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -261,13 +263,13 @@ public interface CacheJsonLocalService
 		throws PortalException;
 
 	/**
-	 * Updates the cache json in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 * Updates the csmap cache json in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
-	 * @param cacheJson the cache json
-	 * @return the cache json that was updated
+	 * @param csmapCacheJson the csmap cache json
+	 * @return the csmap cache json that was updated
 	 */
 	@Indexable(type = IndexableType.REINDEX)
-	public CacheJson updateCacheJson(CacheJson cacheJson);
+	public CsmapCacheJson updateCsmapCacheJson(CsmapCacheJson csmapCacheJson);
 
 	/**
 	 * Met à jour les jsonEvent des event

@@ -46,11 +46,11 @@ import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalService;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
-import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventFinder;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
@@ -439,49 +439,6 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the cache json local service.
-	 *
-	 * @return the cache json local service
-	 */
-	public eu.strasbourg.service.agenda.service.CacheJsonLocalService
-		getCacheJsonLocalService() {
-
-		return cacheJsonLocalService;
-	}
-
-	/**
-	 * Sets the cache json local service.
-	 *
-	 * @param cacheJsonLocalService the cache json local service
-	 */
-	public void setCacheJsonLocalService(
-		eu.strasbourg.service.agenda.service.CacheJsonLocalService
-			cacheJsonLocalService) {
-
-		this.cacheJsonLocalService = cacheJsonLocalService;
-	}
-
-	/**
-	 * Returns the cache json persistence.
-	 *
-	 * @return the cache json persistence
-	 */
-	public CacheJsonPersistence getCacheJsonPersistence() {
-		return cacheJsonPersistence;
-	}
-
-	/**
-	 * Sets the cache json persistence.
-	 *
-	 * @param cacheJsonPersistence the cache json persistence
-	 */
-	public void setCacheJsonPersistence(
-		CacheJsonPersistence cacheJsonPersistence) {
-
-		this.cacheJsonPersistence = cacheJsonPersistence;
-	}
-
-	/**
 	 * Returns the campaign local service.
 	 *
 	 * @return the campaign local service
@@ -628,6 +585,49 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
 
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
+	}
+
+	/**
+	 * Returns the csmap cache json local service.
+	 *
+	 * @return the csmap cache json local service
+	 */
+	public eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
+
+		return csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Sets the csmap cache json local service.
+	 *
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
+	 */
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
+
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Returns the csmap cache json persistence.
+	 *
+	 * @return the csmap cache json persistence
+	 */
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
+	}
+
+	/**
+	 * Sets the csmap cache json persistence.
+	 *
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
+	 */
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
+
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -1146,15 +1146,6 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
 
 	@BeanReference(
-		type = eu.strasbourg.service.agenda.service.CacheJsonLocalService.class
-	)
-	protected eu.strasbourg.service.agenda.service.CacheJsonLocalService
-		cacheJsonLocalService;
-
-	@BeanReference(type = CacheJsonPersistence.class)
-	protected CacheJsonPersistence cacheJsonPersistence;
-
-	@BeanReference(
 		type = eu.strasbourg.service.agenda.service.CampaignLocalService.class
 	)
 	protected eu.strasbourg.service.agenda.service.CampaignLocalService
@@ -1184,6 +1175,15 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
+
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.agenda.service.EventLocalService.class

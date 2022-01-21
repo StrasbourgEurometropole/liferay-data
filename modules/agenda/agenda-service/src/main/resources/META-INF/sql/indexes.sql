@@ -24,6 +24,12 @@ create unique index IX_8B3A9D3 on agenda_CampaignEvent (uuid_[$COLUMN_LENGTH:75$
 create index IX_CDE8F146 on agenda_CampaignEventStatus (campaignEventId);
 create index IX_D3F95625 on agenda_CampaignEventStatus (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_89FBBB51 on agenda_CsmapCacheJson (createEvent, isActive, hasSchedules);
+create index IX_22E4E184 on agenda_CsmapCacheJson (createEvent, modifiedEvent, isActive, hasSchedules);
+create index IX_EBCC6DEE on agenda_CsmapCacheJson (modifiedEvent, isActive);
+create index IX_DFBFB7E7 on agenda_CsmapCacheJson (regeneratedDate, isActive);
+create index IX_5440C79D on agenda_CsmapCacheJson (uuid_[$COLUMN_LENGTH:75$]);
+
 create index IX_D69467AB on agenda_Event (groupId, title[$COLUMN_LENGTH:400$]);
 create index IX_3BEFC8D7 on agenda_Event (idSource[$COLUMN_LENGTH:75$]);
 create index IX_8EE3FDB6 on agenda_Event (lastEndDate);

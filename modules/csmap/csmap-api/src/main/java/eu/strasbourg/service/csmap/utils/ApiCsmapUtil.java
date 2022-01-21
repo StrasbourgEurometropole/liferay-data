@@ -4,7 +4,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -17,29 +16,38 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Campaign;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Historic;
-import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.HistoricLocalServiceUtil;
 import eu.strasbourg.service.csmap.exception.NoDefaultPictoException;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
 public class ApiCsmapUtil {
 
@@ -53,17 +61,17 @@ public class ApiCsmapUtil {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         // On récupère tous les events qui ont été ajoutés
-        List<CacheJson> ajouts = CacheJsonLocalServiceUtil.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
+        List<CsmapCacheJson> ajouts = CsmapCacheJsonLocalServiceUtil.getByCreatedDateAndIsActiveAndWithSchedules(lastUpdateTime);
         JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-        for (CacheJson cache: ajouts) {
+        for (CsmapCacheJson cache: ajouts) {
             jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
         }
         json.put("ADD", jsonAjout);
 
         // On récupère tous les events qui ont été modifiés
-        List<CacheJson> modifications = CacheJsonLocalServiceUtil.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
+        List<CsmapCacheJson> modifications = CsmapCacheJsonLocalServiceUtil.getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(lastUpdateTime);
         JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-        for (CacheJson cache: modifications) {
+        for (CsmapCacheJson cache: modifications) {
             jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
         }
         json.put("UPDATE", jsonModif);
@@ -72,8 +80,8 @@ public class ApiCsmapUtil {
 
         if(!lastUpdateTimeString.equals("0")) {
             // On récupère tous les events qui ont été dépubliés
-            List<CacheJson> depublications = CacheJsonLocalServiceUtil.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache: depublications) {
+            List<CsmapCacheJson> depublications = CsmapCacheJsonLocalServiceUtil.getByModifiedDateAndIsNotActive(lastUpdateTime);
+            for (CsmapCacheJson cache: depublications) {
                 jsonSuppr.put(cache.getEventId());
             }
 
@@ -430,14 +438,14 @@ public class ApiCsmapUtil {
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         List<Long> longIds = new ArrayList<>();
         if (hits != null) {
-            List<CacheJson> cacheJsons = CacheJsonLocalServiceUtil.getCacheJsons(-1,-1);
+            List<CsmapCacheJson> csmapCacheJsons = CsmapCacheJsonLocalServiceUtil.getCsmapCacheJsons(-1,-1);
             for (Document document : hits.getDocs()) {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
 
                 if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
                     // on ne prend que les event présent dans cacheJson avec des schedules
-                    CacheJson cacheJson = cacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
-                    if(Validator.isNotNull(cacheJson) && cacheJson.getHasSchedules())
+                    CsmapCacheJson csmapCacheJson = csmapCacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
+                    if(Validator.isNotNull(csmapCacheJson) && csmapCacheJson.getHasSchedules())
                         longIds.add(id);
                 }
             }

@@ -29,10 +29,10 @@ import java.util.List;
  * @generated
  */
 @ProviderType
-public class CacheJsonSoap implements Serializable {
+public class CsmapCacheJsonSoap implements Serializable {
 
-	public static CacheJsonSoap toSoapModel(CacheJson model) {
-		CacheJsonSoap soapModel = new CacheJsonSoap();
+	public static CsmapCacheJsonSoap toSoapModel(CsmapCacheJson model) {
+		CsmapCacheJsonSoap soapModel = new CsmapCacheJsonSoap();
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setEventId(model.getEventId());
@@ -46,8 +46,8 @@ public class CacheJsonSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static CacheJsonSoap[] toSoapModels(CacheJson[] models) {
-		CacheJsonSoap[] soapModels = new CacheJsonSoap[models.length];
+	public static CsmapCacheJsonSoap[] toSoapModels(CsmapCacheJson[] models) {
+		CsmapCacheJsonSoap[] soapModels = new CsmapCacheJsonSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -56,14 +56,17 @@ public class CacheJsonSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CacheJsonSoap[][] toSoapModels(CacheJson[][] models) {
-		CacheJsonSoap[][] soapModels = null;
+	public static CsmapCacheJsonSoap[][] toSoapModels(
+		CsmapCacheJson[][] models) {
+
+		CsmapCacheJsonSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new CacheJsonSoap[models.length][models[0].length];
+			soapModels =
+				new CsmapCacheJsonSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new CacheJsonSoap[0][0];
+			soapModels = new CsmapCacheJsonSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -73,18 +76,20 @@ public class CacheJsonSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static CacheJsonSoap[] toSoapModels(List<CacheJson> models) {
-		List<CacheJsonSoap> soapModels = new ArrayList<CacheJsonSoap>(
+	public static CsmapCacheJsonSoap[] toSoapModels(
+		List<CsmapCacheJson> models) {
+
+		List<CsmapCacheJsonSoap> soapModels = new ArrayList<CsmapCacheJsonSoap>(
 			models.size());
 
-		for (CacheJson model : models) {
+		for (CsmapCacheJson model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new CacheJsonSoap[soapModels.size()]);
+		return soapModels.toArray(new CsmapCacheJsonSoap[soapModels.size()]);
 	}
 
-	public CacheJsonSoap() {
+	public CsmapCacheJsonSoap() {
 	}
 
 	public long getPrimaryKey() {

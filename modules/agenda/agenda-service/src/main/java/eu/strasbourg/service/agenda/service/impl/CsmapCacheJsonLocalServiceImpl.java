@@ -16,10 +16,10 @@ package eu.strasbourg.service.agenda.service.impl;
 
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
+import eu.strasbourg.service.agenda.service.base.CsmapCacheJsonLocalServiceBaseImpl;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,32 +27,33 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The implementation of the cache json local service.
+ * The implementation of the csmap cache json local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.agenda.service.CacheJsonLocalService</code> interface.
+ * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the <code>eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService</code> interface.
  *
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
  * @author BenjaminBini
- * @see CacheJsonLocalServiceBaseImpl
+ * @see CsmapCacheJsonLocalServiceBaseImpl
  */
-public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
+public class CsmapCacheJsonLocalServiceImpl
+	extends CsmapCacheJsonLocalServiceBaseImpl {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this class directly. Use <code>eu.strasbourg.service.agenda.service.CacheJsonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil</code>.
+	 * Never reference this class directly. Use <code>eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalServiceUtil</code>.
 	 */
 
 	/**
 	 * Retourne les caches d'un event créé après une date et actif
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndIsActive(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndIsActive(date, true);
+	public List<CsmapCacheJson> getByCreatedDateAndIsActive(Date date) {
+		return this.csmapCacheJsonPersistence.findByCreatedDateAndIsActive(date, true);
 	}
 
 
@@ -60,16 +61,16 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 * Retourne les caches d'un event modifié après une date, créé avant cette date et actif
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActive(date, date, true);
+	public List<CsmapCacheJson> getByCreatedDateAndModifiedDateAndIsActive(Date date) {
+		return this.csmapCacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActive(date, date, true);
 	}
 
 	/**
 	 * Retourne les caches d'un event créé après une date, actif et avec schedules
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndIsActiveAndWithSchedules(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndIsActiveAndWithSchedules(date, true, true);
+	public List<CsmapCacheJson> getByCreatedDateAndIsActiveAndWithSchedules(Date date) {
+		return this.csmapCacheJsonPersistence.findByCreatedDateAndIsActiveAndWithSchedules(date, true, true);
 	}
 
 
@@ -78,8 +79,8 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 * et avec schedules
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(date, date, true, true);
+	public List<CsmapCacheJson> getByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(Date date) {
+		return this.csmapCacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActiveAndWithSchedules(date, date, true, true);
 	}
 
 
@@ -87,8 +88,8 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 * Retourne les caches d'un lieu modifié après une date et inactif
 	 */
 	@Override
-	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date) {
-		return this.cacheJsonPersistence.findByModifiedDateAndIsActive(date, false);
+	public List<CsmapCacheJson> getByModifiedDateAndIsNotActive(Date date) {
+		return this.csmapCacheJsonPersistence.findByModifiedDateAndIsActive(date, false);
 	}
 
 	/**
@@ -101,9 +102,9 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 		Date verifDate = Date.from(verificationDate.atStartOfDay()
 				.atZone(ZoneId.systemDefault())
 				.toInstant());
-		List<CacheJson> caches = this.cacheJsonPersistence
+		List<CsmapCacheJson> caches = this.csmapCacheJsonPersistence
 				.findByRegeneratedDateAndIsActive(verifDate, true);
-		for (CacheJson cache : caches) {
+		for (CsmapCacheJson cache : caches) {
 			Event event = EventLocalServiceUtil.fetchEvent(cache.getEventId());
 			if(Validator.isNotNull(event)){
 				JSONObject csmapJson = event.getCSMapJSON();
@@ -114,7 +115,7 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 					cache.setHasSchedules(false);
 				cache.setRegeneratedDate(new Date());
 				cache.setModifiedEvent(new Date());
-				this.updateCacheJson(cache);
+				this.updateCsmapCacheJson(cache);
 			}
 		}
 	}
