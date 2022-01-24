@@ -88,16 +88,49 @@ public class ApiCsmapUtil {
         return json;
     }
 
-    public static JSONObject getCategories(String lastUpdateTimeString, String idsCategory) throws PortalException, NoDefaultPictoException {
+    public static JSONObject getCategories(String lastUpdateTimeString, String sigIds) throws PortalException, NoDefaultPictoException {
 
         // On transforme la date string en date
-        Date lastUpdateTime;
         long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
-        lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        Date lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
 
+        // On récupère toutes les catégories qui ont été ajoutées modifiées ou supprimées
         JSONObject json = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
+        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
 
-        List<String> idsCategorySplitted =  Arrays.asList(idsCategory.split(","));
+        // On récupère les catégories des sigId (externalId)
+        Map<String, AssetCategory> mapExternalIdTypeLieu = new HashMap<>();
+        // On récupère les sigId (externalId) des catégoriesId
+        Map<Long, String> mapIdTypeLieuExternalId = new HashMap<>();
+        // Catégories de lieu renvoyer
+        List<AssetCategory> categoriesBO = new ArrayList<>();
+        // Catégories de lieu existantes choisies pour CSMAP (fait dans le BO)
+        String sigIdCategoriesBo = "";
+
+        AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
+                .getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
+        if (Validator.isNotNull(placeTypeVocabulary)) {
+            // On récupère les catégories du vocabulaire des lieux
+            List<AssetCategory> categories = placeTypeVocabulary.getCategories();
+            mapExternalIdTypeLieu = AssetVocabularyHelper.getMapCategoriesByExternalId(placeTypeVocabulary, "SIG");
+            mapIdTypeLieuExternalId = AssetVocabularyHelper.getMapExternalIdsByCategory(placeTypeVocabulary, "SIG");
+
+            // On récupère les catégories de lieu choisies pour CSMAP (fait dans le BO)
+            String categoriesBoString = PlaceCategoriesLocalServiceUtil.getPlaceCategories().getCategoriesIds();
+            for (AssetCategory category : categories) {
+                if (Validator.isNotNull(categoriesBoString)) {
+                    if (categoriesBoString.contains(String.valueOf(category.getCategoryId()))) {
+                        categoriesBO.add(category);
+                        sigIdCategoriesBo += "," + mapIdTypeLieuExternalId.get(category.getCategoryId());
+                    }
+                } else {
+                    // Dans le cas où categoriesBo est null on ajoute toutes les catégories
+                    categoriesBO.add(category);
+                }
+            }
+        }
 
         // On récupère les pictos du vocabulaire
         Map<String, DLFileEntry> pictos = FileEntryHelper.getPictoForVocabulary(VocabularyNames.PLACE_TYPE, "CSMap");
@@ -109,45 +142,10 @@ public class ApiCsmapUtil {
             throw new NoDefaultPictoException();
         pictoDefaultURL = FileEntryHelper.getFileEntryURLWithTimeStamp(picto);
 
-        // On récupère la configuration pour les catégorie de lieu (fait dans le BO)
-        String categoriesBo = PlaceCategoriesLocalServiceUtil.getPlaceCategories().getCategoriesIds();
-        String sigIdCategoriesBo = "";
+        // On récupère les sigId des catégories passées en paramètre de l'API
+        List<String> sigIdsSplitted = Arrays.asList(sigIds.split(","));
 
-        // On récupère les catégories du vocabulaire des lieux
-        AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
-                .getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-        List<AssetCategory> categories = new ArrayList<>();
-        List<AssetCategory> sortedCategories = new ArrayList<>();
-        Map<String, AssetCategory> mapExternalIdTypeLieu = new HashMap<>();
-        Map<Long, String> mapIdTypeLieuExternalId = new HashMap<>();
-
-        if (Validator.isNotNull(placeTypeVocabulary)) {
-            categories = placeTypeVocabulary.getCategories();
-            mapExternalIdTypeLieu = AssetVocabularyHelper.getMapCategoriesByExternalId(placeTypeVocabulary, "SIG");
-            mapIdTypeLieuExternalId = AssetVocabularyHelper.getMapExternalIdsByCategory(placeTypeVocabulary, "SIG");
-        }
-
-
-        for (AssetCategory category : categories) {
-            if (Validator.isNotNull(categoriesBo)) {
-                if (categoriesBo.contains(String.valueOf(category.getCategoryId()))) {
-                    // On ajoute les catégories de categoriesBo
-                    sortedCategories.add(category);
-                    sigIdCategoriesBo += "," + mapIdTypeLieuExternalId.get(category.getCategoryId());
-                }
-            } else {
-                // Dans le cas où categoriesBo est null on ajoute toutes les catégories
-                sortedCategories.add(category);
-            }
-        }
-
-        List<String> sigIdCategoriesBoSplitted =  Arrays.asList(idsCategory.split(","));
-
-        // On récupère toutes les catégories qui ont été ajoutées ou modifiées
-        JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-        JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-
-        for (AssetCategory categ : sortedCategories) {
+        for (AssetCategory categ : categoriesBO) {
             // récupère l'URL du picto de la catégorie
             String pictoURL;
             String externalId = mapIdTypeLieuExternalId.get(categ.getCategoryId());
@@ -161,27 +159,29 @@ public class ApiCsmapUtil {
             } else
                 pictoURL = pictoDefaultURL;
 
-            if (!idsCategorySplitted.contains(mapIdTypeLieuExternalId.get(categ.getCategoryId())))
+            // Si le sigId de la catégorie n'existe pas dans les sigIds passés en paramètre c'est un ajout
+            if (!sigIdsSplitted.contains(mapIdTypeLieuExternalId.get(categ.getCategoryId())))
                 jsonAjout.put(placeCategoryCSMapJSON(categ, pictoURL, true));
             else if (lastUpdateTime.before(categ.getModifiedDate()) || updatePicto)
+                // si la catégorie et/ou le picto a/ont été modifié(s) c'est une modifiation
+                // ATTENTION, si le picto a été supprimé, il n'entre pas en modifié
                 jsonModif.put(placeCategoryCSMapJSON(categ, pictoURL, updatePicto));
         }
 
-        json.put("ADD", jsonAjout);
-        json.put("UPDATE", jsonModif);
-
-        // On récupère toutes les catégories qui ont été supprimées
-        JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-
-        if (!idsCategory.equals("")) {
+        if (!sigIds.equals("")) {
             if (Validator.isNotNull(placeTypeVocabulary)) {
-                for (String idCategory : idsCategorySplitted) {
+                for (String idCategory : sigIdsSplitted) {
+                    // Si le sigId passé en paramètre n'existe pas dans le vocabulaire type de lieu
+                    // Si la catégorie n'est pas choisie dans le BO
                     if (mapExternalIdTypeLieu.get(idCategory) == null ||
-                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBoSplitted.contains(String.valueOf(idCategory))))
+                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
                         jsonSuppr.put(idCategory);
                 }
             }
         }
+
+        json.put("ADD", jsonAjout);
+        json.put("UPDATE", jsonModif);
         json.put("DELETE", jsonSuppr);
 
         return json;
