@@ -7,8 +7,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
-	<bean class="eu.strasbourg.service.place.service.impl.CacheJsonLocalServiceImpl" id="eu.strasbourg.service.place.service.CacheJsonLocalService" />
-	<bean class="eu.strasbourg.service.place.service.persistence.impl.CacheJsonPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.CacheJsonPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.place.service.impl.CsmapCacheJsonLocalServiceImpl" id="eu.strasbourg.service.place.service.CsmapCacheJsonLocalService" />
+	<bean class="eu.strasbourg.service.place.service.persistence.impl.CsmapCacheJsonPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.place.service.impl.GoogleMyBusinessHistoricLocalServiceImpl" id="eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService" />
 	<bean class="eu.strasbourg.service.place.service.persistence.impl.GoogleMyBusinessHistoricPersistenceImpl" id="eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.place.service.impl.HistoricLocalServiceImpl" id="eu.strasbourg.service.place.service.HistoricLocalService" />

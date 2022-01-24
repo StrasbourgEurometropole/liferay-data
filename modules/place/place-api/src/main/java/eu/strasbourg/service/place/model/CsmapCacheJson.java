@@ -21,27 +21,29 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
- * The extended model interface for the CacheJson service. Represents a row in the &quot;place_CacheJson&quot; database table, with each column mapped to a property of this class.
+ * The extended model interface for the CsmapCacheJson service. Represents a row in the &quot;place_CsmapCacheJson&quot; database table, with each column mapped to a property of this class.
  *
  * @author Angelique Zunino Champougny
- * @see CacheJsonModel
+ * @see CsmapCacheJsonModel
  * @generated
  */
-@ImplementationClassName("eu.strasbourg.service.place.model.impl.CacheJsonImpl")
+@ImplementationClassName(
+	"eu.strasbourg.service.place.model.impl.CsmapCacheJsonImpl"
+)
 @ProviderType
-public interface CacheJson extends CacheJsonModel, PersistedModel {
+public interface CsmapCacheJson extends CsmapCacheJsonModel, PersistedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.CacheJsonImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add methods to <code>eu.strasbourg.service.place.model.impl.CsmapCacheJsonImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
-	public static final Accessor<CacheJson, String> SIG_ID_ACCESSOR =
-		new Accessor<CacheJson, String>() {
+	public static final Accessor<CsmapCacheJson, String> SIG_ID_ACCESSOR =
+		new Accessor<CsmapCacheJson, String>() {
 
 			@Override
-			public String get(CacheJson cacheJson) {
-				return cacheJson.getSigId();
+			public String get(CsmapCacheJson csmapCacheJson) {
+				return csmapCacheJson.getSigId();
 			}
 
 			@Override
@@ -50,8 +52,8 @@ public interface CacheJson extends CacheJsonModel, PersistedModel {
 			}
 
 			@Override
-			public Class<CacheJson> getTypeClass() {
-				return CacheJson.class;
+			public Class<CsmapCacheJson> getTypeClass() {
+				return CsmapCacheJson.class;
 			}
 
 		};

@@ -311,11 +311,11 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 
 		//Mise à jour pour CSMap
-		CsmapCacheJson cacheJson = this.cacheJsonLocalService.fetchCsmapCacheJson(event.getEventId());
-		if(Validator.isNotNull(cacheJson)){
-			cacheJson.setModifiedEvent(event.getModifiedDate());
-			cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-			this.cacheJsonLocalService.updateCsmapCacheJson(cacheJson);
+		CsmapCacheJson csmapCacheJson = this.cacheJsonLocalService.fetchCsmapCacheJson(event.getEventId());
+		if(Validator.isNotNull(csmapCacheJson)){
+			csmapCacheJson.setModifiedEvent(event.getModifiedDate());
+			csmapCacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+			this.cacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 		}
 
 		return event;

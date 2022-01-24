@@ -443,7 +443,7 @@ public class ApiCsmapUtil {
                 long id = Long.parseLong(document.get(Field.ENTRY_CLASS_PK));
 
                 if((campaignsTitle.length() == 0) || campaignsTitle.toString().contains(document.get("campaign"))) {
-                    // on ne prend que les event présent dans cacheJson avec des schedules
+                    // on ne prend que les event présent dans csmapCacheJson avec des schedules
                     CsmapCacheJson csmapCacheJson = csmapCacheJsons.stream().filter(c -> c.getEventId() == id).findFirst().orElse(null);
                     if(Validator.isNotNull(csmapCacheJson) && csmapCacheJson.getHasSchedules())
                         longIds.add(id);

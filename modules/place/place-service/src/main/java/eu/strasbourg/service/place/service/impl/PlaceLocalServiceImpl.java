@@ -46,7 +46,7 @@ import eu.strasbourg.service.place.MairieStateSOAPClient;
 import eu.strasbourg.service.place.ParkingStateClient;
 import eu.strasbourg.service.place.PoolStateSOAPClient;
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
-import eu.strasbourg.service.place.model.CacheJson;
+import eu.strasbourg.service.place.model.CsmapCacheJson;
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
@@ -175,20 +175,20 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		}
 
 		//Mise à jour pour CSMap
-		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(place.getSIGid());
-		if(Validator.isNull(cacheJson)){
-			cacheJson = this.cacheJsonLocalService.createCacheJson(place.getSIGid());
-			cacheJson.setCreatePlace(place.getCreateDate());
+		CsmapCacheJson csmapCacheJson = this.csmapCacheJsonLocalService.fetchCsmapCacheJson(place.getSIGid());
+		if(Validator.isNull(csmapCacheJson)){
+			csmapCacheJson = this.csmapCacheJsonLocalService.createCsmapCacheJson(place.getSIGid());
+			csmapCacheJson.setCreatePlace(place.getCreateDate());
 
 			// si il a été supprimé, on enlève la ligne dans historic
 			if(Validator.isNotNull(this.historicLocalService.fetchHistoric(place.getSIGid())))
 				this.historicLocalService.deleteHistoric(place.getSIGid());
 		}
-		cacheJson.setModifiedPlace(place.getModifiedDate());
-		cacheJson.setJsonLieu(place.getCSMapJSON().toString());
-		cacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
-		cacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-		this.cacheJsonLocalService.updateCacheJson(cacheJson);
+		csmapCacheJson.setModifiedPlace(place.getModifiedDate());
+		csmapCacheJson.setJsonLieu(place.getCSMapJSON().toString());
+		csmapCacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
+		csmapCacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+		this.csmapCacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 
 		return place;
 	}
@@ -259,11 +259,11 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		this.reindex(place, false);
 
 		//Mise à jour pour CSMap
-		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(place.getSIGid());
-		if(Validator.isNotNull(cacheJson)){
-			cacheJson.setModifiedPlace(place.getModifiedDate());
-			cacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-			this.cacheJsonLocalService.updateCacheJson(cacheJson);
+		CsmapCacheJson csmapCacheJson = this.csmapCacheJsonLocalService.fetchCsmapCacheJson(place.getSIGid());
+		if(Validator.isNotNull(csmapCacheJson)){
+			csmapCacheJson.setModifiedPlace(place.getModifiedDate());
+			csmapCacheJson.setIsActive((place.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+			this.csmapCacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 		}
 
 		return place;
@@ -455,8 +455,8 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		}
 
 		//Mise à jour pour CSMap
-		if(Validator.isNotNull(cacheJsonLocalService.fetchCacheJson(place.getSIGid())))
-			cacheJsonLocalService.deleteCacheJson(place.getSIGid());
+		if(Validator.isNotNull(csmapCacheJsonLocalService.fetchCsmapCacheJson(place.getSIGid())))
+			csmapCacheJsonLocalService.deleteCsmapCacheJson(place.getSIGid());
 		Historic historic = historicLocalService.fetchHistoric(place.getSIGid());
 		if(Validator.isNull(historic))
 			historic = historicLocalService.createHistoric(place.getSIGid());
@@ -586,10 +586,10 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	public Place updateJsonHoraire(Place place)
 			throws PortalException {
 		//Mise à jour pour CSMap
-		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(place.getSIGid());
-		if(Validator.isNotNull(cacheJson)){
-			cacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
-			this.cacheJsonLocalService.updateCacheJson(cacheJson);
+		CsmapCacheJson csmapCacheJson = this.csmapCacheJsonLocalService.fetchCsmapCacheJson(place.getSIGid());
+		if(Validator.isNotNull(csmapCacheJson)){
+			csmapCacheJson.setJsonHoraire(place.getScheduleCSMapJSON().toString());
+			this.csmapCacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 		}
 
 		return place;

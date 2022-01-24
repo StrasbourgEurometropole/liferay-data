@@ -29,28 +29,29 @@ import java.util.Objects;
 
 /**
  * <p>
- * This class is a wrapper for {@link CacheJson}.
+ * This class is a wrapper for {@link CsmapCacheJson}.
  * </p>
  *
  * @author Angelique Zunino Champougny
- * @see CacheJson
+ * @see CsmapCacheJson
  * @generated
  */
 @ProviderType
-public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
+public class CsmapCacheJsonWrapper
+	implements CsmapCacheJson, ModelWrapper<CsmapCacheJson> {
 
-	public CacheJsonWrapper(CacheJson cacheJson) {
-		_cacheJson = cacheJson;
+	public CsmapCacheJsonWrapper(CsmapCacheJson csmapCacheJson) {
+		_csmapCacheJson = csmapCacheJson;
 	}
 
 	@Override
 	public Class<?> getModelClass() {
-		return CacheJson.class;
+		return CsmapCacheJson.class;
 	}
 
 	@Override
 	public String getModelClassName() {
-		return CacheJson.class.getName();
+		return CsmapCacheJson.class.getName();
 	}
 
 	@Override
@@ -115,278 +116,279 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 
 	@Override
 	public Object clone() {
-		return new CacheJsonWrapper((CacheJson)_cacheJson.clone());
+		return new CsmapCacheJsonWrapper(
+			(CsmapCacheJson)_csmapCacheJson.clone());
 	}
 
 	@Override
 	public int compareTo(
-		eu.strasbourg.service.place.model.CacheJson cacheJson) {
+		eu.strasbourg.service.place.model.CsmapCacheJson csmapCacheJson) {
 
-		return _cacheJson.compareTo(cacheJson);
+		return _csmapCacheJson.compareTo(csmapCacheJson);
 	}
 
 	/**
-	 * Returns the create place of this cache json.
+	 * Returns the create place of this csmap cache json.
 	 *
-	 * @return the create place of this cache json
+	 * @return the create place of this csmap cache json
 	 */
 	@Override
 	public Date getCreatePlace() {
-		return _cacheJson.getCreatePlace();
+		return _csmapCacheJson.getCreatePlace();
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return _cacheJson.getExpandoBridge();
+		return _csmapCacheJson.getExpandoBridge();
 	}
 
 	/**
-	 * Returns the is active of this cache json.
+	 * Returns the is active of this csmap cache json.
 	 *
-	 * @return the is active of this cache json
+	 * @return the is active of this csmap cache json
 	 */
 	@Override
 	public boolean getIsActive() {
-		return _cacheJson.getIsActive();
+		return _csmapCacheJson.getIsActive();
 	}
 
 	/**
-	 * Returns the json horaire of this cache json.
+	 * Returns the json horaire of this csmap cache json.
 	 *
-	 * @return the json horaire of this cache json
+	 * @return the json horaire of this csmap cache json
 	 */
 	@Override
 	public String getJsonHoraire() {
-		return _cacheJson.getJsonHoraire();
+		return _csmapCacheJson.getJsonHoraire();
 	}
 
 	/**
-	 * Returns the json lieu of this cache json.
+	 * Returns the json lieu of this csmap cache json.
 	 *
-	 * @return the json lieu of this cache json
+	 * @return the json lieu of this csmap cache json
 	 */
 	@Override
 	public String getJsonLieu() {
-		return _cacheJson.getJsonLieu();
+		return _csmapCacheJson.getJsonLieu();
 	}
 
 	/**
-	 * Returns the modified place of this cache json.
+	 * Returns the modified place of this csmap cache json.
 	 *
-	 * @return the modified place of this cache json
+	 * @return the modified place of this csmap cache json
 	 */
 	@Override
 	public Date getModifiedPlace() {
-		return _cacheJson.getModifiedPlace();
+		return _csmapCacheJson.getModifiedPlace();
 	}
 
 	/**
-	 * Returns the primary key of this cache json.
+	 * Returns the primary key of this csmap cache json.
 	 *
-	 * @return the primary key of this cache json
+	 * @return the primary key of this csmap cache json
 	 */
 	@Override
 	public String getPrimaryKey() {
-		return _cacheJson.getPrimaryKey();
+		return _csmapCacheJson.getPrimaryKey();
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _cacheJson.getPrimaryKeyObj();
+		return _csmapCacheJson.getPrimaryKeyObj();
 	}
 
 	/**
-	 * Returns the sig ID of this cache json.
+	 * Returns the sig ID of this csmap cache json.
 	 *
-	 * @return the sig ID of this cache json
+	 * @return the sig ID of this csmap cache json
 	 */
 	@Override
 	public String getSigId() {
-		return _cacheJson.getSigId();
+		return _csmapCacheJson.getSigId();
 	}
 
 	/**
-	 * Returns the uuid of this cache json.
+	 * Returns the uuid of this csmap cache json.
 	 *
-	 * @return the uuid of this cache json
+	 * @return the uuid of this csmap cache json
 	 */
 	@Override
 	public String getUuid() {
-		return _cacheJson.getUuid();
+		return _csmapCacheJson.getUuid();
 	}
 
 	@Override
 	public int hashCode() {
-		return _cacheJson.hashCode();
+		return _csmapCacheJson.hashCode();
 	}
 
 	@Override
 	public boolean isCachedModel() {
-		return _cacheJson.isCachedModel();
+		return _csmapCacheJson.isCachedModel();
 	}
 
 	@Override
 	public boolean isEscapedModel() {
-		return _cacheJson.isEscapedModel();
+		return _csmapCacheJson.isEscapedModel();
 	}
 
 	/**
-	 * Returns <code>true</code> if this cache json is is active.
+	 * Returns <code>true</code> if this csmap cache json is is active.
 	 *
-	 * @return <code>true</code> if this cache json is is active; <code>false</code> otherwise
+	 * @return <code>true</code> if this csmap cache json is is active; <code>false</code> otherwise
 	 */
 	@Override
 	public boolean isIsActive() {
-		return _cacheJson.isIsActive();
+		return _csmapCacheJson.isIsActive();
 	}
 
 	@Override
 	public boolean isNew() {
-		return _cacheJson.isNew();
+		return _csmapCacheJson.isNew();
 	}
 
 	@Override
 	public void persist() {
-		_cacheJson.persist();
+		_csmapCacheJson.persist();
 	}
 
 	@Override
 	public void setCachedModel(boolean cachedModel) {
-		_cacheJson.setCachedModel(cachedModel);
+		_csmapCacheJson.setCachedModel(cachedModel);
 	}
 
 	/**
-	 * Sets the create place of this cache json.
+	 * Sets the create place of this csmap cache json.
 	 *
-	 * @param createPlace the create place of this cache json
+	 * @param createPlace the create place of this csmap cache json
 	 */
 	@Override
 	public void setCreatePlace(Date createPlace) {
-		_cacheJson.setCreatePlace(createPlace);
+		_csmapCacheJson.setCreatePlace(createPlace);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
 
-		_cacheJson.setExpandoBridgeAttributes(baseModel);
+		_csmapCacheJson.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_cacheJson.setExpandoBridgeAttributes(expandoBridge);
+		_csmapCacheJson.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_cacheJson.setExpandoBridgeAttributes(serviceContext);
+		_csmapCacheJson.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	/**
-	 * Sets whether this cache json is is active.
+	 * Sets whether this csmap cache json is is active.
 	 *
-	 * @param isActive the is active of this cache json
+	 * @param isActive the is active of this csmap cache json
 	 */
 	@Override
 	public void setIsActive(boolean isActive) {
-		_cacheJson.setIsActive(isActive);
+		_csmapCacheJson.setIsActive(isActive);
 	}
 
 	/**
-	 * Sets the json horaire of this cache json.
+	 * Sets the json horaire of this csmap cache json.
 	 *
-	 * @param jsonHoraire the json horaire of this cache json
+	 * @param jsonHoraire the json horaire of this csmap cache json
 	 */
 	@Override
 	public void setJsonHoraire(String jsonHoraire) {
-		_cacheJson.setJsonHoraire(jsonHoraire);
+		_csmapCacheJson.setJsonHoraire(jsonHoraire);
 	}
 
 	/**
-	 * Sets the json lieu of this cache json.
+	 * Sets the json lieu of this csmap cache json.
 	 *
-	 * @param jsonLieu the json lieu of this cache json
+	 * @param jsonLieu the json lieu of this csmap cache json
 	 */
 	@Override
 	public void setJsonLieu(String jsonLieu) {
-		_cacheJson.setJsonLieu(jsonLieu);
+		_csmapCacheJson.setJsonLieu(jsonLieu);
 	}
 
 	/**
-	 * Sets the modified place of this cache json.
+	 * Sets the modified place of this csmap cache json.
 	 *
-	 * @param modifiedPlace the modified place of this cache json
+	 * @param modifiedPlace the modified place of this csmap cache json
 	 */
 	@Override
 	public void setModifiedPlace(Date modifiedPlace) {
-		_cacheJson.setModifiedPlace(modifiedPlace);
+		_csmapCacheJson.setModifiedPlace(modifiedPlace);
 	}
 
 	@Override
 	public void setNew(boolean n) {
-		_cacheJson.setNew(n);
+		_csmapCacheJson.setNew(n);
 	}
 
 	/**
-	 * Sets the primary key of this cache json.
+	 * Sets the primary key of this csmap cache json.
 	 *
-	 * @param primaryKey the primary key of this cache json
+	 * @param primaryKey the primary key of this csmap cache json
 	 */
 	@Override
 	public void setPrimaryKey(String primaryKey) {
-		_cacheJson.setPrimaryKey(primaryKey);
+		_csmapCacheJson.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_cacheJson.setPrimaryKeyObj(primaryKeyObj);
+		_csmapCacheJson.setPrimaryKeyObj(primaryKeyObj);
 	}
 
 	/**
-	 * Sets the sig ID of this cache json.
+	 * Sets the sig ID of this csmap cache json.
 	 *
-	 * @param sigId the sig ID of this cache json
+	 * @param sigId the sig ID of this csmap cache json
 	 */
 	@Override
 	public void setSigId(String sigId) {
-		_cacheJson.setSigId(sigId);
+		_csmapCacheJson.setSigId(sigId);
 	}
 
 	/**
-	 * Sets the uuid of this cache json.
+	 * Sets the uuid of this csmap cache json.
 	 *
-	 * @param uuid the uuid of this cache json
+	 * @param uuid the uuid of this csmap cache json
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_cacheJson.setUuid(uuid);
+		_csmapCacheJson.setUuid(uuid);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.CacheJson> toCacheModel() {
+		<eu.strasbourg.service.place.model.CsmapCacheJson> toCacheModel() {
 
-		return _cacheJson.toCacheModel();
+		return _csmapCacheJson.toCacheModel();
 	}
 
 	@Override
-	public eu.strasbourg.service.place.model.CacheJson toEscapedModel() {
-		return new CacheJsonWrapper(_cacheJson.toEscapedModel());
+	public eu.strasbourg.service.place.model.CsmapCacheJson toEscapedModel() {
+		return new CsmapCacheJsonWrapper(_csmapCacheJson.toEscapedModel());
 	}
 
 	@Override
 	public String toString() {
-		return _cacheJson.toString();
+		return _csmapCacheJson.toString();
 	}
 
 	@Override
-	public eu.strasbourg.service.place.model.CacheJson toUnescapedModel() {
-		return new CacheJsonWrapper(_cacheJson.toUnescapedModel());
+	public eu.strasbourg.service.place.model.CsmapCacheJson toUnescapedModel() {
+		return new CsmapCacheJsonWrapper(_csmapCacheJson.toUnescapedModel());
 	}
 
 	@Override
 	public String toXmlString() {
-		return _cacheJson.toXmlString();
+		return _csmapCacheJson.toXmlString();
 	}
 
 	@Override
@@ -395,13 +397,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 			return true;
 		}
 
-		if (!(obj instanceof CacheJsonWrapper)) {
+		if (!(obj instanceof CsmapCacheJsonWrapper)) {
 			return false;
 		}
 
-		CacheJsonWrapper cacheJsonWrapper = (CacheJsonWrapper)obj;
+		CsmapCacheJsonWrapper csmapCacheJsonWrapper =
+			(CsmapCacheJsonWrapper)obj;
 
-		if (Objects.equals(_cacheJson, cacheJsonWrapper._cacheJson)) {
+		if (Objects.equals(
+				_csmapCacheJson, csmapCacheJsonWrapper._csmapCacheJson)) {
+
 			return true;
 		}
 
@@ -409,25 +414,25 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	@Override
-	public CacheJson getWrappedModel() {
-		return _cacheJson;
+	public CsmapCacheJson getWrappedModel() {
+		return _csmapCacheJson;
 	}
 
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _cacheJson.isEntityCacheEnabled();
+		return _csmapCacheJson.isEntityCacheEnabled();
 	}
 
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _cacheJson.isFinderCacheEnabled();
+		return _csmapCacheJson.isFinderCacheEnabled();
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		_cacheJson.resetOriginalValues();
+		_csmapCacheJson.resetOriginalValues();
 	}
 
-	private final CacheJson _cacheJson;
+	private final CsmapCacheJson _csmapCacheJson;
 
 }

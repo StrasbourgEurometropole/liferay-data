@@ -34,11 +34,11 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import eu.strasbourg.service.place.exception.NoSuchCacheJsonException;
-import eu.strasbourg.service.place.model.CacheJson;
-import eu.strasbourg.service.place.model.impl.CacheJsonImpl;
-import eu.strasbourg.service.place.model.impl.CacheJsonModelImpl;
-import eu.strasbourg.service.place.service.persistence.CacheJsonPersistence;
+import eu.strasbourg.service.place.exception.NoSuchCsmapCacheJsonException;
+import eu.strasbourg.service.place.model.CsmapCacheJson;
+import eu.strasbourg.service.place.model.impl.CsmapCacheJsonImpl;
+import eu.strasbourg.service.place.model.impl.CsmapCacheJsonModelImpl;
+import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 
 import java.io.Serializable;
 
@@ -58,7 +58,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * The persistence implementation for the cache json service.
+ * The persistence implementation for the csmap cache json service.
  *
  * <p>
  * Caching information and settings can be found in <code>portal.properties</code>
@@ -68,16 +68,17 @@ import java.util.Set;
  * @generated
  */
 @ProviderType
-public class CacheJsonPersistenceImpl
-	extends BasePersistenceImpl<CacheJson> implements CacheJsonPersistence {
+public class CsmapCacheJsonPersistenceImpl
+	extends BasePersistenceImpl<CsmapCacheJson>
+	implements CsmapCacheJsonPersistence {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Always use <code>CacheJsonUtil</code> to access the cache json persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
+	 * Never modify or reference this class directly. Always use <code>CsmapCacheJsonUtil</code> to access the csmap cache json persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static final String FINDER_CLASS_NAME_ENTITY =
-		CacheJsonImpl.class.getName();
+		CsmapCacheJsonImpl.class.getName();
 
 	public static final String FINDER_CLASS_NAME_LIST_WITH_PAGINATION =
 		FINDER_CLASS_NAME_ENTITY + ".List1";
@@ -93,72 +94,72 @@ public class CacheJsonPersistenceImpl
 	private FinderPath _finderPathCountByUuid;
 
 	/**
-	 * Returns all the cache jsons where uuid = &#63;.
+	 * Returns all the csmap cache jsons where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the matching cache jsons
+	 * @return the matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByUuid(String uuid) {
+	public List<CsmapCacheJson> findByUuid(String uuid) {
 		return findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where uuid = &#63;.
+	 * Returns a range of all the csmap cache jsons where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByUuid(String uuid, int start, int end) {
+	public List<CsmapCacheJson> findByUuid(String uuid, int start, int end) {
 		return findByUuid(uuid, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByUuid(
+	public List<CsmapCacheJson> findByUuid(
 		String uuid, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findByUuid(uuid, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where uuid = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByUuid(
+	public List<CsmapCacheJson> findByUuid(
 		String uuid, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
+		OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		uuid = Objects.toString(uuid, "");
@@ -179,15 +180,15 @@ public class CacheJsonPersistenceImpl
 			finderArgs = new Object[] {uuid, start, end, orderByComparator};
 		}
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if (!uuid.equals(cacheJson.getUuid())) {
+				for (CsmapCacheJson csmapCacheJson : list) {
+					if (!uuid.equals(csmapCacheJson.getUuid())) {
 						list = null;
 
 						break;
@@ -207,7 +208,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(3);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindUuid = false;
 
@@ -225,7 +226,7 @@ public class CacheJsonPersistenceImpl
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+				query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -244,7 +245,7 @@ public class CacheJsonPersistenceImpl
 				}
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -252,7 +253,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -274,22 +275,23 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
+	 * Returns the first csmap cache json in the ordered set where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the first matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByUuid_First(
-			String uuid, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findByUuid_First(
+			String uuid, OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByUuid_First(uuid, orderByComparator);
+		CsmapCacheJson csmapCacheJson = fetchByUuid_First(
+			uuid, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(4);
@@ -301,21 +303,21 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
+	 * Returns the first csmap cache json in the ordered set where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the first matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByUuid_First(
-		String uuid, OrderByComparator<CacheJson> orderByComparator) {
+	public CsmapCacheJson fetchByUuid_First(
+		String uuid, OrderByComparator<CsmapCacheJson> orderByComparator) {
 
-		List<CacheJson> list = findByUuid(uuid, 0, 1, orderByComparator);
+		List<CsmapCacheJson> list = findByUuid(uuid, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -325,22 +327,23 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
+	 * Returns the last csmap cache json in the ordered set where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the last matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByUuid_Last(
-			String uuid, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findByUuid_Last(
+			String uuid, OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByUuid_Last(uuid, orderByComparator);
+		CsmapCacheJson csmapCacheJson = fetchByUuid_Last(
+			uuid, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(4);
@@ -352,19 +355,19 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
+	 * Returns the last csmap cache json in the ordered set where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the last matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByUuid_Last(
-		String uuid, OrderByComparator<CacheJson> orderByComparator) {
+	public CsmapCacheJson fetchByUuid_Last(
+		String uuid, OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		int count = countByUuid(uuid);
 
@@ -372,7 +375,7 @@ public class CacheJsonPersistenceImpl
 			return null;
 		}
 
-		List<CacheJson> list = findByUuid(
+		List<CsmapCacheJson> list = findByUuid(
 			uuid, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -383,38 +386,38 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where uuid = &#63;.
+	 * Returns the csmap cache jsons before and after the current csmap cache json in the ordered set where uuid = &#63;.
 	 *
-	 * @param sigId the primary key of the current cache json
+	 * @param sigId the primary key of the current csmap cache json
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @return the previous, current, and next csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson[] findByUuid_PrevAndNext(
+	public CsmapCacheJson[] findByUuid_PrevAndNext(
 			String sigId, String uuid,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
 		uuid = Objects.toString(uuid, "");
 
-		CacheJson cacheJson = findByPrimaryKey(sigId);
+		CsmapCacheJson csmapCacheJson = findByPrimaryKey(sigId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CacheJson[] array = new CacheJsonImpl[3];
+			CsmapCacheJson[] array = new CsmapCacheJsonImpl[3];
 
 			array[0] = getByUuid_PrevAndNext(
-				session, cacheJson, uuid, orderByComparator, true);
+				session, csmapCacheJson, uuid, orderByComparator, true);
 
-			array[1] = cacheJson;
+			array[1] = csmapCacheJson;
 
 			array[2] = getByUuid_PrevAndNext(
-				session, cacheJson, uuid, orderByComparator, false);
+				session, csmapCacheJson, uuid, orderByComparator, false);
 
 			return array;
 		}
@@ -426,9 +429,9 @@ public class CacheJsonPersistenceImpl
 		}
 	}
 
-	protected CacheJson getByUuid_PrevAndNext(
-		Session session, CacheJson cacheJson, String uuid,
-		OrderByComparator<CacheJson> orderByComparator, boolean previous) {
+	protected CsmapCacheJson getByUuid_PrevAndNext(
+		Session session, CsmapCacheJson csmapCacheJson, String uuid,
+		OrderByComparator<CsmapCacheJson> orderByComparator, boolean previous) {
 
 		StringBundler query = null;
 
@@ -441,7 +444,7 @@ public class CacheJsonPersistenceImpl
 			query = new StringBundler(3);
 		}
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+		query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 		boolean bindUuid = false;
 
@@ -511,7 +514,7 @@ public class CacheJsonPersistenceImpl
 			}
 		}
 		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = query.toString();
@@ -529,13 +532,14 @@ public class CacheJsonPersistenceImpl
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
+					orderByComparator.getOrderByConditionValues(
+						csmapCacheJson)) {
 
 				qPos.add(orderByConditionValue);
 			}
 		}
 
-		List<CacheJson> list = q.list();
+		List<CsmapCacheJson> list = q.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -546,24 +550,24 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where uuid = &#63; from the database.
+	 * Removes all the csmap cache jsons where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
 	 */
 	@Override
 	public void removeByUuid(String uuid) {
-		for (CacheJson cacheJson :
+		for (CsmapCacheJson csmapCacheJson :
 				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
-			remove(cacheJson);
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where uuid = &#63;.
+	 * Returns the number of csmap cache jsons where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the number of matching cache jsons
+	 * @return the number of matching csmap cache jsons
 	 */
 	@Override
 	public int countByUuid(String uuid) {
@@ -578,7 +582,7 @@ public class CacheJsonPersistenceImpl
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			query.append(_SQL_COUNT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindUuid = false;
 
@@ -624,82 +628,82 @@ public class CacheJsonPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_UUID_UUID_2 =
-		"cacheJson.uuid = ?";
+		"csmapCacheJson.uuid = ?";
 
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
-		"(cacheJson.uuid IS NULL OR cacheJson.uuid = '')";
+		"(csmapCacheJson.uuid IS NULL OR csmapCacheJson.uuid = '')";
 
 	private FinderPath _finderPathWithPaginationFindBysigId;
 	private FinderPath _finderPathWithoutPaginationFindBysigId;
 	private FinderPath _finderPathCountBysigId;
 
 	/**
-	 * Returns all the cache jsons where sigId = &#63;.
+	 * Returns all the csmap cache jsons where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
-	 * @return the matching cache jsons
+	 * @return the matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findBysigId(String sigId) {
+	public List<CsmapCacheJson> findBysigId(String sigId) {
 		return findBysigId(sigId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where sigId = &#63;.
+	 * Returns a range of all the csmap cache jsons where sigId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param sigId the sig ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findBysigId(String sigId, int start, int end) {
+	public List<CsmapCacheJson> findBysigId(String sigId, int start, int end) {
 		return findBysigId(sigId, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where sigId = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where sigId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param sigId the sig ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findBysigId(
+	public List<CsmapCacheJson> findBysigId(
 		String sigId, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findBysigId(sigId, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where sigId = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where sigId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param sigId the sig ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findBysigId(
+	public List<CsmapCacheJson> findBysigId(
 		String sigId, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
+		OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		sigId = Objects.toString(sigId, "");
@@ -720,15 +724,15 @@ public class CacheJsonPersistenceImpl
 			finderArgs = new Object[] {sigId, start, end, orderByComparator};
 		}
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if (!sigId.equals(cacheJson.getSigId())) {
+				for (CsmapCacheJson csmapCacheJson : list) {
+					if (!sigId.equals(csmapCacheJson.getSigId())) {
 						list = null;
 
 						break;
@@ -748,7 +752,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(3);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindSigId = false;
 
@@ -766,7 +770,7 @@ public class CacheJsonPersistenceImpl
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+				query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -785,7 +789,7 @@ public class CacheJsonPersistenceImpl
 				}
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -793,7 +797,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -815,22 +819,23 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where sigId = &#63;.
+	 * Returns the first csmap cache json in the ordered set where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the first matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findBysigId_First(
-			String sigId, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findBysigId_First(
+			String sigId, OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchBysigId_First(sigId, orderByComparator);
+		CsmapCacheJson csmapCacheJson = fetchBysigId_First(
+			sigId, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(4);
@@ -842,21 +847,21 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where sigId = &#63;.
+	 * Returns the first csmap cache json in the ordered set where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the first matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchBysigId_First(
-		String sigId, OrderByComparator<CacheJson> orderByComparator) {
+	public CsmapCacheJson fetchBysigId_First(
+		String sigId, OrderByComparator<CsmapCacheJson> orderByComparator) {
 
-		List<CacheJson> list = findBysigId(sigId, 0, 1, orderByComparator);
+		List<CsmapCacheJson> list = findBysigId(sigId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -866,22 +871,23 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where sigId = &#63;.
+	 * Returns the last csmap cache json in the ordered set where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the last matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findBysigId_Last(
-			String sigId, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findBysigId_Last(
+			String sigId, OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchBysigId_Last(sigId, orderByComparator);
+		CsmapCacheJson csmapCacheJson = fetchBysigId_Last(
+			sigId, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(4);
@@ -893,19 +899,19 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where sigId = &#63;.
+	 * Returns the last csmap cache json in the ordered set where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the last matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchBysigId_Last(
-		String sigId, OrderByComparator<CacheJson> orderByComparator) {
+	public CsmapCacheJson fetchBysigId_Last(
+		String sigId, OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		int count = countBysigId(sigId);
 
@@ -913,7 +919,7 @@ public class CacheJsonPersistenceImpl
 			return null;
 		}
 
-		List<CacheJson> list = findBysigId(
+		List<CsmapCacheJson> list = findBysigId(
 			sigId, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -924,25 +930,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where sigId = &#63; from the database.
+	 * Removes all the csmap cache jsons where sigId = &#63; from the database.
 	 *
 	 * @param sigId the sig ID
 	 */
 	@Override
 	public void removeBysigId(String sigId) {
-		for (CacheJson cacheJson :
+		for (CsmapCacheJson csmapCacheJson :
 				findBysigId(
 					sigId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
-			remove(cacheJson);
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where sigId = &#63;.
+	 * Returns the number of csmap cache jsons where sigId = &#63;.
 	 *
 	 * @param sigId the sig ID
-	 * @return the number of matching cache jsons
+	 * @return the number of matching csmap cache jsons
 	 */
 	@Override
 	public int countBysigId(String sigId) {
@@ -957,7 +963,7 @@ public class CacheJsonPersistenceImpl
 		if (count == null) {
 			StringBundler query = new StringBundler(2);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			query.append(_SQL_COUNT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindSigId = false;
 
@@ -1003,23 +1009,23 @@ public class CacheJsonPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_SIGID_SIGID_2 =
-		"cacheJson.sigId = ?";
+		"csmapCacheJson.sigId = ?";
 
 	private static final String _FINDER_COLUMN_SIGID_SIGID_3 =
-		"(cacheJson.sigId IS NULL OR cacheJson.sigId = '')";
+		"(csmapCacheJson.sigId IS NULL OR csmapCacheJson.sigId = '')";
 
 	private FinderPath _finderPathWithPaginationFindByCreatedDateAndIsActive;
 	private FinderPath _finderPathWithPaginationCountByCreatedDateAndIsActive;
 
 	/**
-	 * Returns all the cache jsons where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns all the csmap cache jsons where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
-	 * @return the matching cache jsons
+	 * @return the matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndIsActive(
 		Date createPlace, boolean isActive) {
 
 		return findByCreatedDateAndIsActive(
@@ -1027,20 +1033,20 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns a range of all the csmap cache jsons where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndIsActive(
 		Date createPlace, boolean isActive, int start, int end) {
 
 		return findByCreatedDateAndIsActive(
@@ -1048,47 +1054,47 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndIsActive(
 		Date createPlace, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findByCreatedDateAndIsActive(
 			createPlace, isActive, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndIsActive(
 		Date createPlace, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
+		OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		boolean pagination = true;
@@ -1100,17 +1106,17 @@ public class CacheJsonPersistenceImpl
 			_getTime(createPlace), isActive, start, end, orderByComparator
 		};
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
+				for (CsmapCacheJson csmapCacheJson : list) {
 					if ((createPlace.getTime() >
-							cacheJson.getCreatePlace().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
+							csmapCacheJson.getCreatePlace().getTime()) ||
+						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
 
@@ -1131,7 +1137,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(4);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindCreatePlace = false;
 
@@ -1153,7 +1159,7 @@ public class CacheJsonPersistenceImpl
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+				query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -1174,7 +1180,7 @@ public class CacheJsonPersistenceImpl
 				qPos.add(isActive);
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -1182,7 +1188,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -1204,25 +1210,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the first matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndIsActive_First(
+	public CsmapCacheJson findByCreatedDateAndIsActive_First(
 			Date createPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByCreatedDateAndIsActive_First(
+		CsmapCacheJson csmapCacheJson = fetchByCreatedDateAndIsActive_First(
 			createPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(6);
@@ -1237,23 +1243,23 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the first matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndIsActive_First(
+	public CsmapCacheJson fetchByCreatedDateAndIsActive_First(
 		Date createPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
-		List<CacheJson> list = findByCreatedDateAndIsActive(
+		List<CsmapCacheJson> list = findByCreatedDateAndIsActive(
 			createPlace, isActive, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1264,25 +1270,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the last matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndIsActive_Last(
+	public CsmapCacheJson findByCreatedDateAndIsActive_Last(
 			Date createPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByCreatedDateAndIsActive_Last(
+		CsmapCacheJson csmapCacheJson = fetchByCreatedDateAndIsActive_Last(
 			createPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(6);
@@ -1297,21 +1303,21 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the last matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndIsActive_Last(
+	public CsmapCacheJson fetchByCreatedDateAndIsActive_Last(
 		Date createPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		int count = countByCreatedDateAndIsActive(createPlace, isActive);
 
@@ -1319,7 +1325,7 @@ public class CacheJsonPersistenceImpl
 			return null;
 		}
 
-		List<CacheJson> list = findByCreatedDateAndIsActive(
+		List<CsmapCacheJson> list = findByCreatedDateAndIsActive(
 			createPlace, isActive, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1330,39 +1336,39 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the csmap cache jsons before and after the current csmap cache json in the ordered set where createPlace &ge; &#63; and isActive = &#63;.
 	 *
-	 * @param sigId the primary key of the current cache json
+	 * @param sigId the primary key of the current csmap cache json
 	 * @param createPlace the create place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @return the previous, current, and next csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson[] findByCreatedDateAndIsActive_PrevAndNext(
+	public CsmapCacheJson[] findByCreatedDateAndIsActive_PrevAndNext(
 			String sigId, Date createPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = findByPrimaryKey(sigId);
+		CsmapCacheJson csmapCacheJson = findByPrimaryKey(sigId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CacheJson[] array = new CacheJsonImpl[3];
+			CsmapCacheJson[] array = new CsmapCacheJsonImpl[3];
 
 			array[0] = getByCreatedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createPlace, isActive, orderByComparator,
-				true);
+				session, csmapCacheJson, createPlace, isActive,
+				orderByComparator, true);
 
-			array[1] = cacheJson;
+			array[1] = csmapCacheJson;
 
 			array[2] = getByCreatedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createPlace, isActive, orderByComparator,
-				false);
+				session, csmapCacheJson, createPlace, isActive,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -1374,9 +1380,9 @@ public class CacheJsonPersistenceImpl
 		}
 	}
 
-	protected CacheJson getByCreatedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date createPlace,
-		boolean isActive, OrderByComparator<CacheJson> orderByComparator,
+	protected CsmapCacheJson getByCreatedDateAndIsActive_PrevAndNext(
+		Session session, CsmapCacheJson csmapCacheJson, Date createPlace,
+		boolean isActive, OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean previous) {
 
 		StringBundler query = null;
@@ -1390,7 +1396,7 @@ public class CacheJsonPersistenceImpl
 			query = new StringBundler(4);
 		}
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+		query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 		boolean bindCreatePlace = false;
 
@@ -1462,7 +1468,7 @@ public class CacheJsonPersistenceImpl
 			}
 		}
 		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = query.toString();
@@ -1482,13 +1488,14 @@ public class CacheJsonPersistenceImpl
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
+					orderByComparator.getOrderByConditionValues(
+						csmapCacheJson)) {
 
 				qPos.add(orderByConditionValue);
 			}
 		}
 
-		List<CacheJson> list = q.list();
+		List<CsmapCacheJson> list = q.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -1499,7 +1506,7 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where createPlace &ge; &#63; and isActive = &#63; from the database.
+	 * Removes all the csmap cache jsons where createPlace &ge; &#63; and isActive = &#63; from the database.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
@@ -1508,21 +1515,21 @@ public class CacheJsonPersistenceImpl
 	public void removeByCreatedDateAndIsActive(
 		Date createPlace, boolean isActive) {
 
-		for (CacheJson cacheJson :
+		for (CsmapCacheJson csmapCacheJson :
 				findByCreatedDateAndIsActive(
 					createPlace, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 					null)) {
 
-			remove(cacheJson);
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where createPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the number of csmap cache jsons where createPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param isActive the is active
-	 * @return the number of matching cache jsons
+	 * @return the number of matching csmap cache jsons
 	 */
 	@Override
 	public int countByCreatedDateAndIsActive(
@@ -1538,7 +1545,7 @@ public class CacheJsonPersistenceImpl
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			query.append(_SQL_COUNT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindCreatePlace = false;
 
@@ -1591,15 +1598,15 @@ public class CacheJsonPersistenceImpl
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEPLACE_1 =
-			"cacheJson.createPlace IS NULL AND ";
+			"csmapCacheJson.createPlace IS NULL AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEPLACE_2 =
-			"cacheJson.createPlace >= ? AND ";
+			"csmapCacheJson.createPlace >= ? AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
+			"csmapCacheJson.isActive = ?";
 
 	private FinderPath
 		_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive;
@@ -1607,15 +1614,15 @@ public class CacheJsonPersistenceImpl
 		_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive;
 
 	/**
-	 * Returns all the cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns all the csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @return the matching cache jsons
+	 * @return the matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndModifiedDateAndIsActive(
 		Date createPlace, Date modifiedPlace, boolean isActive) {
 
 		return findByCreatedDateAndModifiedDateAndIsActive(
@@ -1624,21 +1631,21 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns a range of all the csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndModifiedDateAndIsActive(
 		Date createPlace, Date modifiedPlace, boolean isActive, int start,
 		int end) {
 
@@ -1647,24 +1654,24 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndModifiedDateAndIsActive(
 		Date createPlace, Date modifiedPlace, boolean isActive, int start,
-		int end, OrderByComparator<CacheJson> orderByComparator) {
+		int end, OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findByCreatedDateAndModifiedDateAndIsActive(
 			createPlace, modifiedPlace, isActive, start, end, orderByComparator,
@@ -1672,25 +1679,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByCreatedDateAndModifiedDateAndIsActive(
 		Date createPlace, Date modifiedPlace, boolean isActive, int start,
-		int end, OrderByComparator<CacheJson> orderByComparator,
+		int end, OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		boolean pagination = true;
@@ -1704,19 +1711,19 @@ public class CacheJsonPersistenceImpl
 			end, orderByComparator
 		};
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
+				for (CsmapCacheJson csmapCacheJson : list) {
 					if ((createPlace.getTime() <=
-							cacheJson.getCreatePlace().getTime()) ||
+							csmapCacheJson.getCreatePlace().getTime()) ||
 						(modifiedPlace.getTime() >
-							cacheJson.getModifiedPlace().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
+							csmapCacheJson.getModifiedPlace().getTime()) ||
+						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
 
@@ -1737,7 +1744,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(5);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindCreatePlace = false;
 
@@ -1773,7 +1780,7 @@ public class CacheJsonPersistenceImpl
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+				query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -1798,7 +1805,7 @@ public class CacheJsonPersistenceImpl
 				qPos.add(isActive);
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -1806,7 +1813,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -1828,27 +1835,27 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the first matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_First(
+	public CsmapCacheJson findByCreatedDateAndModifiedDateAndIsActive_First(
 			Date createPlace, Date modifiedPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson =
+		CsmapCacheJson csmapCacheJson =
 			fetchByCreatedDateAndModifiedDateAndIsActive_First(
 				createPlace, modifiedPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(8);
@@ -1866,24 +1873,24 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the first matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_First(
+	public CsmapCacheJson fetchByCreatedDateAndModifiedDateAndIsActive_First(
 		Date createPlace, Date modifiedPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
-		List<CacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
+		List<CsmapCacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
 			createPlace, modifiedPlace, isActive, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1894,26 +1901,27 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the last matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_Last(
+	public CsmapCacheJson findByCreatedDateAndModifiedDateAndIsActive_Last(
 			Date createPlace, Date modifiedPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByCreatedDateAndModifiedDateAndIsActive_Last(
-			createPlace, modifiedPlace, isActive, orderByComparator);
+		CsmapCacheJson csmapCacheJson =
+			fetchByCreatedDateAndModifiedDateAndIsActive_Last(
+				createPlace, modifiedPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(8);
@@ -1931,22 +1939,22 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the last matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_Last(
+	public CsmapCacheJson fetchByCreatedDateAndModifiedDateAndIsActive_Last(
 		Date createPlace, Date modifiedPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		int count = countByCreatedDateAndModifiedDateAndIsActive(
 			createPlace, modifiedPlace, isActive);
@@ -1955,7 +1963,7 @@ public class CacheJsonPersistenceImpl
 			return null;
 		}
 
-		List<CacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
+		List<CsmapCacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
 			createPlace, modifiedPlace, isActive, count - 1, count,
 			orderByComparator);
 
@@ -1967,39 +1975,41 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the csmap cache jsons before and after the current csmap cache json in the ordered set where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
-	 * @param sigId the primary key of the current cache json
+	 * @param sigId the primary key of the current csmap cache json
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @return the previous, current, and next csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson[] findByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-			String sigId, Date createPlace, Date modifiedPlace,
-			boolean isActive, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson[]
+			findByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
+				String sigId, Date createPlace, Date modifiedPlace,
+				boolean isActive,
+				OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = findByPrimaryKey(sigId);
+		CsmapCacheJson csmapCacheJson = findByPrimaryKey(sigId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CacheJson[] array = new CacheJsonImpl[3];
+			CsmapCacheJson[] array = new CsmapCacheJsonImpl[3];
 
 			array[0] = getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createPlace, modifiedPlace, isActive,
+				session, csmapCacheJson, createPlace, modifiedPlace, isActive,
 				orderByComparator, true);
 
-			array[1] = cacheJson;
+			array[1] = csmapCacheJson;
 
 			array[2] = getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createPlace, modifiedPlace, isActive,
+				session, csmapCacheJson, createPlace, modifiedPlace, isActive,
 				orderByComparator, false);
 
 			return array;
@@ -2012,10 +2022,12 @@ public class CacheJsonPersistenceImpl
 		}
 	}
 
-	protected CacheJson getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date createPlace,
-		Date modifiedPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator, boolean previous) {
+	protected CsmapCacheJson
+		getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
+			Session session, CsmapCacheJson csmapCacheJson, Date createPlace,
+			Date modifiedPlace, boolean isActive,
+			OrderByComparator<CsmapCacheJson> orderByComparator,
+			boolean previous) {
 
 		StringBundler query = null;
 
@@ -2028,7 +2040,7 @@ public class CacheJsonPersistenceImpl
 			query = new StringBundler(5);
 		}
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+		query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 		boolean bindCreatePlace = false;
 
@@ -2116,7 +2128,7 @@ public class CacheJsonPersistenceImpl
 			}
 		}
 		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = query.toString();
@@ -2140,13 +2152,14 @@ public class CacheJsonPersistenceImpl
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
+					orderByComparator.getOrderByConditionValues(
+						csmapCacheJson)) {
 
 				qPos.add(orderByConditionValue);
 			}
 		}
 
-		List<CacheJson> list = q.list();
+		List<CsmapCacheJson> list = q.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -2157,7 +2170,7 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63; from the database.
+	 * Removes all the csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63; from the database.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
@@ -2167,22 +2180,22 @@ public class CacheJsonPersistenceImpl
 	public void removeByCreatedDateAndModifiedDateAndIsActive(
 		Date createPlace, Date modifiedPlace, boolean isActive) {
 
-		for (CacheJson cacheJson :
+		for (CsmapCacheJson csmapCacheJson :
 				findByCreatedDateAndModifiedDateAndIsActive(
 					createPlace, modifiedPlace, isActive, QueryUtil.ALL_POS,
 					QueryUtil.ALL_POS, null)) {
 
-			remove(cacheJson);
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the number of csmap cache jsons where createPlace &lt; &#63; and modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param createPlace the create place
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @return the number of matching cache jsons
+	 * @return the number of matching csmap cache jsons
 	 */
 	@Override
 	public int countByCreatedDateAndModifiedDateAndIsActive(
@@ -2200,7 +2213,7 @@ public class CacheJsonPersistenceImpl
 		if (count == null) {
 			StringBundler query = new StringBundler(4);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			query.append(_SQL_COUNT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindCreatePlace = false;
 
@@ -2271,36 +2284,36 @@ public class CacheJsonPersistenceImpl
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEPLACE_1 =
-			"cacheJson.createPlace IS NULL AND ";
+			"csmapCacheJson.createPlace IS NULL AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEPLACE_2 =
-			"cacheJson.createPlace < ? AND ";
+			"csmapCacheJson.createPlace < ? AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDPLACE_1 =
-			"cacheJson.modifiedPlace IS NULL AND ";
+			"csmapCacheJson.modifiedPlace IS NULL AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDPLACE_2 =
-			"cacheJson.modifiedPlace >= ? AND ";
+			"csmapCacheJson.modifiedPlace >= ? AND ";
 
 	private static final String
 		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
+			"csmapCacheJson.isActive = ?";
 
 	private FinderPath _finderPathWithPaginationFindByModifiedDateAndIsActive;
 	private FinderPath _finderPathWithPaginationCountByModifiedDateAndIsActive;
 
 	/**
-	 * Returns all the cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns all the csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @return the matching cache jsons
+	 * @return the matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByModifiedDateAndIsActive(
 		Date modifiedPlace, boolean isActive) {
 
 		return findByModifiedDateAndIsActive(
@@ -2309,20 +2322,20 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns a range of all the csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByModifiedDateAndIsActive(
 		Date modifiedPlace, boolean isActive, int start, int end) {
 
 		return findByModifiedDateAndIsActive(
@@ -2330,47 +2343,47 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByModifiedDateAndIsActive(
 		Date modifiedPlace, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findByModifiedDateAndIsActive(
 			modifiedPlace, isActive, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
+	 * @return the ordered range of matching csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
+	public List<CsmapCacheJson> findByModifiedDateAndIsActive(
 		Date modifiedPlace, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
+		OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		boolean pagination = true;
@@ -2382,17 +2395,17 @@ public class CacheJsonPersistenceImpl
 			_getTime(modifiedPlace), isActive, start, end, orderByComparator
 		};
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
+				for (CsmapCacheJson csmapCacheJson : list) {
 					if ((modifiedPlace.getTime() >
-							cacheJson.getModifiedPlace().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
+							csmapCacheJson.getModifiedPlace().getTime()) ||
+						(isActive != csmapCacheJson.isIsActive())) {
 
 						list = null;
 
@@ -2413,7 +2426,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(4);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindModifiedPlace = false;
 
@@ -2435,7 +2448,7 @@ public class CacheJsonPersistenceImpl
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
 			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+				query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = query.toString();
@@ -2456,7 +2469,7 @@ public class CacheJsonPersistenceImpl
 				qPos.add(isActive);
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -2464,7 +2477,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -2486,25 +2499,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the first matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByModifiedDateAndIsActive_First(
+	public CsmapCacheJson findByModifiedDateAndIsActive_First(
 			Date modifiedPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByModifiedDateAndIsActive_First(
+		CsmapCacheJson csmapCacheJson = fetchByModifiedDateAndIsActive_First(
 			modifiedPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(6);
@@ -2519,23 +2532,23 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the first csmap cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the first matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByModifiedDateAndIsActive_First(
+	public CsmapCacheJson fetchByModifiedDateAndIsActive_First(
 		Date modifiedPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
-		List<CacheJson> list = findByModifiedDateAndIsActive(
+		List<CsmapCacheJson> list = findByModifiedDateAndIsActive(
 			modifiedPlace, isActive, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2546,25 +2559,25 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @return the last matching csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson findByModifiedDateAndIsActive_Last(
+	public CsmapCacheJson findByModifiedDateAndIsActive_Last(
 			Date modifiedPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByModifiedDateAndIsActive_Last(
+		CsmapCacheJson csmapCacheJson = fetchByModifiedDateAndIsActive_Last(
 			modifiedPlace, isActive, orderByComparator);
 
-		if (cacheJson != null) {
-			return cacheJson;
+		if (csmapCacheJson != null) {
+			return csmapCacheJson;
 		}
 
 		StringBundler msg = new StringBundler(6);
@@ -2579,21 +2592,21 @@ public class CacheJsonPersistenceImpl
 
 		msg.append("}");
 
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCsmapCacheJsonException(msg.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the last csmap cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @return the last matching csmap cache json, or <code>null</code> if a matching csmap cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByModifiedDateAndIsActive_Last(
+	public CsmapCacheJson fetchByModifiedDateAndIsActive_Last(
 		Date modifiedPlace, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		int count = countByModifiedDateAndIsActive(modifiedPlace, isActive);
 
@@ -2601,7 +2614,7 @@ public class CacheJsonPersistenceImpl
 			return null;
 		}
 
-		List<CacheJson> list = findByModifiedDateAndIsActive(
+		List<CsmapCacheJson> list = findByModifiedDateAndIsActive(
 			modifiedPlace, isActive, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -2612,39 +2625,39 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the csmap cache jsons before and after the current csmap cache json in the ordered set where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
-	 * @param sigId the primary key of the current cache json
+	 * @param sigId the primary key of the current csmap cache json
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @return the previous, current, and next csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson[] findByModifiedDateAndIsActive_PrevAndNext(
+	public CsmapCacheJson[] findByModifiedDateAndIsActive_PrevAndNext(
 			String sigId, Date modifiedPlace, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
+			OrderByComparator<CsmapCacheJson> orderByComparator)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = findByPrimaryKey(sigId);
+		CsmapCacheJson csmapCacheJson = findByPrimaryKey(sigId);
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CacheJson[] array = new CacheJsonImpl[3];
+			CsmapCacheJson[] array = new CsmapCacheJsonImpl[3];
 
 			array[0] = getByModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, modifiedPlace, isActive, orderByComparator,
-				true);
+				session, csmapCacheJson, modifiedPlace, isActive,
+				orderByComparator, true);
 
-			array[1] = cacheJson;
+			array[1] = csmapCacheJson;
 
 			array[2] = getByModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, modifiedPlace, isActive, orderByComparator,
-				false);
+				session, csmapCacheJson, modifiedPlace, isActive,
+				orderByComparator, false);
 
 			return array;
 		}
@@ -2656,9 +2669,9 @@ public class CacheJsonPersistenceImpl
 		}
 	}
 
-	protected CacheJson getByModifiedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date modifiedPlace,
-		boolean isActive, OrderByComparator<CacheJson> orderByComparator,
+	protected CsmapCacheJson getByModifiedDateAndIsActive_PrevAndNext(
+		Session session, CsmapCacheJson csmapCacheJson, Date modifiedPlace,
+		boolean isActive, OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean previous) {
 
 		StringBundler query = null;
@@ -2672,7 +2685,7 @@ public class CacheJsonPersistenceImpl
 			query = new StringBundler(4);
 		}
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+		query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE);
 
 		boolean bindModifiedPlace = false;
 
@@ -2746,7 +2759,7 @@ public class CacheJsonPersistenceImpl
 			}
 		}
 		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			query.append(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 		}
 
 		String sql = query.toString();
@@ -2766,13 +2779,14 @@ public class CacheJsonPersistenceImpl
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
+					orderByComparator.getOrderByConditionValues(
+						csmapCacheJson)) {
 
 				qPos.add(orderByConditionValue);
 			}
 		}
 
-		List<CacheJson> list = q.list();
+		List<CsmapCacheJson> list = q.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -2783,7 +2797,7 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where modifiedPlace &ge; &#63; and isActive = &#63; from the database.
+	 * Removes all the csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63; from the database.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
@@ -2792,21 +2806,21 @@ public class CacheJsonPersistenceImpl
 	public void removeByModifiedDateAndIsActive(
 		Date modifiedPlace, boolean isActive) {
 
-		for (CacheJson cacheJson :
+		for (CsmapCacheJson csmapCacheJson :
 				findByModifiedDateAndIsActive(
 					modifiedPlace, isActive, QueryUtil.ALL_POS,
 					QueryUtil.ALL_POS, null)) {
 
-			remove(cacheJson);
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
+	 * Returns the number of csmap cache jsons where modifiedPlace &ge; &#63; and isActive = &#63;.
 	 *
 	 * @param modifiedPlace the modified place
 	 * @param isActive the is active
-	 * @return the number of matching cache jsons
+	 * @return the number of matching csmap cache jsons
 	 */
 	@Override
 	public int countByModifiedDateAndIsActive(
@@ -2822,7 +2836,7 @@ public class CacheJsonPersistenceImpl
 		if (count == null) {
 			StringBundler query = new StringBundler(3);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			query.append(_SQL_COUNT_CSMAPCACHEJSON_WHERE);
 
 			boolean bindModifiedPlace = false;
 
@@ -2875,18 +2889,18 @@ public class CacheJsonPersistenceImpl
 
 	private static final String
 		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDPLACE_1 =
-			"cacheJson.modifiedPlace IS NULL AND ";
+			"csmapCacheJson.modifiedPlace IS NULL AND ";
 
 	private static final String
 		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDPLACE_2 =
-			"cacheJson.modifiedPlace >= ? AND ";
+			"csmapCacheJson.modifiedPlace >= ? AND ";
 
 	private static final String
 		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
+			"csmapCacheJson.isActive = ?";
 
-	public CacheJsonPersistenceImpl() {
-		setModelClass(CacheJson.class);
+	public CsmapCacheJsonPersistenceImpl() {
+		setModelClass(CsmapCacheJson.class);
 
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -2908,41 +2922,43 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Caches the cache json in the entity cache if it is enabled.
+	 * Caches the csmap cache json in the entity cache if it is enabled.
 	 *
-	 * @param cacheJson the cache json
+	 * @param csmapCacheJson the csmap cache json
 	 */
 	@Override
-	public void cacheResult(CacheJson cacheJson) {
+	public void cacheResult(CsmapCacheJson csmapCacheJson) {
 		entityCache.putResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey(), cacheJson);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey(),
+			csmapCacheJson);
 
-		cacheJson.resetOriginalValues();
+		csmapCacheJson.resetOriginalValues();
 	}
 
 	/**
-	 * Caches the cache jsons in the entity cache if it is enabled.
+	 * Caches the csmap cache jsons in the entity cache if it is enabled.
 	 *
-	 * @param cacheJsons the cache jsons
+	 * @param csmapCacheJsons the csmap cache jsons
 	 */
 	@Override
-	public void cacheResult(List<CacheJson> cacheJsons) {
-		for (CacheJson cacheJson : cacheJsons) {
+	public void cacheResult(List<CsmapCacheJson> csmapCacheJsons) {
+		for (CsmapCacheJson csmapCacheJson : csmapCacheJsons) {
 			if (entityCache.getResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CacheJsonImpl.class, cacheJson.getPrimaryKey()) == null) {
+					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+					CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey()) ==
+						null) {
 
-				cacheResult(cacheJson);
+				cacheResult(csmapCacheJson);
 			}
 			else {
-				cacheJson.resetOriginalValues();
+				csmapCacheJson.resetOriginalValues();
 			}
 		}
 	}
 
 	/**
-	 * Clears the cache for all cache jsons.
+	 * Clears the cache for all csmap cache jsons.
 	 *
 	 * <p>
 	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
@@ -2950,7 +2966,7 @@ public class CacheJsonPersistenceImpl
 	 */
 	@Override
 	public void clearCache() {
-		entityCache.clearCache(CacheJsonImpl.class);
+		entityCache.clearCache(CsmapCacheJsonImpl.class);
 
 		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
@@ -2958,97 +2974,99 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Clears the cache for the cache json.
+	 * Clears the cache for the csmap cache json.
 	 *
 	 * <p>
 	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
 	 * </p>
 	 */
 	@Override
-	public void clearCache(CacheJson cacheJson) {
+	public void clearCache(CsmapCacheJson csmapCacheJson) {
 		entityCache.removeResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey());
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey());
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
-	public void clearCache(List<CacheJson> cacheJsons) {
+	public void clearCache(List<CsmapCacheJson> csmapCacheJsons) {
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
-		for (CacheJson cacheJson : cacheJsons) {
+		for (CsmapCacheJson csmapCacheJson : csmapCacheJsons) {
 			entityCache.removeResult(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-				cacheJson.getPrimaryKey());
+				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey());
 		}
 	}
 
 	/**
-	 * Creates a new cache json with the primary key. Does not add the cache json to the database.
+	 * Creates a new csmap cache json with the primary key. Does not add the csmap cache json to the database.
 	 *
-	 * @param sigId the primary key for the new cache json
-	 * @return the new cache json
+	 * @param sigId the primary key for the new csmap cache json
+	 * @return the new csmap cache json
 	 */
 	@Override
-	public CacheJson create(String sigId) {
-		CacheJson cacheJson = new CacheJsonImpl();
+	public CsmapCacheJson create(String sigId) {
+		CsmapCacheJson csmapCacheJson = new CsmapCacheJsonImpl();
 
-		cacheJson.setNew(true);
-		cacheJson.setPrimaryKey(sigId);
+		csmapCacheJson.setNew(true);
+		csmapCacheJson.setPrimaryKey(sigId);
 
 		String uuid = PortalUUIDUtil.generate();
 
-		cacheJson.setUuid(uuid);
+		csmapCacheJson.setUuid(uuid);
 
-		return cacheJson;
+		return csmapCacheJson;
 	}
 
 	/**
-	 * Removes the cache json with the primary key from the database. Also notifies the appropriate model listeners.
+	 * Removes the csmap cache json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param sigId the primary key of the cache json
-	 * @return the cache json that was removed
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @param sigId the primary key of the csmap cache json
+	 * @return the csmap cache json that was removed
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson remove(String sigId) throws NoSuchCacheJsonException {
+	public CsmapCacheJson remove(String sigId)
+		throws NoSuchCsmapCacheJsonException {
+
 		return remove((Serializable)sigId);
 	}
 
 	/**
-	 * Removes the cache json with the primary key from the database. Also notifies the appropriate model listeners.
+	 * Removes the csmap cache json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param primaryKey the primary key of the cache json
-	 * @return the cache json that was removed
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @param primaryKey the primary key of the csmap cache json
+	 * @return the csmap cache json that was removed
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson remove(Serializable primaryKey)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson remove(Serializable primaryKey)
+		throws NoSuchCsmapCacheJsonException {
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			CacheJson cacheJson = (CacheJson)session.get(
-				CacheJsonImpl.class, primaryKey);
+			CsmapCacheJson csmapCacheJson = (CsmapCacheJson)session.get(
+				CsmapCacheJsonImpl.class, primaryKey);
 
-			if (cacheJson == null) {
+			if (csmapCacheJson == null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 				}
 
-				throw new NoSuchCacheJsonException(
+				throw new NoSuchCsmapCacheJsonException(
 					_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			return remove(cacheJson);
+			return remove(csmapCacheJson);
 		}
-		catch (NoSuchCacheJsonException nsee) {
+		catch (NoSuchCsmapCacheJsonException nsee) {
 			throw nsee;
 		}
 		catch (Exception e) {
@@ -3060,19 +3078,20 @@ public class CacheJsonPersistenceImpl
 	}
 
 	@Override
-	protected CacheJson removeImpl(CacheJson cacheJson) {
+	protected CsmapCacheJson removeImpl(CsmapCacheJson csmapCacheJson) {
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (!session.contains(cacheJson)) {
-				cacheJson = (CacheJson)session.get(
-					CacheJsonImpl.class, cacheJson.getPrimaryKeyObj());
+			if (!session.contains(csmapCacheJson)) {
+				csmapCacheJson = (CsmapCacheJson)session.get(
+					CsmapCacheJsonImpl.class,
+					csmapCacheJson.getPrimaryKeyObj());
 			}
 
-			if (cacheJson != null) {
-				session.delete(cacheJson);
+			if (csmapCacheJson != null) {
+				session.delete(csmapCacheJson);
 			}
 		}
 		catch (Exception e) {
@@ -3082,39 +3101,41 @@ public class CacheJsonPersistenceImpl
 			closeSession(session);
 		}
 
-		if (cacheJson != null) {
-			clearCache(cacheJson);
+		if (csmapCacheJson != null) {
+			clearCache(csmapCacheJson);
 		}
 
-		return cacheJson;
+		return csmapCacheJson;
 	}
 
 	@Override
-	public CacheJson updateImpl(CacheJson cacheJson) {
-		boolean isNew = cacheJson.isNew();
+	public CsmapCacheJson updateImpl(CsmapCacheJson csmapCacheJson) {
+		boolean isNew = csmapCacheJson.isNew();
 
-		if (!(cacheJson instanceof CacheJsonModelImpl)) {
+		if (!(csmapCacheJson instanceof CsmapCacheJsonModelImpl)) {
 			InvocationHandler invocationHandler = null;
 
-			if (ProxyUtil.isProxyClass(cacheJson.getClass())) {
-				invocationHandler = ProxyUtil.getInvocationHandler(cacheJson);
+			if (ProxyUtil.isProxyClass(csmapCacheJson.getClass())) {
+				invocationHandler = ProxyUtil.getInvocationHandler(
+					csmapCacheJson);
 
 				throw new IllegalArgumentException(
-					"Implement ModelWrapper in cacheJson proxy " +
+					"Implement ModelWrapper in csmapCacheJson proxy " +
 						invocationHandler.getClass());
 			}
 
 			throw new IllegalArgumentException(
-				"Implement ModelWrapper in custom CacheJson implementation " +
-					cacheJson.getClass());
+				"Implement ModelWrapper in custom CsmapCacheJson implementation " +
+					csmapCacheJson.getClass());
 		}
 
-		CacheJsonModelImpl cacheJsonModelImpl = (CacheJsonModelImpl)cacheJson;
+		CsmapCacheJsonModelImpl csmapCacheJsonModelImpl =
+			(CsmapCacheJsonModelImpl)csmapCacheJson;
 
-		if (Validator.isNull(cacheJson.getUuid())) {
+		if (Validator.isNull(csmapCacheJson.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
 
-			cacheJson.setUuid(uuid);
+			csmapCacheJson.setUuid(uuid);
 		}
 
 		Session session = null;
@@ -3122,13 +3143,13 @@ public class CacheJsonPersistenceImpl
 		try {
 			session = openSession();
 
-			if (cacheJson.isNew()) {
-				session.save(cacheJson);
+			if (csmapCacheJson.isNew()) {
+				session.save(csmapCacheJson);
 
-				cacheJson.setNew(false);
+				csmapCacheJson.setNew(false);
 			}
 			else {
-				cacheJson = (CacheJson)session.merge(cacheJson);
+				csmapCacheJson = (CsmapCacheJson)session.merge(csmapCacheJson);
 			}
 		}
 		catch (Exception e) {
@@ -3140,17 +3161,17 @@ public class CacheJsonPersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 
-		if (!CacheJsonModelImpl.COLUMN_BITMASK_ENABLED) {
+		if (!CsmapCacheJsonModelImpl.COLUMN_BITMASK_ENABLED) {
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
 		else if (isNew) {
-			Object[] args = new Object[] {cacheJsonModelImpl.getUuid()};
+			Object[] args = new Object[] {csmapCacheJsonModelImpl.getUuid()};
 
 			finderCache.removeResult(_finderPathCountByUuid, args);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByUuid, args);
 
-			args = new Object[] {cacheJsonModelImpl.getSigId()};
+			args = new Object[] {csmapCacheJsonModelImpl.getSigId()};
 
 			finderCache.removeResult(_finderPathCountBysigId, args);
 			finderCache.removeResult(
@@ -3161,38 +3182,38 @@ public class CacheJsonPersistenceImpl
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
 		}
 		else {
-			if ((cacheJsonModelImpl.getColumnBitmask() &
+			if ((csmapCacheJsonModelImpl.getColumnBitmask() &
 				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
 					 0) {
 
 				Object[] args = new Object[] {
-					cacheJsonModelImpl.getOriginalUuid()
+					csmapCacheJsonModelImpl.getOriginalUuid()
 				};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid, args);
 
-				args = new Object[] {cacheJsonModelImpl.getUuid()};
+				args = new Object[] {csmapCacheJsonModelImpl.getUuid()};
 
 				finderCache.removeResult(_finderPathCountByUuid, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByUuid, args);
 			}
 
-			if ((cacheJsonModelImpl.getColumnBitmask() &
+			if ((csmapCacheJsonModelImpl.getColumnBitmask() &
 				 _finderPathWithoutPaginationFindBysigId.getColumnBitmask()) !=
 					 0) {
 
 				Object[] args = new Object[] {
-					cacheJsonModelImpl.getOriginalSigId()
+					csmapCacheJsonModelImpl.getOriginalSigId()
 				};
 
 				finderCache.removeResult(_finderPathCountBysigId, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindBysigId, args);
 
-				args = new Object[] {cacheJsonModelImpl.getSigId()};
+				args = new Object[] {csmapCacheJsonModelImpl.getSigId()};
 
 				finderCache.removeResult(_finderPathCountBysigId, args);
 				finderCache.removeResult(
@@ -3201,93 +3222,94 @@ public class CacheJsonPersistenceImpl
 		}
 
 		entityCache.putResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey(), cacheJson, false);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, csmapCacheJson.getPrimaryKey(),
+			csmapCacheJson, false);
 
-		cacheJson.resetOriginalValues();
+		csmapCacheJson.resetOriginalValues();
 
-		return cacheJson;
+		return csmapCacheJson;
 	}
 
 	/**
-	 * Returns the cache json with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
+	 * Returns the csmap cache json with the primary key or throws a <code>com.liferay.portal.kernel.exception.NoSuchModelException</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the cache json
-	 * @return the cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @param primaryKey the primary key of the csmap cache json
+	 * @return the csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson findByPrimaryKey(Serializable primaryKey)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findByPrimaryKey(Serializable primaryKey)
+		throws NoSuchCsmapCacheJsonException {
 
-		CacheJson cacheJson = fetchByPrimaryKey(primaryKey);
+		CsmapCacheJson csmapCacheJson = fetchByPrimaryKey(primaryKey);
 
-		if (cacheJson == null) {
+		if (csmapCacheJson == null) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 			}
 
-			throw new NoSuchCacheJsonException(
+			throw new NoSuchCsmapCacheJsonException(
 				_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + primaryKey);
 		}
 
-		return cacheJson;
+		return csmapCacheJson;
 	}
 
 	/**
-	 * Returns the cache json with the primary key or throws a <code>NoSuchCacheJsonException</code> if it could not be found.
+	 * Returns the csmap cache json with the primary key or throws a <code>NoSuchCsmapCacheJsonException</code> if it could not be found.
 	 *
-	 * @param sigId the primary key of the cache json
-	 * @return the cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @param sigId the primary key of the csmap cache json
+	 * @return the csmap cache json
+	 * @throws NoSuchCsmapCacheJsonException if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson findByPrimaryKey(String sigId)
-		throws NoSuchCacheJsonException {
+	public CsmapCacheJson findByPrimaryKey(String sigId)
+		throws NoSuchCsmapCacheJsonException {
 
 		return findByPrimaryKey((Serializable)sigId);
 	}
 
 	/**
-	 * Returns the cache json with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the csmap cache json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the cache json
-	 * @return the cache json, or <code>null</code> if a cache json with the primary key could not be found
+	 * @param primaryKey the primary key of the csmap cache json
+	 * @return the csmap cache json, or <code>null</code> if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson fetchByPrimaryKey(Serializable primaryKey) {
+	public CsmapCacheJson fetchByPrimaryKey(Serializable primaryKey) {
 		Serializable serializable = entityCache.getResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			primaryKey);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, primaryKey);
 
 		if (serializable == nullModel) {
 			return null;
 		}
 
-		CacheJson cacheJson = (CacheJson)serializable;
+		CsmapCacheJson csmapCacheJson = (CsmapCacheJson)serializable;
 
-		if (cacheJson == null) {
+		if (csmapCacheJson == null) {
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				cacheJson = (CacheJson)session.get(
-					CacheJsonImpl.class, primaryKey);
+				csmapCacheJson = (CsmapCacheJson)session.get(
+					CsmapCacheJsonImpl.class, primaryKey);
 
-				if (cacheJson != null) {
-					cacheResult(cacheJson);
+				if (csmapCacheJson != null) {
+					cacheResult(csmapCacheJson);
 				}
 				else {
 					entityCache.putResult(
-						CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-						CacheJsonImpl.class, primaryKey, nullModel);
+						CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+						CsmapCacheJsonImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
 				entityCache.removeResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CacheJsonImpl.class, primaryKey);
+					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+					CsmapCacheJsonImpl.class, primaryKey);
 
 				throw processException(e);
 			}
@@ -3296,40 +3318,40 @@ public class CacheJsonPersistenceImpl
 			}
 		}
 
-		return cacheJson;
+		return csmapCacheJson;
 	}
 
 	/**
-	 * Returns the cache json with the primary key or returns <code>null</code> if it could not be found.
+	 * Returns the csmap cache json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param sigId the primary key of the cache json
-	 * @return the cache json, or <code>null</code> if a cache json with the primary key could not be found
+	 * @param sigId the primary key of the csmap cache json
+	 * @return the csmap cache json, or <code>null</code> if a csmap cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson fetchByPrimaryKey(String sigId) {
+	public CsmapCacheJson fetchByPrimaryKey(String sigId) {
 		return fetchByPrimaryKey((Serializable)sigId);
 	}
 
 	@Override
-	public Map<Serializable, CacheJson> fetchByPrimaryKeys(
+	public Map<Serializable, CsmapCacheJson> fetchByPrimaryKeys(
 		Set<Serializable> primaryKeys) {
 
 		if (primaryKeys.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Map<Serializable, CacheJson> map =
-			new HashMap<Serializable, CacheJson>();
+		Map<Serializable, CsmapCacheJson> map =
+			new HashMap<Serializable, CsmapCacheJson>();
 
 		if (primaryKeys.size() == 1) {
 			Iterator<Serializable> iterator = primaryKeys.iterator();
 
 			Serializable primaryKey = iterator.next();
 
-			CacheJson cacheJson = fetchByPrimaryKey(primaryKey);
+			CsmapCacheJson csmapCacheJson = fetchByPrimaryKey(primaryKey);
 
-			if (cacheJson != null) {
-				map.put(primaryKey, cacheJson);
+			if (csmapCacheJson != null) {
+				map.put(primaryKey, csmapCacheJson);
 			}
 
 			return map;
@@ -3339,8 +3361,8 @@ public class CacheJsonPersistenceImpl
 
 		for (Serializable primaryKey : primaryKeys) {
 			Serializable serializable = entityCache.getResult(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-				primaryKey);
+				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CsmapCacheJsonImpl.class, primaryKey);
 
 			if (serializable != nullModel) {
 				if (serializable == null) {
@@ -3351,7 +3373,7 @@ public class CacheJsonPersistenceImpl
 					uncachedPrimaryKeys.add(primaryKey);
 				}
 				else {
-					map.put(primaryKey, (CacheJson)serializable);
+					map.put(primaryKey, (CsmapCacheJson)serializable);
 				}
 			}
 		}
@@ -3363,7 +3385,7 @@ public class CacheJsonPersistenceImpl
 		StringBundler query = new StringBundler(
 			uncachedPrimaryKeys.size() * 2 + 1);
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE_PKS_IN);
+		query.append(_SQL_SELECT_CSMAPCACHEJSON_WHERE_PKS_IN);
 
 		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
 			query.append("?");
@@ -3390,18 +3412,20 @@ public class CacheJsonPersistenceImpl
 				qPos.add((String)primaryKey);
 			}
 
-			for (CacheJson cacheJson : (List<CacheJson>)q.list()) {
-				map.put(cacheJson.getPrimaryKeyObj(), cacheJson);
+			for (CsmapCacheJson csmapCacheJson :
+					(List<CsmapCacheJson>)q.list()) {
 
-				cacheResult(cacheJson);
+				map.put(csmapCacheJson.getPrimaryKeyObj(), csmapCacheJson);
 
-				uncachedPrimaryKeys.remove(cacheJson.getPrimaryKeyObj());
+				cacheResult(csmapCacheJson);
+
+				uncachedPrimaryKeys.remove(csmapCacheJson.getPrimaryKeyObj());
 			}
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CacheJsonImpl.class, primaryKey, nullModel);
+					CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+					CsmapCacheJsonImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -3415,66 +3439,67 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns all the cache jsons.
+	 * Returns all the csmap cache jsons.
 	 *
-	 * @return the cache jsons
+	 * @return the csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findAll() {
+	public List<CsmapCacheJson> findAll() {
 		return findAll(QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the cache jsons.
+	 * Returns a range of all the csmap cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of cache jsons
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
+	 * @return the range of csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findAll(int start, int end) {
+	public List<CsmapCacheJson> findAll(int start, int end) {
 		return findAll(start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons.
+	 * Returns an ordered range of all the csmap cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of cache jsons
+	 * @return the ordered range of csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findAll(
-		int start, int end, OrderByComparator<CacheJson> orderByComparator) {
+	public List<CsmapCacheJson> findAll(
+		int start, int end,
+		OrderByComparator<CsmapCacheJson> orderByComparator) {
 
 		return findAll(start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons.
+	 * Returns an ordered range of all the csmap cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CsmapCacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
+	 * @param start the lower bound of the range of csmap cache jsons
+	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of cache jsons
+	 * @return the ordered range of csmap cache jsons
 	 */
 	@Override
-	public List<CacheJson> findAll(
-		int start, int end, OrderByComparator<CacheJson> orderByComparator,
+	public List<CsmapCacheJson> findAll(
+		int start, int end, OrderByComparator<CsmapCacheJson> orderByComparator,
 		boolean retrieveFromCache) {
 
 		boolean pagination = true;
@@ -3493,10 +3518,10 @@ public class CacheJsonPersistenceImpl
 			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
-		List<CacheJson> list = null;
+		List<CsmapCacheJson> list = null;
 
 		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
+			list = (List<CsmapCacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
@@ -3508,7 +3533,7 @@ public class CacheJsonPersistenceImpl
 				query = new StringBundler(
 					2 + (orderByComparator.getOrderByFields().length * 2));
 
-				query.append(_SQL_SELECT_CACHEJSON);
+				query.append(_SQL_SELECT_CSMAPCACHEJSON);
 
 				appendOrderByComparator(
 					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
@@ -3516,10 +3541,10 @@ public class CacheJsonPersistenceImpl
 				sql = query.toString();
 			}
 			else {
-				sql = _SQL_SELECT_CACHEJSON;
+				sql = _SQL_SELECT_CSMAPCACHEJSON;
 
 				if (pagination) {
-					sql = sql.concat(CacheJsonModelImpl.ORDER_BY_JPQL);
+					sql = sql.concat(CsmapCacheJsonModelImpl.ORDER_BY_JPQL);
 				}
 			}
 
@@ -3531,7 +3556,7 @@ public class CacheJsonPersistenceImpl
 				Query q = session.createQuery(sql);
 
 				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end, false);
 
 					Collections.sort(list);
@@ -3539,7 +3564,7 @@ public class CacheJsonPersistenceImpl
 					list = Collections.unmodifiableList(list);
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
+					list = (List<CsmapCacheJson>)QueryUtil.list(
 						q, getDialect(), start, end);
 				}
 
@@ -3561,20 +3586,20 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons from the database.
+	 * Removes all the csmap cache jsons from the database.
 	 *
 	 */
 	@Override
 	public void removeAll() {
-		for (CacheJson cacheJson : findAll()) {
-			remove(cacheJson);
+		for (CsmapCacheJson csmapCacheJson : findAll()) {
+			remove(csmapCacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons.
+	 * Returns the number of csmap cache jsons.
 	 *
-	 * @return the number of cache jsons
+	 * @return the number of csmap cache jsons
 	 */
 	@Override
 	public int countAll() {
@@ -3587,7 +3612,7 @@ public class CacheJsonPersistenceImpl
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(_SQL_COUNT_CACHEJSON);
+				Query q = session.createQuery(_SQL_COUNT_CSMAPCACHEJSON);
 
 				count = (Long)q.uniqueResult();
 
@@ -3615,78 +3640,81 @@ public class CacheJsonPersistenceImpl
 
 	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
-		return CacheJsonModelImpl.TABLE_COLUMNS_MAP;
+		return CsmapCacheJsonModelImpl.TABLE_COLUMNS_MAP;
 	}
 
 	/**
-	 * Initializes the cache json persistence.
+	 * Initializes the csmap cache json persistence.
 	 */
 	public void afterPropertiesSet() {
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findAll", new String[0]);
 
 		_finderPathCountAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			CacheJsonModelImpl.UUID_COLUMN_BITMASK);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByUuid", new String[] {String.class.getName()},
+			CsmapCacheJsonModelImpl.UUID_COLUMN_BITMASK);
 
 		_finderPathCountByUuid = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindBysigId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBysigId",
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findBysigId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
 		_finderPathWithoutPaginationFindBysigId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBysigId",
-			new String[] {String.class.getName()},
-			CacheJsonModelImpl.SIGID_COLUMN_BITMASK);
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findBysigId", new String[] {String.class.getName()},
+			CsmapCacheJsonModelImpl.SIGID_COLUMN_BITMASK);
 
 		_finderPathCountBysigId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBysigId",
 			new String[] {String.class.getName()});
 
 		_finderPathWithPaginationFindByCreatedDateAndIsActive = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByCreatedDateAndIsActive",
 			new String[] {
 				Date.class.getName(), Boolean.class.getName(),
@@ -3695,16 +3723,17 @@ public class CacheJsonPersistenceImpl
 			});
 
 		_finderPathWithPaginationCountByCreatedDateAndIsActive = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByCreatedDateAndIsActive",
 			new String[] {Date.class.getName(), Boolean.class.getName()});
 
 		_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive =
 			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
+				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+				CsmapCacheJsonImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByCreatedDateAndModifiedDateAndIsActive",
 				new String[] {
@@ -3715,8 +3744,8 @@ public class CacheJsonPersistenceImpl
 
 		_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive =
 			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByCreatedDateAndModifiedDateAndIsActive",
 				new String[] {
@@ -3725,9 +3754,9 @@ public class CacheJsonPersistenceImpl
 				});
 
 		_finderPathWithPaginationFindByModifiedDateAndIsActive = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED,
+			CsmapCacheJsonImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByModifiedDateAndIsActive",
 			new String[] {
 				Date.class.getName(), Boolean.class.getName(),
@@ -3737,15 +3766,15 @@ public class CacheJsonPersistenceImpl
 
 		_finderPathWithPaginationCountByModifiedDateAndIsActive =
 			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+				CsmapCacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+				CsmapCacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByModifiedDateAndIsActive",
 				new String[] {Date.class.getName(), Boolean.class.getName()});
 	}
 
 	public void destroy() {
-		entityCache.removeCache(CacheJsonImpl.class.getName());
+		entityCache.removeCache(CsmapCacheJsonImpl.class.getName());
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
@@ -3765,31 +3794,31 @@ public class CacheJsonPersistenceImpl
 		return date.getTime();
 	}
 
-	private static final String _SQL_SELECT_CACHEJSON =
-		"SELECT cacheJson FROM CacheJson cacheJson";
+	private static final String _SQL_SELECT_CSMAPCACHEJSON =
+		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson";
 
-	private static final String _SQL_SELECT_CACHEJSON_WHERE_PKS_IN =
-		"SELECT cacheJson FROM CacheJson cacheJson WHERE sigId IN (";
+	private static final String _SQL_SELECT_CSMAPCACHEJSON_WHERE_PKS_IN =
+		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson WHERE sigId IN (";
 
-	private static final String _SQL_SELECT_CACHEJSON_WHERE =
-		"SELECT cacheJson FROM CacheJson cacheJson WHERE ";
+	private static final String _SQL_SELECT_CSMAPCACHEJSON_WHERE =
+		"SELECT csmapCacheJson FROM CsmapCacheJson csmapCacheJson WHERE ";
 
-	private static final String _SQL_COUNT_CACHEJSON =
-		"SELECT COUNT(cacheJson) FROM CacheJson cacheJson";
+	private static final String _SQL_COUNT_CSMAPCACHEJSON =
+		"SELECT COUNT(csmapCacheJson) FROM CsmapCacheJson csmapCacheJson";
 
-	private static final String _SQL_COUNT_CACHEJSON_WHERE =
-		"SELECT COUNT(cacheJson) FROM CacheJson cacheJson WHERE ";
+	private static final String _SQL_COUNT_CSMAPCACHEJSON_WHERE =
+		"SELECT COUNT(csmapCacheJson) FROM CsmapCacheJson csmapCacheJson WHERE ";
 
-	private static final String _ORDER_BY_ENTITY_ALIAS = "cacheJson.";
+	private static final String _ORDER_BY_ENTITY_ALIAS = "csmapCacheJson.";
 
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
-		"No CacheJson exists with the primary key ";
+		"No CsmapCacheJson exists with the primary key ";
 
 	private static final String _NO_SUCH_ENTITY_WITH_KEY =
-		"No CacheJson exists with the key {";
+		"No CsmapCacheJson exists with the key {";
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CacheJsonPersistenceImpl.class);
+		CsmapCacheJsonPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
