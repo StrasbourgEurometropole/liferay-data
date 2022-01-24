@@ -4,7 +4,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -28,18 +27,27 @@ import eu.strasbourg.service.csmap.exception.NoDefaultPictoException;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.lang.reflect.Array;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
 public class ApiCsmapUtil {
 
@@ -170,11 +178,13 @@ public class ApiCsmapUtil {
 
         if (!sigIds.equals("")) {
             if (Validator.isNotNull(placeTypeVocabulary)) {
+                // On récupère les sigId des catégories BO
+                List<String> sigIdCategoriesBoList = Arrays.asList(sigIdCategoriesBo.split(","));
                 for (String idCategory : sigIdsSplitted) {
                     // Si le sigId passé en paramètre n'existe pas dans le vocabulaire type de lieu
                     // Si la catégorie n'est pas choisie dans le BO
                     if (mapExternalIdTypeLieu.get(idCategory) == null ||
-                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBo.contains(String.valueOf(idCategory))))
+                            (Validator.isNotNull(sigIdCategoriesBo) && !sigIdCategoriesBoList.contains(String.valueOf(idCategory))))
                         jsonSuppr.put(idCategory);
                 }
             }
