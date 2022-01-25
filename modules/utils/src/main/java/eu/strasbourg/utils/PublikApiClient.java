@@ -20,13 +20,25 @@ public class PublikApiClient {
 
 	/**
 	 * Retourne les demandes en cours d'un utilisateur
-	 * 
+	 *
 	 * @param userPublikId
 	 *            Identifiant Publik de l'utilisateur
 	 * @param includeDrafts
 	 *            true pour inclure les formulaires "brouillon" de l'utilisateur
 	 */
 	public static JSONObject getUserForms(String userPublikId, boolean includeDrafts) {
+		return getUserForms(userPublikId, includeDrafts, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+
+	/**
+	 * Retourne les demandes en cours d'un utilisateur
+	 *
+	 * @param userPublikId
+	 *            Identifiant Publik de l'utilisateur
+	 * @param includeDrafts
+	 *            true pour inclure les formulaires "brouillon" de l'utilisateur
+	 */
+	public static JSONObject getUserForms(String userPublikId, boolean includeDrafts, int timeOut) {
 		String endpoint = "/api/user/forms";
 		String queryString = "NameID=" + userPublikId;
 		if (includeDrafts) {
@@ -34,7 +46,7 @@ public class PublikApiClient {
 		}
 		String url = getSignedUrl(endpoint, queryString);
 		try {
-			return JSONHelper.readJsonFromURL(url);
+			return JSONHelper.readJsonFromURL(url,timeOut);
 		} catch (Exception ex) {
 			return JSONFactoryUtil.createJSONObject();
 		}
@@ -138,17 +150,29 @@ public class PublikApiClient {
 	/**
 	 * Retourne les informations d'un utilisateur Publik sous la forme d'un
 	 * objet JSON
-	 * 
+	 *
 	 * @param userId
 	 *            Identifiant Publik de l'utilisateur
 	 * @return Objet JSON content les informations de l'utilisateur
 	 */
 	public static JSONObject getUserDetails(String userId) {
+			return getUserDetails(userId, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+
+	/**
+	 * Retourne les informations d'un utilisateur Publik sous la forme d'un
+	 * objet JSON
+	 *
+	 * @param userId
+	 *            Identifiant Publik de l'utilisateur
+	 * @return Objet JSON content les informations de l'utilisateur
+	 */
+	public static JSONObject getUserDetails(String userId, int timeOut) {
 		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
 		String endpoint = "api/users/";
 		try {
 			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint + userId,
-					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
+					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret(), timeOut);
 			responseObject.remove("password");
 			return responseObject;
 		} catch (Exception ex) {

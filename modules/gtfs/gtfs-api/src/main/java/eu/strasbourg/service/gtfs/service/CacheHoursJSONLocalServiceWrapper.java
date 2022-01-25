@@ -246,8 +246,8 @@ public class CacheHoursJSONLocalServiceWrapper
 	 * Met à jour le jsonHour du stop
 	 */
 	@Override
-	public String getJsonHour(String stopCode) {
-		return _cacheHoursJSONLocalService.getJsonHour(stopCode);
+	public String getJsonHour(String stopCode, int timeOut) {
+		return _cacheHoursJSONLocalService.getJsonHour(stopCode, timeOut);
 	}
 
 	/**

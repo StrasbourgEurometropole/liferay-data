@@ -33,7 +33,14 @@ public class OpenDataGeoAddressServiceImpl implements OpenDataGeoAddressService 
      * Récupère le json de la réponse de l'URL
      */
     private JSONArray getRecord(String url) throws Exception {
-        JSONObject response = JSONHelper.readJsonFromURL(url);
+        return getRecord(url, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    /**
+     * Récupère le json de la réponse de l'URL
+     */
+    private JSONArray getRecord(String url, int timeOut) throws Exception {
+        JSONObject response = JSONHelper.readJsonFromURL(url, timeOut);
         JSONArray records = response.getJSONArray("records");
 
         return records;
@@ -44,9 +51,17 @@ public class OpenDataGeoAddressServiceImpl implements OpenDataGeoAddressService 
      */
     @Override
     public JSONArray getCoordinateForAddress(String address, String zipCode, String city) throws Exception {
+        return getCoordinateForAddress(address, zipCode, city, StrasbourgPropsUtil.getWebServiceDefaultTimeout()) ;
+    }
+
+    /**
+     * Retourne les coordonnées d'une adresse en JSon
+     */
+    @Override
+    public JSONArray getCoordinateForAddress(String address, String zipCode, String city, int timeOut) throws Exception {
         JSONArray coordinates = JSONFactoryUtil.createJSONArray();
         String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address) + "+and+code_postal=" + HtmlUtil.escapeURL(zipCode) + "+and+nom_commune=" + HtmlUtil.escapeURL(city);
-        JSONArray records = getRecord(url);
+        JSONArray records = getRecord(url, timeOut);
         if (records.length() > 0) {
             JSONObject fields = records.getJSONObject(0).getJSONObject("fields");
             coordinates = fields.getJSONArray("geo_pt");

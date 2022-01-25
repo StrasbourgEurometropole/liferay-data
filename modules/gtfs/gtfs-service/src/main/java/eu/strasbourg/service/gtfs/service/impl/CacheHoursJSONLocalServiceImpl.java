@@ -54,7 +54,7 @@ public class CacheHoursJSONLocalServiceImpl
 	 * Met à jour le jsonHour du stop
 	 */
 	@Override
-	public String getJsonHour(String stopCode) {
+	public String getJsonHour(String stopCode, int timeOut) {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 		Date now = new Date();
 		boolean toRegenerated = false;
@@ -74,7 +74,7 @@ public class CacheHoursJSONLocalServiceImpl
 
 		if(toRegenerated){
 			try{
-				JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode);
+				JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode, timeOut);
 				JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
 				if (arretsRealTime != null) {
 					for (int i = 0; i < arretsRealTime.length(); i++) {

@@ -41,7 +41,14 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
      * Récupère le json de la réponse de l'URL
      */
     private JSONArray getRecord(String url) throws Exception {
-        JSONObject response = JSONHelper.readJsonFromURL(url);
+        return getRecord(url, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    /**
+     * Récupère le json de la réponse de l'URL
+     */
+    private JSONArray getRecord(String url, int timeOut) throws Exception {
+        JSONObject response = JSONHelper.readJsonFromURL(url, timeOut);
         JSONArray records = response.getJSONArray("records");
 
         return records;
@@ -52,12 +59,20 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
      */
     @Override
     public AssetCategory getDistrictByAddress(String address, String zipCode, String city) throws Exception {
+        return getDistrictByAddress(address, zipCode, city, StrasbourgPropsUtil.getWebServiceDefaultTimeout()) ;
+    }
+
+    /**
+     * Retourne la catégorie du quartier de l'utilisateur
+     */
+    @Override
+    public AssetCategory getDistrictByAddress(String address, String zipCode, String city, int timeOut) throws Exception {
         AssetCategory district = null;
-        JSONArray coordinates = openDataGeoAddressService.getCoordinateForAddress(address, zipCode, city);
+        JSONArray coordinates = openDataGeoAddressService.getCoordinateForAddress(address, zipCode, city, timeOut);
         String sigId = null;
         if(coordinates.length()>0)
             sigId = getSigIdForCoordinates(coordinates.get(0).toString(),
-                    coordinates.get(1).toString());
+                    coordinates.get(1).toString(),timeOut);
         if (Validator.isNotNull(sigId)) {
             AssetVocabulary territoryVocabulary;
             try {
@@ -92,11 +107,19 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
      */
     @Override
     public String getSigIdForCoordinates(String x, String y) throws Exception {
+        return getSigIdForCoordinates(x, y, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    /**
+     * Retourne le sigID du lieu pour les coordonnées "x" et "y"
+     */
+    @Override
+    public String getSigIdForCoordinates(String x, String y, int timeOut) throws Exception {
         String sigId = null;
         String latitude = HtmlUtil.escape(x);
         String longitude = HtmlUtil.escape(y);
         String url = getDistrictsURL() + "&geofilter.distance=" + latitude + "," + longitude + ",0";
-        JSONArray records = getRecord(url);
+        JSONArray records = getRecord(url, timeOut);
         if (records.length() > 0) {
             JSONObject fields = records.getJSONObject(0).getJSONObject("fields");
             sigId = fields.getString("districtcode");

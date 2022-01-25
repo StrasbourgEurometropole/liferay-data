@@ -103,7 +103,7 @@ public class AuthApplication extends Application {
                 throw new NoCodeVerifierException();
             BaseNonce validBaseNonce = authenticator.controlBaseNonce(baseNonce);
 
-            JSONObject authentikJSON = authenticator.sendTokenRequest(code);
+            JSONObject authentikJSON = authenticator.sendTokenRequest(code, WSConstants.TIMEOUT);
 
             if (Validator.isNull(authentikJSON))
                 throw new AuthenticationFailedException();

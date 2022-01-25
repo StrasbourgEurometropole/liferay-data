@@ -65,7 +65,7 @@ public class AccountDataApplication extends Application {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
             // On récupère toutes les procédures
-            List<Procedure> procedures = ProcedureHelper.getProcedures(publikUser.getPublikId());
+            List<Procedure> procedures = ProcedureHelper.getProcedures(publikUser.getPublikId(), WSConstants.TIMEOUT);
             if(procedures.isEmpty())
                 return WSResponseUtil.buildOkResponse(jsonProcedures, 201);
             for (Procedure procedure: procedures) {
@@ -106,7 +106,7 @@ public class AccountDataApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
-            response = WSAccountData.getMediatheque(publikUser.getPublikId());
+            response = WSAccountData.getMediatheque(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
             int httpResponseCode = (int)response.get("responseCode");
             String httpResponseMessage = (String)response.get("errorDescription");
 
@@ -140,7 +140,7 @@ public class AccountDataApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
-            response = WSAccountData.getResid(publikUser.getPublikId());
+            response = WSAccountData.getResid(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
             int httpResponseCode = (int)response.get("responseCode");
 
             if (httpResponseCode == 200) {
@@ -174,7 +174,7 @@ public class AccountDataApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
-            response = WSAccountData.getFamily(publikUser.getPublikId());
+            response = WSAccountData.getFamily(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
             int httpResponseCode = (int)response.get("responseCode");
             String httpResponseMessage = (String)response.get("errorDescription");
 

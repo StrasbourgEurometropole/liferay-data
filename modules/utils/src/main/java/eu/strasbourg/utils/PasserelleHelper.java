@@ -26,9 +26,14 @@ public class PasserelleHelper {
 
 	public static HttpURLConnection readFromURL(String URL)
 			throws IOException, JSONException {
+		return readFromURL(URL, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+
+	public static HttpURLConnection readFromURL(String URL, int timeOut)
+			throws IOException, JSONException {
 		HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();
-		httpConn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
-		httpConn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		httpConn.setConnectTimeout(timeOut);
+		httpConn.setReadTimeout(timeOut);
 		return httpConn;
 	}
 

@@ -57,13 +57,15 @@ public class WSAuthenticator {
     /**
      * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
      */
-    public JSONObject sendTokenRequest(String code) throws IOException {
+    public JSONObject sendTokenRequest(String code, int timeOut) throws IOException {
         // Récupération des URL/URI configurables
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
         String redirectURI = WSConstants.REDIRECT_URI;
 
         // Initialisation de la requête
         HttpURLConnection connection = (HttpURLConnection) new URL(authURL).openConnection();
+        connection.setConnectTimeout(timeOut);
+        connection.setReadTimeout(timeOut);
         connection.setRequestMethod("POST");
 
         // Authentification

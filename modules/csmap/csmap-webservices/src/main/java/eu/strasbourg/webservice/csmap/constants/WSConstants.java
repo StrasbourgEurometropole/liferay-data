@@ -125,6 +125,8 @@ public class WSConstants {
     /** Config */
     // Global
     public static final String GROUP_KEY_CSMAP = "CSMAP";
+    public static final int TIMEOUT = 5000;
+    public static final int TIMEOUT_WIDGET = 15000;
 
     // Place
     public static final String FOLDER_POI_SIMPLE = "POI simple";

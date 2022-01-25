@@ -77,7 +77,7 @@ public class ProfileApplication extends Application {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
             // On récupère le user
-            JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId());
+            JSONObject jsonPublikUser = PublikApiClient.getUserDetails(publikUser.getPublikId(), WSConstants.TIMEOUT);
 
             // On vérifie que le json contient bien modified qui est la date de derniere modification du profile
             if (Validator.isNotNull(jsonPublikUser.getString("modified"))) {
@@ -141,7 +141,7 @@ public class ProfileApplication extends Application {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
             String userPublikId = publikUser.getPublikId();
 
-            jsonResponse = WSProfile.sendRequest(profilePicture, userPublikId);
+            jsonResponse = WSProfile.sendRequest(profilePicture, userPublikId, WSConstants.TIMEOUT);
             int httpResponseCode = (int)jsonResponse.get("code");
             String httpResponseMessage = (String)jsonResponse.get("message");
             if (httpResponseCode == 200) {
@@ -218,7 +218,7 @@ public class ProfileApplication extends Application {
     public String getDistrict(String address, String zipCode, String city) {
         if (city.toLowerCase().equals("strasbourg")) {
             try {
-                AssetCategory district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
+                AssetCategory district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city, WSConstants.TIMEOUT);
                 if (Validator.isNotNull(district))
                     return AssetVocabularyHelper.getExternalId(district);
             } catch (Exception e) {

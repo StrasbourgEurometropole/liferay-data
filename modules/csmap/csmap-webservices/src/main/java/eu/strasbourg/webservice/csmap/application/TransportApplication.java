@@ -186,7 +186,7 @@ public class TransportApplication extends Application {
                         return WSResponseUtil.buildErrorResponse(500, "Not valid stopCode");
                 }
                 try{
-                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode));
+                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode, WSConstants.TIMEOUT));
                 } catch(Exception e){
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());

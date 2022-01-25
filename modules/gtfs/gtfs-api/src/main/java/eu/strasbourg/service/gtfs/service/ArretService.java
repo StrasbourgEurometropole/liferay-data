@@ -67,6 +67,14 @@ public interface ArretService extends BaseService {
 	public JSONArray getArretRealTime(String stopCode);
 
 	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getArretRealTime(String stopCode, int timeOut);
+
+	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier

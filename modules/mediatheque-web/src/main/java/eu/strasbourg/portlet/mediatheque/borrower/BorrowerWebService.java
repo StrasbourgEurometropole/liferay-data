@@ -18,6 +18,10 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 public class BorrowerWebService {
 
 	public static BorrowerResponse getResponse(String publikInternalId) {
+		return getResponse(publikInternalId, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+
+	public static BorrowerResponse getResponse(String publikInternalId, int timeOut) {
 
 		Map<String, Object> params = new LinkedHashMap<String, Object>();
 		params.put("sub", publikInternalId);
@@ -38,7 +42,7 @@ public class BorrowerWebService {
 		try {
 			// On récupère le JSON
 			String url = StrasbourgPropsUtil.getMediathequeBorrower() + "?" + postData;
-			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url);
+			HttpURLConnection httpConn = PasserelleHelper.readFromURL(url,timeOut);
 			if(httpConn.getContentType().contains("application/xml")) {
 				String xmlResponse = PasserelleHelper.readXML(httpConn);
 				borrowerResponse = new BorrowerResponse(xmlResponse);
