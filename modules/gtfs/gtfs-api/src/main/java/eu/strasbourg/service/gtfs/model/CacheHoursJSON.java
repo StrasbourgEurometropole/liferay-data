@@ -57,5 +57,24 @@ public interface CacheHoursJSON extends CacheHoursJSONModel, PersistedModel {
 			}
 
 		};
+	public static final Accessor<CacheHoursJSON, Integer> TYPE_ACCESSOR =
+		new Accessor<CacheHoursJSON, Integer>() {
+
+			@Override
+			public Integer get(CacheHoursJSON cacheHoursJSON) {
+				return cacheHoursJSON.getType();
+			}
+
+			@Override
+			public Class<Integer> getAttributeClass() {
+				return Integer.class;
+			}
+
+			@Override
+			public Class<CacheHoursJSON> getTypeClass() {
+				return CacheHoursJSON.class;
+			}
+
+		};
 
 }

@@ -19,22 +19,52 @@ public class CTSService {
 	public static final String STOP_MONITORING_FUNCTION = "stop-monitoring";
 	public static final String STOP_MONITORING_PARAM_REF = "MonitoringRef";
 	public static final String STOP_MONITORING_PARAM_NB_VISIT = "MaximumStopVisits";
+	public static final String STOP_MONITORING_PARAM_VEHICLE_MODE = "VehicleMode";
 	
 	public final static Log log = LogFactoryUtil.getLog(LigneLocalServiceImpl.class);
 
 	/**
 	 * Retourne les prochains passages d'un arret
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 * @param type type de l'arret (0 -> tram, 3 -> bus)
 	 */
-	public static JSONArray stopMonitoring(String stopCode) {
-		return stopMonitoring(stopCode, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	public static JSONArray stopMonitoring(String stopCode, int type, int timeout) {
+		String params = STOP_MONITORING_PARAM_REF + "=" + HtmlUtil.escapeURL(stopCode)
+				+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 12;
+
+		if (type == 0)
+			params += "&" + STOP_MONITORING_PARAM_VEHICLE_MODE + "=tram";
+		else
+			params += "&" + STOP_MONITORING_PARAM_VEHICLE_MODE + "=bus";
+
+		return getStopMonitoring(params, timeout);
 	}
 
 	/**
 	 * Retourne les prochains passages d'un arret
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
 	 */
-	public static JSONArray stopMonitoring(String stopCode, int timeOut) {
+	public static JSONArray stopMonitoring(String stopCode, int timeout) {
+		String params = STOP_MONITORING_PARAM_REF + "=" + HtmlUtil.escapeURL(stopCode)
+				+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 12;
+
+		return getStopMonitoring(params, timeout);
+	}
+
+	/**
+	 * Retourne les prochains passages d'un arret
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 */
+	public static JSONArray stopMonitoring(String stopCode) {
+
+		return stopMonitoring(stopCode, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+	}
+
+	/**
+	 * Retourne les prochains passages d'un arret
+	 * @param params paramètres de l'URL voulus
+	 */
+	private static JSONArray getStopMonitoring(String params, int timeOut) {
 		try {
 			// Recuperation des constantes de requetage de l'API19f7805f-0b98-4451-aa1b-96939a844dfe
 			String urlSearch = StrasbourgPropsUtil.getCTSServiceRealTimeURL();
@@ -42,9 +72,7 @@ public class CTSService {
 			String basicAuthPwd = "";
 
 			// Construction de l'URL
-			String url = urlSearch + STOP_MONITORING_FUNCTION
-					+ "?" + STOP_MONITORING_PARAM_REF + "=" + HtmlUtil.escapeURL(stopCode)
-					+ "&" + STOP_MONITORING_PARAM_NB_VISIT + "=" + 12;
+			String url = urlSearch + STOP_MONITORING_FUNCTION + "?" + params;
 
 			// Envoie de la requete
 			JSONObject response = JSONHelper.readJsonFromURL(url, basicAuthUser, basicAuthPwd, timeOut);

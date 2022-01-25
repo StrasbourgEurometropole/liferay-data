@@ -16,6 +16,8 @@ package eu.strasbourg.service.gtfs.model;
 
 import aQute.bnd.annotation.ProviderType;
 
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class CacheHoursJSONSoap implements Serializable {
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setStopCode(model.getStopCode());
+		soapModel.setType(model.getType());
 		soapModel.setJsonHour(model.getJsonHour());
 		soapModel.setCreationDate(model.getCreationDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -89,12 +92,13 @@ public class CacheHoursJSONSoap implements Serializable {
 	public CacheHoursJSONSoap() {
 	}
 
-	public String getPrimaryKey() {
-		return _stopCode;
+	public CacheHoursJSONPK getPrimaryKey() {
+		return new CacheHoursJSONPK(_stopCode, _type);
 	}
 
-	public void setPrimaryKey(String pk) {
-		setStopCode(pk);
+	public void setPrimaryKey(CacheHoursJSONPK pk) {
+		setStopCode(pk.stopCode);
+		setType(pk.type);
 	}
 
 	public String getUuid() {
@@ -111,6 +115,14 @@ public class CacheHoursJSONSoap implements Serializable {
 
 	public void setStopCode(String stopCode) {
 		_stopCode = stopCode;
+	}
+
+	public int getType() {
+		return _type;
+	}
+
+	public void setType(int type) {
+		_type = type;
 	}
 
 	public String getJsonHour() {
@@ -139,6 +151,7 @@ public class CacheHoursJSONSoap implements Serializable {
 
 	private String _uuid;
 	private String _stopCode;
+	private int _type;
 	private String _jsonHour;
 	private Date _creationDate;
 	private Date _modifiedDate;

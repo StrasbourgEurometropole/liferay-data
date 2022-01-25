@@ -45,6 +45,7 @@ import eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.ArretPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CacheAlertJSONPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence;
@@ -102,28 +103,31 @@ public abstract class CacheHoursJSONLocalServiceBaseImpl
 	/**
 	 * Creates a new cache hours json with the primary key. Does not add the cache hours json to the database.
 	 *
-	 * @param stopCode the primary key for the new cache hours json
+	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
 	@Override
 	@Transactional(enabled = false)
-	public CacheHoursJSON createCacheHoursJSON(String stopCode) {
-		return cacheHoursJSONPersistence.create(stopCode);
+	public CacheHoursJSON createCacheHoursJSON(
+		CacheHoursJSONPK cacheHoursJSONPK) {
+
+		return cacheHoursJSONPersistence.create(cacheHoursJSONPK);
 	}
 
 	/**
 	 * Deletes the cache hours json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json that was removed
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public CacheHoursJSON deleteCacheHoursJSON(String stopCode)
+	public CacheHoursJSON deleteCacheHoursJSON(
+			CacheHoursJSONPK cacheHoursJSONPK)
 		throws PortalException {
 
-		return cacheHoursJSONPersistence.remove(stopCode);
+		return cacheHoursJSONPersistence.remove(cacheHoursJSONPK);
 	}
 
 	/**
@@ -226,22 +230,24 @@ public abstract class CacheHoursJSONLocalServiceBaseImpl
 	}
 
 	@Override
-	public CacheHoursJSON fetchCacheHoursJSON(String stopCode) {
-		return cacheHoursJSONPersistence.fetchByPrimaryKey(stopCode);
+	public CacheHoursJSON fetchCacheHoursJSON(
+		CacheHoursJSONPK cacheHoursJSONPK) {
+
+		return cacheHoursJSONPersistence.fetchByPrimaryKey(cacheHoursJSONPK);
 	}
 
 	/**
 	 * Returns the cache hours json with the primary key.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
 	@Override
-	public CacheHoursJSON getCacheHoursJSON(String stopCode)
+	public CacheHoursJSON getCacheHoursJSON(CacheHoursJSONPK cacheHoursJSONPK)
 		throws PortalException {
 
-		return cacheHoursJSONPersistence.findByPrimaryKey(stopCode);
+		return cacheHoursJSONPersistence.findByPrimaryKey(cacheHoursJSONPK);
 	}
 
 	/**

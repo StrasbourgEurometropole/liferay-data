@@ -52,10 +52,12 @@ create table gtfs_CacheAlertJSON (
 
 create table gtfs_CacheHoursJSON (
 	uuid_ VARCHAR(75) null,
-	stopCode VARCHAR(75) not null primary key,
+	stopCode VARCHAR(75) not null,
+	type_ INTEGER not null,
 	jsonHour TEXT null,
 	creationDate DATE null,
-	modifiedDate DATE null
+	modifiedDate DATE null,
+	primary key (stopCode, type_)
 );
 
 create table gtfs_Calendar (

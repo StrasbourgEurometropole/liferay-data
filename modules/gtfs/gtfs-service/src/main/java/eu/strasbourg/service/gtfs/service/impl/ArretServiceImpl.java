@@ -56,10 +56,11 @@ public class ArretServiceImpl extends ArretServiceBaseImpl {
 	/**
 	 * Recuperer les donnees temps real de la CTS pour un arret
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 * @param type type de l'arret (0 -> tram, 3 -> bus)
 	 */
 	@Override
-	public JSONArray getArretRealTime(String stopCode, int timeOut) {
-		return CTSService.stopMonitoring(stopCode, timeOut);
+	public JSONArray getArretRealTime(String stopCode, int type, int timeOut) {
+		return CTSService.stopMonitoring(stopCode, type, timeOut);
 	}
 	
 }

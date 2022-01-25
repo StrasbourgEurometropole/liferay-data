@@ -86,7 +86,7 @@ public class ArretServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		HttpPrincipal httpPrincipal, String stopCode, int timeOut) {
+		HttpPrincipal httpPrincipal, String stopCode, int type, int timeOut) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -94,7 +94,7 @@ public class ArretServiceHttp {
 				_getArretRealTimeParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, stopCode, timeOut);
+				methodKey, stopCode, type, timeOut);
 
 			Object returnObj = null;
 
@@ -120,6 +120,6 @@ public class ArretServiceHttp {
 	private static final Class<?>[] _getArretRealTimeParameterTypes0 =
 		new Class[] {String.class};
 	private static final Class<?>[] _getArretRealTimeParameterTypes1 =
-		new Class[] {String.class, int.class};
+		new Class[] {String.class, int.class, int.class};
 
 }

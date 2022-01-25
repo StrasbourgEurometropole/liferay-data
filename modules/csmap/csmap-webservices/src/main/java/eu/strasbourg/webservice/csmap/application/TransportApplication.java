@@ -174,20 +174,28 @@ public class TransportApplication extends Application {
 
         @GET
         @Produces("application/json")
-        @Path("/get-hours/{stopCode}")
+        @Path("/get-hours/{stopCode}/{type}")
         public Response getHours(
-                @PathParam("stopCode") String stopCode){
-               JSONObject json = JSONFactoryUtil.createJSONObject();
+                @PathParam("stopCode") String stopCode,
+                @PathParam("type") String type){
                 if(Validator.isNull(stopCode)){
                         return WSResponseUtil.buildErrorResponse(500, "No stopCode");
+                }
+                if(Validator.isNull(type)){
+                        return WSResponseUtil.buildErrorResponse(500, "No type");
                 }
                 List<Arret> arrets = _arretLocalService.getByStopCode(stopCode);
                 if(Validator.isNull(arrets) || arrets.isEmpty()){
                         return WSResponseUtil.buildErrorResponse(500, "Not valid stopCode");
                 }
+                if(!type.equals("0") && !type.equals("3")){
+                        return WSResponseUtil.buildErrorResponse(500, "Not valid type");
+                }
+
+                JSONObject json;
                 try{
-                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode, WSConstants.TIMEOUT));
-                } catch(Exception e){
+                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode, Integer.parseInt(type), WSConstants.TIMEOUT));
+                } catch(JSONException e){
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
