@@ -118,6 +118,8 @@ public class FCMHelper {
             responseData = FirebaseMessaging.getInstance().send(messageDatas);
         } catch (Exception e) {
             log.error(e);
+            // Pour rentrer dans le cas de vérif de l'erreur
+            responseData ="fail";
         }
         log.info("Sent datas to topic. Topic: " + topic + ", " + responseData + " msg " + jsonDatasOutput);
 
