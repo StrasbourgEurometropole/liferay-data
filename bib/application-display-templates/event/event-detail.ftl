@@ -1,6 +1,6 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<div class="event-detail" style="margin-left:60px; margin-right:60px">
+<div class="event-detail" style="margin-left:40px; margin-right:10px">
   <div class="event-header">
   
     <div class="go-back-to-agenda">
@@ -61,7 +61,7 @@
         </#if>
         <#if entry.getBookingURL()?has_content >
           <div class="event-booking-url">
-            <a class="event_bouton" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking" /></a>
+            <a class="event_bouton" style="color: white;" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking_label" /></a>
           </div>
         </#if>
         </div>
