@@ -1,7 +1,5 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
@@ -24,16 +22,13 @@ import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
-import eu.strasbourg.service.place.model.CacheJson;
+import eu.strasbourg.service.place.model.CsmapCacheJson;
 import eu.strasbourg.service.place.model.Historic;
-import eu.strasbourg.service.place.service.CacheJsonLocalService;
+import eu.strasbourg.service.place.service.CsmapCacheJsonLocalService;
 import eu.strasbourg.service.place.service.HistoricLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
-import eu.strasbourg.utils.constants.CategoryNames;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
@@ -42,11 +37,19 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
@@ -98,25 +101,25 @@ public class PlaceApplication extends Application {
 
         try {
             // On récupère tous les lieux qui ont été ajoutés
-            List<CacheJson> ajouts = cacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
+            List<CsmapCacheJson> ajouts = csmapCacheJsonLocalService.getByCreatedDateAndIsActive(lastUpdateTime);
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
-            for (CacheJson cache : ajouts) {
+            for (CsmapCacheJson cache : ajouts) {
                 jsonAjout.put(JSONFactoryUtil.createJSONObject(cache.getJsonLieu()));
             }
             json.put(WSConstants.JSON_ADD, jsonAjout);
 
             // On récupère tous les lieux qui ont été modifiés
-            List<CacheJson> modifications = cacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
+            List<CsmapCacheJson> modifications = csmapCacheJsonLocalService.getByCreatedDateAndModifiedDateAndIsActive(lastUpdateTime);
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
-            for (CacheJson cache : modifications) {
+            for (CsmapCacheJson cache : modifications) {
                 jsonModif.put(JSONFactoryUtil.createJSONObject(cache.getJsonLieu()));
             }
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
             // On récupère tous les lieux qui ont été dépubliés
-            List<CacheJson> depubications = cacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CacheJson cache : depubications) {
+            List<CsmapCacheJson> depubications = csmapCacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+            for (CsmapCacheJson cache : depubications) {
                 jsonSuppr.put(cache.getSigId());
             }
 
@@ -146,7 +149,7 @@ public class PlaceApplication extends Application {
         JSONObject json = JSONFactoryUtil.createJSONObject();
 
         // On récupère le cache horaires du lieu
-        CacheJson cache = cacheJsonLocalService.fetchCacheJson(sigid);
+        CsmapCacheJson cache = csmapCacheJsonLocalService.fetchCsmapCacheJson(sigid);
         if (Validator.isNotNull(cache) && cache.getIsActive()) {
             try {
                 if (cache.getJsonHoraire().equals("{}"))
@@ -263,7 +266,6 @@ public class PlaceApplication extends Application {
             JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_POI_SIMPLE);
             long placesFolderId = placesFolder.getFolderId();
             DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_POI_SIMPLE);
-            ;
 
             // Recuperation des JournalArticle dans le dossier Numeros urgence
             List<JournalArticle> poiSimples = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, placesFolderId));
@@ -309,9 +311,6 @@ public class PlaceApplication extends Application {
             // Ajout de DELETE dans le JSON final
             json.put(WSConstants.JSON_DELETE, SimplePOIsJSONDelete);
 
-        } catch (PortalException e) {
-            log.error(e);
-            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         } catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
@@ -392,12 +391,12 @@ public class PlaceApplication extends Application {
     protected PlaceLocalService placeLocalService;
 
     @Reference(unbind = "-")
-    protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
-        this.cacheJsonLocalService = cacheJsonLocalService;
+    protected void setCsmapCacheJsonLocalService(CsmapCacheJsonLocalService csmapCacheJsonLocalService) {
+        this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
     }
 
     @Reference
-    protected CacheJsonLocalService cacheJsonLocalService;
+    protected CsmapCacheJsonLocalService csmapCacheJsonLocalService;
 
     @Reference(unbind = "-")
     protected void setHistoricLocalService(HistoricLocalService historicLocalService) {

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <model-hints>
-	<model name="eu.strasbourg.service.place.model.CacheJson">
+	<model name="eu.strasbourg.service.place.model.CsmapCacheJson">
 		<field name="uuid" type="String" />
 		<field name="sigId" type="String" />
 		<field name="jsonLieu" type="String">

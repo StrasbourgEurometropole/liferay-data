@@ -13,8 +13,6 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodLocalServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.AgendaExportPeriodServiceImpl" id="eu.strasbourg.service.agenda.service.AgendaExportPeriodService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.AgendaExportPeriodPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence" parent="basePersistence" />
-	<bean class="eu.strasbourg.service.agenda.service.impl.CacheJsonLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CacheJsonLocalService" />
-	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CacheJsonPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventLocalService" />
@@ -23,6 +21,8 @@
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventStatusLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.CampaignEventStatusServiceImpl" id="eu.strasbourg.service.agenda.service.CampaignEventStatusService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CampaignEventStatusPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.agenda.service.impl.CsmapCacheJsonLocalServiceImpl" id="eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService" />
+	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.CsmapCacheJsonPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.CsmapCacheJsonPersistence" parent="basePersistence" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventLocalServiceImpl" id="eu.strasbourg.service.agenda.service.EventLocalService" />
 	<bean class="eu.strasbourg.service.agenda.service.impl.EventServiceImpl" id="eu.strasbourg.service.agenda.service.EventService" />
 	<bean class="eu.strasbourg.service.agenda.service.persistence.impl.EventPersistenceImpl" id="eu.strasbourg.service.agenda.service.persistence.EventPersistence" parent="basePersistence" />
