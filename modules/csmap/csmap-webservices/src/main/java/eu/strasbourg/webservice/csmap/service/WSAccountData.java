@@ -22,6 +22,7 @@ import eu.strasbourg.portlet.resid.dossier.Forfait;
 import eu.strasbourg.portlet.resid.dossier.Vehicule;
 import eu.strasbourg.portlet.resid.dossier.Zone;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.webservice.csmap.constants.WSConstants;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -37,44 +38,47 @@ public class WSAccountData {
     public static JSONObject getMediatheque(String publikUserId) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
-        response.put("url", StrasbourgPropsUtil.getMediathequeURL());
+        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getMediathequeURL());
+        response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_SITE);
 
         BorrowerResponse borrower = BorrowerWebService.getResponse(publikUserId);
 
         // Pas de réponse
         if (Validator.isNull(borrower)) {
-            response.put("responseCode", 500);
-            response.put("errorDescription", "Une erreur technique est survenue");
-            response.put("errorTechnical", "Une erreur est survenue, veuillez contacter le webmestre.");
+            response.put(WSConstants.JSON_RESPONSE_CODE, 500);
+            response.put(WSConstants.JSON_ERROR_DESCRIPTION, "Une erreur technique est survenue");
+            response.put(WSConstants.JSON_ERROR_TECHNICAL, "Une erreur est survenue, veuillez contacter le webmestre.");
             return response;
         }
 
-        response.put("responseCode", 200);
+        response.put(WSConstants.JSON_RESPONSE_CODE, 200);
         String codeErreur = borrower.getCode_erreur();
         String messageErreur = borrower.getErreur();
         // Erreurs retournées par le webService
         if (Validator.isNotNull(codeErreur)) {
             switch (codeErreur) {
                 case CodeErreurMediathequeConstants.AUCUNE_ASSOCIATION:
-                    response.put("message", "Aucune association trouv\u00e9e");
+                    response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_LINK_ACCOUNT);
+                    response.put(WSConstants.JSON_MESSAGE, WSConstants.MEDIATHEQUE_MESSAGE);
                     break;
                 case CodeErreurMediathequeConstants.DELAI_DEPASSE:
-                    response.put("message", "Le compte n'a pas \u00e9t\u00e9 activ\u00e9 dans le temps imparti");
+                    response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_CONTACT_WEBMESTRE);
+                    response.put(WSConstants.JSON_MESSAGE, "Le compte n'a pas \u00e9t\u00e9 activ\u00e9 dans le temps imparti");
                     break;
                 case CodeErreurMediathequeConstants.ASSOCIATION_A_VALIDER:
-                    response.put("message", "Le lien d'activation n'a pas \u00e9t\u00e9 effectu\u00e9");
+                    response.put(WSConstants.JSON_MESSAGE, "Le lien d'activation n'a pas \u00e9t\u00e9 effectu\u00e9");
                     break;
                 case CodeErreurMediathequeConstants.AUCUN_EMAIL:
-                    response.put("message", "L'email n'est pas renseign\u00e9");
+                    response.put(WSConstants.JSON_MESSAGE, "L'email n'est pas renseign\u00e9");
                     break;
                 case CodeErreurMediathequeConstants.AUCUNE_CARTE:
-                    response.put("message", messageErreur);
+                    response.put(WSConstants.JSON_MESSAGE, messageErreur);
                     break;
                 case CodeErreurMediathequeConstants.ASSOCIATION_SUPPRIMEE:
-                    response.put("message", messageErreur);
+                    response.put(WSConstants.JSON_MESSAGE, messageErreur);
                     break;
                 default:
-                    response.put("errorTechnical", messageErreur);
+                    response.put(WSConstants.JSON_ERROR_TECHNICAL, messageErreur);
                     break;
             }
             return response;
@@ -83,26 +87,26 @@ public class WSAccountData {
         // Le webService retourne un message d'erreur sans code (erreur technique de leur côté)
         String messageErreurTechnique = borrower.getErr();
         if (Validator.isNotNull(messageErreurTechnique) && !messageErreurTechnique.equals("0")) {
-            response.put("errorDescription", messageErreurTechnique);
-            response.put("errorTechnical", "Une erreur est survenue, veuillez contacter le webmestre.");
+            response.put(WSConstants.JSON_ERROR_DESCRIPTION, messageErreurTechnique);
+            response.put(WSConstants.JSON_ERROR_TECHNICAL, "Une erreur est survenue, veuillez contacter le webmestre.");
             return response;
         }
 
         // tout va bien :D
         // Gestion numéro de carte
         String cardNumber = borrower.getCardNumber();
-        response.put("cardNumber", cardNumber);
+        response.put(WSConstants.JSON_CARD_NUMBER, cardNumber);
 
         // Gestion date d'expiration
         LocalDate expirationDate = borrower.getExpireDate();
         if(Validator.isNotNull(expirationDate)) {
-            response.put("expirationDate", expirationDate.format(formatter));
+            response.put(WSConstants.JSON_EXPIRATION_DATE, expirationDate.format(formatter));
             LocalDate today = LocalDate.now();
             if (today.isAfter(expirationDate)) {
-                response.put("messageExpirationDate", "Votre abonnement Pass'relle est arriv\u00e9 \u00e0 \u00e9ch\u00e9ance. Pensez \u00e0 vous r\u00e9abonner !");
+                response.put(WSConstants.JSON_MESSAGE_EXPIRATION_DATE, "Votre abonnement Pass'relle est arriv\u00e9 \u00e0 \u00e9ch\u00e9ance. Pensez \u00e0 vous r\u00e9abonner !");
             }
             if (today.plusMonths(1).isAfter(expirationDate)) {
-                response.put("messageExpirationDate", "Votre abonnement Pass'relle arrive \u00e0 \u00e9ch\u00e9ance dans moins d'un mois, pensez \u00e0 vous r\u00e9abonner !");
+                response.put(WSConstants.JSON_MESSAGE_EXPIRATION_DATE, "Votre abonnement Pass'relle arrive \u00e0 \u00e9ch\u00e9ance dans moins d'un mois, pensez \u00e0 vous r\u00e9abonner !");
             }
         }
 
@@ -124,7 +128,7 @@ public class WSAccountData {
 
                     borrowingsJsonArray.put(borrowedMedia);
                 }
-                response.put("borrowings", borrowingsJsonArray);
+                response.put(WSConstants.JSON_BORROWINGS, borrowingsJsonArray);
             }
         }
 
@@ -157,30 +161,33 @@ public class WSAccountData {
     public static JSONObject getResid(String publicUserId) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
-        response.put("url", StrasbourgPropsUtil.getResidantURL());
+        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getResidantURL());
+        response.put(WSConstants.JSON_LABELURL, WSConstants.RESID_SITE);
 
         DossiersResponse dossierResponse = DossiersWebService.getResponse(publicUserId);
 
         // pas de réponse
         if (Validator.isNull(dossierResponse)) {
-            response.put("responseCode", 500);
-            response.put("errorDescription", "Une erreur technique est survenue");
-            response.put("errorTechnical", "Le service est momentan\u00E9ment indisponible, veuillez r\u00E9essayer ult\u00E9rieurement.");
+            response.put(WSConstants.JSON_RESPONSE_CODE, 500);
+            response.put(WSConstants.JSON_ERROR_DESCRIPTION, "Une erreur technique est survenue");
+            response.put(WSConstants.JSON_ERROR_TECHNICAL, "Le service est momentan\u00E9ment indisponible, veuillez r\u00E9essayer ult\u00E9rieurement.");
             return response;
         }
 
-        response.put("responseCode", 200);
+        response.put(WSConstants.JSON_RESPONSE_CODE, 200);
 
         // Erreur renvoyé par le webservice
         String messageErreur = dossierResponse.getErreurDescription();
         if (dossierResponse.getCodeRetour() != 0) {
-            response.put("message", messageErreur);
+            response.put(WSConstants.JSON_MESSAGE, messageErreur);
             return response;
         }
 
         List<Dossier> dossiers = dossierResponse.getDossiers();
         // Pas de dossier
         if (dossiers.isEmpty()) {
+            response.put(WSConstants.JSON_MESSAGE, WSConstants.RESID_MESSAGE);
+            response.put(WSConstants.JSON_EXPLICATIVE_TEXT, WSConstants.RESID_EXPLICATIVE_MESSAGE);
             return response;
         }
 
@@ -295,7 +302,7 @@ public class WSAccountData {
 
                 files.put(file);
             }
-            response.put("files", files);
+            response.put(WSConstants.JSON_FILES, files);
         }
 
         return response;
@@ -307,28 +314,30 @@ public class WSAccountData {
     public static JSONObject getFamily(String publicUserId) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
-        response.put("url", StrasbourgPropsUtil.getFamilySpaceURL());
+        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilySpaceURL());
+        response.put(WSConstants.JSON_LABELURL, WSConstants.FAMILY_SITE);
 
         FamilySpaceResponse familySpaceResponse = FamilySpaceWebService.getResponse(publicUserId);
 
         // Pas de réponse
         if (Validator.isNull(familySpaceResponse)) {
-            response.put("responseCode", 500);
-            response.put("errorDescription", "Une erreur technique est survenue");
-            response.put("errorTechnical", "Le service est momentan\u00E9ment indisponible, veuillez r\u00E9essayer ult\u00E9rieurement.");
+            response.put(WSConstants.JSON_RESPONSE_CODE, 500);
+            response.put(WSConstants.JSON_ERROR_DESCRIPTION, "Une erreur technique est survenue");
+            response.put(WSConstants.JSON_ERROR_TECHNICAL, "Le service est momentan\u00E9ment indisponible, veuillez r\u00E9essayer ult\u00E9rieurement.");
             return response;
         }
 
-        response.put("responseCode", 200);
+        response.put(WSConstants.JSON_RESPONSE_CODE, 200);
 
         // Erreur renvoyé par le webservice
         if (familySpaceResponse.getCodeRetour() == 1) {
-            response.put("message", familySpaceResponse.getErreurDescription());
+            response.put(WSConstants.JSON_MESSAGE, familySpaceResponse.getErreurDescription());
             return response;
         }
 
         // Pas de comptes liés
         if (familySpaceResponse.getCount() == 0) {
+            response.put(WSConstants.JSON_MESSAGE, WSConstants.FAMILY_MESSAGE);
             return response;
         }
 
@@ -374,7 +383,7 @@ public class WSAccountData {
             }
             familiesJson.put(familyJson);
         }
-        response.put("familes", familiesJson);
+        response.put(WSConstants.JSON_FAMILIES, familiesJson);
 
         return response;
     }

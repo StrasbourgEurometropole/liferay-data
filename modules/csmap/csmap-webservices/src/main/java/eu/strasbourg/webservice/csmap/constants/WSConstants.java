@@ -2,7 +2,9 @@ package eu.strasbourg.webservice.csmap.constants;
 
 public class WSConstants {
 
-    /** Web service config */
+    /**
+     * Web service config
+     */
     public static final String APP_GROUP_BASE = "/csmap-ws";
     public static final String APP_AUTH_BASE = "/auth";
     public static final String APP_AUTH_NAME = "CSMAP.Auth.Rest";
@@ -24,7 +26,9 @@ public class WSConstants {
     public static final String APP_TRANSPORT_NAME = "CSMAP.Transport.Rest";
 
 
-    /** Publik */
+    /**
+     * Publik
+     */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
     public static final String ID_TOKEN = "id_token";
     public static final String ACCESS_TOKEN = "access_token";
@@ -36,18 +40,24 @@ public class WSConstants {
     public static final String ACCORD_PLACIT = "accord_placit";
     public static final String LISTING_PLACIT = "accord_placit_listing";
 
-    /** Token config */
+    /**
+     * Token config
+     */
     public static final int TOKEN_LENGTH = 255;
     public static final int JWT_VALIDITY_SECONDS = 3600;
     public static final int JWT_VALIDITY_LEEWAY = 10;
     public static final String JWT_HEADER_NAME = "JWT_CSM";
 
-    /** Paramètres */
+    /**
+     * Paramètres
+     */
     // Place
     public static final String PARAM_IDS_CATEGORY = "ids_category";
     public static final String PARAM_LAST_UPDATE_TIME_DEFAULT = "2000-01-01";
 
-    /** JSON de réponse */
+    /**
+     * JSON de réponse
+     */
     // Global
     public static final String JSON_RESPONSE = "response";
     public static final String JSON_RESPONSE_CODE = "responseCode";
@@ -66,8 +76,8 @@ public class WSConstants {
     public static final String JSON_UPDATE = "UPDATE";
     public static final String JSON_DELETE = "DELETE";
     public static final String JSON_PLACE_NAME = "name";
-    public static final String JSON_PLACE_OPDENDATA_URL= "openDataURL";
-    public static final String JSON_PLACE_TYPES= "types";
+    public static final String JSON_PLACE_OPDENDATA_URL = "openDataURL";
+    public static final String JSON_PLACE_TYPES = "types";
     // Place catégories
     public static final String JSON_CATEG_ID = "id";
     public static final String JSON_PARENT_ID = "parentId";
@@ -88,6 +98,16 @@ public class WSConstants {
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";
     public static final String JSON_URL = "url";
+    public static final String JSON_LABELURL = "labelUrl";
+    public static final String JSON_MESSAGE = "message";
+    public static final String JSON_EXPLICATIVE_TEXT = "explicativeText";
+    public static final String JSON_ERROR_TECHNICAL = "errorTechnical";
+    public static final String JSON_CARD_NUMBER = "cardNumber";
+    public static final String JSON_EXPIRATION_DATE = "expirationDate";
+    public static final String JSON_MESSAGE_EXPIRATION_DATE = "messageExpirationDate";
+    public static final String JSON_BORROWINGS = "borrowings";
+    public static final String JSON_FILES = "files";
+    public static final String JSON_FAMILIES = "families";
     // Various-Data
     public static final String JSON_WC_ID = "id";
     public static final String JSON_DATE = "date";
@@ -122,7 +142,9 @@ public class WSConstants {
     public static final String JSON_IDS = "ids";
 
 
-    /** Config */
+    /**
+     * Config
+     */
     // Global
     public static final String GROUP_KEY_CSMAP = "CSMAP";
 
@@ -150,7 +172,9 @@ public class WSConstants {
     public static final String STRUCTURE_STATUT_MODULES = "Statut des modules";
     public static final String STRUCTURE_LAST_VERSION = "Derni\u00e8re version recommand\u00e9e";
 
-    /** Erreurs */
+    /**
+     * Erreurs
+     */
     // Global
     public static final String ERROR_NO_JWT_IN_HEADER = "No JWT in header";
     public static final String ERROR_INVALID_TOKEN = "Invalid token received during authentication";
@@ -169,4 +193,17 @@ public class WSConstants {
     // Place
     public static final String ERROR_NO_DEFAULT_PICTO = "No default picto available for this application";
 
+    /**
+     * Valeurs
+     */
+    // Account-Data
+    public static final String RESID_SITE = "Site stationnement résidant";
+    public static final String RESID_MESSAGE = "Consultez la validité de votre titre de stationnement résidant et soyez informé en amont de la nécessité de son renouvellement en liant votre compte résidant à votre compte Mon Strasbourg";
+    public static final String RESID_EXPLICATIVE_MESSAGE = "Une fois sur le site, connectez-vous en saisissant votre numéro de dossier et votre mot de passe et suivez les indications.";
+    public static final String FAMILY_SITE = "Site Espace famille";
+    public static final String FAMILY_MESSAGE = "Accédez à votre Espace famille depuis votre compte Mon Strasbourg pour consulter la validité de l’inscription aux services périscolaires et/ou de cantines.";
+    public static final String MEDIATHEQUE_SITE = "Site Médiathèque";
+    public static final String MEDIATHEQUE_LINK_ACCOUNT = "Lier mon compte";
+    public static final String MEDIATHEQUE_CONTACT_WEBMESTRE = "Merci de contacter le webmestre";
+    public static final String MEDIATHEQUE_MESSAGE = "Accédez à votre compte Mon Strasbourg pour lier votre compte aux médiathèques et suivre les emprunts et réservations en cours.";
 }
