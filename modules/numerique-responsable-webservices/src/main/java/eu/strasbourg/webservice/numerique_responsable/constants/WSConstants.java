@@ -5,7 +5,9 @@ public class WSConstants {
     /** Web service config */
     public static final String APP_GROUP_BASE = "/numerique-responsable-ws";
     public static final String APP_SEARCH_BASE = "/search";
+    public static final String APP_CONTACT_BASE = "/contact";
     public static final String APP_SEARCH_NAME = "NUMRESP.Search.Rest";
+    public static final String APP_CONTACT_NAME = "NUMRESP.Contact.Rest";
 
     /** JSON de réponse */
     // Global
