@@ -49,14 +49,14 @@ public class WSConstants {
     public static final String JWT_HEADER_NAME = "JWT_CSM";
 
     /**
-     * Paramètres
+     * Param\u00e8tres
      */
     // Place
     public static final String PARAM_IDS_CATEGORY = "ids_category";
     public static final String PARAM_LAST_UPDATE_TIME_DEFAULT = "2000-01-01";
 
     /**
-     * JSON de réponse
+     * JSON de r\u00e9ponse
      */
     // Global
     public static final String JSON_RESPONSE = "response";
@@ -78,7 +78,7 @@ public class WSConstants {
     public static final String JSON_PLACE_NAME = "name";
     public static final String JSON_PLACE_OPDENDATA_URL = "openDataURL";
     public static final String JSON_PLACE_TYPES = "types";
-    // Place catégories
+    // Place cat\u00e9gories
     public static final String JSON_CATEG_ID = "id";
     public static final String JSON_PARENT_ID = "parentId";
     public static final String JSON_NAME = "name";
@@ -157,8 +157,8 @@ public class WSConstants {
     public static final String TAG_CSMAP = "csmap";
     public static final String STRUCTURE_BREVE = "Breve";
     public static final String STRUCTURE_SOCIAL_NETWORK = "R\u00e9seaux sociaux";
-    public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d'urgence";
-    public static final String STRUCTURE_EMERGENCY_HELP = "Aide d'urgence";
+    public static final String STRUCTURE_EMERGENCY_NUMBER = "Num\u00e9ro d\u0027urgence";
+    public static final String STRUCTURE_EMERGENCY_HELP = "Aide d\u0027urgence";
     public static final String FOLDER_DIVERS = "Divers";
     public static final String FOLDER_EMERGENCY_NUMBERS = "Num\u00e9ros urgence";
     public static final String FOLDER_EMERGENCY_HELPS = "Aides urgence";
@@ -197,13 +197,13 @@ public class WSConstants {
      * Valeurs
      */
     // Account-Data
-    public static final String RESID_SITE = "Site stationnement résidant";
-    public static final String RESID_MESSAGE = "Consultez la validité de votre titre de stationnement résidant et soyez informé en amont de la nécessité de son renouvellement en liant votre compte résidant à votre compte Mon Strasbourg";
-    public static final String RESID_EXPLICATIVE_MESSAGE = "Une fois sur le site, connectez-vous en saisissant votre numéro de dossier et votre mot de passe et suivez les indications.";
+    public static final String RESID_SITE = "Site stationnement r\u00e9sidant";
+    public static final String RESID_MESSAGE = "Consultez la validit\u00e9 de votre titre de stationnement r\u00e9sidant et soyez inform\u00e9 en amont de la n\u00e9cessit\u00e9 de son renouvellement en liant votre compte r\u00e9sidant \u00e0 votre compte Mon Strasbourg";
+    public static final String RESID_EXPLICATIVE_MESSAGE = "Une fois sur le site, connectez-vous en saisissant votre num\u00e9ro de dossier et votre mot de passe et suivez les indications.";
     public static final String FAMILY_SITE = "Site Espace famille";
-    public static final String FAMILY_MESSAGE = "Accédez à votre Espace famille depuis votre compte Mon Strasbourg pour consulter la validité de l’inscription aux services périscolaires et/ou de cantines.";
-    public static final String MEDIATHEQUE_SITE = "Site Médiathèque";
+    public static final String FAMILY_MESSAGE = "Acc\u00e9dez \u00e0 votre Espace famille depuis votre compte Mon Strasbourg pour consulter la validit\u00e9 de l\u0027inscription aux services p\u00e9riscolaires et/ou de cantines.";
+    public static final String MEDIATHEQUE_SITE = "Site M\u00e9diath\u00e8que";
     public static final String MEDIATHEQUE_LINK_ACCOUNT = "Lier mon compte";
     public static final String MEDIATHEQUE_CONTACT_WEBMESTRE = "Merci de contacter le webmestre";
-    public static final String MEDIATHEQUE_MESSAGE = "Accédez à votre compte Mon Strasbourg pour lier votre compte aux médiathèques et suivre les emprunts et réservations en cours.";
+    public static final String MEDIATHEQUE_MESSAGE = "Acc\u00e9dez \u00e0 votre compte Mon Strasbourg pour lier votre compte aux m\u00e9diath\u00e8ques et suivre les emprunts et r\u00e9servations en cours.";
 }
