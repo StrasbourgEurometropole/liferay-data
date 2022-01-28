@@ -36,7 +36,7 @@ services:
         constraints: [node.role == worker]
 
   kibana:
-    image: docker.elastic.co/kibana/kibana-oss:6.8.22
+    image: docker.elastic.co/kibana/kibana-oss:6.8.23
     environment:
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:

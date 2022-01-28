@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSONModel;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.io.Serializable;
 
@@ -66,8 +67,8 @@ public class CacheHoursJSONModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"stopCode", Types.VARCHAR},
-		{"jsonHour", Types.CLOB}, {"creationDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP}
+		{"type_", Types.INTEGER}, {"jsonHour", Types.CLOB},
+		{"creationDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -76,22 +77,23 @@ public class CacheHoursJSONModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("stopCode", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("jsonHour", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("creationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_CacheHoursJSON (uuid_ VARCHAR(75) null,stopCode VARCHAR(75) not null primary key,jsonHour TEXT null,creationDate DATE null,modifiedDate DATE null)";
+		"create table gtfs_CacheHoursJSON (uuid_ VARCHAR(75) null,stopCode VARCHAR(75) not null,type_ INTEGER not null,jsonHour TEXT null,creationDate DATE null,modifiedDate DATE null,primary key (stopCode, type_))";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table gtfs_CacheHoursJSON";
 
 	public static final String ORDER_BY_JPQL =
-		" ORDER BY cacheHoursJSON.stopCode ASC";
+		" ORDER BY cacheHoursJSON.id.stopCode ASC, cacheHoursJSON.id.type ASC";
 
 	public static final String ORDER_BY_SQL =
-		" ORDER BY gtfs_CacheHoursJSON.stopCode ASC";
+		" ORDER BY gtfs_CacheHoursJSON.stopCode ASC, gtfs_CacheHoursJSON.type_ ASC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -116,7 +118,9 @@ public class CacheHoursJSONModelImpl
 
 	public static final long STOPCODE_COLUMN_BITMASK = 1L;
 
-	public static final long UUID_COLUMN_BITMASK = 2L;
+	public static final long TYPE_COLUMN_BITMASK = 2L;
+
+	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -126,23 +130,24 @@ public class CacheHoursJSONModelImpl
 	}
 
 	@Override
-	public String getPrimaryKey() {
-		return _stopCode;
+	public CacheHoursJSONPK getPrimaryKey() {
+		return new CacheHoursJSONPK(_stopCode, _type);
 	}
 
 	@Override
-	public void setPrimaryKey(String primaryKey) {
-		setStopCode(primaryKey);
+	public void setPrimaryKey(CacheHoursJSONPK primaryKey) {
+		setStopCode(primaryKey.stopCode);
+		setType(primaryKey.type);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _stopCode;
+		return new CacheHoursJSONPK(_stopCode, _type);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey((String)primaryKeyObj);
+		setPrimaryKey((CacheHoursJSONPK)primaryKeyObj);
 	}
 
 	@Override
@@ -290,6 +295,26 @@ public class CacheHoursJSONModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"type",
+			new Function<CacheHoursJSON, Object>() {
+
+				@Override
+				public Object apply(CacheHoursJSON cacheHoursJSON) {
+					return cacheHoursJSON.getType();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"type",
+			new BiConsumer<CacheHoursJSON, Object>() {
+
+				@Override
+				public void accept(CacheHoursJSON cacheHoursJSON, Object type) {
+					cacheHoursJSON.setType((Integer)type);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"jsonHour",
 			new Function<CacheHoursJSON, Object>() {
 
@@ -413,6 +438,28 @@ public class CacheHoursJSONModelImpl
 	}
 
 	@Override
+	public int getType() {
+		return _type;
+	}
+
+	@Override
+	public void setType(int type) {
+		_columnBitmask |= TYPE_COLUMN_BITMASK;
+
+		if (!_setOriginalType) {
+			_setOriginalType = true;
+
+			_originalType = _type;
+		}
+
+		_type = type;
+	}
+
+	public int getOriginalType() {
+		return _originalType;
+	}
+
+	@Override
 	public String getJsonHour() {
 		if (_jsonHour == null) {
 			return "";
@@ -467,6 +514,7 @@ public class CacheHoursJSONModelImpl
 
 		cacheHoursJSONImpl.setUuid(getUuid());
 		cacheHoursJSONImpl.setStopCode(getStopCode());
+		cacheHoursJSONImpl.setType(getType());
 		cacheHoursJSONImpl.setJsonHour(getJsonHour());
 		cacheHoursJSONImpl.setCreationDate(getCreationDate());
 		cacheHoursJSONImpl.setModifiedDate(getModifiedDate());
@@ -478,7 +526,7 @@ public class CacheHoursJSONModelImpl
 
 	@Override
 	public int compareTo(CacheHoursJSON cacheHoursJSON) {
-		String primaryKey = cacheHoursJSON.getPrimaryKey();
+		CacheHoursJSONPK primaryKey = cacheHoursJSON.getPrimaryKey();
 
 		return getPrimaryKey().compareTo(primaryKey);
 	}
@@ -495,7 +543,7 @@ public class CacheHoursJSONModelImpl
 
 		CacheHoursJSON cacheHoursJSON = (CacheHoursJSON)obj;
 
-		String primaryKey = cacheHoursJSON.getPrimaryKey();
+		CacheHoursJSONPK primaryKey = cacheHoursJSON.getPrimaryKey();
 
 		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
@@ -529,6 +577,10 @@ public class CacheHoursJSONModelImpl
 		cacheHoursJSONModelImpl._originalStopCode =
 			cacheHoursJSONModelImpl._stopCode;
 
+		cacheHoursJSONModelImpl._originalType = cacheHoursJSONModelImpl._type;
+
+		cacheHoursJSONModelImpl._setOriginalType = false;
+
 		cacheHoursJSONModelImpl._columnBitmask = 0;
 	}
 
@@ -536,6 +588,8 @@ public class CacheHoursJSONModelImpl
 	public CacheModel<CacheHoursJSON> toCacheModel() {
 		CacheHoursJSONCacheModel cacheHoursJSONCacheModel =
 			new CacheHoursJSONCacheModel();
+
+		cacheHoursJSONCacheModel.cacheHoursJSONPK = getPrimaryKey();
 
 		cacheHoursJSONCacheModel.uuid = getUuid();
 
@@ -552,6 +606,8 @@ public class CacheHoursJSONModelImpl
 		if ((stopCode != null) && (stopCode.length() == 0)) {
 			cacheHoursJSONCacheModel.stopCode = null;
 		}
+
+		cacheHoursJSONCacheModel.type = getType();
 
 		cacheHoursJSONCacheModel.jsonHour = getJsonHour();
 
@@ -652,6 +708,9 @@ public class CacheHoursJSONModelImpl
 	private String _originalUuid;
 	private String _stopCode;
 	private String _originalStopCode;
+	private int _type;
+	private int _originalType;
+	private boolean _setOriginalType;
 	private String _jsonHour;
 	private Date _creationDate;
 	private Date _modifiedDate;

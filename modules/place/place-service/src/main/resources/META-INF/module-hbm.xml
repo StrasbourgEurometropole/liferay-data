@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
-	<import class="eu.strasbourg.service.place.model.CacheJson" />
+	<import class="eu.strasbourg.service.place.model.CsmapCacheJson" />
 	<import class="eu.strasbourg.service.place.model.GoogleMyBusinessHistoric" />
 	<import class="eu.strasbourg.service.place.model.Historic" />
 	<import class="eu.strasbourg.service.place.model.Period" />
@@ -12,7 +12,7 @@
 	<import class="eu.strasbourg.service.place.model.ScheduleException" />
 	<import class="eu.strasbourg.service.place.model.Slot" />
 	<import class="eu.strasbourg.service.place.model.SubPlace" />
-	<class name="eu.strasbourg.service.place.model.impl.CacheJsonImpl" table="place_CacheJson">
+	<class name="eu.strasbourg.service.place.model.impl.CsmapCacheJsonImpl" table="place_CsmapCacheJson">
 		<id name="sigId" type="java.lang.String">
 			<generator class="assigned" />
 		</id>

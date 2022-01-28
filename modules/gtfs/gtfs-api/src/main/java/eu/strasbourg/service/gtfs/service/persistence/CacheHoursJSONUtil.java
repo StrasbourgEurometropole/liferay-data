@@ -259,20 +259,21 @@ public class CacheHoursJSONUtil {
 	/**
 	 * Returns the cache hours jsons before and after the current cache hours json in the ordered set where uuid = &#63;.
 	 *
-	 * @param stopCode the primary key of the current cache hours json
+	 * @param cacheHoursJSONPK the primary key of the current cache hours json
 	 * @param uuid the uuid
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next cache hours json
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON[] findByUuid_PrevAndNext(
-			String stopCode, String uuid,
-			OrderByComparator<CacheHoursJSON> orderByComparator)
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK,
+			String uuid, OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
 		return getPersistence().findByUuid_PrevAndNext(
-			stopCode, uuid, orderByComparator);
+			cacheHoursJSONPK, uuid, orderByComparator);
 	}
 
 	/**
@@ -300,8 +301,8 @@ public class CacheHoursJSONUtil {
 	 * @param stopCode the stop code
 	 * @return the matching cache hours jsons
 	 */
-	public static List<CacheHoursJSON> findBystopCode(String stopCode) {
-		return getPersistence().findBystopCode(stopCode);
+	public static List<CacheHoursJSON> findByStopCode(String stopCode) {
+		return getPersistence().findByStopCode(stopCode);
 	}
 
 	/**
@@ -316,10 +317,10 @@ public class CacheHoursJSONUtil {
 	 * @param end the upper bound of the range of cache hours jsons (not inclusive)
 	 * @return the range of matching cache hours jsons
 	 */
-	public static List<CacheHoursJSON> findBystopCode(
+	public static List<CacheHoursJSON> findByStopCode(
 		String stopCode, int start, int end) {
 
-		return getPersistence().findBystopCode(stopCode, start, end);
+		return getPersistence().findByStopCode(stopCode, start, end);
 	}
 
 	/**
@@ -335,11 +336,11 @@ public class CacheHoursJSONUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching cache hours jsons
 	 */
-	public static List<CacheHoursJSON> findBystopCode(
+	public static List<CacheHoursJSON> findByStopCode(
 		String stopCode, int start, int end,
 		OrderByComparator<CacheHoursJSON> orderByComparator) {
 
-		return getPersistence().findBystopCode(
+		return getPersistence().findByStopCode(
 			stopCode, start, end, orderByComparator);
 	}
 
@@ -357,12 +358,12 @@ public class CacheHoursJSONUtil {
 	 * @param retrieveFromCache whether to retrieve from the finder cache
 	 * @return the ordered range of matching cache hours jsons
 	 */
-	public static List<CacheHoursJSON> findBystopCode(
+	public static List<CacheHoursJSON> findByStopCode(
 		String stopCode, int start, int end,
 		OrderByComparator<CacheHoursJSON> orderByComparator,
 		boolean retrieveFromCache) {
 
-		return getPersistence().findBystopCode(
+		return getPersistence().findByStopCode(
 			stopCode, start, end, orderByComparator, retrieveFromCache);
 	}
 
@@ -374,13 +375,13 @@ public class CacheHoursJSONUtil {
 	 * @return the first matching cache hours json
 	 * @throws NoSuchCacheHoursJSONException if a matching cache hours json could not be found
 	 */
-	public static CacheHoursJSON findBystopCode_First(
+	public static CacheHoursJSON findByStopCode_First(
 			String stopCode,
 			OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
-		return getPersistence().findBystopCode_First(
+		return getPersistence().findByStopCode_First(
 			stopCode, orderByComparator);
 	}
 
@@ -391,10 +392,10 @@ public class CacheHoursJSONUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
 	 */
-	public static CacheHoursJSON fetchBystopCode_First(
+	public static CacheHoursJSON fetchByStopCode_First(
 		String stopCode, OrderByComparator<CacheHoursJSON> orderByComparator) {
 
-		return getPersistence().fetchBystopCode_First(
+		return getPersistence().fetchByStopCode_First(
 			stopCode, orderByComparator);
 	}
 
@@ -406,13 +407,13 @@ public class CacheHoursJSONUtil {
 	 * @return the last matching cache hours json
 	 * @throws NoSuchCacheHoursJSONException if a matching cache hours json could not be found
 	 */
-	public static CacheHoursJSON findBystopCode_Last(
+	public static CacheHoursJSON findByStopCode_Last(
 			String stopCode,
 			OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
-		return getPersistence().findBystopCode_Last(
+		return getPersistence().findByStopCode_Last(
 			stopCode, orderByComparator);
 	}
 
@@ -423,11 +424,32 @@ public class CacheHoursJSONUtil {
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
 	 */
-	public static CacheHoursJSON fetchBystopCode_Last(
+	public static CacheHoursJSON fetchByStopCode_Last(
 		String stopCode, OrderByComparator<CacheHoursJSON> orderByComparator) {
 
-		return getPersistence().fetchBystopCode_Last(
+		return getPersistence().fetchByStopCode_Last(
 			stopCode, orderByComparator);
+	}
+
+	/**
+	 * Returns the cache hours jsons before and after the current cache hours json in the ordered set where stopCode = &#63;.
+	 *
+	 * @param cacheHoursJSONPK the primary key of the current cache hours json
+	 * @param stopCode the stop code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache hours json
+	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
+	 */
+	public static CacheHoursJSON[] findByStopCode_PrevAndNext(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK,
+			String stopCode,
+			OrderByComparator<CacheHoursJSON> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().findByStopCode_PrevAndNext(
+			cacheHoursJSONPK, stopCode, orderByComparator);
 	}
 
 	/**
@@ -435,8 +457,8 @@ public class CacheHoursJSONUtil {
 	 *
 	 * @param stopCode the stop code
 	 */
-	public static void removeBystopCode(String stopCode) {
-		getPersistence().removeBystopCode(stopCode);
+	public static void removeByStopCode(String stopCode) {
+		getPersistence().removeByStopCode(stopCode);
 	}
 
 	/**
@@ -445,8 +467,246 @@ public class CacheHoursJSONUtil {
 	 * @param stopCode the stop code
 	 * @return the number of matching cache hours jsons
 	 */
-	public static int countBystopCode(String stopCode) {
-		return getPersistence().countBystopCode(stopCode);
+	public static int countByStopCode(String stopCode) {
+		return getPersistence().countByStopCode(stopCode);
+	}
+
+	/**
+	 * Returns all the cache hours jsons where type = &#63;.
+	 *
+	 * @param type the type
+	 * @return the matching cache hours jsons
+	 */
+	public static List<CacheHoursJSON> findByType(int type) {
+		return getPersistence().findByType(type);
+	}
+
+	/**
+	 * Returns a range of all the cache hours jsons where type = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheHoursJSONModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param type the type
+	 * @param start the lower bound of the range of cache hours jsons
+	 * @param end the upper bound of the range of cache hours jsons (not inclusive)
+	 * @return the range of matching cache hours jsons
+	 */
+	public static List<CacheHoursJSON> findByType(
+		int type, int start, int end) {
+
+		return getPersistence().findByType(type, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache hours jsons where type = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheHoursJSONModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param type the type
+	 * @param start the lower bound of the range of cache hours jsons
+	 * @param end the upper bound of the range of cache hours jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching cache hours jsons
+	 */
+	public static List<CacheHoursJSON> findByType(
+		int type, int start, int end,
+		OrderByComparator<CacheHoursJSON> orderByComparator) {
+
+		return getPersistence().findByType(type, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the cache hours jsons where type = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheHoursJSONModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param type the type
+	 * @param start the lower bound of the range of cache hours jsons
+	 * @param end the upper bound of the range of cache hours jsons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching cache hours jsons
+	 */
+	public static List<CacheHoursJSON> findByType(
+		int type, int start, int end,
+		OrderByComparator<CacheHoursJSON> orderByComparator,
+		boolean retrieveFromCache) {
+
+		return getPersistence().findByType(
+			type, start, end, orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	 * Returns the first cache hours json in the ordered set where type = &#63;.
+	 *
+	 * @param type the type
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache hours json
+	 * @throws NoSuchCacheHoursJSONException if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON findByType_First(
+			int type, OrderByComparator<CacheHoursJSON> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().findByType_First(type, orderByComparator);
+	}
+
+	/**
+	 * Returns the first cache hours json in the ordered set where type = &#63;.
+	 *
+	 * @param type the type
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON fetchByType_First(
+		int type, OrderByComparator<CacheHoursJSON> orderByComparator) {
+
+		return getPersistence().fetchByType_First(type, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache hours json in the ordered set where type = &#63;.
+	 *
+	 * @param type the type
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache hours json
+	 * @throws NoSuchCacheHoursJSONException if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON findByType_Last(
+			int type, OrderByComparator<CacheHoursJSON> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().findByType_Last(type, orderByComparator);
+	}
+
+	/**
+	 * Returns the last cache hours json in the ordered set where type = &#63;.
+	 *
+	 * @param type the type
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON fetchByType_Last(
+		int type, OrderByComparator<CacheHoursJSON> orderByComparator) {
+
+		return getPersistence().fetchByType_Last(type, orderByComparator);
+	}
+
+	/**
+	 * Returns the cache hours jsons before and after the current cache hours json in the ordered set where type = &#63;.
+	 *
+	 * @param cacheHoursJSONPK the primary key of the current cache hours json
+	 * @param type the type
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next cache hours json
+	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
+	 */
+	public static CacheHoursJSON[] findByType_PrevAndNext(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK,
+			int type, OrderByComparator<CacheHoursJSON> orderByComparator)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().findByType_PrevAndNext(
+			cacheHoursJSONPK, type, orderByComparator);
+	}
+
+	/**
+	 * Removes all the cache hours jsons where type = &#63; from the database.
+	 *
+	 * @param type the type
+	 */
+	public static void removeByType(int type) {
+		getPersistence().removeByType(type);
+	}
+
+	/**
+	 * Returns the number of cache hours jsons where type = &#63;.
+	 *
+	 * @param type the type
+	 * @return the number of matching cache hours jsons
+	 */
+	public static int countByType(int type) {
+		return getPersistence().countByType(type);
+	}
+
+	/**
+	 * Returns the cache hours json where stopCode = &#63; and type = &#63; or throws a <code>NoSuchCacheHoursJSONException</code> if it could not be found.
+	 *
+	 * @param stopCode the stop code
+	 * @param type the type
+	 * @return the matching cache hours json
+	 * @throws NoSuchCacheHoursJSONException if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON findByStopCodeAndType(
+			String stopCode, int type)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().findByStopCodeAndType(stopCode, type);
+	}
+
+	/**
+	 * Returns the cache hours json where stopCode = &#63; and type = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param stopCode the stop code
+	 * @param type the type
+	 * @return the matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON fetchByStopCodeAndType(
+		String stopCode, int type) {
+
+		return getPersistence().fetchByStopCodeAndType(stopCode, type);
+	}
+
+	/**
+	 * Returns the cache hours json where stopCode = &#63; and type = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param stopCode the stop code
+	 * @param type the type
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching cache hours json, or <code>null</code> if a matching cache hours json could not be found
+	 */
+	public static CacheHoursJSON fetchByStopCodeAndType(
+		String stopCode, int type, boolean retrieveFromCache) {
+
+		return getPersistence().fetchByStopCodeAndType(
+			stopCode, type, retrieveFromCache);
+	}
+
+	/**
+	 * Removes the cache hours json where stopCode = &#63; and type = &#63; from the database.
+	 *
+	 * @param stopCode the stop code
+	 * @param type the type
+	 * @return the cache hours json that was removed
+	 */
+	public static CacheHoursJSON removeByStopCodeAndType(
+			String stopCode, int type)
+		throws eu.strasbourg.service.gtfs.exception.
+			NoSuchCacheHoursJSONException {
+
+		return getPersistence().removeByStopCodeAndType(stopCode, type);
+	}
+
+	/**
+	 * Returns the number of cache hours jsons where stopCode = &#63; and type = &#63;.
+	 *
+	 * @param stopCode the stop code
+	 * @param type the type
+	 * @return the number of matching cache hours jsons
+	 */
+	public static int countByStopCodeAndType(String stopCode, int type) {
+		return getPersistence().countByStopCodeAndType(stopCode, type);
 	}
 
 	/**
@@ -470,25 +730,30 @@ public class CacheHoursJSONUtil {
 	/**
 	 * Creates a new cache hours json with the primary key. Does not add the cache hours json to the database.
 	 *
-	 * @param stopCode the primary key for the new cache hours json
+	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
-	public static CacheHoursJSON create(String stopCode) {
-		return getPersistence().create(stopCode);
+	public static CacheHoursJSON create(
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
+
+		return getPersistence().create(cacheHoursJSONPK);
 	}
 
 	/**
 	 * Removes the cache hours json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json that was removed
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
-	public static CacheHoursJSON remove(String stopCode)
+	public static CacheHoursJSON remove(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
-		return getPersistence().remove(stopCode);
+		return getPersistence().remove(cacheHoursJSONPK);
 	}
 
 	public static CacheHoursJSON updateImpl(CacheHoursJSON cacheHoursJSON) {
@@ -498,25 +763,30 @@ public class CacheHoursJSONUtil {
 	/**
 	 * Returns the cache hours json with the primary key or throws a <code>NoSuchCacheHoursJSONException</code> if it could not be found.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
-	public static CacheHoursJSON findByPrimaryKey(String stopCode)
+	public static CacheHoursJSON findByPrimaryKey(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
-		return getPersistence().findByPrimaryKey(stopCode);
+		return getPersistence().findByPrimaryKey(cacheHoursJSONPK);
 	}
 
 	/**
 	 * Returns the cache hours json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param stopCode the primary key of the cache hours json
+	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json, or <code>null</code> if a cache hours json with the primary key could not be found
 	 */
-	public static CacheHoursJSON fetchByPrimaryKey(String stopCode) {
-		return getPersistence().fetchByPrimaryKey(stopCode);
+	public static CacheHoursJSON fetchByPrimaryKey(
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
+
+		return getPersistence().fetchByPrimaryKey(cacheHoursJSONPK);
 	}
 
 	/**
@@ -601,6 +871,10 @@ public class CacheHoursJSONUtil {
 
 	public static Set<String> getBadColumnNames() {
 		return getPersistence().getBadColumnNames();
+	}
+
+	public static Set<String> getCompoundPKColumnNames() {
+		return getPersistence().getCompoundPKColumnNames();
 	}
 
 	public static CacheHoursJSONPersistence getPersistence() {

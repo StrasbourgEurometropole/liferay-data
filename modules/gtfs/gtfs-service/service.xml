@@ -452,14 +452,22 @@
 
 		<!-- PK fields -->
 		<column name="stopCode" primary="true" type="String" />
+		<column name="type" primary="true" type="int" />
 
 		<!-- Informations générales -->
 		<column name="jsonHour" type="String" />
 		<column name="creationDate" type="Date" />
 		<column name="modifiedDate" type="Date" />
 
-		<finder name="stopCode" return-type="Collection">
+		<finder name="StopCode" return-type="Collection">
 			<finder-column name="stopCode" />
+		</finder>
+		<finder name="Type" return-type="Collection">
+			<finder-column name="type" />
+		</finder>
+		<finder name="StopCodeAndType" return-type="CacheHoursJSON">
+			<finder-column name="stopCode" />
+			<finder-column name="type" />
 		</finder>
 
 	</entity>

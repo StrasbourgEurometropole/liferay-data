@@ -14,6 +14,7 @@ create unique index IX_35E22D27 on gtfs_Arret (uuid_[$COLUMN_LENGTH:75$], groupI
 
 create index IX_DBED97A7 on gtfs_CacheAlertJSON (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_3778B4F5 on gtfs_CacheHoursJSON (type_);
 create index IX_652874D4 on gtfs_CacheHoursJSON (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_5FE52E4F on gtfs_Calendar (end_date);

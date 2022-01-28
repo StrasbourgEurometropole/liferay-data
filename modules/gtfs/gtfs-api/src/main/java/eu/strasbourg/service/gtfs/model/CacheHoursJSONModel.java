@@ -22,6 +22,8 @@ import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
+
 import java.io.Serializable;
 
 import java.util.Date;
@@ -51,14 +53,14 @@ public interface CacheHoursJSONModel extends BaseModel<CacheHoursJSON> {
 	 *
 	 * @return the primary key of this cache hours json
 	 */
-	public String getPrimaryKey();
+	public CacheHoursJSONPK getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this cache hours json.
 	 *
 	 * @param primaryKey the primary key of this cache hours json
 	 */
-	public void setPrimaryKey(String primaryKey);
+	public void setPrimaryKey(CacheHoursJSONPK primaryKey);
 
 	/**
 	 * Returns the uuid of this cache hours json.
@@ -89,6 +91,20 @@ public interface CacheHoursJSONModel extends BaseModel<CacheHoursJSON> {
 	 * @param stopCode the stop code of this cache hours json
 	 */
 	public void setStopCode(String stopCode);
+
+	/**
+	 * Returns the type of this cache hours json.
+	 *
+	 * @return the type of this cache hours json
+	 */
+	public int getType();
+
+	/**
+	 * Sets the type of this cache hours json.
+	 *
+	 * @param type the type of this cache hours json
+	 */
+	public void setType(int type);
 
 	/**
 	 * Returns the json hour of this cache hours json.

@@ -44,7 +44,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
-import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventModel;
 import eu.strasbourg.service.agenda.model.EventParticipation;
@@ -212,25 +212,25 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 
 		//Mise à jour pour CSMap
-		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(event.getEventId());
-		if(Validator.isNull(cacheJson)){
-			cacheJson = this.cacheJsonLocalService.createCacheJson(event.getEventId());
-			cacheJson.setCreateEvent(event.getCreateDate());
+		CsmapCacheJson csmapCacheJson = this.cacheJsonLocalService.fetchCsmapCacheJson(event.getEventId());
+		if(Validator.isNull(csmapCacheJson)){
+			csmapCacheJson = this.cacheJsonLocalService.createCsmapCacheJson(event.getEventId());
+			csmapCacheJson.setCreateEvent(event.getCreateDate());
 
 			// si il a été supprimé, on enlève la ligne dans historic
 			if(Validator.isNotNull(this.historicLocalService.fetchHistoric(event.getEventId())))
 				this.historicLocalService.deleteHistoric(event.getEventId());
 		}
-		cacheJson.setModifiedEvent(event.getModifiedDate());
+		csmapCacheJson.setModifiedEvent(event.getModifiedDate());
 		JSONObject csmapJson = event.getCSMapJSON();
-		cacheJson.setJsonEvent(csmapJson.toString());
+		csmapCacheJson.setJsonEvent(csmapJson.toString());
 		if(csmapJson.getJSONArray("schedules").length() > 0)
-			cacheJson.setHasSchedules(true);
+			csmapCacheJson.setHasSchedules(true);
 		else
-			cacheJson.setHasSchedules(false);
-		cacheJson.setRegeneratedDate(event.getModifiedDate());
-		cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-		this.cacheJsonLocalService.updateCacheJson(cacheJson);
+			csmapCacheJson.setHasSchedules(false);
+		csmapCacheJson.setRegeneratedDate(event.getModifiedDate());
+		csmapCacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+		this.cacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 
 		return event;
 	}
@@ -311,11 +311,11 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}
 
 		//Mise à jour pour CSMap
-		CacheJson cacheJson = this.cacheJsonLocalService.fetchCacheJson(event.getEventId());
-		if(Validator.isNotNull(cacheJson)){
-			cacheJson.setModifiedEvent(event.getModifiedDate());
-			cacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
-			this.cacheJsonLocalService.updateCacheJson(cacheJson);
+		CsmapCacheJson csmapCacheJson = this.cacheJsonLocalService.fetchCsmapCacheJson(event.getEventId());
+		if(Validator.isNotNull(csmapCacheJson)){
+			csmapCacheJson.setModifiedEvent(event.getModifiedDate());
+			csmapCacheJson.setIsActive((event.getStatus()==WorkflowConstants.STATUS_APPROVED)?true:false);
+			this.cacheJsonLocalService.updateCsmapCacheJson(csmapCacheJson);
 		}
 
 		return event;
@@ -458,8 +458,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			event.getEventId());
 
 		//Mise à jour pour CSMap
-		if(Validator.isNotNull(cacheJsonLocalService.fetchCacheJson(event.getEventId())))
-			cacheJsonLocalService.deleteCacheJson(event.getEventId());
+		if(Validator.isNotNull(cacheJsonLocalService.fetchCsmapCacheJson(event.getEventId())))
+			cacheJsonLocalService.deleteCsmapCacheJson(event.getEventId());
 		Historic historic = historicLocalService.fetchHistoric(event.getEventId());
 		if(Validator.isNull(historic))
 			historic = historicLocalService.createHistoric(event.getEventId());
@@ -756,9 +756,9 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 	@BeanReference(
-			type = eu.strasbourg.service.agenda.service.CacheJsonLocalService.class
+			type = eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService.class
 	)
-	protected eu.strasbourg.service.agenda.service.CacheJsonLocalService
+	protected eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
 			cacheJsonLocalService;
 
 	@BeanReference(

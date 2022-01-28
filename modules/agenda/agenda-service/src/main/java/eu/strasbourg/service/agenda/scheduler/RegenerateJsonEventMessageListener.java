@@ -10,7 +10,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntry;
 import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
-import eu.strasbourg.service.agenda.service.CacheJsonLocalService;
+import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -57,14 +57,14 @@ public class RegenerateJsonEventMessageListener
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		log.info("Start updateJsonEvent");
-		_cacheJsonLocalService.updateJsonEvent();
+		_csmapCacheJsonLocalService.updateJsonEvent();
 		log.info("Finish updateJsonEvent");
 	}
 
 	@Reference(unbind = "-")
-	protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
+	protected void setCsmapCacheJsonLocalService(CsmapCacheJsonLocalService csmapCacheJsonLocalService) {
 
-		_cacheJsonLocalService = cacheJsonLocalService;
+		_csmapCacheJsonLocalService = csmapCacheJsonLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -80,7 +80,7 @@ public class RegenerateJsonEventMessageListener
 	}
 
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
-	private CacheJsonLocalService _cacheJsonLocalService;
+	private CsmapCacheJsonLocalService _csmapCacheJsonLocalService;
 	private TriggerFactory _triggerFactory;
 	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

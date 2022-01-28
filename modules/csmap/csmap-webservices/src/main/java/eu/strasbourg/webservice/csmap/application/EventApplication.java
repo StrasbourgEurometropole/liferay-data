@@ -1,37 +1,38 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.service.CacheJsonLocalService;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
+import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
-import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Set;
 
 import static com.liferay.portal.kernel.json.JSONFactoryUtil.createJSONObject;
 
@@ -64,7 +65,6 @@ public class EventApplication extends Application {
     @Path("/get-events/{last_update_time}")
     public Response getEvents(
             @PathParam("last_update_time") String lastUpdateTimeString) {
-
         JSONObject json;
         CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.EVENT.getId());
         Date lastUpdateTime;
@@ -115,8 +115,6 @@ public class EventApplication extends Application {
     public Response getThemes(
             @PathParam("last_update_time") String lastUpdateTimeString,
             @FormParam("ids_theme") String ids_themes) {
-
-
         JSONObject json;
         CsmapCache cache = csmapCacheLocalService.fetchByCodeCache(CodeCacheEnum.THEME.getId());
         Date lastUpdateTime;
@@ -252,14 +250,6 @@ public class EventApplication extends Application {
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(json);
-    }
-
-    @Reference
-    protected CacheJsonLocalService cacheJsonLocalService;
-
-    @Reference(unbind = "-")
-    protected void setCacheJsonLocalService(CacheJsonLocalService cacheJsonLocalService) {
-        this.cacheJsonLocalService = cacheJsonLocalService;
     }
 
     @Reference

@@ -62,7 +62,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
-import eu.strasbourg.service.place.service.persistence.CacheJsonPersistence;
+import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
@@ -586,46 +586,46 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the cache json local service.
+	 * Returns the csmap cache json local service.
 	 *
-	 * @return the cache json local service
+	 * @return the csmap cache json local service
 	 */
-	public eu.strasbourg.service.place.service.CacheJsonLocalService
-		getCacheJsonLocalService() {
+	public eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
 
-		return cacheJsonLocalService;
+		return csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Sets the cache json local service.
+	 * Sets the csmap cache json local service.
 	 *
-	 * @param cacheJsonLocalService the cache json local service
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
 	 */
-	public void setCacheJsonLocalService(
-		eu.strasbourg.service.place.service.CacheJsonLocalService
-			cacheJsonLocalService) {
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
 
-		this.cacheJsonLocalService = cacheJsonLocalService;
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Returns the cache json persistence.
+	 * Returns the csmap cache json persistence.
 	 *
-	 * @return the cache json persistence
+	 * @return the csmap cache json persistence
 	 */
-	public CacheJsonPersistence getCacheJsonPersistence() {
-		return cacheJsonPersistence;
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
 	}
 
 	/**
-	 * Sets the cache json persistence.
+	 * Sets the csmap cache json persistence.
 	 *
-	 * @param cacheJsonPersistence the cache json persistence
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
 	 */
-	public void setCacheJsonPersistence(
-		CacheJsonPersistence cacheJsonPersistence) {
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
 
-		this.cacheJsonPersistence = cacheJsonPersistence;
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -1324,13 +1324,13 @@ public abstract class GoogleMyBusinessHistoricLocalServiceBaseImpl
 	}
 
 	@BeanReference(
-		type = eu.strasbourg.service.place.service.CacheJsonLocalService.class
+		type = eu.strasbourg.service.place.service.CsmapCacheJsonLocalService.class
 	)
-	protected eu.strasbourg.service.place.service.CacheJsonLocalService
-		cacheJsonLocalService;
+	protected eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
 
-	@BeanReference(type = CacheJsonPersistence.class)
-	protected CacheJsonPersistence cacheJsonPersistence;
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(type = GoogleMyBusinessHistoricLocalService.class)
 	protected GoogleMyBusinessHistoricLocalService

@@ -22,6 +22,7 @@ import eu.strasbourg.portlet.resid.dossier.Forfait;
 import eu.strasbourg.portlet.resid.dossier.Vehicule;
 import eu.strasbourg.portlet.resid.dossier.Zone;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.webservice.csmap.constants.WSConstants;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -34,12 +35,12 @@ public class WSAccountData {
     /**
      * Appelle le WS Mediatheque et traite le retour
      */
-    public static JSONObject getMediatheque(String publikUserId) {
+    public static JSONObject getMediatheque(String publikUserId, int timeOut) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
         response.put("url", StrasbourgPropsUtil.getMediathequeURL());
 
-        BorrowerResponse borrower = BorrowerWebService.getResponse(publikUserId);
+        BorrowerResponse borrower = BorrowerWebService.getResponse(publikUserId,timeOut);
 
         // Pas de réponse
         if (Validator.isNull(borrower)) {
@@ -154,12 +155,12 @@ public class WSAccountData {
     /**
      * Appelle le WS Resid et traite le retour
      */
-    public static JSONObject getResid(String publicUserId) {
+    public static JSONObject getResid(String publicUserId, int timeOut) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
         response.put("url", StrasbourgPropsUtil.getResidantURL());
 
-        DossiersResponse dossierResponse = DossiersWebService.getResponse(publicUserId);
+        DossiersResponse dossierResponse = DossiersWebService.getResponse(publicUserId,timeOut);
 
         // pas de réponse
         if (Validator.isNull(dossierResponse)) {
@@ -304,12 +305,12 @@ public class WSAccountData {
     /**
      * Appelle le WS Famille et renvoie les familles
      */
-    public static JSONObject getFamily(String publicUserId) {
+    public static JSONObject getFamily(String publicUserId, int timeOut) {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
         response.put("url", StrasbourgPropsUtil.getFamilySpaceURL());
 
-        FamilySpaceResponse familySpaceResponse = FamilySpaceWebService.getResponse(publicUserId);
+        FamilySpaceResponse familySpaceResponse = FamilySpaceWebService.getResponse(publicUserId, timeOut);
 
         // Pas de réponse
         if (Validator.isNull(familySpaceResponse)) {

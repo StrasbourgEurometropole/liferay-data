@@ -20,11 +20,17 @@ public class WSProfile {
      * Permet d'envoyer la requête à Entrouvert
      */
     public static JSONObject sendRequest(String profilePicture, String publikUserId) throws IOException {
+        return sendRequest(profilePicture, publikUserId, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    public static JSONObject sendRequest(String profilePicture, String publikUserId, int timeOut) throws IOException {
 
         String url = buildUrl(publikUserId);
 
         // Construction de la requête
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setConnectTimeout(timeOut);
+        connection.setReadTimeout(timeOut);
 
         // Authentification
         String username = StrasbourgPropsUtil.getPublikClientId();

@@ -73,9 +73,10 @@
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.CacheHoursJSONImpl" table="gtfs_CacheHoursJSON">
-		<id name="stopCode" type="java.lang.String">
-			<generator class="assigned" />
-		</id>
+		<composite-id class="eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK" name="primaryKey">
+			<key-property name="stopCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property column="type_" name="type" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		</composite-id>
 		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="jsonHour" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="creationDate" type="org.hibernate.type.TimestampType" />

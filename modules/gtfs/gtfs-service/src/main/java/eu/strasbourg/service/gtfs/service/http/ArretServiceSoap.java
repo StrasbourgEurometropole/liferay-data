@@ -86,6 +86,29 @@ public class ArretServiceSoap {
 		}
 	}
 
+	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 * @param type type de l'arret (0 -> tram, 3 -> bus)
+	 */
+	public static String getArretRealTime(
+			String stopCode, int type, int timeOut)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				ArretServiceUtil.getArretRealTime(stopCode, type, timeOut);
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ArretServiceSoap.class);
 
 }

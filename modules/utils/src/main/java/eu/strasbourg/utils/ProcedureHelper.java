@@ -11,10 +11,14 @@ import java.util.List;
 public class ProcedureHelper {
 
     public static List<Procedure> getProcedures(String idUser) throws NoUserFormException {
+        return getProcedures(idUser, StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+    }
+
+    public static List<Procedure> getProcedures(String idUser, int timeout) throws NoUserFormException {
 
         // récupération des démarches
         List<Procedure> procedures = new ArrayList<Procedure>();
-        JSONObject userForms = PublikApiClient.getUserForms(idUser, true);
+        JSONObject userForms = PublikApiClient.getUserForms(idUser, true, timeout);
         if (userForms.toString().equals("{}")) {
             throw new NoUserFormException( "No user form found" );
         } else {
