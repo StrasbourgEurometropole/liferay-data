@@ -6,6 +6,9 @@ create unique index IX_F53FD6CF on agenda_AgendaExport (uuid_[$COLUMN_LENGTH:75$
 create index IX_52D68D89 on agenda_AgendaExportPeriod (agendaExportId);
 create index IX_144F1DBA on agenda_AgendaExportPeriod (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_9FFB271D on agenda_CacheJson (eventId, isApproved);
+create index IX_5EEE9B2 on agenda_CacheJson (isApproved);
+
 create index IX_33C5F7C1 on agenda_Campaign (groupId);
 create index IX_B306DFDF on agenda_Campaign (title[$COLUMN_LENGTH:400$]);
 create index IX_5EB688BD on agenda_Campaign (uuid_[$COLUMN_LENGTH:75$], companyId);

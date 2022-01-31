@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.agenda.model.*;
 import eu.strasbourg.service.agenda.model.Event;
 
 import java.io.IOException;

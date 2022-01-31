@@ -35,6 +35,15 @@
 		<field name="endDate" type="Date" />
 		<field name="agendaExportId" type="long" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.CacheJson">
+		<field name="eventId" type="long" />
+		<field name="jsonEvent" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="createEvent" type="Date" />
+		<field name="modifiedEvent" type="Date" />
+		<field name="isApproved" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Campaign">
 		<field name="uuid" type="String" />
 		<field name="campaignId" type="long" />

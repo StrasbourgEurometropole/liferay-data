@@ -20,8 +20,11 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -33,7 +36,9 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
@@ -151,20 +156,16 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getEvent(long id) throws PortalException {
+    public JSONObject getEvent(long id) {
         if (!isAuthorized()) {
             return error("not authorized");
         }
 
-        Event event = this.eventLocalService.fetchEvent(id);
-        if (event == null || !event.isApproved()) {
+        JSONObject eventJSON = null;
+        try {
+            eventJSON = JSONFactoryUtil.createJSONObject(CacheJsonLocalServiceUtil.getByEventIdAndIsApproved(id).getJsonEvent());
+        } catch (Exception e) {
             return JSONFactoryUtil.createJSONObject();
-        }
-        JSONObject eventJSON = event.toJSON();
-        if (Validator.isNotNull(event.getPlaceSIGId())) {
-            Place place = PlaceLocalServiceUtil.getPlaceBySIGId(event.getPlaceSIGId());
-            if(place != null)
-                eventJSON.put("place", place.toJSON());
         }
         return eventJSON;
     }
@@ -175,8 +176,22 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             return error("not authorized");
         }
 
-        List<Event> events = this.eventLocalService.getEvents(-1, -1);
-        return this.getApprovedJSONEvents(events);
+        List<CacheJson> caches = CacheJsonLocalServiceUtil.getAllIsApproved();
+        if(!caches.isEmpty()){
+            JSONObject result = JSONFactoryUtil.createJSONObject();
+            JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
+            for (CacheJson cache : caches) {
+                try {
+                    jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
+                } catch (JSONException e) {
+                    log.error(e);
+                }
+            }
+            result.put("events", jsonEvents);
+            return result;
+        } else {
+            return JSONFactoryUtil.createJSONObject();
+        }
     }
 
     @Override
@@ -306,4 +321,6 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             return false;
         }
     }
+
+    private Log log = LogFactoryUtil.getLog(this.getClass());
 }

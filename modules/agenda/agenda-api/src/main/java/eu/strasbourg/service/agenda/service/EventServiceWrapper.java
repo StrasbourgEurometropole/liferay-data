@@ -48,9 +48,7 @@ public class EventServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getEvent(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getEvent(long id) {
 		return _eventService.getEvent(id);
 	}
 
