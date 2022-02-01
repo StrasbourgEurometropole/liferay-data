@@ -3,6 +3,8 @@ package eu.strasbourg.webservice.csmap.service;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.familySpace.Family;
 import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
@@ -27,6 +29,7 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class WSAccountData {
 
@@ -51,6 +54,9 @@ public class WSAccountData {
             return response;
         }
 
+        ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
+                WSAccountData.class.getClassLoader());
+
         response.put(WSConstants.JSON_RESPONSE_CODE, 200);
         String codeErreur = borrower.getCode_erreur();
         String messageErreur = borrower.getErreur();
@@ -58,18 +64,19 @@ public class WSAccountData {
         if (Validator.isNotNull(codeErreur)) {
             switch (codeErreur) {
                 case CodeErreurMediathequeConstants.AUCUNE_ASSOCIATION:
+                case CodeErreurMediathequeConstants.DELAI_DEPASSE:
                     response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_LINK_ACCOUNT);
                     response.put(WSConstants.JSON_MESSAGE, WSConstants.MEDIATHEQUE_MESSAGE);
                     break;
-                case CodeErreurMediathequeConstants.DELAI_DEPASSE:
-                    response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_CONTACT_WEBMESTRE);
-                    response.put(WSConstants.JSON_MESSAGE, "Le compte n'a pas \u00e9t\u00e9 activ\u00e9 dans le temps imparti");
-                    break;
                 case CodeErreurMediathequeConstants.ASSOCIATION_A_VALIDER:
-                    response.put(WSConstants.JSON_MESSAGE, "Le lien d'activation n'a pas \u00e9t\u00e9 effectu\u00e9");
+                    response.put(WSConstants.JSON_MESSAGE, LanguageUtil.format(bundle, WSConstants.MEDIATHEQUE_ACTIVATE_TEXT, getTransformEmail(borrower)));
                     break;
                 case CodeErreurMediathequeConstants.AUCUN_EMAIL:
-                    response.put(WSConstants.JSON_MESSAGE, "L'email n'est pas renseign\u00e9");
+                    response.put(WSConstants.JSON_URL, WSConstants.MEDIATHEQUE_URL_NO_MAIL);
+                    break;
+                case CodeErreurMediathequeConstants.CARTE_DEJA_ASSOCIEE:
+                    response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_CONTACT_WEBMESTRE);
+                    response.put(WSConstants.JSON_URL, WSConstants.MEDIATHEQUE_URL_WEBMESTRE);
                     break;
                 case CodeErreurMediathequeConstants.AUCUNE_CARTE:
                     response.put(WSConstants.JSON_MESSAGE, messageErreur);
@@ -400,4 +407,23 @@ public class WSAccountData {
 
         return stringBuilder.toString();
     }
+
+    // Permet de récupérer l'email pour le message d'erreur "attente activation"
+    private static String getTransformEmail(BorrowerResponse borrower) {
+        // transformation de l'email : xx******@xx****.fr
+        String[] emailOriginal = borrower.getEmail().split("@");
+        String nom = emailOriginal[0];
+        String[] domaine = emailOriginal[1].split("\\.");
+        String transformEmail = nom.substring(0, 2);
+        for (int i = 2; i < nom.length(); i++) {
+            transformEmail += "*";
+        }
+        transformEmail += "@" + domaine[0].substring(0, 2);
+        for (int i = 2; i < domaine[0].length(); i++) {
+            transformEmail += "*";
+        }
+        transformEmail += "." + domaine[1];
+        return transformEmail;
+    }
+
 }
