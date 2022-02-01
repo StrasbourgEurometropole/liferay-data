@@ -8,7 +8,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.HcaptchaHelper;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.webservice.numerique_responsable.constants.WSConstants;
 import eu.strasbourg.webservice.numerique_responsable.service.WSSearch;
 import eu.strasbourg.webservice.numerique_responsable.utils.WSResponseUtil;
@@ -114,6 +116,11 @@ public class ContactApplication extends Application {
         if(Validator.isNull(token)){
             hasError = true;
             jsonErrors.put("error_captcha");
+        }else{
+            if (!HcaptchaHelper.verify(token)) {
+                hasError = true;
+                jsonErrors.put("error_captcha");
+            }
         }
 
         if(hasError) {

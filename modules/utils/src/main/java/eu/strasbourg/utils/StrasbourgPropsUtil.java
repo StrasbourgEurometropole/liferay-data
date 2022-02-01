@@ -12,6 +12,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.url");
 	}
 
+	public static String getHcaptchaSecretKey() {
+		return PropsUtil.get("eu.strasbourg.hcaptcha.secret");
+	}
+
 	public static String getRecaptchaSecretKey() {
 		return PropsUtil.get("eu.strasbourg.recaptcha.secret");
 	}
