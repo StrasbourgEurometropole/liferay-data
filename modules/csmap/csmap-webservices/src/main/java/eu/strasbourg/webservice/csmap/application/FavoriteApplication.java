@@ -128,10 +128,10 @@ public class FavoriteApplication extends Application {
                 return WSResponseUtil.buildOkResponse(json, 201);
 
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }  catch (Exception e){
             log.error(e);
@@ -271,10 +271,10 @@ public class FavoriteApplication extends Application {
             if(json.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);

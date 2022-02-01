@@ -103,13 +103,15 @@ public class VariousDataApplication extends Application {
             for (AssetEntry entry : entries) {
                 // récupération de la dernière version du journalArticle
                 JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
-                if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
+                if(Validator.isNotNull(journalArticle)) {
+                    if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                        JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
 
-                    if (lastUpdateTime.before(journalArticle.getCreateDate()))
-                        jsonAjout.put(jsonWC);
-                    else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
-                        jsonModif.put(jsonWC);
+                        if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                            jsonAjout.put(jsonWC);
+                        else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                            jsonModif.put(jsonWC);
+                    }
                 }
             }
 
@@ -140,7 +142,7 @@ public class VariousDataApplication extends Application {
             if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
