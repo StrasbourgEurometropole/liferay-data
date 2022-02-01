@@ -106,7 +106,6 @@ public class VariousDataApplication extends Application {
                 if(Validator.isNotNull(journalArticle)) {
                     if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
                         JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
-
                         if (lastUpdateTime.before(journalArticle.getCreateDate()))
                             jsonAjout.put(jsonWC);
                         else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
