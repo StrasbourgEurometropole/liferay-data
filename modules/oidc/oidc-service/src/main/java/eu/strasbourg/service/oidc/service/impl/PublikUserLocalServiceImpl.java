@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
@@ -134,7 +135,9 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 					user.setPactSignature(new Date());
 				user.setPactDisplay(listingPlacit != null && listingPlacit.equals("true") ? true : false);
 			}
-			user.setAccessToken(accessToken);
+			if(Validator.isNotNull(accessToken)){
+				user.setAccessToken(accessToken);
+			}
 			user.setFirstName(givenName);
 			user.setLastName(familyName);
 			user.setEmail(email);
