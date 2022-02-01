@@ -181,7 +181,7 @@ public class ProfileApplication extends Application {
             map.put(stringJson, "");
         }
 
-        if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+        if (Validator.isNotNull(jsonPublikUser.getString("email")))
             jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
         else {
             map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "email introuvable"));
