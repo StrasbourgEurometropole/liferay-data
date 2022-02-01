@@ -160,6 +160,11 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             SessionErrors.add(request, "title-error");
             isValid = false;
         }
+        // Titre editorial
+        if (Validator.isNull(ParamUtil.getString(request, "editorialTitle"))) {
+            SessionErrors.add(request, "editorial-title-error");
+            isValid = false;
+        }
 
         return isValid;
     }
