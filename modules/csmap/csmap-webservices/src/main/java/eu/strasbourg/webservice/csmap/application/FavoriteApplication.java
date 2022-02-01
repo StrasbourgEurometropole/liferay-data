@@ -97,15 +97,19 @@ public class FavoriteApplication extends Application {
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 
             for (Favorite favorite : favorites) {
-                if (lastUpdateTime.before(favorite.getCreateDate())) {
-                    try {
-                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId())))
+                // Le catch permet d'éviter les erreurs si l'entité en favoris n'existe plus
+                try {
+                    if (lastUpdateTime.before(favorite.getCreateDate())) {
+                        // Empèche de renvoyer dans le add si le user l'a déjà
+                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId()))) {
                             jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
-                        else if (lastUpdateTime.before(favorite.getModifiedDate()))
-                            jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
-                    } catch (NullPointerException e) {
-                        log.error(e);
+                        }
                     }
+                    else if (lastUpdateTime.before(favorite.getModifiedDate())) {
+                        jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    }
+                } catch (NullPointerException e) {
+                    log.error(e);
                 }
             }
 
