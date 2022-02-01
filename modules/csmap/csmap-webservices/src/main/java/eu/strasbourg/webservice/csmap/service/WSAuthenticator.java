@@ -262,9 +262,8 @@ public class WSAuthenticator {
      * Met à jour un utilisateur Publik ou le crée s'il n'existe pas en base
      *
      * @param jwt JWT reçu lors de la demande de token à Authentik (appelé "id_token")
-     * @param accessToken Token reçu lors de la demande de token à Authentik (appelé "access_token")
      */
-    public void updateUserFromAuthentikInDatabase(String jwt, String accessToken) {
+    public void updateUserFromAuthentikInDatabase(String jwt) {
         String givenName = JWTUtils.getJWTClaim(jwt, WSConstants.GIVEN_NAME,
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String familyName = JWTUtils.getJWTClaim(jwt, WSConstants.FAMILY_NAME,
@@ -278,9 +277,9 @@ public class WSAuthenticator {
         String listingPlacit = JWTUtils.getJWTClaim(jwt, WSConstants.LISTING_PLACIT,
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String photo = PublikApiClient.getUserPhoto(internalId);
-
+        // Envoi null car pour csmap on ne modifie pas l'accessToken
         publikUserLocalService.updateUserInfoInDatabase(
-                internalId, accessToken, givenName, familyName, email, photo, accordPlacit, listingPlacit);
+                internalId, null, givenName, familyName, email, photo, accordPlacit, listingPlacit);
     }
 
     @Reference(unbind = "-")

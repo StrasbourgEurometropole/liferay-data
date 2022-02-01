@@ -109,7 +109,6 @@ public class AuthApplication extends Application {
                 throw new AuthenticationFailedException();
 
             String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
-            String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
 
             boolean isJwtValid = JWTUtils.checkJWT(
                     authentikJWT,
@@ -130,7 +129,7 @@ public class AuthApplication extends Application {
             String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
 
-            authenticator.updateUserFromAuthentikInDatabase(authentikJWT, accessToken);
+            authenticator.updateUserFromAuthentikInDatabase(authentikJWT);
 
             String csmapJWT = JWTUtils.createJWT(
                     sub, WSConstants.JWT_VALIDITY_SECONDS,
