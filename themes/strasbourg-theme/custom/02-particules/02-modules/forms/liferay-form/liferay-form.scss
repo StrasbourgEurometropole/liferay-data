@@ -1,19 +1,12 @@
 .form-builder-layout {
     background-color: #F6F6F6;
     input.ddm-field-text.form-control {
-        border-color: white;
         height: 50px;
     }
-    textarea.ddm-field-text.form-control {
-        border-color: white;
-    }
-    /* modif mantis 5636
-    .form-text {
-        font-size: 1.2rem;
-    }*/
     label, .lfr-ddm-legend {
         font-size: 1.8rem;
         font-weight: 600;
+        margin-bottom: 10px;
     }
 
     // ajout mantis 5636
@@ -25,10 +18,6 @@
     .input-group-inset:focus ~ .input-group-inset-item{
         border: none;
         box-shadow: 0.25rem 0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25), 0.25rem -0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25);
-    }
-
-    label{
-        color: #505050;
     }
     // fin ajout mantis 5636
 }
@@ -73,7 +62,177 @@
     font-size: 1.8rem;
 }
 
-.form-builder-layout * :not(.dropdown-menu *) {
+.form-builder-layout * {
+    font-size: 1.8rem;
+    color: $core-color;
+
+    .dropdown-menu *{
+        font-size: 1rem;
+
+        .weekdays{
+            margin-top: 5px;
+
+            .week{
+                font-size: 1.5rem;
+            }
+        }
+
+        .grid{
+            margin-top: 5px;
+
+            .rowgroup{
+                margin: 0;
+
+                .day{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+
+    .custom-radio {
+        .custom-control-input:checked ~ .custom-control-label::before{
+            background-color: $core-color;
+        }
+    
+        .custom-control-input:focus ~ .custom-control-label:before{
+            box-shadow: none;
+        }
+
+        .custom-control-label {
+            &:before{
+                display: inline-block;
+                content: '';
+                height: 15px;
+                width: 15px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 50%;
+                border: solid 3px $core-color;
+                background-image: none !important;
+                background-color: transparent;
+            }
+            &:after{
+                content: none;
+            }
+            .custom-control-label-text {
+                padding-left: 3rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .custom-checkbox {
+        .custom-control-input:checked ~ .custom-control-label::before{
+            background-color: $second-color;
+            border: solid 3px $second-color;
+        }
+    
+        .custom-control-input:focus ~ .custom-control-label:before{
+            box-shadow: none;
+        }
+
+        .custom-control-label {
+            &:before{
+                display: inline-block;
+                content: '';
+                height: 15px;
+                width: 15px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 0;
+                border: solid 3px $core-color;
+                background-image: none !important;
+                background-color: transparent;
+            }
+            &:after{
+                content: none;
+            }
+            .custom-control-label-text {
+                padding-left: 3rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .results-chosen {
+        svg{
+            display: none;
+        }
+
+        &:after{
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            content: '';
+            display: block;
+            height: 20px;
+            width: 20px;
+            background-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateY(-50%) rotate(90deg);
+            background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+        }
+    }
+
+    .input-group-item {
+        input{
+            height: 3.375rem;
+        }
+
+        svg{
+            display: none;
+        }
+
+        &:after{
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            content: '';
+            display: block;
+            height: 20px;
+            width: 20px;
+            background-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateY(-50%);
+            background-image: url( svg-bg-uri($svg-calendar, $core-color) );
+        }
+    }
+
+    .form-builder-grid-field {
+        &:before{
+            display: inline-block;
+            content: '';
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            left: calc(50% - 0.75rem);
+            top: calc(50% - 0.75rem);
+            border-radius: 50%;
+            border: solid 3px $core-color;
+            background-image: none !important;
+            background-color: transparent;
+        }
+
+        &:checked::before{
+            background-color: $core-color;
+        }
+    }
+
+    .reference-mark .lexicon-icon {
+        font-size: 1rem;
+
+        *{
+            color: $error;
+        }
+    }
+}
+
+.dropdown-item{
     font-size: 1.8rem;
 }
 
