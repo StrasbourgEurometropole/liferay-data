@@ -1,11 +1,8 @@
 package eu.strasbourg.webservice.numerique_responsable.application;
 
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.webservice.numerique_responsable.constants.WSConstants;
 import eu.strasbourg.webservice.numerique_responsable.service.WSSearch;

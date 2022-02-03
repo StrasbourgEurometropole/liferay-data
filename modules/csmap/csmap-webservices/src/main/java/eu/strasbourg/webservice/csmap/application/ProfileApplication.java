@@ -118,10 +118,10 @@ public class ProfileApplication extends Application {
                 response = (Response) map.get(stringResponse);
             }
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);
@@ -181,7 +181,7 @@ public class ProfileApplication extends Application {
             map.put(stringJson, "");
         }
 
-        if (Validator.isNotNull(jsonPublikUser.getString("last_name")))
+        if (Validator.isNotNull(jsonPublikUser.getString("email")))
             jsonResponse.put(WSConstants.JSON_EMAIL, jsonPublikUser.getString("email"));
         else {
             map.put(stringResponse, WSResponseUtil.buildErrorResponse(500, "email introuvable"));

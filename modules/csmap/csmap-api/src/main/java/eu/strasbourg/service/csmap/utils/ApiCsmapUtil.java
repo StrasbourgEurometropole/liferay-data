@@ -373,18 +373,20 @@ public class ApiCsmapUtil {
 
         // On récupère tous les ids events de l'agenda thématique s'il y en a un
         Agenda thematique = AgendaLocalServiceUtil.getAgendaThematiqueActif();
-        JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
         if(Validator.isNotNull(thematique)) {
+            JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
             jsonIds = getJsonIds(thematique);
             jsonThematique.put("ids", jsonIds);
 
             JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
-            jsonTitle.put("fr_FR", thematique.getTitle(Locale.FRANCE));
+            jsonTitle.put("fr_FR", thematique.getEditorialTitle(Locale.FRANCE));
             jsonThematique.put("title", jsonTitle);
 
-            JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
-            jsonSubtitle.put("fr_FR", thematique.getSubtitle(Locale.FRANCE));
-            jsonThematique.put("subtitle", jsonSubtitle);
+            if(Validator.isNotNull(thematique.getSubtitle(Locale.FRANCE))) {
+                JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
+                jsonSubtitle.put("fr_FR", thematique.getSubtitle(Locale.FRANCE));
+                jsonThematique.put("subtitle", jsonSubtitle);
+            }
 
             String imageURL = "";
             if (thematique.getImageId() != null && thematique.getImageId() > 0)
@@ -392,8 +394,8 @@ public class ApiCsmapUtil {
 
             jsonThematique.put("imageURL", imageURL);
 
+            json.put("thematique", jsonThematique);
         }
-        json.put("thematique", jsonThematique);
 
         if(jsonPrincipal.length() == 0)
             throw new NullPointerException("agenda principal inexistant");

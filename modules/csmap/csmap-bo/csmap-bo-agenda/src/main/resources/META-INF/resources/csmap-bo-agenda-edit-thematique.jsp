@@ -12,6 +12,7 @@
 <%-- Composant : Body --%>
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="editorial-title-error" message="editorial-title-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveAgendaThematiqueURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -36,6 +37,8 @@
 				</aui:input>
 
 				<aui:input name="editorialTitle" label="editorialTitle">
+					<aui:validator name="required"
+						errorMessage="this-field-is-required" />
 				</aui:input>
 
 				<aui:input name="subtitle" label="subtitle">

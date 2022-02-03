@@ -97,15 +97,19 @@ public class FavoriteApplication extends Application {
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
 
             for (Favorite favorite : favorites) {
-                if (lastUpdateTime.before(favorite.getCreateDate())) {
-                    try {
-                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId())))
+                // Le catch permet d'éviter les erreurs si l'entité en favoris n'existe plus
+                try {
+                    if (lastUpdateTime.before(favorite.getCreateDate())) {
+                        // Empèche de renvoyer dans le add si le user l'a déjà
+                        if (!idsFavorite.contains(String.valueOf(favorite.getFavoriteId()))) {
                             jsonAjout.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
-                        else if (lastUpdateTime.before(favorite.getModifiedDate()))
-                            jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
-                    } catch (NullPointerException e) {
-                        log.error(e);
+                        }
                     }
+                    else if (lastUpdateTime.before(favorite.getModifiedDate())) {
+                        jsonModif.put(CSMapJSonHelper.favoritesCSMapJSON(favorite));
+                    }
+                } catch (NullPointerException e) {
+                    log.error(e);
                 }
             }
 
@@ -128,10 +132,10 @@ public class FavoriteApplication extends Application {
                 return WSResponseUtil.buildOkResponse(json, 201);
 
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }  catch (Exception e){
             log.error(e);
@@ -271,10 +275,10 @@ public class FavoriteApplication extends Application {
             if(json.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);

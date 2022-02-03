@@ -83,10 +83,10 @@ public class AccountDataApplication extends Application {
                 jsonProcedures.put(jsonProcedure);
             }
         }catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }   catch (NoUserFormException e){
             log.error(e);
@@ -152,10 +152,10 @@ public class AccountDataApplication extends Application {
             }
 
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);
@@ -186,10 +186,10 @@ public class AccountDataApplication extends Application {
             }
 
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (Exception e) {
             log.error(e);

@@ -44,7 +44,7 @@ public class FCMHelper {
                 app = FirebaseApp.getApps().get(0);
             }
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
         }
         return app;
     }

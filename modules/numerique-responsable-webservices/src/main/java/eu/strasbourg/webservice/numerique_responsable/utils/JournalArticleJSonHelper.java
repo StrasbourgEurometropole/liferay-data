@@ -15,8 +15,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.webservice.numerique_responsable.constants.WSConstants;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 

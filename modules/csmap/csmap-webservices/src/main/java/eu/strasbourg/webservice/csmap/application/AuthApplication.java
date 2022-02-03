@@ -109,7 +109,6 @@ public class AuthApplication extends Application {
                 throw new AuthenticationFailedException();
 
             String authentikJWT = authentikJSON.getString(WSConstants.ID_TOKEN);
-            String accessToken = authentikJSON.getString(WSConstants.ACCESS_TOKEN);
 
             boolean isJwtValid = JWTUtils.checkJWT(
                     authentikJWT,
@@ -130,7 +129,7 @@ public class AuthApplication extends Application {
             String sub = JWTUtils.getJWTClaim(authentikJWT, WSConstants.SUB,
                     StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
 
-            authenticator.updateUserFromAuthentikInDatabase(authentikJWT, accessToken);
+            authenticator.updateUserFromAuthentikInDatabase(authentikJWT);
 
             String csmapJWT = JWTUtils.createJWT(
                     sub, WSConstants.JWT_VALIDITY_SECONDS,
@@ -170,7 +169,7 @@ public class AuthApplication extends Application {
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
         } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }
 
@@ -191,10 +190,10 @@ public class AuthApplication extends Application {
                 RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
             }
         } catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         } catch (NoSuchRefreshTokenException e) {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
