@@ -67,8 +67,8 @@
 					<portlet:param name="mvcPath" value="/council-bo-edit-deliberation.jsp" />
 				</liferay-portlet:renderURL>
 
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                name="order" truncate="true"
+                <liferay-ui:search-container-column-text
+                name="order"
                 orderable="true" value="${deliberation.order}" />
 
 				<liferay-ui:search-container-column-text cssClass="content-column"
