@@ -33,6 +33,8 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -243,6 +245,24 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								} else {
 									sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 								}
+								// Il s'agit d'une mise à jour
+								String databaseMercatorX = place.getMercatorX();
+								String databaseMercatorY = place.getMercatorY();
+
+								boolean differentMercatorX = !databaseMercatorX.equals(mercatorX);
+								boolean differentMercatorY = !databaseMercatorY.equals(mercatorY);
+								if (differentMercatorX || differentMercatorY) {
+									List<Event> eventList = _eventLocalService.findByPlaceSIGId(idSIG);
+									for (Event event : eventList) {
+										if (differentMercatorX) {
+											event.setMercatorX(mercatorX);
+										}
+										if (differentMercatorY) {
+											event.setMercatorY(mercatorY);
+										}
+										_eventLocalService.updateEvent(event);
+									}
+								}
 							}
 							place.setSIGid(idSIG);
 							place.setName(alias);
@@ -438,5 +458,13 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 	protected void setPlaceLocalService(PlaceLocalService placeLocalService) {
 
 		_placeLocalService = placeLocalService;
+	}
+
+	private EventLocalService _eventLocalService;
+
+	@Reference(unbind = "-")
+	protected void setEventLocalService(EventLocalService eventLocalService) {
+
+		_eventLocalService = eventLocalService;
 	}
 }

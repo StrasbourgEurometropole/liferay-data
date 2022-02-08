@@ -861,6 +861,36 @@ public interface EventModel
 	public void setPlaceCountry(String placeCountry);
 
 	/**
+	 * Returns the mercator x of this event.
+	 *
+	 * @return the mercator x of this event
+	 */
+	@AutoEscape
+	public String getMercatorX();
+
+	/**
+	 * Sets the mercator x of this event.
+	 *
+	 * @param mercatorX the mercator x of this event
+	 */
+	public void setMercatorX(String mercatorX);
+
+	/**
+	 * Returns the mercator y of this event.
+	 *
+	 * @return the mercator y of this event
+	 */
+	@AutoEscape
+	public String getMercatorY();
+
+	/**
+	 * Sets the mercator y of this event.
+	 *
+	 * @param mercatorY the mercator y of this event
+	 */
+	public void setMercatorY(String mercatorY);
+
+	/**
 	 * Returns the access of this event.
 	 *
 	 * @return the access of this event

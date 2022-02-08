@@ -158,7 +158,7 @@ public interface EventLocalService
 	 *
 	 * @throws IOException
 	 */
-	public boolean doImport() throws IOException;
+	public boolean doImport() throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

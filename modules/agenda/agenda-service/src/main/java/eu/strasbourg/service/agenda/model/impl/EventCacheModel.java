@@ -64,7 +64,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(121);
+		StringBundler sb = new StringBundler(125);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -120,6 +120,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(placeCity);
 		sb.append(", placeCountry=");
 		sb.append(placeCountry);
+		sb.append(", mercatorX=");
+		sb.append(mercatorX);
+		sb.append(", mercatorY=");
+		sb.append(mercatorY);
 		sb.append(", access=");
 		sb.append(access);
 		sb.append(", accessForDisabled=");
@@ -337,6 +341,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 		else {
 			eventImpl.setPlaceCountry(placeCountry);
+		}
+
+		if (mercatorX == null) {
+			eventImpl.setMercatorX("");
+		}
+		else {
+			eventImpl.setMercatorX(mercatorX);
+		}
+
+		if (mercatorY == null) {
+			eventImpl.setMercatorY("");
+		}
+		else {
+			eventImpl.setMercatorY(mercatorY);
 		}
 
 		if (access == null) {
@@ -562,6 +580,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		placeZipCode = objectInput.readUTF();
 		placeCity = objectInput.readUTF();
 		placeCountry = objectInput.readUTF();
+		mercatorX = objectInput.readUTF();
+		mercatorY = objectInput.readUTF();
 		access = objectInput.readUTF();
 		accessForDisabled = objectInput.readUTF();
 
@@ -733,6 +753,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(placeCountry);
+		}
+
+		if (mercatorX == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(mercatorX);
+		}
+
+		if (mercatorY == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(mercatorY);
 		}
 
 		if (access == null) {
@@ -909,6 +943,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String placeZipCode;
 	public String placeCity;
 	public String placeCountry;
+	public String mercatorX;
+	public String mercatorY;
 	public String access;
 	public String accessForDisabled;
 	public boolean accessForBlind;

@@ -200,6 +200,8 @@
 		<field name="placeCountry" type="String">
 			<hint name="default-value">France</hint>
 		</field>
+		<field name="mercatorX" type="String" />
+		<field name="mercatorY" type="String" />
 		<field localized="true" name="access" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

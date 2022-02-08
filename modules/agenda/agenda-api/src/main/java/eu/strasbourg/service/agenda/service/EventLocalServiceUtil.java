@@ -190,7 +190,7 @@ public class EventLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static boolean doImport() throws java.io.IOException {
+	public static boolean doImport() throws Exception {
 		return getService().doImport();
 	}
 
