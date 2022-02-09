@@ -30,7 +30,11 @@ liferayThemeTasks.registerTasks({
     });
 
     gulp.hook('after:build:move-compiled-css', function(done) {
-        runSequence('remove-maps', 'remove-scss', done);
+        runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
+    })
+
+    gulp.hook('after:build:copy:fontAwesome', function(done) {
+        runSequence('remove-fonts', done);
     })
   }
 });
@@ -41,6 +45,15 @@ gulp.task('remove-maps', cb => {
 
 gulp.task('remove-scss', cb => {
 	del('./build/**/*.scss').then(() => cb());
+});
+
+gulp.task('remove-node-modules', cb => {
+	del('./build/node_modules').then(() => cb());
+});
+
+gulp.task('remove-fonts', cb => {
+	del(['./build/font/fontawesome-alloy.dev.svg',
+    './build/font/fontawesome-alloy.svg']).then(() => cb());
 });
 
 

@@ -28,7 +28,7 @@ liferayThemeTasks.registerTasks({
     });
 
     gulp.hook('after:build:move-compiled-css', function(done) {
-        runSequence('remove-maps', 'remove-scss', done);
+        runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
     })
   }
 });
@@ -39,6 +39,10 @@ gulp.task('remove-maps', cb => {
 
 gulp.task('remove-scss', cb => {
 	del('./build/**/*.scss').then(() => cb());
+});
+
+gulp.task('remove-node-modules', cb => {
+	del('./build/node_modules').then(() => cb());
 });
 
 gulp.task('css', function () {
