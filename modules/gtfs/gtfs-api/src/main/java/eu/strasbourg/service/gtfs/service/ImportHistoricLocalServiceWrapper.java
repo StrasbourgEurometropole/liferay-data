@@ -104,6 +104,14 @@ public class ImportHistoricLocalServiceWrapper
 	}
 
 	/**
+	 * Suppression des anciens imports d'historiques
+	 */
+	@Override
+	public int deleteOldImportHistorics() {
+		return _importHistoricLocalService.deleteOldImportHistorics();
+	}
+
+	/**
 	 * @throws PortalException
 	 */
 	@Override
@@ -397,6 +405,17 @@ public class ImportHistoricLocalServiceWrapper
 		getIndexableActionableDynamicQuery() {
 
 		return _importHistoricLocalService.getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Retourne le dernier historique d'import
+	 */
+	@Override
+	public eu.strasbourg.service.gtfs.model.ImportHistoric
+		getLatestImportHistoric(
+			eu.strasbourg.service.gtfs.model.ImportHistoric notCurrent) {
+
+		return _importHistoricLocalService.getLatestImportHistoric(notCurrent);
 	}
 
 	/**

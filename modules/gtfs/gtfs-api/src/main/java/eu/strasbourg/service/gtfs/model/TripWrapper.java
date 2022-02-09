@@ -56,26 +56,17 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("uuid", getUuid());
 		attributes.put("id", getId());
 		attributes.put("route_id", getRoute_id());
 		attributes.put("service_id", getService_id());
 		attributes.put("trip_id", getTrip_id());
 		attributes.put("trip_headsign", getTrip_headsign());
-		attributes.put("direction_id", isDirection_id());
-		attributes.put("block_id", getBlock_id());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		String uuid = (String)attributes.get("uuid");
-
-		if (uuid != null) {
-			setUuid(uuid);
-		}
-
 		Long id = (Long)attributes.get("id");
 
 		if (id != null) {
@@ -105,18 +96,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 		if (trip_headsign != null) {
 			setTrip_headsign(trip_headsign);
 		}
-
-		Boolean direction_id = (Boolean)attributes.get("direction_id");
-
-		if (direction_id != null) {
-			setDirection_id(direction_id);
-		}
-
-		String block_id = (String)attributes.get("block_id");
-
-		if (block_id != null) {
-			setBlock_id(block_id);
-		}
 	}
 
 	@Override
@@ -127,26 +106,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	@Override
 	public int compareTo(eu.strasbourg.service.gtfs.model.Trip trip) {
 		return _trip.compareTo(trip);
-	}
-
-	/**
-	 * Returns the block_id of this trip.
-	 *
-	 * @return the block_id of this trip
-	 */
-	@Override
-	public String getBlock_id() {
-		return _trip.getBlock_id();
-	}
-
-	/**
-	 * Returns the direction_id of this trip.
-	 *
-	 * @return the direction_id of this trip
-	 */
-	@Override
-	public boolean getDirection_id() {
-		return _trip.getDirection_id();
 	}
 
 	@Override
@@ -219,16 +178,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 		return _trip.getTrip_id();
 	}
 
-	/**
-	 * Returns the uuid of this trip.
-	 *
-	 * @return the uuid of this trip
-	 */
-	@Override
-	public String getUuid() {
-		return _trip.getUuid();
-	}
-
 	@Override
 	public int hashCode() {
 		return _trip.hashCode();
@@ -237,16 +186,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	@Override
 	public boolean isCachedModel() {
 		return _trip.isCachedModel();
-	}
-
-	/**
-	 * Returns <code>true</code> if this trip is direction_id.
-	 *
-	 * @return <code>true</code> if this trip is direction_id; <code>false</code> otherwise
-	 */
-	@Override
-	public boolean isDirection_id() {
-		return _trip.isDirection_id();
 	}
 
 	@Override
@@ -264,29 +203,9 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 		_trip.persist();
 	}
 
-	/**
-	 * Sets the block_id of this trip.
-	 *
-	 * @param block_id the block_id of this trip
-	 */
-	@Override
-	public void setBlock_id(String block_id) {
-		_trip.setBlock_id(block_id);
-	}
-
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_trip.setCachedModel(cachedModel);
-	}
-
-	/**
-	 * Sets whether this trip is direction_id.
-	 *
-	 * @param direction_id the direction_id of this trip
-	 */
-	@Override
-	public void setDirection_id(boolean direction_id) {
-		_trip.setDirection_id(direction_id);
 	}
 
 	@Override
@@ -374,16 +293,6 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	@Override
 	public void setTrip_id(String trip_id) {
 		_trip.setTrip_id(trip_id);
-	}
-
-	/**
-	 * Sets the uuid of this trip.
-	 *
-	 * @param uuid the uuid of this trip
-	 */
-	@Override
-	public void setUuid(String uuid) {
-		_trip.setUuid(uuid);
 	}
 
 	@Override

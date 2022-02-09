@@ -39,7 +39,6 @@ public class TripFinderBaseImpl extends BasePersistenceImpl<Trip> {
 
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
-		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("id", "id_");
 
 		try {

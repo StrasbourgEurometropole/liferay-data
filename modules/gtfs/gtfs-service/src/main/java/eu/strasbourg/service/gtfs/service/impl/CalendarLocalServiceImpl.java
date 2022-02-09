@@ -65,13 +65,6 @@ public class CalendarLocalServiceImpl extends CalendarLocalServiceBaseImpl {
 		Calendar calendar = this.calendarLocalService.createCalendar(pk);
 		
 		calendar.setService_id(entry.getService_id());
-		calendar.setMonday(entry.isMonday());
-		calendar.setTuesday(entry.isTuesday());
-		calendar.setWednesday(entry.isWednesday());
-		calendar.setThursday(entry.isThursday());
-		calendar.setFriday(entry.isFriday());
-		calendar.setSaturday(entry.isSaturday());
-		calendar.setSunday(entry.isSunday());
 		calendar.setStart_date(entry.getStart_date());
 		calendar.setEnd_date(entry.getEnd_date());
 		

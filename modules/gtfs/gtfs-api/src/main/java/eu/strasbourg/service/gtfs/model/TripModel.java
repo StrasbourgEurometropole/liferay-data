@@ -59,21 +59,6 @@ public interface TripModel extends BaseModel<Trip> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this trip.
-	 *
-	 * @return the uuid of this trip
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this trip.
-	 *
-	 * @param uuid the uuid of this trip
-	 */
-	public void setUuid(String uuid);
-
-	/**
 	 * Returns the ID of this trip.
 	 *
 	 * @return the ID of this trip
@@ -146,42 +131,6 @@ public interface TripModel extends BaseModel<Trip> {
 	 * @param trip_headsign the trip_headsign of this trip
 	 */
 	public void setTrip_headsign(String trip_headsign);
-
-	/**
-	 * Returns the direction_id of this trip.
-	 *
-	 * @return the direction_id of this trip
-	 */
-	public boolean getDirection_id();
-
-	/**
-	 * Returns <code>true</code> if this trip is direction_id.
-	 *
-	 * @return <code>true</code> if this trip is direction_id; <code>false</code> otherwise
-	 */
-	public boolean isDirection_id();
-
-	/**
-	 * Sets whether this trip is direction_id.
-	 *
-	 * @param direction_id the direction_id of this trip
-	 */
-	public void setDirection_id(boolean direction_id);
-
-	/**
-	 * Returns the block_id of this trip.
-	 *
-	 * @return the block_id of this trip
-	 */
-	@AutoEscape
-	public String getBlock_id();
-
-	/**
-	 * Sets the block_id of this trip.
-	 *
-	 * @param block_id the block_id of this trip
-	 */
-	public void setBlock_id(String block_id);
 
 	@Override
 	public boolean isNew();

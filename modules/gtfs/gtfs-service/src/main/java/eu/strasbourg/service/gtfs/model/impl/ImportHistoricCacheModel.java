@@ -66,7 +66,7 @@ public class ImportHistoricCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -104,6 +104,8 @@ public class ImportHistoricCacheModel
 		sb.append(startDate);
 		sb.append(", finishDate=");
 		sb.append(finishDate);
+		sb.append(", gtfsFileHash=");
+		sb.append(gtfsFileHash);
 		sb.append("}");
 
 		return sb.toString();
@@ -200,6 +202,13 @@ public class ImportHistoricCacheModel
 			importHistoricImpl.setFinishDate(new Date(finishDate));
 		}
 
+		if (gtfsFileHash == null) {
+			importHistoricImpl.setGtfsFileHash("");
+		}
+		else {
+			importHistoricImpl.setGtfsFileHash(gtfsFileHash);
+		}
+
 		importHistoricImpl.resetOriginalValues();
 
 		return importHistoricImpl;
@@ -232,6 +241,7 @@ public class ImportHistoricCacheModel
 		errorStackTrace = objectInput.readUTF();
 		startDate = objectInput.readLong();
 		finishDate = objectInput.readLong();
+		gtfsFileHash = objectInput.readUTF();
 	}
 
 	@Override
@@ -299,6 +309,13 @@ public class ImportHistoricCacheModel
 
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(finishDate);
+
+		if (gtfsFileHash == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(gtfsFileHash);
+		}
 	}
 
 	public String uuid;
@@ -319,5 +336,6 @@ public class ImportHistoricCacheModel
 	public String errorStackTrace;
 	public long startDate;
 	public long finishDate;
+	public String gtfsFileHash;
 
 }

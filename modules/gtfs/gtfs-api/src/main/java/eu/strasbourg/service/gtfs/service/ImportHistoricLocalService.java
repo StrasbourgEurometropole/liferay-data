@@ -112,6 +112,11 @@ public interface ImportHistoricLocalService
 		throws PortalException;
 
 	/**
+	 * Suppression des anciens imports d'historiques
+	 */
+	public int deleteOldImportHistorics();
+
+	/**
 	 * @throws PortalException
 	 */
 	@Override
@@ -307,6 +312,12 @@ public interface ImportHistoricLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
+
+	/**
+	 * Retourne le dernier historique d'import
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ImportHistoric getLatestImportHistoric(ImportHistoric notCurrent);
 
 	/**
 	 * Returns the OSGi service identifier.
