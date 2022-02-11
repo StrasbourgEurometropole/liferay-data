@@ -62,9 +62,11 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(19);
 
-		sb.append("{id=");
+		sb.append("{uuid=");
+		sb.append(uuid);
+		sb.append(", id=");
 		sb.append(id);
 		sb.append(", route_id=");
 		sb.append(route_id);
@@ -72,6 +74,8 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		sb.append(route_short_name);
 		sb.append(", route_long_name=");
 		sb.append(route_long_name);
+		sb.append(", route_desc=");
+		sb.append(route_desc);
 		sb.append(", route_type=");
 		sb.append(route_type);
 		sb.append(", route_color=");
@@ -86,6 +90,13 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 	@Override
 	public Route toEntityModel() {
 		RouteImpl routeImpl = new RouteImpl();
+
+		if (uuid == null) {
+			routeImpl.setUuid("");
+		}
+		else {
+			routeImpl.setUuid(uuid);
+		}
 
 		routeImpl.setId(id);
 
@@ -108,6 +119,13 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		}
 		else {
 			routeImpl.setRoute_long_name(route_long_name);
+		}
+
+		if (route_desc == null) {
+			routeImpl.setRoute_desc("");
+		}
+		else {
+			routeImpl.setRoute_desc(route_desc);
 		}
 
 		routeImpl.setRoute_type(route_type);
@@ -133,10 +151,13 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		uuid = objectInput.readUTF();
+
 		id = objectInput.readLong();
 		route_id = objectInput.readUTF();
 		route_short_name = objectInput.readUTF();
 		route_long_name = objectInput.readUTF();
+		route_desc = objectInput.readUTF();
 
 		route_type = objectInput.readInt();
 		route_color = objectInput.readUTF();
@@ -145,6 +166,13 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		if (uuid == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
 		objectOutput.writeLong(id);
 
 		if (route_id == null) {
@@ -168,6 +196,13 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 			objectOutput.writeUTF(route_long_name);
 		}
 
+		if (route_desc == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(route_desc);
+		}
+
 		objectOutput.writeInt(route_type);
 
 		if (route_color == null) {
@@ -185,10 +220,12 @@ public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 		}
 	}
 
+	public String uuid;
 	public long id;
 	public String route_id;
 	public String route_short_name;
 	public String route_long_name;
+	public String route_desc;
 	public int route_type;
 	public String route_color;
 	public String route_text_color;

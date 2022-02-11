@@ -66,24 +66,28 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public static final String TABLE_NAME = "gtfs_Trip";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"route_id", Types.VARCHAR},
-		{"service_id", Types.VARCHAR}, {"trip_id", Types.VARCHAR},
-		{"trip_headsign", Types.VARCHAR}
+		{"uuid_", Types.VARCHAR}, {"id_", Types.BIGINT},
+		{"route_id", Types.VARCHAR}, {"service_id", Types.VARCHAR},
+		{"trip_id", Types.VARCHAR}, {"trip_headsign", Types.VARCHAR},
+		{"direction_id", Types.BOOLEAN}, {"block_id", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
 		new HashMap<String, Integer>();
 
 	static {
+		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("route_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("service_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("trip_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("trip_headsign", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("direction_id", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("block_id", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Trip (id_ LONG not null primary key,route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) null,trip_headsign VARCHAR(75) null)";
+		"create table gtfs_Trip (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,service_id VARCHAR(75) null,trip_id VARCHAR(75) null,trip_headsign VARCHAR(75) null,direction_id BOOLEAN,block_id VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Trip";
 
@@ -117,6 +121,8 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
 
 	public static final long TRIP_ID_COLUMN_BITMASK = 4L;
+
+	public static final long UUID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -242,6 +248,26 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 			new LinkedHashMap<String, BiConsumer<Trip, ?>>();
 
 		attributeGetterFunctions.put(
+			"uuid",
+			new Function<Trip, Object>() {
+
+				@Override
+				public Object apply(Trip trip) {
+					return trip.getUuid();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<Trip, Object>() {
+
+				@Override
+				public void accept(Trip trip, Object uuid) {
+					trip.setUuid((String)uuid);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"id",
 			new Function<Trip, Object>() {
 
@@ -341,11 +367,76 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"direction_id",
+			new Function<Trip, Object>() {
+
+				@Override
+				public Object apply(Trip trip) {
+					return trip.getDirection_id();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"direction_id",
+			new BiConsumer<Trip, Object>() {
+
+				@Override
+				public void accept(Trip trip, Object direction_id) {
+					trip.setDirection_id((Boolean)direction_id);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"block_id",
+			new Function<Trip, Object>() {
+
+				@Override
+				public Object apply(Trip trip) {
+					return trip.getBlock_id();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"block_id",
+			new BiConsumer<Trip, Object>() {
+
+				@Override
+				public void accept(Trip trip, Object block_id) {
+					trip.setBlock_id((String)block_id);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
+	}
+
+	@Override
+	public String getUuid() {
+		if (_uuid == null) {
+			return "";
+		}
+		else {
+			return _uuid;
+		}
+	}
+
+	@Override
+	public void setUuid(String uuid) {
+		_columnBitmask |= UUID_COLUMN_BITMASK;
+
+		if (_originalUuid == null) {
+			_originalUuid = _uuid;
+		}
+
+		_uuid = uuid;
+	}
+
+	public String getOriginalUuid() {
+		return GetterUtil.getString(_originalUuid);
 	}
 
 	@Override
@@ -448,6 +539,36 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 		_trip_headsign = trip_headsign;
 	}
 
+	@Override
+	public boolean getDirection_id() {
+		return _direction_id;
+	}
+
+	@Override
+	public boolean isDirection_id() {
+		return _direction_id;
+	}
+
+	@Override
+	public void setDirection_id(boolean direction_id) {
+		_direction_id = direction_id;
+	}
+
+	@Override
+	public String getBlock_id() {
+		if (_block_id == null) {
+			return "";
+		}
+		else {
+			return _block_id;
+		}
+	}
+
+	@Override
+	public void setBlock_id(String block_id) {
+		_block_id = block_id;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -479,11 +600,14 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public Object clone() {
 		TripImpl tripImpl = new TripImpl();
 
+		tripImpl.setUuid(getUuid());
 		tripImpl.setId(getId());
 		tripImpl.setRoute_id(getRoute_id());
 		tripImpl.setService_id(getService_id());
 		tripImpl.setTrip_id(getTrip_id());
 		tripImpl.setTrip_headsign(getTrip_headsign());
+		tripImpl.setDirection_id(isDirection_id());
+		tripImpl.setBlock_id(getBlock_id());
 
 		tripImpl.resetOriginalValues();
 
@@ -544,6 +668,8 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	public void resetOriginalValues() {
 		TripModelImpl tripModelImpl = this;
 
+		tripModelImpl._originalUuid = tripModelImpl._uuid;
+
 		tripModelImpl._originalRoute_id = tripModelImpl._route_id;
 
 		tripModelImpl._originalService_id = tripModelImpl._service_id;
@@ -556,6 +682,14 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	@Override
 	public CacheModel<Trip> toCacheModel() {
 		TripCacheModel tripCacheModel = new TripCacheModel();
+
+		tripCacheModel.uuid = getUuid();
+
+		String uuid = tripCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			tripCacheModel.uuid = null;
+		}
 
 		tripCacheModel.id = getId();
 
@@ -589,6 +723,16 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 
 		if ((trip_headsign != null) && (trip_headsign.length() == 0)) {
 			tripCacheModel.trip_headsign = null;
+		}
+
+		tripCacheModel.direction_id = isDirection_id();
+
+		tripCacheModel.block_id = getBlock_id();
+
+		String block_id = tripCacheModel.block_id;
+
+		if ((block_id != null) && (block_id.length() == 0)) {
+			tripCacheModel.block_id = null;
 		}
 
 		return tripCacheModel;
@@ -658,6 +802,8 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	private static final Function<InvocationHandler, Trip>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
+	private String _uuid;
+	private String _originalUuid;
 	private long _id;
 	private String _route_id;
 	private String _originalRoute_id;
@@ -666,6 +812,8 @@ public class TripModelImpl extends BaseModelImpl<Trip> implements TripModel {
 	private String _trip_id;
 	private String _originalTrip_id;
 	private String _trip_headsign;
+	private boolean _direction_id;
+	private String _block_id;
 	private long _columnBitmask;
 	private Trip _escapedModel;
 

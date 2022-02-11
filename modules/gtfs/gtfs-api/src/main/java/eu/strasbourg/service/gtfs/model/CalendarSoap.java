@@ -34,8 +34,16 @@ public class CalendarSoap implements Serializable {
 	public static CalendarSoap toSoapModel(Calendar model) {
 		CalendarSoap soapModel = new CalendarSoap();
 
+		soapModel.setUuid(model.getUuid());
 		soapModel.setId(model.getId());
 		soapModel.setService_id(model.getService_id());
+		soapModel.setMonday(model.isMonday());
+		soapModel.setTuesday(model.isTuesday());
+		soapModel.setWednesday(model.isWednesday());
+		soapModel.setThursday(model.isThursday());
+		soapModel.setFriday(model.isFriday());
+		soapModel.setSaturday(model.isSaturday());
+		soapModel.setSunday(model.isSunday());
 		soapModel.setStart_date(model.getStart_date());
 		soapModel.setEnd_date(model.getEnd_date());
 
@@ -91,6 +99,14 @@ public class CalendarSoap implements Serializable {
 		setId(pk);
 	}
 
+	public String getUuid() {
+		return _uuid;
+	}
+
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
+
 	public long getId() {
 		return _id;
 	}
@@ -105,6 +121,90 @@ public class CalendarSoap implements Serializable {
 
 	public void setService_id(String service_id) {
 		_service_id = service_id;
+	}
+
+	public boolean getMonday() {
+		return _monday;
+	}
+
+	public boolean isMonday() {
+		return _monday;
+	}
+
+	public void setMonday(boolean monday) {
+		_monday = monday;
+	}
+
+	public boolean getTuesday() {
+		return _tuesday;
+	}
+
+	public boolean isTuesday() {
+		return _tuesday;
+	}
+
+	public void setTuesday(boolean tuesday) {
+		_tuesday = tuesday;
+	}
+
+	public boolean getWednesday() {
+		return _wednesday;
+	}
+
+	public boolean isWednesday() {
+		return _wednesday;
+	}
+
+	public void setWednesday(boolean wednesday) {
+		_wednesday = wednesday;
+	}
+
+	public boolean getThursday() {
+		return _thursday;
+	}
+
+	public boolean isThursday() {
+		return _thursday;
+	}
+
+	public void setThursday(boolean thursday) {
+		_thursday = thursday;
+	}
+
+	public boolean getFriday() {
+		return _friday;
+	}
+
+	public boolean isFriday() {
+		return _friday;
+	}
+
+	public void setFriday(boolean friday) {
+		_friday = friday;
+	}
+
+	public boolean getSaturday() {
+		return _saturday;
+	}
+
+	public boolean isSaturday() {
+		return _saturday;
+	}
+
+	public void setSaturday(boolean saturday) {
+		_saturday = saturday;
+	}
+
+	public boolean getSunday() {
+		return _sunday;
+	}
+
+	public boolean isSunday() {
+		return _sunday;
+	}
+
+	public void setSunday(boolean sunday) {
+		_sunday = sunday;
 	}
 
 	public Date getStart_date() {
@@ -123,8 +223,16 @@ public class CalendarSoap implements Serializable {
 		_end_date = end_date;
 	}
 
+	private String _uuid;
 	private long _id;
 	private String _service_id;
+	private boolean _monday;
+	private boolean _tuesday;
+	private boolean _wednesday;
+	private boolean _thursday;
+	private boolean _friday;
+	private boolean _saturday;
+	private boolean _sunday;
 	private Date _start_date;
 	private Date _end_date;
 

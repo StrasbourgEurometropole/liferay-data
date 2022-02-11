@@ -66,8 +66,9 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public static final String TABLE_NAME = "gtfs_Route";
 
 	public static final Object[][] TABLE_COLUMNS = {
-		{"id_", Types.BIGINT}, {"route_id", Types.VARCHAR},
-		{"route_short_name", Types.VARCHAR}, {"route_long_name", Types.VARCHAR},
+		{"uuid_", Types.VARCHAR}, {"id_", Types.BIGINT},
+		{"route_id", Types.VARCHAR}, {"route_short_name", Types.VARCHAR},
+		{"route_long_name", Types.VARCHAR}, {"route_desc", Types.VARCHAR},
 		{"route_type", Types.INTEGER}, {"route_color", Types.VARCHAR},
 		{"route_text_color", Types.VARCHAR}
 	};
@@ -76,17 +77,19 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		new HashMap<String, Integer>();
 
 	static {
+		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("id_", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("route_id", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_short_name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_long_name", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("route_desc", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_type", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("route_color", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("route_text_color", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Route (id_ LONG not null primary key,route_id VARCHAR(75) null,route_short_name VARCHAR(75) null,route_long_name VARCHAR(200) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
+		"create table gtfs_Route (uuid_ VARCHAR(75) null,id_ LONG not null primary key,route_id VARCHAR(75) null,route_short_name VARCHAR(75) null,route_long_name VARCHAR(200) null,route_desc VARCHAR(75) null,route_type INTEGER,route_color VARCHAR(75) null,route_text_color VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Route";
 
@@ -117,6 +120,8 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 		true);
 
 	public static final long ROUTE_ID_COLUMN_BITMASK = 1L;
+
+	public static final long UUID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -242,6 +247,26 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 			new LinkedHashMap<String, BiConsumer<Route, ?>>();
 
 		attributeGetterFunctions.put(
+			"uuid",
+			new Function<Route, Object>() {
+
+				@Override
+				public Object apply(Route route) {
+					return route.getUuid();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<Route, Object>() {
+
+				@Override
+				public void accept(Route route, Object uuid) {
+					route.setUuid((String)uuid);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"id",
 			new Function<Route, Object>() {
 
@@ -322,6 +347,26 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 			});
 		attributeGetterFunctions.put(
+			"route_desc",
+			new Function<Route, Object>() {
+
+				@Override
+				public Object apply(Route route) {
+					return route.getRoute_desc();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"route_desc",
+			new BiConsumer<Route, Object>() {
+
+				@Override
+				public void accept(Route route, Object route_desc) {
+					route.setRoute_desc((String)route_desc);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"route_type",
 			new Function<Route, Object>() {
 
@@ -389,6 +434,31 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	}
 
 	@Override
+	public String getUuid() {
+		if (_uuid == null) {
+			return "";
+		}
+		else {
+			return _uuid;
+		}
+	}
+
+	@Override
+	public void setUuid(String uuid) {
+		_columnBitmask |= UUID_COLUMN_BITMASK;
+
+		if (_originalUuid == null) {
+			_originalUuid = _uuid;
+		}
+
+		_uuid = uuid;
+	}
+
+	public String getOriginalUuid() {
+		return GetterUtil.getString(_originalUuid);
+	}
+
+	@Override
 	public long getId() {
 		return _id;
 	}
@@ -451,6 +521,21 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	@Override
 	public void setRoute_long_name(String route_long_name) {
 		_route_long_name = route_long_name;
+	}
+
+	@Override
+	public String getRoute_desc() {
+		if (_route_desc == null) {
+			return "";
+		}
+		else {
+			return _route_desc;
+		}
+	}
+
+	@Override
+	public void setRoute_desc(String route_desc) {
+		_route_desc = route_desc;
 	}
 
 	@Override
@@ -524,10 +609,12 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public Object clone() {
 		RouteImpl routeImpl = new RouteImpl();
 
+		routeImpl.setUuid(getUuid());
 		routeImpl.setId(getId());
 		routeImpl.setRoute_id(getRoute_id());
 		routeImpl.setRoute_short_name(getRoute_short_name());
 		routeImpl.setRoute_long_name(getRoute_long_name());
+		routeImpl.setRoute_desc(getRoute_desc());
 		routeImpl.setRoute_type(getRoute_type());
 		routeImpl.setRoute_color(getRoute_color());
 		routeImpl.setRoute_text_color(getRoute_text_color());
@@ -591,6 +678,8 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	public void resetOriginalValues() {
 		RouteModelImpl routeModelImpl = this;
 
+		routeModelImpl._originalUuid = routeModelImpl._uuid;
+
 		routeModelImpl._originalRoute_id = routeModelImpl._route_id;
 
 		routeModelImpl._columnBitmask = 0;
@@ -599,6 +688,14 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	@Override
 	public CacheModel<Route> toCacheModel() {
 		RouteCacheModel routeCacheModel = new RouteCacheModel();
+
+		routeCacheModel.uuid = getUuid();
+
+		String uuid = routeCacheModel.uuid;
+
+		if ((uuid != null) && (uuid.length() == 0)) {
+			routeCacheModel.uuid = null;
+		}
 
 		routeCacheModel.id = getId();
 
@@ -624,6 +721,14 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 
 		if ((route_long_name != null) && (route_long_name.length() == 0)) {
 			routeCacheModel.route_long_name = null;
+		}
+
+		routeCacheModel.route_desc = getRoute_desc();
+
+		String route_desc = routeCacheModel.route_desc;
+
+		if ((route_desc != null) && (route_desc.length() == 0)) {
+			routeCacheModel.route_desc = null;
 		}
 
 		routeCacheModel.route_type = getRoute_type();
@@ -711,11 +816,14 @@ public class RouteModelImpl extends BaseModelImpl<Route> implements RouteModel {
 	private static final Function<InvocationHandler, Route>
 		_escapedModelProxyProviderFunction = _getProxyProviderFunction();
 
+	private String _uuid;
+	private String _originalUuid;
 	private long _id;
 	private String _route_id;
 	private String _originalRoute_id;
 	private String _route_short_name;
 	private String _route_long_name;
+	private String _route_desc;
 	private int _route_type;
 	private String _route_color;
 	private String _route_text_color;

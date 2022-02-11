@@ -56,10 +56,12 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("id", getId());
 		attributes.put("route_id", getRoute_id());
 		attributes.put("route_short_name", getRoute_short_name());
 		attributes.put("route_long_name", getRoute_long_name());
+		attributes.put("route_desc", getRoute_desc());
 		attributes.put("route_type", getRoute_type());
 		attributes.put("route_color", getRoute_color());
 		attributes.put("route_text_color", getRoute_text_color());
@@ -69,6 +71,12 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long id = (Long)attributes.get("id");
 
 		if (id != null) {
@@ -91,6 +99,12 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 
 		if (route_long_name != null) {
 			setRoute_long_name(route_long_name);
+		}
+
+		String route_desc = (String)attributes.get("route_desc");
+
+		if (route_desc != null) {
+			setRoute_desc(route_desc);
 		}
 
 		Integer route_type = (Integer)attributes.get("route_type");
@@ -163,6 +177,16 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
+	 * Returns the route_desc of this route.
+	 *
+	 * @return the route_desc of this route
+	 */
+	@Override
+	public String getRoute_desc() {
+		return _route.getRoute_desc();
+	}
+
+	/**
 	 * Returns the route_id of this route.
 	 *
 	 * @return the route_id of this route
@@ -210,6 +234,16 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	@Override
 	public int getRoute_type() {
 		return _route.getRoute_type();
+	}
+
+	/**
+	 * Returns the uuid of this route.
+	 *
+	 * @return the uuid of this route
+	 */
+	@Override
+	public String getUuid() {
+		return _route.getUuid();
 	}
 
 	@Override
@@ -300,6 +334,16 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	/**
+	 * Sets the route_desc of this route.
+	 *
+	 * @param route_desc the route_desc of this route
+	 */
+	@Override
+	public void setRoute_desc(String route_desc) {
+		_route.setRoute_desc(route_desc);
+	}
+
+	/**
 	 * Sets the route_id of this route.
 	 *
 	 * @param route_id the route_id of this route
@@ -347,6 +391,16 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	@Override
 	public void setRoute_type(int route_type) {
 		_route.setRoute_type(route_type);
+	}
+
+	/**
+	 * Sets the uuid of this route.
+	 *
+	 * @param uuid the uuid of this route
+	 */
+	@Override
+	public void setUuid(String uuid) {
+		_route.setUuid(uuid);
 	}
 
 	@Override

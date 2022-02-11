@@ -103,35 +103,30 @@ public class GTFSImporter {
 	private void importGTFSData(String gtfsFolderPath) {
 
 		try {
-			Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp startTimestamp = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation("################### GTFS Files ###################");
 			this.importHistoric.addNewOperation("#1/1# Starting import of GTFS");
 
-			/* Table Inutilisee actuellement
 			// Recuperation des lignes
 			Map<String, AgencyGTFS> mapAgencys;
-			mapAgencys = GTFSLoaderHelper.readAgencyData(GTFSPath);
+			mapAgencys = GTFSLoaderHelper.readAgencyData(gtfsFolderPath);
 			AgencyLocalServiceUtil.importFromGTFS(mapAgencys);
 			this.importHistoric.addNewOperation("Get " + mapAgencys.size() + " Agency entries");
-			*/
-			Timestamp agencyEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp agencyEndTimestamp = new Timestamp(System.currentTimeMillis());
 
 			// Recuperation des calendriers
 			Map<String, CalendarGTFS> mapCalendars;
 			mapCalendars = GTFSLoaderHelper.readCalendarData(gtfsFolderPath);
 			CalendarLocalServiceUtil.importFromGTFS(mapCalendars);
 			this.importHistoric.addNewOperation("Get " + mapCalendars.size() + " Calendar entries");
-			Timestamp CalendarEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp CalendarEndTimestamp = new Timestamp(System.currentTimeMillis());
 
-			// Table Inutilisee actuellement
 			// Recuperation des exceptions au calendrier
-			/*
 			Map<String, List<CalendarDatesGTFS>> mapCalendarDates;
-			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(GTFSPath);
+			mapCalendarDates = GTFSLoaderHelper.readCalendarDatesData(gtfsFolderPath);
 			CalendarDateLocalServiceUtil.importFromGTFS(mapCalendarDates);
 			this.importHistoric.addNewOperation("Get " + mapCalendarDates.size() + " CalendarDate entries");
-			*/
-			Timestamp CalendarDatesEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp CalendarDatesEndTimestamp = new Timestamp(System.currentTimeMillis());
 
 
 			// Recuperation des lignes
@@ -139,30 +134,32 @@ public class GTFSImporter {
 			mapRoutes = GTFSLoaderHelper.readRoutesData(gtfsFolderPath);
 			RouteLocalServiceUtil.importFromGTFS(mapRoutes);
 			this.importHistoric.addNewOperation("Get " + mapRoutes.size() + " Route entries");
-			Timestamp routesEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp routesEndTimestamp = new Timestamp(System.currentTimeMillis());
 
 			// Recuperation des temps d'arrêt
 			Map<String, List<StopTimesGTFS>> mapStopTimes;
 			mapStopTimes = GTFSLoaderHelper.readStopTimesData(gtfsFolderPath);
 			StopTimeLocalServiceUtil.importFromGTFS(mapStopTimes);
 			this.importHistoric.addNewOperation("Get " + mapStopTimes.size() + " StopTime entries");
-			Timestamp stoptimesEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp stoptimesEndTimestamp = new Timestamp(System.currentTimeMillis());
 
 			// Recuperation des routes
 			Map<String, StopsGTFS> mapStops;
 			mapStops = GTFSLoaderHelper.readStopsData(gtfsFolderPath);
 			StopLocalServiceUtil.importFromGTFS(mapStops);
 			this.importHistoric.addNewOperation("Get " + mapStops.size() + " Stops entries");
-			Timestamp stopsEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp stopsEndTimestamp = new Timestamp(System.currentTimeMillis());
 
 			// Recuperation des voyages
 			Map<String, TripsGTFS> mapTrips;
 			mapTrips = GTFSLoaderHelper.readTripsData(gtfsFolderPath);
 			TripLocalServiceUtil.importFromGTFS(mapTrips);
 			this.importHistoric.addNewOperation("Get " + mapTrips.size() + " Trips keys");
-			Timestamp tripsEndTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp tripsEndTimestamp = new Timestamp(System.currentTimeMillis());
 
-			Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+			//Timestamp endTimestamp = new Timestamp(System.currentTimeMillis());
+			/*
+			// Pour les logs savoir combien de temps chaque partie à prit
 			long processTime = (endTimestamp.getTime() - startTimestamp.getTime()) / 1000;
 			this.importHistoric.addNewOperation("Finishing files data import in " + processTime + " seconds.");
 			this.importHistoric.addNewOperation("Time for Agency:" + (startTimestamp.getTime() - agencyEndTimestamp.getTime()));
@@ -172,7 +169,7 @@ public class GTFSImporter {
 			this.importHistoric.addNewOperation("Time for Stoptimes:" + (routesEndTimestamp.getTime() - stoptimesEndTimestamp.getTime()));
 			this.importHistoric.addNewOperation("Time for Stops:" + (stoptimesEndTimestamp.getTime() - stopsEndTimestamp.getTime()));
 			this.importHistoric.addNewOperation("Time for Trips:" + (stopsEndTimestamp.getTime() - tripsEndTimestamp.getTime()));
-
+			*/
 		} catch (PortalException e) {
 			this.importHistoric.setErrorDescription("Probleme survenu lors de la lecture des donnees du flux GTFS");
 			this.importHistoric.setErrorStackTrace(e.toString());

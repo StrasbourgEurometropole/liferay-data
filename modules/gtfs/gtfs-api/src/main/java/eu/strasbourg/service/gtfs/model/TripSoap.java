@@ -33,11 +33,14 @@ public class TripSoap implements Serializable {
 	public static TripSoap toSoapModel(Trip model) {
 		TripSoap soapModel = new TripSoap();
 
+		soapModel.setUuid(model.getUuid());
 		soapModel.setId(model.getId());
 		soapModel.setRoute_id(model.getRoute_id());
 		soapModel.setService_id(model.getService_id());
 		soapModel.setTrip_id(model.getTrip_id());
 		soapModel.setTrip_headsign(model.getTrip_headsign());
+		soapModel.setDirection_id(model.isDirection_id());
+		soapModel.setBlock_id(model.getBlock_id());
 
 		return soapModel;
 	}
@@ -90,6 +93,14 @@ public class TripSoap implements Serializable {
 		setId(pk);
 	}
 
+	public String getUuid() {
+		return _uuid;
+	}
+
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
+
 	public long getId() {
 		return _id;
 	}
@@ -130,10 +141,33 @@ public class TripSoap implements Serializable {
 		_trip_headsign = trip_headsign;
 	}
 
+	public boolean getDirection_id() {
+		return _direction_id;
+	}
+
+	public boolean isDirection_id() {
+		return _direction_id;
+	}
+
+	public void setDirection_id(boolean direction_id) {
+		_direction_id = direction_id;
+	}
+
+	public String getBlock_id() {
+		return _block_id;
+	}
+
+	public void setBlock_id(String block_id) {
+		_block_id = block_id;
+	}
+
+	private String _uuid;
 	private long _id;
 	private String _route_id;
 	private String _service_id;
 	private String _trip_id;
 	private String _trip_headsign;
+	private boolean _direction_id;
+	private String _block_id;
 
 }

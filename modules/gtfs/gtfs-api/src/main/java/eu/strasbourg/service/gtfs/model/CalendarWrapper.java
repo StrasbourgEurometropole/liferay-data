@@ -57,8 +57,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("id", getId());
 		attributes.put("service_id", getService_id());
+		attributes.put("monday", isMonday());
+		attributes.put("tuesday", isTuesday());
+		attributes.put("wednesday", isWednesday());
+		attributes.put("thursday", isThursday());
+		attributes.put("friday", isFriday());
+		attributes.put("saturday", isSaturday());
+		attributes.put("sunday", isSunday());
 		attributes.put("start_date", getStart_date());
 		attributes.put("end_date", getEnd_date());
 
@@ -67,6 +75,12 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long id = (Long)attributes.get("id");
 
 		if (id != null) {
@@ -77,6 +91,48 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 
 		if (service_id != null) {
 			setService_id(service_id);
+		}
+
+		Boolean monday = (Boolean)attributes.get("monday");
+
+		if (monday != null) {
+			setMonday(monday);
+		}
+
+		Boolean tuesday = (Boolean)attributes.get("tuesday");
+
+		if (tuesday != null) {
+			setTuesday(tuesday);
+		}
+
+		Boolean wednesday = (Boolean)attributes.get("wednesday");
+
+		if (wednesday != null) {
+			setWednesday(wednesday);
+		}
+
+		Boolean thursday = (Boolean)attributes.get("thursday");
+
+		if (thursday != null) {
+			setThursday(thursday);
+		}
+
+		Boolean friday = (Boolean)attributes.get("friday");
+
+		if (friday != null) {
+			setFriday(friday);
+		}
+
+		Boolean saturday = (Boolean)attributes.get("saturday");
+
+		if (saturday != null) {
+			setSaturday(saturday);
+		}
+
+		Boolean sunday = (Boolean)attributes.get("sunday");
+
+		if (sunday != null) {
+			setSunday(sunday);
 		}
 
 		Date start_date = (Date)attributes.get("start_date");
@@ -118,6 +174,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	}
 
 	/**
+	 * Returns the friday of this calendar.
+	 *
+	 * @return the friday of this calendar
+	 */
+	@Override
+	public boolean getFriday() {
+		return _calendar.getFriday();
+	}
+
+	/**
 	 * Returns the ID of this calendar.
 	 *
 	 * @return the ID of this calendar
@@ -125,6 +191,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	@Override
 	public long getId() {
 		return _calendar.getId();
+	}
+
+	/**
+	 * Returns the monday of this calendar.
+	 *
+	 * @return the monday of this calendar
+	 */
+	@Override
+	public boolean getMonday() {
+		return _calendar.getMonday();
 	}
 
 	/**
@@ -140,6 +216,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _calendar.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the saturday of this calendar.
+	 *
+	 * @return the saturday of this calendar
+	 */
+	@Override
+	public boolean getSaturday() {
+		return _calendar.getSaturday();
 	}
 
 	/**
@@ -162,6 +248,56 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 		return _calendar.getStart_date();
 	}
 
+	/**
+	 * Returns the sunday of this calendar.
+	 *
+	 * @return the sunday of this calendar
+	 */
+	@Override
+	public boolean getSunday() {
+		return _calendar.getSunday();
+	}
+
+	/**
+	 * Returns the thursday of this calendar.
+	 *
+	 * @return the thursday of this calendar
+	 */
+	@Override
+	public boolean getThursday() {
+		return _calendar.getThursday();
+	}
+
+	/**
+	 * Returns the tuesday of this calendar.
+	 *
+	 * @return the tuesday of this calendar
+	 */
+	@Override
+	public boolean getTuesday() {
+		return _calendar.getTuesday();
+	}
+
+	/**
+	 * Returns the uuid of this calendar.
+	 *
+	 * @return the uuid of this calendar
+	 */
+	@Override
+	public String getUuid() {
+		return _calendar.getUuid();
+	}
+
+	/**
+	 * Returns the wednesday of this calendar.
+	 *
+	 * @return the wednesday of this calendar
+	 */
+	@Override
+	public boolean getWednesday() {
+		return _calendar.getWednesday();
+	}
+
 	@Override
 	public int hashCode() {
 		return _calendar.hashCode();
@@ -177,9 +313,79 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 		return _calendar.isEscapedModel();
 	}
 
+	/**
+	 * Returns <code>true</code> if this calendar is friday.
+	 *
+	 * @return <code>true</code> if this calendar is friday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isFriday() {
+		return _calendar.isFriday();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is monday.
+	 *
+	 * @return <code>true</code> if this calendar is monday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isMonday() {
+		return _calendar.isMonday();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _calendar.isNew();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is saturday.
+	 *
+	 * @return <code>true</code> if this calendar is saturday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isSaturday() {
+		return _calendar.isSaturday();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is sunday.
+	 *
+	 * @return <code>true</code> if this calendar is sunday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isSunday() {
+		return _calendar.isSunday();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is thursday.
+	 *
+	 * @return <code>true</code> if this calendar is thursday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isThursday() {
+		return _calendar.isThursday();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is tuesday.
+	 *
+	 * @return <code>true</code> if this calendar is tuesday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isTuesday() {
+		return _calendar.isTuesday();
+	}
+
+	/**
+	 * Returns <code>true</code> if this calendar is wednesday.
+	 *
+	 * @return <code>true</code> if this calendar is wednesday; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isWednesday() {
+		return _calendar.isWednesday();
 	}
 
 	@Override
@@ -220,6 +426,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	}
 
 	/**
+	 * Sets whether this calendar is friday.
+	 *
+	 * @param friday the friday of this calendar
+	 */
+	@Override
+	public void setFriday(boolean friday) {
+		_calendar.setFriday(friday);
+	}
+
+	/**
 	 * Sets the ID of this calendar.
 	 *
 	 * @param id the ID of this calendar
@@ -227,6 +443,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	@Override
 	public void setId(long id) {
 		_calendar.setId(id);
+	}
+
+	/**
+	 * Sets whether this calendar is monday.
+	 *
+	 * @param monday the monday of this calendar
+	 */
+	@Override
+	public void setMonday(boolean monday) {
+		_calendar.setMonday(monday);
 	}
 
 	@Override
@@ -250,6 +476,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	}
 
 	/**
+	 * Sets whether this calendar is saturday.
+	 *
+	 * @param saturday the saturday of this calendar
+	 */
+	@Override
+	public void setSaturday(boolean saturday) {
+		_calendar.setSaturday(saturday);
+	}
+
+	/**
 	 * Sets the service_id of this calendar.
 	 *
 	 * @param service_id the service_id of this calendar
@@ -267,6 +503,56 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	@Override
 	public void setStart_date(Date start_date) {
 		_calendar.setStart_date(start_date);
+	}
+
+	/**
+	 * Sets whether this calendar is sunday.
+	 *
+	 * @param sunday the sunday of this calendar
+	 */
+	@Override
+	public void setSunday(boolean sunday) {
+		_calendar.setSunday(sunday);
+	}
+
+	/**
+	 * Sets whether this calendar is thursday.
+	 *
+	 * @param thursday the thursday of this calendar
+	 */
+	@Override
+	public void setThursday(boolean thursday) {
+		_calendar.setThursday(thursday);
+	}
+
+	/**
+	 * Sets whether this calendar is tuesday.
+	 *
+	 * @param tuesday the tuesday of this calendar
+	 */
+	@Override
+	public void setTuesday(boolean tuesday) {
+		_calendar.setTuesday(tuesday);
+	}
+
+	/**
+	 * Sets the uuid of this calendar.
+	 *
+	 * @param uuid the uuid of this calendar
+	 */
+	@Override
+	public void setUuid(String uuid) {
+		_calendar.setUuid(uuid);
+	}
+
+	/**
+	 * Sets whether this calendar is wednesday.
+	 *
+	 * @param wednesday the wednesday of this calendar
+	 */
+	@Override
+	public void setWednesday(boolean wednesday) {
+		_calendar.setWednesday(wednesday);
 	}
 
 	@Override

@@ -33,12 +33,15 @@ public class StopSoap implements Serializable {
 	public static StopSoap toSoapModel(Stop model) {
 		StopSoap soapModel = new StopSoap();
 
+		soapModel.setUuid(model.getUuid());
 		soapModel.setId(model.getId());
 		soapModel.setStop_id(model.getStop_id());
 		soapModel.setStop_code(model.getStop_code());
 		soapModel.setStop_lat(model.getStop_lat());
 		soapModel.setStop_lon(model.getStop_lon());
 		soapModel.setStop_name(model.getStop_name());
+		soapModel.setStop_url(model.getStop_url());
+		soapModel.setStop_desc(model.getStop_desc());
 
 		return soapModel;
 	}
@@ -91,6 +94,14 @@ public class StopSoap implements Serializable {
 		setId(pk);
 	}
 
+	public String getUuid() {
+		return _uuid;
+	}
+
+	public void setUuid(String uuid) {
+		_uuid = uuid;
+	}
+
 	public long getId() {
 		return _id;
 	}
@@ -139,11 +150,30 @@ public class StopSoap implements Serializable {
 		_stop_name = stop_name;
 	}
 
+	public String getStop_url() {
+		return _stop_url;
+	}
+
+	public void setStop_url(String stop_url) {
+		_stop_url = stop_url;
+	}
+
+	public String getStop_desc() {
+		return _stop_desc;
+	}
+
+	public void setStop_desc(String stop_desc) {
+		_stop_desc = stop_desc;
+	}
+
+	private String _uuid;
 	private long _id;
 	private String _stop_id;
 	private String _stop_code;
 	private String _stop_lat;
 	private String _stop_lon;
 	private String _stop_name;
+	private String _stop_url;
+	private String _stop_desc;
 
 }

@@ -61,6 +61,21 @@ public interface CalendarModel extends BaseModel<Calendar> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
+	 * Returns the uuid of this calendar.
+	 *
+	 * @return the uuid of this calendar
+	 */
+	@AutoEscape
+	public String getUuid();
+
+	/**
+	 * Sets the uuid of this calendar.
+	 *
+	 * @param uuid the uuid of this calendar
+	 */
+	public void setUuid(String uuid);
+
+	/**
 	 * Returns the ID of this calendar.
 	 *
 	 * @return the ID of this calendar
@@ -88,6 +103,153 @@ public interface CalendarModel extends BaseModel<Calendar> {
 	 * @param service_id the service_id of this calendar
 	 */
 	public void setService_id(String service_id);
+
+	/**
+	 * Returns the monday of this calendar.
+	 *
+	 * @return the monday of this calendar
+	 */
+	public boolean getMonday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is monday.
+	 *
+	 * @return <code>true</code> if this calendar is monday; <code>false</code> otherwise
+	 */
+	public boolean isMonday();
+
+	/**
+	 * Sets whether this calendar is monday.
+	 *
+	 * @param monday the monday of this calendar
+	 */
+	public void setMonday(boolean monday);
+
+	/**
+	 * Returns the tuesday of this calendar.
+	 *
+	 * @return the tuesday of this calendar
+	 */
+	public boolean getTuesday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is tuesday.
+	 *
+	 * @return <code>true</code> if this calendar is tuesday; <code>false</code> otherwise
+	 */
+	public boolean isTuesday();
+
+	/**
+	 * Sets whether this calendar is tuesday.
+	 *
+	 * @param tuesday the tuesday of this calendar
+	 */
+	public void setTuesday(boolean tuesday);
+
+	/**
+	 * Returns the wednesday of this calendar.
+	 *
+	 * @return the wednesday of this calendar
+	 */
+	public boolean getWednesday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is wednesday.
+	 *
+	 * @return <code>true</code> if this calendar is wednesday; <code>false</code> otherwise
+	 */
+	public boolean isWednesday();
+
+	/**
+	 * Sets whether this calendar is wednesday.
+	 *
+	 * @param wednesday the wednesday of this calendar
+	 */
+	public void setWednesday(boolean wednesday);
+
+	/**
+	 * Returns the thursday of this calendar.
+	 *
+	 * @return the thursday of this calendar
+	 */
+	public boolean getThursday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is thursday.
+	 *
+	 * @return <code>true</code> if this calendar is thursday; <code>false</code> otherwise
+	 */
+	public boolean isThursday();
+
+	/**
+	 * Sets whether this calendar is thursday.
+	 *
+	 * @param thursday the thursday of this calendar
+	 */
+	public void setThursday(boolean thursday);
+
+	/**
+	 * Returns the friday of this calendar.
+	 *
+	 * @return the friday of this calendar
+	 */
+	public boolean getFriday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is friday.
+	 *
+	 * @return <code>true</code> if this calendar is friday; <code>false</code> otherwise
+	 */
+	public boolean isFriday();
+
+	/**
+	 * Sets whether this calendar is friday.
+	 *
+	 * @param friday the friday of this calendar
+	 */
+	public void setFriday(boolean friday);
+
+	/**
+	 * Returns the saturday of this calendar.
+	 *
+	 * @return the saturday of this calendar
+	 */
+	public boolean getSaturday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is saturday.
+	 *
+	 * @return <code>true</code> if this calendar is saturday; <code>false</code> otherwise
+	 */
+	public boolean isSaturday();
+
+	/**
+	 * Sets whether this calendar is saturday.
+	 *
+	 * @param saturday the saturday of this calendar
+	 */
+	public void setSaturday(boolean saturday);
+
+	/**
+	 * Returns the sunday of this calendar.
+	 *
+	 * @return the sunday of this calendar
+	 */
+	public boolean getSunday();
+
+	/**
+	 * Returns <code>true</code> if this calendar is sunday.
+	 *
+	 * @return <code>true</code> if this calendar is sunday; <code>false</code> otherwise
+	 */
+	public boolean isSunday();
+
+	/**
+	 * Sets whether this calendar is sunday.
+	 *
+	 * @param sunday the sunday of this calendar
+	 */
+	public void setSunday(boolean sunday);
 
 	/**
 	 * Returns the start_date of this calendar.

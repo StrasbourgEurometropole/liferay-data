@@ -65,12 +65,28 @@ public class CalendarCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(9);
+		StringBundler sb = new StringBundler(25);
 
-		sb.append("{id=");
+		sb.append("{uuid=");
+		sb.append(uuid);
+		sb.append(", id=");
 		sb.append(id);
 		sb.append(", service_id=");
 		sb.append(service_id);
+		sb.append(", monday=");
+		sb.append(monday);
+		sb.append(", tuesday=");
+		sb.append(tuesday);
+		sb.append(", wednesday=");
+		sb.append(wednesday);
+		sb.append(", thursday=");
+		sb.append(thursday);
+		sb.append(", friday=");
+		sb.append(friday);
+		sb.append(", saturday=");
+		sb.append(saturday);
+		sb.append(", sunday=");
+		sb.append(sunday);
 		sb.append(", start_date=");
 		sb.append(start_date);
 		sb.append(", end_date=");
@@ -84,6 +100,13 @@ public class CalendarCacheModel
 	public Calendar toEntityModel() {
 		CalendarImpl calendarImpl = new CalendarImpl();
 
+		if (uuid == null) {
+			calendarImpl.setUuid("");
+		}
+		else {
+			calendarImpl.setUuid(uuid);
+		}
+
 		calendarImpl.setId(id);
 
 		if (service_id == null) {
@@ -92,6 +115,14 @@ public class CalendarCacheModel
 		else {
 			calendarImpl.setService_id(service_id);
 		}
+
+		calendarImpl.setMonday(monday);
+		calendarImpl.setTuesday(tuesday);
+		calendarImpl.setWednesday(wednesday);
+		calendarImpl.setThursday(thursday);
+		calendarImpl.setFriday(friday);
+		calendarImpl.setSaturday(saturday);
+		calendarImpl.setSunday(sunday);
 
 		if (start_date == Long.MIN_VALUE) {
 			calendarImpl.setStart_date(null);
@@ -114,14 +145,37 @@ public class CalendarCacheModel
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		uuid = objectInput.readUTF();
+
 		id = objectInput.readLong();
 		service_id = objectInput.readUTF();
+
+		monday = objectInput.readBoolean();
+
+		tuesday = objectInput.readBoolean();
+
+		wednesday = objectInput.readBoolean();
+
+		thursday = objectInput.readBoolean();
+
+		friday = objectInput.readBoolean();
+
+		saturday = objectInput.readBoolean();
+
+		sunday = objectInput.readBoolean();
 		start_date = objectInput.readLong();
 		end_date = objectInput.readLong();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		if (uuid == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
 		objectOutput.writeLong(id);
 
 		if (service_id == null) {
@@ -131,12 +185,33 @@ public class CalendarCacheModel
 			objectOutput.writeUTF(service_id);
 		}
 
+		objectOutput.writeBoolean(monday);
+
+		objectOutput.writeBoolean(tuesday);
+
+		objectOutput.writeBoolean(wednesday);
+
+		objectOutput.writeBoolean(thursday);
+
+		objectOutput.writeBoolean(friday);
+
+		objectOutput.writeBoolean(saturday);
+
+		objectOutput.writeBoolean(sunday);
 		objectOutput.writeLong(start_date);
 		objectOutput.writeLong(end_date);
 	}
 
+	public String uuid;
 	public long id;
 	public String service_id;
+	public boolean monday;
+	public boolean tuesday;
+	public boolean wednesday;
+	public boolean thursday;
+	public boolean friday;
+	public boolean saturday;
+	public boolean sunday;
 	public long start_date;
 	public long end_date;
 

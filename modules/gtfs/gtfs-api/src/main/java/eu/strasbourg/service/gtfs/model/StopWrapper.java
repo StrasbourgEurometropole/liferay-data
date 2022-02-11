@@ -56,18 +56,27 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("uuid", getUuid());
 		attributes.put("id", getId());
 		attributes.put("stop_id", getStop_id());
 		attributes.put("stop_code", getStop_code());
 		attributes.put("stop_lat", getStop_lat());
 		attributes.put("stop_lon", getStop_lon());
 		attributes.put("stop_name", getStop_name());
+		attributes.put("stop_url", getStop_url());
+		attributes.put("stop_desc", getStop_desc());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		String uuid = (String)attributes.get("uuid");
+
+		if (uuid != null) {
+			setUuid(uuid);
+		}
+
 		Long id = (Long)attributes.get("id");
 
 		if (id != null) {
@@ -102,6 +111,18 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 
 		if (stop_name != null) {
 			setStop_name(stop_name);
+		}
+
+		String stop_url = (String)attributes.get("stop_url");
+
+		if (stop_url != null) {
+			setStop_url(stop_url);
+		}
+
+		String stop_desc = (String)attributes.get("stop_desc");
+
+		if (stop_desc != null) {
+			setStop_desc(stop_desc);
 		}
 	}
 
@@ -156,6 +177,16 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
+	 * Returns the stop_desc of this stop.
+	 *
+	 * @return the stop_desc of this stop
+	 */
+	@Override
+	public String getStop_desc() {
+		return _stop.getStop_desc();
+	}
+
+	/**
 	 * Returns the stop_id of this stop.
 	 *
 	 * @return the stop_id of this stop
@@ -193,6 +224,26 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	@Override
 	public String getStop_name() {
 		return _stop.getStop_name();
+	}
+
+	/**
+	 * Returns the stop_url of this stop.
+	 *
+	 * @return the stop_url of this stop
+	 */
+	@Override
+	public String getStop_url() {
+		return _stop.getStop_url();
+	}
+
+	/**
+	 * Returns the uuid of this stop.
+	 *
+	 * @return the uuid of this stop
+	 */
+	@Override
+	public String getUuid() {
+		return _stop.getUuid();
 	}
 
 	@Override
@@ -283,6 +334,16 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	}
 
 	/**
+	 * Sets the stop_desc of this stop.
+	 *
+	 * @param stop_desc the stop_desc of this stop
+	 */
+	@Override
+	public void setStop_desc(String stop_desc) {
+		_stop.setStop_desc(stop_desc);
+	}
+
+	/**
 	 * Sets the stop_id of this stop.
 	 *
 	 * @param stop_id the stop_id of this stop
@@ -320,6 +381,26 @@ public class StopWrapper implements Stop, ModelWrapper<Stop> {
 	@Override
 	public void setStop_name(String stop_name) {
 		_stop.setStop_name(stop_name);
+	}
+
+	/**
+	 * Sets the stop_url of this stop.
+	 *
+	 * @param stop_url the stop_url of this stop
+	 */
+	@Override
+	public void setStop_url(String stop_url) {
+		_stop.setStop_url(stop_url);
+	}
+
+	/**
+	 * Sets the uuid of this stop.
+	 *
+	 * @param uuid the uuid of this stop
+	 */
+	@Override
+	public void setUuid(String uuid) {
+		_stop.setUuid(uuid);
 	}
 
 	@Override
