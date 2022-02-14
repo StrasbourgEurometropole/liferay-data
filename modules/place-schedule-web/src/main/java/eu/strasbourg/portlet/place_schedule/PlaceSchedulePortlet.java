@@ -208,6 +208,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				}
 			}
 
+			Place bainsMunicipaux = null;
+
 			// Récupère tous les lieux publiés de la catégorie
 			List<Place> places = new ArrayList<Place>();
 			if (Validator.isNotNull(category)) {
@@ -223,7 +225,11 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 						if (Validator.isNotNull(place) && place.isApproved()) {
 							places.add(place);
 							if (Validator.isNull(placeId)) {
-								selectedPlaces.add(place);
+								if(place.getSIGid().equals("400_SPO_1")) {
+									bainsMunicipaux = place;
+								} else {
+									selectedPlaces.add(place);
+								}
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des lieux sur 2 mois à partir du lundi de la semaine choisie
 								List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true,
@@ -275,6 +281,11 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					oldException = exception;
 				}
 			}
+
+			if (bainsMunicipaux != null) {
+				selectedPlaces.add(bainsMunicipaux);
+			}
+
 			request.setAttribute("exceptions", exceptions);
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);
