@@ -312,15 +312,15 @@
     	var checkboxesId = $(this).data("checkboxes-id");
 		var checkboxes = $('#checkbox-'+checkboxesId);
 		if($(this).hasClass('expanded')){
+		   $(this).closest('.form-group').find('.checkbox').addClass('closed');
            $(this).find('.mns-filter-expand').show();
            $(this).find('.mns-filter-collapse').hide();
            $(this).removeClass('expanded');
-           checkboxes.height("0px");
         } else {
            $(this).find('.mns-filter-expand').hide();
            $(this).find('.mns-filter-collapse').show();
            $(this).addClass('expanded');
-           checkboxes.height("100%");
+		   $(this).closest('.form-group').find('.checkbox').removeClass('closed');
         }
     });
 

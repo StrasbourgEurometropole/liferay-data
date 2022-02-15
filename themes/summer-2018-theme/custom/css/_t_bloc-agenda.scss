@@ -11,35 +11,40 @@
 #mns-global{
 	.mns-bloc-agenda{
 		position: relative;
-		a{
-			display: block;
-			text-align: start;
-			@include an(all,0.3);
-			> div{
-				padding: 15px 0;
-			}
-			> img{
-				width: 100%;
-			}
 
+		a{
+			@include an(all,0.3);
+			display: block;
+
+			> div{
+				padding-bottom: 15px;
+			}
 
 			&:hover{
+				transform: translateY(-20px);
+				text-decoration: none;
+
 				.basic-link{
-					color: $c_txt;
+					opacity: 1;
+					@include an(opacity,1);
 				}
 			}
 		}
+
 		.date{
 			background: $c_main;
-			@include ft($f_ms, 12.5px, 700, $c_white, normal);
+			@include ft($f_ms, 0.875rem, 400, $c_white, 1.0625rem);
 			position: absolute;
-			top: 20px;
-			z-index: 5;
+			top: 22px;
+			left: -12px;
 			padding: 15px;
 			max-width: 260px;
-			width: 50%;
 			text-align: center;
-			padding: 15px 10px;
+			z-index: 1;
+		}
+
+		figure{
+			margin-bottom: 14px;
 		}
 
 		img{
@@ -48,143 +53,109 @@
 			max-width: 260px;
 			width: 100%;
 			margin-bottom: 0;
+
 			@include desktop{
 				height: 350px;
 				max-width: 100%;
 			}
+
 			@include mobile {
 				height: 400px;
 			}
 		}
 
-		h4,h3{
-			@include ft($f_ms, 20px, 500, $c_txt, normal);
-			text-align: center;
+		h3{
+			@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
 			margin: auto;
-			padding: 10px 0;
-			display: block;
-			clear: both;
+			padding-bottom: 12px;
+			display: -webkit-box; 
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			max-height: 4.875rem;
+
 			@include mobile{
 				width: 90%;
-				font-size: 24px;
+				font-size: 1.5rem;
 			}
 		}
+
 		.basic-link{
+			opacity: 0;
+			@include an(opacity,0.3);
 			text-align: center;
-		}
-		.ico-map-marker{
-			display: flex;
-			align-items: center;
-			&:before {
-			  	content: '';
-	  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
-	  			height: 15px;
-	  			width: 15px;
-				min-width: 15px;
-				min-height: 15px;
-	  			margin-right: 15px;
-	  			display: inline-block;
-  			}
+
+			&:hover{
+				color: $c_main;
+			}
 		}
 
-		.ico-type{
-			display: flex;
-			align-items: center;
-			&:before {
-			  	content: '';
-	  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
-	  			height: 15px;
-	  			width: 15px;
-				min-width: 15px;
-				min-height: 15px;
-	  			margin-right: 15px;
-	  			display: inline-block;
-  			}
-		}
-
-		.mns-indic { 
+		.mns-indic{
 			margin-bottom: 10px;
+			padding: 0;
+			
+			span{
+				justify-content: center;
+				display: flex;
+			}
+
+			.ico-map-marker:before {
+				content: "\e912";
+				margin-right: 10px;
+				display: inline-block;
+				font-family: 'icomoon';
+			}
+	
+			.ico-type:before {
+				content: '\e914';
+				display: inline-block;
+				margin-right: 10px;
+				font-family: 'icomoon';
+			}
 		}
 	}
 
-	.mns-section-agenda {
-		.mns-right {
-				margin-bottom: 40px;
-			}
-	}
-
-	.mns-wrapper-video{
-		padding: 50px 15px;
-		@include mobile{
-			padding: 15px;
-		}
-		p{
-			@include ft($f_ms, 17.5px, 300, #808080, 21px);
-			text-align: right;
-			width: 40%;
-			margin-top: 10px;
-			margin-bottom: 0;
-			float: right;
-			@include desktop{
-				width: 50%;
-			}
-			@include tablet_portrait{
-				width: 75%;
-			}
-			@include mobile {
-				width: 90%;
-			}
-		}
+	.search-results{
+		@include ft($f_ms, 0.875rem, 400, $c_black, 2.875rem);	
 	}
 
 	.clearfix.lfr-pagination {
 		margin-top: 50px;
 
+		@include tablet_portrait{
+			margin-top: 0;
+		}
+
 		ul {
+			line-height: 2.875rem;
+
 			li {
-				&.disabled {
-					display: none;
-				}
-				padding: 10px;
-				margin-right: 10px;
-				@include tablet_portrait{
-					width: 100%;
-					background-color: $c_main;
-				}
-				@include mobile {
-					width: 100%;
-					background-color: $c_main;
-				}
+
 				a {
-					border: 0px;
+					border: 2px solid $c_main;
+					border-radius: 42px;
 					z-index: 2;
 					position: relative;
-					background-color: transparent;
-					@include ft($f_ms, 14px, 700, $c_main, normal);				
+					background: none;
+					@include ft($f_nr, 1rem, 400, $c_txt, 1.1875rem);
+
 			        &:hover, &:focus{
 			        	color: $c_white;
-						background-color: transparent;			        
+						background-color: $c_main;			        
 			        }
-			        @include tablet_portrait{
+				}
+
+				&.disabled {
+					opacity: 0.5;
+
+					a:hover{
+						background: none;
 						color: $c_txt;
-					}
-					@include mobile {
-						color: $c_txt;
+						cursor: not-allowed;
 					}
 				}
-				&:before{
-		            content: '';
-		            display: block;
-		            position: absolute;
-		            bottom: 0;
-		            left: 0%;
-		            height: 1px;
-		            width: 100%;
-		            transition: all, 0.3s;
-		            background-color: $c-main; 
-		            z-index: 1;
-		        }
-		         &:hover, &:focus{
+
+		        &:hover, &:focus{
 		            &:before{
 		                height: 100%;
 		            }

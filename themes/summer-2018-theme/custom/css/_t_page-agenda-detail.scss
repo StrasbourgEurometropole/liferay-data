@@ -16,7 +16,11 @@
 				margin-top: 50px !important;
 			}
 
-		.mns-section-agenda{
+		.mns-aside-info{
+			margin-bottom: 40px;
+		}
+
+		/*.mns-section-agenda{
 			padding-bottom: 50px;
 			h2{
 				text-align: left;
@@ -31,55 +35,70 @@
 				color: $c_txt;
 				text-decoration: none;
 			}
-		}
+		}*/
 
-		&.mns-fck figure figcaption{
-			border: none;
-			right: 0;
-			left: initial;
-			bottom: 0;
-			top: initial;
-			transform: translate(100%,0) rotate(-90deg);
-			color: $c_white;
-			display: inline-block;
-			padding: 15px;
-			transform-origin: bottom left;
-			width: auto;
-			text-align: left;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-			max-width: 120%;
-			font-size: 10px;
+		figure {
+			margin: 0;
+			background: $c_black;
+
+			img{
+				width: 100%;
+			}
+
+			figcaption{
+				border: none;
+				left: 0;
+				bottom: 0;
+				top: initial;
+				color: $c_white;
+				display: inline-block;
+				width: auto;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 120%;
+				font-size: 10px;
+				line-height: 10px;
+			}
 		}
 
 		.mns-img-agenda-top{
 			margin: 0;
 		}
 
-		figure img{
-			width: 100%;
-		}
-
 		.mns-info-pratiques{
-			max-width: 298px;
-    		margin-left: 1px;
     		background-color: $c_main;
+			position: relative;
+
 			.mns-sec-info{
-				border-bottom: 0px;
+    			padding: 30px 20px;
+				border-bottom: 1px solid $c_main;
+		
 				.mns-title-info{
-					text-transform: uppercase;
-					color: $c_white;
-					font-family: $f_ms;
+					@include ft($f_nr, 24px, 400, $c_white, 28.97px);
+
+					&:after {
+						content: '';
+						height: 4px;
+						width: 25px;
+						display: block;
+						background: $c_white;
+						margin-top: 20px;
+						margin-bottom: 30px;
+					}
 				}
+
 				p{
 					width: 90%;
 					margin-bottom: 20px;
 					display: block;
+					line-height: 19.5px;
+					color: $c_white;
 				}
+
 				a{
 					display: block;
-					@include ft($f_ms, 18px, 700, $c_white, 24px);
+					@include ft($f_ms, 16px, 700, $c_white, 19.5px);
 					margin-bottom: 20px;
 					@include an(all,0.3);
 					&:hover{
@@ -93,18 +112,21 @@
 
 			&:after{
 				content: '';
+				position: absolute;
+				z-index: -1;
+				background: rgba(82, 120, 163, 0.2);
 				width: 290px;
 				height: 350px;
-				right: initial;
-				left: -50px;
-				top: initial;
+				top: -165px;
+				right: -30px;
 				bottom: -20px;
+				left: -50px;
 			}
 		}
 
 		.mns-event-date{
-			@include ft($f_ms, 20px, 700, $c_txt, normal);
-			margin-bottom: 15px;
+			@include ft($f_ms, 20px, 700, $c_txt, 24.38px);
+			margin-bottom: 23px;
 			display: block;
 		}
 
@@ -123,47 +145,52 @@
 			}
 
 			h1{
-				@include ft($f_ms, 60px, 100, $c_txt, 54px);
 				width: 100%;
-				margin-bottom: 20px;
 			}
+
 			.mns-indic{
+
 				span{
+					@include ft($f_ms, 16px, 400, $c_grey, 19.5px);
 					margin-right: 5px;
 					&:nth-child(2){
 						margin-right: 15px;
 					}
 				}
-				.icon-ico-map-marker{
-					height: 15px;
-			  		width: 15px;
 
+				.ico-map-marker{
 					&:before {
-					  	content: '';
-			  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
-			  			position: absolute;
-			  			height: 15px;
-			  			width: 15px;
+						content: "\e912"; 
+						display: inline-block;
+						margin-right: 10px;
+						font-family: 'icomoon';
 			  		}
 				}
 
-				.icon-ico-type{
-					height: 15px;
-			  		width: 15px;
-
+				.ico-type{
 			  		&:before {
-					  	content: '';
-			  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
-			  			position: absolute;
-			  			height: 15px;
-			  			width: 15px;
+						content: '\e914';
+						display: inline-block;
+						margin-right: 10px;
+						font-family: 'icomoon';
 		  			}
 				}
 			}
+				
+			.mns-line {
+				width: 25px;
+				height: 4px;
+				background: $c_main;
+				display: block;
+				margin: 40px 0;
+			}
 
 			.mns-title-detail-actu{
-				@include ft($f_ms, 16px, 700, $c_txt, normal);	
+				@include ft($f_nr, 18px, 400, $c_txt, 21.73px);	
 				display: block;
+				padding: 0 0 10px 0;
+				border-bottom: 1px solid $c_main;
+				margin-bottom: 25px;
 			}
 
 			.mns-info-more{
@@ -196,22 +223,17 @@
 				}
 
 				.booking{
-					margin-top: 30px;
+					margin-top: 45px;
+					margin-bottom: 50px;
 					
 					a{ 
-						width: 150px;
 						padding: 14px 50px;
-						height: auto;
-						background: $c_txt;
-						border: none;
-						box-shadow: none;
-						z-index: 2;
+						background: $c_main;
 						text-decoration: none;
-						@include ft($f_txt, 15px, 700, $c_white, normal);
+						@include ft($f_nr, 18px, 400, $c_white, 21.73px);
 						@include an(all,0.3);
 						&:hover{
-							background: $c_main;
-							color: $c_white;
+							background: $c_txt;
 						}
 					}
 				}
@@ -222,45 +244,47 @@
 			border-width: 0px;
 			background-color: transparent;
 			cursor: pointer;
-			padding-top: 15px;
+			padding: 15px 0 0;
 			margin-bottom: 20px;
-			border-bottom: solid 1px $c_light;
+			border-bottom: solid 1px $c_filet;
 			width: 100%;
+			outline: none;
 
 			.contact{
 				display: flex;
 				align-items: center;
 				margin: 0;
-
-				&:after{
-					width: 40px;
-					height: 46px;
-					background-size: 30px;
-					background-image: url(/o/summer-2018-theme/images/plus.png);
-					display: inline-block;
-					background-position: center;
-					background-repeat: no-repeat;
-					content: '';
-				}
+				padding-bottom: 7px;
 
 				span{
 					flex: 1;
 					text-align: left;
-					line-height: 1.2em;
 					padding-top: 2px;
+				}
+
+				&:after{
+					width: 30px;
+					height: 30px;
+					background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
+					display: inline-block;
+					content: '';
 				}
 			}
 
 			&.mns-opened .contact:after{
-				background-image: url(/o/summer-2018-theme/images/moins.png);
+				background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
 			}
 		}
 
 		.mns-collapsing-box{
 			display: none;
+			
+			.rte .checkbox label{
+				@include ft($f_ms, 0.875rem, 700, $c_txt, 26px);
+			}
 		}
 
-		.lfr-alert-container {
+		/*.lfr-alert-container {
 			position: static;
 			padding: 40px;
 			margin-bottom: 25px;
@@ -289,7 +313,7 @@
 					display: none;
 				}
 			}
-		}
+		}*/
 
 		.mail-success{
 			background: #4CAF50;
@@ -298,24 +322,25 @@
 		}
 
 		.mns-submit {
-			display: flex;
-			justify-content: center;
 			margin-bottom: 40px;
+
+			span{
+				height: 2px;
+				background: #d8dae4;
+			}
+
     		input{
-				width: 150px;
-				padding: 6px 0;
+				width: 230px;
+				padding: 12px 0;
 				height: auto;
 				background: $c_white;
 				border: none;
-				box-shadow: none;
-				color: $c_main !important;
-				z-index: 2;
-				border: 4px solid $c_main;
-				@include ft($f_ms, 15px, 700, $c_txt, normal);
+				@include ft($f_nr, 18px, 400, $c_main, 26px);
 				@include an(all,0.3);
+
 				&:hover{
 					background: $c_main;
-					color: $c_white !important;
+					color: $c_white;
 				}
 			}
 		}

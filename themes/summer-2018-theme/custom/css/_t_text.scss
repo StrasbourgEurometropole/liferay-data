@@ -2,7 +2,7 @@
 
 #mns-global{
 
-	a{
+	/*a{
 		text-decoration: none;
 		font-weight: 400;
 	}
@@ -38,7 +38,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,$s_h1,700,$c_main,$s_h1+10);
+		@include ft($f_ms,72px,700,$c_main,82px);
 
 		strong, a, u, i, em
 		{
@@ -52,7 +52,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,25px,600,$c_sub,normal);
+		@include ft($f_ms,25px,600,$c_grey,normal);
 
 		strong, a, u, i, em
 		{
@@ -84,13 +84,13 @@
 		position: relative;
 		display: block;
 		margin: 0 0 10px 0;
-		@include ft($f_ms,$s_h4,700,$c_sub,$s_h4+10);
+		@include ft($f_ms,42px,700,$c_grey,52px);
 
 		strong, a, u, i, em
 		{
 			font-family: $f_ms;
 		}
-	}
+	}*/
 
 	p, 
 	span.p
@@ -98,7 +98,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,17.5px,300,$c_txt,$s_p+10);
+		@include ft($f_ms,16px,400,$c_txt,26px);
 
 		&.intercalaire
 		{
@@ -112,11 +112,11 @@
 
 		a
 		{
-			color: $c_sub;
+			color: $c_grey;
 		}
 	}
 
-	ul
+	/*ul
 	{
 		position: relative;
 		//display: block;
@@ -127,7 +127,7 @@
 			position: relative;
 			margin: 0 0 5px 0;
 			padding: 0 0 0 20px;
-			@include ft($f_ms,$s_p,400,$c_txt,$s_p+5);
+			@include ft($f_ms,16px,400,$c_txt,21px);
 			strong, a, u, i, em
 			{
 				font-family: $f_ms;
@@ -135,13 +135,13 @@
 
 			a
 			{
-				color: $c_sub;
+				color: $c_grey;
 			}
 		}
 	}
 
 	.btn-filtre{
-		@include ft($f_hx, 22px, 700, $c_white, normal);
+		@include ft($f_ms, 22px, 700, $c_white, normal);
 		display: inline-block;
 		background: #FFF;
 		padding: 15px 80px;
@@ -159,7 +159,7 @@
 	}
 
 	.mns-btn{
-		@include btn($c_white, $c_txt, 0, $f_ms, $s_link);
+		@include btn($c_white, $c_txt, 0, $f_ms, 18px);
 		@include an(all,0.3);
 		min-width: 270px;
 		@include mobile{
@@ -201,17 +201,17 @@
 				content: none;
 			}
 		}
-	}
+	}*/
 
 	a.basic-link, 
 	span.basic-link{
-		@include ft($f_ms, 15px, 700, $c_main, normal);
+		@include ft($f_nr, 1.125rem, 400, $c_txt, 1.3125rem);
 		display: block;
 		text-align: left;
-		text-transform: uppercase;
+		text-transform: none;
 	}
 
-	a.large-link,
+	/*a.large-link,
 	span.large-link{
 		@include ft($f_ms, 24px, 700, $c_main, normal);
 		text-transform: uppercase;
@@ -240,5 +240,5 @@
 		@include mobile {   
 			margin-bottom: 50px;
 		}
-	}
+	}*/
 }

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-@mixin clear() // clear float
+/*@mixin clear() // clear float
 {
 	&:after
 	{
@@ -13,7 +13,7 @@
 		clear: both;
 		overflow: hidden;
 	}
-}
+}*/
 
 @mixin ft($family, $size, $weight, $color, $lineheight) // define font
 {
@@ -95,7 +95,7 @@
 	transition:$type $time+s;
 }
 
-@mixin dl($time) // define animation
+/*@mixin dl($time) // define animation
 {
 	-webkit-transition-delay:$time+s;
 	-moz-transition-delay: $time+s;
@@ -132,12 +132,12 @@
 		transform: scale(1.05);
 		opacity: 0.9;
 	}
-}
+}*/
 
 /*
 RATIO
 ---------------------------------------------- */
-@mixin aspect-ratio($width, $height, $add: 0px) {
+/*@mixin aspect-ratio($width, $height, $add: 0px) {
 	position: relative;
 	overflow: hidden;
 	&:before {
@@ -154,7 +154,7 @@ RATIO
 		right: 0;
 		bottom: 0;
 	}
-}
+}*/
 
 
 /*
@@ -163,7 +163,7 @@ RATIO
   or object-fit and object-position:
   @include object-fit(cover, top);
 */
-@mixin object-fit($fit: fill, $position: null){
+/*@mixin object-fit($fit: fill, $position: null){
 	-o-object-fit: $fit;
 	object-fit: $fit;
 	@if $position {
@@ -180,4 +180,4 @@ RATIO
 @mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease) {
 	$anim: $effect $duration $easeing;
 	transition: $anim;
-}
+}*/

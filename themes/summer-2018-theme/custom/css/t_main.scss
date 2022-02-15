@@ -1,14 +1,13 @@
 //@import "libs/bootstrap.min";
-@import "base/_round-decimal";
-@import "base/_grids-distribution";
+/*@import "base/_round-decimal";
+@import "base/_grids-distribution";*/
 
 @import "libs/icomoon";
-@import "libs/owl.carousel.min";
+/*@import "libs/owl.carousel.min";
 @import "libs/owl.theme.default.min";
-@import "libs/pikaday";
+@import "libs/pikaday";*/
 
-@import "libs/customSelect";
-
+//@import "libs/customSelect";
 
 @import "_svg-factory";
 
@@ -16,38 +15,38 @@
 @import "_t_mixins";
 @import "_t_text";
 @import "_t_base";
-@import "_t_navbar";
+/*@import "_t_navbar";
 @import "_t_object-fit";
 @import "_t_grid";
-@import "_t_libs";
+@import "_t_libs";*/
 @import "_t_form";
 
-@import "_t_bloc-article";
-@import "_t_bloc-actu";
+/*@import "_t_bloc-article";
+@import "_t_bloc-actu";*/
 @import "_t_bloc-agenda";
-@import "_t_bloc-aroundme";
+/*@import "_t_bloc-aroundme";
 @import "_t_bloc-social-wall";
 @import "_t_bloc-testi";
 @import "_t_bloc-great-events";
-@import "_t_bloc-social-share";
+@import "_t_bloc-social-share";*/
 
 @import "_t_page-agenda-detail";
 @import "_t_page-agenda-list";
-@import "_t_page-contact";
+/*@import "_t_page-contact";
 @import "_t_page-content";
 @import "_t_page-marche";
 @import "_t_page-results";
-@import "_t_page-top10";
+@import "_t_page-top10";*/
 
-@import "_liferay-agenda";
+//@import "_liferay-agenda";
 @import "_liferay-hacks";
-@import "libs/atom-form-customSelect";
+/*@import "libs/atom-form-customSelect";
 @import "override/_tarteaucitron";
 
 @import "base/_atom-btn-square";
-@import "base/_quark-tram-destination";
+@import "base/_quark-tram-destination";*/
 
-.fit-cover {
+/*.fit-cover {
 	object-fit:cover;
 	font-family: 'object-fit: cover';
 }
@@ -327,7 +326,7 @@
 /***************************/
 
 	/* Section Texte d'introduction Page d'accueil */
-	.mns-home-intro{
+	/*.mns-home-intro{
 		text-align: center;
 		margin-top: 30px;
 		margin-bottom: 25px;
@@ -357,10 +356,10 @@
 				@include ft($f_ms, 30px, 700, $c_main, normal);
 			}
 		}
-	}	
+	}	*/
 
 	/* Section Zone Entrées */
-	.mns-wrapper-home-entry{
+	/*.mns-wrapper-home-entry{
 		position: relative;
 		transform: translate3d(0,0,0);
 		.deco-bg{
@@ -407,10 +406,10 @@
 				}
 			}
 		}
-	}
+	}*/
 
 	/* Bloc entrée Page d'accueil */
-	.mns-bloc-entry{
+	/*.mns-bloc-entry{
 		position: relative;
 		height: 1300px;
 		@include desktop{
@@ -757,11 +756,11 @@
 				padding: 0;
 			}
 		}
-	}
+	}*/
 
 
 	/* Section Agenda */
-	.mns-section-agenda{
+	/*.mns-section-agenda{
 		overflow-x: hidden;
 		padding: 25px 0;
 		transform: translate3d(0,0,0);
@@ -781,11 +780,11 @@
 		.owl-loaded {
 			display: contents;
 		}
-	}
+	}*/
 
 
 	/* Section zone séjour */ 
-	.mns-sejour{
+	/*.mns-sejour{
 		position: relative;
 		height: 615px;
 		text-align: center;
@@ -1031,11 +1030,11 @@
 				}
 			}
 		}
-	}
+	}*/
 
 
 	/* SEARCH Mobile Filtres */ 
-	.mns-m-filtres-search{
+	/*.mns-m-filtres-search{
 		display: none; 
 		background: $c_main;
 		text-align: center;
@@ -1058,54 +1057,11 @@
 
 	.hide-button{
 		display: none;
-	}
-
-	.mns-affiner{
-		padding: 25px 15px 15px 15px;
-		border-bottom: 1px solid $c_filet;
-		@include mobile{
-			padding: 25px 0 15px 0;
-		}
-
-		&.mns-affiner-m{
-			display: none;
-			@include mobile{
-				display: block;
-				margin-top: 50px;
-			}
-			@include tablet_portrait {
-				margin-top: 50px;
-			}
-		}
-		span.mns-more{
-			@include ft($f_ms, 18px, 700, $c_txt, 26px);
-			display: inline-block;
-			text-transform: uppercase;
-			width: 80%;
-			@include tablet_portrait{
-				width: 100%;
-				line-height: normal;
-			}
-			@include mobile {
-				width: 80%;
-			}
-		}
-		span.icon-search-more{
-			display: inline-block;
-			vertical-align: middle;
-			position: relative;
-			right: 0;
-			width: 18%;
-			text-align: right;
-			&:before{
-				font-size: 18px;
-			}
-		}
-	}
+	}*/
 
 
 	/* Page d'accueil Social Wall */
-	.mns-list-social-wall{
+	/*.mns-list-social-wall{
 		padding:0;
 		position: relative;
 		clear: both;
@@ -1146,4 +1102,4 @@
 	}
 
 
-}
+}*/
