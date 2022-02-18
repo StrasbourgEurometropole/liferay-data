@@ -1,0 +1,46 @@
+#mns-global{
+
+	.mns-bloc-article{
+		padding: 0;
+
+		@include mobile{
+			margin-top: 30px !important;
+		}
+		@include tablet_portrait {
+			margin-top: 30px !important;
+		}
+		/*.mns-wrapper-title .mns-title {
+			@include ft($f_nr, 70px, 400, $c_main, 84.49px);
+			display: inline-block;
+			width: 85%;
+			@include mobile {
+				font-size: 40px;
+				padding: 0px;
+			}
+		}
+		.mns-catcher {
+			p{
+				@include ft($f_ms, 20px, 400, $c_txt, normal);
+			}
+		}*/
+
+		a{
+			@include ft($f_ms, 0.875rem, 700, $c_main, 1.625rem);
+			text-decoration: underline;
+			&:hover{
+				color: $c_txt;
+			}
+		}
+
+		/*h3,h2 {
+			font-weight: 600;
+		}
+
+		h3 {
+			font-size: 21.5px;
+		}
+		h1 {
+			font-family: $f_ms;
+		}*/
+	}
+}

@@ -110,35 +110,14 @@ body{
 	}*/
 
 	/* MNS FCK EDITOR */
-	.mns-fck{
-		h1{
-			@include ft($f_nr, 70px, 400, $c_main, 84.49px);
-			width: 85%;
-			margin-bottom: 40px;
-			@include tablet_portrait{
-				width: 100%;
-			}
-			@include mobile{
-				font-size: 40px;
-				line-height: normal;
-			}
-		}
-
-		h2{
-			@include ft($f_nr, 22px, 400, $c_main, 26.55px);
-			margin-bottom: 15px;
-			@include mobile{
-				line-height: normal;
-			}
-		}
-
+	.mns-fck {
 		/*h3{
 			@include ft($f_ms, 21.5px, 600, $c_txt, 28px);
 			margin-bottom: 20px;
 		}*/
 
 		strong, p{
-			font-size: 16px;
+			font-size: 1rem;
 			margin-bottom: 20px;
 		}
 
@@ -156,14 +135,20 @@ body{
 
 			figcaption{
 				position: absolute;
-				top: 45px;
-				left: -40%;
-				width: 47%;
-				border-top: 1px solid #ebded3;
+				border: none;
+				left: 0;
+				bottom: 0;
+				top: initial;
+				display: inline-block;
+				width: auto;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 120%;
 				padding-right: 10%;
 				padding-top: 20px;
 				text-align: right;
-				@include ft($f_ms, 14px, 400, #808080, 21px);
+				@include ft($f_ms, 0.625rem, 400, $c_black, 0.625rem);
 				@include desktop{
 					left: -38%;
 					width: 45%;
@@ -186,7 +171,7 @@ body{
 			}
 		}
 
-		/*ul{
+		ul{
 			padding-left: 15px;
 			list-style-type: disc;
 			margin-bottom: 20px;
@@ -196,9 +181,9 @@ body{
 				line-height: 28px;
 				padding-left: 0;
 			}
-		}*/
+		}
 
-		/*blockquote{
+		blockquote{
 			position: relative;
 			border-left: none;
 			padding: 0;
@@ -210,7 +195,7 @@ body{
 			}
 			&:before{
 				content: "";
-				background: url(/o/noel-theme/images/cote-left.png) no-repeat center center /contain;
+				background: url(/o/christmas-2018-theme/images/cote-left.png) no-repeat center center /contain;
 				position: absolute;
 				top: -30px;
 				left: -150px;
@@ -225,12 +210,12 @@ body{
 				}
 			}
 			.title{
-				@include ft($f_ms, 22px, 700, $c_txt, 30px);
+				@include ft($f_ms, 1rem, 700, $c_txt, 1.625rem);
 			}
 			p{
-				@include ft($f_ms, 17.5px, 300, $c_txt, 26px);
+				@include ft($f_ms, 1rem, 400, $c_txt, 1.625rem);
 			}
-		}*/
+		}
 	}
 
 
@@ -439,24 +424,29 @@ body{
 		left: 0;
 		top: -70px;
 		margin-top: 70px;
+
 		@include mobile{
 			top: -80px;
 			overflow: scroll;
 			white-space: nowrap;
 			width: calc(100% - 15px);
 		}
+
 		&.mns-bread-color{
 			a{
 				color: $c_txt;
 				text-decoration: none;
+
 				&:after{
 					background: $c_txt;
 				}
 			}
+
 			span{
 				color: $c_txt;
 			}
 		}
+
 		&.mns-bread-image{
 			@include mobile {
 				margin-top: 90px !important;
@@ -468,10 +458,12 @@ body{
 						background: $c_txt;
 					}
 				}
+
 				span{
 					color: $c_txt;
 				}
 			}
+
 			@include tablet_portrait {
 				margin-top: 90px !important;
 
@@ -482,13 +474,16 @@ body{
 						background: $c_txt;
 					}
 				}
+
 				span{
 					color: $c_txt;
 				}
 			}
+
 			@media (min-width: 1000px){
 				text-shadow: #000 2px 2px 4px;
 			}
+
 			&:before{
 				content:'';
 				position:absolute;
@@ -499,13 +494,15 @@ body{
 				right:0;
 				filter:blur(4px);
 				box-shadow:inset 0 0 0 50vw rgba(255,255,255,0.2)
-			  }
+			}
 		}
+
 		a{
 			@include ft($f_ms, 16px, 400, $c_white, normal);
 			position: relative;
 			display: inline-block;
 			@include an(all,0.3);
+
 			&:after{
 				content: '';
 				height: 1px;
@@ -517,6 +514,7 @@ body{
 				margin-left: 5px;
 			}
 		}
+
 		span{
 			position: relative;
 			@include ft($f_ms, 16px, 700, $c_white, normal);

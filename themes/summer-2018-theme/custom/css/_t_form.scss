@@ -3,7 +3,7 @@
 #mns-global{
 
 	label{
-		@include ft($f_ms, 0.875rem, 700, $c_txt, 26px);
+		@include ft($f_ms, 0.875rem, 700, $c_txt, 1.625rem);
 	}
 
 	input{
@@ -70,7 +70,7 @@
 
 	.checkbox .cr .cr-icon{
 		position: absolute;
-		font-size: 18px;
+		font-size: 1.125rem;
 		line-height: 0;
 		top: 30%;
 		left: 15%;

@@ -4,7 +4,6 @@
 
 	/*a{
 		text-decoration: none;
-		font-weight: 400;
 	}
 
 	a,
@@ -30,33 +29,33 @@
 		display: block;
 		max-width: 100%;
 		height: auto;
-	}
+	}*/
 
-	h1,
+	/*h1,
 	span.h1
 	{
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,72px,700,$c_main,82px);
+		@include ft($f_nr,64px,400,$c_main,77px);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_ms;
+			font-family: $f_nr;
 		}
-	}
+	}*/
 
 	h2,
 	span.h2
 	{
 		position: relative;
 		display: block;
-		margin: 0 0 20px 0;
-		@include ft($f_ms,25px,600,$c_grey,normal);
+		margin: 35px 0 30px 0;
+		@include ft($f_nr,4rem,400,$c_main,4.8125rem);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_ms;
+			font-family: $f_nr;
 		}
 
 		@include mobile{
@@ -69,16 +68,16 @@
 	{
 		position: relative;
 		display: block;
-		margin: 0 0 10px 0;
-		@include ft($f_ms,21.5px,600,$c_main,normal);
+		margin: 25px 0 30px 0;
+		@include ft($f_nr,2.25rem,400,$c_main,2.6875rem);
 
 		strong, a, u, i, em
 		{
-			font-family: $f_ms;
+			font-family: $f_nr;
 		}
 	}
 
-	h4,
+	/*h4,
 	span.h4
 	{
 		position: relative;
@@ -98,7 +97,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,16px,400,$c_txt,26px);
+		@include ft($f_ms,1rem,400,$c_txt,1.625rem);
 
 		&.intercalaire
 		{
@@ -206,7 +205,6 @@
 	a.basic-link, 
 	span.basic-link{
 		@include ft($f_nr, 1.125rem, 400, $c_txt, 1.3125rem);
-		display: block;
 		text-align: left;
 		text-transform: none;
 	}

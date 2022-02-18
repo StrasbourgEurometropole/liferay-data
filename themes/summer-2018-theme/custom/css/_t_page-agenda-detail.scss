@@ -13,8 +13,8 @@
 	.mns-agenda-detail{
 		margin: 30px auto;
 		@include tablet_portrait {
-				margin-top: 50px !important;
-			}
+			margin-top: 50px !important;
+		}
 
 		.mns-aside-info{
 			margin-bottom: 40px;
@@ -24,7 +24,7 @@
 			padding-bottom: 50px;
 			h2{
 				text-align: left;
-				@include ft($f_ms, 25px, 600, $c_txt, normal);
+				@include ft($f_ms, 1.5625rem, 600, $c_txt, normal);
 				display: inline-block;
 				vertical-align: middle;
 			}
@@ -46,19 +46,7 @@
 			}
 
 			figcaption{
-				border: none;
-				left: 0;
-				bottom: 0;
-				top: initial;
 				color: $c_white;
-				display: inline-block;
-				width: auto;
-				text-overflow: ellipsis;
-				overflow: hidden;
-				white-space: nowrap;
-				max-width: 120%;
-				font-size: 10px;
-				line-height: 10px;
 			}
 		}
 
@@ -75,7 +63,8 @@
 				border-bottom: 1px solid $c_main;
 		
 				.mns-title-info{
-					@include ft($f_nr, 24px, 400, $c_white, 28.97px);
+					@include ft($f_nr, 1.5rem, 400, $c_white, 1.75rem);
+					margin: 0;
 
 					&:after {
 						content: '';
@@ -83,23 +72,23 @@
 						width: 25px;
 						display: block;
 						background: $c_white;
-						margin-top: 20px;
-						margin-bottom: 30px;
+						margin-top: 15px;
+						margin-bottom: 20px;
 					}
 				}
 
 				p{
 					width: 90%;
-					margin-bottom: 20px;
+					margin-bottom: 15px;
 					display: block;
-					line-height: 19.5px;
+					line-height: 1.25rem;
 					color: $c_white;
 				}
 
 				a{
 					display: block;
-					@include ft($f_ms, 16px, 700, $c_white, 19.5px);
-					margin-bottom: 20px;
+					@include ft($f_ms, 1rem, 700, $c_white, 1.25rem);
+					margin-bottom: 15px;
 					@include an(all,0.3);
 					&:hover{
 						color: $c_txt;
@@ -114,7 +103,7 @@
 				content: '';
 				position: absolute;
 				z-index: -1;
-				background: rgba(82, 120, 163, 0.2);
+				background: $second-color;
 				width: 290px;
 				height: 350px;
 				top: -165px;
@@ -125,7 +114,7 @@
 		}
 
 		.mns-event-date{
-			@include ft($f_ms, 20px, 700, $c_txt, 24.38px);
+			@include ft($f_ms, 1.25rem, 700, $c_txt, 1.5rem);
 			margin-bottom: 23px;
 			display: block;
 		}
@@ -146,12 +135,21 @@
 
 			h1{
 				width: 100%;
+				@include ft($f_nr, 4.375rem, 400, $c_main, 5.25rem);
+				margin-bottom: 40px;
+				@include tablet_portrait{
+					width: 100%;
+				}
+				@include mobile{
+					font-size: 2.5rem;
+					line-height: normal;
+				}
 			}
 
 			.mns-indic{
 
 				span{
-					@include ft($f_ms, 16px, 400, $c_grey, 19.5px);
+					@include ft($f_ms, 1rem, 400, $c_grey, 1.25rem);
 					margin-right: 5px;
 					&:nth-child(2){
 						margin-right: 15px;
@@ -182,11 +180,11 @@
 				height: 4px;
 				background: $c_main;
 				display: block;
-				margin: 40px 0;
+				margin: 40px 0 60px;
 			}
 
 			.mns-title-detail-actu{
-				@include ft($f_nr, 18px, 400, $c_txt, 21.73px);	
+				@include ft($f_nr, 1.125rem, 400, $c_txt, 1.375rem);	
 				display: block;
 				padding: 0 0 10px 0;
 				border-bottom: 1px solid $c_main;
@@ -215,7 +213,7 @@
 				}
 
 				span[class^="icon-"]{
-					font-size: 40px;
+					font-size: 2.5rem;
 					margin-right: 10px;
 					@include tablet_portrait{
 						margin-right: 5px;
@@ -230,7 +228,7 @@
 						padding: 14px 50px;
 						background: $c_main;
 						text-decoration: none;
-						@include ft($f_nr, 18px, 400, $c_white, 21.73px);
+						@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
 						@include an(all,0.3);
 						&:hover{
 							background: $c_txt;
@@ -255,6 +253,7 @@
 				align-items: center;
 				margin: 0;
 				padding-bottom: 7px;
+				@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
 
 				span{
 					flex: 1;
@@ -280,7 +279,7 @@
 			display: none;
 			
 			.rte .checkbox label{
-				@include ft($f_ms, 0.875rem, 700, $c_txt, 26px);
+				@include ft($f_ms, 0.875rem, 700, $c_txt, 1.625rem);
 			}
 		}
 
@@ -306,7 +305,7 @@
 				margin: 0;
 				padding: 0;
 				color: white;
-				line-height: 25px;
+				line-height: 1.5rem;
 				font-size: 1.8rem;
 				
 				button, .lead {
@@ -335,7 +334,7 @@
 				height: auto;
 				background: $c_white;
 				border: none;
-				@include ft($f_nr, 18px, 400, $c_main, 26px);
+				@include ft($f_nr, 1.125rem, 400, $c_main, 1.625rem);
 				@include an(all,0.3);
 
 				&:hover{
