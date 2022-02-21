@@ -168,24 +168,32 @@
 			background: $c_txt;
 			color: $c_white;
 		}
-	}
+	}*/
 
 	a.link,
 	span.link{
-		@include ft($f_ms, 15px, 700, $c_main, normal);
-		text-transform: uppercase;
+		@include ft($f_nr, 18px, 400, $c_txt, 21px);
 		display: inline-block;
+		float: right;
+		position: relative;
+		top: 10px;
+		text-decoration: none;
 		&:after{
 			content: '';
 			display: block;
 			height: 4px; 
-			width: 100%;
+			width: 40px;
 			background: $c_main;
 			position: relative;
 			transition: all 0.3s ease;
+			margin-left: auto;
+		}
+		
+		&:hover:after {
+			width: 100%;
 		}
 
-		&.align-center{
+		/*&.align-center{
 			position: relative;
 			padding: 5px 15px;
 			text-align: center;
@@ -199,44 +207,39 @@
 			&:after{
 				content: none;
 			}
-		}
-	}*/
+		}*/
+	}
 
 	a.basic-link, 
 	span.basic-link{
 		@include ft($f_nr, 1.125rem, 400, $c_txt, 1.3125rem);
+		display: block;
 		text-align: left;
 		text-transform: none;
 	}
 
-	/*a.large-link,
+	a.large-link,
 	span.large-link{
-		@include ft($f_ms, 24px, 700, $c_main, normal);
-		text-transform: uppercase;
+		@include ft($f_nr, 36px, 400, $c_main, 43px);
 		display: inline-block;
 		position: relative;
-		z-index: 20;
-		margin-top: 30px;
-		@include desktop{
-			margin-top: 0;
-		}
+		text-decoration: none;
+
 		&:after{
 			content: '';
 			display: block;
-			height: 4px; 
-			width: 180px;
-			background: #ebded3;
+			height: 6px; 
+			width: 40px;
+			background: $c_main;
 			position: relative;
-			top: 10px;
-			left: calc(50% - 90px);
+			top: 6px;
 			@include an(ease-in, 0.3);
 		}
 		&:hover:after{
 			width: 100%;
-			left: 0;
 		}
 		@include mobile {   
 			margin-bottom: 50px;
 		}
-	}*/
+	}
 }

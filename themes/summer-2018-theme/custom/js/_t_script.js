@@ -252,7 +252,7 @@
 		nav:true,
 		margin: 40,
 		autoWidth: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"],
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
 	    responsive:{
 	        0:{
 	            items:1
@@ -269,9 +269,34 @@
 	    }
 	})
 
+	// Carsousel Section Slider Social Wall
+	$('#owl-social-wall').owlCarousel({
+		responsive:{
+			0:{
+				loop: true,
+				items:1.5,
+				margin: 20
+			},
+			768:{
+				loop: false,
+				items:2,
+				margin: 20
+			},
+			1024:{
+				loop: false,
+				items: 4,
+				margin: 60
+			}
+		},
+		loop: false,
+		dots: false,
+		nav:true,
+		autoplay: false,
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	});
 
 	// Carsousel section Testimonial
-	$('#owl-full').owlCarousel({
+	/*$('#owl-full').owlCarousel({
 		loop:true,
 		dots: false,
 		nav:true,
@@ -279,11 +304,11 @@
 		autoplay: true,
     	autoplayTimeout: 4000,
     	autoplayHoverPause: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
-	})
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	})*/
 
 	// Carsousel section Testimonial
-	$('#owl-slider').owlCarousel({
+	/*$('#owl-slider').owlCarousel({
 		loop:true,
 		dots: false,
 		nav:true,
@@ -291,8 +316,8 @@
 		autoplay: true,
     	autoplayTimeout: 4000,
     	autoplayHoverPause: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
-	})
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	})*/
 
 	$('#owl-full .owl-item').each(function() {
 		$(this).css('width', $(this).width() + 1);
@@ -337,7 +362,6 @@ if($('html').attr('lang')=="de-DE") {
 	}
 }
 
-
 if($('iframe[src^="https://www.youtube.com"]')) {
 	$iframe_yt = $('iframe[src^="https://www.youtube.com"]');
 	$iframe_yt.css('position','absolute');
@@ -354,7 +378,6 @@ if($('iframe[src^="https://www.youtube.com"]')) {
 	$parent.css('height','0');
 
 }
-
 
 $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();

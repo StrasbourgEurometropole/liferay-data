@@ -3,9 +3,9 @@
 @import "base/_grids-distribution";*/
 
 @import "libs/icomoon";
-/*@import "libs/owl.carousel.min";
+@import "libs/owl.carousel.min";
 @import "libs/owl.theme.default.min";
-@import "libs/pikaday";*/
+//@import "libs/pikaday";
 
 //@import "libs/customSelect";
 
@@ -18,15 +18,15 @@
 /*@import "_t_navbar";
 @import "_t_object-fit";*/
 @import "_t_grid";
-//@import "_t_libs";
+@import "_t_libs";
 @import "_t_form";
 
 @import "_t_bloc-article";
 //@import "_t_bloc-actu";
 @import "_t_bloc-agenda";
-/*@import "_t_bloc-aroundme";
+//@import "_t_bloc-aroundme";
 @import "_t_bloc-social-wall";
-@import "_t_bloc-testi";
+/*@import "_t_bloc-testi";
 @import "_t_bloc-great-events";*/
 @import "_t_bloc-social-share";
 
@@ -40,10 +40,10 @@
 
 //@import "_liferay-agenda";
 @import "_liferay-hacks";
-/*@import "libs/atom-form-customSelect";
+//@import "libs/atom-form-customSelect";
 @import "override/_tarteaucitron";
 
-@import "base/_atom-btn-square";
+/*@import "base/_atom-btn-square";
 @import "base/_quark-tram-destination";*/
 
 /*.fit-cover {
@@ -760,15 +760,16 @@
 
 
 	/* Section Agenda */
-	/*.mns-section-agenda{
-		overflow-x: hidden;
-		padding: 25px 0;
+	.mns-section-agenda{
 		transform: translate3d(0,0,0);
-		> div{
+		margin-bottom: 30px;
+
+		/*> div{
 			@include mobile{
 				padding: 0;
 			}
-		}
+		}*/
+
 		h2{
 			color: $c_txt;
 			@include mobile{
@@ -777,10 +778,10 @@
 			}
 		}
 		
-		.owl-loaded {
+		/*.owl-loaded {
 			display: contents;
-		}
-	}*/
+		}*/
+	}
 
 
 	/* Section zone séjour */ 
