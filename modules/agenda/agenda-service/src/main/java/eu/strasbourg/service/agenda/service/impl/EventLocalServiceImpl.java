@@ -668,7 +668,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		List<String[]> timesSchedule = new ArrayList<>();
 
 		// regexp de l'heure
-		String timeRegex = "(\\d|([01]\\d|2[0-4]))( ?(h|:) ?)([0-5](\\d)?)?(( ?(m|:) ?)([0-5](\\d)?)?)?";
+		String timeRegex = "(((?<![0-9])[0-9](?![0-9]))|([0-1][0-9]|2[0-3]))( ?(h|:) ?)([0-5](\\d)?)?(( ?(m|:) ?)([0-5](\\d)?)?)?";
 
 		Pattern timePattern = Pattern.compile(timeRegex, Pattern.CASE_INSENSITIVE);
 		Pattern between2TimesPattern = Pattern.compile("( ?[-àa>\\u00E0] ?)", Pattern.CASE_INSENSITIVE);
