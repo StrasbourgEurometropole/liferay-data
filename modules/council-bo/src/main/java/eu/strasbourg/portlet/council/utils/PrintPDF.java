@@ -37,8 +37,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -110,11 +113,39 @@ public class PrintPDF {
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
 			title = new Paragraph(deliberation.getTitle()).setFont(font)
-				.setPaddings(0f,10f,0f,150f)
-				.setTextAlignment(TextAlignment.CENTER)
-				.setFontSize(13.5f);
+					.setPaddings(0f,10f,0f,150f)
+					.setTextAlignment(TextAlignment.CENTER)
+					.setFontSize(13.5f);
 			document.add(title);
-
+			if(Validator.isNotNull(deliberation.getBeginningVoteDate())) {
+				LocalDateTime beginningVote = deliberation.getBeginningVoteDate().toInstant()
+						.atZone(ZoneId.systemDefault())
+						.toLocalDateTime();
+				LocalDateTime endVote = deliberation.getEndVoteDate().toInstant()
+						.atZone(ZoneId.systemDefault())
+						.toLocalDateTime();
+				String dateVote;
+				if (beginningVote.getDayOfMonth() == endVote.getDayOfMonth())
+					dateVote = "Le " + beginningVote.getDayOfMonth() + " "
+							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
+							+ beginningVote.getYear() + " "
+							+ "de " + beginningVote.getHour() + ":" + beginningVote.getMinute() + ":" + beginningVote.getSecond()
+							+ " \u00e0 " + endVote.getHour() + ":" + endVote.getMinute() + ":" + endVote.getSecond();
+				else
+					dateVote = "Du " + beginningVote.getDayOfMonth() + " "
+							+ beginningVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
+							+ beginningVote.getYear() + " "
+							+ beginningVote.getHour() + ":" + beginningVote.getMinute() + ":" + beginningVote.getSecond()
+							+ " au " + endVote.getDayOfMonth() + " "
+							+ endVote.getMonth().getDisplayName(TextStyle.FULL, Locale.FRANCE) + " "
+							+ endVote.getYear() + " "
+							+ endVote.getHour() + ":" + endVote.getMinute() + ":" + endVote.getSecond();
+				title = new Paragraph(dateVote).setFont(font)
+						.setPaddings(0f, 10f, 0f, 150f)
+						.setTextAlignment(TextAlignment.CENTER)
+						.setFontSize(12.5f);
+				document.add(title);
+			}
 			// image d'entête
 			String domaine = StrasbourgPropsUtil.getBaseURL();
 			ImageData image = ImageDataFactory.create(domaine + "/o/councilbo/images/logo_strasbourg_vert.jpg");
