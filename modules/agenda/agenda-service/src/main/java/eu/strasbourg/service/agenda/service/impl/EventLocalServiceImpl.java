@@ -668,6 +668,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		List<String[]> timesSchedule = new ArrayList<>();
 
 		// regexp de l'heure
+		// catche les horaires en 0-23h0-59m0-59
 		String timeRegex = "(((?<![0-9])[0-9](?![0-9]))|([0-1][0-9]|2[0-3]))( ?(h|:) ?)([0-5](\\d)?)?(( ?(m|:) ?)([0-5](\\d)?)?)?";
 
 		Pattern timePattern = Pattern.compile(timeRegex, Pattern.CASE_INSENSITIVE);

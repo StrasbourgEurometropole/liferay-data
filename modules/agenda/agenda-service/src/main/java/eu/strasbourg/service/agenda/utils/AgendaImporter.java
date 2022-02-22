@@ -1191,7 +1191,7 @@ public class AgendaImporter {
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_ADD);
 					else
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
-				} catch (PortalException e) {
+				} catch (Exception e) {
 					reportLine.error(
 							LanguageUtil.get(bundle, "error-while-saving-event"));
 				}
