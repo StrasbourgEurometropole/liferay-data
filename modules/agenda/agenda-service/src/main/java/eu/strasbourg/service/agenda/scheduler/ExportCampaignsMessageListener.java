@@ -15,6 +15,9 @@ import com.liferay.portal.kernel.messaging.Message;
 
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,15 +36,40 @@ public class ExportCampaignsMessageListener
 		// Call service to be sure they are "awake"
 		this._campaignLocalService.getClass();
 
-		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
-		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
-		Date fiveMinutesFromNow = now.getTime();
-
-		// Création du trigger "Tous les jours à 1h45"
-		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 45 1 * * ?");
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime firstTrigger = now.withHour(1).withMinute(25).withSecond(0);
+		LocalDateTime secondTrigger = now.withHour(13).withMinute(25).withSecond(0);
+		LocalDateTime thirdTrigger = now.plusDays(1).withHour(1).withMinute(25).withSecond(0);
+		// Création du trigger "Tous à 1h25 ou 13h25 toutes les 12 heures"
+		Trigger trigger;
+		if(now.isBefore(firstTrigger)){
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(firstTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		} else if(now.isBefore(secondTrigger)) {
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(secondTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		} else {
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(thirdTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		}
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
