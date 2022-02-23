@@ -44,6 +44,8 @@
         <column name="placeZipCode" type="String" />
         <column name="placeCity" type="String" />
         <column name="placeCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
 
 		<!-- Accès -->
 		<column name="access" type="String" localized="true" />
@@ -607,6 +609,33 @@
 		<finder name="RegeneratedDateAndIsActive" return-type="Collection">
 			<finder-column comparator="&lt;=" name="regeneratedDate" />
 			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheJson"
+			cache-enabled="true" remote-service="false" uuid="false">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonEvent" type="String" />
+		<column name="createEvent" type="Date" />
+		<column name="modifiedEvent" type="Date" />
+		<column name="isApproved" type="boolean" />
+
+		<finder name="eventId" return-type="CacheJson">
+			<finder-column name="eventId" />
+		</finder>
+
+		<finder name="eventIdAndIsApproved" return-type="CacheJson">
+			<finder-column name="eventId" />
+			<finder-column name="isApproved" />
+		</finder>
+
+		<finder name="isApproved" return-type="Collection">
+			<finder-column name="isApproved" />
 		</finder>
 
 	</entity>

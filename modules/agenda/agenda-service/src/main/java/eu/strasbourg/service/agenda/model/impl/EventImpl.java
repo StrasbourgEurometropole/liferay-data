@@ -362,46 +362,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
-	 */
-	@Override
-	public String getMercatorX() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(0).toString() : "";
-		} else {
-			return this.getPlace().getMercatorX();
-		}
-	}
-
-	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
-	 */
-	@Override
-	public String getMercatorY() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(1).toString() : "";
-		} else {
-			return this.getPlace().getMercatorY();
-		}
-	}
-
-	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
 	 *
@@ -889,9 +849,8 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
@@ -1052,9 +1011,8 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
@@ -1528,11 +1486,8 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
 		jsonEvent.put("territoires", jsonTerritories);
 
-		List<String> mercators = this.getMercators();
-		if(mercators.size() == 2) {
-			jsonEvent.put("mercatorX", mercators.get(0));
-			jsonEvent.put("mercatorY", mercators.get(1));
-		}
+		jsonEvent.put("mercatorX",this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		// Inscription
 		if(this.getRegistration()){

@@ -61,6 +61,8 @@ public class EventSoap implements Serializable {
 		soapModel.setPlaceZipCode(model.getPlaceZipCode());
 		soapModel.setPlaceCity(model.getPlaceCity());
 		soapModel.setPlaceCountry(model.getPlaceCountry());
+		soapModel.setMercatorX(model.getMercatorX());
+		soapModel.setMercatorY(model.getMercatorY());
 		soapModel.setAccess(model.getAccess());
 		soapModel.setAccessForDisabled(model.getAccessForDisabled());
 		soapModel.setAccessForBlind(model.getAccessForBlind());
@@ -362,6 +364,22 @@ public class EventSoap implements Serializable {
 		_placeCountry = placeCountry;
 	}
 
+	public String getMercatorX() {
+		return _mercatorX;
+	}
+
+	public void setMercatorX(String mercatorX) {
+		_mercatorX = mercatorX;
+	}
+
+	public String getMercatorY() {
+		return _mercatorY;
+	}
+
+	public void setMercatorY(String mercatorY) {
+		_mercatorY = mercatorY;
+	}
+
 	public String getAccess() {
 		return _access;
 	}
@@ -657,6 +675,8 @@ public class EventSoap implements Serializable {
 	private String _placeZipCode;
 	private String _placeCity;
 	private String _placeCountry;
+	private String _mercatorX;
+	private String _mercatorY;
 	private String _access;
 	private String _accessForDisabled;
 	private Boolean _accessForBlind;
