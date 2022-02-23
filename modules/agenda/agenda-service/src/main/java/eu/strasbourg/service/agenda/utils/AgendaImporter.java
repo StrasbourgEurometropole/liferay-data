@@ -1085,10 +1085,16 @@ public class AgendaImporter {
 
 					// Récupération des coordonées X et Y
 					String address = placeStreetNumber + " " + placeStreetName;
-					JSONArray coordinateForAddress = openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
-					if (coordinateForAddress.length() == 2) {
-						event.setMercatorX(coordinateForAddress.get(0).toString());
-						event.setMercatorY(coordinateForAddress.get(1).toString());
+					try {
+						JSONArray coordinateForAddress = openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
+						if (coordinateForAddress.length() == 2) {
+							event.setMercatorX(coordinateForAddress.get(0).toString());
+							event.setMercatorY(coordinateForAddress.get(1).toString());
+						}
+					} catch (Exception e) {
+						//On a catché une erreur ou bien un time out
+						// Mais la non récupération des coordonnées par Open Data ne doit pas empêcher l'enregistrement de l'event
+						_log.error(e);
 					}
 
 					JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
