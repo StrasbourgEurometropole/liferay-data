@@ -334,12 +334,13 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 								JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId(),parkingJsonArray);
 								String status = String.valueOf(parkingData.getInt("etat"));
 								long capacity = parkingData.getInt("total");
+								long libre = parkingData.getInt("libre");
 								long available;
-								String libre = parkingData.getString("infousager");
+								String infousager = parkingData.getString("infousager");
 								try{
-									available = Long.parseLong(libre);
+									available = Long.parseLong(infousager);
 								} catch (Exception e){
-									available = capacity;
+									available = libre;
 								}
 								rtAvailable = available;
 								rtOccupation = capacity - available;
