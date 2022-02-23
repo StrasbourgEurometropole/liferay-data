@@ -11,9 +11,7 @@
       ${entry.getTitle(locale)}
     </h4>
     
-    <!-- Test sous-titre -->
-    <h5 style="font-size: 30px;">${entry.getSubtitle(locale)}</h5>
-    <!-- -->
+    <h5 class="event-subtitle">${entry.getSubtitle(locale)}</h5>
     
     <p><strong>
     <#assign categories = entry.getTypeLabel(locale) />
@@ -44,7 +42,7 @@
     </#if></i>
   </div>
   <div class="event-info">
-    <div class="event-60"><div class="flex-container">
+    <div class="event-60">
         <div class="image-with-copyright-on-hover">
           <img src="${entry.getImageURL()}">
           <#if entry.getImageCopyright(locale)?has_content>
@@ -53,19 +51,6 @@
             </div>
           </#if>
         </div>
-        <div class="event-booking">
-        <#if entry.getBookingDescription(locale)?has_content >
-          <div class="event-booking-description">
-            ${entry.getBookingDescription(locale)}
-          </div>
-        </#if>
-        <#if entry.getBookingURL()?has_content >
-          <div class="event-booking-url">
-            <a class="event_bouton" style="color: white;" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking_label" /></a>
-          </div>
-        </#if>
-        </div>
-      </div>
       <#if entry.getDescription(locale)?has_content >
         <div class="event-info-section event-description">
           <h5></h5>
@@ -85,18 +70,35 @@
         </div>
       </#if>
       
-      <!-- Affichage lien réservation - 2020 -->
-    <#if entry.getPrice(locale)?has_content>
-               
-            <h6><br /><br />Réservation</h6>
-            <p><a href="${entry.getPrice(locale)}" target="_blank">Réservez votre place</a></p>
+      <!-- Affichage Tarif - 2020 -->
+    <#if entry.free == 1 || entry.getPrice(locale)?has_content>  
+      <h6><br /><br /><@liferay_ui.message key="eu.event-prices" /></h6>
+      <#if entry.free == 1>
+        <@liferay_ui.message key="eu.free-event" />
+      </#if>
+      ${entry.getPrice(locale)}
+    </#if>
+    
+  <!-- Affichage Réservation - 2020 -->
+    <#if entry.getBookingDescription(locale)?has_content || entry.getBookingURL()?has_content >
+      <h6 class="event-booking"><@liferay_ui.message key="eu.event.booking" /></h6>
+       <#if entry.getBookingDescription(locale)?has_content>
+          <div class="event-booking-description">
+            ${entry.getBookingDescription(locale)}
+          </div>
+        </#if>
+        <#if entry.getBookingURL()?has_content >
+          <div class="event-booking-url">
+            <a class="event_bouton" style="color: white;" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking_label" /></a>
+          </div>
+        </#if>
+    </#if>
 
-</#if>
-<!-- Affichage lien réservation - 2020 -->
+<!-- Affichage accès situation handicap - 2020 -->
       
       <#if entry.getAccess(locale)?has_content >
         <div class="event-info-section event-access">
-          <h6>Infos pratiques</h6>
+          <h6><@liferay_ui.message key="eu.practical-information" /> </h6>
           ${entry.getAccess(locale)}
         </div>
       </#if>
