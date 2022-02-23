@@ -24,7 +24,7 @@
 	line-height: $lineheight;
 }
 
-@mixin btn($background, $color, $radius, $font, $size) // define button
+@mixin btn($radius, $background, $font, $size, $weight, $color, $line) // define button
 {
 	position: relative;
 	display: inline-block;
@@ -32,7 +32,7 @@
 	padding: 15px 50px;
 	border-radius: $radius+px;
 	background-color: $background;
-	@include ft($font,$size,700,$color,$size+10);
+	@include ft($font,$size,$weight,$color,$line);
 	text-decoration: none;
 	cursor: pointer;
 	transition: all 0.3s ease;
@@ -95,14 +95,14 @@
 	transition:$type $time+s;
 }
 
-/*@mixin dl($time) // define animation
+@mixin dl($time) // define animation
 {
 	-webkit-transition-delay:$time+s;
 	-moz-transition-delay: $time+s;
 	transition-delay: $time+s;
 }
 
-@mixin zoom() // hover zoom image
+/*@mixin zoom() // hover zoom image
 {
 	position: relative;
 	width: 100%;

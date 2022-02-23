@@ -250,7 +250,7 @@
 		loop:false,
 		dots: false,
 		nav:true,
-		margin: 40,
+		margin: 56,
 		autoWidth: true,
 		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
 	    responsive:{

@@ -15,8 +15,8 @@
 @import "_t_mixins";
 @import "_t_text";
 @import "_t_base";
-/*@import "_t_navbar";
-@import "_t_object-fit";*/
+@import "_t_navbar";
+//@import "_t_object-fit";
 @import "_t_grid";
 @import "_t_libs";
 @import "_t_form";
@@ -24,6 +24,7 @@
 @import "_t_bloc-article";
 //@import "_t_bloc-actu";
 @import "_t_bloc-agenda";
+@import "_t_bloc-highlights";
 //@import "_t_bloc-aroundme";
 @import "_t_bloc-social-wall";
 /*@import "_t_bloc-testi";
@@ -324,7 +325,7 @@
 
 /***************************/
 /***************************/
-
+#mns-global{
 	/* Section Texte d'introduction Page d'accueil */
 	/*.mns-home-intro{
 		text-align: center;
@@ -762,7 +763,7 @@
 	/* Section Agenda */
 	.mns-section-agenda{
 		transform: translate3d(0,0,0);
-		margin-bottom: 30px;
+		margin-bottom: 110px;
 
 		/*> div{
 			@include mobile{
@@ -785,15 +786,16 @@
 
 
 	/* Section zone séjour */ 
-	/*.mns-sejour{
+	.mns-sejour{
 		position: relative;
-		height: 615px;
+		height: 484px;
 		text-align: center;
 		transform: translate3d(0,0,0);
-		margin-top: 75px;
+
 		@include mobile {
 			background-attachment: scroll !important;
 		}
+
 		.caption{
 			position: absolute;
 			top: 50%;
@@ -801,39 +803,28 @@
 			transform: translate(-50%,-50%);
 			width: 100%;
 			z-index: 10;
+
 			h2{
-				@include ft($f_ms, 50px, 700, $c_white, normal);
-				margin-bottom: 5px;
-				text-transform: uppercase;
+				@include ft($f_nr, 3rem, 400, $c_white, 2.625rem);
+				margin-bottom: 30px;
 				display: inline-block;
+
 				@include mobile{
 					font-size: 42px;
-				}
-				span{
-					font-family: $f_ms;
-					font-weight: 700;
 				}
 			}
 			
 			.mns-content-text{
-				width: 40%;
-				margin: auto;
-				@include desktop{
-					width: 60%;
-				}
+				width: 60%;
+				margin: 0 auto 60px;
+
 				@include tablet_portrait{
 					width: 90%;
 				}
 			}
+
 			p{
-				font-size: 17.5px;
-				line-height: 26px;
-				color: $c_white;
-			}
-			a{
-				margin-top: 20px;
-				font-size: 15px;
-				text-transform: uppercase;
+				@include ft($f_nr, 1.5rem, 400, $c_white, 1.8125rem);
 			}
 		}
 
@@ -842,6 +833,7 @@
 				margin-left: 60%;
 			}
 		}
+
 		.text-left{
 			.mns-content-text{
 				margin-right: 60%;
@@ -849,7 +841,7 @@
 		}
 	}
 
-	.mns-filtres{
+	/*.mns-filtres{
 		margin: auto;
 		background: $c_main;
 		transform: translateY(-50%);
@@ -1104,3 +1096,4 @@
 
 
 }*/
+}

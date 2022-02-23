@@ -418,13 +418,10 @@ body{
 	/* Fil d'ariane */ 
 	/*.mns-wrapper-bread{
 		position: relative;
-	}
+	}*/
 
 	.mns-breadcrumbs{
-		position: absolute;
-		left: 0;
-		top: -70px;
-		margin-top: 70px;
+		margin: 100px 0 30px 30px;
 
 		@include mobile{
 			top: -80px;
@@ -433,22 +430,52 @@ body{
 			width: calc(100% - 15px);
 		}
 
+		a{
+			@include ft($f_ms, 0.9375rem, 400, $c_txt, 1.125rem);
+			text-decoration: none;
+			@include an(all,0.3);
+
+			&:after{
+				content: '';
+				height: 1px;
+				width: 18px;
+				background: $c_txt;
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 18px;
+			}
+
+			&:hover{
+				color: $c_main;
+			}
+		}
+
+		span{
+			@include ft($f_ms, 0.9375rem, 700, $c_txt, 1.125rem);
+		}
+
 		&.mns-bread-color{
+			background-color: $c_main;
+			padding: 20px 30px;
+			margin: 0;
+			position: absolute;
+			bottom: calc(80px - ((40px + 1.125rem) / 2));
+			margin-left: -15px;
+			
 			a{
-				color: $c_txt;
-				text-decoration: none;
+				color: $c_white;
 
 				&:after{
-					background: $c_txt;
+					background: $c_white;
 				}
 			}
 
 			span{
-				color: $c_txt;
+				color: $c_white;
 			}
 		}
 
-		&.mns-bread-image{
+		/*&.mns-bread-image{
 			@include mobile {
 				margin-top: 90px !important;
 
@@ -496,29 +523,6 @@ body{
 				filter:blur(4px);
 				box-shadow:inset 0 0 0 50vw rgba(255,255,255,0.2)
 			}
-		}
-
-		a{
-			@include ft($f_ms, 16px, 400, $c_white, normal);
-			position: relative;
-			display: inline-block;
-			@include an(all,0.3);
-
-			&:after{
-				content: '';
-				height: 1px;
-				width: 10px;
-				background: $c_white;
-				position: relative;
-				display: inline-block;
-				vertical-align: middle;
-				margin-left: 5px;
-			}
-		}
-
-		span{
-			position: relative;
-			@include ft($f_ms, 16px, 700, $c_white, normal);
-		}
-	}*/
+		}*/
+	}
 }

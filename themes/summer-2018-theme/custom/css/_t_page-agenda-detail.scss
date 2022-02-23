@@ -118,8 +118,6 @@
 
 			h1{
 				width: 100%;
-				@include ft($f_nr, 4.375rem, 400, $c_main, 5.25rem);
-				margin-bottom: 40px;
 				@include tablet_portrait{
 					width: 100%;
 				}

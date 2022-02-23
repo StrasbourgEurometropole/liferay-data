@@ -111,7 +111,7 @@
 
     <div id="mns-global">
         <div id="layer"></div>
-        <header>
+        <header id="mns-header">
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>

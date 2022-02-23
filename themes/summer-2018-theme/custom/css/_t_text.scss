@@ -31,19 +31,19 @@
 		height: auto;
 	}*/
 
-	/*h1,
+	h1,
 	span.h1
 	{
 		position: relative;
 		display: block;
-		margin: 0 0 20px 0;
-		@include ft($f_nr,64px,400,$c_main,77px);
+		margin: 0 0 40px;
+		@include ft($f_nr,4.375rem,400,$c_main,5.25rem);
 
 		strong, a, u, i, em
 		{
 			font-family: $f_nr;
 		}
-	}*/
+	}
 
 	h2,
 	span.h2
@@ -115,10 +115,9 @@
 		}
 	}
 
-	/*ul
+	ul
 	{
 		position: relative;
-		//display: block;
 		list-style-type: none;
 
 		li
@@ -139,7 +138,7 @@
 		}
 	}
 
-	.btn-filtre{
+	/*.btn-filtre{
 		@include ft($f_ms, 22px, 700, $c_white, normal);
 		display: inline-block;
 		background: #FFF;
@@ -155,20 +154,22 @@
 			color: $c_main;
 		}
 
-	}
+	}*/
 
 	.mns-btn{
-		@include btn($c_white, $c_txt, 0, $f_ms, 18px);
+		@include btn(0, $c_white, $f_nr, 1.125rem, 400, $c_main, 1.3125rem);
 		@include an(all,0.3);
 		min-width: 270px;
+
 		@include mobile{
 			width: auto;
 		}
+
 		&:hover{
 			background: $c_txt;
 			color: $c_white;
 		}
-	}*/
+	}
 
 	a.link,
 	span.link{
