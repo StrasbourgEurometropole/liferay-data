@@ -193,6 +193,10 @@ public class PlaceApplication extends Application {
 
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit -3600 depuis l'application, ce qui bypass notre cache
+            if (lastUpdateTimeLong < 0) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();
@@ -340,6 +344,10 @@ public class PlaceApplication extends Application {
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit -3600 depuis l'application, ce qui bypass notre cache
+            if (lastUpdateTimeLong < 0) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();
