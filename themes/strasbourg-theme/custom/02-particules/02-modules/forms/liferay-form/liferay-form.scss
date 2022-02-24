@@ -22,20 +22,7 @@
     // fin ajout mantis 5636
 }
 
-.lfr-ddm-form-pagination-controls button.btn.btn-primary.lfr-ddm-form-submit.pull-right {
-    width: 150px;
-    height: 50px;
-    font-size: 1.8rem;
-    display: inline-block;
-    border-color: transparent;
-    background-color: $second-color;
-    color: $core-color;
-    font-family: $site-font;
-
-    &:hover{
-        background-color: $core-color;
-        color: $second-color;
-    }        
+.lfr-ddm-form-pagination-controls button.btn.btn-primary.lfr-ddm-form-submit.pull-right {   
     &:after{
         content: '';
         display: inline-block;
