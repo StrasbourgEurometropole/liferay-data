@@ -12,7 +12,7 @@
             	    <div class="detail-article">
                 	    <h3>${cur_image.title.getData()}</h3>
                 	    <p>${cur_image.description.getData()}</p>
-                	    <a href="${cur_image.link.getData()}" class="mns-btn">${cur_image.label.getData()}</a>
+                	    <a href="${cur_image.link.getFriendlyUrl()}" class="mns-btn">${cur_image.label.getData()}</a>
             	    </div>
                 </div>
         	</#list>
