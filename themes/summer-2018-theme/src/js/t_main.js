@@ -6916,7 +6916,7 @@ $(window).on('scroll', function (e) {
 		loop:false,
 		dots: false,
 		nav:true,
-		margin: 40,
+		margin: 56,
 		autoWidth: true,
 		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
 	    responsive:{
@@ -6935,8 +6935,8 @@ $(window).on('scroll', function (e) {
 	    }
 	})
 
-	// Carsousel Section Slider Social Wall
-	$('#owl-social-wall').owlCarousel({
+	// Carsousel Section Slider Instagram
+	$('#owl-insta').owlCarousel({
 		responsive:{
 			0:{
 				loop: true,
@@ -6951,7 +6951,7 @@ $(window).on('scroll', function (e) {
 			1024:{
 				loop: false,
 				items: 4,
-				margin: 60
+				margin: 68
 			}
 		},
 		loop: false,

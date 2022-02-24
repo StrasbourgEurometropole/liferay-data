@@ -221,7 +221,7 @@
 
 	a.large-link,
 	span.large-link{
-		@include ft($f_nr, 36px, 400, $c_main, 43px);
+		@include ft($f_nr, 2.25rem, 400, $c_main, 2.75rem);
 		display: inline-block;
 		position: relative;
 		text-decoration: none;

@@ -18,6 +18,18 @@
 
 		.mns-aside-info{
 			margin-bottom: 40px;
+			height: fit-content;
+
+			&:after{
+				content: '';
+				position: absolute;
+				z-index: -1;
+				background: $second-color;
+				width: 290px;
+				height: 66.66%;
+				bottom: 70px;
+				left: -40px;
+			}
 		}
 
 		figure {
@@ -73,26 +85,11 @@
 					@include ft($f_ms, 1rem, 700, $c_white, 1.25rem);
 					margin-bottom: 15px;
 					@include an(all,0.3);
-					&:hover{
-						color: $c_txt;
-					}
+					
 					&:last-child{
 						margin-bottom: 0;
 					}
 				}
-			}
-
-			&:after{
-				content: '';
-				position: absolute;
-				z-index: -1;
-				background: $second-color;
-				width: 290px;
-				height: 350px;
-				top: -165px;
-				right: -30px;
-				bottom: -20px;
-				left: -50px;
 			}
 		}
 
@@ -108,11 +105,13 @@
 			}
 
 			a{
-				color: #8399ad;
+				color: $c_main;
+				font-weight: 700;
 				text-decoration: underline;
 				@include an(all,0.3);
+
 				&:hover{
-					color: $c_main;
+					color: $c_txt;
 				}
 			}
 
@@ -217,6 +216,11 @@
 					}
 				}
 			}
+
+			.mns-outro-form{
+				font-size: 0.875rem;
+				line-height: 1.625rem;
+			}
 		}
 
 		.mns-toggle-collapse{
@@ -260,7 +264,7 @@
 			display: none;
 			
 			.rte .checkbox label{
-				@include ft($f_ms, 0.875rem, 700, $c_txt, 1.625rem);
+				font-weight: 700;
 			}
 		}
 
@@ -297,7 +301,7 @@
 
 		.mail-success{
 			background: #4CAF50;
-			color: white;
+			color: $c_white;
 			padding: 40px;
 		}
 
@@ -311,17 +315,6 @@
 
     		input{
 				width: 230px;
-				padding: 12px 0;
-				height: auto;
-				background: $c_white;
-				border: none;
-				@include ft($f_nr, 1.125rem, 400, $c_main, 1.625rem);
-				@include an(all,0.3);
-
-				&:hover{
-					background: $c_main;
-					color: $c_white;
-				}
 			}
 		}
 	}

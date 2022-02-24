@@ -269,8 +269,8 @@
 	    }
 	})
 
-	// Carsousel Section Slider Social Wall
-	$('#owl-social-wall').owlCarousel({
+	// Carsousel Section Slider Instagram
+	$('#owl-insta').owlCarousel({
 		responsive:{
 			0:{
 				loop: true,
@@ -285,7 +285,7 @@
 			1024:{
 				loop: false,
 				items: 4,
-				margin: 60
+				margin: 68
 			}
 		},
 		loop: false,
