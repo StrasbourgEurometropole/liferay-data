@@ -34,7 +34,7 @@
 
 @import "_t_page-agenda-detail";
 @import "_t_page-agenda-list";
-//@import "_t_page-contact";
+@import "_t_page-contact";
 /*@import "_t_page-marche";
 @import "_t_page-results";
 @import "_t_page-top10";*/
@@ -773,10 +773,6 @@
 
 		h2{
 			color: $c_txt;
-			@include mobile{
-				font-size: 60px;
-				margin-bottom: 20px;
-			}
 		}
 		
 		/*.owl-loaded {
@@ -792,10 +788,6 @@
 		text-align: center;
 		transform: translate3d(0,0,0);
 
-		@include mobile {
-			background-attachment: scroll !important;
-		}
-
 		.caption{
 			position: absolute;
 			top: 50%;
@@ -808,19 +800,11 @@
 				@include ft($f_nr, 3rem, 400, $c_white, 2.625rem);
 				margin-bottom: 30px;
 				display: inline-block;
-
-				@include mobile{
-					font-size: 42px;
-				}
 			}
 			
 			.mns-content-text{
 				width: 60%;
 				margin: 0 auto 60px;
-
-				@include tablet_portrait{
-					width: 90%;
-				}
 			}
 
 			p{

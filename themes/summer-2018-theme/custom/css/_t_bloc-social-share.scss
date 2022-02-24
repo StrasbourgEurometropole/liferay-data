@@ -11,11 +11,6 @@
 	opacity: 0;
 	@include addTransition();
 
-	@include mobile{
-		right: 20px;
-		bottom: 20px;
-	}
-
 	.sub-menu-open & {
 		opacity: 0 !important;
 	}

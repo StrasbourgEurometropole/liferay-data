@@ -2,7 +2,7 @@
 
 #mns-global{
 
-	/*a{
+	a{
 		text-decoration: none;
 	}
 
@@ -29,7 +29,7 @@
 		display: block;
 		max-width: 100%;
 		height: auto;
-	}*/
+	}
 
 	h1,
 	span.h1
@@ -37,11 +37,15 @@
 		position: relative;
 		display: block;
 		margin: 0 0 40px;
-		@include ft($f_nr,4.375rem,400,$c_main,5.25rem);
+		@include ft($f_nr,$d_h1,400,$c_main,5.25rem);
 
 		strong, a, u, i, em
 		{
 			font-family: $f_nr;
+		}
+
+		@include mobile{
+			font-size: 2.5rem;
 		}
 	}
 
@@ -51,7 +55,8 @@
 		position: relative;
 		display: block;
 		margin: 35px 0 30px 0;
-		@include ft($f_nr,4rem,400,$c_main,4.8125rem);
+		@include ft($f_nr,$d_h2,400,$c_main,4.8125rem);
+		font-size: 4rem;
 
 		strong, a, u, i, em
 		{
@@ -59,9 +64,9 @@
 		}
 
 		@include mobile{
-			font-size: 46px;
+			font-size: $s_h2;
 		}
-	}
+	}				
 
 	h3,
 	span.h3
@@ -69,27 +74,31 @@
 		position: relative;
 		display: block;
 		margin: 25px 0 30px 0;
-		@include ft($f_nr,2.25rem,400,$c_main,2.6875rem);
+		@include ft($f_nr,$d_h3,400,$c_main,2.6875rem);
 
 		strong, a, u, i, em
 		{
 			font-family: $f_nr;
 		}
-	}
 
-	/*h4,
+		@include mobile{
+			font-size: $s_h3;
+		}
+	}				
+
+	h4,
 	span.h4
 	{
 		position: relative;
 		display: block;
 		margin: 0 0 10px 0;
-		@include ft($f_ms,42px,700,$c_grey,52px);
+		@include ft($f_ms,$d_h4,700,$c_grey,52px);
 
 		strong, a, u, i, em
 		{
 			font-family: $f_ms;
 		}
-	}*/
+	}
 
 	p, 
 	span.p
@@ -97,7 +106,7 @@
 		position: relative;
 		display: block;
 		margin: 0 0 20px 0;
-		@include ft($f_ms,1rem,400,$c_txt,1.625rem);
+		@include ft($f_ms,$d_p,400,$c_txt,1.625rem);
 
 		&.intercalaire
 		{
@@ -112,6 +121,10 @@
 		a
 		{
 			color: $c_grey;
+		}
+
+		@include mobile{
+			font-size: $s_p;
 		}
 	}
 
@@ -160,10 +173,6 @@
 		@include btn(0, $c_white, $f_nr, 1.125rem, 400, $c_main, 1.3125rem);
 		@include an(all,0.3);
 		min-width: 270px;
-
-		@include mobile{
-			width: auto;
-		}
 
 		&:hover{
 			background: $c_txt;
@@ -238,9 +247,6 @@
 		}
 		&:hover:after{
 			width: 100%;
-		}
-		@include mobile {   
-			margin-bottom: 50px;
 		}
 	}
 }

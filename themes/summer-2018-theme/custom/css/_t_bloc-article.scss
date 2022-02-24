@@ -3,12 +3,6 @@
 	.mns-bloc-article{
 		padding: 0;
 
-		@include mobile{
-			margin-top: 30px !important;
-		}
-		@include tablet_portrait {
-			margin-top: 30px !important;
-		}
 		/*.mns-wrapper-title .mns-title {
 			@include ft($f_nr, 70px, 400, $c_main, 84.49px);
 			display: inline-block;

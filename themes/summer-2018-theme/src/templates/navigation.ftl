@@ -25,7 +25,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
-                        <!-- a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
                         <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                         <#if homeURL != "/">
                             <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
@@ -46,11 +45,6 @@
                         </form>
                     </div>
                 </li>
-                <!--<li class="hidden-sm hidden-xs menu-accueil">
-                    <a href="${homeURL}">
-                        <span class="icon-ico-home"></span>
-                    </a>
-                </li>-->
                 <#list nav_items as nav_item>
                     <#if nav_item.hasChildren()>
                         <li class="dropdown">

@@ -18,14 +18,10 @@
 			right: 0;
 		}*/
 
-		@include mobile{
-			display: none;
-		}
-
 		img{
 			float: left;
-			padding: 10px 20px;
-			height: 40px;
+			padding: 12px 20px;
+			height: 45px;
 			width: auto;
 		}
 
@@ -61,6 +57,7 @@
 
 				&:hover, &.active{
 					font-weight: 700;
+					text-decoration: none;
 				}
 
 				/*&.mns-w-fixe-1{
@@ -106,10 +103,6 @@
 		transform: translate3d(0,0,0);
 		margin-bottom: 80px;
 
-		@include mobile {
-			height: 500px;
-		}
-
 		&:after{
 			content: '';
 			position: absolute;
@@ -133,16 +126,6 @@
 			h1{
 				color: $c_white;
 				margin: 0 auto 30px;
-				
-				@include tablet_portrait{
-					width: 75%;
-				}
-
-				@include mobile {
-					width: 90%;
-					font-size: 2.25rem;
-					line-height: normal;
-				}
 			}
 
 			/*h2{
@@ -154,19 +137,11 @@
 				@include ft($f_ms, 34px, 400, $c_white, 42px);
 				margin: 0;
 				line-height: 26px;
-				@include mobile{
-					line-height: normal;
-					font-size: 26px;
-				}
 			}*/
 
 			span{
 				@include ft($f_ms, 1.625rem, 700, $c_white, 1.9375rem);
 				margin: 0;
-
-				@include mobile {
-					@include ft($f_ms, 1.375rem, 700, $c_white, 1.625rem);
-				}
 			}
 		}
 	}
@@ -181,10 +156,6 @@
 				@include ft($f_nr, 5rem, 400, $c_white, 6rem);
 				text-transform: uppercase;
 				max-width: 50%;
-
-				@include mobile {
-					@include ft($f_nr, 2.5rem, 400, $c_white, 3rem);
-				}
 				
 				&:after {
 					content: '';
@@ -193,11 +164,6 @@
 					display: block;
 					background: $c_white;
 					margin: 20px auto 42px;
-
-					@include mobile {
-						width: 142px;
-						margin: 25px auto 30px;
-					}
 				}
 			}
 
@@ -213,19 +179,6 @@
 		text-align: center;
 		position: relative;
 		overflow: hidden;
-		@include desktop{
-			height: calc(100vh - 100px);
-		}
-		@include tablet_portrait{
-			height: auto;
-		}
-		@include mobile {
-			height: 80vh;
-		}
-		@media screen and (max-width: 320px)
-		{
-			height: 90vh;
-		}
 
 		.owl-carousel{
 			height: 100%;
@@ -240,10 +193,6 @@
 							img{
 								object-fit: cover;
 								height: 100%;
-								@include mobile{
-									object-fit: contain;
-									height: auto;
-								}
 							}
 						}
 					}
@@ -259,71 +208,13 @@
 				bottom: initial;
 				text-align: left;
 				z-index: 10;
-				@media screen and (min-width: 1920px)
-				{
-					left: 19%;
-				}
-
-				@include desktop {
-					width: 55%;
-					top: 50%;
-					left: 40px
-				}
-				@include tablet_portrait {
-					width: 75%;
-					top: 55%;
-					left: 30px;
-				}
-				@include mobile {
-					width: 100%;
-					top: 20px;
-					left: 0;
-					padding-top: 0;
-				}
 
 				.mns-slider-date-event{
 					@include ft($f_ms, 20px, 700, $c_white, 42px);
 					text-transform: uppercase;
-					@include mobile{
-						font-size: 12px;
-						line-height: normal;
-					}
 				}
 				h2{
 					@include ft($f_ms, 48px, 700, $c_white, 62px);
-					@include tablet_portrait{
-						font-size: 36px;
-						line-height: normal;
-						margin-bottom: 5px;
-
-					}
-					@include mobile {
-						font-size: 24px;
-						line-height: normal;
-					}
-				}
-
-				p{
-					@include mobile{
-						color: $c_txt;
-						margin-top: 0;
-						position: relative;
-						top: 20px;
-					}
-					@media screen and (max-width: 320px)
-					{
-						top: 35px;
-					}
-				}
-				.basic-link{
-					@include mobile {
-						position: relative;
-						top: 30px;
-					}
-					@media screen and (max-width: 320px)
-					{
-						top: 25px;
-					}
 				}
 			}
 		}
@@ -332,26 +223,6 @@
 			left: 9%;
 			bottom: 20px;
 			right: inherit;
-			@media screen and (min-width: 1920px)
-			{
-				left: 19%;
-			}
-			@include desktop {
-				left: 40px;
-			}
-			@include tablet_portrait {
-				left: 25px;
-			}
-			@include mobile {
-				left: 15px;
-				bottom: 60px;
-				> div{
-					border-color: #ebded3;
-					span{
-						color: $c_txt;
-					}
-				}
-			}
 		}
 
 		.mns-wrapper-bread{
@@ -359,9 +230,6 @@
 			width: 100%;
 			right: inherit;
 			left: 0;
-			@include mobile{
-				display: none;
-			}
 		}
 
 		.mns-breadcrumbs{
@@ -369,63 +237,25 @@
 			bottom: 15px;
 			top: auto;
 			z-index: 300;
-			@media screen and (min-width: 1600px)
-			{
-				left: 25%;
-			}
 		}
 	}*/
 
 	/* Header page résultats */ 
 	/*.mns-header-standard{
 		height: 150px;
-		@include mobile {
-			padding: 0 15px;
-			height: 10px;
-			margin-bottom: 0px;
-		}
-		@include tablet_portrait {
-				height: 60px;
-			margin-bottom: 0px;
-		}
 		.container{
 			position: relative;
 			top: 115px;
 			padding: 0;
-			@include mobile{
-				top: 60px;
-			}
 		}
 
 		h1{
 			@include ft($f_ms, 88px, 700, $c_main, 108px);
-			@include tablet_portrait{
-				font-size: 68px;
-			}
-			@include mobile {
-				font-size: 28px;
-			}
-		}
-
-		.mns-breadcrumbs{
-			@include mobile{
-				left: 0;
-				top: -64px;
-				margin-top: 0;
-				padding: 0;
-			}
-			@include tablet_portrait {
-				margin-top: 0;
-			}
 		}
 	}*/
 
 	/*.mns-header-single{
 		height: 180px;
-		@include mobile{
-			padding: 0 15px;
-			height: 175px;
-		}
 		.container{
 			position: relative;
 			top: 140px;
@@ -435,18 +265,6 @@
 		.mns-breadcrumbs{
 			left: 119px;
 			top: -40px;
-			@include desktop{
-				left: 7px;
-				top: -25px;
-			}
-			@include tablet_portrait {
-				padding-left: 0;
-			}
-			@include mobile {
-				left: 0;
-				top: -64px;
-				padding: 20px 0;
-			}
 		}
 	}*/
 
@@ -456,9 +274,7 @@
 
 		.mns-nav-footer{
 			border-bottom: 1px solid #838383;
-			@include mobile{
-				padding: 20px 0;
-			}
+			
 			ul{
 				padding: 0;
 				margin: 0;
@@ -466,23 +282,16 @@
 					display: inline-block;
 					padding: 0;
 					margin: 0;
-					@include mobile{
-						display: block;
-					}
+					
 					a{
 						@include ft($f_ms, 0.875rem, 700, #b3b3b3, 1.625rem);
 						text-transform: uppercase;
 						padding: 25px 15px;
 						display: inline-block;
 						@include an(all,0.3);
+
 						&:hover{
 							color: $c_main;
-						}
-						@include desktop{
-							padding: 25px 8px;
-						}
-						@include mobile{
-							padding: 7px 15px 7px 0;
 						}
 					}
 					&:first-child{
@@ -583,34 +392,32 @@
 		.mns-first-column{
 			margin-top: 40px;
 			margin-bottom: 30px;
-			@include mobile{
-				margin-top: 25px;
-				margin-bottom: 25px;
-			}
+			
 			ul{
 				padding: 0;
 				margin: 0;
+
 				li{
 					display: block;
 					padding: 0;
 					margin: 0;
+
 					a{
 						@include ft($f_ms, 0.9375rem, 400, #b3b3b3, normal);
 						padding: 5px 0;
 						display: inline-block;
 						@include an(all,0.3);
+
 						&:hover{
 							color: $second-color;
 						}
 					}
 				}
 			}
+
 			p{
 				margin-top: 40px;
 				@include ft($f_ms, 1.09rem, 300, #b3b3b3, normal);
-				@include mobile{
-					margin-bottom: 0;
-				}
 			}
 		}
 
@@ -618,20 +425,14 @@
 			margin: 30px 0;
 			border-left: 1px solid #838383;
 			padding-left: 30px;
-			@include mobile{
-				border-left: 0;
-				padding: 0;
-				border-top: 1px solid #d8dae4;
-				padding-top: 20px;
-				margin-top: 10px;
-				margin-bottom: 0;
-			}
+
 			h3{
 				@include ft($f_ms, 0.9375rem, 700, $c_white, normal);
 				text-transform: uppercase;
 				padding: 15px 0;
 				margin: 0;
 			}
+
 			span{
 				@include ft($f_ms, 0.9375rem, 400, $c_white, normal);
 				display: block;
@@ -642,6 +443,7 @@
 				@include ft($f_ms, 0.9375rem, 400, $c_white, normal);
 				display: block;
 				@include an(all,0.3);
+
 				&:hover{
 					color: $c_main;
 				}
@@ -649,6 +451,7 @@
 
 			.info-contact{
 				padding: 15px 0 35px 0;
+
 				span:nth-child(2){
 					margin: 0;
 				}
@@ -658,6 +461,7 @@
 		.mns-footer-bottom{
 			background: #2d2d2d;
 			display: block;
+			
 			img{
 				left: -20px;
 			}

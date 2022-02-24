@@ -110,6 +110,7 @@
 	margin: 0 17px;
 	@include an(all, 0.3);
     outline: none;
+
 	span {
 		position: absolute;
 		top: 50%;
@@ -117,8 +118,10 @@
 		transform: translate(-50%, -50%);
 		color: $c_txt;
 	}
+
 	&:hover {
 		background: $c_main;
+		
 		span {
 			color: $c_white;
 		}

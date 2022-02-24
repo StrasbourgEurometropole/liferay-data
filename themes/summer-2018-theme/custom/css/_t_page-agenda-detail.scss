@@ -12,9 +12,6 @@
 
 	.mns-agenda-detail{
 		margin: 30px auto;
-		@include tablet_portrait {
-			margin-top: 50px !important;
-		}
 
 		.mns-aside-info{
 			margin-bottom: 40px;
@@ -100,9 +97,6 @@
 		}
 
 		.mns-content-agenda-detail{
-			@include mobile{
-				padding: 0;
-			}
 
 			a{
 				color: $c_main;
@@ -117,13 +111,6 @@
 
 			h1{
 				width: 100%;
-				@include tablet_portrait{
-					width: 100%;
-				}
-				@include mobile{
-					font-size: 2.5rem;
-					line-height: normal;
-				}
 			}
 
 			.mns-indic{
@@ -173,20 +160,14 @@
 
 			.mns-info-more{
 				margin: 25px 0;
-				@include mobile{
-					margin-bottom: 30px;
-				}
+
 				&:nth-last-child(2), &:nth-last-child(1){
 					margin-bottom: 0;
-					@include mobile{
-						margin-bottom: 30px;
-					}
 				}
+
 				&:last-child{
-					@include mobile{
-						margin-bottom: 60px;
-					}
 				}
+				
 				p{
 					margin-bottom: 10px;
 					width: 100%;
@@ -195,9 +176,6 @@
 				span[class^="icon-"]{
 					font-size: 2.5rem;
 					margin-right: 10px;
-					@include tablet_portrait{
-						margin-right: 5px;
-					}
 				}
 
 				.booking{

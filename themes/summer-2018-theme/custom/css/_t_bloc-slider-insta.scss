@@ -42,18 +42,10 @@
 	
 			.owl-stage{
 				padding-top: 30px;
-	
-				@include mobile{
-					padding-top: 20px;
-				}
 		
 				.owl-item {	
 					&:nth-child(odd){
 						transform: translateY(-30px);
-	
-						@include mobile{
-							transform: translateY(-20px);
-						}
 					}
 		
 					&:hover{
@@ -67,15 +59,7 @@
 	
 					.item{
 						padding: 15px;
-						position: relative;
-	
-						@include desktop{
-							margin-right: 15px;
-						}
-	
-						@include mobile{
-							padding: 10px;
-						}					
+						position: relative;					
 		
 						&:before{
 							content:'';
@@ -88,14 +72,6 @@
 							transform: translate(-15px, 15px);
 							transition: all 0.5s;
 							z-index: -1;
-	
-							@include mobile{
-								left: 10px;
-								right: 10px;
-								top: 10px;
-								height: calc(100% - 20px);
-								transform: translate(-10px, 10px);
-							}
 						}
 		
 						figure{
@@ -103,10 +79,6 @@
 							aspect-ratio: 1;
 							transform: translate(15px, -15px);
 							transition: all 0.5s;
-	
-							@include mobile{
-								transform: translate(10px, -10px);
-							}
 						}
 					}
 				}
@@ -114,10 +86,6 @@
 		
 			.owl-nav {
 				position: static;
-	
-				@include desktop{
-					margin-left: -10px;
-				}
 		
 				&:before{
 					content: none;
@@ -129,26 +97,9 @@
 					left: -30px;
 					background-color: $c_main;
 					border-color: $c_main;
-	
-					@include desktop{
-						left: -10px;
-					}
-	
-					@include mobile{
-						width: 30px;
-						height: 30px;
-					}
 		
 					&.owl-next{
 						left: calc(100% - 50px);
-	
-						@include desktop{
-							left: calc(100% - 70px);
-						}
-	
-						@include mobile{
-							left: calc(100% - 50px);
-						}
 					}
 		
 					&:hover{
@@ -169,12 +120,6 @@
 							background-repeat: no-repeat;
 							height: 40px;
 							width: 40px;
-							
-							@include mobile{
-								width: 30px;
-								height: 30px;
-								background-size: 15px;
-							}
 						}
 					}
 		

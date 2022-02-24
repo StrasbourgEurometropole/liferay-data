@@ -110,8 +110,8 @@
     <@liferay.control_menu />
 
     <div id="mns-global">
-        <div id="layer"></div>
         <header id="mns-header">
+          <div id="layer"></div>
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>

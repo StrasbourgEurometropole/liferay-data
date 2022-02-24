@@ -12,13 +12,14 @@ body{
 
 #mns-global{
 	overflow-x: hidden;
-	/*.container{
+
+	.container{
 		@media (min-width: 1200px){
-			max-width: 1200px;
+			max-width: 1440px;
 		}
 	}
 
-	.navbar {
+	/*.navbar {
 		flex-wrap: wrap;
 		padding: 0;
 	}
@@ -48,14 +49,6 @@ body{
 		padding-left: 15px;
 		margin-right: auto;
 		margin-left: auto;
-
-		@include tablet_portrait{
-			max-width: 750px;
-		}
-
-		@include mobile{
-			width: 100%;
-		}
 	}
 
 	/*.mns-p50{
@@ -126,14 +119,8 @@ body{
 
 		figure{
 			position: relative;
-			@include mobile{
-				margin-bottom: 40px;
-			}
 
 			img{
-				@include mobile{
-					margin-bottom: 0;
-				}
 			}
 
 			figcaption{
@@ -152,36 +139,22 @@ body{
 				padding-top: 20px;
 				text-align: right;
 				@include ft($f_ms, 0.625rem, 400, $c_black, 0.625rem);
-				@include desktop{
-					left: -38%;
-					width: 45%;
-				}
-				@include mobile {
-					position: relative;
-					left: 0;
-					top: 15px;
-					width: 100%;
-					padding: 20px 0 0 0;
-				}
 			}
 		}
 
 		img{
 			margin-bottom: 40px;
-			@include mobile{
-				margin-left: 0 !important;
-				margin-right: 0 !important;
-			}
 		}
 
 		ul{
 			padding-left: 15px;
 			list-style-type: disc;
 			margin-bottom: 20px;
+
 			li{
 				margin: 0;
-				font-size: 16px;
-				line-height: 28px;
+				font-size: 1rem;
+				line-height: 1.75rem;
 				padding-left: 0;
 			}
 		}
@@ -391,13 +364,6 @@ body{
 	.mns-breadcrumbs{
 		margin: 100px 0 30px 30px;
 
-		@include mobile{
-			top: -80px;
-			overflow: scroll;
-			white-space: nowrap;
-			width: calc(100% - 15px);
-		}
-
 		a{
 			@include ft($f_ms, 0.9375rem, 400, $c_txt, 1.125rem);
 			text-decoration: none;
@@ -427,8 +393,13 @@ body{
 			padding: 20px 30px;
 			margin: 0;
 			position: absolute;
-			bottom: calc(80px - ((40px + 1.125rem) / 2));
+			bottom: calc(-1 * ((40px + 1.125rem) / 2));
 			margin-left: -15px;
+			box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+			
+			.has-control-menu &{
+				bottom: calc(80px - ((40px + 1.125rem) / 2));
+			}
 			
 			a{
 				color: $c_white;

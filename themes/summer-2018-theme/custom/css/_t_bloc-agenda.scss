@@ -53,15 +53,6 @@
 			max-width: 260px;
 			width: 100%;
 			margin-bottom: 0;
-
-			@include desktop{
-				height: 350px;
-				max-width: 100%;
-			}
-
-			@include mobile {
-				height: 400px;
-			}
 		}
 
 		h3{
@@ -74,11 +65,6 @@
 			overflow: hidden;
 			max-height: 4.875rem;
 			text-align: center;
-
-			@include mobile{
-				width: 90%;
-				font-size: 1.5rem;
-			}
 		}
 
 		.basic-link{
@@ -122,10 +108,6 @@
 
 	.clearfix.lfr-pagination {
 		margin-top: 50px;
-
-		@include tablet_portrait{
-			margin-top: 0;
-		}
 
 		ul {
 			line-height: 2.875rem;
