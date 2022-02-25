@@ -65,6 +65,7 @@ public class WSAccountData {
             switch (codeErreur) {
                 case CodeErreurMediathequeConstants.AUCUNE_ASSOCIATION:
                 case CodeErreurMediathequeConstants.DELAI_DEPASSE:
+                    response.put(WSConstants.JSON_URL, WSConstants.MEDIATHEQUE_URL_MONST);
                     response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_LINK_ACCOUNT);
                     response.put(WSConstants.JSON_MESSAGE, WSConstants.MEDIATHEQUE_MESSAGE);
                     break;
@@ -79,9 +80,9 @@ public class WSAccountData {
                     response.put(WSConstants.JSON_URL, WSConstants.MEDIATHEQUE_URL_WEBMESTRE);
                     break;
                 case CodeErreurMediathequeConstants.AUCUNE_CARTE:
-                    response.put(WSConstants.JSON_MESSAGE, messageErreur);
-                    break;
                 case CodeErreurMediathequeConstants.ASSOCIATION_SUPPRIMEE:
+                    response.put(WSConstants.JSON_URL, WSConstants.MEDIATHEQUE_URL_MONST);
+                    response.put(WSConstants.JSON_LABELURL, WSConstants.MEDIATHEQUE_LINK_ACCOUNT);
                     response.put(WSConstants.JSON_MESSAGE, messageErreur);
                     break;
                 default:
