@@ -92,6 +92,11 @@ public class PlaceApplication extends Application {
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.buildErrorResponse(400, "Format de date incorrect");
@@ -117,16 +122,18 @@ public class PlaceApplication extends Application {
             json.put(WSConstants.JSON_UPDATE, jsonModif);
 
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
-            // On récupère tous les lieux qui ont été dépubliés
-            List<CsmapCacheJson> depubications = csmapCacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
-            for (CsmapCacheJson cache : depubications) {
-                jsonSuppr.put(cache.getSigId());
-            }
+            if(!lastUpdateTimeString.equals("0")) {
+                // On récupère tous les lieux qui ont été dépubliés
+                List<CsmapCacheJson> depubications = csmapCacheJsonLocalService.getByModifiedDateAndIsNotActive(lastUpdateTime);
+                for (CsmapCacheJson cache : depubications) {
+                    jsonSuppr.put(cache.getSigId());
+                }
 
-            // On récupère tous les lieux qui ont été supprimés
-            List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
-            for (Historic histo : suppressions) {
-                jsonSuppr.put(histo.getSigId());
+                // On récupère tous les lieux qui ont été supprimés
+                List<Historic> suppressions = historicLocalService.getBySuppressionDate(lastUpdateTime);
+                for (Historic histo : suppressions) {
+                    jsonSuppr.put(histo.getSigId());
+                }
             }
             json.put(WSConstants.JSON_DELETE, jsonSuppr);
 
@@ -344,8 +351,9 @@ public class PlaceApplication extends Application {
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
-            // On reçoit -3600 depuis l'application, ce qui bypass notre cache
-            if (lastUpdateTimeLong < 0) {
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
                 lastUpdateTimeString = "0";
             }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
