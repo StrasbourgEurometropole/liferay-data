@@ -123,6 +123,29 @@
                 },
                 {
                     "label": {
+                        "fr_FR": "Lien externe"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "external_link",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
+                {
+                    "label": {
                         "fr_FR": "Lien à la page"
                     },
                     "predefinedValue": {
@@ -141,7 +164,7 @@
                     "name": "link",
                     "readOnly": false,
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "showLabel": true,
                     "type": "ddm-link-to-page"
                 }
