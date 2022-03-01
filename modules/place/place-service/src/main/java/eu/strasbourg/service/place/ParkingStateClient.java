@@ -54,14 +54,14 @@ public class ParkingStateClient {
 		return capacity;
 	}
 
-	static public JSONObject getOccupationState(Place parking) {
-		return ParkingStateClient.getOccupationState(parking.getRTExternalId());
+	static public JSONObject getOccupationState(Place parking, JSONArray parkingJsonArray) {
+		return ParkingStateClient.getOccupationState(parking.getRTExternalId(), parkingJsonArray);
 	}
 	
-	static public JSONObject getOccupationState(String parkingCode) {
+	static public JSONObject getOccupationState(String parkingCode, JSONArray parkingJsonArray) {
 		try {
 			return ParkingStateClient
-					.getJSONObject(parkingCode);
+					.getJSONObject(parkingCode,parkingJsonArray);
 		} catch (Exception e) {
 			return JSONFactoryUtil.createJSONObject();
 		}
@@ -77,20 +77,19 @@ public class ParkingStateClient {
 				long capacity = Long.parseLong(parkingJSON.getString("dt"));
 				long available = Long.parseLong(parkingJSON.getString("df"));
 				switch (status) {
-				case "status_1":
+				case "0":
+					state = OccupationState.NOT_AVAILABLE;
+					break;
+				case "1":
 					state = OccupationState.OPEN;
 					state.setAvailable(""+available);
 					state.setCapacity(""+capacity);
 					break;
-				case "status_2":
-					state = OccupationState.FULL;
-					break;
-				case "status_3":
-					state = OccupationState.NOT_AVAILABLE;
-					break;
-				case "status_4":
+				case "2":
 					state = OccupationState.CLOSED;
 					break;
+				case "3":
+					state = OccupationState.FULL;
 				}
 			}
 		} catch (Exception ex) {
@@ -109,6 +108,21 @@ public class ParkingStateClient {
 			JSONObject object = mainArray.getJSONObject(i);
 			if (object.getString("id").equals(parkingCode)) {
 				parking = object;
+				break;
+			}
+		}
+
+		return parking;
+	}
+
+	static private JSONObject getJSONObject(String parkingCode, JSONArray parkingJsonArray)
+			throws Exception {
+		JSONObject parking = null;
+		for (int i = 0; i < parkingJsonArray.length(); i++) {
+			JSONObject object = parkingJsonArray.getJSONObject(i);
+			JSONObject fields = object.getJSONObject("fields");
+			if (fields.getString("ident").equals(parkingCode)) {
+				parking = fields;
 				break;
 			}
 		}

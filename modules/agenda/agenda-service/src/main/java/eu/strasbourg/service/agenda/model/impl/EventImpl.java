@@ -1501,7 +1501,7 @@ public class EventImpl extends EventBaseImpl {
 				for (String[] timeDetailSchedule : timesDetailSchedule) {
 					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
 					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
-					// si l'heure de fin est < à l'heure de début, on ajoute 1 à la date de fin
+					// si l'heure de fin est < à l'heure de début, on ajoute 1j à la date de fin
 					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
 					if(Validator.isNotNull(timeDetailSchedule[1])) {
 						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
