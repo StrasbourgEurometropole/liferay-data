@@ -88,6 +88,19 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
+	 * Généréation des caches pour API et CSMap
+	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
+	 *
+	 * @param event
+	 */
+	@Override
+	public void createCacheJSON(eu.strasbourg.service.agenda.model.Event event)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_eventLocalService.createCacheJSON(event);
+	}
+
+	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.
 	 *
 	 * @param eventId the primary key for the new event

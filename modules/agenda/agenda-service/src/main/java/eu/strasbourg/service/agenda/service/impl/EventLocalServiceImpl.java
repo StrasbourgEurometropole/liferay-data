@@ -208,6 +208,20 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				Event.class.getName(), event.getPrimaryKey(), event, sc);
 		}
 
+		// Génération des caches
+		createCacheJSON(event);
+
+		return event;
+	}
+
+	/**
+	 * Généréation des caches pour API et CSMap
+	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
+	 * @param event
+	 */
+	@Override
+	public void createCacheJSON(Event event) throws PortalException {
+
 		//Mise à jour pour CSMap
 		CsmapCacheJson csmapCacheJson = this.csmapCacheJsonLocalService.fetchCsmapCacheJson(event.getEventId());
 		if(Validator.isNull(csmapCacheJson)){
@@ -249,8 +263,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		cacheJson.setJsonEvent(eventJson.toString());
 		cacheJson.setIsApproved(event.getStatus() == WorkflowConstants.STATUS_APPROVED);
 		this.cacheJsonLocalService.updateCacheJson(cacheJson);
-
-		return event;
 	}
 
 	/**

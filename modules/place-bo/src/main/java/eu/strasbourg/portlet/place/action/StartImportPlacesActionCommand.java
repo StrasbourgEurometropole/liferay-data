@@ -16,8 +16,11 @@
 package eu.strasbourg.portlet.place.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -260,6 +263,10 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 										if (differentMercatorY) {
 											event.setMercatorY(mercatorY);
 										}
+										AssetEntry assetEvent = assetEntryLocalService.fetchAssetEntry(event.getPrimaryKey());
+										event.setModifiedDate(new Date());
+										assetEvent.setModifiedDate(new Date());
+										assetEntryLocalService.updateAssetEntry(assetEvent);
 										_eventLocalService.updateEvent(event);
 									}
 								}
@@ -467,4 +474,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 		_eventLocalService = eventLocalService;
 	}
+	@Reference
+	AssetEntryLocalService assetEntryLocalService;
 }
+
