@@ -248,30 +248,11 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 								} else {
 									sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 								}
-								// Il s'agit d'une mise à jour
-								String databaseMercatorX = place.getMercatorX();
-								String databaseMercatorY = place.getMercatorY();
-
-								boolean differentMercatorX = !databaseMercatorX.equals(mercatorX);
-								boolean differentMercatorY = !databaseMercatorY.equals(mercatorY);
-								if (differentMercatorX || differentMercatorY) {
-									List<Event> eventList = _eventLocalService.findByPlaceSIGId(idSIG);
-									for (Event event : eventList) {
-										if (differentMercatorX) {
-											event.setMercatorX(mercatorX);
-										}
-										if (differentMercatorY) {
-											event.setMercatorY(mercatorY);
-										}
-										AssetEntry assetEvent = assetEntryLocalService.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-										event.setModifiedDate(new Date());
-										assetEvent.setModifiedDate(new Date());
-										assetEntryLocalService.updateAssetEntry(assetEvent);
-										_eventLocalService.updateEvent(event);
-										_eventLocalService.createCacheJSON(event);
-									}
-								}
 							}
+							// Récupère les Coord du lieu avant mise à jour (utilisé pour la MaJ des événements, cf fin de méthode)
+							String databaseMercatorX = place.getMercatorX();
+							String databaseMercatorY = place.getMercatorY();
+
 							place.setSIGid(idSIG);
 							place.setName(alias);
 							place.setAlias(alias, Locale.FRANCE);
@@ -330,8 +311,35 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 									listLieuxModifies.add(ligneRetour(ligne, idSIG, alias) + "<br>");
 									_log.info("Lieu modifié; => " + ligneRetour(ligne, idSIG, alias));
 								}
+
+								// On vient mettre à jour les X/Y des événements liés au lieu si besoin
+								// On le fait après l'update de place car le cache de l'API cherche des données du LIEU
+								// Il s'agit d'une mise à jour
+
+								boolean differentMercatorX = !databaseMercatorX.equals(mercatorX);
+								boolean differentMercatorY = !databaseMercatorY.equals(mercatorY);
+								if (differentMercatorX || differentMercatorY) {
+									List<Event> eventList = _eventLocalService.findByPlaceSIGId(idSIG);
+									for (Event event : eventList) {
+										if (differentMercatorX) {
+											event.setMercatorX(mercatorX);
+										}
+										if (differentMercatorY) {
+											event.setMercatorY(mercatorY);
+										}
+										// Récupère l'asset pour mettre la date de modif à jour
+										AssetEntry assetEvent = assetEntryLocalService.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+										event.setModifiedDate(new Date());
+										assetEvent.setModifiedDate(new Date());
+										assetEntryLocalService.updateAssetEntry(assetEvent);
+										_eventLocalService.updateEvent(event);
+										// On recrée les caches
+										_eventLocalService.createCacheJSON(event);
+									}
+								}
+
 							} catch (Exception e) {
-								e.printStackTrace();
+								_log.error(e);
 								resultat = "REUSSI avec des erreurs";
 								listLieuxErreurs
 										.add(ligneRetour(ligne, idSIG, alias) + " => " + e.getMessage() + ".<br>");
