@@ -263,11 +263,12 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 										if (differentMercatorY) {
 											event.setMercatorY(mercatorY);
 										}
-										AssetEntry assetEvent = assetEntryLocalService.fetchAssetEntry(event.getPrimaryKey());
+										AssetEntry assetEvent = assetEntryLocalService.fetchEntry(Event.class.getName(), event.getPrimaryKey());
 										event.setModifiedDate(new Date());
 										assetEvent.setModifiedDate(new Date());
 										assetEntryLocalService.updateAssetEntry(assetEvent);
 										_eventLocalService.updateEvent(event);
+										_eventLocalService.createCacheJSON(event);
 									}
 								}
 							}
@@ -410,7 +411,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					_log.info("Erreur à la création/modification du lieu => " + erreur);
 				}
 			}
-		} catch (PortalException e) {
+		} catch (Exception e) {
+			_log.error(e);
 			messagesErreurs += e.getMessage();
 			resultat = "ERREUR";
 		}
