@@ -1252,7 +1252,8 @@ public class EventImpl extends EventBaseImpl {
 			coordinates.put(Float.valueOf(this.getMercatorX()));
 		if(Validator.isNotNull(this.getMercatorY()))
 			coordinates.put(Float.valueOf(this.getMercatorY()));
-		if (coordinates != null) {
+
+		if (coordinates != null && coordinates.length() == 2) {
 			geometry.put("coordinates", coordinates);
 			feature.put("geometry", geometry);
 		}

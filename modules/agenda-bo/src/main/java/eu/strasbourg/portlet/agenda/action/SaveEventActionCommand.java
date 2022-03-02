@@ -203,8 +203,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				try {
 					JSONArray coordinateForAddress = _openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
 					if (coordinateForAddress.length() == 2) {
-						event.setMercatorX(coordinateForAddress.get(0).toString());
-						event.setMercatorY(coordinateForAddress.get(1).toString());
+						event.setMercatorY(coordinateForAddress.get(0).toString());
+						event.setMercatorX(coordinateForAddress.get(1).toString());
 					}
 				} catch (Exception e) {
 					//On a catché une erreur ou bien un time out
