@@ -6,7 +6,7 @@
                 </div>
         	    <div class="detail-article">
             	    <h3>${cur_image.title.getData()}</h3>
-                    <p>${cur_image.description.getData()[0..*300]}<#if (cur_image.description.getData()?length > 300)>...</#if></p>
+            	    <p>${cur_image.description.getData()}</p>
                     <#if cur_image.link.getData()?has_content || cur_image.external_link.getData()?has_content>
                         <#if cur_image.link.getData()?has_content>
             	            <a href="${cur_image.link.getFriendlyUrl()}" class="mns-btn">${cur_image.label.getData()}</a>
@@ -21,11 +21,13 @@
         <figure>
             <img src="${main_image.getData()}" alt="${main_image.getAttribute('alt')}" height="725px"/>
         </figure>
-        <div class="link-article">
+        </button>
+        <div id="link-article" class="link-article collapse">
         	<#list image.getSiblings() as cur_image>
         	    <div class="mns-btn ${(cur_image?counter==1)?then('open','')}" onClick="changeDetail('article${cur_image?counter}')">${cur_image.title.getData()}</div>
         	</#list>
     	</div>
+	    <button type="button" class="change-article-mobile" data-toggle="collapse" data-target="#link-article" aria-expanded="false" aria-controls="link-article">
     </div>
 </div>
 
@@ -34,5 +36,10 @@ function changeDetail(article){
     $('.open').removeClass('open');
     $('#'+article).addClass('open');
     $(event.currentTarget).addClass('open');
+    $('#link-article').collapse('hide');
 }
+
+$(':not(.change-article-mobile)').click(function(){
+    $('#link-article').collapse('hide');
+})
 </script>
