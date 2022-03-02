@@ -6664,6 +6664,8 @@ $(window).on('scroll', function (e) {
         $(window).on('resize',egalizeAll);
 
     }
+
+    $($(".mns-header-home")[0]).addClass('anim')
 	$(window).scroll(function() {
 		if ($(window).scrollTop() > 100) {
 			$('.mns-share-button').addClass('fadein');

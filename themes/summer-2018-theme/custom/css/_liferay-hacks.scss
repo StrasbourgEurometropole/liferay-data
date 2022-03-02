@@ -12,6 +12,10 @@
 
 .has-control-menu #mns-global {
   margin-top: 56px;
+  
+  @include mobile {
+    margin-top: 48px;
+}
 }
 
 .has-control-menu #mns-global .mns-nav.mns-nav-scroll {

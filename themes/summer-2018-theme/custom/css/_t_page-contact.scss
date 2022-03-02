@@ -9,7 +9,6 @@
 /***************************/
 
 #mns-global{
-	
 	.mns-page-contact{
 		margin: 25px auto 50px auto;
 
@@ -20,6 +19,27 @@
 			border-bottom: 1px solid #fff6;
 			margin-bottom: 40px;
 		}*/
+		
+		form {			
+			[style="visibility: hidden;"]{
+				display: none;
+			}
+
+			.checkbox label{
+				font-weight: 700;
+			}
+
+			.mns-submit {
+	
+				span{
+					height: 2px;
+					background: #d8dae4;
+				}
+				input{
+					width: 230px;
+				}
+			}
+		}
 
 		.mns-outro-form{
 			font-size: 0.875rem;
@@ -34,17 +54,6 @@
 				&:hover{
 					color: $c_txt;
 				}
-			}
-		}
-		
-		form {
-			.checkbox label{
-				font-weight: 700;
-			}
-			
-
-			[style="visibility: hidden;"]{
-				display: none;
 			}
 		}
 
@@ -79,17 +88,6 @@
 			@include ft($f_ms, 21.5px, 600, $c_white, 24px);
 		}*/
 
-		.mns-submit {
-			margin-bottom: 40px;
-
-			span{
-				height: 2px;
-				background: #d8dae4;
-			}
-    		input{
-				width: 230px;
-			}
-		}
 	}
 
 	/*.mns-info-pratiques{

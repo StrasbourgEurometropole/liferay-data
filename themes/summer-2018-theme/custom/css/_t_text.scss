@@ -45,7 +45,8 @@
 		}
 
 		@include mobile{
-			font-size: 2.5rem;
+			font-size: $s_h1;
+			line-height: 3rem;
 		}
 	}
 
@@ -56,7 +57,6 @@
 		display: block;
 		margin: 35px 0 30px 0;
 		@include ft($f_nr,$d_h2,400,$c_main,4.8125rem);
-		font-size: 4rem;
 
 		strong, a, u, i, em
 		{

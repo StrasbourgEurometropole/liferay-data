@@ -17,6 +17,67 @@
 			margin-bottom: 40px;
 			height: fit-content;
 
+			figure {
+				margin: 0;
+				background: $c_black;
+	
+				img{
+					width: 100%;
+
+					&.mns-img-agenda-top{
+						margin: 0;
+					}
+				}
+	
+				figcaption{
+					color: $c_white;
+				}
+			}
+
+			.mns-info-pratiques{
+				background-color: $c_main;
+				position: relative;
+	
+				.mns-sec-info{
+					padding: 30px 20px;
+					border-bottom: 1px solid $c_main;
+			
+					.mns-title-info{
+						@include ft($f_nr, 1.5rem, 400, $c_white, 1.75rem);
+						margin: 0;
+	
+						&:after {
+							content: '';
+							height: 4px;
+							width: 25px;
+							display: block;
+							background: $c_white;
+							margin-top: 15px;
+							margin-bottom: 20px;
+						}
+					}
+	
+					p{
+						width: 90%;
+						margin-bottom: 15px;
+						display: block;
+						line-height: 1.25rem;
+						color: $c_white;
+					}
+	
+					a{
+						display: block;
+						@include ft($f_ms, 1rem, 700, $c_white, 1.25rem);
+						margin-bottom: 15px;
+						@include an(all,0.3);
+						
+						&:last-child{
+							margin-bottom: 0;
+						}
+					}
+				}
+			}
+
 			&:after{
 				content: '';
 				position: absolute;
@@ -29,84 +90,12 @@
 			}
 		}
 
-		figure {
-			margin: 0;
-			background: $c_black;
-
-			img{
-				width: 100%;
-			}
-
-			figcaption{
-				color: $c_white;
-			}
-		}
-
-		.mns-img-agenda-top{
-			margin: 0;
-		}
-
-		.mns-info-pratiques{
-    		background-color: $c_main;
-			position: relative;
-
-			.mns-sec-info{
-    			padding: 30px 20px;
-				border-bottom: 1px solid $c_main;
-		
-				.mns-title-info{
-					@include ft($f_nr, 1.5rem, 400, $c_white, 1.75rem);
-					margin: 0;
-
-					&:after {
-						content: '';
-						height: 4px;
-						width: 25px;
-						display: block;
-						background: $c_white;
-						margin-top: 15px;
-						margin-bottom: 20px;
-					}
-				}
-
-				p{
-					width: 90%;
-					margin-bottom: 15px;
-					display: block;
-					line-height: 1.25rem;
-					color: $c_white;
-				}
-
-				a{
-					display: block;
-					@include ft($f_ms, 1rem, 700, $c_white, 1.25rem);
-					margin-bottom: 15px;
-					@include an(all,0.3);
-					
-					&:last-child{
-						margin-bottom: 0;
-					}
-				}
-			}
-		}
-
-		.mns-event-date{
-			@include ft($f_ms, 1.25rem, 700, $c_txt, 1.5rem);
-			margin-bottom: 23px;
-			display: block;
-		}
-
 		.mns-content-agenda-detail{
 
-			a{
-				color: $c_main;
-				font-weight: 700;
-				text-decoration: underline;
-				@include an(all,0.3);
-
-				&:hover{
-					color: $c_txt;
-				}
+			.mns-event-date{
+				@include ft($f_ms, 1.25rem, 700, $c_txt, 1.5rem);
+				margin-bottom: 23px;
+				display: block;
 			}
 
 			h1{
@@ -116,29 +105,13 @@
 			.mns-indic{
 
 				span{
-					@include ft($f_ms, 1rem, 400, $c_grey, 1.25rem);
+					font-size: 1rem;
+					line-height: 1.25rem;
 					margin-right: 5px;
+
 					&:nth-child(2){
 						margin-right: 15px;
 					}
-				}
-
-				.ico-map-marker{
-					&:before {
-						content: "\e912"; 
-						display: inline-block;
-						margin-right: 10px;
-						font-family: 'icomoon';
-			  		}
-				}
-
-				.ico-type{
-			  		&:before {
-						content: '\e914';
-						display: inline-block;
-						margin-right: 10px;
-						font-family: 'icomoon';
-		  			}
 				}
 			}
 				
@@ -150,99 +123,122 @@
 				margin: 40px 0 60px;
 			}
 
-			.mns-title-detail-actu{
-				@include ft($f_nr, 1.125rem, 400, $c_txt, 1.375rem);	
-				display: block;
-				padding: 0 0 10px 0;
-				border-bottom: 1px solid $c_main;
-				margin-bottom: 25px;
-			}
+			.mns-wrapper-info-more{
 
-			.mns-info-more{
-				margin: 25px 0;
+				.mns-info-more{
+					margin: 25px 0;
+	
+					&:nth-last-child(2), &:nth-last-child(1){
+						margin-bottom: 0;
+					}
 
-				&:nth-last-child(2), &:nth-last-child(1){
-					margin-bottom: 0;
-				}
-
-				&:last-child{
-				}
-				
-				p{
-					margin-bottom: 10px;
-					width: 100%;
-				}
-
-				span[class^="icon-"]{
-					font-size: 2.5rem;
-					margin-right: 10px;
-				}
-
-				.booking{
-					margin-top: 45px;
-					margin-bottom: 50px;
+					.mns-title-detail-actu{
+						@include ft($f_nr, 1.125rem, 400, $c_txt, 1.375rem);	
+						display: block;
+						padding: 0 0 10px 0;
+						border-bottom: 1px solid $c_main;
+						margin-bottom: 25px;
+					}
+	
+					span[class^="icon-"]{
+						font-size: 2.5rem;
+						margin-right: 10px;
+					}
 					
-					a{ 
-						padding: 14px 50px;
-						background: $c_main;
-						text-decoration: none;
-						@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
-						@include an(all,0.3);
-						&:hover{
-							background: $c_txt;
+					p{
+						margin-bottom: 10px;
+						width: 100%;
+					}
+	
+					.booking{
+						margin-top: 45px;
+						margin-bottom: 50px;
+						
+						a{ 
+							padding: 14px 50px;
+							background: $c_main;
+							text-decoration: none;
+							@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
+							@include an(all,0.3);
+							
+							&:hover{
+								background: $c_txt;
+							}
 						}
+					}
+				}
+
+				.mns-toggle-collapse{
+					border-width: 0px;
+					background-color: transparent;
+					cursor: pointer;
+					padding: 15px 0 0;
+					margin-bottom: 20px;
+					border-bottom: solid 1px $c_filet;
+					width: 100%;
+					outline: none;
+		
+					.contact{
+						display: flex;
+						align-items: center;
+						margin: 0;
+						padding-bottom: 7px;
+						@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+		
+						span{
+							flex: 1;
+							text-align: left;
+							padding-top: 2px;
+						}
+		
+						&:after{
+							width: 30px;
+							height: 30px;
+							background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
+							display: inline-block;
+							content: '';
+						}
+					}
+		
+					&.mns-opened .contact:after{
+						background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
+					}
+				}
+	
+				.mns-collapsing-box{
+					display: none;
+					
+					.rte .checkbox label{
+						font-weight: 700;
+					}
+
+					.mns-submit {			
+						span{
+							height: 2px;
+							background: #d8dae4;
+						}
+			
+						input{
+							width: 230px;
+						}
+					}
+
+					.mns-outro-form{
+						font-size: 0.875rem;
+						line-height: 1.625rem;
 					}
 				}
 			}
 
-			.mns-outro-form{
-				font-size: 0.875rem;
-				line-height: 1.625rem;
-			}
-		}
-
-		.mns-toggle-collapse{
-			border-width: 0px;
-			background-color: transparent;
-			cursor: pointer;
-			padding: 15px 0 0;
-			margin-bottom: 20px;
-			border-bottom: solid 1px $c_filet;
-			width: 100%;
-			outline: none;
-
-			.contact{
-				display: flex;
-				align-items: center;
-				margin: 0;
-				padding-bottom: 7px;
-				@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
-
-				span{
-					flex: 1;
-					text-align: left;
-					padding-top: 2px;
-				}
-
-				&:after{
-					width: 30px;
-					height: 30px;
-					background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
-					display: inline-block;
-					content: '';
-				}
-			}
-
-			&.mns-opened .contact:after{
-				background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
-			}
-		}
-
-		.mns-collapsing-box{
-			display: none;
-			
-			.rte .checkbox label{
+			a{
+				color: $c_main;
 				font-weight: 700;
+				text-decoration: underline;
+				@include an(all,0.3);
+
+				&:hover{
+					color: $c_txt;
+				}
 			}
 		}
 
@@ -281,19 +277,6 @@
 			background: #4CAF50;
 			color: $c_white;
 			padding: 40px;
-		}
-
-		.mns-submit {
-			margin-bottom: 40px;
-
-			span{
-				height: 2px;
-				background: #d8dae4;
-			}
-
-    		input{
-				width: 230px;
-			}
 		}
 	}
 	

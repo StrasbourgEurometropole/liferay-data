@@ -9,37 +9,69 @@
 /***************************/
 
 #mns-global{
-
 	.mns-wrapper-duo-content{
 		margin: 30px auto;
 	
 		.row {
-			flex-wrap: inherit
-		}
-
-
-		> div{
+			flex-wrap: inherit;
 			margin-bottom: 70px;
 			-js-display: flex;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 
-			.order-1 {
-				order: inherit;
-
-				@include mobile{
-					order: 1;
-					text-align: left;
+			.msn-duo-left, .msn-duo-right{
+				&.order-1, &.order-2 {
+					order: inherit; 
 				}
-			}
 
-			.order-2 {
-				order: inherit; 
+				h2{
+					@include ft($f_nr, 4rem, 400, $c_main, 4.875rem);
+					width: 80%;
+					margin-bottom: 50px;
+				}
 
-				@include mobile{
-					order: 2;
-					text-align: left;
+				p, strong{
+					margin-bottom: 20px;
+				}
+
+				strong{
+					@include ft($f_ms, 1.0625rem, 700, $c_txt, 1.25rem);
+				}
+
+				ul{
+					padding-left: 15px;
+					list-style-type: disc;
+					margin-bottom: 20px;
+	
+					li{
+						margin: 0;
+						font-size: 16px;
+						line-height: 28px;
+						padding-left: 0;
+					}
+				}
+
+				a{
+					padding: 14px 50px;
+					background: $c_main;
+					text-decoration: none;
+					@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
+					width: fit-content;
+					@include an(all,0.3);
+
+					&:hover{
+						background: $c_txt;
+						color: $c_white;
+					}
+				}
+
+				.mns-wrapper-img{
+					position: relative;
+
+					img{
+						margin: 0;
+					}
 				}
 			}
 
@@ -55,12 +87,7 @@
 				}
 
 				.mns-wrapper-img{
-					position: relative;
 					float: left;
-
-					img{
-						margin: 0;
-					}
 
 					&:after{
 						content: '';
@@ -80,12 +107,7 @@
 				margin-left: 45px;
 
 				.mns-wrapper-img{
-					position: relative;
 					float: right;
-
-					img{
-						margin: 0;
-					}
 
 					&:before{
 						content: '';
@@ -98,46 +120,6 @@
 						z-index: -1;
 					}
 				}
-			}
-
-			h2{
-				@include ft($f_nr, 4rem, 400, $c_main, 4.875rem);
-				width: 80%;
-				margin-bottom: 50px;
-			}
-
-			p, strong{
-				margin-bottom: 20px;
-			}
-
-			strong{
-				@include ft($f_ms, 1.0625rem, 700, $c_txt, 1.25rem);
-			}
-
-			ul{
-				padding-left: 15px;
-				list-style-type: disc;
-				margin-bottom: 20px;
-
-				li{
-					margin: 0;
-					font-size: 16px;
-					line-height: 28px;
-					padding-left: 0;
-				}
-			}
-		}
-
-		a{
-			padding: 14px 50px;
-			background: $c_main;
-			text-decoration: none;
-			@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
-			width: fit-content;
-			@include an(all,0.3);
-			&:hover{
-				background: $c_txt;
-				color: $c_white;
 			}
 		}
 	}
@@ -186,5 +168,4 @@
 			padding: 15px 0;
 		}
 	}*/
-
 }

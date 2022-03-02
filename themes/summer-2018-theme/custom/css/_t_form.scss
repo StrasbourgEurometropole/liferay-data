@@ -19,17 +19,18 @@
 		}
 	}
 
-	/*textarea{
+	textarea{
 		background: none;
 		border: 1px solid #a6a6a6;
 		border-radius: 0;
 		height: 275px;
-		@include ft($f_ms, 0.875rem, 600, $c_txt, 1.375rem);
+		@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+
 		&:focus{
 			border-color: $c_main;
 			box-shadow: none;
 		}
-	}*/
+	}
 
 	.checkbox, .radio{
 		display: inline-block;
@@ -78,9 +79,9 @@
 		color: $c_main;
 	}
 
-	/*.radio .cr .cr-icon {
+	.radio .cr .cr-icon {
 		margin-left: 0.04em;
-	}*/
+	}
 
 	.checkbox label input[type="checkbox"]{
 		display: none;
@@ -101,13 +102,14 @@
 		opacity: 1;
 	}
 
-	/*.checkbox label input[type="checkbox"]:disabled + .cr{
+	.checkbox label input[type="checkbox"]:disabled + .cr{
 		opacity: .5;
-	}*/
+	}
 
 	.mns-submit{
 		text-align: center;
 		margin-top: 30px;
+		margin-bottom: 40px;
 		position: relative;
 
 		span{
@@ -130,7 +132,7 @@
 			box-shadow: 0px 1px 4px rgba(0,0,0,0.25);
 			@include ft($f_nr, 1.125rem, 400, $c_main, 1.625rem);
 			@include an(all,0.3);
-			
+
 			&:hover{
 				background: $c_main;
 				color: $c_white;

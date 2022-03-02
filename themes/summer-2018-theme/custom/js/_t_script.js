@@ -1,3 +1,5 @@
+
+    $($(".mns-header-home")[0]).addClass('anim')
 	$(window).scroll(function() {
 		if ($(window).scrollTop() > 100) {
 			$('.mns-share-button').addClass('fadein');
@@ -320,16 +322,6 @@ if ($(window).width() > 1200) {
 	$('#owl-full .owl-item').each(function() {
 		$(this).css('width', $(this).width() + 1);
 	});
-
-	// Page d'accueil - Comportement en hover sur les grandes bulles
-	if ($(window).width() >= 1025){
-		$('.mns-bloc-entry > div').mouseenter(function(){
-			$(this).find('.caption').addClass('open');
-		});
-		$('.mns-bloc-entry > div').mouseleave(function(){
-			$(this).find('.caption').removeClass('open');
-		});
-	};
 
 	$('.mns-expand-collapse').click(function(){
     	var checkboxesId = $(this).data("checkboxes-id");

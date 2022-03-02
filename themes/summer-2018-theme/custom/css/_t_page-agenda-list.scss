@@ -18,7 +18,7 @@
 			display: none;
 		}
 
-		span.mns-more{
+		/*span.mns-more{
 			@include ft($f_ms, 1.125rem, 700, $c_black, 1.625rem);
 			display: inline-block;
 			text-transform: uppercase;
@@ -35,14 +35,11 @@
 			&:before{
 				font-size: 1.125rem;
 			}
-		}
+		}*/
 	}
 
 	.mns-p-list-agenda{
 		padding: 25px 0 35px 0;	
-
-		.col-sm-3{			
-		}
 
 		.mns-z-filtres-search{
 
@@ -82,63 +79,107 @@
 				}
 			}
 
-			.mns-label-top{
-				width: 100%;
-				display: inline-block;
-				padding-bottom: 5px;
-				border-bottom: 1px solid $c_filet;
-				margin-bottom: 15px;
-				label{
-					@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
-				}
-			}
-
-			.content{
-				flex-grow: 1;
-			}
-
-			input[type="text"]{
-				width: 100%;
-				margin: 0;
-				height: 38px;
-				padding: 10px 10px 10px 8px;
-				text-overflow: ellipsis;
-			}
-
-			.checkbox{
-				overflow: hidden; 
-				max-height: 1000px;
-				transition: max-height 0.5s ease-in;
-
-				&.closed {
-					max-height: 0;
-					transition: max-height 0.5s ease-out;
-				}
-
-				.form-group.form-inline {
-					margin-bottom: 0;
-					padding: 5px 0;    
-					overflow: hidden;
-				}
-			}
-
 			.form-group{
 				margin-bottom: 30px;
-			}
 
-			.date-selection{
-				.input-checkbox-wrapper {
-				  display: none;
-				}
-				
-				input[type=text], input[type=date] {
-				  display: inline-block;
-				  width: 100%;
-				  font-size: 0.8125rem;
+				&.date-selection{
+					.mns-ico-date{
+						display: inline-block;
+						position: relative;
+						width: calc(50% - 14px);
+					
+						input[type=text]/*, input[type=date]*/ {
+						  display: inline-block;
+						  width: 100%;
+						  font-size: 0.8125rem;
+						}
+					
+						.input-checkbox-wrapper {
+						  display: none;
+						}
+		
+						&:after{
+							content: "\e910";
+							font-family: 'icomoon' !important;
+							speak: none;
+							font-style: normal;
+							font-weight: normal;
+							font-variant: normal;
+							text-transform: none;
+							line-height: 1;
+							-webkit-font-smoothing: antialiased;
+							-moz-osx-font-smoothing: grayscale;
+							position: absolute;
+							top: 10px;
+							color: $c_main;
+							right: 5px;
+							font-size: 1.125rem;
+						}
+					}
+	
+					.between-form {
+						margin: 10px 5px;
+					}
 				}
 
-				.between-form {
-					margin: 10px 5px;
+				.mns-label-top{
+					width: 100%;
+					display: inline-block;
+					padding-bottom: 5px;
+					border-bottom: 1px solid $c_filet;
+					margin-bottom: 15px;
+
+					label{
+						@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+					}
+
+					.mns-expand-collapse {
+						display: inline-block;
+						float: right;
+						cursor: pointer;
+		
+						.mns-filter-expand {
+							background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
+							height: 25px;
+							width: 25px;
+							display: none;
+						}
+
+						.mns-filter-collapse {
+							background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
+							height: 25px;
+							width: 25px;
+						}
+					}
+				}
+
+				.content{
+					flex-grow: 1;
+				}
+
+				input[type="text"]{
+					width: 100%;
+					margin: 0;
+					height: 38px;
+					padding: 10px 10px 10px 8px;
+					text-overflow: ellipsis;
+				}
+
+				.checkbox{
+					overflow: hidden; 
+					max-height: 1000px;
+					transition: max-height 0.5s ease-in;
+	
+					&.closed {
+						max-height: 0;
+						transition: max-height 0.5s ease-out;
+					}
+	
+					.form-group.form-inline {
+						margin-bottom: 0;
+						padding: 5px 0;    
+						overflow: hidden;
+					}
 				}
 			}
 
@@ -149,48 +190,6 @@
 				input{
 					position: relative;
 					width: 230px;		
-				}
-			}
-
-			.mns-ico-date{
-				display: inline-block;
-				position: relative;
-				width: calc(50% - 14px);
-
-				&:after{
-					content: "\e910";
-					font-family: 'icomoon' !important;
-					speak: none;
-					font-style: normal;
-					font-weight: normal;
-					font-variant: normal;
-					text-transform: none;
-					line-height: 1;
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-					position: absolute;
-					top: 10px;
-					color: $c_main;
-					right: 5px;
-					font-size: 1.125rem;
-				}
-			}
-
-			.mns-expand-collapse {
-				display: inline-block;
-				float: right;
-				cursor: pointer;
-
-				.mns-filter-expand {
-					background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
-					height: 25px;
-					width: 25px;
-					display: none;
-				}
-				.mns-filter-collapse {
-					background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
-					height: 25px;
-					width: 25px;
 				}
 			}
 		}
@@ -208,6 +207,51 @@
 
 			.lfr-pagination-config {
 			  display: none;
+			}
+
+			.clearfix.lfr-pagination {
+				margin-top: 50px;
+		
+				ul {
+					line-height: 2.875rem;
+		
+					li {
+		
+						a {
+							border: 2px solid $c_main;
+							border-radius: 42px;
+							z-index: 2;
+							position: relative;
+							background: none;
+							@include ft($f_nr, 1rem, 400, $c_txt, 1.1875rem);
+		
+							&:hover, &:focus{
+								color: $c_white;
+								background-color: $c_main;			        
+							}
+						}
+		
+						&.disabled {
+							opacity: 0.5;
+		
+							a:hover{
+								background: none;
+								color: $c_txt;
+								cursor: not-allowed;
+							}
+						}
+		
+						&:hover, &:focus{
+							&:before{
+								height: 100%;
+							}
+						}
+					}
+				}	
+		
+				.search-results{
+					@include ft($f_ms, 0.875rem, 400, $c_black, 2.875rem);	
+				}
 			}
 		}
 	}

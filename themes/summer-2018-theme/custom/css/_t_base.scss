@@ -4,18 +4,18 @@ body{
 	-webkit-font-smoothing: antialiased;
 }
 
-.fit-cover img{
-    object-fit: cover;
-    font-family: 'object-fit: cover';
-    height: 100%;
-}
-
 #mns-global{
 	overflow-x: hidden;
 
+	.fit-cover img{
+		object-fit: cover;
+		font-family: 'object-fit: cover';
+		height: 100%;
+	}
+
 	.container{
 		@media (min-width: 1200px){
-			max-width: 1440px;
+			max-width: 1200px;
 		}
 	}
 
@@ -333,6 +333,9 @@ body{
 
 	/* ICONE Indicateur Lieu / Type */ 
 	.mns-indic{
+		margin-bottom: 10px;
+		padding: 0;
+
 		span, img{
 			display: inline-block;
 			vertical-align: middle;
@@ -341,6 +344,20 @@ body{
 
 		span{
 			@include ft($f_ms, 0.875rem, 400, $c_grey, 1.0625rem);
+
+			&:before {
+				display: inline-block;
+				margin-right: 10px;
+				font-family: 'icomoon';
+			}
+
+			&.ico-map-marker:before {
+				content: "\e912";
+			}
+	
+			&.ico-type:before {
+				content: '\e914';
+			}
 		}
 		
 		/*img{
@@ -363,6 +380,10 @@ body{
 
 	.mns-breadcrumbs{
 		margin: 100px 0 30px 30px;
+
+		@include mobile{
+			margin: 30px 0 10px 0px;
+		}
 
 		a{
 			@include ft($f_ms, 0.9375rem, 400, $c_txt, 1.125rem);

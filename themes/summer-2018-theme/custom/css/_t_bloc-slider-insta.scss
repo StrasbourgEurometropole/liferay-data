@@ -36,7 +36,7 @@
 		}
 	
 		#owl-insta{
-			margin-left: calc((100% - 1140px) / 2);
+			margin-left: calc((100% - 1200px) / 2);
 			margin-right: 90px;
 			width: auto;
 	
@@ -107,11 +107,9 @@
 						border-color: #000;
 					}
 		
-					span{
-						color: #fff;
-					}
-		
 					.icon-chevron-thin-left, .icon-chevron-thin-right{
+						color: #fff;
+
 						&:before{
 							content: '';
 							background-image: url( svg-bg-uri($svg-arrow1, #FFFFFF) );

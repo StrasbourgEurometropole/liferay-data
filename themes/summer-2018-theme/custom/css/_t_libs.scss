@@ -1,18 +1,98 @@
-.owl-nav {
-	text-align: right;
-	position: relative;
-	overflow: hidden;
 
-	&:before {
-		content: '';
-		width: 9999px;
-		height: 2px;
-		background-color: $c_filet;
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		right: 140px;
+
+.owl-carousel {
+	&.owl-opacify .owl-stage-outer {
+		overflow: visible !important;
 	}
+
+	.owl-stage{
+		padding-top: 20px;
+	}
+
+	.owl-nav {
+		margin: 0;
+		text-align: right;
+		position: relative;
+		overflow: hidden;
+	
+		&:before {
+			content: '';
+			width: 9999px;
+			height: 2px;
+			background-color: $c_filet;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			right: 140px;
+		}
+
+		[class*=owl-] {
+			position: relative;
+			background: #FFF;
+			border: 2px solid $c_main;
+			border-radius: 50%;
+			width: 37px;
+			height: 37px;
+			margin: 0 17px;
+			@include an(all, 0.3);
+			outline: none;
+		
+			span {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: $c_txt;
+			}
+		
+			&:hover {
+				background: $c_main;
+		
+				span {
+					color: $c_white;
+				}
+			}
+		}
+	}
+	
+	/*.caption {
+		position: absolute;
+		right: 40px;
+		bottom: 90px;
+		text-align: right;
+		width: 33.33%;
+		@include tablet_portrait {
+			width: 50%;
+		}
+		@include mobile {
+			position: relative;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			text-align: left;
+			padding: 20px 15px 0 15px;
+		}
+		h3 {
+			@include ft($f_ms, 28px, 400, $c_white, 24px);
+			margin-bottom: 20px;
+			@include mobile {
+				color: $c_txt;
+			}
+		}
+		p {
+			color: $c_white;
+			font-size: 16px;
+			@include mobile {
+				color: $c_txt;
+			}
+		}
+	}*/
+}
+
+#owl-agenda .owl-item {
+	max-width: 260px;
+	@include an(all, 0.3);
 }
 
 /*#owl-full{
@@ -82,10 +162,6 @@
 	}
 }*/
 
-#owl-agenda .owl-item {
-	max-width: 260px;
-	@include an(all, 0.3);
-}
 
 /*#owl-agenda .owl-item.opacify {
 	.mns-bloc-agenda {
@@ -94,83 +170,6 @@
 		}
 	}
 }*/
-
-.owl-carousel .owl-nav{
-	margin: 0;
-	text-align: right;
-}
-
-.owl-carousel .owl-nav [class*=owl-] {
-	position: relative;
-	background: #FFF;
-	border: 2px solid $c_main;
-	border-radius: 50%;
-	width: 37px;
-	height: 37px;
-	margin: 0 17px;
-	@include an(all, 0.3);
-    outline: none;
-
-	span {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		color: $c_txt;
-	}
-
-	&:hover {
-		background: $c_main;
-		
-		span {
-			color: $c_white;
-		}
-	}
-}
-
-.owl-carousel {
-	.owl-stage{
-		padding-top: 20px;
-	}
-
-	/*.caption {
-		position: absolute;
-		right: 40px;
-		bottom: 90px;
-		text-align: right;
-		width: 33.33%;
-		@include tablet_portrait {
-			width: 50%;
-		}
-		@include mobile {
-			position: relative;
-			width: 100%;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			text-align: left;
-			padding: 20px 15px 0 15px;
-		}
-		h3 {
-			@include ft($f_ms, 28px, 400, $c_white, 24px);
-			margin-bottom: 20px;
-			@include mobile {
-				color: $c_txt;
-			}
-		}
-		p {
-			color: $c_white;
-			font-size: 16px;
-			@include mobile {
-				color: $c_txt;
-			}
-		}
-	}*/
-}
-
-.owl-opacify .owl-stage-outer {
-	overflow: visible !important;
-}
 
 /*.opacify {
 	@include an(all, 0.3);
