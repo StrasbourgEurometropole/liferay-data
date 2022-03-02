@@ -10,7 +10,11 @@
 
 #mns-global{
 	.mns-wrapper-duo-content{
-		margin: 30px auto;
+		margin: 60px auto;
+
+		@include mobile {
+			margin: 30px auto;
+		}
 	
 		.row {
 			flex-wrap: inherit;
@@ -20,15 +24,25 @@
 			justify-content: center;
 			align-items: center;
 
+			@include mobile{
+				margin-bottom: 0;
+				flex-direction: column;
+			}
+
 			.msn-duo-left, .msn-duo-right{
-				&.order-1, &.order-2 {
-					order: inherit; 
+				@include not_mobile{
+					&.order-1, &.order-2 {
+						order: inherit; 
+					}
 				}
 
 				h2{
-					@include ft($f_nr, 4rem, 400, $c_main, 4.875rem);
 					width: 80%;
 					margin-bottom: 50px;
+
+					@include mobile{
+						width: 100%;
+					}
 				}
 
 				p, strong{
@@ -69,6 +83,10 @@
 				.mns-wrapper-img{
 					position: relative;
 
+					@include mobile{
+						margin-top: 60px;
+					}
+
 					img{
 						margin: 0;
 					}
@@ -76,14 +94,20 @@
 			}
 
 			.msn-duo-left{
-				text-align: right;
+				@include not_mobile {
+					text-align: right;
 
-				h2{
-					margin-left: 20%;
+					h2{
+						margin-left: 20%;
+					}
 				}
 
 				a{
 					margin-left: auto;
+
+					@include mobile{
+						margin: auto;
+					}
 				}
 
 				.mns-wrapper-img{

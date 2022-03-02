@@ -194,9 +194,12 @@
 		color: gray;
 		line-height: 21px;
 		text-align: right;
-		width: 40%;
 		margin: 10px 0 0 0;
 		float: right;
+
+		@include not_mobile{
+			width: 40%;
+		}
 	}
 
 	.mns-embed-container{
@@ -318,6 +321,10 @@
 		padding-bottom: 25px;
 		transform: translate3d(0,0,0);
 
+		@include mobile{
+			margin-bottom: 40px;
+		}
+
 		strong{
 			display: block;
 		}
@@ -333,6 +340,12 @@
 				padding: 0;
 			}
 		}*/
+
+		.owl-nav{
+			@include mobile{
+				display: none;
+			}
+		}
 
 		h2{
 			color: $c_txt;
@@ -361,13 +374,21 @@
 
 			h2{
 				@include ft($f_nr, 3rem, 400, $c_white, 2.625rem);
-				margin-bottom: 30px;
+				margin: 0 0 30px;
 				display: inline-block;
+
+				@include mobile{
+					font-size: 1.625rem;
+					line-height: 2rem;
+				}
 			}
 			
 			.mns-content-text{
-				width: 60%;
 				margin: 0 auto 60px;
+
+				@include not_mobile{
+					width: 60%;
+				}
 			}
 
 			p{

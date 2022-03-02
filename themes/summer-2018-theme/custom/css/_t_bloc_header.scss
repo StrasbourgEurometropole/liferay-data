@@ -116,18 +116,13 @@
 	}
 
 	/* Header page résultats (template : Header simple) */ 
-	/*.mns-header-standard{
-		height: 150px;
-		.container{
-			position: relative;
-			top: 115px;
-			padding: 0;
-		}
-
+	.mns-header-standard{
 		h1{
-			@include ft($f_ms, 88px, 700, $c_main, 108px);
+			@include mobile{
+				margin-bottom: 10px;
+			}
 		}
-	}*/
+	}
 
 	/* Header avec uniquement le fil d'ariane (template : Fil d'ariane) */ 
 	/*.mns-header-single{

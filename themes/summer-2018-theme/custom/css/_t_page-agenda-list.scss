@@ -15,33 +15,43 @@
 		border-bottom: 1px solid $c_filet;
 
 		&.mns-affiner-m{
-			display: none;
-		}
-
-		/*span.mns-more{
-			@include ft($f_ms, 1.125rem, 700, $c_black, 1.625rem);
-			display: inline-block;
-			text-transform: uppercase;
-			width: 80%;
-		}
-
-		span.icon-search-more{
-			display: inline-block;
-			vertical-align: middle;
-			position: relative;
-			right: 0;
-			width: 18%;
-			text-align: right;
-			&:before{
-				font-size: 1.125rem;
+			@include not_mobile{
+				display: none;
 			}
-		}*/
+
+			span.mns-more {
+				@include ft($f_ms, 1rem, 700, $c_txt, 1.625rem);
+				display: inline-block;
+				text-transform: uppercase;
+			}
+			
+			span.icon-search-more{
+				display: inline-block;
+				vertical-align: middle;
+				position: relative;
+				right: 0;
+				width: 18%;
+				text-align: right;
+
+				&:before{
+					font-size: 1.125rem;
+				}
+			}
+		}
 	}
 
 	.mns-p-list-agenda{
-		padding: 25px 0 35px 0;	
+		padding: 25px 0 35px;	
+
+		@include mobile {
+			padding: 25px 15px 35px;	
+		}
 
 		.mns-z-filtres-search{
+
+			@include mobile {
+				display: none;
+			}
 
 			.mns-affiner{
 				text-align: left;
@@ -57,25 +67,9 @@
 					width: 100%;
 				}
 
-				@include mobile{
-					padding: 25px 0 15px 0;
-				}
-
 				span.mns-more{
 					@include ft($f_ms, 1rem, 700, $c_black, 1.625rem);
 					text-transform: none;
-				}
-
-				span.icon-search-more{
-					display: inline-block;
-					vertical-align: middle;
-					position: relative;
-					right: 0;
-					width: 18%;
-					text-align: right;
-					&:before{
-						font-size: 1.125rem;
-					}
 				}
 			}
 
@@ -87,6 +81,10 @@
 						display: inline-block;
 						position: relative;
 						width: calc(50% - 14px);
+
+						@include mobile{
+							width: 100%;
+						}
 					
 						input[type=text]/*, input[type=date]*/ {
 						  display: inline-block;
@@ -199,6 +197,10 @@
 			.search-asset-results > * {
 			  height: 580px;
 			  transform: translateY(65px);
+
+			  @include mobile{
+				  transform: none;
+			  }
 			}
 
 			.taglib-page-iterator {

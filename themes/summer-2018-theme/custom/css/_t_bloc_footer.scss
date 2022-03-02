@@ -8,6 +8,10 @@
 
 		.mns-nav-footer{
 			border-bottom: 1px solid #838383;
+
+			@include mobile {
+				padding: 20px 0;
+			}
 			
 			ul{
 				padding: 0;
@@ -17,6 +21,10 @@
 					display: inline-block;
 					padding: 0;
 					margin: 0;
+
+					@include mobile {
+						display: block;
+					}
 					
 					a{
 						@include ft($f_ms, 0.875rem, 700, #b3b3b3, 1.625rem);
@@ -24,6 +32,11 @@
 						padding: 25px 15px;
 						display: inline-block;
 						@include an(all,0.3);
+						padding: 20px 8px;
+
+						@include mobile {
+							padding: 7px 15px 7px 0;
+						}
 
 						&:hover{
 							color: $c_main;
@@ -40,6 +53,11 @@
 		.mns-first-column{
 			margin-top: 40px;
 			margin-bottom: 30px;
+
+			@include mobile {
+				margin-top: 25px;
+				margin-bottom: 25px;
+			}
 			
 			ul{
 				padding: 0;
@@ -66,6 +84,10 @@
 			p{
 				margin-top: 40px;
 				@include ft($f_ms, 1.09rem, 300, #b3b3b3, normal);
+
+				@include mobile {
+					margin-bottom: 0;
+				}
 			}
 		}
 
@@ -73,6 +95,15 @@
 			margin: 30px 0;
 			border-left: 1px solid #838383;
 			padding-left: 30px;
+			
+			@include mobile {
+				border-left: 0;
+				padding: 0;
+				border-top: 1px solid #d8dae4;
+				padding-top: 20px;
+				margin-top: 10px;
+				margin-bottom: 0;
+			}
 
 			h3{
 				@include ft($f_ms, 0.9375rem, 700, $c_white, normal);
@@ -147,7 +178,7 @@
 					   border-radius: 4px;
 					   height: 22px;
 					   width: 22px;
-					   background-size: 25px 25px;
+					   background-size: cover;
 
 					   	&:hover {
 						opacity: 0.4;
@@ -172,7 +203,7 @@
 						}
 		
 						&.btn-instagram {
-							background: url(../images/btn/icone-instagram.png);
+							background-image: url(../images/btn/icone-instagram.png);
 						}
 					}
 				}

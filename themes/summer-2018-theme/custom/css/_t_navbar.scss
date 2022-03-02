@@ -145,12 +145,12 @@
 
                 .mns-navbar-wrapper{
                     border-color: $c_txt;
-
-                    .navbar-brand {
+                    
+                    .sully-navbar-header .navbar-brand {
                         color: $c_txt;
                     }
     
-                    ul {
+                    #navbar ul {
                         li {
                             a {
                                 color: $c_txt;
@@ -406,12 +406,13 @@
                             display: none;
                         }
 
-                        #langages.show{
-                            display: flex;
+                        #langages{
                             flex-direction: column;
                             position: absolute;
-                            top: 0;
+                            top: 45px;
                             left: 0;
+                            z-index: 1000;
+                            @include an(display, 0.3);
 
                             a{
                                 width: 45px;
@@ -419,10 +420,15 @@
                                 color: $c_white;
                                 background-color: $c_main;
                                 text-align: center;
+                                display: block;
 
                                 &.active{
-                                    background: $c_txt;
+                                    display:none
                                 }
+                            }
+
+                            &.show{
+                                display: flex;
                             }
                         }
                     }

@@ -47,6 +47,10 @@
 					max-width: 260px;
 					width: 100%;
 					margin-bottom: 0;
+
+					@include mobile{
+						max-width: none;
+					}
 				}
 			}
 
@@ -78,6 +82,10 @@
 					opacity: 0;
 					@include an(opacity,0.3);
 					text-align: center;
+
+					@include mobile{
+						opacity: 1;
+					}
 		
 					&:hover{
 						color: $c_main;

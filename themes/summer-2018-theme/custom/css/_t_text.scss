@@ -65,6 +65,7 @@
 
 		@include mobile{
 			font-size: $s_h2;
+			line-height: 2rem;
 		}
 	}				
 
@@ -83,6 +84,7 @@
 
 		@include mobile{
 			font-size: $s_h3;
+			line-height: 2rem;
 		}
 	}				
 

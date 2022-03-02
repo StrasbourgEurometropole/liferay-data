@@ -17,6 +17,10 @@
 			margin-top: 50px;
 			margin-bottom: 40px;
 
+			@include mobile{
+				text-align: center;
+			}
+
 			p{
 				display: flex;
 				justify-content: end;
@@ -31,6 +35,16 @@
 					width: 31px;
 					height: 31px;
 					margin: auto 0 auto 40px;
+
+					@include mobile{
+						content: none;
+					}
+				}
+
+				@include mobile{
+					.large-link:after{
+						margin: auto;
+					}
 				}
 			}
 		}
@@ -39,6 +53,10 @@
 			margin-left: calc((100% - 1200px) / 2);
 			margin-right: 90px;
 			width: auto;
+
+			@include mobile{
+				margin: 0;
+			}
 	
 			.owl-stage{
 				padding-top: 30px;
@@ -97,9 +115,20 @@
 					left: -30px;
 					background-color: $c_main;
 					border-color: $c_main;
+
+					@include mobile{
+						&.owl-prev{
+							left: 0;
+						}
+					}
 		
 					&.owl-next{
 						left: calc(100% - 50px);
+
+						@include mobile{
+							left: auto;
+							right: 0;
+						}
 					}
 		
 					&:hover{

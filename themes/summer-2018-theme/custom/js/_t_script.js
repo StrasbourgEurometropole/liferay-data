@@ -267,7 +267,7 @@ if ($(window).width() > 1200) {
 	            items:4
 	        }
 	    }
-	})
+	});
 
 	// Carsousel Section Slider Instagram
 	$('#owl-insta').owlCarousel({
