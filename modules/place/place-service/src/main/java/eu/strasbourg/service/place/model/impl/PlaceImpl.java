@@ -1190,7 +1190,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("mercatorY", this.getMercatorY());
         jsonPlace.put("mercatorX", this.getMercatorX());
 
-        // Types
+        // SIGId des Types
         JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
         for (AssetCategory assetCategory : this.getTypes()) {
             jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
@@ -1207,6 +1207,16 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
         }
 
+        // ExternalID des équipements
+        JSONArray jsonEquipments = JSONFactoryUtil.createJSONArray();
+        for (AssetCategory assetCategory : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.EQUIPMENT)) {
+            jsonEquipments.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "externalId"));
+        }
+        if (jsonEquipments.length() > 0) {
+            jsonPlace.put("equipment", jsonEquipments);
+        }
+
         // Caractéristiques
         if (Validator.isNotNull(this.getCharacteristics())) {
             jsonPlace.put("characteristics", JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
@@ -1221,6 +1231,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getMail())) {
             jsonPlace.put("mail", this.getMail());
         }
+
+        // Phone
         if (Validator.isNotNull(this.getPhone())) {
             jsonPlace.put("phone", this.getPhone());
         }
@@ -1255,6 +1267,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
         jsonPlace.put("accessForElder", this.getAccessForElder());
         jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+
         jsonPlace.put("hasURLSchedule", this.getHasURLSchedule());
         if (Validator.isNotNull(this.getScheduleLinkNameMap())) {
             jsonPlace.put("scheduleLinkName", JSONHelper.getJSONFromI18nMap(this.getScheduleLinkNameMap()));
