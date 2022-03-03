@@ -26,8 +26,8 @@ import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceCreationFailedException;
 import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceExpiredException;
-import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,6 +41,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
@@ -105,10 +106,18 @@ public class WSAuthenticator {
     }
 
     /**
-     * Génére et enregistre un refresh token pour un utilisateur Publik
+     * Génère un refreshToken
+     * @return Valeur d'un refreshToken
+     */
+    public String generateRefreshToken() {
+        return WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH);
+    }
+
+    /**
+     * Enregistre un refresh token pour un utilisateur Publik à partir d'une valeur de refrehToken
      * @param publikId ID de l'utilisateur à qui générer le refresh token
      */
-    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) throws RefreshTokenCreationFailedException {
+    public RefreshToken saveRefreshTokenForUser(String publikId, String refreshTokenValue) throws RefreshTokenCreationFailedException {
         try {
             ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
 
@@ -116,10 +125,13 @@ public class WSAuthenticator {
 
             refreshToken.setCreateDate(new Date());
             refreshToken.setPublikId(publikId);
-            refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
+            // Hashage de la valeur du RefreshTOken via SHA-256 avec un pepper
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash256 = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
+            refreshToken.setValue(String.format("%064x", new java.math.BigInteger(1, hash256)));
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
-        } catch (PortalException e) {
+        } catch (PortalException | NoSuchAlgorithmException e) {
             throw new RefreshTokenCreationFailedException(e);
         }
     }
@@ -153,8 +165,11 @@ public class WSAuthenticator {
      * @throws RefreshTokenExpiredException Le refresh token trouvé en base est expiré
      */
     public RefreshToken controlRefreshToken(String refreshTokenValue)
-            throws NoSuchRefreshTokenException, RefreshTokenExpiredException {
-        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
+            throws NoSuchRefreshTokenException, RefreshTokenExpiredException, NoSuchAlgorithmException {
+        // On hashe la valeur pour matcher les refreshToken hashé en base
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashRefreshTokenValue = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
+        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(String.format("%064x", new java.math.BigInteger(1, hashRefreshTokenValue)));
 
         if (Validator.isNull(refreshToken))
             throw new NoSuchRefreshTokenException(refreshTokenValue);

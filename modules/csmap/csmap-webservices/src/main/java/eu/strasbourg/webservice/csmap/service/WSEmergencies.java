@@ -81,6 +81,7 @@ public class WSEmergencies {
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMap = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>();
         Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>();
+        Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapToDelete = new HashMap<>();
 
         DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(csmapGroupId,WSConstants.STRUCTURE_EMERGENCY_HELP);
 
@@ -144,10 +145,16 @@ public class WSEmergencies {
                                 newValue);
                     }
                 }
+                // Dans le cas d'une catégorie qui n'aurait aucun Article "Aide d'urgence" associé
+                // On considère que c'est une catégorie à supprimer puisqu'on ne veut pas afficher une catégorie vide
+                if(emergencyHelpsMap.get(category) != null && emergencyHelpsMap.get(category).isEmpty()) {
+                    emergencyHelpsMapToDelete.put(category, new ArrayList<>());
+                }
             }
         }
         mapsEmergencyHelps.put(WSConstants.JSON_ADD,emergencyHelpsMapAdd);
         mapsEmergencyHelps.put(WSConstants.JSON_UPDATE,emergencyHelpsMapUpdate);
+            mapsEmergencyHelps.put(WSConstants.JSON_DELETE,emergencyHelpsMapToDelete);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
@@ -169,14 +176,21 @@ public class WSEmergencies {
         return emergencyNumbersJSONDelete;
     }
 
-    static public List<Long> getJSONEmergencyHelpsDelete(String ids_emergency_help_category){
-        // Preparation des donnees de la partie DELETE
-        // On recupere tous les aides urgence qui ont ete supprimes
+    /**
+     * Récupération de la liste des Ids catégories d'aides d'urgence à considérer comme à supprimer chez l'utilisateur appelant
+     * @param ids_emergency_help_category Ids de catégorie aide d'urgence présent chez l'utilisateurs
+     * @param emergencyHelpCategoriesEmpty Ids des caégories aide d'urgence ne possédant pas de contenu web associé (donc à considéré comme à supprimer)
+     * @return List des Ids catégories aide d'urgence à mettre dans le JSON de delete
+     */
+    static public List<Long> getJSONEmergencyHelpsDelete(String ids_emergency_help_category, List<Long> emergencyHelpCategoriesEmpty){
+
         List<Long> emergencyHelpsJSONDelete = new ArrayList<>();
         for (String idEmergencyHelpCategory : ids_emergency_help_category.split(",")) {
             if(Validator.isNotNull(idEmergencyHelpCategory)) {
                 long idCategory = Long.parseLong(idEmergencyHelpCategory);
-                if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))) {
+                // Soit la catégorie n'existe plus car supprimée, soit c'est une catégorie qui n'a pas de contenu web associé
+                if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idCategory))
+                    || emergencyHelpCategoriesEmpty.contains(idCategory)) {
                     emergencyHelpsJSONDelete.add(idCategory);
                 }
             }
