@@ -5001,14 +5001,6 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 		return _place.toJSON();
 	}
 
-	/**
-	 * Reprise de l'horriblissime webservice des lieux de LR6
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject toLegacyJSON() {
-		return _place.toLegacyJSON();
-	}
-
 	@Override
 	public String toString() {
 		return _place.toString();

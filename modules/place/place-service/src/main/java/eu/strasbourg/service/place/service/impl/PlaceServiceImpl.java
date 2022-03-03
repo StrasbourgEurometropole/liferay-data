@@ -120,8 +120,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-	
-	
+
 	@Override
 	public JSONArray getPlacesByTypes(List<String> typesId) throws PortalException {
 		// Recherche du catégoryId
@@ -149,7 +148,6 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-	
 
 	@Override
 	public JSONArray getPlacesByTerritory(String territoryId)
@@ -224,8 +222,6 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-
-
 	
 	private JSONArray getApprovedJSONPlaces(List<Place> places) {
 		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
