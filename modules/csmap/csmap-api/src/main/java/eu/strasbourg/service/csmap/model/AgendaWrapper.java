@@ -54,6 +54,7 @@ public class AgendaWrapper
 		attributes.put("campaignsIds", getCampaignsIds());
 		attributes.put("themesIds", getThemesIds());
 		attributes.put("typesIds", getTypesIds());
+		attributes.put("territoriesIds", getTerritoriesIds());
 		attributes.put("tags", getTags());
 
 		return attributes;
@@ -125,6 +126,12 @@ public class AgendaWrapper
 
 		if (typesIds != null) {
 			setTypesIds(typesIds);
+		}
+
+		String territoriesIds = (String)attributes.get("territoriesIds");
+
+		if (territoriesIds != null) {
+			setTerritoriesIds(territoriesIds);
 		}
 
 		String tags = (String)attributes.get("tags");
@@ -366,6 +373,16 @@ public class AgendaWrapper
 	@Override
 	public String getTags() {
 		return model.getTags();
+	}
+
+	/**
+	 * Returns the territories IDs of this agenda.
+	 *
+	 * @return the territories IDs of this agenda
+	 */
+	@Override
+	public String getTerritoriesIds() {
+		return model.getTerritoriesIds();
 	}
 
 	/**
@@ -696,6 +713,16 @@ public class AgendaWrapper
 	@Override
 	public void setTags(String tags) {
 		model.setTags(tags);
+	}
+
+	/**
+	 * Sets the territories IDs of this agenda.
+	 *
+	 * @param territoriesIds the territories IDs of this agenda
+	 */
+	@Override
+	public void setTerritoriesIds(String territoriesIds) {
+		model.setTerritoriesIds(territoriesIds);
 	}
 
 	/**
