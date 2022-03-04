@@ -1207,11 +1207,11 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
         }
 
-        // ExternalID des équipements
+        // ID des équipements
         JSONArray jsonEquipments = JSONFactoryUtil.createJSONArray();
         for (AssetCategory assetCategory : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
                 VocabularyNames.EQUIPMENT)) {
-            jsonEquipments.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "externalId"));
+            jsonEquipments.put(assetCategory.getCategoryId());
         }
         if (jsonEquipments.length() > 0) {
             jsonPlace.put("equipment", jsonEquipments);
