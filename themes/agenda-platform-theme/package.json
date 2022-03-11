@@ -24,5 +24,8 @@
 	},
 	"publishConfig": {
 		"tag": "7_0_x"
+	},
+	"scripts": {
+		"cicdDeploy": "gulp deploy"
 	}
 }

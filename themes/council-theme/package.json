@@ -53,5 +53,8 @@
 	},
 	"dependencies": {
 		"sortablejs": "^1.8.4"
+	},
+	"scripts": {
+		"cicdDeploy": "gulp js && gulp css && gulp deploy"
 	}
 }
