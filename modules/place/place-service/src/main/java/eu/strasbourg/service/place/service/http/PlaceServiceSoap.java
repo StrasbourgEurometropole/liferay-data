@@ -202,6 +202,20 @@ public class PlaceServiceSoap {
 		}
 	}
 
+	public static String getEquipment() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				PlaceServiceUtil.getEquipment();
+
+			return returnValue.toString();
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static String getRealtime() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =

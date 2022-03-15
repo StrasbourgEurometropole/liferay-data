@@ -40,6 +40,11 @@ public class PlaceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static com.liferay.portal.kernel.json.JSONArray getEquipment()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getEquipment();
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -51,28 +56,23 @@ public class PlaceServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceById(
-			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		long id) {
 
 		return getService().getPlaceById(id);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-			String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String sigId) {
 
 		return getService().getPlaceByIdSIG(sigId);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getPlaces()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONArray getPlaces() {
 		return getService().getPlaces();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-			getPlacesByNameAndLanguage(String name, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		getPlacesByNameAndLanguage(String name, String language) {
 
 		return getService().getPlacesByNameAndLanguage(name, language);
 	}
@@ -108,15 +108,11 @@ public class PlaceServiceUtil {
 	/**
 	 * Retourne le géoJSON des lieux
 	 */
-	public static com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON() {
 		return getService().getPlacesGeoJSON();
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getRealtime()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getRealtime() {
 		return getService().getRealtime();
 	}
 

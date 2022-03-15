@@ -56,8 +56,7 @@ import eu.strasbourg.service.place.service.PlaceServiceUtil;
 public class PlaceServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlaces(
-			HttpPrincipal httpPrincipal)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -71,13 +70,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -92,8 +84,7 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceById(
-			HttpPrincipal httpPrincipal, long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal, long id) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -108,13 +99,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -129,8 +113,7 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-			HttpPrincipal httpPrincipal, String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal, String sigId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -145,13 +128,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -278,9 +254,8 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-			getPlacesByNameAndLanguage(
-				HttpPrincipal httpPrincipal, String name, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		getPlacesByNameAndLanguage(
+			HttpPrincipal httpPrincipal, String name, String language) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -296,13 +271,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -361,7 +329,44 @@ public class PlaceServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PlaceServiceUtil.class, "getTypes", _getTypesParameterTypes9);
+				PlaceServiceUtil.class, "getTypes", _getTypesParameterTypes8);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					e);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getEquipment(
+			HttpPrincipal httpPrincipal)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getEquipment",
+				_getEquipmentParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -392,8 +397,7 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getRealtime(
-			HttpPrincipal httpPrincipal)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -408,13 +412,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -429,8 +426,7 @@ public class PlaceServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON(
-			HttpPrincipal httpPrincipal)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -445,13 +441,6 @@ public class PlaceServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -485,7 +474,10 @@ public class PlaceServiceHttp {
 		_getPlacesByTerritoryAndTypeParameterTypes7 = new Class[] {
 			String.class, String.class
 		};
-	private static final Class<?>[] _getTypesParameterTypes9 = new Class[] {};
+	private static final Class<?>[] _getTypesParameterTypes8 = new Class[] {};
+	private static final Class<?>[] _getEquipmentParameterTypes9 = new Class[] {
+		
+	};
 	private static final Class<?>[] _getRealtimeParameterTypes10 = new Class[] {
 		
 	};
