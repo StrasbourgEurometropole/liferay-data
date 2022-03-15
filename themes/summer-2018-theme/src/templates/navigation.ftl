@@ -73,6 +73,9 @@
                         <li><a href="${nav_item.getURL()}">${nav_item.getName()}</a></li>
                     </#if>
                 </#list>
+                <li class="hidden-sm hidden-xs menu-search">
+                    <a href="#"><span class="icon-search"></span></a>
+                </li>
             </ul>
         </div>
     </div>
