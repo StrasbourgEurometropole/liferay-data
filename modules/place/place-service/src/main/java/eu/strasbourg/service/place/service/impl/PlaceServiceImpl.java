@@ -41,7 +41,6 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.service.base.PlaceServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -222,34 +221,13 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	// Renvoi le json des catégories type avec le SIGId de la categ
 	public JSONArray getTypes() throws PortalException {
 		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE));
 	}
 
 	@Override
-	// Renvoi le json des catégories equipement avec l'ID de la categ
 	public JSONArray getEquipment() throws PortalException {
-		JSONArray jsonCategories = JSONFactoryUtil.createJSONArray();
-
-		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EQUIPMENT);
-		for (AssetCategory category : vocabulary.getCategories()) {
-			JSONObject jsonCategory = JSONFactoryUtil.createJSONObject();
-			if (category != null) {
-				jsonCategory.put("id", category.getCategoryId());
-				jsonCategory.put("name", JSONHelper.getJSONFromI18nMap(category.getTitleMap()));
-				int level = category.getAncestors().size();
-				if (level > 0) {
-					jsonCategory.put("level", level);
-					jsonCategory.put("parentId", category.getParentCategoryId());
-				}
-			}
-			if (jsonCategory.length() > 0) {
-				jsonCategories.put(jsonCategory);
-			}
-		}
-
-		return jsonCategories;
+		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EQUIPMENT));
 	}
 
 	@Override
