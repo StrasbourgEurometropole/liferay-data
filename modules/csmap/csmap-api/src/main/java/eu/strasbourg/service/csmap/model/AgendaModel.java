@@ -476,6 +476,21 @@ public interface AgendaModel extends BaseModel<Agenda>, LocalizedModel {
 	public void setTypesIds(String typesIds);
 
 	/**
+	 * Returns the territories IDs of this agenda.
+	 *
+	 * @return the territories IDs of this agenda
+	 */
+	@AutoEscape
+	public String getTerritoriesIds();
+
+	/**
+	 * Sets the territories IDs of this agenda.
+	 *
+	 * @param territoriesIds the territories IDs of this agenda
+	 */
+	public void setTerritoriesIds(String territoriesIds);
+
+	/**
 	 * Returns the tags of this agenda.
 	 *
 	 * @return the tags of this agenda

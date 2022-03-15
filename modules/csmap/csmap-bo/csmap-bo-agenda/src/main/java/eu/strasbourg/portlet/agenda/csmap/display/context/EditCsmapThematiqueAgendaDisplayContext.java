@@ -47,13 +47,24 @@ public class EditCsmapThematiqueAgendaDisplayContext {
     public String getAllCategoriesAgenda(){
         String categories = "";
         if (this.agendaThematique != null) {
+            // Types
             categories= this.agendaThematique.getTypesIds();
 
+            // Thèmes
             if(!this.agendaThematique.getThemesIds().isEmpty()) {
                 if(!categories.isEmpty()) {
                     categories += "," + this.agendaThematique.getThemesIds();
                 } else {
                     categories = this.agendaThematique.getThemesIds();
+                }
+            }
+
+            // Territoires
+            if(!this.agendaThematique.getTerritoriesIds().isEmpty()) {
+                if(!categories.isEmpty()) {
+                    categories += "," + this.agendaThematique.getTerritoriesIds();
+                } else {
+                    categories = this.agendaThematique.getTerritoriesIds();
                 }
             }
         }
@@ -76,6 +87,17 @@ public class EditCsmapThematiqueAgendaDisplayContext {
             AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getTerritoryVocabularyId(){
+        try {
+            AssetVocabulary territory = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+            if(Validator.isNotNull(territory))
+                return String.valueOf(territory.getVocabularyId());
         } catch (PortalException e) {
             e.printStackTrace();
         }

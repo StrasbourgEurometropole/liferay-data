@@ -62,7 +62,7 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,6 +86,8 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		sb.append(themesIds);
 		sb.append(", typesIds=");
 		sb.append(typesIds);
+		sb.append(", territoriesIds=");
+		sb.append(territoriesIds);
 		sb.append(", tags=");
 		sb.append(tags);
 		sb.append("}");
@@ -152,6 +154,13 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 			agendaImpl.setTypesIds(typesIds);
 		}
 
+		if (territoriesIds == null) {
+			agendaImpl.setTerritoriesIds("");
+		}
+		else {
+			agendaImpl.setTerritoriesIds(territoriesIds);
+		}
+
 		if (tags == null) {
 			agendaImpl.setTags("");
 		}
@@ -181,6 +190,7 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		campaignsIds = objectInput.readUTF();
 		themesIds = objectInput.readUTF();
 		typesIds = objectInput.readUTF();
+		territoriesIds = objectInput.readUTF();
 		tags = objectInput.readUTF();
 	}
 
@@ -243,6 +253,13 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 			objectOutput.writeUTF(typesIds);
 		}
 
+		if (territoriesIds == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(territoriesIds);
+		}
+
 		if (tags == null) {
 			objectOutput.writeUTF("");
 		}
@@ -262,6 +279,7 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 	public String campaignsIds;
 	public String themesIds;
 	public String typesIds;
+	public String territoriesIds;
 	public String tags;
 
 }
