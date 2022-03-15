@@ -205,11 +205,16 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					if (coordinateForAddress.length() == 2) {
 						event.setMercatorY(coordinateForAddress.get(0).toString());
 						event.setMercatorX(coordinateForAddress.get(1).toString());
+					} else {
+						event.setMercatorY(null);
+						event.setMercatorX(null);
 					}
 				} catch (Exception e) {
 					//On a catché une erreur ou bien un time out
 					// Mais la non récupération des coordonnées par Open Data ne doit pas empêcher l'enregistrement de l'event
 					_log.error(e);
+					event.setMercatorY(null);
+					event.setMercatorX(null);
 				}
 			}
 
