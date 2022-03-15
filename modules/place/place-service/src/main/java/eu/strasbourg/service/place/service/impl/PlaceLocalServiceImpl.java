@@ -54,6 +54,7 @@ import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.model.impl.PlaceModelImpl;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -399,6 +400,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         place.setRTCapacity(capacity);
         place.setRTStatus(status);
         place.setRTType(type);
+        place.setModifiedDate(place.getModifiedDate());
         this.updatePlace(place);
 
         AssetEntry entry = this.assetEntryLocalService
