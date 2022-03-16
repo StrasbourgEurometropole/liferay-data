@@ -361,15 +361,14 @@ public interface PlaceLocalService
 	public Place updatePlace(Place place, ServiceContext sc)
 		throws PortalException;
 
-	public void updateRealTime() throws PortalException;
+	public void updateRealTime() throws SearchException;
 
 	public void updateRealTime(JSONArray parkingJsonArray)
-		throws PortalException;
+		throws SearchException;
 
 	public void updateRealTime(
-			Place place, String type, long occupation, long available,
-			long capacity, String status)
-		throws PortalException;
+		Place place, String type, long occupation, long available,
+		long capacity, String status);
 
 	/**
 	 * Met à jour le statut du lieu par le framework workflow
