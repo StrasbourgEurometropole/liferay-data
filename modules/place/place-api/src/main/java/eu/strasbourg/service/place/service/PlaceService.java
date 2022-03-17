@@ -61,7 +61,7 @@ public interface PlaceService extends BaseService {
 	 * Never modify or reference this interface directly. Always use {@link PlaceServiceUtil} to access the place remote service. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getEquipment() throws PortalException;
+	public JSONArray getEquipments() throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.

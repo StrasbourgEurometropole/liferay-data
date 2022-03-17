@@ -359,14 +359,14 @@ public class PlaceServiceHttp {
 		}
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getEquipment(
+	public static com.liferay.portal.kernel.json.JSONArray getEquipments(
 			HttpPrincipal httpPrincipal)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PlaceServiceUtil.class, "getEquipment",
-				_getEquipmentParameterTypes9);
+				PlaceServiceUtil.class, "getEquipments",
+				_getEquipmentsParameterTypes9);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -475,9 +475,8 @@ public class PlaceServiceHttp {
 			String.class, String.class
 		};
 	private static final Class<?>[] _getTypesParameterTypes8 = new Class[] {};
-	private static final Class<?>[] _getEquipmentParameterTypes9 = new Class[] {
-		
-	};
+	private static final Class<?>[] _getEquipmentsParameterTypes9 =
+		new Class[] {};
 	private static final Class<?>[] _getRealtimeParameterTypes10 = new Class[] {
 		
 	};

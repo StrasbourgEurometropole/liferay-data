@@ -40,10 +40,10 @@ public class PlaceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static com.liferay.portal.kernel.json.JSONArray getEquipment()
+	public static com.liferay.portal.kernel.json.JSONArray getEquipments()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getEquipment();
+		return getService().getEquipments();
 	}
 
 	/**

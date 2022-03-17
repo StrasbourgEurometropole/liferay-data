@@ -226,7 +226,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getEquipment() throws PortalException {
+	public JSONArray getEquipments() throws PortalException {
 		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EQUIPMENT));
 	}
 

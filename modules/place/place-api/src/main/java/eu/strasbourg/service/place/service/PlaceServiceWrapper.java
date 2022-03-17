@@ -34,10 +34,10 @@ public class PlaceServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getEquipment()
+	public com.liferay.portal.kernel.json.JSONArray getEquipments()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _placeService.getEquipment();
+		return _placeService.getEquipments();
 	}
 
 	/**

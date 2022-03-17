@@ -202,10 +202,10 @@ public class PlaceServiceSoap {
 		}
 	}
 
-	public static String getEquipment() throws RemoteException {
+	public static String getEquipments() throws RemoteException {
 		try {
 			com.liferay.portal.kernel.json.JSONArray returnValue =
-				PlaceServiceUtil.getEquipment();
+				PlaceServiceUtil.getEquipments();
 
 			return returnValue.toString();
 		}
