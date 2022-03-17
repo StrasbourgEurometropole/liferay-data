@@ -4,6 +4,7 @@
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="eu.strasbourg.service.agenda.model.AgendaExport" />
 	<import class="eu.strasbourg.service.agenda.model.AgendaExportPeriod" />
+	<import class="eu.strasbourg.service.agenda.model.CacheJson" />
 	<import class="eu.strasbourg.service.agenda.model.Campaign" />
 	<import class="eu.strasbourg.service.agenda.model.CampaignEvent" />
 	<import class="eu.strasbourg.service.agenda.model.CampaignEventStatus" />
@@ -46,6 +47,15 @@
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="agendaExportId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="eu.strasbourg.service.agenda.model.impl.CacheJsonImpl" table="agenda_CacheJson">
+		<id name="eventId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="jsonEvent" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
+		<property name="createEvent" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedEvent" type="org.hibernate.type.TimestampType" />
+		<property name="isApproved" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="eu.strasbourg.service.agenda.model.impl.CampaignImpl" table="agenda_Campaign">
 		<id name="campaignId" type="long">
@@ -181,6 +191,8 @@
 		<property name="placeZipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeCity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="placeCountry" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorX" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="mercatorY" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property column="access_" name="access" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="accessForDisabled" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="accessForBlind" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />

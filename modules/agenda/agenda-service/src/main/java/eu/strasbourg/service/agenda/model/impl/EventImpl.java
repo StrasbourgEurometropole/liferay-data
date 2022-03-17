@@ -44,8 +44,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
@@ -104,9 +102,6 @@ import java.util.stream.Collectors;
 public class EventImpl extends EventBaseImpl {
 
 	private static final long serialVersionUID = -263639533491031888L;
-
-	private AdictService adictService;
-	private AdictServiceTracker adictServiceTracker;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -362,46 +357,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
-	 */
-	@Override
-	public String getMercatorX() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(0).toString() : "";
-		} else {
-			return this.getPlace().getMercatorX();
-		}
-	}
-
-	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
-	 */
-	@Override
-	public String getMercatorY() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(1).toString() : "";
-		} else {
-			return this.getPlace().getMercatorY();
-		}
-	}
-
-	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
 	 *
@@ -409,27 +364,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<String> getMercators() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if (coorResult != null) {
-				String mercatorX = coorResult.get(0).toString();
-				String mercatorY = coorResult.get(1).toString();
-
-				return Arrays.asList(mercatorX, mercatorY);
-			} else {
-				return new ArrayList<String>();
-			}
-		} else {
-			return Arrays.asList(this.getPlace().getMercatorX(), this.getPlace().getMercatorY());
-		}
+		return Arrays.asList(this.getMercatorX(), this.getMercatorY());
 	}
 
 	/**
@@ -707,18 +642,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Recupere le service du module Adict sans passer par reference
-	 */
-	private AdictService getAdictService() {
-		if (adictService == null) {
-			adictServiceTracker = new AdictServiceTracker(this);
-			adictServiceTracker.open();
-			adictService = adictServiceTracker.getService();
-		}
-		return adictService;
-	}
-
-	/**
 	 * Demande si l'utilisateur demandé participe à l'événement
 	 */
 	@Override
@@ -889,9 +812,8 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
@@ -1052,9 +974,8 @@ public class EventImpl extends EventBaseImpl {
 
 		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
@@ -1327,42 +1248,17 @@ public class EventImpl extends EventBaseImpl {
 		geometry.put("type", "Point");
 		JSONArray coordinates = JSONFactoryUtil.createJSONArray();
 		// récupère le marker du lieu ou se déroule l'évènement
-		if (place != null) {
-			coordinates.put(Float.valueOf(place.getMercatorX()));
-			coordinates.put(Float.valueOf(place.getMercatorY()));
-		} else {
-			// Si c'est un lieu manuel on récupère ses coordonnées
-			String address = this.getPlaceAddress(locale) + " " + this.getPlaceZipCode() + " "
-					+ this.getPlaceCity(locale);
-			coordinates = getCoordinateForAddress(address);
-		}
-		if (coordinates != null) {
+		if(Validator.isNotNull(this.getMercatorX()))
+			coordinates.put(Float.valueOf(this.getMercatorX()));
+		if(Validator.isNotNull(this.getMercatorY()))
+			coordinates.put(Float.valueOf(this.getMercatorY()));
+
+		if (coordinates != null && coordinates.length() == 2) {
 			geometry.put("coordinates", coordinates);
 			feature.put("geometry", geometry);
 		}
 
 		return feature;
-	}
-
-	/**
-	 * Retourne les coordonnées d'une adresse en JSon
-	 */
-	private static JSONArray getCoordinateForAddress(String address) {
-		JSONArray coordinates = null;
-		try {
-			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
-			String url = urlSearch + HtmlUtil.escapeURL(address);
-			JSONObject addresses = JSONHelper.readJsonFromURL(url);
-			JSONArray features = addresses.getJSONArray("features");
-			if (features.length() > 0) {
-				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
-				coordinates = geometry.getJSONArray("coordinates");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return coordinates;
 	}
 
 	/**
@@ -1528,11 +1424,8 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
 		jsonEvent.put("territoires", jsonTerritories);
 
-		List<String> mercators = this.getMercators();
-		if(mercators.size() == 2) {
-			jsonEvent.put("mercatorX", mercators.get(0));
-			jsonEvent.put("mercatorY", mercators.get(1));
-		}
+		jsonEvent.put("mercatorX",this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		// Inscription
 		if(this.getRegistration()){

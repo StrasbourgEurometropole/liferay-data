@@ -52,9 +52,7 @@ public class EventServiceUtil {
 		return getService().getCategory(id);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id) {
 		return getService().getEvent(id);
 	}
 

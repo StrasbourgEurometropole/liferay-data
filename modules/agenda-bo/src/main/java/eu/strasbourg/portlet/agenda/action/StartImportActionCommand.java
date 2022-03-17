@@ -45,10 +45,10 @@ public class StartImportActionCommand
 		throws PortletException {
 		try {
 			return _eventLocalService.doImport();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			_log.error(e);
 			return false;
-		}		
+		}
 	}
 
 	private EventLocalService _eventLocalService;

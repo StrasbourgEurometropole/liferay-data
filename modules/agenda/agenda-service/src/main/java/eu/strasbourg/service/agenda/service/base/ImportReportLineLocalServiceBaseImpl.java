@@ -46,6 +46,7 @@ import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalService;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
@@ -436,6 +437,49 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 		AgendaExportPeriodPersistence agendaExportPeriodPersistence) {
 
 		this.agendaExportPeriodPersistence = agendaExportPeriodPersistence;
+	}
+
+	/**
+	 * Returns the cache json local service.
+	 *
+	 * @return the cache json local service
+	 */
+	public eu.strasbourg.service.agenda.service.CacheJsonLocalService
+		getCacheJsonLocalService() {
+
+		return cacheJsonLocalService;
+	}
+
+	/**
+	 * Sets the cache json local service.
+	 *
+	 * @param cacheJsonLocalService the cache json local service
+	 */
+	public void setCacheJsonLocalService(
+		eu.strasbourg.service.agenda.service.CacheJsonLocalService
+			cacheJsonLocalService) {
+
+		this.cacheJsonLocalService = cacheJsonLocalService;
+	}
+
+	/**
+	 * Returns the cache json persistence.
+	 *
+	 * @return the cache json persistence
+	 */
+	public CacheJsonPersistence getCacheJsonPersistence() {
+		return cacheJsonPersistence;
+	}
+
+	/**
+	 * Sets the cache json persistence.
+	 *
+	 * @param cacheJsonPersistence the cache json persistence
+	 */
+	public void setCacheJsonPersistence(
+		CacheJsonPersistence cacheJsonPersistence) {
+
+		this.cacheJsonPersistence = cacheJsonPersistence;
 	}
 
 	/**
@@ -1144,6 +1188,15 @@ public abstract class ImportReportLineLocalServiceBaseImpl
 
 	@BeanReference(type = AgendaExportPeriodPersistence.class)
 	protected AgendaExportPeriodPersistence agendaExportPeriodPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CacheJsonLocalService
+		cacheJsonLocalService;
+
+	@BeanReference(type = CacheJsonPersistence.class)
+	protected CacheJsonPersistence cacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.agenda.service.CampaignLocalService.class

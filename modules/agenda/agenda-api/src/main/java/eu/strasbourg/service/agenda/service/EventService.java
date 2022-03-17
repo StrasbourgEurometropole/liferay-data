@@ -65,7 +65,7 @@ public interface EventService extends BaseService {
 	public JSONObject getCategory(long id) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEvent(long id) throws PortalException;
+	public JSONObject getEvent(long id);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getEvents() throws PortalException;
