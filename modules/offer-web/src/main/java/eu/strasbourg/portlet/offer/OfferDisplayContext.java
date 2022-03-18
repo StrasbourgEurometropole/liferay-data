@@ -83,7 +83,7 @@ public class OfferDisplayContext {
             String internalId = getPublikID(request);
 
             // Récupération de la liste des candidatures de l'utilisateur
-            this.applications = new ArrayList<Application>();
+            this.applications = new ArrayList<>();
             JSONObject userForms = PublikApiClient.getUserForms(internalId, true);
             if (userForms.toString().equals("{}")) {
                 request.setAttribute("error", "publik");

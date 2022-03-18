@@ -242,6 +242,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                 ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
                 attributes.remove(td.getPpid());
             });
+
+            // vérifie si on veut les entités échues
+            renderRequest.setAttribute("isDueEntity", configuration.defaultSortField().equals("endDate_Number_sortable"));
+
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
