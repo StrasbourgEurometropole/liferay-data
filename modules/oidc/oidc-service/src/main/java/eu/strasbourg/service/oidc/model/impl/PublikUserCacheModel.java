@@ -65,7 +65,7 @@ public class PublikUserCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -107,6 +107,10 @@ public class PublikUserCacheModel
 		sb.append(csmapJSON);
 		sb.append(", modifiedDateJSON=");
 		sb.append(modifiedDateJSON);
+		sb.append(", topicsFCM=");
+		sb.append(topicsFCM);
+		sb.append(", lastUpdateTimeTopics=");
+		sb.append(lastUpdateTimeTopics);
 		sb.append("}");
 
 		return sb.toString();
@@ -241,6 +245,15 @@ public class PublikUserCacheModel
 			publikUserImpl.setModifiedDateJSON(new Date(modifiedDateJSON));
 		}
 
+		if (topicsFCM == null) {
+			publikUserImpl.setTopicsFCM("");
+		}
+		else {
+			publikUserImpl.setTopicsFCM(topicsFCM);
+		}
+
+		publikUserImpl.setLastUpdateTimeTopics(lastUpdateTimeTopics);
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
@@ -271,6 +284,9 @@ public class PublikUserCacheModel
 		pactDisplay = objectInput.readBoolean();
 		csmapJSON = objectInput.readUTF();
 		modifiedDateJSON = objectInput.readLong();
+		topicsFCM = objectInput.readUTF();
+
+		lastUpdateTimeTopics = objectInput.readLong();
 	}
 
 	@Override
@@ -371,6 +387,15 @@ public class PublikUserCacheModel
 		}
 
 		objectOutput.writeLong(modifiedDateJSON);
+
+		if (topicsFCM == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(topicsFCM);
+		}
+
+		objectOutput.writeLong(lastUpdateTimeTopics);
 	}
 
 	public String uuid;
@@ -393,5 +418,7 @@ public class PublikUserCacheModel
 	public boolean pactDisplay;
 	public String csmapJSON;
 	public long modifiedDateJSON;
+	public String topicsFCM;
+	public long lastUpdateTimeTopics;
 
 }
