@@ -39,6 +39,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import eu.strasbourg.service.agenda.model.*;
 import eu.strasbourg.service.agenda.model.Event;
 
 import java.io.IOException;
@@ -96,6 +97,14 @@ public interface EventLocalService
 	public void checkEvents() throws PortalException;
 
 	public void clearManifestationEvents(long manifestationId);
+
+	/**
+	 * Généréation des caches pour API et CSMap
+	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
+	 *
+	 * @param event
+	 */
+	public void createCacheJSON(Event event) throws PortalException;
 
 	/**
 	 * Creates a new event with the primary key. Does not add the event to the database.
@@ -157,7 +166,7 @@ public interface EventLocalService
 	 *
 	 * @throws IOException
 	 */
-	public boolean doImport() throws IOException;
+	public boolean doImport() throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();

@@ -434,10 +434,9 @@ public class ApiCsmapUtil {
                 }
             }
         }
-        String[] campaignsArray = StringUtil.split(campaignsTitle.toString());
 
         // Recherche
-        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
+        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray);
 
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         List<Long> longIds = new ArrayList<>();

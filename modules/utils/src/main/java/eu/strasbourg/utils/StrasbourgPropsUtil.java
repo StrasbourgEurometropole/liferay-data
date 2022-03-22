@@ -407,4 +407,8 @@ public class StrasbourgPropsUtil {
 	public static String getFCMConfigurationFile(){
 		return PropsUtil.get("eu.strasbourg.notif.app.fcm.configuration.file");
 	}
+
+	public static String getOpenDataParking() {
+		return PropsUtil.get("eu.strasbourg.opendata.realtime.parking");
+	}
 }

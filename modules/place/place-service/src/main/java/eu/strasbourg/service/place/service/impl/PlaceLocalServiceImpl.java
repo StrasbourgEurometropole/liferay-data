@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -270,7 +272,12 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	}
 
 	@Override
-	public void updateRealTime() throws PortalException {
+	public void updateRealTime() throws PortalException{
+		updateRealTime(JSONFactoryUtil.createJSONArray());
+	}
+
+	@Override
+	public void updateRealTime(JSONArray parkingJsonArray) throws PortalException {
         // System.out.println("Start import of places real time data");
         // System.out.println("RT import started");
 
@@ -308,7 +315,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 					}
 				}
 			}
-
 			// On récupère les données temps réel
 			if (!place.getRTExternalId().equals("NO")) {
 				switch (place.getRTType()) {
@@ -324,14 +330,28 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
 					case "2":
 						try {
-							JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId());
-							String status = parkingData.getString("ds");
-							long capacity = Long.parseLong(parkingData.getString("dt"));
-							long available = Long.parseLong(parkingData.getString("df"));
-							rtAvailable = available;
-							rtOccupation  = capacity - available;
-							rtCapacity = capacity;
-							rtStatus = status;
+							if(Validator.isNotNull(parkingJsonArray) && parkingJsonArray.length()!=0) {
+								JSONObject parkingData = ParkingStateClient.getOccupationState(place.getRTExternalId(),parkingJsonArray);
+								String status = String.valueOf(parkingData.getInt("etat"));
+								long capacity = parkingData.getInt("total");
+								long libre = parkingData.getInt("libre");
+								long available;
+								String infousager = parkingData.getString("infousager");
+								try{
+									available = Long.parseLong(infousager);
+								} catch (Exception e){
+									available = libre;
+								}
+								rtAvailable = available;
+								rtOccupation = capacity - available;
+								rtCapacity = capacity;
+								rtStatus = status;
+								if(status.equals("2")){
+									rtAvailable = 0;
+								}
+							} else {
+								throw new Exception();
+							}
 						} catch (Exception ex) {
 							log.error("Can not update real time data for 'parking'");
 						}

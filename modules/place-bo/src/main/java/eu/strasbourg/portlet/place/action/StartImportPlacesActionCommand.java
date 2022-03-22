@@ -16,8 +16,11 @@
 package eu.strasbourg.portlet.place.action;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -33,6 +36,8 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -244,6 +249,10 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 									sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 								}
 							}
+							// Récupère les Coord du lieu avant mise à jour (utilisé pour la MaJ des événements, cf fin de méthode)
+							String databaseMercatorX = place.getMercatorX();
+							String databaseMercatorY = place.getMercatorY();
+
 							place.setSIGid(idSIG);
 							place.setName(alias);
 							place.setAlias(alias, Locale.FRANCE);
@@ -302,8 +311,35 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 									listLieuxModifies.add(ligneRetour(ligne, idSIG, alias) + "<br>");
 									_log.info("Lieu modifié; => " + ligneRetour(ligne, idSIG, alias));
 								}
+
+								// On vient mettre à jour les X/Y des événements liés au lieu si besoin
+								// On le fait après l'update de place car le cache de l'API cherche des données du LIEU
+								// Il s'agit d'une mise à jour
+
+								boolean differentMercatorX = !databaseMercatorX.equals(mercatorX);
+								boolean differentMercatorY = !databaseMercatorY.equals(mercatorY);
+								if (differentMercatorX || differentMercatorY) {
+									List<Event> eventList = _eventLocalService.findByPlaceSIGId(idSIG);
+									for (Event event : eventList) {
+										if (differentMercatorX) {
+											event.setMercatorX(mercatorX);
+										}
+										if (differentMercatorY) {
+											event.setMercatorY(mercatorY);
+										}
+										// Récupère l'asset pour mettre la date de modif à jour
+										AssetEntry assetEvent = assetEntryLocalService.fetchEntry(Event.class.getName(), event.getPrimaryKey());
+										event.setModifiedDate(new Date());
+										assetEvent.setModifiedDate(new Date());
+										assetEntryLocalService.updateAssetEntry(assetEvent);
+										_eventLocalService.updateEvent(event);
+										// On recrée les caches
+										_eventLocalService.createCacheJSON(event);
+									}
+								}
+
 							} catch (Exception e) {
-								e.printStackTrace();
+								_log.error(e);
 								resultat = "REUSSI avec des erreurs";
 								listLieuxErreurs
 										.add(ligneRetour(ligne, idSIG, alias) + " => " + e.getMessage() + ".<br>");
@@ -383,7 +419,8 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					_log.info("Erreur à la création/modification du lieu => " + erreur);
 				}
 			}
-		} catch (PortalException e) {
+		} catch (Exception e) {
+			_log.error(e);
 			messagesErreurs += e.getMessage();
 			resultat = "ERREUR";
 		}
@@ -439,4 +476,15 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 
 		_placeLocalService = placeLocalService;
 	}
+
+	private EventLocalService _eventLocalService;
+
+	@Reference(unbind = "-")
+	protected void setEventLocalService(EventLocalService eventLocalService) {
+
+		_eventLocalService = eventLocalService;
+	}
+	@Reference
+	AssetEntryLocalService assetEntryLocalService;
 }
+

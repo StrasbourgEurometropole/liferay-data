@@ -207,6 +207,7 @@ public class WSConstants {
     public static final String MEDIATHEQUE_SITE = "Site M\u00e9diath\u00e8que";
     public static final String MEDIATHEQUE_LINK_ACCOUNT = "Lier mon compte";
     public static final String MEDIATHEQUE_CONTACT_WEBMESTRE = "Merci de contacter le webmestre";
+    public static final String MEDIATHEQUE_URL_MONST = "https://mon.strasbourg.eu/?auth=publik";
     public static final String MEDIATHEQUE_URL_WEBMESTRE = "https://demarches.strasbourg.eu/contactez-nous/contact/";
     public static final String MEDIATHEQUE_URL_NO_MAIL = "www.mediatheques.strasbourg.eu/CDA/portal.aspx?SYNCMENU=CONNEXE_PLAN&INSTANCE=exploitation&PORTAL_ID=ermes_medias_iframe.xml&PAGE=%2fintegration%2fContact%2fcontact.asp%3finstance%3dEXPLOITATION";
     public static final String MEDIATHEQUE_MESSAGE = "Acc\u00e9dez \u00e0 votre compte Mon Strasbourg pour lier votre compte aux m\u00e9diath\u00e8ques et suivre les emprunts et r\u00e9servations en cours.";

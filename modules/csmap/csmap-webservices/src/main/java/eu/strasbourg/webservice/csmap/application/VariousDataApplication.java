@@ -197,6 +197,13 @@ public class VariousDataApplication extends Application {
             Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
             Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
             Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+            // On récupère la liste des catégories d'aides d'urgence qui sont à supprimer (Celles qui sont existantes mais sans Contenu web associé)
+            //On récupère une liste d'id catégorie qu'on comparera à la liste de catégorie déjà chez l'utilisateur
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapToDelete= new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_DELETE));
+            List<Long> emergencyHelpCategoriesIdToDelete = new ArrayList<>();
+            for (Map.Entry entry : emergencyHelpsMapToDelete.entrySet()) {
+                emergencyHelpCategoriesIdToDelete.add(((AssetCategory)entry.getKey()).getCategoryId());
+            }
 
             // Gestion des deletes
             JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
@@ -215,14 +222,13 @@ public class VariousDataApplication extends Application {
             }
 
             JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
-            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            // Récupère la liste des Ids de catégories d'aides urgences considérées comme à supprimer
+            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category,emergencyHelpCategoriesIdToDelete));
             for (long idEmergencyHelpCategory : idEmergencyHelpCategorys) {
                 if(Validator.isNotNull(idEmergencyHelpCategory)) {
-                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idEmergencyHelpCategory))) {
-                        JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
-                        emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
-                        emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
-                    }
+                    JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
+                    emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
+                    emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
                 }
             }
             JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();

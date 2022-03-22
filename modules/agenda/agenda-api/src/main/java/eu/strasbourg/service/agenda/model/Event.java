@@ -173,16 +173,6 @@ public interface Event extends EventModel, PersistedModel {
 	public String getCompleteAddress(java.util.Locale locale);
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
-	 */
-	public String getMercatorX();
-
-	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
-	 */
-	public String getMercatorY();
-
-	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
 	 *

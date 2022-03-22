@@ -461,6 +461,13 @@ public class PlaceLocalServiceUtil {
 	}
 
 	public static void updateRealTime(
+			com.liferay.portal.kernel.json.JSONArray parkingJsonArray)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		getService().updateRealTime(parkingJsonArray);
+	}
+
+	public static void updateRealTime(
 			eu.strasbourg.service.place.model.Place place, String type,
 			long occupation, long available, long capacity, String status)
 		throws com.liferay.portal.kernel.exception.PortalException {

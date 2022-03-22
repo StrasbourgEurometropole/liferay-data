@@ -71,6 +71,11 @@ public class EventApplication extends Application {
 
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();
@@ -120,6 +125,11 @@ public class EventApplication extends Application {
         Date lastUpdateTime;
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();
@@ -176,6 +186,11 @@ public class EventApplication extends Application {
 
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();
@@ -228,6 +243,11 @@ public class EventApplication extends Application {
 
         try {
             long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            // On reçoit des timestamp négatif ou très bas à cause de la gestion des Fuseaux horaires depuis l'application, ce qui bypass notre cache
+            // On va gérer jusqu'au fuseaux -12h => (12*3600) => 43200
+            if (lastUpdateTimeLong <= 43200) {
+                lastUpdateTimeString = "0";
+            }
             lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
         } catch (Exception e) {
             return WSResponseUtil.lastUpdateTimeFormatError();

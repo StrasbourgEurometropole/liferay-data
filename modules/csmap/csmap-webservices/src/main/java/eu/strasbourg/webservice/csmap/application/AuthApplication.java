@@ -1,5 +1,6 @@
 package eu.strasbourg.webservice.csmap.application;
 
+import com.liferay.portal.kernel.exception.PwdEncryptorException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -40,6 +41,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -134,10 +136,14 @@ public class AuthApplication extends Application {
             String csmapJWT = JWTUtils.createJWT(
                     sub, WSConstants.JWT_VALIDITY_SECONDS,
                     StrasbourgPropsUtil.getCSMAPInternalSecret());
-            RefreshToken refreshToken = authenticator.generateAndSaveRefreshTokenForUser(sub);
+            // On génère la valeur non hashée du RefreshToken
+            String refreshTokenValue = authenticator.generateRefreshToken();
+            // On sauvegarde le refreshToken en base. Il est hashé par la méthode avant enregistrement en BDD
+            authenticator.saveRefreshTokenForUser(sub, refreshTokenValue);
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
-            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshToken.getValue());
+            // C'est la valeur non hashée du refreshToken qui est renvoyé à l'application
+            jsonResponse.put(WSConstants.JSON_REFRESH_TOKEN, refreshTokenValue);
 
             // On supprime maintenant le Base Nonce en BDD pusiqu'il n'est utilisable qu'une seule fois
             authenticator.deleteBaseNonce(validBaseNonce);
@@ -168,7 +174,7 @@ public class AuthApplication extends Application {
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
-        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
+        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException | NoSuchAlgorithmException e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }
