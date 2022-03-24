@@ -68,9 +68,11 @@ L.Control.ListMarkers = L.Control.extend({
 		var self = this;
 		var div = L.DomUtil.create('div', 'filtres__item form-group grid-item filtres__item--favorite'),
 			a = L.DomUtil.create('a', 'infowindow__name', div),
+            divAddress = L.DomUtil.create('div', 'infowindow__address', div),
 			that = this;
 
 		a.href = layer.feature.properties.url;
+        // lien sur le marker au niveau de l'image et du nom de l'entité
 		L.DomEvent
 			.disableClickPropagation(a)
 			.on(a, 'click', L.DomEvent.stop, this)
@@ -119,6 +121,48 @@ L.Control.ListMarkers = L.Control.extend({
 		}
 		else
 			console.log("propertyName '"+this.options.label+"' not found in marker");
+
+		// Début ajout pour le site de l'été
+        // lien sur le marker au niveau de l'adresse et de la date de l'event
+		L.DomEvent
+			.disableClickPropagation(divAddress)
+			.on(divAddress, 'click', L.DomEvent.stop, this)
+			.on(divAddress, 'click', function(e) {
+				this._moveTo( layer.getLatLng() );
+			}, this)
+			.on(divAddress, 'click', function(e) {
+				this._moveTo( layer.getLatLng() );
+				this._map.once("moveend zoomend", function() {
+					var cluster = self._layer.getVisibleParent(layer);
+					if (cluster.spiderfy) {
+						setTimeout(function() {
+							cluster.spiderfy();
+							layer.openPopup();
+						}, 500);
+					} else {
+						setTimeout(function() {
+							layer.openPopup();
+						}, 250);
+					}
+				});
+			}, this)
+			.on(divAddress, 'mouseover', function(e) {
+				that.fire('item-mouseover', {layer: layer });
+			}, this)
+			.on(divAddress, 'mouseout', function(e) {
+				that.fire('item-mouseout', {layer: layer });
+			}, this);
+
+		if (layer.feature.properties.schedules) {
+		    divAddress.innerHTML = '<p class="schedules">' + layer.feature.properties.schedules + '</p>';
+		}
+
+		if (layer.feature.properties.address) {
+		    divAddress.innerHTML += '<p class="address">' + layer.feature.properties.address + '</p>';
+		}
+
+        divAddress.innerHTML += '<a href="' + layer.feature.properties.url + '" class="know-more">' + Liferay.Language.get("know-more") + '</a>';
+        // Fin ajout pour le site de l'été
 		
 		if(layer.feature.properties.type != null && $.isNumeric(layer.feature.properties.type)){
 			var addedFavorite = false;
@@ -146,11 +190,12 @@ L.Control.ListMarkers = L.Control.extend({
 				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
 			}
 			lienFavori += '</a></div>';
-		    a.insertAdjacentHTML('afterend', lienFavori);
+		    divAddress.insertAdjacentHTML('afterend', lienFavori);
 		}
 
+
 		if (layer.feature.properties.listeTypes) {
-		    a.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
+		    divAddress.insertAdjacentHTML('afterend', '<p class="types">' + layer.feature.properties.listeTypes + '</p>');
 		}
 
 		if (layer.feature.properties.lignes) {
@@ -166,7 +211,7 @@ L.Control.ListMarkers = L.Control.extend({
                     "</p>";
             }
             lignes += "</div>";
-		    a.insertAdjacentHTML('afterend', '<div style="background-color: white; padding: 0px 8px;">' + lignes + '</div>');
+		    divAddress.insertAdjacentHTML('afterend', '<div style="background-color: white; padding: 0px 8px;">' + lignes + '</div>');
 		}
 
 		return div;

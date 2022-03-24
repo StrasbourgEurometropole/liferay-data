@@ -1,7 +1,6 @@
 //@import "libs/bootstrap.min";
-/*@import "base/_round-decimal";
-@import "base/_grids-distribution";*/
-
+//@import "base/_round-decimal";
+@import "base/_grids-distribution";
 @import "libs/icomoon";
 @import "libs/owl.carousel.min";
 @import "libs/owl.theme.default.min";
@@ -26,7 +25,7 @@
 //@import "_t_bloc-actu";
 @import "_t_bloc-highlights";
 @import "_t_bloc-agenda";
-//@import "_t_bloc-aroundme";
+@import "_t_bloc-aroundme";
 @import "_t_bloc-slider-insta";
 /*@import "_t_bloc-testi";
 @import "_t_bloc-great-events";*/
@@ -45,8 +44,8 @@
 @import "libs/atom-form-customSelect";
 @import "override/_tarteaucitron";
 
-/*@import "base/_atom-btn-square";
-@import "base/_quark-tram-destination";*/
+@import "base/_atom-btn-square";
+@import "base/_quark-tram-destination";
 
 .fit-cover {
 	object-fit:cover;
