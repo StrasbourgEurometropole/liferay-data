@@ -130,12 +130,12 @@
             }
             
             &__item{
-                /*@extend %tram-destination;            
+                @extend %tram-destination;            
                 .tram-destination{
                     .tram-destination-letter{
                         font-size: 0.875rem;
                     }
-                }*/
+                }
 
                 .types{
                     font-family: $f_ms;
@@ -147,11 +147,6 @@
                 }
 
                 a {
-                    font-family: $f_nr;
-                    font-size: 1.125rem;
-                    line-height: 1.25rem;
-                    font-weight: 400;
-
                     @include not_mobile {
                         text-align: center;
                     }
@@ -162,15 +157,15 @@
                     }
                 }
 
-                /*[type="checkbox"]{
+                [type="checkbox"]{
 
                     & + label{
                         font-family: $f_ms;
                         max-width: calc(100% - 17px);
                         font-size: 0.875rem;
-
+                        color: $c_txt;
                     }
-                }*/
+                }
             }
             
             /*&__btn{
@@ -244,8 +239,13 @@
             
                             & + label{
                                 font-weight: 700;
+
+                                &:before{
+                                    border-color: $c_txt;
+                                }
+
                                 &:after{
-                                    background-color: #FFFFFF;
+                                    background-color: $c_txt;
                                 }
                             }
                         }
@@ -263,7 +263,7 @@
                             background-image: url( svg-bg-uri($svg-poi-list, $c_main) );
                         }
                     }
-                    /*&__item{
+                    &__item{
                         [type="checkbox"]{
             
                             & + label{
@@ -282,7 +282,7 @@
                                 }
                             }
                         }
-                    }*/
+                    }
                 }
             }
         }
@@ -324,17 +324,29 @@
         }*/
 
         .infowindow{
-            /*&__close{
-                background-image: url( svg-bg-uri($svg-filled-close, $c_main) );
-            }*/
-
-            &__name{
-                font-family: $f_ms;
-                font-size: 1.125rem;
-                color: $c_txt;
+            &__close{
+                background-image: url( svg-bg-uri($svg-filled-close-white, $c_main) );
             }
 
-            /*&__like{
+            &__visualImage{
+                margin: -30px -30px 10px;
+
+                @include mobile{
+                    width: calc(100% + 40px);
+                    margin: -20px -20px 10px;
+                }
+            }
+
+            &__name{
+                color: $c_txt;
+                font-family: $f_nr;
+                font-size: 1.125rem;
+                line-height: 1.25rem;
+                font-weight: 400;
+                margin-bottom: 5px;
+            }
+
+            &__like{
                 a{
                     &:not(.liked){
                         background-image: url( svg-bg-uri($svg-favoris, $c_main) );
@@ -346,13 +358,16 @@
                 }
             }
 
-            /*&__address{
+            &__address{
                 font-family: $f_ms;
-                color: #6D6D6D;
-                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1rem;
+                color: $c_main;
+                font-size: 0.875rem;
             }
 
             &__middle{
+                border-color: $c_filet;
                  
                 .infowindow__contenu:not(:empty){
                     @extend %tram-destination;
@@ -361,17 +376,19 @@
             }
 
             &__opened{
-                font-family: $f_ms;
-                color: #808080;
-                font-size: 0.875rem;
+                display: none;
             }
 
             &__schedules{
                 font-family: $f_ms;
                 color: $c_main;
                 font-size: 0.875rem;
+                line-height: 1rem;
             }
 
+            &__content{
+                padding-bottom: 0px;
+            }
 
             &__contenu, &__contenu p{
                 font-family: $f_ms;
@@ -408,7 +425,7 @@
                 .crowded-label{
                     color: #808080;
                     font-family: $f_ms;
-                    font-size: 0.75rem;
+                    font-size: 0.875rem;
                 }
             }
 
@@ -427,7 +444,7 @@
                     }
     
                 }
-            }*/
+            }
         }
 
         /* ------------------------------- Etat et ouverture des panels */
@@ -478,12 +495,18 @@
                         .infowindow__name{
                             padding: 0;
                             margin: 0;
+                            overflow: hidden;
 
                             .filtres__item__visuel{
                                 padding: 0;
                                 height: 170px;
                                 margin-bottom: 0;
+                                transition: all .5s;
                             }
+                        }
+
+                        &:hover .filtres__item__visuel{
+                            transform: scale(1.2);
                         }
 
                         .infowindow__address{

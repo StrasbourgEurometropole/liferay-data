@@ -29,8 +29,14 @@ public interface MapConfiguration {
 	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
 	public String eventExplanationXML();
 
+	@Meta.AD(name = "backgroundId", required = false)
+	public String backgroundId();
+
 	@Meta.AD(name = "showConfig", required = false)
 	public boolean showConfig();
+
+	@Meta.AD(name = "showDeleteFilter", required = false)
+	public boolean showDeleteFilter();
 
 	@Meta.AD(name = "showPictos", required = false)
 	public boolean showPictos();

@@ -45,9 +45,24 @@
 
                 <!-- Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="display-label">
+                    <!-- Choix du fond de plan -->
+                    <div>
+                        <aui:select class="group" label="select-background" name="backgroundId">
+                            <aui:option value="monstrasbourg" label="default"
+                                selected="${'monstrasbourg' eq backgroundId}" />
+                            <aui:option value="summer" label="summer"
+                                selected="${'summer' eq backgroundId}" />
+                        </aui:select>
+                    </div>
+
                     <!-- Choix de l'affichage de la zone de configuration -->
                     <div class="showConfig noWidgetMode">
                         <aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+                    </div>
+
+                    <!-- Choix de l'affichage du lien de suppression des filtres -->
+                    <div class="showDeleteFilter noWidgetMode">
+                        <aui:input type="checkbox" name="showDeleteFilter" value="${showDeleteFilter}" label="show-delete-filter" />
                     </div>
 
                     <!-- Choix de l'affichage des pictos dans la configuration -->
@@ -360,6 +375,7 @@
 
                     var refreshConfigShowConfig = function() {
                        if ($('.showConfig input[type=checkbox]').is(":checked")) {
+                           $('.showDeleteFilter').show();
                            $('.showPictos').show();
                            $('.filter-type').show();
                            refreshTypeFilterChoice();
@@ -367,6 +383,7 @@
                            $('.filters').show();
                            $('.dateField').show();
                        } else {
+                           $('.showDeleteFilter').hide();
                            $('.showPictos').hide();
                            $('.filter-type').hide();
                            $('.default-filters-label').html(Liferay.Language.get("default-filters-without-config-label"));

@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="content type-date">
                                             <input name="from" data-type="date" type="text" id="date-start" placeholder="JJ/MM/AAAA"
-                                                value="${fromDay}/${fromMonth}/${fromYear}">
+                                                value="${fromDate}">
                                             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${fromDay}" />
                                             <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${fromMonth -1}" />
                                             <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${fromYear}" />
@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="content type-date">
                                             <input name="to" data-type="date" type="text" id="date-end" placeholder="JJ/MM/AAAA"
-                                                value="${toDay}/${toMonth}/${toYear}">
+                                                value="${toDate}">
                                             <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${toDay}" />
                                             <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${toMonth -1}" />
                                             <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${toYear}" />
@@ -79,9 +79,9 @@
                                                     ${category.getTitle(locale)}
 
                                                     <c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
-                                                    <c:set var="fromDate" value="${fromDay}/${fromMonth}/${fromYear}" />
+                                                    <%-- <c:set var="fromDate" value="${fromDay}/${fromMonth}/${fromYear}" />
                                                     <c:set var="toDate" value="${toDay}/${toMonth}/${toYear}" />
-                                                    <%-- (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
+                                                    (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
                                                         <img src="${category.getDescription(locale)}">
@@ -165,6 +165,12 @@
 		                        type="hidden"
 		                        value="${checkboxNamesInterests}">
 		                </div>
+
+                        <c:if test="${showDeleteFilter}">
+                            <div>
+                                <a id="deleteFilters" href=""><liferay-ui:message key="delete-filters" /></a>
+                            </div>
+                        </c:if>
 
 			            <c:if test="${mode != 'normal'}">
                             <div class="filtres__actions">

@@ -126,6 +126,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				}
 			}
 
+			// Choix du fond de plan
+			String backgroundId = ParamUtil.getString(request, "backgroundId");
+			setPreference(request, "backgroundId", backgroundId);
+
 			// Choix afficher la zone de config
 			boolean displayConfig = false;
 			if(mode.equals("widget")) {
@@ -135,6 +139,19 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				String showConfig = ParamUtil.getString(request, "showConfig");
 				setPreference(request, "showConfig", showConfig);
 				displayConfig = Boolean.parseBoolean(showConfig);
+			}
+
+			// Affichage du lien de suppression des filtres
+			if(mode.equals("widget")) {
+				// Pas utilisé en mode widget
+				setPreference(request, "showDeleteFilter", "");
+			}else {
+				if(displayConfig) {
+					String showDeleteFilter = ParamUtil.getString(request, "showDeleteFilter");
+					setPreference(request, "showDeleteFilter", showDeleteFilter);
+				}else{
+					setPreference(request, "showDeleteFilter", "");
+				}
 			}
 
 			// Affichage des pictos dans la config
@@ -514,8 +531,14 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// texte explicatif sur les évènements
 			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
 
+			// Choix du fond de plan
+			request.setAttribute("backgroundId", configuration.backgroundId());
+
 			// Choix afficher la zone de config
 			request.setAttribute("showConfig", configuration.showConfig());
+
+			// Choix de l'affichage du lien de suppression des filtres
+			request.setAttribute("showDeleteFilter", configuration.showDeleteFilter());
 
 			// Choix afficher picto dans la zone de config
 			request.setAttribute("showPictos", configuration.showPictos());
