@@ -10,6 +10,7 @@ create table csmap_Agenda (
 	campaignsIds STRING null,
 	themesIds STRING null,
 	typesIds STRING null,
+	territoriesIds STRING null,
 	tags STRING null
 );
 

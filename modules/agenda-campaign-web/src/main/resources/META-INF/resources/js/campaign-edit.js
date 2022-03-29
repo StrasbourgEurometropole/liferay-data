@@ -28,8 +28,8 @@ jQuery('body').off('click').on('click', '#' + namespace + 'save-as-draft', funct
 // Gestion du champ conditionnel service
 $('[name=serviceType]').on('click change', function(e) {
 	var classOfDivToShow = e.target.value;
-	var classOfDivToHide = 'emsServiceotherService'.replace(classOfDivToShow, '');
-	$('.emsService, .otherService').hide();	
+	var classOfDivToHide = 'emsServiceotherStructure'.replace(classOfDivToShow, '');
+	$('.emsService, .otherStructure').hide();
 	$('.' + classOfDivToShow).show();
 	$('.' + classOfDivToHide + ' input').val('');
 	$('.' + classOfDivToHide + ' select').val('');
@@ -295,7 +295,6 @@ function setConditionalValidators() {
 	    shouldSort: false
 	}
 
-	var manifestationChoices = new Choices('[name=' + namespace + 'manifestations][multiple]', choicesOptions);
 	var themeChoices = new Choices('[name=' + namespace + 'themesIds][multiple]', choicesOptions);
 	var typeChoices = new Choices('[name=' + namespace + 'typesIds][multiple]', choicesOptions);
 	var publicChoices = new Choices('[name=' + namespace + 'publicsIds][multiple]', choicesOptions);

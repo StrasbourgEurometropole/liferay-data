@@ -80,7 +80,8 @@ public class AgendaModelImpl
 		{"subtitle", Types.VARCHAR}, {"imageId", Types.BIGINT},
 		{"isPrincipal", Types.BOOLEAN}, {"isActive", Types.BOOLEAN},
 		{"campaignsIds", Types.VARCHAR}, {"themesIds", Types.VARCHAR},
-		{"typesIds", Types.VARCHAR}, {"tags", Types.VARCHAR}
+		{"typesIds", Types.VARCHAR}, {"territoriesIds", Types.VARCHAR},
+		{"tags", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -98,11 +99,12 @@ public class AgendaModelImpl
 		TABLE_COLUMNS_MAP.put("campaignsIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("themesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("typesIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("territoriesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("tags", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title STRING null,editorialTitle STRING null,subtitle STRING null,imageId LONG,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,tags STRING null)";
+		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title STRING null,editorialTitle STRING null,subtitle STRING null,imageId LONG,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,territoriesIds STRING null,tags STRING null)";
 
 	public static final String TABLE_SQL_DROP = "drop table csmap_Agenda";
 
@@ -289,6 +291,11 @@ public class AgendaModelImpl
 		attributeGetterFunctions.put("typesIds", Agenda::getTypesIds);
 		attributeSetterBiConsumers.put(
 			"typesIds", (BiConsumer<Agenda, String>)Agenda::setTypesIds);
+		attributeGetterFunctions.put(
+			"territoriesIds", Agenda::getTerritoriesIds);
+		attributeSetterBiConsumers.put(
+			"territoriesIds",
+			(BiConsumer<Agenda, String>)Agenda::setTerritoriesIds);
 		attributeGetterFunctions.put("tags", Agenda::getTags);
 		attributeSetterBiConsumers.put(
 			"tags", (BiConsumer<Agenda, String>)Agenda::setTags);
@@ -753,6 +760,21 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public String getTerritoriesIds() {
+		if (_territoriesIds == null) {
+			return "";
+		}
+		else {
+			return _territoriesIds;
+		}
+	}
+
+	@Override
+	public void setTerritoriesIds(String territoriesIds) {
+		_territoriesIds = territoriesIds;
+	}
+
+	@Override
 	public String getTags() {
 		if (_tags == null) {
 			return "";
@@ -918,6 +940,7 @@ public class AgendaModelImpl
 		agendaImpl.setCampaignsIds(getCampaignsIds());
 		agendaImpl.setThemesIds(getThemesIds());
 		agendaImpl.setTypesIds(getTypesIds());
+		agendaImpl.setTerritoriesIds(getTerritoriesIds());
 		agendaImpl.setTags(getTags());
 
 		agendaImpl.resetOriginalValues();
@@ -1062,6 +1085,14 @@ public class AgendaModelImpl
 			agendaCacheModel.typesIds = null;
 		}
 
+		agendaCacheModel.territoriesIds = getTerritoriesIds();
+
+		String territoriesIds = agendaCacheModel.territoriesIds;
+
+		if ((territoriesIds != null) && (territoriesIds.length() == 0)) {
+			agendaCacheModel.territoriesIds = null;
+		}
+
 		agendaCacheModel.tags = getTags();
 
 		String tags = agendaCacheModel.tags;
@@ -1158,6 +1189,7 @@ public class AgendaModelImpl
 	private String _campaignsIds;
 	private String _themesIds;
 	private String _typesIds;
+	private String _territoriesIds;
 	private String _tags;
 	private long _columnBitmask;
 	private Agenda _escapedModel;

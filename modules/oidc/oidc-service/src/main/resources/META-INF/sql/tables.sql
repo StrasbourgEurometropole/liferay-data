@@ -40,5 +40,7 @@ create table publik_PublikUser (
 	imageURL VARCHAR(400) null,
 	pactDisplay BOOLEAN,
 	csmapJSON STRING null,
-	modifiedDateJSON DATE null
+	modifiedDateJSON DATE null,
+	topicsFCM VARCHAR(400) null,
+	lastUpdateTimeTopics LONG
 );

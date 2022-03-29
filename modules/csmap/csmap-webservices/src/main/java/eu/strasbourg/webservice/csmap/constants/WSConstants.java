@@ -94,6 +94,8 @@ public class WSConstants {
     public static final String JSON_CITY = "city";
     public static final String JSON_IMAGE_URL = "imageURL";
     public static final String JSON_DISTRICT = "district";
+    public static final String JSON_SAVED = "neverSaved";
+    public static final String JSON_TOPICS = "topics";
     // Account-Data
     public static final String JSON_TITLE = "title";
     public static final String JSON_STATUS = "status";

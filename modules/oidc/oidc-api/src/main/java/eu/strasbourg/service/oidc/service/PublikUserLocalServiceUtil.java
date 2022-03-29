@@ -230,6 +230,12 @@ public class PublikUserLocalServiceUtil {
 		return getService().getAllPublikUsers();
 	}
 
+	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
+		getByPactSignatureAndPactDisplay() {
+
+		return getService().getByPactSignatureAndPactDisplay();
+	}
+
 	public static eu.strasbourg.service.oidc.model.PublikUser getByPublikUserId(
 		String publikUserId) {
 

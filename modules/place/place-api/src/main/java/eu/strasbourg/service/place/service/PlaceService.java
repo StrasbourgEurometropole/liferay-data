@@ -60,6 +60,8 @@ public interface PlaceService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PlaceServiceUtil} to access the place remote service. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getEquipments() throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -69,17 +71,16 @@ public interface PlaceService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPlaceById(long id) throws PortalException;
+	public JSONObject getPlaceById(long id);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPlaceByIdSIG(String sigId) throws PortalException;
+	public JSONObject getPlaceByIdSIG(String sigId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlaces() throws PortalException;
+	public JSONArray getPlaces();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByNameAndLanguage(String name, String language)
-		throws PortalException;
+	public JSONArray getPlacesByNameAndLanguage(String name, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getPlacesByTerritory(String territoryId)
@@ -101,10 +102,10 @@ public interface PlaceService extends BaseService {
 	 * Retourne le géoJSON des lieux
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getPlacesGeoJSON() throws PortalException;
+	public JSONObject getPlacesGeoJSON();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getRealtime() throws PortalException;
+	public JSONObject getRealtime();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getTypes() throws PortalException;

@@ -67,5 +67,9 @@
 			<hint-collection name="TEXTAREA" />
 		</field>
 		<field name="modifiedDateJSON" type="Date" />
+		<field name="topicsFCM" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="lastUpdateTimeTopics" type="long" />
 	</model>
 </model-hints>

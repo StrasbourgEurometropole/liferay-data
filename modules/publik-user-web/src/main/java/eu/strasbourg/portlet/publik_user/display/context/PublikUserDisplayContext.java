@@ -58,11 +58,7 @@ public class PublikUserDisplayContext {
      */
     private void initEntries() throws PortalException {
         // On récupère tous les publikUser qui ont signé le pacte
-        this._publikUsers = PublikUserLocalServiceUtil.getAllPublikUsers()
-                .stream()
-                .filter(p -> Validator.isNotNull(p.getPactSignature()) && p.isPactDisplay())
-                .sorted((o1,o2) -> o1.getPactSignature().compareTo(o2.getPactSignature()))
-                .collect(Collectors.toList());
+        this._publikUsers = PublikUserLocalServiceUtil.getByPactSignatureAndPactDisplay();
         this.getSearchContainer().setTotal(this._publikUsers.size());
     }
 
