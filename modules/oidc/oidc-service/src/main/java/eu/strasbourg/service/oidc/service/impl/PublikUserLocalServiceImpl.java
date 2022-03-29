@@ -505,6 +505,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 		Criterion pactSignatureNotNull = RestrictionsFactoryUtil.isNotNull("pactSignature");
 		dq.add(pactDisplay);
 		dq.add(pactSignatureNotNull);
+		dq.addOrder(OrderFactoryUtil.asc("pactSignature"));
 		return PublikUserLocalServiceUtil.dynamicQuery(dq);
 	}
 
