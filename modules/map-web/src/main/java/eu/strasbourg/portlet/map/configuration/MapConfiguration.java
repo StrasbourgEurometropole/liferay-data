@@ -44,6 +44,9 @@ public interface MapConfiguration {
 	@Meta.AD(name = "showList", required = false)
 	public boolean showList();
 
+	@Meta.AD(name = "showFiltersReminder", required = false)
+	public boolean showFiltersReminder();
+
 	@Meta.AD(name = "clippingTerritory", required = false)
 	public boolean clippingTerritory();
 

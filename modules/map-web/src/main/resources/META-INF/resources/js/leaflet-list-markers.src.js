@@ -153,8 +153,9 @@ L.Control.ListMarkers = L.Control.extend({
 				that.fire('item-mouseout', {layer: layer });
 			}, this);
 
+		divAddress.innerHTML = ' ';
 		if (layer.feature.properties.schedules) {
-		    divAddress.innerHTML = '<p class="schedules">' + layer.feature.properties.schedules + '</p>';
+		    divAddress.innerHTML += '<p class="schedules">' + layer.feature.properties.schedules + '</p>';
 		}
 
 		if (layer.feature.properties.address) {
@@ -221,6 +222,52 @@ L.Control.ListMarkers = L.Control.extend({
 	
 		var that = this,
 			n = 0;
+
+        // gitlab 166 : ajout des filtres dans la liste
+        $("#filters__reminder").html("");
+
+		var h4 = L.DomUtil.create('h4', '');
+		h4.innerHTML = Liferay.Language.get("events-to-come");
+        $("#filters__reminder").append(h4);
+
+		// récupération des filtres
+        // Dates
+		var fromDate = $("#aroundme__top #date-start");
+		var toDate = $("#aroundme__top #date-end");
+        if(fromDate.val() == toDate.val())
+            $("#filters__reminder").append("<div class='filter-selected' >" + Liferay.Language.get("date.the") + " " + fromDate.val() + "</div>");
+		else
+            $("#filters__reminder").append("<div class='filter-selected' >" + Liferay.Language.get("date.from") + " " + fromDate.val() + " " + Liferay.Language.get("date.to") + " " + toDate.val() + "</div>");
+
+        // Checkbox
+		var checkboxList = $("#aroundme__top input[type='checkbox']");
+		checkboxList.each(function() {
+		    if($(this).is(':checked')){
+                $("#filters__reminder").append("<div class='filter-selected' >" + $(this).next()[0].innerText + "</div>");
+		    }
+		});
+
+        // liste
+		var selectList = $("#aroundme__top select");
+		selectList.each(function() {
+            $(this).find('option').each(function(){
+                if ($(this).is(':selected')) {
+                    $("#filters__reminder").append("<div class='filter-selected' >" + this.innerText + "</div>");
+                }
+            });
+		});
+
+		var a = L.DomUtil.create('a', '');
+		L.DomEvent
+			.disableClickPropagation(a)
+			.on(a, 'click', L.DomEvent.stop, this)
+			.on(a, 'click', function(e) {
+				$('#aroundme__top').removeClass("hidden");
+			}, this);
+
+        a.innerHTML = '<span>'+Liferay.Language.get("update-filters")+'</span>';
+        $("#filters__reminder").append(a);
+        // fin gitlab 166 : ajout des filtres dans la liste
 
 		this._list.innerHTML = '';
 		this._layer.eachLayer(function(layer) {

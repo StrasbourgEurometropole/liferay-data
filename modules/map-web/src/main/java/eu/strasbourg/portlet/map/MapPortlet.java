@@ -131,6 +131,7 @@ public class MapPortlet extends MVCPortlet {
             boolean showDeleteFilter = false; // Affichage du lien de suppression des filtres
             boolean showPictos = true; // Affichage des pictos dans la zone de configuration
             boolean showList = false; // Affichage de la liste à droite
+            boolean showFiltersReminder = false; // Affichage du rappel des filtres dans la liste des points d'intérêt
             boolean clippingTerritory = false; // Détourage
             String clippingCategoryId = ""; // Zone de détourage
             long groupId = configuration.groupId(); // Group du site dans lequel on doit afficher le détail du POI
@@ -219,6 +220,8 @@ public class MapPortlet extends MVCPortlet {
                         showPictos = configuration.showPictos();
                     }
                     showList = configuration.showList();
+                    if(showConfig && showList)
+                        showFiltersReminder = configuration.showFiltersReminder();
                     if(mode.equals("normal")) {
                         clippingTerritory = configuration.clippingTerritory();
                         if(clippingTerritory) {
@@ -512,6 +515,7 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("showDeleteFilter", showDeleteFilter);
             request.setAttribute("showPictos", showPictos);
             request.setAttribute("showList", showList);
+            request.setAttribute("showFiltersReminder", showFiltersReminder);
             request.setAttribute("coordinatesZone", coordinatesZone);
             request.setAttribute("groupId", groupId);
             request.setAttribute("openInNewTab", openInNewTab);

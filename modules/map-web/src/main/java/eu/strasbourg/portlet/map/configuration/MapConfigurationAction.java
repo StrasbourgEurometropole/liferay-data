@@ -168,12 +168,31 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 
 			// Choix afficher la liste à droite
+			boolean displayList = false;
 			if(mode.equals("widget")) {
 				// Pas utilisé en mode widget
 				setPreference(request, "showList", "");
 			}else {
 				String showList = ParamUtil.getString(request, "showList");
 				setPreference(request, "showList", showList);
+				displayList = Boolean.parseBoolean(showList);
+			}
+
+			// Affichage du du rappel des filtres dans la liste des points d'intérêt
+			if(mode.equals("widget")) {
+				// Pas utilisé en mode widget
+				setPreference(request, "showFiltersReminder", "");
+			}else {
+				if(displayConfig) {
+					if(displayList) {
+						String showFiltersReminder = ParamUtil.getString(request, "showFiltersReminder");
+						setPreference(request, "showFiltersReminder", showFiltersReminder);
+					}else{
+						setPreference(request, "showFiltersReminder", "");
+					}
+				}else{
+					setPreference(request, "showFiltersReminder", "");
+				}
 			}
 
 			// Détourage d'un quartier ou d'une commune
@@ -545,6 +564,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Choix afficher la liste à droite
 			request.setAttribute("showList", configuration.showList());
+
+			// Choix afficher le rappel des filtres dans la liste des points d'intérêt
+			request.setAttribute("showFiltersReminder", configuration.showFiltersReminder());
 
 			// Détourage d'un quartier ou d'une commune
 			request.setAttribute("clippingTerritory", configuration.clippingTerritory());

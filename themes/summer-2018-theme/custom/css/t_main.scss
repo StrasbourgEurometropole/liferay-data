@@ -1,6 +1,6 @@
 //@import "libs/bootstrap.min";
 //@import "base/_round-decimal";
-@import "base/_grids-distribution";
+//@import "base/_grids-distribution";
 @import "libs/icomoon";
 @import "libs/owl.carousel.min";
 @import "libs/owl.theme.default.min";
@@ -53,6 +53,9 @@
 }
 
 #mns-global{
+	.hidden{
+		display: none;
+	}
 /*	.mns-cover {
 		position: relative;
 
@@ -359,7 +362,7 @@
 	/* Section zone séjour */ 
 	.mns-sejour{
 		position: relative;
-		height: 484px;
+		height: 480px;
 		text-align: center;
 		transform: translate3d(0,0,0);
 

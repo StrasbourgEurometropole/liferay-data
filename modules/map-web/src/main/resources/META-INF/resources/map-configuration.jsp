@@ -71,8 +71,13 @@
                     </div>
 
                     <!-- Choix de l'affichage de la liste -->
-                    <div class="noWidgetMode">
+                    <div class="showList noWidgetMode">
                         <aui:input type="checkbox" name="showList" value="${showList}" label="show-list" />
+                    </div>
+
+                    <!-- Choix de l'affichage du rappel des filtres dans la liste des points d'intérêt -->
+                    <div class="showFiltersReminder noWidgetMode">
+                        <aui:input type="checkbox" name="showFiltersReminder" value="${showFiltersReminder}" label="show-filters-reminder" />
                     </div>
 
                     <!-- Détourage d'un quartier ou d'une commune -->
@@ -382,6 +387,7 @@
                            $('.default-filters-label').html(Liferay.Language.get("default-filters-with-config-label"));
                            $('.filters').show();
                            $('.dateField').show();
+                           refreshFilterReminderChoice();
                        } else {
                            $('.showDeleteFilter').hide();
                            $('.showPictos').hide();
@@ -391,6 +397,7 @@
                            $('.filters').hide();
                            $('.listChosen').hide();
                            $('.dateField').hide();
+                           $('.showFiltersReminder').hide();
 
                        }
                     }
@@ -410,6 +417,14 @@
                        } else {
                            $('.checkboxChosen').hide();
                            $('.listChosen').show();
+                       }
+                    }
+
+                    var refreshFilterReminderChoice = function() {
+                       if ($('.showList input[type=checkbox]').is(":checked")) {
+                           $('.showFiltersReminder').show();
+                       } else {
+                           $('.showFiltersReminder').hide();
                        }
                     }
 
@@ -447,6 +462,10 @@
 
                     $('.filter-type input[type=radio]').on('change', function() {
                         refreshTypeFilterChoice();
+                    })
+
+                    $('.showList input[type=checkbox]').on('change', function() {
+                        refreshFilterReminderChoice();
                     })
 
                     $('.dateField input[type=checkbox]').on('change', function() {

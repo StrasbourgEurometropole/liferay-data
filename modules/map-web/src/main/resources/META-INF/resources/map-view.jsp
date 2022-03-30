@@ -12,10 +12,10 @@
 	</c:if>
 	<section id="wi-aroundme" class="no-widget">
 		<div id="aroundme">
-			<c:if test="${showConfig}">
+			<c:if test="${showConfig && !showFiltersReminder}">
 		    	<div id="aroundme__top">
 			</c:if>
-			<c:if test="${!showConfig}">
+			<c:if test="${!showConfig || showFiltersReminder}">
 		    	<div id="aroundme__top" class="hidden">
 			</c:if>
 		        <button class="top__trigger top__trigger--pull opened"></button>
@@ -154,6 +154,13 @@
 		                            </div>
 		                        </c:forEach>
 		                    </c:forEach>
+
+                            <c:if test="${showDeleteFilter}">
+                                <div class="deleteFilters">
+                                    <a id="deleteFilters" href=""><liferay-ui:message key="delete-filters" /></a>
+                                </div>
+                            </c:if>
+
 		                    <input
 		                        id="<portlet:namespace />checkboxNamesCategories"
 		                        name="<portlet:namespace />checkboxNamesCategories"
@@ -165,12 +172,6 @@
 		                        type="hidden"
 		                        value="${checkboxNamesInterests}">
 		                </div>
-
-                        <c:if test="${showDeleteFilter}">
-                            <div>
-                                <a id="deleteFilters" href=""><liferay-ui:message key="delete-filters" /></a>
-                            </div>
-                        </c:if>
 
 			            <c:if test="${mode != 'normal'}">
                             <div class="filtres__actions">
@@ -217,6 +218,10 @@
 						<div id="aroundme__side" style="z-index: 406" class="${showList} opened hidden">
 					</c:if>
 		                <button class="side__trigger side__trigger--pull opened"></button>
+                        <c:if test="${showFiltersReminder}">
+                            <div id="filters__reminder">
+                            </div>
+                        </c:if>
 		                <div class="side__overflow">
 		                    <form class="liste filtres--poi">
 		                        <h2 class="filtres__title">
