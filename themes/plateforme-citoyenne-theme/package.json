@@ -33,5 +33,8 @@
 		"gulp-sass": "^4.0.2",
 		"gulp-sass-glob-import": "^0.1.0",
 		"natives": "^1.1.6"
+	},
+	"scripts": {
+		"cicdDeploy": "gulp js && gulp css && gulp deploy"
 	}
 }

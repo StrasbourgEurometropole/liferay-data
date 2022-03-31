@@ -34,5 +34,8 @@
 	},
 	"main": "package.json",
 	"name": "ops-theme",
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"scripts": {
+		"cicdDeploy": "gulp js && gulp css && gulp deploy"
+	}
 }
