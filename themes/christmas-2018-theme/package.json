@@ -33,6 +33,6 @@
 		"del": "^3.0.0"
 	},
 	"scripts": {
-		"cicdDeploy": "gulp js && gulp css && gulp deploy"
+		"buildCssJs": "gulp js && gulp css"
 	}
 }

@@ -27,8 +27,5 @@
 	},
 	"dependencies": {
 		"gulp-ruby-sass": "^3.0.0"
-	},
-	"scripts": {
-		"cicdDeploy": "gulp deploy"
 	}
 }
