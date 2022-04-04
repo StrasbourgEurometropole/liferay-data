@@ -373,6 +373,35 @@ public interface PublikUserModel extends BaseModel<PublikUser> {
 	 */
 	public void setModifiedDateJSON(Date modifiedDateJSON);
 
+	/**
+	 * Returns the topics fcm of this publik user.
+	 *
+	 * @return the topics fcm of this publik user
+	 */
+	@AutoEscape
+	public String getTopicsFCM();
+
+	/**
+	 * Sets the topics fcm of this publik user.
+	 *
+	 * @param topicsFCM the topics fcm of this publik user
+	 */
+	public void setTopicsFCM(String topicsFCM);
+
+	/**
+	 * Returns the last update time topics of this publik user.
+	 *
+	 * @return the last update time topics of this publik user
+	 */
+	public long getLastUpdateTimeTopics();
+
+	/**
+	 * Sets the last update time topics of this publik user.
+	 *
+	 * @param lastUpdateTimeTopics the last update time topics of this publik user
+	 */
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics);
+
 	@Override
 	public boolean isNew();
 

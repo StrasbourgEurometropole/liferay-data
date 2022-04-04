@@ -77,6 +77,8 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("pactDisplay", isPactDisplay());
 		attributes.put("csmapJSON", getCsmapJSON());
 		attributes.put("modifiedDateJSON", getModifiedDateJSON());
+		attributes.put("topicsFCM", getTopicsFCM());
+		attributes.put("lastUpdateTimeTopics", getLastUpdateTimeTopics());
 
 		return attributes;
 	}
@@ -201,6 +203,19 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 
 		if (modifiedDateJSON != null) {
 			setModifiedDateJSON(modifiedDateJSON);
+		}
+
+		String topicsFCM = (String)attributes.get("topicsFCM");
+
+		if (topicsFCM != null) {
+			setTopicsFCM(topicsFCM);
+		}
+
+		Long lastUpdateTimeTopics = (Long)attributes.get(
+			"lastUpdateTimeTopics");
+
+		if (lastUpdateTimeTopics != null) {
+			setLastUpdateTimeTopics(lastUpdateTimeTopics);
 		}
 	}
 
@@ -330,6 +345,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Returns the last update time topics of this publik user.
+	 *
+	 * @return the last update time topics of this publik user
+	 */
+	@Override
+	public long getLastUpdateTimeTopics() {
+		return _publikUser.getLastUpdateTimeTopics();
+	}
+
+	/**
 	 * Returns the map config of this publik user.
 	 *
 	 * @return the map config of this publik user
@@ -412,6 +437,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public long getPublikUserLiferayId() {
 		return _publikUser.getPublikUserLiferayId();
+	}
+
+	/**
+	 * Returns the topics fcm of this publik user.
+	 *
+	 * @return the topics fcm of this publik user
+	 */
+	@Override
+	public String getTopicsFCM() {
+		return _publikUser.getTopicsFCM();
 	}
 
 	/**
@@ -620,6 +655,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Sets the last update time topics of this publik user.
+	 *
+	 * @param lastUpdateTimeTopics the last update time topics of this publik user
+	 */
+	@Override
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		_publikUser.setLastUpdateTimeTopics(lastUpdateTimeTopics);
+	}
+
+	/**
 	 * Sets the map config of this publik user.
 	 *
 	 * @param mapConfig the map config of this publik user
@@ -707,6 +752,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
 		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
+	}
+
+	/**
+	 * Sets the topics fcm of this publik user.
+	 *
+	 * @param topicsFCM the topics fcm of this publik user
+	 */
+	@Override
+	public void setTopicsFCM(String topicsFCM) {
+		_publikUser.setTopicsFCM(topicsFCM);
 	}
 
 	/**

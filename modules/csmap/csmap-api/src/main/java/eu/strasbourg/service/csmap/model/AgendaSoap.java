@@ -44,6 +44,7 @@ public class AgendaSoap implements Serializable {
 		soapModel.setCampaignsIds(model.getCampaignsIds());
 		soapModel.setThemesIds(model.getThemesIds());
 		soapModel.setTypesIds(model.getTypesIds());
+		soapModel.setTerritoriesIds(model.getTerritoriesIds());
 		soapModel.setTags(model.getTags());
 
 		return soapModel;
@@ -185,6 +186,14 @@ public class AgendaSoap implements Serializable {
 		_typesIds = typesIds;
 	}
 
+	public String getTerritoriesIds() {
+		return _territoriesIds;
+	}
+
+	public void setTerritoriesIds(String territoriesIds) {
+		_territoriesIds = territoriesIds;
+	}
+
 	public String getTags() {
 		return _tags;
 	}
@@ -204,6 +213,7 @@ public class AgendaSoap implements Serializable {
 	private String _campaignsIds;
 	private String _themesIds;
 	private String _typesIds;
+	private String _territoriesIds;
 	private String _tags;
 
 }

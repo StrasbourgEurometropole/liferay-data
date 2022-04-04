@@ -1090,6 +1090,9 @@ public class AgendaImporter {
 						if (coordinateForAddress.length() == 2) {
 							event.setMercatorY(coordinateForAddress.get(0).toString());
 							event.setMercatorX(coordinateForAddress.get(1).toString());
+						} else {
+							event.setMercatorY(null);
+							event.setMercatorX(null);
 						}
 					} catch (Exception e) {
 						//On a catché une erreur ou bien un time out

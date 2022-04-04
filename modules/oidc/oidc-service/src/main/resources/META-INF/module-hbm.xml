@@ -50,5 +50,7 @@
 		<property name="pactDisplay" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 		<property name="csmapJSON" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="modifiedDateJSON" type="org.hibernate.type.TimestampType" />
+		<property name="topicsFCM" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lastUpdateTimeTopics" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>

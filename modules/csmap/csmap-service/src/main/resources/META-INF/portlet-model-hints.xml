@@ -25,6 +25,9 @@
 		<field name="typesIds" type="String">
 			<hint-collection name="TEXTAREA" />
 		</field>
+		<field name="territoriesIds" type="String">
+			<hint-collection name="TEXTAREA" />
+		</field>
 		<field name="tags" type="String">
 			<hint-collection name="TEXTAREA" />
 		</field>

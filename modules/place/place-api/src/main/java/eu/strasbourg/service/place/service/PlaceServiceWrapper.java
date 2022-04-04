@@ -33,6 +33,13 @@ public class PlaceServiceWrapper
 		_placeService = placeService;
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getEquipments()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _placeService.getEquipments();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -44,31 +51,25 @@ public class PlaceServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id) {
 		return _placeService.getPlaceById(id);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-			String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String sigId) {
 
 		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlaces()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONArray getPlaces() {
 		return _placeService.getPlaces();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
-			String name, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String name, String language) {
 
 		return _placeService.getPlacesByNameAndLanguage(name, language);
 	}
@@ -109,16 +110,12 @@ public class PlaceServiceWrapper
 	 * Retourne le géoJSON des lieux
 	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON() {
 		return _placeService.getPlacesGeoJSON();
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getRealtime()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getRealtime() {
 		return _placeService.getRealtime();
 	}
 

@@ -1,18 +1,16 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.counter.kernel.service.CounterLocalService;
-import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
-import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalService;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -32,6 +30,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
@@ -40,7 +39,11 @@ import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author angelique.champougny
@@ -130,6 +133,52 @@ public class ProfileApplication extends Application {
         return response;
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("get-topics")
+    public Response getTopics(
+            @Context HttpHeaders httpHeaders) {
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            // On vérifi que le topic a déjà été utilisé
+            boolean isNeverSaved = true;
+
+            if (Validator.isNotNull(publikUser.getLastUpdateTimeTopics())) {
+                isNeverSaved = false;
+            }
+            json.put(WSConstants.JSON_SAVED, isNeverSaved);
+
+            // On récupère les topics
+            String topics = publikUser.getTopicsFCM();
+            JSONArray topicsJSON = JSONFactoryUtil.createJSONArray();
+            if (Validator.isNotNull(topics)) {
+                for (String topic : topics.split(",")){
+                    if(Validator.isNotNull(topic))
+                        topicsJSON.put(topic);
+                }
+            }
+            json.put(WSConstants.JSON_TOPICS, topicsJSON);
+
+            // Si pas de topic, retour 201
+            if (Validator.isNull(topics) && !isNeverSaved) {
+                return WSResponseUtil.buildOkResponse(json, 201);
+            }
+        } catch (NoJWTInHeaderException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+    }
+
     @POST
     @Produces("application/json")
     @Path("save-profile-picture")
@@ -161,6 +210,42 @@ public class ProfileApplication extends Application {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
+    }
+
+    @POST
+    @Produces("application/json")
+    @Path("save-topics/{last_update_time}")
+    public Response saveTopics(
+            @Context HttpHeaders httpHeaders,
+            @PathParam("last_update_time") String lastUpdateTimeString,
+            @FormParam("topics") String topics
+    ) {
+
+        JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            long lastUpdateTimeBDD = publikUser.getLastUpdateTimeTopics();
+            if(lastUpdateTimeLong > lastUpdateTimeBDD){
+                publikUser.setTopicsFCM(topics);
+                publikUser.setLastUpdateTimeTopics(lastUpdateTimeLong);
+                publikUserLocalService.updatePublikUser(publikUser);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+
+        return WSResponseUtil.buildOkResponse(jsonResponse);
     }
 
     // Renvoi une map avec obligatoirement response et json.
@@ -252,11 +337,12 @@ public class ProfileApplication extends Application {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
 
-    @Reference(unbind = "-")
-    protected void setCounterLocalService(CounterLocalService counterLocalService) {
-        this.counterLocalService = counterLocalService;
-    }
+    @Reference
+    protected PublikUserLocalService publikUserLocalService;
 
-    private CounterLocalService counterLocalService;
+    @Reference(unbind = "-")
+    protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
+        this.publikUserLocalService = publikUserLocalService;
+    }
 
 }

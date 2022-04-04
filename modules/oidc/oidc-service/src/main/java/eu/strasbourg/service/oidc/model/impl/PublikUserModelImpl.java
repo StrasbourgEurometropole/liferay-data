@@ -80,7 +80,8 @@ public class PublikUserModelImpl
 		{"displayConfig", Types.VARCHAR}, {"pactSignature", Types.TIMESTAMP},
 		{"banishDate", Types.TIMESTAMP}, {"banishDescription", Types.CLOB},
 		{"imageURL", Types.VARCHAR}, {"pactDisplay", Types.BOOLEAN},
-		{"csmapJSON", Types.VARCHAR}, {"modifiedDateJSON", Types.TIMESTAMP}
+		{"csmapJSON", Types.VARCHAR}, {"modifiedDateJSON", Types.TIMESTAMP},
+		{"topicsFCM", Types.VARCHAR}, {"lastUpdateTimeTopics", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -107,10 +108,12 @@ public class PublikUserModelImpl
 		TABLE_COLUMNS_MAP.put("pactDisplay", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("csmapJSON", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("modifiedDateJSON", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("topicsFCM", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("lastUpdateTimeTopics", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig TEXT null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN,csmapJSON STRING null,modifiedDateJSON DATE null)";
+		"create table publik_PublikUser (uuid_ VARCHAR(75) null,publikUserLiferayId LONG not null primary key,createDate DATE null,modifiedDate DATE null,userId LONG,userName VARCHAR(75) null,publikId VARCHAR(200) null,accessToken VARCHAR(200) null,firstName VARCHAR(200) null,lastName VARCHAR(200) null,email VARCHAR(75) null,mapConfig VARCHAR(1000) null,displayConfig TEXT null,pactSignature DATE null,banishDate DATE null,banishDescription TEXT null,imageURL VARCHAR(400) null,pactDisplay BOOLEAN,csmapJSON STRING null,modifiedDateJSON DATE null,topicsFCM VARCHAR(400) null,lastUpdateTimeTopics LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table publik_PublikUser";
 
@@ -686,6 +689,49 @@ public class PublikUserModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"topicsFCM",
+			new Function<PublikUser, Object>() {
+
+				@Override
+				public Object apply(PublikUser publikUser) {
+					return publikUser.getTopicsFCM();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"topicsFCM",
+			new BiConsumer<PublikUser, Object>() {
+
+				@Override
+				public void accept(PublikUser publikUser, Object topicsFCM) {
+					publikUser.setTopicsFCM((String)topicsFCM);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastUpdateTimeTopics",
+			new Function<PublikUser, Object>() {
+
+				@Override
+				public Object apply(PublikUser publikUser) {
+					return publikUser.getLastUpdateTimeTopics();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"lastUpdateTimeTopics",
+			new BiConsumer<PublikUser, Object>() {
+
+				@Override
+				public void accept(
+					PublikUser publikUser, Object lastUpdateTimeTopics) {
+
+					publikUser.setLastUpdateTimeTopics(
+						(Long)lastUpdateTimeTopics);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -1002,6 +1048,31 @@ public class PublikUserModelImpl
 		_modifiedDateJSON = modifiedDateJSON;
 	}
 
+	@Override
+	public String getTopicsFCM() {
+		if (_topicsFCM == null) {
+			return "";
+		}
+		else {
+			return _topicsFCM;
+		}
+	}
+
+	@Override
+	public void setTopicsFCM(String topicsFCM) {
+		_topicsFCM = topicsFCM;
+	}
+
+	@Override
+	public long getLastUpdateTimeTopics() {
+		return _lastUpdateTimeTopics;
+	}
+
+	@Override
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		_lastUpdateTimeTopics = lastUpdateTimeTopics;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -1053,6 +1124,8 @@ public class PublikUserModelImpl
 		publikUserImpl.setPactDisplay(isPactDisplay());
 		publikUserImpl.setCsmapJSON(getCsmapJSON());
 		publikUserImpl.setModifiedDateJSON(getModifiedDateJSON());
+		publikUserImpl.setTopicsFCM(getTopicsFCM());
+		publikUserImpl.setLastUpdateTimeTopics(getLastUpdateTimeTopics());
 
 		publikUserImpl.resetOriginalValues();
 
@@ -1273,6 +1346,16 @@ public class PublikUserModelImpl
 			publikUserCacheModel.modifiedDateJSON = Long.MIN_VALUE;
 		}
 
+		publikUserCacheModel.topicsFCM = getTopicsFCM();
+
+		String topicsFCM = publikUserCacheModel.topicsFCM;
+
+		if ((topicsFCM != null) && (topicsFCM.length() == 0)) {
+			publikUserCacheModel.topicsFCM = null;
+		}
+
+		publikUserCacheModel.lastUpdateTimeTopics = getLastUpdateTimeTopics();
+
 		return publikUserCacheModel;
 	}
 
@@ -1365,6 +1448,8 @@ public class PublikUserModelImpl
 	private boolean _pactDisplay;
 	private String _csmapJSON;
 	private Date _modifiedDateJSON;
+	private String _topicsFCM;
+	private long _lastUpdateTimeTopics;
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 

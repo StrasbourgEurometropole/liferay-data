@@ -1424,8 +1424,10 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
 		jsonEvent.put("territoires", jsonTerritories);
 
-		jsonEvent.put("mercatorX",this.getMercatorX());
-		jsonEvent.put("mercatorY", this.getMercatorY());
+		if(Validator.isNotNull(this.getMercatorX()) && Validator.isNotNull(this.getMercatorY())) {
+			jsonEvent.put("mercatorX",this.getMercatorX());
+			jsonEvent.put("mercatorY", this.getMercatorY());
+		}
 
 		// Inscription
 		if(this.getRegistration()){
