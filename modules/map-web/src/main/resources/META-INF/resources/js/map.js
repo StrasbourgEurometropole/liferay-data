@@ -407,13 +407,14 @@
 	                        return L.marker(latlng, { icon: markerIcon })
 							break;
 						default:
-	                        var markerIcon = new L.Icon({
-	                            iconUrl: '/o/mapweb/images/default.png',
+	                        var divIcon = new L.divIcon({
+	                            //iconUrl: '/o/mapweb/images/default.png',
+                                html:  '<div class="aroundme-icon-poi" style="background-image: url(\'/o/mapweb/images/default.png\'); height: 100%; background-size: contain;"></div>',
 	                            iconSize: [35,49],
 	                            iconAnchor: [17, 49],
 	                            popupAnchor: [1, -49]
 	                        });
-	                        return L.marker(latlng, { icon: markerIcon })
+                            return L.marker(latlng, { icon: divIcon })
 							break;
 						}                		
                 	}

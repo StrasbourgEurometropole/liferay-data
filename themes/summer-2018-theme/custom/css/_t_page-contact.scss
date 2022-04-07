@@ -90,80 +90,95 @@
 
 	}
 
-	/*.mns-info-pratiques{
+	.mns-info-pratiques{
 		background: $c_main;
 		position: relative;
+		
 		.mns-sec-info{
-			padding: 30px 20px;
-			border-bottom: 1px solid #fff6;
-			strong, p{
-				@include ft($f_ms, 14px, 400, $c_white, 22px);
-				margin-bottom: 0;
+			padding: 30px;
+			display: inline-block;
+
+			&:not(:last-child){
+				border-bottom: 1px solid $c_white;
 			}
+
+			h2{
+				color: $c_white;
+				font-size: 2.25rem;
+				line-height: 2.75rem;
+				margin: 0 0 20px;
+			}
+
+			strong, p{
+				@include ft($f_ms, 1rem, 400, $c_white, 1.625rem);
+
+				&:not(:last-child){
+					margin-bottom: 10px;
+				}
+			}
+
 			strong{
 				font-weight: 500;
 			}
-
-			a.basic-link{
-				margin-top: 15px;
-			}
-		}
-
-
-		ul{
-			padding: 0;margin: 0;
-			li{
-				padding: 0;margin: 0;
-				a{
-					border-bottom: 1px solid #fff6;
-					@include ft($f_ms, 14px, 400, $c_white, 22px);
-					padding: 10px 0;
+			
+			.dload-btns {
+				display: flex;
+				gap: 10px;
+				
+				.dload-btn {
 					display: block;
-					padding-left: 20px;
-					@include an(all,0.3);
-					&:after{
-						content: "\e90a";
-						font-family: 'icomoon' !important;
-						speak: none;
-						font-style: normal;
-						font-weight: normal;
-						font-variant: normal;
-						text-transform: none;
-						line-height: 1;
-						-webkit-font-smoothing: antialiased;
-						-moz-osx-font-smoothing: grayscale;
-						color: #FFF;
-						position: absolute;
-						right: 20px;
+					background-color: $c_black;
+					text-align: center;
+					border-radius: 10px;
+					transition: all 0.3s ease-in-out;
+
+					&:hover, &:focus {
+						background-color: $c_main;
+					}
+
+					img {
+						position: relative;
 						top: 50%;
 						transform: translateY(-50%);
-						font-size: 14px;
-						@include an(all,0.3);
 					}
-					&:hover{
-						padding-left: 35px;
-						font-weight: 700;
+				}
+			}
+
+			a{
+				text-decoration: underline;
+				color: $c_white;
+
+				&:hover{
+					text-decoration: none;
+					color: $c_white;
+				}
+			}
+
+			ul{
+				padding: 0;
+				margin: 0;
+
+				li{
+					padding: 0;
+					margin: 0;
+
+					&:not(:last-child) a{
+						padding-bottom: 15px;
+					}
+
+					a{
+						display: block;
+
 						&:after{
-							right: 10px;
+							content: "\e90a";
+							font-family: 'icomoon' !important;
+							position: absolute;
+							right: 0;
 						}
 					}
 				}
 			}
 		}
-
-		a{
-			color: $c_link;
-		}
-
-		.mns-sec-access{
-			.mns-title-info{
-				padding: 30px 20px 0 20px;
-				display: block;
-				&:after{
-					margin-bottom: 15px;
-				}
-			}
-		}
-	}*/
+	}
 
 }

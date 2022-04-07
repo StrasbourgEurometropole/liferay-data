@@ -250,11 +250,21 @@ L.Control.ListMarkers = L.Control.extend({
         // liste
 		var selectList = $("#aroundme__top select");
 		selectList.each(function() {
+		    var nbFiltres = 0;
+		    var filtre = "<div class='filter-selected' >" + $("[for='"+ this.name.replace(window.aroundMePortletNamespace,'') +"']")[0].innerText + " : ";
             $(this).find('option').each(function(){
                 if ($(this).is(':selected')) {
-                    $("#filters__reminder").append("<div class='filter-selected' >" + this.innerText + "</div>");
+                    if (nbFiltres > 0) {
+                        filtre += ", ";
+                    }
+                    filtre += this.innerText;
+                    nbFiltres++;
                 }
             });
+            filtre += "</div>";
+            if (nbFiltres > 0) {
+                $("#filters__reminder").append(filtre);
+            }
 		});
 
 		var a = L.DomUtil.create('a', '');

@@ -7,7 +7,6 @@
 
 /***************************/
 /***************************/
-
 #mns-global{	
 	.mns-slider-insta {
 		margin-bottom: 90px;
@@ -38,6 +37,16 @@
 
 					@include mobile{
 						content: none;
+					}
+				}
+
+				&:hover{
+					&:after{
+						transform: translateY(-10px);
+					}
+
+					a:after {
+						width: 100%;
 					}
 				}
 

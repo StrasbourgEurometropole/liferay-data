@@ -96,22 +96,24 @@
 						  display: none;
 						}
 		
-						&:after{
-							content: "\e910";
-							font-family: 'icomoon' !important;
-							speak: none;
-							font-style: normal;
-							font-weight: normal;
-							font-variant: normal;
-							text-transform: none;
-							line-height: 1;
-							-webkit-font-smoothing: antialiased;
-							-moz-osx-font-smoothing: grayscale;
-							position: absolute;
-							top: 10px;
-							color: $c_main;
-							right: 5px;
-							font-size: 1.125rem;
+						@include not_mobile{
+							&:after{
+								content: "\e910";
+								font-family: 'icomoon' !important;
+								speak: none;
+								font-style: normal;
+								font-weight: normal;
+								font-variant: normal;
+								text-transform: none;
+								line-height: 1;
+								-webkit-font-smoothing: antialiased;
+								-moz-osx-font-smoothing: grayscale;
+								position: absolute;
+								top: 10px;
+								color: $c_main;
+								right: 5px;
+								font-size: 1.125rem;
+							}
 						}
 					}
 	

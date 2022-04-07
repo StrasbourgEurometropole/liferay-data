@@ -249,8 +249,7 @@
             @include not_mobile {
                 position: absolute;
                 transform: translateY(-76px);
-                background: linear-gradient(180deg, rgba(0, 0, 0, 0.54) 0%, rgba(0, 0, 0, 0.54) 65.1%, rgba(0, 0, 0, 0) 100%);
-
+                
                 /* Menu sticky */ 
                 &.mns-nav-scroll {
                     position: fixed;

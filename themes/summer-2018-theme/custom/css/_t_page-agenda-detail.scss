@@ -74,6 +74,10 @@
 						&:last-child{
 							margin-bottom: 0;
 						}
+
+						&:hover, &:focus{
+							text-decoration: underline;
+						}
 					}
 				}
 			}
@@ -84,7 +88,7 @@
 				z-index: -1;
 				background: $second-color;
 				width: 290px;
-				height: 66.66%;
+				height: 66%;
 				bottom: 70px;
 				left: -40px;
 			}

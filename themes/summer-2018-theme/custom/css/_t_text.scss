@@ -140,7 +140,7 @@
 			position: relative;
 			margin: 0 0 5px 0;
 			padding: 0 0 0 20px;
-			@include ft($f_ms,16px,400,$c_txt,21px);
+			@include ft($f_ms,1rem,400,$c_txt,1.25rem);
 			strong, a, u, i, em
 			{
 				font-family: $f_ms;

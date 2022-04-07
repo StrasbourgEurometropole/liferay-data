@@ -2,7 +2,7 @@
 
 <c:if test="${!districtUser || district != null}">
 	<c:if test="${!districtUser}">
-	    <h1>${title}</h1>
+	    <h1 class="aroundme--h1">${title}</h1>
 	</c:if>
 	<c:if test="${districtUser}">
 	    <h2 class="aroundme--title">

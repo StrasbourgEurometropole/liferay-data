@@ -1,6 +1,11 @@
 #mns-global{
 
 	.mns-bloc-article{
+
+		.mns-title{
+			text-align: center;
+		}
+		
 		a{
 			@include ft($f_ms, 0.825rem, 700, $c_main, 1.625rem);
 			text-decoration: underline;
