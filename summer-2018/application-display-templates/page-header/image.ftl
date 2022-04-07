@@ -4,6 +4,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <header class="mns-header" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
     <div class="container mns-center">
         <h1>${page.getTitle(locale)}</h1>
@@ -22,3 +23,16 @@
         <span>${page.getName(locale)}</span>
     </div>
 </div>
+
+<style>
+    @media screen and (min-width: 767px){
+        #mns-global .mns-bloc-article .mns-wrapper-title{
+            display: none;
+        }
+    }
+    @media screen and (max-width: 767px){
+        #mns-global .mns-header .container{
+            display: none;
+        }
+    }
+</style>
