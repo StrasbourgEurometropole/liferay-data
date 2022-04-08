@@ -372,3 +372,17 @@ if($('iframe[src^="https://www.youtube.com"]')) {
 $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();
 }); 
+
+// Changement de comportement des filtres agenda si nous sommes sur mobile
+var isMobile = window.innerWidth < 768;
+if (isMobile) {
+	$('#mns-global .mns-p-list-agenda .mns-z-filtres-search .row.form-group').each(function() {
+		var expand = $(this).find('.mns-expand-collapse');
+		if(expand.length > 0){
+			expand.removeClass('expanded');
+			expand.find('.mns-filter-expand').css('display', 'block');
+			expand.find('.mns-filter-collapse').css("display", "none");
+			$(this).find('.checkbox').addClass('closed');
+		}
+	});
+}

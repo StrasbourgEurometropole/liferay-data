@@ -7039,5 +7039,30 @@ $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();
 }); 
 
+// Changement de comportement des filtres agenda si nous sommes sur mobile
+var isMobile = window.innerWidth < 768;
+if (isMobile) {
+	$('#mns-global .mns-p-list-agenda .mns-z-filtres-search .row.form-group').each(function() {
+		var expand = $(this).find('.mns-expand-collapse');
+		if(expand.length > 0){
+			expand.removeClass('expanded');
+			expand.find('.mns-filter-expand').css('display', 'block');
+			expand.find('.mns-filter-collapse').css("display", "none");
+			$(this).find('.checkbox').addClass('closed');
+		}
+	});
+}
 // Service reCAPTCHA
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
+
+// Service Youtube
+//<div class="youtube_player" videoID="video_id" width="width" height="height" theme="theme (dark | light)" rel="rel (1 | 0)" controls="controls (1 | 0)" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" mute="mute (0 | 1)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+// Service Daylimotion
+//<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
+
+// Service Facebook Pixel
+tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
+(tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
