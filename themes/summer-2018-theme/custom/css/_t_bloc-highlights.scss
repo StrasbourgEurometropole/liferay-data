@@ -176,6 +176,13 @@
 						}
 					}
 
+					p {
+						overflow: hidden;
+						-webkit-line-clamp: 4;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+					}
+
 					.mns-btn {
 						color: $c_white;
 						font-size: 1.125rem;
