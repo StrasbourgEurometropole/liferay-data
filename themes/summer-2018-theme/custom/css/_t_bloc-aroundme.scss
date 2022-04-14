@@ -857,50 +857,28 @@
             }
         }
     }
+}
 
-    /*.meta {
-        padding: 20px 75px 45px 75px;
-        text-align: center;
-    }
-
-    .subtitle{
-        font-size: 1.125rem;
-        color: #5c5c5c;
-        margin-bottom: 20px;
-
-    }
-
-    .btn-line{
-        margin-top: 20px;
-    }
-    
-    .aroundme--fullscreen #wi-aroundme{
-        #aroundme{
-            z-index: 1400;
-            .aroundme__ui--fullscreen{
-                background-image: url( svg-bg-uri($svg-smallscreen, #FFFFFF) );
-            }
-        }
-    }*/
+/* ------------------------------ liste */
+.select2-results__options .select2-results__option{
+    font-size: 1.125rem;
 }
 
 /* ------------------------------ calendrier */
-    
-/*#ui-datepicker-div {
+#ui-datepicker-div {
     .ui-datepicker-header {
-        background-color: $second-color !important;
+        background-color: $c_main !important;
         
         .ui-datepicker-year, .ui-datepicker-month{
             font-size: 1.25rem !important;
         }
     }
-
-    table td{
+    table th {
         font-size: 0.75rem !important;
     }
-}*/
 
-/* ------------------------------ liste */
-.select2-results__options .select2-results__option{
-    font-size: 1.125rem;
+    table td.ui-datepicker-today:before {
+        height: 30px !important;
+        width: 30px !important;
+    }
 }
