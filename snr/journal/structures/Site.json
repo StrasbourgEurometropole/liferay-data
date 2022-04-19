@@ -29,6 +29,124 @@
         },
         {
             "label": {
+                "fr_FR": "Semaine du numérique"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "separatorSemaineNum",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-separator"
+        },
+        {
+            "label": {
+                "fr_FR": "Date du début de la semaine du numérique"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "date",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "dateStartWeek",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-date"
+        },
+        {
+            "label": {
+                "fr_FR": "Heure du début de la journée"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": "Le format doit être : 09:00"
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "hourStart",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Heure de fin"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": "Le format doit être : 09:00"
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "hourEnd",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Description du programme"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "program",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
                 "fr_FR": "Description des pages"
             },
             "predefinedValue": {
