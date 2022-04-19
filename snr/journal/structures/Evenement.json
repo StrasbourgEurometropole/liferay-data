@@ -123,52 +123,6 @@
         },
         {
             "label": {
-                "fr_FR": "Lieu de l'évènement"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": "Par exemple : Salle 04 - Bâtiment 5"
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "locationName",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
-                "fr_FR": "Adresse de l'évènement"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "string",
-            "indexType": "",
-            "localizable": true,
-            "name": "locationAddress",
-            "readOnly": false,
-            "repeatable": false,
-            "required": false,
-            "showLabel": true,
-            "type": "text"
-        },
-        {
-            "label": {
                 "fr_FR": "Présentateur"
             },
             "predefinedValue": {
