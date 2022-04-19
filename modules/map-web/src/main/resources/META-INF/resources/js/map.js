@@ -13,7 +13,8 @@
             ame.$filters_categories = ame.$ame.find("#aroundme__top .categories input[type='checkbox']"),
             ame.$filters_categories_list = ame.$ame.find("#aroundme__top .categories select"),
             ame.$filters_interests = ame.$ame.find("#aroundme__top .interests input[type='checkbox']"),
-            ame.$showFavoritesFilter = ame.$ame.find('[name=' + window.aroundMePortletNamespace + 'showFavorites]');
+            ame.$showFavoritesFilter = ame.$ame.find('[name=' + window.aroundMePortletNamespace + 'showFavorites]'),
+            ame.$deleteFilters = ame.$ame.find('#deleteFilters');
 
             ame.close_panel_top = function() {
                 $ame.removeClass('top-opened');
@@ -406,13 +407,14 @@
 	                        return L.marker(latlng, { icon: markerIcon })
 							break;
 						default:
-	                        var markerIcon = new L.Icon({
-	                            iconUrl: '/o/mapweb/images/default.png',
+	                        var divIcon = new L.divIcon({
+	                            //iconUrl: '/o/mapweb/images/default.png',
+                                html:  '<div class="aroundme-icon-poi" style="background-image: url(\'/o/mapweb/images/default.png\'); height: 100%; background-size: contain;"></div>',
 	                            iconSize: [35,49],
 	                            iconAnchor: [17, 49],
 	                            popupAnchor: [1, -49]
 	                        });
-	                        return L.marker(latlng, { icon: markerIcon })
+                            return L.marker(latlng, { icon: divIcon })
 							break;
 						}                		
                 	}
@@ -724,6 +726,33 @@
                 mymap.addLayer(markers);
             }
 
+            // Suppression des filtres
+            var deleteFilters = function() {
+                // Checkbox
+                $(ame.$filters_categories).each(function() {
+                    $(this).prop('checked',false);
+                })
+
+                // liste
+                $(ame.$filters_categories_list).each(function() {
+                    $(this).val(null).trigger("change");
+                });
+
+                // Centres d'intérêts et favoris
+                $(ame.$filters_interests).each(function() {
+                    $(this).prop('checked',false);
+                })
+
+                // Dates
+                $(ame.$filters_dates).each(function() {
+                    if($(this).attr('name') == "from"){
+                        $(this).val(window.fromDate).trigger("change");
+                    }else{
+                        $(this).val(window.toDate).trigger("change");
+                    };
+                })
+            }
+
 
             /**
              *  Interface 
@@ -750,11 +779,18 @@
             ame.$ui_home.on('click', function() {
                 moveToUserAddress();
             });
+
             ame.$filters.on('change', function() {
                 if(mode != 'normal')
                     saveUserConfig();
                 showPois();
             });
+
+            ame.$deleteFilters.on('click', function(event) {
+                deleteFilters();
+                event.preventDefault();
+            });
+
             $('#mapid').on('click', '.infowindow__close', function() {
                 mymap.closePopup();
             });

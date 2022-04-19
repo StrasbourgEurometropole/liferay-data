@@ -56,7 +56,9 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -124,9 +126,12 @@ public class MapPortlet extends MVCPortlet {
             String typesContenu = ""; // Les type de contenus
             String eventExplanationText = ""; // récupération du texte à afficher pour les évènements
 
+            String backgroundId = Validator.isNotNull(configuration.backgroundId())?configuration.backgroundId():"monstrasbourg"; // Récupération du fond de plan
             boolean showConfig = true; // Affichage de la zone de configuration
+            boolean showDeleteFilter = false; // Affichage du lien de suppression des filtres
             boolean showPictos = true; // Affichage des pictos dans la zone de configuration
             boolean showList = false; // Affichage de la liste à droite
+            boolean showFiltersReminder = false; // Affichage du rappel des filtres dans la liste des points d'intérêt
             boolean clippingTerritory = false; // Détourage
             String clippingCategoryId = ""; // Zone de détourage
             long groupId = configuration.groupId(); // Group du site dans lequel on doit afficher le détail du POI
@@ -210,9 +215,13 @@ public class MapPortlet extends MVCPortlet {
                     }
 
                     showConfig = configuration.showConfig();
-                    if(showConfig)
+                    if(showConfig) {
+                        showDeleteFilter = configuration.showDeleteFilter();
                         showPictos = configuration.showPictos();
+                    }
                     showList = configuration.showList();
+                    if(showConfig && showList)
+                        showFiltersReminder = configuration.showFiltersReminder();
                     if(mode.equals("normal")) {
                         clippingTerritory = configuration.clippingTerritory();
                         if(clippingTerritory) {
@@ -501,9 +510,12 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("defaultConfig", defaultConfig);
             request.setAttribute("typesContenu", typesContenu);
             request.setAttribute("eventExplanationText", eventExplanationText);
+            request.setAttribute("backgroundId", backgroundId);
             request.setAttribute("showConfig", showConfig);
+            request.setAttribute("showDeleteFilter", showDeleteFilter);
             request.setAttribute("showPictos", showPictos);
             request.setAttribute("showList", showList);
+            request.setAttribute("showFiltersReminder", showFiltersReminder);
             request.setAttribute("coordinatesZone", coordinatesZone);
             request.setAttribute("groupId", groupId);
             request.setAttribute("openInNewTab", openInNewTab);
@@ -521,9 +533,12 @@ public class MapPortlet extends MVCPortlet {
             request.setAttribute("fromDay", fromDate.getDayOfMonth());
             request.setAttribute("fromMonth", fromDate.getMonthValue());
             request.setAttribute("fromYear", fromDate.getYear());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            request.setAttribute("fromDate", fromDate.format(formatter));
             request.setAttribute("toDay", toDate.getDayOfMonth());
             request.setAttribute("toMonth", toDate.getMonthValue());
             request.setAttribute("toYear", toDate.getYear());
+            request.setAttribute("toDate", toDate.format(formatter));
             request.setAttribute("district", district);
             request.setAttribute("widgetIntro", widgetIntro);
             request.setAttribute("widgetLink", widgetLink);

@@ -110,8 +110,8 @@
     <@liferay.control_menu />
 
     <div id="mns-global">
-        <div id="layer"></div>
-        <header>
+        <header id="mns-header">
+          <div id="layer"></div>
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>
@@ -120,7 +120,7 @@
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
-                    <a href="${homeURL}contact" class="mns-contact-link" title="Contact">
+                    <a href="${homeURL}/contact" class="mns-contact-link" title="Contact">
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>

@@ -10,222 +10,253 @@
 
 #mns-global{
 
-	.mns-p-list-agenda{
-		padding: 35px 0;
-		@include mobile {
-			padding: 25px 15px;
-		}		
+	.mns-affiner{
+		padding: 25px 15px 15px 15px;
+		border-bottom: 1px solid $c_filet;
 
-		.col-sm-3{
-			@media (min-width: 576px) and (max-width:767px) {
-				flex: none;
-				max-width: none;
-			}				
+		&.mns-affiner-m{
+			@include not_mobile{
+				display: none;
+			}
+
+			span.mns-more {
+				@include ft($f_ms, 1rem, 700, $c_txt, 1.625rem);
+				display: inline-block;
+				text-transform: uppercase;
+			}
+			
+			span.icon-search-more{
+				display: inline-block;
+				vertical-align: middle;
+				position: relative;
+				right: 0;
+				width: 18%;
+				text-align: right;
+
+				&:before{
+					font-size: 1.125rem;
+				}
+			}
+		}
+	}
+
+	.mns-p-list-agenda{
+		padding: 25px 0 35px;	
+
+		@include mobile {
+			padding: 25px 15px 35px;	
 		}
 
 		.mns-z-filtres-search{
-			@include mobile{
+
+			@include mobile {
 				display: none;
 			}
-			@include tablet_portrait {
-				margin-top: 30px !important;
-			}
+
 			.mns-affiner{
 				text-align: left;
 				border-bottom: 0;
 				padding-top: 0;
 				padding-left: 0;
+
+				@include mobile{
+					display: none;
+				}
+
 				> .mns-more{
 					width: 100%;
 				}
-			}
 
-			.mns-label-top{
-				width: 100%;
-				display: inline-block;
-				padding-bottom: 5px;
-				border-bottom: 1px solid $c_filet;
-				margin-bottom: 15px;
-				label{
-					@include ft($f_ms, 18px, 700, $c_txt, 26px);
-				}
-				span{
-					position: absolute;
-					right: 15px;
-					@include ft($f_ms, 12px, 400, $c_txt, 26px);
-				}
-			}
-
-			input[type="text"]{
-				width: 100%;
-				margin: 0;
-				height: 38px;
-				padding: 10px 10px 10px 8px;
-				text-overflow: ellipsis;
-				@include desktop{
-					width: 100%;
-				}
-			}
-
-			.checkbox{
-				overflow: hidden;
-				transition: all 0.3s ease
-			}
-
-			.between-form{
-				margin: 0 11px;
-				@include desktop{
-					margin: 10px 10px 10px 0;
-					display: block;
+				span.mns-more{
+					@include ft($f_ms, 1rem, 700, $c_black, 1.625rem);
+					text-transform: none;
 				}
 			}
 
 			.form-group{
 				margin-bottom: 30px;
-			}
 
-			.date-selection{
-				@media (max-width: 1199px){
-					display: block;
+				&.date-selection{
+					.mns-ico-date{
+						display: inline-block;
+						position: relative;
+						width: calc(50% - 14px);
+
+						@include mobile{
+							width: 100%;
+						}
+					
+						input[type=text]/*, input[type=date]*/ {
+						  display: inline-block;
+						  width: 100%;
+						  font-size: 0.8125rem;
+						}
+					
+						.input-checkbox-wrapper {
+						  display: none;
+						}
+		
+						@include not_mobile{
+							&:after{
+								content: "\e910";
+								font-family: 'icomoon' !important;
+								speak: none;
+								font-style: normal;
+								font-weight: normal;
+								font-variant: normal;
+								text-transform: none;
+								line-height: 1;
+								-webkit-font-smoothing: antialiased;
+								-moz-osx-font-smoothing: grayscale;
+								position: absolute;
+								top: 10px;
+								color: $c_main;
+								right: 5px;
+								font-size: 1.125rem;
+							}
+						}
+					}
+	
+					.between-form {
+						margin: 10px 5px;
+					}
 				}
-			}
 
-			.checkbox{
-				> label{
-					display: block;
-					padding: 5px 0;
-					overflow: hidden;
-					input[type="checkbox"]:checked{
-						font-weight: 700;
+				.mns-label-top{
+					width: 100%;
+					display: inline-block;
+					padding-bottom: 5px;
+					border-bottom: 1px solid $c_filet;
+					margin-bottom: 15px;
+
+					label{
+						@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+					}
+
+					.mns-expand-collapse {
+						display: inline-block;
+						float: right;
+						cursor: pointer;
+		
+						.mns-filter-expand {
+							background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
+							height: 25px;
+							width: 25px;
+							display: none;
+						}
+
+						.mns-filter-collapse {
+							background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
+							height: 25px;
+							width: 25px;
+						}
+					}
+				}
+
+				.content{
+					flex-grow: 1;
+				}
+
+				input[type="text"]{
+					width: 100%;
+					margin: 0;
+					height: 38px;
+					padding: 10px 10px 10px 8px;
+					text-overflow: ellipsis;
+				}
+
+				.checkbox{
+					overflow: hidden; 
+					max-height: 1000px;
+					transition: max-height 0.5s ease-in;
+	
+					&.closed {
+						max-height: 0;
+						transition: max-height 0.5s ease-out;
+					}
+	
+					.form-group.form-inline {
+						margin-bottom: 0;
+						padding: 5px 0;    
+						overflow: hidden;
 					}
 				}
 			}
 
 			.mns-submit{
+				width: calc(100% + 10px);
+				transform: translateX(-10px);
+
 				input{
-					text-align: center;
 					position: relative;
-					width: 100%;
-					padding: 12px 0;
-					height: auto;
-					background: $c_white;
-					border: 4px solid $c_main;
-					box-shadow: none;
-					text-transform: uppercase;
-					white-space: normal;
-					@include ft($f_ms, 15px, 700, $c_main, normal);
-					@include an(all,0.3);
-					@include mobile{
-						margin-bottom: 40px;
-					}
-					@include tablet_portrait{
-						width: 100%;
-						font-size: 12px;
-					}
-					&:after{
-						content: '';
-						display: block;
-						height: 4px; 
-						width: 100%;
-						background: $c_main;
-						position: relative;
-						top: 10px;
-						transition: all 0.3s ease
-					}
-					&:hover{
-						background: $c_main;
-						color: $c_white;
-					}		
-				}
-				span{
-					display: none;
-					width: 100%;
-					height: 1px;
-					background: #a6a6a6;
-					position: absolute;
-					top: 50%;
-					transform: translateY(-50%);
-					left: 0;
-					z-index: -1;
+					width: 230px;		
 				}
 			}
-
-			.mns-ico-date{
-				display: inline-block;
-				position: relative;
-				&:after{
-					content: "\e910";
-					font-family: 'icomoon' !important;
-					speak: none;
-					font-style: normal;
-					font-weight: normal;
-					font-variant: normal;
-					text-transform: none;
-					line-height: 1;
-					-webkit-font-smoothing: antialiased;
-					-moz-osx-font-smoothing: grayscale;
-					position: absolute;
-					top: 10px;
-					color: $c_main;
-					right: 5px;
-					font-size: 18px;
-				}
-			}
-
-
-			.mns-expand-collapse {
-				display: inline-block;
-				float: right;
-				cursor: pointer;
-
-				.mns-filter-expand {
-					background: url(/o/summer-2018-theme/images/plus.png) no-repeat center center /contain;
-					height: 26px;
-					width: 20px;
-					display: none;
-				}
-				.mns-filter-collapse {
-					background: url(/o/summer-2018-theme/images/moins.png) no-repeat center center /contain;
-					height: 26px;
-					width: 20px;
-				}
-			}
-
-
-
 		}
 
 		.mns-z-list-agenda{
-			@include mobile{
-				margin-top: 30px !important;
-			}
-			@include tablet_portrait {
-				margin-top: 30px !important;
-			}
-			> div > div{
-				margin-bottom: 0;
-				&:nth-child(-n+3){
-					margin-top: 10px;
-				}
 
-				.cover{
-					max-width: 100%;
-				}
+			.search-asset-results > * {
+			  height: 580px;
+			  transform: translateY(65px);
 
-				
+			  @include mobile{
+				  transform: none;
+			  }
 			}
-			> div{
-				@include mobile{
-					padding: 0;
+
+			.taglib-page-iterator {
+			  padding-top: 20px;
+			}
+
+			.lfr-pagination-config {
+			  display: none;
+			}
+
+			.clearfix.lfr-pagination {
+				margin-top: 50px;
+		
+				ul {
+					line-height: 2.875rem;
+		
+					li {
+		
+						a {
+							border: 2px solid $c_main;
+							border-radius: 42px;
+							z-index: 2;
+							position: relative;
+							background: none;
+							@include ft($f_nr, 1rem, 400, $c_txt, 1.1875rem);
+		
+							&:hover, &:focus{
+								color: $c_white;
+								background-color: $c_main;			        
+							}
+						}
+		
+						&.disabled {
+							opacity: 0.5;
+		
+							a:hover{
+								background: none;
+								color: $c_txt;
+								cursor: not-allowed;
+							}
+						}
+		
+						&:hover, &:focus{
+							&:before{
+								height: 100%;
+							}
+						}
+					}
+				}	
+		
+				.search-results{
+					@include ft($f_ms, 0.875rem, 400, $c_black, 2.875rem);	
 				}
 			}
 		}
-	}
-
-	#_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_toDate {
-		font-size: 13px;
-	}
-	#_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_fromDate {
-		font-size: 13px;
 	}
 }

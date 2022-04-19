@@ -2,7 +2,7 @@
 
 <c:if test="${!districtUser || district != null}">
 	<c:if test="${!districtUser}">
-	    <h1>${title}</h1>
+	    <h1 class="aroundme--h1">${title}</h1>
 	</c:if>
 	<c:if test="${districtUser}">
 	    <h2 class="aroundme--title">
@@ -12,10 +12,10 @@
 	</c:if>
 	<section id="wi-aroundme" class="no-widget">
 		<div id="aroundme">
-			<c:if test="${showConfig}">
+			<c:if test="${showConfig && !showFiltersReminder}">
 		    	<div id="aroundme__top">
 			</c:if>
-			<c:if test="${!showConfig}">
+			<c:if test="${!showConfig || showFiltersReminder}">
 		    	<div id="aroundme__top" class="hidden">
 			</c:if>
 		        <button class="top__trigger top__trigger--pull opened"></button>
@@ -35,7 +35,7 @@
                                         </div>
                                         <div class="content type-date">
                                             <input name="from" data-type="date" type="text" id="date-start" placeholder="JJ/MM/AAAA"
-                                                value="${fromDay}/${fromMonth}/${fromYear}">
+                                                value="${fromDate}">
                                             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${fromDay}" />
                                             <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${fromMonth -1}" />
                                             <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${fromYear}" />
@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="content type-date">
                                             <input name="to" data-type="date" type="text" id="date-end" placeholder="JJ/MM/AAAA"
-                                                value="${toDay}/${toMonth}/${toYear}">
+                                                value="${toDate}">
                                             <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${toDay}" />
                                             <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${toMonth -1}" />
                                             <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${toYear}" />
@@ -79,9 +79,9 @@
                                                     ${category.getTitle(locale)}
 
                                                     <c:set var="prefilters" value="${fn:replace(prefilterCategoriesIds,'\"','')}" />
-                                                    <c:set var="fromDate" value="${fromDay}/${fromMonth}/${fromYear}" />
+                                                    <%-- <c:set var="fromDate" value="${fromDay}/${fromMonth}/${fromYear}" />
                                                     <c:set var="toDate" value="${toDay}/${toMonth}/${toYear}" />
-                                                    <%-- (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
+                                                    (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
                                                         <img src="${category.getDescription(locale)}">
@@ -154,6 +154,13 @@
 		                            </div>
 		                        </c:forEach>
 		                    </c:forEach>
+
+                            <c:if test="${showDeleteFilter}">
+                                <div class="deleteFilters">
+                                    <a id="deleteFilters" href=""><liferay-ui:message key="delete-filters" /></a>
+                                </div>
+                            </c:if>
+
 		                    <input
 		                        id="<portlet:namespace />checkboxNamesCategories"
 		                        name="<portlet:namespace />checkboxNamesCategories"
@@ -211,6 +218,10 @@
 						<div id="aroundme__side" style="z-index: 406" class="${showList} opened hidden">
 					</c:if>
 		                <button class="side__trigger side__trigger--pull opened"></button>
+                        <c:if test="${showFiltersReminder}">
+                            <div id="filters__reminder">
+                            </div>
+                        </c:if>
 		                <div class="side__overflow">
 		                    <form class="liste filtres--poi">
 		                        <h2 class="filtres__title">
