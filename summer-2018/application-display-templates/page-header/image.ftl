@@ -4,14 +4,16 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <header class="mns-header" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
     <div class="container mns-center">
-        ${page.getDescription(locale)}
+        <h1>${page.getTitle(locale)}</h1>
+        <span>${page.getDescription(locale)}</span>
     </div>
 </header>
 
 <div class="container mns-wrapper-bread">
-    <div class="mns-breadcrumbs mns-bread-image">
+    <div class="mns-breadcrumbs mns-bread-color">
         <#if !page.ancestors?has_content || page.ancestors?reverse[0].friendlyURL != '/accueil'>
             <a href="${homeURL}"><@liferay_ui.message key="home" /></a>
         </#if>
@@ -23,7 +25,14 @@
 </div>
 
 <style>
-#mns-global .mns-breadcrumbs {
-    margin-top: 0;
-}
+    @media screen and (min-width: 767px){
+        #mns-global .mns-bloc-article .mns-wrapper-title{
+            display: none;
+        }
+    }
+    @media screen and (max-width: 767px){
+        #mns-global .mns-header .container{
+            display: none;
+        }
+    }
 </style>
