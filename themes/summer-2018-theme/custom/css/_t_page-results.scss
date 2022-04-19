@@ -45,6 +45,9 @@
 		    transition: all,.5s;
 		    overflow: hidden;
 
+			@include mobile{
+				padding: 15px 5px;
+			}
 
 		    &:before {
 	    		content: '';
@@ -116,6 +119,10 @@
 				    text-transform: uppercase;
 				    transition: all,.3s;
 				    width: 100%;
+
+					@include mobile_small{
+						@include ft($f_nr, 15px, 400, $c_white, normal);
+					}
 			    }
 	    
 		    }
