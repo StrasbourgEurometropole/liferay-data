@@ -39,7 +39,7 @@
 						}
 
 						&:hover{
-							color: $c_main;
+							color: $second-color;
 						}
 					}
 
@@ -123,7 +123,7 @@
 					@include an(all,0.3);
 	
 					&:hover{
-						color: $c_main;
+						color: $second-color;
 					}
 				}
 			}
