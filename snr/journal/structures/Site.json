@@ -53,6 +53,29 @@
         },
         {
             "label": {
+                "fr_FR": "Année du programme"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "text",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "programYear",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
                 "fr_FR": "Date du début de la semaine du numérique"
             },
             "predefinedValue": {
