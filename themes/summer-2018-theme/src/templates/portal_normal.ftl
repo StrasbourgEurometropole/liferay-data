@@ -153,7 +153,7 @@
 
         <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
         <div class="social-share">
-            <input class="toggle-input" id="toggle-input" type="checkbox" /> 
+            <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Réseaux sociaux" /> 
             <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
               <span>Réseaux sociaux</span>
             </label>

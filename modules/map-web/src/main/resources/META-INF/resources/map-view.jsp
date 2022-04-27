@@ -203,12 +203,12 @@
 		    <div id="aroundme__center">
 		        <div id="mapid" class="aroundme__map">
 		            <div class="aroundme__ui__group" style="z-index: 401">
-		                <button class="aroundme__ui aroundme__ui--fullscreen"></button>
+		                <button class="aroundme__ui aroundme__ui--fullscreen" aria-label="<liferay-ui:message key='eu.aroundme.fullscreen' />"></button>
 		                <div class="aroundme__ui aroundme__ui--loading" style="display: none;"><div class="lds-rolling"><div class=""></div></div></div>
-		                <button class="aroundme__ui aroundme__ui--zoomin"></button>
-		                <button class="aroundme__ui aroundme__ui--zoomout"></button>
-		                <button class="aroundme__ui aroundme__ui--locate"></button>
-		                <button class="aroundme__ui aroundme__ui--home" data-mapconfirm="center"></button>
+		                <button class="aroundme__ui aroundme__ui--zoomin" aria-label="<liferay-ui:message key='eu.aroundme.zoomin' />"></button>
+		                <button class="aroundme__ui aroundme__ui--zoomout" aria-label="<liferay-ui:message key='eu.aroundme.zoomout' />"></button>
+		                <button class="aroundme__ui aroundme__ui--locate" aria-label="<liferay-ui:message key='eu.aroundme.locate' />"></button>
+		                <button class="aroundme__ui aroundme__ui--home" data-mapconfirm="center" aria-label="<liferay-ui:message key='eu.aroundme.home' />"></button>
 		            </div>
 					
 					<c:if test="${showList}">
@@ -217,7 +217,7 @@
 					<c:if test="${!showList}">
 						<div id="aroundme__side" style="z-index: 406" class="${showList} opened hidden">
 					</c:if>
-		                <button class="side__trigger side__trigger--pull opened"></button>
+		                <button class="side__trigger side__trigger--pull opened" aria-label="<liferay-ui:message key='eu.aroundme.open-list' />"></button>
                         <c:if test="${showFiltersReminder}">
                             <div id="filters__reminder">
                             </div>
