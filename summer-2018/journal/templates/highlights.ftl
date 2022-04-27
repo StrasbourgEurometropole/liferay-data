@@ -27,7 +27,7 @@
         	    <div class="mns-btn ${(cur_image?counter==1)?then('open','')}" onClick="changeDetail('article${cur_image?counter}')">${cur_image.title.getData()}</div>
         	</#list>
     	</div>
-	    <button type="button" class="change-article-mobile" data-toggle="collapse" data-target="#link-article" aria-expanded="false" aria-controls="link-article">
+	    <button type="button" class="change-article-mobile" aria-label="<@liferay_ui.message key="eu.change-article" />" data-toggle="collapse" data-target="#link-article" aria-expanded="false" aria-controls="link-article">
     </div>
 </div>
 
