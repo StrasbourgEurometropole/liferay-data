@@ -46,7 +46,6 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 	 *
 	 * Never reference this class directly. Use <code>eu.strasbourg.service.csmap.service.AgendaLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil</code>.
 	 */
-
 	@Override
 	public Agenda createAgenda() {
 		long pk = this.counterLocalService.increment();
@@ -62,6 +61,7 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 
 		return agenda;
 	}
+
 	/**
 	 * Supprime l'agenda et modifie le cache des agendas
 	 *

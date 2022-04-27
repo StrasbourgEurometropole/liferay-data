@@ -237,6 +237,13 @@ public class PublikUserLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
+		getByPactSignatureAndPactDisplay() {
+
+		return _publikUserLocalService.getByPactSignatureAndPactDisplay();
+	}
+
+	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getByPublikUserId(
 		String publikUserId) {
 

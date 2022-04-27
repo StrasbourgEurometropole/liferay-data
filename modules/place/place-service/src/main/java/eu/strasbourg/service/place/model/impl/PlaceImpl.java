@@ -497,7 +497,6 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne la liste des vidéos de ce lieu
      */
-
     @Override
     public List<Video> getVideos() {
         List<Video> videos = new ArrayList<Video>();
@@ -1191,7 +1190,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("mercatorY", this.getMercatorY());
         jsonPlace.put("mercatorX", this.getMercatorX());
 
-        // Types
+        // SIGId des Types
         JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
         for (AssetCategory assetCategory : this.getTypes()) {
             jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
@@ -1208,6 +1207,16 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
         }
 
+        // ExternalID des équipements
+        JSONArray jsonEquipments = JSONFactoryUtil.createJSONArray();
+        for (AssetCategory assetCategory : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+                VocabularyNames.EQUIPMENT)) {
+            jsonEquipments.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "externalId"));
+        }
+        if (jsonEquipments.length() > 0) {
+            jsonPlace.put("equipment", jsonEquipments);
+        }
+
         // Caractéristiques
         if (Validator.isNotNull(this.getCharacteristics())) {
             jsonPlace.put("characteristics", JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
@@ -1222,6 +1231,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (Validator.isNotNull(this.getMail())) {
             jsonPlace.put("mail", this.getMail());
         }
+
+        // Phone
         if (Validator.isNotNull(this.getPhone())) {
             jsonPlace.put("phone", this.getPhone());
         }
@@ -1256,6 +1267,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("accessForDeaf", this.getAccessForDeaf());
         jsonPlace.put("accessForElder", this.getAccessForElder());
         jsonPlace.put("accessForDeficient", this.getAccessForDeficient());
+
         jsonPlace.put("hasURLSchedule", this.getHasURLSchedule());
         if (Validator.isNotNull(this.getScheduleLinkNameMap())) {
             jsonPlace.put("scheduleLinkName", JSONHelper.getJSONFromI18nMap(this.getScheduleLinkNameMap()));
@@ -1353,193 +1365,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
 
-        JSONObject properties = JSONFactoryUtil.createJSONObject();
-        properties.put("idSurfs", this.getSIGid());
-        properties.put("name", JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
-        properties.put("address", this.getAddressStreet() + " " + this.getAddressZipCode() + " "
-                + this.getCity(Locale.getDefault()) + " " + this.getAddressCountry());
-        if (Validator.isNotNull(this.getAddressDistribution())) {
-            properties.put("distribution", this.getAddressDistribution());
-        }
-        properties.put("street", this.getAddressStreet());
-        if (Validator.isNotNull(this.getAddressComplement())) {
-            properties.put("complement", this.getAddressComplement());
-        }
-
-        // Code postal
-        properties.put("zipCode", this.getAddressZipCode());
-
-        // Quartier
-        AssetCategory districtCategory = this.getDistrictCategory();
-        if (districtCategory != null) {
-            String SIGId = AssetVocabularyHelper.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
-            properties.put("districtCode", SIGId);
-        }
-
-        // Ville
-        AssetCategory cityCategory = this.getCityCategory();
-        if (cityCategory != null) {
-            String SIGId = AssetVocabularyHelper.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
-            properties.put("cityCode", SIGId);
-        }
-
-        properties.put("city", this.getCity(Locale.getDefault()));
-
-        // Pays
-        properties.put("country", this.getAddressCountry());
-
-        // Coordonnées
-        properties.put("RGF93Y", this.getRGF93Y());
-        properties.put("RGF93X", this.getRGF93X());
-        properties.put("mercatorY", this.getMercatorY());
-        properties.put("mercatorX", this.getMercatorX());
-
-        // Types
-        JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-        for (AssetCategory assetCategory : this.getTypes()) {
-            jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
-        }
-        if (jsonTypes.length() > 0) {
-            properties.put("types", jsonTypes);
-        }
-
-        // Description
-        properties.put("description", JSONHelper.getJSONFromI18nMap(this.getPresentationMap()));
-
-        // Services et activités
-        if (Validator.isNotNull(this.getServiceAndActivities())) {
-            properties.put("serviceAndActivities", JSONHelper.getJSONFromI18nMap(this.getServiceAndActivitiesMap()));
-        }
-
-        // Caractéristiques
-        if (Validator.isNotNull(this.getCharacteristics())) {
-            properties.put("characteristics", JSONHelper.getJSONFromI18nMap(this.getCharacteristicsMap()));
-        }
-
-        // Tarifs
-        if (Validator.isNotNull(this.getPrice()) && Validator.isNotNull(this.getPrice().getPriceDescription())) {
-            properties.put("price", JSONHelper.getJSONFromI18nMap(this.getPrice().getPriceDescriptionMap()));
-        }
-
-        // Mail
-        if (Validator.isNotNull(this.getMail())) {
-            properties.put("mail", this.getMail());
-        }
-
-        // Téléphone
-        if (Validator.isNotNull(this.getPhone())) {
-            properties.put("phone", this.getPhone());
-        }
-
-        // Facebook
-        if (Validator.isNotNull(this.getFacebookLabel())) {
-            properties.put("facebookName", JSONHelper.getJSONFromI18nMap(this.getFacebookLabelMap()));
-            properties.put("facebookURL", JSONHelper.getJSONFromI18nMap(this.getFacebookURLMap()));
-        }
-
-        // Instagram
-        if (Validator.isNotNull(this.getInstagramLabel())) {
-            properties.put("instagramName", JSONHelper.getJSONFromI18nMap(this.getInstagramLabelMap()));
-            properties.put("instagramURL", JSONHelper.getJSONFromI18nMap(this.getInstagramURLMap()));
-        }
-
-        // Site
-        if (Validator.isNotNull(this.getSiteLabel())) {
-            properties.put("websiteName", JSONHelper.getJSONFromI18nMap(this.getSiteLabelMap()));
-            properties.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
-        }
-
-        // Accès
-        if (Validator.isNotNull(this.getAccess())) {
-            properties.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
-        }
-        if (Validator.isNotNull(this.getAccessForDisabled())) {
-            properties.put("accessForDisabled", JSONHelper.getJSONFromI18nMap(this.getAccessForDisabledMap()));
-        }
-        properties.put("accessForBlind", this.getAccessForBlind());
-        properties.put("accessForWheelchair", this.getAccessForWheelchair());
-        properties.put("accessForDeaf", this.getAccessForDeaf());
-        properties.put("accessForElder", this.getAccessForElder());
-        properties.put("accessForDeficient", this.getAccessForDeficient());
-
-        // Horaires et périodes
-        JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
-        for (Period period : this.getPeriods()) {
-            periodsJSON.put(period.toJSON());
-        }
-        if (periodsJSON.length() > 0) {
-            properties.put("periods", periodsJSON);
-        }
-
-        JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
-        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
-            scheduleExceptionsJSON.put(scheduleException.toJSON());
-        }
-        if (scheduleExceptionsJSON.length() > 0) {
-            properties.put("exceptions", scheduleExceptionsJSON);
-        }
-
-        if (Validator.isNotNull(this.getExceptionalSchedule())) {
-            properties.put("exceptionalSchedule", JSONHelper.getJSONFromI18nMap(this.getExceptionalScheduleMap()));
-        }
-
-        // Information complémentaire
-        if (Validator.isNotNull(this.getAdditionalInformation())) {
-            properties.put("additionalInformation", JSONHelper.getJSONFromI18nMap(this.getAdditionalInformationMap()));
-        }
-
-        // URL du lieu
-        properties.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
-
-        // Image principale
-        if (Validator.isNotNull(this.getImageURL())) {
-            String imageURL = this.getImageURL();
-            imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-            properties.put("imageURL", imageURL);
-            properties.put("imageCopyright", this.getImageCopyright(Locale.getDefault()));
-        }
-
-        // Images secondaires
-        JSONArray imagesJSON = JSONFactoryUtil.createJSONArray();
-        for (String imageIdString : this.getImageIds().split(",")) {
-            JSONObject imageJSON = JSONFactoryUtil.createJSONObject();
-            Long imageId = GetterUtil.getLong(imageIdString);
-            if (imageId > 0) {
-                String imageURL = FileEntryHelper.getFileEntryURL(imageId);
-                imageURL = StrasbourgPropsUtil.getURL() + imageURL;
-                String imageCopyright = FileEntryHelper.getImageCopyright(imageId, LocaleUtil.FRENCH);
-                imageJSON.put("imageURL", imageURL);
-                imageJSON.put("imageCopyright", imageCopyright);
-                imagesJSON.put(imageJSON);
-            }
-        }
-        if (imagesJSON.length() > 0) {
-            properties.put("images", imagesJSON);
-        }
-
-        // Vidéos
-        JSONArray videosJSON = JSONFactoryUtil.createJSONArray();
-        for (String videoIdString : this.getVideosIds().split(",")) {
-            Long videoId = GetterUtil.getLong(videoIdString);
-            Video video = VideoLocalServiceUtil.fetchVideo(videoId);
-            if (Validator.isNotNull(video)) {
-                videosJSON.put(video.getSource(Locale.FRANCE));
-            }
-        }
-        if (videosJSON.length() > 0) {
-            properties.put("videos", videosJSON);
-        }
-
-        // Documents
-        JSONArray documentsJSON = JSONFactoryUtil.createJSONArray();
-        for (String documentURL : this.getDocumentURLs()) {
-            documentURL = StrasbourgPropsUtil.getURL() + documentURL;
-            documentsJSON.put(documentURL);
-        }
-        if (documentsJSON.length() > 0) {
-            properties.put("documents", documentsJSON);
-        }
-        feature.put("properties", properties);
+        feature.put("properties", this.toJSON());
 
         JSONObject geometry = JSONFactoryUtil.createJSONObject();
         geometry.put("type", "Point");
@@ -1550,153 +1376,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         feature.put("geometry", geometry);
 
         return feature;
-    }
-
-    /**
-     * Reprise de l'horriblissime webservice des lieux de LR6
-     */
-    @Override
-    public JSONObject toLegacyJSON() {
-        JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-
-        JSONObject accessForDisabled = JSONFactoryUtil.createJSONObject();
-        accessForDisabled.put("javaClass", "java.util.HashMap");
-        JSONObject accessForDisabledMap = JSONFactoryUtil.createJSONObject();
-        accessForDisabledMap.put("Personnes agees", this.getAccessForElder());
-        accessForDisabledMap.put("Deficients auditif", this.getAccessForDeaf());
-        accessForDisabledMap.put("Deficients visuel", this.getAccessForBlind());
-        accessForDisabledMap.put("Deficients cognitif", this.getAccessForDeficient());
-        accessForDisabledMap.put("Handicap moteur", this.getAccessForWheelchair());
-        accessForDisabled.put("map", accessForDisabledMap);
-        jsonPlace.put("accessHandicap", accessForDisabled);
-
-        jsonPlace.put("urlSiteInternet", this.getSiteURL(Locale.FRANCE));
-        jsonPlace.put("tarifs", this.getPrice() != null ? this.getPrice().getPriceDescription(Locale.FRANCE) : "");
-        jsonPlace.put("adresse", this.getAddressStreet() + " " + this.getAddressComplement() + "<br />"
-                + this.getAddressZipCode() + " " + this.getCity(Locale.FRANCE) + "<br />" + this.getAddressCountry());
-        jsonPlace.put("rue", this.getAddressStreet());
-        jsonPlace.put("illustration", this.getImageURL());
-        jsonPlace.put("urlFacebook", this.getFacebookURL(Locale.FRANCE));
-        jsonPlace.put("urlInstagram", this.getInstagramURL(Locale.FRANCE));
-        jsonPlace.put("ville", this.getCity(Locale.FRANCE));
-
-        JSONObject coordinates = JSONFactoryUtil.createJSONObject();
-        coordinates.put("javaClass", "java.util.HashMap");
-        JSONObject coordinatesMap = JSONFactoryUtil.createJSONObject();
-        coordinatesMap.put("X", this.getRGF93X());
-        coordinatesMap.put("Y", this.getRGF93Y());
-        coordinates.put("map", coordinatesMap);
-        jsonPlace.put("coordonneesRGF93", coordinates);
-
-        jsonPlace.put("nomSiteInternet", this.getSiteLabel(Locale.FRANCE));
-        jsonPlace.put("urlVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getPlayer(Locale.FRANCE) : "");
-
-        JSONObject schedule = JSONFactoryUtil.createJSONObject();
-        schedule.put("javaClass", "java.util.TreeMap");
-        JSONObject scheduleMap = JSONFactoryUtil.createJSONObject();
-        LocalDate date = LocalDate.now();
-        for (int i = 0; i < 7; i++) {
-            String dateString = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            List<PlaceSchedule> placeSchedules = this.getPlaceSchedule(date, Locale.FRANCE);
-            String scheduleString = "";
-            for (PlaceSchedule placeSchedule : placeSchedules) {
-                if (placeSchedule.isClosed()) {
-                    scheduleString = "Ferme";
-                } else if (placeSchedule.isAlwaysOpen()) {
-                    scheduleString = "24h/24";
-                } else if (placeSchedule.getOpeningTimes() != null) {
-                    for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
-                        if (scheduleString.length() > 0) {
-                            scheduleString += ",";
-                        }
-                        scheduleString += openingTime.getFirst() + "-" + openingTime.getSecond();
-                    }
-                }
-            }
-            scheduleMap.put(dateString, scheduleString);
-            date = date.plusDays(1);
-        }
-        schedule.put("map", scheduleMap);
-        jsonPlace.put("horaires", schedule);
-
-        jsonPlace.put("descriptionAccesHandicap", this.getAccessForDisabled(Locale.FRANCE));
-
-        JSONObject categories = JSONFactoryUtil.createJSONObject();
-        categories.put("javaClass", "java.util.ArrayList");
-        JSONArray categoriesArray = JSONFactoryUtil.createJSONArray();
-        for (AssetCategory type : this.getTypes()) {
-            String sigId = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "SIG");
-            if (Validator.isNotNull(sigId)) {
-                categoriesArray.put(sigId);
-            }
-        }
-        categories.put("list", categoriesArray);
-        jsonPlace.put("categorie", categories);
-
-        jsonPlace.put("horaireExceptionnel", this.getExceptionalSchedule(Locale.FRANCE));
-        jsonPlace.put("nomFacebook", this.getFacebookLabel(Locale.FRANCE));
-        jsonPlace.put("nomInstagram", this.getInstagramLabel(Locale.FRANCE));
-
-        // "urlGalerie" n'existe plus
-        // "nomPeriode" ???
-        // "urlLienHoraires" pas possible car par période
-        // "nomLienHoraires" pas possible : par période
-        // "nomGalerie" : n'existe plus
-        // ouvertures exceptionnelles ???
-        // Fermetures exceptionnelles
-        // TOUT VIDE DU COUP
-        jsonPlace.put("urlGalerie", "");
-        jsonPlace.put("nomPeriode", "");
-        jsonPlace.put("urlLienHoraires", "");
-        jsonPlace.put("nomLienHoraires", "");
-        jsonPlace.put("nomGalerie", "");
-        jsonPlace.put("ouvertures exceptionnelles", "");
-        jsonPlace.put("Fermetures exceptionnelles", "");
-
-        jsonPlace.put("services", this.getServiceAndActivities(Locale.FRANCE));
-        jsonPlace.put("document1", this.getDocumentURLs().size() > 0 ? this.getDocumentURLs().get(0) : "");
-        jsonPlace.put("document2", this.getDocumentURLs().size() > 1 ? this.getDocumentURLs().get(1) : "");
-        jsonPlace.put("modeAcces", this.getAccess(Locale.FRANCE));
-        jsonPlace.put("caracteristiques", this.getCharacteristics(Locale.FRANCE));
-        jsonPlace.put("idSurfs", this.getSIGid());
-        jsonPlace.put("nomLieu", this.getAlias(Locale.FRANCE));
-        jsonPlace.put("friendlyUrl", "https://www.strasbourg.eu/lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(Locale.FRANCE));
-        jsonPlace.put("infosComplementaires", this.getAdditionalInformation(Locale.FRANCE));
-
-        JSONObject territory = JSONFactoryUtil.createJSONObject();
-        territory.put("javaClass", "java.util.HashMap");
-        JSONObject territoryMap = JSONFactoryUtil.createJSONObject();
-        AssetCategory district = this.getDistrictCategory();
-        String districtCode = AssetVocabularyHelper.getCategoryProperty(district.getCategoryId(), "SIG");
-        if (Validator.isNotNull(districtCode)) {
-            territoryMap.put("Quartier", districtCode);
-        }
-        AssetCategory city = this.getCityCategory();
-        territoryMap.put("Commune",
-                city != null ? AssetVocabularyHelper.getCategoryProperty(city.getCategoryId(), "SIG") : "");
-        territory.put("map", territoryMap);
-        jsonPlace.put("territoire", territory);
-
-        jsonPlace.put("presentation", this.getPresentation(Locale.FRANCE));
-        jsonPlace.put("email", this.getMail());
-        jsonPlace.put("mentionDistribution", this.getAddressDistribution());
-
-        JSONObject mercator = JSONFactoryUtil.createJSONObject();
-        mercator.put("javaClass", "java.util.HashMap");
-        JSONObject mercatorMap = JSONFactoryUtil.createJSONObject();
-        mercatorMap.put("X", this.getMercatorX());
-        mercatorMap.put("Y", this.getMercatorY());
-        mercator.put("map", mercatorMap);
-        jsonPlace.put("coordonneesMercator", mercator);
-
-        jsonPlace.put("javaClass", "com.cus.surfs.service.cusplaceasset.batch.CusPlaceAssetWithSchedule");
-        jsonPlace.put("pays", this.getAddressCountry());
-        jsonPlace.put("nomVideo", this.getVideos().size() > 0 ? this.getVideos().get(0).getTitle(Locale.FRANCE) : "");
-        jsonPlace.put("complementAdresse", this.getAddressComplement());
-        jsonPlace.put("telephone", this.getPhone());
-        jsonPlace.put("codePostal", this.getAddressZipCode());
-
-        return jsonPlace;
     }
 
     /**

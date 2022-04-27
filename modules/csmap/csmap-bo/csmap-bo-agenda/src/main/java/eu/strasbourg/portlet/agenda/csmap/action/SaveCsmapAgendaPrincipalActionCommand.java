@@ -73,6 +73,17 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
         }
         agenda.setTypesIds(agendaTypes.toString());
 
+        StringBuilder agendaTerritories = new StringBuilder();
+        long[] agendaTerritoriesIds = ParamUtil.getLongValues(request, "Vocabulary_" + getTerritoryVocabularyId());
+        for (long agendaTerritoriesId : agendaTerritoriesIds) {
+            if (agendaTerritories.toString().equals("")) {
+                agendaTerritories = new StringBuilder(String.valueOf(agendaTerritoriesId));
+            } else {
+                agendaTerritories.append(",").append(agendaTerritoriesId);
+            }
+        }
+        agenda.setTerritoriesIds(agendaTerritories.toString());
+
         String tags = ParamUtil.getString(request,
                 "tags");
         agenda.setTags(tags);
@@ -114,6 +125,17 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
     private String getTypeVocabularyId(){
         try {
             AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EVENT_TYPE);
+            if(Validator.isNotNull(type))
+                return String.valueOf(type.getVocabularyId());
+        } catch (PortalException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String getTerritoryVocabularyId(){
+        try {
+            AssetVocabulary type = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
