@@ -252,8 +252,12 @@ if ($(window).width() > 1200) {
 		nav:true,
 		margin: 56,
 		autoWidth: true,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
-	    responsive:{
+		navElement: 'button role="presentation" aria-label="slider agenda naviation"',
+		navText: [
+			"<span class='icon-chevron-thin-left' ></span>",
+			"<span class='icon-chevron-thin-right' ></span>"
+		],
+		responsive:{
 	        0:{
 	            items:1
 	        },
@@ -292,7 +296,11 @@ if ($(window).width() > 1200) {
 		dots: false,
 		nav:true,
 		autoplay: false,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+		navElement: 'button role="presentation" aria-label="slider agenda naviation"',
+		navText: [
+			"<span class='icon-chevron-thin-left' ></span>",
+			"<span class='icon-chevron-thin-right' ></span>"
+		],
 	});
 
 	// Carsousel section Testimonial
