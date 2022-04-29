@@ -29,7 +29,7 @@
         },
         {
             "label": {
-                "fr_FR": "Date de l'évènement"
+                "fr_FR": "Date de l'évènement (début si plusieurs jours)"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -48,6 +48,53 @@
             "readOnly": false,
             "repeatable": false,
             "required": true,
+            "showLabel": true,
+            "type": "ddm-date"
+        },
+        {
+            "label": {
+                "fr_FR": "Evènement sur plusieurs jours"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "isSeveralDate",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Date de fin de l'évènement"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "date",
+            "fieldNamespace": "ddm",
+            "indexType": "",
+            "localizable": true,
+            "name": "endDateEvent",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
             "showLabel": true,
             "type": "ddm-date"
         },
@@ -228,7 +275,7 @@
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": "Si ce lien est vide, c'est un lien d'inscription vers MonStrasbour automatique qui sera mis en place"
+                "fr_FR": "Si ce lien est vide, le bouton d'inscription ne sera pas affiché"
             },
             "dataType": "string",
             "indexType": "",
