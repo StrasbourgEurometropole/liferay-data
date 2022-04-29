@@ -85,7 +85,7 @@
                 "fr_FR": ""
             },
             "tip": {
-                "fr_FR": ""
+                "fr_FR": "Uniquement dans le cas d'événement sur plusieurs jours"
             },
             "dataType": "date",
             "fieldNamespace": "ddm",
@@ -211,7 +211,7 @@
                     "name": "fullName",
                     "readOnly": false,
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "showLabel": true,
                     "type": "text"
                 },
@@ -234,7 +234,7 @@
                     "name": "role",
                     "readOnly": false,
                     "repeatable": false,
-                    "required": true,
+                    "required": false,
                     "showLabel": true,
                     "type": "text"
                 },
