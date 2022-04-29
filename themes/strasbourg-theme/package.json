@@ -52,5 +52,8 @@
 	},
 	"dependencies": {
 		"sortablejs": "^1.8.4"
+	},
+	"scripts": {
+		"buildCssJs": "gulp js && gulp css"
 	}
 }
