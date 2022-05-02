@@ -17,18 +17,21 @@
                         searchContainer="${dc.applicationSearchContainer}">
                 <c:if test="${dc.applicationSearchContainer.total gt 0}">
                     <div class="candidaturesList">
-                        <div class="candidatureInfo">
-                            <div class="titre"><liferay-ui:message key="title-and-ref" /></div>
-                            <div class="code"><liferay-ui:message key="code" /></div>
-                            <div class="date"><liferay-ui:message key="date" /></div>
-                            <div class="statut"><liferay-ui:message key="statut" /></div>
-                        </div>
+                        <div class="candidatureInfo titre"><liferay-ui:message key="title-and-ref" /></div>
+                        <div class="candidatureInfo code"><liferay-ui:message key="code" /></div>
+                        <div class="candidatureInfo date"><liferay-ui:message key="date" /></div>
+                        <div class="candidatureInfo statut"><liferay-ui:message key="statut" /></div>
+                        <div class="candidatureInfo pdf"></div>
                         <c:forEach var="application" items="${dc.applicationPaginatedResults}">
-                            <div class="candidatureDetail">
-                                <div class="titre">${fn:length(application.title) > 35?fn:substring(application.title,0,35)+='...':application.title}</div>
-                                <div class="code"><a href="${application.url}">${application.codeSuivi}</a></div>
-                                <div class="date">${application.date}</div>
-                                <div class="statut">${application.status}</div>
+                            <div class="candidatureDetail titre">${application.refPoste} ${application.libPoste}</div>
+                            <div class="candidatureDetail code"><a href="${application.url}">${application.codeSuivi}</a></div>
+                            <div class="candidatureDetail date">${application.date}</div>
+                            <div class="candidatureDetail statut">${application.status}</div>
+                            <div class="candidatureDetail pdf">
+                                <liferay-portlet:actionURL name="exportPDF" var="exportPDFURL">
+                                    <portlet:param name="refPoste" value="${application.refPoste}" />
+                                </liferay-portlet:actionURL>
+                                <a href="${exportPDFURL}" target="_blank"><liferay-ui:message key="pdf" /></a>
                             </div>
                         </c:forEach>
                     </div>
@@ -107,33 +110,29 @@
                         searchContainer="${dc.alertSearchContainer}">
                 <c:if test="${dc.alertSearchContainer.total gt 0}">
                     <div class="alertesList">
-                        <div class="alerteInfo">
-                            <div class="titre"><liferay-ui:message key="title" /></div>
-                            <div class="filtre"><liferay-ui:message key="keywords-categories" /></div>
-                            <div class="supprimer"></div>
-                        </div>
+                        <div class="alerteInfo titre"><liferay-ui:message key="title" /></div>
+                        <div class="alerteInfo filtre"><liferay-ui:message key="keywords-categories" /></div>
+                        <div class="alerteInfo supprimer"></div>
                         <c:forEach var="alert" items="${dc.alerts}">
                             <portlet:actionURL name="deleteAlert" var="deleteAlert">
                                 <portlet:param name="alertId" value="${alert.alertId}"></portlet:param>
                             </portlet:actionURL>
 
-                            <div class="alerteDetail">
-                                <div class="titre">${alert.name}</div>
-                                <div class="filtre">
-                                    ${alert.keyWord}
-                                    <c:if test="${not empty alert.keyWord && not empty alert.categories}">
+                            <div class="alerteDetail titre">${alert.name}</div>
+                            <div class="alerteDetail filtre">
+                                ${alert.keyWord}
+                                <c:if test="${not empty alert.keyWord && not empty alert.categories}">
+                                    ,
+                                </c:if>
+                                <c:forEach var="category" items="${alert.categories}" varStatus="status">
+                                    <c:if test="${status.index > 0}">
                                         ,
                                     </c:if>
-                                    <c:forEach var="category" items="${alert.categories}" varStatus="status">
-                                        <c:if test="${status.index > 0}">
-                                            ,
-                                        </c:if>
-                                       ${category.getTitle(locale)}
-                                    </c:forEach>
-                                </div>
-                                <div class="supprimer">
-                                    <a href="${deleteAlert}" class="delete-alert">Supprimer</a>
-                                </div>
+                                   ${category.getTitle(locale)}
+                                </c:forEach>
+                            </div>
+                            <div class="alerteDetail supprimer">
+                                <a href="${deleteAlert}" class="delete-alert">Supprimer</a>
                             </div>
                         </c:forEach>
                     </div>
@@ -153,23 +152,26 @@
 
 
 <style>
-    .candidatureDetail .titre:before{
+    .candidatureDetail.titre:before{
         content:"<liferay-ui:message key="title-and-ref" />";
     }
-    .candidatureDetail .code:before{
+    .candidatureDetail.code:before{
         content:"<liferay-ui:message key="code" />";
     }
-    .candidatureDetail .date:before{
+    .candidatureDetail.date:before{
         content:"<liferay-ui:message key="date" />";
     }
-    .candidatureDetail .statut:before{
+    .candidatureDetail.statut:before{
         content:"<liferay-ui:message key="statut" />";
     }
+    .candidatureDetail.pdf:before{
+        content:"<liferay-ui:message key="pdf" />";
+    }
 
-    .alerteDetail .titre:before{
+    .alerteDetail.titre:before{
         content:"<liferay-ui:message key="title" />";
     }
-    .alerteDetail .filtre:before{
+    .alerteDetail.filtre:before{
         content:"<liferay-ui:message key="keywords-categories" />";
     }
 </style>

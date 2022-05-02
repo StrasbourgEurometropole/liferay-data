@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class OfferDisplayContext {
 
     private ThemeDisplay themeDisplay;
@@ -83,17 +84,18 @@ public class OfferDisplayContext {
             String internalId = getPublikID(request);
 
             // Récupération de la liste des candidatures de l'utilisateur
-            this.applications = new ArrayList<Application>();
-            JSONObject userForms = PublikApiClient.getUserForms(internalId, true);
-            if (userForms.toString().equals("{}")) {
+            this.applications = new ArrayList<>();
+            JSONObject userApplications = PublikApiClient.getUserAppications(internalId);
+            if (userApplications.toString().equals("{}")) {
                 request.setAttribute("error", "publik");
             } else {
-                JSONArray forms = userForms.getJSONArray("data");
+                JSONArray forms = userApplications.getJSONArray("data");
                 if(forms != null){
                     for (int  i=0; i<forms.length(); i++) {
                         JSONObject form = forms.getJSONObject(i);
                         if(form.getString("url").contains("candidature-a-une-offre-d-emploi")){
-                            Application application = new Application(form.getString("form_option_ref_poste") + " - " + form.getString("form_option_intitule_poste"), form.getString("url"), form.getString("form_number"), form.getString("form_receipt_date"), form.getString("form_status"));
+                            JSONObject fields = form.getJSONObject("fields");
+                            Application application = new Application(fields.getString("refposte"), fields.getString("libposte"), form.getString("url"), form.getString("form_number"), form.getString("form_receipt_date"), form.getString("form_status"));
                             this.applications.add(application);
                         }
                     }
@@ -126,7 +128,7 @@ public class OfferDisplayContext {
             Map<String, String[]> parameterMap = request.getParameterMap();
             PortletURL iteratorURL = response.createRenderURL();
             iteratorURL.setParameters(parameterMap);
-            applicationSearchContainer = new SearchContainer<Application>(request, iteratorURL, null,
+            applicationSearchContainer = new SearchContainer<>(request, iteratorURL, null,
                     "no-application");
             applicationSearchContainer.setDelta(this.getDelta());
             applicationSearchContainer.setTotal(this.getResultCount());
@@ -146,7 +148,7 @@ public class OfferDisplayContext {
      * Retourne le pager de la page de candidatures
      */
     public Pager getApplicationPager() {
-        return new Pager(this.getApplicationSearchContainer().getTotal(), (int) this.getDelta(),
+        return new Pager(this.getApplicationSearchContainer().getTotal(), this.getDelta(),
                 this.getApplicationSearchContainer().getCur());
     }
 
@@ -203,7 +205,7 @@ public class OfferDisplayContext {
             Map<String, String[]> parameterMap = request.getParameterMap();
             PortletURL iteratorURL = response.createRenderURL();
             iteratorURL.setParameters(parameterMap);
-            alertSearchContainer = new SearchContainer<Alert>(request, iteratorURL, null,
+            alertSearchContainer = new SearchContainer<>(request, iteratorURL, null,
                     "no-alert");
             alertSearchContainer.setDelta(0);
             alertSearchContainer.setTotal(this.getResultAlertCount());
