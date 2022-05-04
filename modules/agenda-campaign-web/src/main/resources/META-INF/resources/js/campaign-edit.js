@@ -367,7 +367,6 @@ function setConditionalValidators() {
 	
 })(jQuery);
 
-
 // Validation des périodes (et des langues)
 function validatePeriods(event) {
 	var allValidated = true;
@@ -375,34 +374,11 @@ function validatePeriods(event) {
 	var nbPeriod = 0;
 	for (var i = 0; i < dateRanges.length; i++) {
 		var dateRange = dateRanges[i];
-		var validated = true;
-		var id = $(dateRange).attr('id');
 		// On ne lance la validation que si une période a déjà été sélectionnée
 		// et que l'élément ne contient pas la classe "hide"
 		if ($(dateRange).text().indexOf('-') > 0 
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
             nbPeriod++;
-			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
-			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-			var otherDateRanges = document.querySelectorAll('#date-fields .date-range');
-			for (var j = 0; j < otherDateRanges.length; j++) {
-				var otherDateRange = document.querySelectorAll('#date-fields .date-range')[j];
-				var otherId = $(otherDateRange).attr('id');
-				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0  
-						&& $(otherDateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
-					var otherStartDate = moment($(otherDateRange).text().split(' - ')[0], 'DD/MM/YYYY');
-					var otherEndDate = moment($(otherDateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-				    if (startDate.isSameOrBefore(otherEndDate) && endDate.isSameOrAfter(otherStartDate)) {
-				    	validated = false;
-				    	break;
-				    }
-				}
-			}
-		}
-		if (!validated) {
-			$('.event-period-conflict', $(dateRange).parent()).show();
-            $(".event-period-conflict", $(dateRange).parent()).get(0).scrollIntoView();
-			allValidated = false;
 		}
 	}
 
