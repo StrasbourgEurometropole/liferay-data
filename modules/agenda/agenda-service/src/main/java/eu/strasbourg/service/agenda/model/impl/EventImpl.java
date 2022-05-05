@@ -819,6 +819,17 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
+		if (Validator.isNotNull(this.getBookingDescription())) {
+			jsonEvent.put("bookingDescription", JSONHelper.getJSONFromI18nMap(this.getBookingDescriptionMap()));
+		}
+
+		if (Validator.isNotNull(this.getBookingURL())) {
+			jsonEvent.put("bookingURL", this.getBookingURL());
+		}
+
+		if (Validator.isNotNull(this.getSubscriptionURL())) {
+			jsonEvent.put("subscriptionURL", this.getSubscriptionURL());
+		}
 		return jsonEvent;
 
 	}
