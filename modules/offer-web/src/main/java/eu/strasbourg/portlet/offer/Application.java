@@ -1,28 +1,40 @@
 package eu.strasbourg.portlet.offer;
 
+import com.liferay.portal.kernel.json.JSONObject;
+
 public class Application {
 
-	String title;
+	String refPoste;
+	String libPoste;
 	String url;
 	String codeSuivi;
 	String date;
 	String status;
 	
-	public Application(String title, String url, String codeSuivi, String date, String status) {
+	public Application(String refPoste, String libPoste, String url, String codeSuivi, String date, String status) {
 		super();
-		this.title = title;
+		this.refPoste = refPoste;
+		this.libPoste = libPoste;
 		this.url = url;
 		this.codeSuivi = codeSuivi;
 		this.date = date;
 		this.status = status;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getRefPoste() {
+		return refPoste;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setRefPoste(String refPoste) {
+		this.refPoste = refPoste;
+	}
+
+	public String getLibPoste() {
+		return libPoste;
+	}
+
+	public void setLibPoste(String libPoste) {
+		this.libPoste = libPoste;
 	}
 
 	public String getCodeSuivi() {
@@ -56,5 +68,4 @@ public class Application {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 }
