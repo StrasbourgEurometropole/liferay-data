@@ -154,15 +154,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </a> 
                     </div>
 
-                    <!-- Candidater -->
-                    <button type="button" class="seu-btn-square seu-filled seu-core" id="candidater">
-                        <span class="seu-flexbox">
-                            <span class="seu-btn-text">
-                                <a><@liferay_ui.message key="eu.offer-candidater" /></a>
+                    <#if .now < entry.publicationEndDate?datetime>
+                        <!-- Candidater -->
+                        <button type="button" class="seu-btn-square seu-filled seu-core" id="candidater">
+                            <span class="seu-flexbox">
+                                <span class="seu-btn-text">
+                                    <a><@liferay_ui.message key="eu.offer-candidater" /></a>
+                                </span>
+                                <span class="seu-btn-arrow"></span>
                             </span>
-                            <span class="seu-btn-arrow"></span>
-                        </span>
-                    </button>
+                        </button>
+                    </#if>
                 </div>  
             </div>  
         </main>

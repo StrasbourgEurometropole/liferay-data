@@ -29,14 +29,16 @@
                 </div>
             </#if>
         </a>
-        <div class="seu-result-infos">
-            <div class="seu-result-infos-top">
-                <@liferay_ui.message key="eu.offer-limit-date" />
+        <#if .now < entry.publicationEndDate?datetime>
+            <div class="seu-result-infos">
+                <div class="seu-result-infos-top">
+                    <@liferay_ui.message key="eu.offer-limit-date" />
+                </div>
+                <div class="seu-result-infos-bottom">
+                    ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
+                </div>
             </div>
-            <div class="seu-result-infos-bottom">
-                ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
-            </div>
-        </div>
+        </#if>
     </div>
 
 </div>
