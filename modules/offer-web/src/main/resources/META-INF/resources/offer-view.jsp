@@ -21,7 +21,7 @@
                         <div class="candidatureInfo code"><liferay-ui:message key="code" /></div>
                         <div class="candidatureInfo date"><liferay-ui:message key="date" /></div>
                         <div class="candidatureInfo statut"><liferay-ui:message key="statut" /></div>
-                        <div class="candidatureInfo pdf"></div>
+                        <div class="candidatureInfo pdf"><liferay-ui:message key="annonce" /></div>
                         <c:forEach var="application" items="${dc.applicationPaginatedResults}">
                             <div class="candidatureDetail titre">${application.refPoste} ${application.libPoste}</div>
                             <div class="candidatureDetail code"><a href="${application.url}">${application.codeSuivi}</a></div>
@@ -165,7 +165,7 @@
         content:"<liferay-ui:message key="statut" />";
     }
     .candidatureDetail.pdf:before{
-        content:"<liferay-ui:message key="pdf" />";
+        content:"<liferay-ui:message key="annonce" />";
     }
 
     .alerteDetail.titre:before{
