@@ -50,14 +50,33 @@
                 </div>
             </div>
             <div class="seu-mail">
-                <a href="${mediaLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-presse" title="${mediaLinkLabel.getData()}">
-                <span class="seu-picto"></span>
-                <span class="seu-text">${mediaLinkLabel.getData()}</span>
-                </a>
-                <a href="${newsletterLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
-                <span class="seu-picto"></span>
-                <span class="seu-text">${newsletterLinkLabel.getData()}</span>
-                </a>
+                <#if mediaLinkLabel.getData()?has_content>
+                    <a href="${mediaLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-presse" title="${mediaLinkLabel.getData()}">
+                        <span class="seu-picto"></span>
+                        <span class="seu-text">${mediaLinkLabel.getData()}</span>
+                    </a>
+                </#if>
+                <#if newsletterLinkLabel.getData()?has_content>
+                    <a href="${newsletterLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
+                        <span class="seu-picto"></span>
+                        <span class="seu-text">${newsletterLinkLabel.getData()}</span>
+                    </a>
+                </#if>
+                <#if rightLink.getSiblings()?has_content>
+                    <#list rightLink.getSiblings() as cur_rightLink>
+                        <#if cur_rightLink.rightActiveTab?? && cur_rightLink.rightActiveTab.getData()?? && cur_rightLink.rightActiveTab.getData() == "true">
+                            <a href="${cur_rightLink.rightLinkURL.getData()}" title="${cur_rightLink.getData()}">
+                                <span class="seu-picto">${cur_rightLink.rightSVG.getData()}</span>
+                                <span class="seu-text">${cur_rightLink.getData()}</span>
+                            </a>
+                        <#else>
+                            <a href="${cur_rightLink.rightLinkURL.getData()}" title="${cur_rightLink.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                                <span class="seu-picto">${cur_rightLink.rightSVG.getData()}</span>
+                                <span class="seu-text">${cur_rightLink.getData()}</span>
+                            </a>
+                        </#if>
+                   </#list>
+                </#if>
             </div>
         </div>
     </div>
@@ -86,7 +105,8 @@
             <#if subfooterLinkLabel.getSiblings()?has_content>
                 <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
                     <#if cur_subfooterLinkLabel.Lien2ga2.getData()?has_content>
-                        <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
+                    <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}
+                    </a>
                     <#else>
                         <#if cur_subfooterLinkLabel.activeTab?? && cur_subfooterLinkLabel.activeTab.getData()?? && cur_subfooterLinkLabel.activeTab.getData() == "true">
                             <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
