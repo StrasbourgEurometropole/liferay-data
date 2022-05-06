@@ -50,33 +50,22 @@
                 </div>
             </div>
             <div class="seu-mail">
-                <#if mediaLinkLabel.getData()?has_content>
-                    <a href="${mediaLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-presse" title="${mediaLinkLabel.getData()}">
-                        <span class="seu-picto"></span>
-                        <span class="seu-text">${mediaLinkLabel.getData()}</span>
-                    </a>
-                </#if>
-                <#if newsletterLinkLabel.getData()?has_content>
-                    <a href="${newsletterLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
-                        <span class="seu-picto"></span>
-                        <span class="seu-text">${newsletterLinkLabel.getData()}</span>
-                    </a>
-                </#if>
-                <#if rightLink.getSiblings()?has_content>
-                    <#list rightLink.getSiblings() as cur_rightLink>
-                        <#if cur_rightLink.rightActiveTab?? && cur_rightLink.rightActiveTab.getData()?? && cur_rightLink.rightActiveTab.getData() == "true">
-                            <a href="${cur_rightLink.rightLinkURL.getData()}" title="${cur_rightLink.getData()}">
-                                <span class="seu-picto">${cur_rightLink.rightSVG.getData()}</span>
-                                <span class="seu-text">${cur_rightLink.getData()}</span>
-                            </a>
-                        <#else>
-                            <a href="${cur_rightLink.rightLinkURL.getData()}" title="${cur_rightLink.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
-                                <span class="seu-picto">${cur_rightLink.rightSVG.getData()}</span>
-                                <span class="seu-text">${cur_rightLink.getData()}</span>
-                            </a>
-                        </#if>
-                   </#list>
-                </#if>
+                <a href="${mediaLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-presse" title="${mediaLinkLabel.getData()}">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${mediaLinkLabel.getData()}</span>
+                </a>
+                <a href="${newsletterLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-newsletter"  title="${newsletterLinkLabel.getData()}">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${newsletterLinkLabel.getData()}</span>
+                </a>
+                <a href="${offerLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-offer" title="${offerLinkLabel.getData()}">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${offerLinkLabel.getData()}</span>
+                </a>
+                <a href="${strasAppLinkLabel.getChildren()[0].getData()}" class="seu-strasapp"  title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${strasAppLinkLabel.getData()}</span>
+                </a>
             </div>
         </div>
     </div>
