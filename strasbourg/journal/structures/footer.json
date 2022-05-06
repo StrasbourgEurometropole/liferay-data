@@ -413,10 +413,10 @@
         },
         {
             "label": {
-                "fr_FR": "Lien à droite"
+                "fr_FR": "Lien offre d'emploi"
             },
             "predefinedValue": {
-                "fr_FR": ""
+                "fr_FR": "Emploi"
             },
             "style": {
                 "fr_FR": ""
@@ -427,9 +427,58 @@
             "dataType": "string",
             "indexType": "",
             "localizable": true,
-            "name": "rightLink",
+            "name": "offerLinkLabel",
             "readOnly": false,
-            "repeatable": true,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text",
+            "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Lien"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "link-to-page",
+                    "fieldNamespace": "ddm",
+                    "indexType": "",
+                    "localizable": true,
+                    "name": "offerLinkURL",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "ddm-link-to-page"
+                }
+            ]
+        },
+        {
+            "label": {
+                "fr_FR": "Lien StrasApp"
+            },
+            "predefinedValue": {
+                "fr_FR": "StrasApp"
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "strasAppLinkLabel",
+            "readOnly": false,
+            "repeatable": false,
             "required": false,
             "showLabel": true,
             "type": "text",
@@ -448,60 +497,14 @@
                         "fr_FR": ""
                     },
                     "dataType": "string",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "rightLinkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "text"
-                },
-                {
-                    "label": {
-                        "fr_FR": "Balise SVG"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "string",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "rightSVG",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "text"
-                },
-                {
-                    "label": {
-                        "fr_FR": "Ouverture onglet actif"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": false
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
-                    "dataType": "boolean",
                     "indexType": "keyword",
                     "localizable": true,
-                    "name": "rightActiveTab",
+                    "name": "strasAppLinkURL",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "checkbox"
+                    "type": "text"
                 }
             ]
         },
