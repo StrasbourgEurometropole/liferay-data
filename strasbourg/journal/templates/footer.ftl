@@ -62,7 +62,7 @@
                 <span class="seu-picto"></span>
                 <span class="seu-text">${offerLinkLabel.getData()}</span>
                 </a>
-                <a href="${strasAppLinkLabel.getChildren()[0].getData()}" class="seu-strasappp"  title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                <a href="${strasAppLinkLabel.getChildren()[0].getData()}" class="seu-strasapp"  title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                 <span class="seu-picto"></span>
                 <span class="seu-text">${strasAppLinkLabel.getData()}</span>
                 </a>
