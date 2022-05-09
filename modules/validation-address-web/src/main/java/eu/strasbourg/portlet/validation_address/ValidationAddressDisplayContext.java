@@ -48,7 +48,7 @@ public class ValidationAddressDisplayContext {
 	// récupération des informations de l'utilisateur
 	public void getUserInfo() {
 		hasError = false;
-		streets = new ArrayList<Street>();
+		streets = new ArrayList<>();
 		// Récupération du publik ID avec la session
 		String internalId = getPublikID();
 		if (Validator.isNotNull(internalId)) {
@@ -62,7 +62,7 @@ public class ValidationAddressDisplayContext {
 								+ userDetail.get("city");
 					zipCode = userDetail.getString("zipcode");
 
-					if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.get("zipcode"))
+					if (Validator.isNotNull(userDetail.get("address")) && Validator.isNotNull(userDetail.getString("zipcode"))
 							&& Validator.isNotNull(userDetail.get("city"))) {
 						if (!isEMS()) {
 							streets = null;
@@ -75,8 +75,8 @@ public class ValidationAddressDisplayContext {
 								if(streets.stream().anyMatch(s -> s.getScore() > 0.9)) {
 									streets = null;
 								}else {
-									if(!streets.stream().anyMatch(s -> s.getHouseNumber() != null)) {
-										streets = new ArrayList<Street>();
+									if(streets.stream().noneMatch(s -> s.getHouseNumber() != null)) {
+										streets = new ArrayList<>();
 									}else {
 										streets = streets.stream().filter(s -> s.getZipCode() == Integer.parseInt(zipCode))
 												.sorted((s1, s2) -> s2.getScore().compareTo(s1.getScore())).collect(Collectors.toList());
