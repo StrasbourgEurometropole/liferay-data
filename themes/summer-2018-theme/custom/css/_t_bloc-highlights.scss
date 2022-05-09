@@ -131,7 +131,7 @@
 				position: absolute;
 				top: calc((100% - 675px) / 2);
 				left: -100%;
-				width: 680px;
+				width: 35.73vw;
 				@include an(all, 1);
 				box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25);
 				opacity: 0;
@@ -164,7 +164,7 @@
 					height: 300px;
 
 					@include mobile{
-						height: 350px;
+						height: fit-content;
 						padding: 25px 30px; 
 					}
 					

@@ -7,7 +7,7 @@
 		}
 		
 		a{
-			@include ft($f_ms, 0.825rem, 700, $c_main, 1.625rem);
+			@include ft($f_ms, 1rem, 700, $c_main, 1.625rem);
 			text-decoration: underline;
 
 			&:hover{

@@ -16,7 +16,7 @@
     </div>
     <div class="container navbar-expand-md mns-navbar-wrapper">
         <div class="sully-navbar-header">
-            <a class="navbar-brand" href="${homeURL}"><span class="subtitle">L'été</span> à Strasbourg</a>
+            <a class="navbar-brand" href="${homeURL}/"><span class="subtitle">L'été</span> à Strasbourg</a>
             <button type="button" class="mns-top-header-mobile" data-toggle="collapse" data-target="#langages" aria-expanded="false" aria-controls="langages">
                 ${locale.language}
                 <div id="langages" class="collapse" >            
