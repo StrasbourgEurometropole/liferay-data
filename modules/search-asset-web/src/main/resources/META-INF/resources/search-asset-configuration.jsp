@@ -214,6 +214,9 @@
                         <aui:option value="dates_Number_sortable" selected="${defaultSortField eq 'dates_Number_sortable'}">
                             <liferay-ui:message key="entity-date" />
                         </aui:option>
+                        <aui:option value="endDate_Number_sortable" selected="${defaultSortField eq 'endDate_Number_sortable'}">
+                            <liferay-ui:message key="due-date" />
+                        </aui:option>
                         <aui:option value="order_city_Number_sortable" selected="${defaultSortField eq 'order_city_Number_sortable'}">
                             <liferay-ui:message key="city-order-property" />
                         </aui:option>
