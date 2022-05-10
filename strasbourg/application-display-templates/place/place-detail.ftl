@@ -841,7 +841,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         </#if>
                                     </#if>
                                 </#if>
-                                <div class="crowded-date"><span class="wroded-day-month">${.now?date?string.long}</span><span> - </span><span class="crowded-time">${.now?time?string.short}</span></div>
                             </div>
                             <div class="flex-right">
                                 <!-- green orange red black -->
