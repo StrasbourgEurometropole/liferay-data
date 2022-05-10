@@ -23,6 +23,7 @@ import eu.strasbourg.service.ejob.service.AlertLocalService;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.service.office.exporter.api.OffersCsvExporter;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -36,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -58,7 +60,7 @@ public class OfferMessageListener
 		// Création du trigger "Tous les jours à 1H05
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 5 1 * * ?");
+				"0 5 1 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
