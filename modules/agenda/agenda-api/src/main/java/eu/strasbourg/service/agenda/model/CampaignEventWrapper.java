@@ -761,17 +761,6 @@ public class CampaignEventWrapper
 	}
 
 	/**
-	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	 * existe
-	 */
-	@Override
-	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
-		java.util.Locale locale) {
-
-		return _campaignEvent.getLegacyPlace(locale);
-	}
-
-	/**
 	 * Retourne le label des manifestations de l'événement
 	 */
 	@Override

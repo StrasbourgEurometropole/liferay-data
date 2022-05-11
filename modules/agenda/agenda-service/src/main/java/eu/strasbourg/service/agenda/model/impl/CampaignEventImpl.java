@@ -45,15 +45,17 @@ import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
-import eu.strasbourg.utils.models.LegacyPlace;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.UriHelper;
 
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -82,7 +84,6 @@ import java.util.stream.Collectors;
 public class CampaignEventImpl extends CampaignEventBaseImpl {
 
 	private static final long serialVersionUID = -8073794358650836813L;
-	private Map<Locale, LegacyPlace> locale_legacyPlace;
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -527,24 +528,6 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 	@Override
 	public String getWebImageURL() {
 		return FileEntryHelper.getFileEntryURL(this.getWebImageId());
-	}
-
-	/**
-	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	 * existe
-	 */
-	@Override
-	public LegacyPlace getLegacyPlace(Locale locale) {
-		if (locale_legacyPlace == null) {
-			locale_legacyPlace = new HashMap<>();
-		}
-		if (locale_legacyPlace.get(locale) == null) {
-			LegacyPlace legacyPlace = LegacyPlace.fromSIGId(this.getPlaceSIGId(), locale);
-			if (legacyPlace != null) {
-				locale_legacyPlace.put(locale, legacyPlace);
-			}
-		}
-		return locale_legacyPlace.get(locale);
 	}
 
 	/**
