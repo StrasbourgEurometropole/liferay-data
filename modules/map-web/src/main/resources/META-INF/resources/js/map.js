@@ -161,7 +161,7 @@
                                 if (window.newTab) {
                                     newTabAttribute = 'target="_blank"';
                                 }
-                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + (feature.properties.alert?'class="alert-arret"':'') + ' title="'+Liferay.Language.get("know-more")+ (newTabAttribute!=''?Liferay.Language.get("eu.new-window"):'') +'">';
+                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + (feature.properties.alert?'class="alert-arret"':'') + ' title="'+Liferay.Language.get("know-more") + (newTabAttribute!=''? ' (' + Liferay.Language.get("eu.new-window") + ')':'') +'">';
                                 formated_info += '<span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span>';
                                 formated_info += '</a>';
                             } else if (info_to_display == "like") {

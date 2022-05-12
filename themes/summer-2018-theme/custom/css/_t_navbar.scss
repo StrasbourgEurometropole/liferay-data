@@ -289,7 +289,6 @@
     
                         .sully-navbar-header .navbar-brand {
                             color: $c_txt;
-                            padding-right: 140px;
     
                             span {
                                 color: $c_txt;
@@ -344,6 +343,7 @@
 
                 @include tablet_portrait {
                     padding: 0;
+                    max-width: 100%;
                 }
 
                 /* Logo + Langue + Lien agenda + menu burger */ 

@@ -163,8 +163,12 @@
 					text-align: center;
 					height: 300px;
 
-					@include mobile{
+					@media screen and (max-width: 1375px){
 						height: fit-content;
+						padding: 10px 30px;
+					}
+
+					@include mobile{
 						padding: 25px 30px; 
 					}
 					
@@ -192,6 +196,14 @@
 			
 						&:hover {
 							background: $c_txt;
+						}
+
+						@include tablet_portrait{
+							min-width: 200px;
+						}
+
+						@include mobile{
+							min-width: 270px;
 						}
 					}
 				}
