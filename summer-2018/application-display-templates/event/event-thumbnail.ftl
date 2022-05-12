@@ -6,7 +6,7 @@
     <#assign homeURL = "/" />
 </#if>
 <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-    <a href="${homeURL}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
+    <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
         <span class="date">${entry.getEventScheduleDisplay(locale)}</span>
         <figure>
             <img src='${entry.getImageURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />
