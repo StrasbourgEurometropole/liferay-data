@@ -13,7 +13,7 @@
             </#if>
             <#assign event = curEntry.getAssetRenderer().getEvent() />
             <div class="item">
-                <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
+                <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                     <figure>
                         <img src="${event.imageURL}" alt="${event.getTitle(locale)}" width="1600" height="900" class="fit-cover" />
                     </figure>
