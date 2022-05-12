@@ -37,6 +37,7 @@
 				left: 50%;
 				transform: translate(-50%,-50%);
 				width: 100%;
+				text-shadow: 3px 3px 10px black
 			}
 			
 			h1{
@@ -67,9 +68,12 @@
                 margin-bottom: 0;
 				transition: ease-in-out 0.6s all;
 
+				@include tablet_portrait{
+					max-width: none;
+				}
+
 				@include mobile{
 					font-size: $s_h1;
-					max-width: none;
 					line-height: 3rem;
 				}
 			}

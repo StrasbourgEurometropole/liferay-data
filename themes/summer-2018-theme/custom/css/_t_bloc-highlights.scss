@@ -131,7 +131,7 @@
 				position: absolute;
 				top: calc((100% - 675px) / 2);
 				left: -100%;
-				width: 680px;
+				width: 35.73vw;
 				@include an(all, 1);
 				box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25);
 				opacity: 0;
@@ -163,8 +163,12 @@
 					text-align: center;
 					height: 300px;
 
+					@media screen and (max-width: 1375px){
+						height: fit-content;
+						padding: 10px 30px;
+					}
+
 					@include mobile{
-						height: 350px;
 						padding: 25px 30px; 
 					}
 					
@@ -192,6 +196,14 @@
 			
 						&:hover {
 							background: $c_txt;
+						}
+
+						@include tablet_portrait{
+							min-width: 200px;
+						}
+
+						@include mobile{
+							min-width: 270px;
 						}
 					}
 				}

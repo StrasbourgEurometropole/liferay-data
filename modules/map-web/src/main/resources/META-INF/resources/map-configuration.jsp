@@ -22,6 +22,21 @@
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
 
+                <!-- Accesibilité -->
+                <aui:fieldset collapsed="true" collapsible="true" label="accessibility" >
+                    <!-- Hyérarchie du titre -->
+                    <div>
+                        <aui:select class="group" label="select-hierarchy" name="hierarchy">
+                            <aui:option value="h1" label="H1"
+                                selected="${'h1' eq hierarchy}" />
+                            <aui:option value="h2" label="H2"
+                                selected="${'h2' eq hierarchy}" />
+                            <aui:option value="h3" label="H3"
+                                selected="${'h3' eq hierarchy}" />
+                        </aui:select>
+                    </div>
+                </aui:fieldset>
+
                 <!-- Type de contenu carto autre que widget -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="type-contenu" cssClass="noWidgetMode" >

@@ -6794,13 +6794,17 @@ if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet
 else if ((navigator.userAgent).match(/Android/i)) {
     $('nav').removeClass('mns-nav-scroll', 'mns-nav-ipad');
 }
-if ($(window).width() > 1200) {
+if ($(window).width() > 991) {
     $('.navbar-nav > li.dropdown').mouseenter(function () {
         $(this).addClass('open');
     });
 
     $('.navbar-nav > li.dropdown').mouseleave(function () {
         $(this).removeClass('open');
+    });
+}else{
+    $('.navbar-nav > li.dropdown').click(function () {
+        window.location.href = $($(this).find("a")[0]).attr('href');
     });
 }
 
@@ -6918,8 +6922,12 @@ if ($(window).width() > 1200) {
 		nav:true,
 		margin: 56,
 		autoWidth: true,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
-	    responsive:{
+		navElement: 'button role="presentation" aria-label="slider agenda naviation"',
+		navText: [
+			"<span class='icon-chevron-thin-left' ></span>",
+			"<span class='icon-chevron-thin-right' ></span>"
+		],
+		responsive:{
 	        0:{
 	            items:1
 	        },
@@ -6958,7 +6966,11 @@ if ($(window).width() > 1200) {
 		dots: false,
 		nav:true,
 		autoplay: false,
-		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+		navElement: 'button role="presentation" aria-label="slider agenda naviation"',
+		navText: [
+			"<span class='icon-chevron-thin-left' ></span>",
+			"<span class='icon-chevron-thin-right' ></span>"
+		],
 	});
 
 	// Carsousel section Testimonial

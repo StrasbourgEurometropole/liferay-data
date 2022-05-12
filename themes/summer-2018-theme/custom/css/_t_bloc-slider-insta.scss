@@ -23,6 +23,8 @@
 			p{
 				display: flex;
 				justify-content: end;
+				margin-left: auto;
+				width: fit-content;
 
 				&:after{
 					content: '';

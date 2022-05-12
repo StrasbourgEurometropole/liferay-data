@@ -58,7 +58,9 @@
 				padding-bottom: 15px;
 
 				.mns-indic{
-					max-width: 260px;
+					@include not-mobile{
+						max-width: 260px;
+					}
 
 					span{
 						justify-content: center;

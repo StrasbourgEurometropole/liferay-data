@@ -17,6 +17,9 @@ public interface MapConfiguration {
 	@Meta.AD(name = "widgetMod", required = false)
 	public boolean widgetMod();
 
+	@Meta.AD(name = "hierarchy", deflt = "h1", required = false)
+	public String hierarchy();
+
 	@Meta.AD(name = "defaultConfig", required = false)
 	public boolean defaultConfig();
 
