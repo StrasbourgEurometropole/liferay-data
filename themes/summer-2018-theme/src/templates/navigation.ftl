@@ -32,8 +32,8 @@
                         </#if>
                 </div>
             </button>
-            <a class="navbar-agenda" href="${homeURL}/agenda"><span></span></a>
-            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <a class="navbar-agenda" href="${homeURL}/agenda" aria-label="<@liferay.language key='eu.agenda' />"><span></span></a>
+            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="<@liferay.language key='eu.menu' />">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -45,7 +45,7 @@
                     <div class="row">
                         <form action="${homeURL}/recherche" method="get">
                             <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-                            <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                            <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="searchMobile" placeholder="Rechercher..." />
                         </form>
                     </div>
                 </li>
@@ -74,7 +74,7 @@
                     </#if>
                 </#list>
                 <li class="hidden-sm hidden-xs menu-search">
-                    <a href="#"><span class="icon-search"></span></a>
+                    <a href="#" aria-label="<@liferay.language key='eu.search-icon' />"><span class="icon-search"></span></a>
                 </li>
             </ul>
         </div>
