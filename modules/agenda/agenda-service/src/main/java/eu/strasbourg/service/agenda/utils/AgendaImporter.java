@@ -894,9 +894,6 @@ public class AgendaImporter {
 				}
 			}
 		}
-		if (EventPeriodLocalServiceUtil.checkForOverlappingPeriods(periods)) {
-			reportLine.error(LanguageUtil.get(bundle, "overlapping-periods"));
-		}
 
 		// Validation du lien avec les manifestations
 		JSONArray jsonManifestations = jsonEvent.getJSONArray("manifestations");
