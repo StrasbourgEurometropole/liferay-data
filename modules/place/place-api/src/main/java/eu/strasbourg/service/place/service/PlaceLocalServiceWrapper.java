@@ -476,16 +476,23 @@ public class PlaceLocalServiceWrapper
 
 	@Override
 	public void updateRealTime()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.search.SearchException {
 
 		_placeLocalService.updateRealTime();
 	}
 
 	@Override
 	public void updateRealTime(
-			eu.strasbourg.service.place.model.Place place, String type,
-			long occupation, long available, long capacity, String status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			com.liferay.portal.kernel.json.JSONArray parkingJsonArray)
+		throws com.liferay.portal.kernel.search.SearchException {
+
+		_placeLocalService.updateRealTime(parkingJsonArray);
+	}
+
+	@Override
+	public void updateRealTime(
+		eu.strasbourg.service.place.model.Place place, String type,
+		long occupation, long available, long capacity, String status) {
 
 		_placeLocalService.updateRealTime(
 			place, type, occupation, available, capacity, status);

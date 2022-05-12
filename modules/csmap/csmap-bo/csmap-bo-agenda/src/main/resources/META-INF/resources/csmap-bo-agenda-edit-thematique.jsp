@@ -134,6 +134,13 @@
 	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.typeVocabularyId}{
 	        display:block;
         }
+
+	    #<portlet:namespace />assetCategoriesLabel_${dc.territoryVocabularyId}{
+	        display:block;
+        }
+	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.territoryVocabularyId}{
+	        display:block;
+        }
 	</style>
 
     <!-- Include Choices CSS -->

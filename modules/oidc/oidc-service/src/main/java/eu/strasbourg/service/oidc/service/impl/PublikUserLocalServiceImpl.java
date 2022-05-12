@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import com.liferay.portal.kernel.dao.orm.Disjunction;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -61,6 +56,8 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -499,6 +496,17 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 				FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(formSendRecordFieldSignalement);
 			}
 		}
+	}
+
+	@Override
+	public List<PublikUser> getByPactSignatureAndPactDisplay() {
+		DynamicQuery dq = PublikUserLocalServiceUtil.dynamicQuery();
+		Criterion pactDisplay = RestrictionsFactoryUtil.eq("pactDisplay", true);
+		Criterion pactSignatureNotNull = RestrictionsFactoryUtil.isNotNull("pactSignature");
+		dq.add(pactDisplay);
+		dq.add(pactSignatureNotNull);
+		dq.addOrder(OrderFactoryUtil.asc("pactSignature"));
+		return PublikUserLocalServiceUtil.dynamicQuery(dq);
 	}
 
 }

@@ -101,6 +101,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		{"placeStreetNumber", Types.VARCHAR},
 		{"placeStreetName", Types.VARCHAR}, {"placeZipCode", Types.VARCHAR},
 		{"placeCity", Types.VARCHAR}, {"placeCountry", Types.VARCHAR},
+		{"mercatorX", Types.VARCHAR}, {"mercatorY", Types.VARCHAR},
 		{"access_", Types.CLOB}, {"accessForDisabled", Types.CLOB},
 		{"accessForBlind", Types.BOOLEAN}, {"accessForDeaf", Types.BOOLEAN},
 		{"accessForWheelchair", Types.BOOLEAN},
@@ -153,6 +154,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("placeZipCode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeCity", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("placeCountry", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mercatorX", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("mercatorY", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("access_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("accessForDisabled", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("accessForBlind", Types.BOOLEAN);
@@ -189,7 +192,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
+		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 
@@ -284,6 +287,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		model.setPlaceZipCode(soapModel.getPlaceZipCode());
 		model.setPlaceCity(soapModel.getPlaceCity());
 		model.setPlaceCountry(soapModel.getPlaceCountry());
+		model.setMercatorX(soapModel.getMercatorX());
+		model.setMercatorY(soapModel.getMercatorY());
 		model.setAccess(soapModel.getAccess());
 		model.setAccessForDisabled(soapModel.getAccessForDisabled());
 		model.setAccessForBlind(soapModel.getAccessForBlind());
@@ -1022,6 +1027,46 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 				@Override
 				public void accept(Event event, Object placeCountry) {
 					event.setPlaceCountry((String)placeCountry);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"mercatorX",
+			new Function<Event, Object>() {
+
+				@Override
+				public Object apply(Event event) {
+					return event.getMercatorX();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"mercatorX",
+			new BiConsumer<Event, Object>() {
+
+				@Override
+				public void accept(Event event, Object mercatorX) {
+					event.setMercatorX((String)mercatorX);
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"mercatorY",
+			new Function<Event, Object>() {
+
+				@Override
+				public Object apply(Event event) {
+					return event.getMercatorY();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"mercatorY",
+			new BiConsumer<Event, Object>() {
+
+				@Override
+				public void accept(Event event, Object mercatorY) {
+					event.setMercatorY((String)mercatorY);
 				}
 
 			});
@@ -2543,6 +2588,38 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	@Override
 	public void setPlaceCountry(String placeCountry) {
 		_placeCountry = placeCountry;
+	}
+
+	@JSON
+	@Override
+	public String getMercatorX() {
+		if (_mercatorX == null) {
+			return "";
+		}
+		else {
+			return _mercatorX;
+		}
+	}
+
+	@Override
+	public void setMercatorX(String mercatorX) {
+		_mercatorX = mercatorX;
+	}
+
+	@JSON
+	@Override
+	public String getMercatorY() {
+		if (_mercatorY == null) {
+			return "";
+		}
+		else {
+			return _mercatorY;
+		}
+	}
+
+	@Override
+	public void setMercatorY(String mercatorY) {
+		_mercatorY = mercatorY;
 	}
 
 	@JSON
@@ -4231,6 +4308,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setPlaceZipCode(getPlaceZipCode());
 		eventImpl.setPlaceCity(getPlaceCity());
 		eventImpl.setPlaceCountry(getPlaceCountry());
+		eventImpl.setMercatorX(getMercatorX());
+		eventImpl.setMercatorY(getMercatorY());
 		eventImpl.setAccess(getAccess());
 		eventImpl.setAccessForDisabled(getAccessForDisabled());
 		eventImpl.setAccessForBlind(getAccessForBlind());
@@ -4536,6 +4615,22 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if ((placeCountry != null) && (placeCountry.length() == 0)) {
 			eventCacheModel.placeCountry = null;
+		}
+
+		eventCacheModel.mercatorX = getMercatorX();
+
+		String mercatorX = eventCacheModel.mercatorX;
+
+		if ((mercatorX != null) && (mercatorX.length() == 0)) {
+			eventCacheModel.mercatorX = null;
+		}
+
+		eventCacheModel.mercatorY = getMercatorY();
+
+		String mercatorY = eventCacheModel.mercatorY;
+
+		if ((mercatorY != null) && (mercatorY.length() == 0)) {
+			eventCacheModel.mercatorY = null;
 		}
 
 		eventCacheModel.access = getAccess();
@@ -4867,6 +4962,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _placeZipCode;
 	private String _placeCity;
 	private String _placeCountry;
+	private String _mercatorX;
+	private String _mercatorY;
 	private String _access;
 	private String _accessCurrentLanguageId;
 	private String _accessForDisabled;

@@ -29,6 +29,10 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
+import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
+import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -163,6 +167,11 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					}
 				}
 				sc.setAssetCategoryIds(newCategories);
+
+				// Récupération des coordonées X et Y
+				event.setMercatorX(place.getMercatorX());
+				event.setMercatorY(place.getMercatorY());
+
 			} else {
 				event.setPlaceSIGId("");
 
@@ -188,6 +197,25 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				String placeCountry = ParamUtil.getString(request,
 					"placeCountry");
 				event.setPlaceCountry(placeCountry);
+
+				// Récupération des coordonées X et Y
+				String address = placeStreetNumber + " " + placeStreetName;
+				try {
+					JSONArray coordinateForAddress = _openDataGeoAddressService.getCoordinateForAddress(address, placeZipCode, placeCity);
+					if (coordinateForAddress.length() == 2) {
+						event.setMercatorY(coordinateForAddress.get(0).toString());
+						event.setMercatorX(coordinateForAddress.get(1).toString());
+					} else {
+						event.setMercatorY(null);
+						event.setMercatorX(null);
+					}
+				} catch (Exception e) {
+					//On a catché une erreur ou bien un time out
+					// Mais la non récupération des coordonnées par Open Data ne doit pas empêcher l'enregistrement de l'event
+					_log.error(e);
+					event.setMercatorY(null);
+					event.setMercatorX(null);
+				}
 			}
 
 			Map<Locale, String> access = LocalizationUtil
@@ -384,6 +412,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			response.setRenderParameter("mvcPath",
 				"/agenda-bo-edit-event.jsp");
 			return false;
+		} catch (Exception e) {
+			_log.error(e);
 		}
 
 		return true;
@@ -494,6 +524,14 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		EventPeriodLocalService eventPeriodLocalService) {
 
 		_eventPeriodLocalService = eventPeriodLocalService;
+	}
+
+	private OpenDataGeoAddressService _openDataGeoAddressService;
+
+	@Reference(unbind = "-")
+	protected void setOpenDataGeoAddressService(OpenDataGeoAddressService openDataGeoAddressService) {
+
+		_openDataGeoAddressService = openDataGeoAddressService;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

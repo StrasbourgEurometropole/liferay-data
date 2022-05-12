@@ -53,8 +53,6 @@ import java.util.Locale;
 public class ExportPDF {
 
 	public static String domaine;
-	public static PdfFont font;
-	public static PdfFont fontBold;
 
 	public static void printPDF(ResourceRequest req, ResourceResponse res, String exportType)
 			throws PortletException, IOException, SystemException, PortalException {
@@ -66,8 +64,8 @@ public class ExportPDF {
 		domaine = "http://localhost:8080";
 
 		// génération du pdf
-		font = PdfFontFactory.createRegisteredFont("Helvetica");
-		fontBold = PdfFontFactory.createRegisteredFont("Helvetica-Bold");
+		PdfFont font = PdfFontFactory.createRegisteredFont("Helvetica");
+		PdfFont fontBold = PdfFontFactory.createRegisteredFont("Helvetica-Bold");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PdfWriter pdfWriter = new PdfWriter(baos);
 		PdfDocument pdf = new PdfDocument(pdfWriter);
@@ -104,7 +102,7 @@ public class ExportPDF {
 					.setMarginBottom(5f));
 
 			// élus
-			printPDFPeople(document, req, themeDisplay, exportType);
+			printPDFPeople(document, req, themeDisplay, exportType, font, fontBold);
 
 			// bas de page
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -145,7 +143,7 @@ public class ExportPDF {
 		}
 	}
 
-	public static void printPDFPeople(Document document, ResourceRequest req, ThemeDisplay themeDisplay, String exportType)
+	public static void printPDFPeople(Document document, ResourceRequest req, ThemeDisplay themeDisplay, String exportType, PdfFont font, PdfFont fontBold)
 			throws SystemException, PortalException, MalformedURLException, IOException {
 
 		Table table = new Table(new UnitValue[]{UnitValue.createPercentValue(22f), UnitValue.createPercentValue(78f)})
@@ -173,16 +171,16 @@ public class ExportPDF {
 							.setFont(fontBold).setFontSize(16f));
 			switch (exportType) {
 				case OfficialsConstants.MUNICIPAL:
-					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale()).add("\n\n"));
-					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale()));
+					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale(), font, fontBold).add("\n\n"));
+					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale(), font, fontBold));
 					break;
 				case OfficialsConstants.EUROMETROPOLE:
-					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale()).add("\n\n"));
-					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale()));
+					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale(), font, fontBold).add("\n\n"));
+					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale(), font, fontBold));
 					break;
 				default:
-					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale()).add("\n\n"));
-					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale()));
+					cell.add(printPDFMunicipal(elu, themeDisplay.getLocale(), font, fontBold).add("\n\n"));
+					cell.add(printPDFEurometropole(elu,themeDisplay.getLocale(), font, fontBold));
 					break;
 			}
 			cell.setBorder(Border.NO_BORDER).setBorderBottom(new SolidBorder(1f)).setPaddings(7f, 0f, 10f, 0f);
@@ -192,7 +190,7 @@ public class ExportPDF {
 
 	}
 
-	private static Paragraph printPDFMunicipal(Official elu, Locale locale)
+	private static Paragraph printPDFMunicipal(Official elu, Locale locale, PdfFont font, PdfFont fontBold)
 			throws PortalException, IOException {
 
 		Paragraph paragraph = new Paragraph().setFont(font).setFontSize(12f);
@@ -249,7 +247,7 @@ public class ExportPDF {
 		return paragraph;
 	}
 
-	private static Paragraph printPDFEurometropole(Official elu, Locale locale)
+	private static Paragraph printPDFEurometropole(Official elu, Locale locale, PdfFont font, PdfFont fontBold)
 			throws PortalException, IOException {
 
 		Paragraph paragraph = new Paragraph().setFont(font).setFontSize(12f);

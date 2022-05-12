@@ -21,4 +21,5 @@ dependencies {
 	compile project (':modules:agenda:agenda-api')
 	compile project (':modules:place:place-api')
 	compile project (':modules:office-exporter')
+	compile project (':modules:open-data')
 }

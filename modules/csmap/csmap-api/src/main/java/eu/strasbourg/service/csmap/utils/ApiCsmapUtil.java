@@ -416,6 +416,9 @@ public class ApiCsmapUtil {
         Long[] categoriesIdsForType = ArrayUtil
                 .toLongArray(StringUtil.split(agenda.getTypesIds(), ",", 0));
         categoriesIds.add(categoriesIdsForType);
+        Long[] categoriesIdsForTerritory = ArrayUtil
+                .toLongArray(StringUtil.split(agenda.getTerritoriesIds(), ",", 0));
+        categoriesIds.add(categoriesIdsForTerritory);
 
         // tags
         String[] tagsArray = StringUtil.split(agenda.getTags());
@@ -434,10 +437,9 @@ public class ApiCsmapUtil {
                 }
             }
         }
-        String[] campaignsArray = StringUtil.split(campaignsTitle.toString());
 
         // Recherche
-        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray, campaignsArray);
+        Hits hits = SearchHelper.getEventsAgendaWebServiceSearchHits(className, categoriesIds, tagsArray);
 
         JSONArray jsonIds = JSONFactoryUtil.createJSONArray();
         List<Long> longIds = new ArrayList<>();

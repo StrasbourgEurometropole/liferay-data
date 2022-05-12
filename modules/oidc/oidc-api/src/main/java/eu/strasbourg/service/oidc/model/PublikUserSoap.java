@@ -54,6 +54,8 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setPactDisplay(model.isPactDisplay());
 		soapModel.setCsmapJSON(model.getCsmapJSON());
 		soapModel.setModifiedDateJSON(model.getModifiedDateJSON());
+		soapModel.setTopicsFCM(model.getTopicsFCM());
+		soapModel.setLastUpdateTimeTopics(model.getLastUpdateTimeTopics());
 
 		return soapModel;
 	}
@@ -271,6 +273,22 @@ public class PublikUserSoap implements Serializable {
 		_modifiedDateJSON = modifiedDateJSON;
 	}
 
+	public String getTopicsFCM() {
+		return _topicsFCM;
+	}
+
+	public void setTopicsFCM(String topicsFCM) {
+		_topicsFCM = topicsFCM;
+	}
+
+	public long getLastUpdateTimeTopics() {
+		return _lastUpdateTimeTopics;
+	}
+
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		_lastUpdateTimeTopics = lastUpdateTimeTopics;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -291,5 +309,7 @@ public class PublikUserSoap implements Serializable {
 	private boolean _pactDisplay;
 	private String _csmapJSON;
 	private Date _modifiedDateJSON;
+	private String _topicsFCM;
+	private long _lastUpdateTimeTopics;
 
 }

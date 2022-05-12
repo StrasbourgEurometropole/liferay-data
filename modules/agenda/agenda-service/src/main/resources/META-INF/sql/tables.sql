@@ -29,14 +29,11 @@ create table agenda_AgendaExportPeriod (
 );
 
 create table agenda_CacheJson (
-	uuid_ VARCHAR(75) null,
 	eventId LONG not null primary key,
 	jsonEvent TEXT null,
 	createEvent DATE null,
 	modifiedEvent DATE null,
-	isActive BOOLEAN,
-	regeneratedDate DATE null,
-	hasSchedules BOOLEAN
+	isApproved BOOLEAN
 );
 
 create table agenda_Campaign (
@@ -167,6 +164,8 @@ create table agenda_Event (
 	placeZipCode VARCHAR(75) null,
 	placeCity VARCHAR(75) null,
 	placeCountry VARCHAR(75) null,
+	mercatorX VARCHAR(75) null,
+	mercatorY VARCHAR(75) null,
 	access_ TEXT null,
 	accessForDisabled TEXT null,
 	accessForBlind BOOLEAN,

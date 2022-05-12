@@ -1,6 +1,14 @@
 // Style pour les formulaires
 .portlet-forms {
 
+    .ddm-radio label{
+        padding-left: 0px;
+
+        &:before{
+            content: none;
+        }
+    }
+
     .form {
         margin-bottom: 80px;
         @include mobile {

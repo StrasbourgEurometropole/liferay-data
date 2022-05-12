@@ -1060,12 +1060,12 @@ public class SearchHelper {
 	 * événements
 	 */
 	public static Hits getEventsAgendaWebServiceSearchHits(String className, List<Long[]> categoriesIds,
-														   String[] tagsNames, String[] campaigns) {
+														   String[] tagsNames) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
 			// Query
-			Query query = SearchHelper.getEventsAgendaWebServiceQuery(className, categoriesIds, tagsNames, campaigns);
+			Query query = SearchHelper.getEventsAgendaWebServiceQuery(className, categoriesIds, tagsNames);
 
 			// Recherche
 			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
@@ -1082,7 +1082,7 @@ public class SearchHelper {
 	 * Retourne la requête pour le webservice des agendas
 	 */
 	private static Query getEventsAgendaWebServiceQuery(String className, List<Long[]> categoriesIds,
-														String[] tagsNames, String[] campaigns) {
+														String[] tagsNames) {
 
 		try {
 			// Construction de la requète
@@ -1122,17 +1122,6 @@ public class SearchHelper {
 				}
 				query.add(tagsQuery, BooleanClauseOccur.MUST);
 			}
-
-			// campagnes _ Ne fonctionne pas
-			/*if (Validator.isNotNull(campaigns) && campaigns.length > 0) {
-				BooleanQuery campaignsQuery = new BooleanQueryImpl();
-				for (String campaign : campaigns) {
-					BooleanQuery campaignQuery = new BooleanQueryImpl();
-					campaignQuery.addExactTerm("campaign", campaign);
-					campaignsQuery.add(campaignQuery, BooleanClauseOccur.SHOULD);
-				}
-				query.add(campaignsQuery, BooleanClauseOccur.MUST);
-			}*/
 
 			superQuery.add(query, BooleanClauseOccur.SHOULD);
 

@@ -29,14 +29,23 @@ public interface MapConfiguration {
 	@Meta.AD(name = "eventExplanationXML", deflt = "", required = false)
 	public String eventExplanationXML();
 
+	@Meta.AD(name = "backgroundId", required = false)
+	public String backgroundId();
+
 	@Meta.AD(name = "showConfig", required = false)
 	public boolean showConfig();
+
+	@Meta.AD(name = "showDeleteFilter", required = false)
+	public boolean showDeleteFilter();
 
 	@Meta.AD(name = "showPictos", required = false)
 	public boolean showPictos();
 
 	@Meta.AD(name = "showList", required = false)
 	public boolean showList();
+
+	@Meta.AD(name = "showFiltersReminder", required = false)
+	public boolean showFiltersReminder();
 
 	@Meta.AD(name = "clippingTerritory", required = false)
 	public boolean clippingTerritory();

@@ -6664,6 +6664,8 @@ $(window).on('scroll', function (e) {
         $(window).on('resize',egalizeAll);
 
     }
+
+    $($(".mns-header-home")[0]).addClass('anim')
 	$(window).scroll(function() {
 		if ($(window).scrollTop() > 100) {
 			$('.mns-share-button').addClass('fadein');
@@ -6786,21 +6788,21 @@ $(window).on('scroll', function (e) {
 	});
 	
 	// Changement de comportement de la NavBar si nous sommes sur un iPad ou une tablette Android en mode portrait
-	if (((navigator.userAgent).match(/Tablet/i) && height > width)) {
-		$('nav').addClass('mns-nav-scroll','mns-nav-ipad');
-	}
-	else if ((navigator.userAgent).match(/Android/i)){
-		$('nav').removeClass('mns-nav-scroll','mns-nav-ipad');
-	}
-	if ($(window).width() > 1200){
-		$('.navbar-nav > li.dropdown').mouseenter(function(){
-			$(this).addClass('open');
-		});
+if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i) && height > width)) {
+    $('nav').addClass('mns-nav-scroll', 'mns-nav-ipad');
+}
+else if ((navigator.userAgent).match(/Android/i)) {
+    $('nav').removeClass('mns-nav-scroll', 'mns-nav-ipad');
+}
+if ($(window).width() > 1200) {
+    $('.navbar-nav > li.dropdown').mouseenter(function () {
+        $(this).addClass('open');
+    });
 
-		$('.navbar-nav > li.dropdown').mouseleave(function(){
-			$(this).removeClass('open');
-		});
-	}
+    $('.navbar-nav > li.dropdown').mouseleave(function () {
+        $(this).removeClass('open');
+    });
+}
 
 
 	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Android/i))){
@@ -6835,8 +6837,7 @@ $(window).on('scroll', function (e) {
 	var height = $(window).height();
 	var width = $(window).width();
 	// If qui sert pour quand on a un Header simple sur lequel on veut tt le temps le menu en sticky
-	if(!$('.mns-nav').hasClass("mns-nav-no-header")) {
-		if (((navigator.userAgent).match(/Tablet/i)) && height > width){
+		if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i)) && height > width) {
 			$('body').addClass('ipad');
 			$('.mns-nav').addClass("mns-nav-scroll");
 			$('.mns-nav').addClass("mns-nav-ipad");
@@ -6863,7 +6864,6 @@ $(window).on('scroll', function (e) {
 				}
 				);
 		}
-	}
 
 	// Affiche Dropdown menu
 	$('.wrapper-dropdown').click(function(){
@@ -6916,9 +6916,9 @@ $(window).on('scroll', function (e) {
 		loop:false,
 		dots: false,
 		nav:true,
-		margin: 40,
+		margin: 56,
 		autoWidth: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"],
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"],
 	    responsive:{
 	        0:{
 	            items:1
@@ -6933,11 +6933,36 @@ $(window).on('scroll', function (e) {
 	            items:4
 	        }
 	    }
-	})
+	});
 
+	// Carsousel Section Slider Instagram
+	$('#owl-insta').owlCarousel({
+		responsive:{
+			0:{
+				loop: true,
+				items:1.5,
+				margin: 20
+			},
+			768:{
+				loop: false,
+				items:2,
+				margin: 20
+			},
+			1024:{
+				loop: false,
+				items: 4,
+				margin: 68
+			}
+		},
+		loop: false,
+		dots: false,
+		nav:true,
+		autoplay: false,
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	});
 
 	// Carsousel section Testimonial
-	$('#owl-full').owlCarousel({
+	/*$('#owl-full').owlCarousel({
 		loop:true,
 		dots: false,
 		nav:true,
@@ -6945,11 +6970,11 @@ $(window).on('scroll', function (e) {
 		autoplay: true,
     	autoplayTimeout: 4000,
     	autoplayHoverPause: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
-	})
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	})*/
 
 	// Carsousel section Testimonial
-	$('#owl-slider').owlCarousel({
+	/*$('#owl-slider').owlCarousel({
 		loop:true,
 		dots: false,
 		nav:true,
@@ -6957,36 +6982,26 @@ $(window).on('scroll', function (e) {
 		autoplay: true,
     	autoplayTimeout: 4000,
     	autoplayHoverPause: true,
-		navText: ["<span class='mns-picto'></span>","<span class='mns-picto'></span>"]
-	})
+		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+	})*/
 
 	$('#owl-full .owl-item').each(function() {
 		$(this).css('width', $(this).width() + 1);
 	});
 
-	// Page d'accueil - Comportement en hover sur les grandes bulles
-	if ($(window).width() >= 1025){
-		$('.mns-bloc-entry > div').mouseenter(function(){
-			$(this).find('.caption').addClass('open');
-		});
-		$('.mns-bloc-entry > div').mouseleave(function(){
-			$(this).find('.caption').removeClass('open');
-		});
-	};
-
 	$('.mns-expand-collapse').click(function(){
     	var checkboxesId = $(this).data("checkboxes-id");
 		var checkboxes = $('#checkbox-'+checkboxesId);
 		if($(this).hasClass('expanded')){
+		   $(this).closest('.form-group').find('.checkbox').addClass('closed');
            $(this).find('.mns-filter-expand').show();
            $(this).find('.mns-filter-collapse').hide();
            $(this).removeClass('expanded');
-           checkboxes.height("0px");
         } else {
            $(this).find('.mns-filter-expand').hide();
            $(this).find('.mns-filter-collapse').show();
            $(this).addClass('expanded');
-           checkboxes.height("100%");
+		   $(this).closest('.form-group').find('.checkbox').removeClass('closed');
         }
     });
 
@@ -7002,7 +7017,6 @@ if($('html').attr('lang')=="de-DE") {
 		$('.mns-section-agenda').find('h1').css('font-size', '36px');
 	}
 }
-
 
 if($('iframe[src^="https://www.youtube.com"]')) {
 	$iframe_yt = $('iframe[src^="https://www.youtube.com"]');
@@ -7021,15 +7035,34 @@ if($('iframe[src^="https://www.youtube.com"]')) {
 
 }
 
-
 $(document).ready(function(){
    $('.toCustomSelect, .form-select').customSelect();
 }); 
 
-// Service Google Analytics (gtag.js)
-tarteaucitron.user.gtagUa = 'UA-16973980-1';
-tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
-(tarteaucitron.job = tarteaucitron.job || []).push('gtag');
-
+// Changement de comportement des filtres agenda si nous sommes sur mobile
+var isMobile = window.innerWidth < 768;
+if (isMobile) {
+	$('#mns-global .mns-p-list-agenda .mns-z-filtres-search .row.form-group').each(function() {
+		var expand = $(this).find('.mns-expand-collapse');
+		if(expand.length > 0){
+			expand.removeClass('expanded');
+			expand.find('.mns-filter-expand').css('display', 'block');
+			expand.find('.mns-filter-collapse').css("display", "none");
+			$(this).find('.checkbox').addClass('closed');
+		}
+	});
+}
 // Service reCAPTCHA
 (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
+
+// Service Youtube
+//<div class="youtube_player" videoID="video_id" width="width" height="height" theme="theme (dark | light)" rel="rel (1 | 0)" controls="controls (1 | 0)" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" mute="mute (0 | 1)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('youtube');
+
+// Service Daylimotion
+//<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
+
+// Service Facebook Pixel
+tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
+(tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');

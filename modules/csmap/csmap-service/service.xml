@@ -70,6 +70,7 @@
 		<column name="campaignsIds" type="String" />
 		<column name="themesIds" type="String" />
 		<column name="typesIds" type="String" />
+		<column name="territoriesIds" type="String" />
 		<column name="tags" type="String" />
 		<!-- Finder methods -->
 		<finder name="IsPrincipal" return-type="Collection">

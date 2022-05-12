@@ -53,6 +53,24 @@ public class PublikApiClient {
 	}
 
 	/**
+	 * Retourne les candidatures
+	 *
+	 * @param userPublikId
+	 *            Identifiant Publik de l'utilisateur
+	 */
+	public static JSONObject getUserAppications(String userPublikId) {
+		String endpoint = "/api/forms/candidature-a-une-offre-d-emploi/list";
+		endpoint = "/api/user/forms";
+		String queryString = "NameID=" + userPublikId + "&full=on";
+		String url = getSignedUrl(endpoint, queryString);
+		try {
+			return JSONHelper.readJsonFromURL(url,StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+		} catch (Exception ex) {
+			return JSONFactoryUtil.createJSONObject();
+		}
+	}
+
+	/**
 	 * Retourne les utilisateur supprimés
 	 *
 	 * @param userPublikIds
