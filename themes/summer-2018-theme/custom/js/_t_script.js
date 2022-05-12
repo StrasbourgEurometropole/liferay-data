@@ -128,13 +128,17 @@ if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet
 else if ((navigator.userAgent).match(/Android/i)) {
     $('nav').removeClass('mns-nav-scroll', 'mns-nav-ipad');
 }
-if ($(window).width() > 1200) {
+if ($(window).width() > 991) {
     $('.navbar-nav > li.dropdown').mouseenter(function () {
         $(this).addClass('open');
     });
 
     $('.navbar-nav > li.dropdown').mouseleave(function () {
         $(this).removeClass('open');
+    });
+}else{
+    $('.navbar-nav > li.dropdown').click(function () {
+        window.location.href = $($(this).find("a")[0]).attr('href');
     });
 }
 

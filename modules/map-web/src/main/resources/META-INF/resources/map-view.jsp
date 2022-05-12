@@ -2,7 +2,15 @@
 
 <c:if test="${!districtUser || district != null}">
 	<c:if test="${!districtUser}">
-	    <h1 class="aroundme--h1">${title}</h1>
+	    <c:if test="${hierarchy == 'h1'}">
+            <h1 class="aroundme--h1">${title}</h1>
+        </c:if>
+	    <c:if test="${hierarchy == 'h2'}">
+            <h2 class="aroundme--h2">${title}</h2>
+        </c:if>
+	    <c:if test="${hierarchy == 'h3'}">
+            <h3 class="aroundme--h3">${title}</h3>
+        </c:if>
 	</c:if>
 	<c:if test="${districtUser}">
 	    <h2 class="aroundme--title">

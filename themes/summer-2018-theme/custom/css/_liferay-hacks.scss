@@ -13,7 +13,7 @@
 .has-control-menu #mns-global {
   margin-top: 56px;
   
-  @include mobile {
+  @include tablet_portrait {
     margin-top: 48px;
 }
 }

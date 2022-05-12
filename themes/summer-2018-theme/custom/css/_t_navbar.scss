@@ -34,7 +34,7 @@
             position: relative;
             z-index: 1300;
 
-            @include mobile {
+            @include tablet_portrait {
                 display: none;
             }
             
@@ -201,7 +201,7 @@
                 z-index: 800;
                 @include an(all, 0.3);
 
-                @include mobile {
+                @include tablet_portrait {
                     display: none;
                 }
     
@@ -246,7 +246,7 @@
                 }
             }
     
-            @include not_mobile {
+            @include not_tablet_portrait {
                 position: absolute;
                 transform: translateY(-76px);
                 
@@ -330,7 +330,7 @@
                 }
             }
     
-            @include mobile {
+            @include tablet_portrait {
                 background: white;
             }
 
@@ -338,17 +338,17 @@
                 top: 0;
                 @include an(all, 0.3);
 
-                @include not_mobile {
+                @include not_tablet_portrait {
                     border-bottom: 1px solid $c_white;
                 }
 
-                @include mobile {
+                @include tablet_portrait {
                     padding: 0;
                 }
 
                 /* Logo + Langue + Lien agenda + menu burger */ 
                 .sully-navbar-header{
-                    @include mobile {
+                    @include tablet_portrait {
                         display: flex;
                         width: 100%;
                         flex-direction: row;
@@ -362,8 +362,9 @@
                         text-transform: uppercase;
                         white-space: normal;
                         flex-grow: 1;
+                        max-width: min-content;
                         
-                        @include mobile {
+                        @include tablet_portrait {
                             height: 45px;
                             color: $c_txt;
                             font-size: 0.875rem;
@@ -383,7 +384,7 @@
                         span {
                             font-size: 2.25rem;
                         
-                            @include mobile {
+                            @include tablet_portrait {
                                 font-size: 1.5rem;
                             }
                         }
@@ -401,7 +402,7 @@
                         background-color: $c_txt;
                         text-transform: uppercase;
 
-                        @include not_mobile {
+                        @include not_tablet_portrait {
                             display: none;
                         }
 
@@ -436,7 +437,7 @@
                     .navbar-agenda { 
                         flex-shrink: 0;
 
-                        @include not_mobile {
+                        @include not_tablet_portrait {
                             display: none;
                         }
 
@@ -451,6 +452,8 @@
 
                     /* Menu burger */ 
                     .navbar-toggler { 
+                        display: block;
+                        position: relative;
                         border: none;
                         outline: none;
                         height: 45px;
@@ -460,7 +463,7 @@
                         background-color: $c_main;
                         border-radius: 0;
 
-                        @include not_mobile {
+                        @include not_tablet_portrait {
                             display: none;
                         }
 
@@ -509,15 +512,21 @@
                 
                 /* Menu */ 
                 #navbar {
-                    @include mobile {
+                    @include tablet_portrait {
                         border-top: 14px solid $c_txt;
+
+                        &.collapse:not(.show){
+                            display: none !important;
+                        }
                     }
 
                     ul {
                         height: 65px;
 
-                        @include mobile {
+                        @include tablet_portrait {
                             flex-wrap: nowrap;
+                            flex-direction: column;
+                            flex-grow: 1;
                         }
         
                         li {
@@ -525,7 +534,7 @@
                             padding: 0;
                             margin: 0;
 
-                            @include mobile {
+                            @include tablet_portrait {
                                 background-color: $c_white;
                                 text-align: center;
                                 padding: 12.5px 30px;
@@ -543,7 +552,11 @@
                                 @include an(all, 0.3);
                                 background: none;
 
-                                @include mobile {
+                                @media screen and (max-width: 1200px){
+                                    font-size: 1rem;
+                                }
+
+                                @include tablet_portrait {
                                     color: $c_txt;
                                     height: 30px;
                                     line-height: 30px;
@@ -728,7 +741,7 @@
                                 display: block;
                                 position: relative;
 
-                                @include not_mobile {
+                                @include not_tablet_portrait {
                                     display: none;
                                 }
                 

@@ -68,9 +68,12 @@
                 margin-bottom: 0;
 				transition: ease-in-out 0.6s all;
 
+				@include tablet_portrait{
+					max-width: none;
+				}
+
 				@include mobile{
 					font-size: $s_h1;
-					max-width: none;
 					line-height: 3rem;
 				}
 			}
