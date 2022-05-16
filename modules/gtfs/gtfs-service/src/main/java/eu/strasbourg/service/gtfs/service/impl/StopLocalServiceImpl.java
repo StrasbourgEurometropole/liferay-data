@@ -70,8 +70,6 @@ public class StopLocalServiceImpl extends StopLocalServiceBaseImpl {
 		stop.setStop_lat(Double.toString(entry.getStop_lat()));
 		stop.setStop_lon(Double.toString(entry.getStop_lon()));
 		stop.setStop_name(entry.getStop_name());
-		stop.setStop_url(entry.getStop_url());
-		stop.setStop_desc(entry.getStop_desc());
 		
 		
 		stop = this.stopLocalService.updateStop(stop);

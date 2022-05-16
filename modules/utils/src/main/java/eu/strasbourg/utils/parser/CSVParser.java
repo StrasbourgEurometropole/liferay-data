@@ -48,21 +48,19 @@ public abstract class CSVParser<T extends GTFSModel> {
 	public List<T> getAll(String file, String separator)throws FileAccessException {
 		List<T> result = new ArrayList<T>();
 		BufferedReader br = null;
-		boolean firstLine = true;
 		String line = "";
 		try {
-
 			br = new BufferedReader(new FileReader(file));
-			while ((line = br.readLine()) != null) {
-				if (firstLine) {
-					firstLine = false;
-					continue;
+			int nbCol = newClassIntance().getNbEntry();
+			if ((line = br.readLine()) != null) {
+				while ((line = br.readLine()) != null) {
+					String[] splitValue = line.split(separator,nbCol);
+					T entry = parseEntry(splitValue);
+					if (entry != null)
+						result.add(entry);
 				}
-				String[] splitValue = line.split(separator,newClassIntance().getNbEntry());
-				T entry = parseEntry(splitValue);
-				if (entry != null)
-					result.add(entry);
 			}
+
 
 		} catch (FileNotFoundException e) {
 			throw new FileAccessException(e.getMessage());
