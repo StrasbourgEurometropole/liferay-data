@@ -41,7 +41,7 @@ public class GTFSImporter {
 	private ServiceContext sc;
 	private ImportHistoric importHistoric;
 
-	private static String GTFS_URL = "http://opendata.cts-strasbourg.fr/fichiers/gtfs/google_transit.zip";
+	private static String GTFS_URL = "https://opendata.cts-strasbourg.eu/google_transit.zip";
 
 	/**
 	 * Constructeur de base
