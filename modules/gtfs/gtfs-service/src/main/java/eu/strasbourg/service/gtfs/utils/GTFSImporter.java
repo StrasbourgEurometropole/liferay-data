@@ -87,7 +87,7 @@ public class GTFSImporter {
 
 		// Import des donnees du flux
 		if (!skipDataImport) {
-			importGTFSData(gtfsFolder.getAbsolutePath()+"\\");
+			importGTFSData(gtfsFolder.getAbsolutePath()+"/");
 		}
 
 		// Convertion des donnees du flux vers des entitees liferay affichables
