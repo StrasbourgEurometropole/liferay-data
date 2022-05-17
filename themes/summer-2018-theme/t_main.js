@@ -3417,13 +3417,3 @@ a.fn.owlCarousel.Constructor.Plugins.Animate=e}(window.Zepto||window.jQuery,wind
 		navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
 	})
 
-	// Page d'accueil - Comportement en hover sur les grandes bulles
-	if ($(window).width() >= 1025){
-		$('.mns-bloc-entry > div').mouseenter(function(){
-			$(this).find('.caption').addClass('open');
-		});
-		$('.mns-bloc-entry > div').mouseleave(function(){
-			$(this).find('.caption').removeClass('open');
-		});
-	};
-

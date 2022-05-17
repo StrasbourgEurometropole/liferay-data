@@ -1,0 +1,234 @@
+#mns-global{
+	.highlights{
+		margin-bottom: 130px;
+
+		@include mobile{
+			margin-bottom: 80px;
+		}
+
+		.menu-article{
+			&:after{
+				content: '';
+				position: absolute;
+				height: 6px;
+				width: 60px;
+				background: $c_main;
+				top: 50%;
+				right: -90px;
+				z-index: -1;
+			}
+
+			figure{
+				margin: 0;
+				height: 730px;
+
+				@include mobile{
+					display: none;
+				}
+
+				img{
+					height: 100%;
+    				object-fit: cover;
+				}
+			}
+
+			.change-article-mobile{
+				display: block;
+				position: absolute;
+				top: calc(-25px - 0.75rem);
+				left: 0;
+				right: 0;
+				margin: auto;
+				height: calc(50px + 1.5rem);
+				width: 260px;
+				border: none;
+				outline: none;
+				background: transparent;
+
+				&:before{
+					content: '\e90e';
+					font-family: 'icomoon' !important;    
+					display: inline-block;
+					width: 100%;
+					text-align: right;
+					color: $c_white;
+					padding-right: 15px;
+				}
+
+				@include not_mobile{
+					display: none;
+				}
+			}
+
+			.link-article {
+				position: absolute;
+				top: 0;
+				right: 15px;
+				width: calc(50% - 30px);
+				height: calc(100% - 170px);
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				margin: 85px 0;
+
+				@include mobile{
+					margin: auto;
+					left: 0;
+					right: 0;
+					top: calc(-25px - 0.75rem);
+					width: 260px;
+					display: block;
+					box-shadow: 4px 9px 16px rgba(0, 0, 0, 0.25);
+					height: auto;
+					transition: none;
+				}
+
+				.mns-btn {
+					text-align: center;
+					padding: 25px;
+					flex-shrink: 1;
+					width: 270px;
+					min-width: 0;
+					color: $c_txt;
+					font-size: 1.25rem;
+					line-height: 1.5rem;
+
+					@include mobile{
+						width: 100%;
+						display: none;
+						padding-right: calc(25px + 20px);
+						font-size: 1rem;
+						line-height: 1.1875rem;
+
+						border-bottom: solid 1px $c_main;
+						&:last-child{
+							border: none;
+						}
+
+						&.open{
+							display: block;
+						}
+					}
+				
+					&:hover, &.open {
+						color: $c_white;
+						background: $c_main;
+					}
+				}
+
+
+				@include mobile{
+					&.show {
+						z-index: 1;
+						.mns-btn{
+							display: block;
+						}
+					}
+				}
+			}
+
+			.article{
+				position: absolute;
+				top: calc((100% - 675px) / 2);
+				left: -100%;
+				width: 35.73vw;
+				@include an(all, 1);
+				box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.25);
+				opacity: 0;
+
+				@include mobile{
+					position: static;
+					width: calc(100% - 30px);
+					margin: auto;
+					height: 0;
+					transform: scaleY(0);
+					transform-origin: 50% 0;
+				}
+
+				.picture{
+					background-size: cover;
+					background-position: center;
+					background-repeat: no-repeat;
+					width: 100%;
+					height: 375px;
+
+					@include mobile{
+						height: 350px;
+					}
+				}
+
+				.detail-article{
+					background: $c_white;
+					padding: 35px 60px;
+					text-align: center;
+					height: 300px;
+
+					@media screen and (max-width: 1375px){
+						height: fit-content;
+						padding: 10px 30px;
+					}
+
+					@include mobile{
+						padding: 25px 30px; 
+					}
+					
+					h3 {
+						margin: 0 0 20px;
+
+						@include mobile{
+							display: none;
+						}
+					}
+
+					p {
+						overflow: hidden;
+						-webkit-line-clamp: 4;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+					}
+
+					.mns-btn {
+						color: $c_white;
+						font-size: 1.125rem;
+						line-height: 1.3125rem;
+						background-color: $c_main;
+						padding: 15px 50px;
+			
+						&:hover {
+							background: $c_txt;
+						}
+
+						@include tablet_portrait{
+							min-width: 200px;
+						}
+
+						@include mobile{
+							min-width: 270px;
+						}
+					}
+				}
+
+				&:after{
+					content: '';
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background-color: rgba(0,0,0,0.2);
+				}
+
+				&.open{
+					left: calc(100% + 150px);
+					opacity: 1;
+					height: auto;
+					transform: scaleY(1);
+
+					&:after{
+						content: none;
+					}
+				}
+			}
+		}
+	}
+}

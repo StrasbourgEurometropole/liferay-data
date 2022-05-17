@@ -125,6 +125,7 @@
 		</field>
 		<field name="startDate" type="Date" />
 		<field name="finishDate" type="Date" />
+		<field name="gtfsFileHash" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.Ligne">
 		<field name="uuid" type="String" />
@@ -154,9 +155,7 @@
 		<field name="route_long_name" type="String">
 			<hint name="max-length">200</hint>
 		</field>
-		<field name="route_desc" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field name="route_desc" type="String" />
 		<field name="route_type" type="int" />
 		<field name="route_color" type="String" />
 		<field name="route_text_color" type="String" />
@@ -169,12 +168,8 @@
 		<field name="stop_lat" type="String" />
 		<field name="stop_lon" type="String" />
 		<field name="stop_name" type="String" />
-		<field name="stop_url" type="String">
-			<hint name="max-length">400</hint>
-		</field>
-		<field name="stop_desc" type="String">
-			<hint name="max-length">400</hint>
-		</field>
+		<field name="stop_url" type="String" />
+		<field name="stop_desc" type="String" />
 	</model>
 	<model name="eu.strasbourg.service.gtfs.model.StopTime">
 		<field name="uuid" type="String" />

@@ -68,7 +68,6 @@ public class RouteLocalServiceImpl extends RouteLocalServiceBaseImpl {
 		route.setRoute_id(entry.getRoute_id());
 		route.setRoute_short_name(entry.getRoute_short_name());
 		route.setRoute_long_name(entry.getRoute_long_name());
-		route.setRoute_desc(entry.getRoute_desc());
 		route.setRoute_type(entry.getRoute_type());
 		route.setRoute_color(entry.getRoute_color());
 		route.setRoute_text_color(entry.getRoute_text_color());

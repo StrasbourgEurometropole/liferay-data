@@ -188,7 +188,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
 			File image = uploadRequest.getFile("image");
-			Long imageId = null;
+			long imageId = 0;
 			if (image != null && image.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(image);
 				DLFolder folder = DLFolderLocalServiceUtil
@@ -204,7 +204,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			}
 
 			// Dans le cas où le responsable clique sur le bouton pour récupérer l'image de l'auteur
-			Long webImageId = ParamUtil.getLong(request, "webImageId");
+			long webImageId = ParamUtil.getLong(request, "webImageId");
 			
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
@@ -219,7 +219,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
 			}
 			else {
-				if(webImageId != null && webImageId != 0) 
+				if(webImageId != 0)
 					campaignEvent.setWebImageId(webImageId);
 				else
 					campaignEvent.setWebImageId(imageId);
@@ -461,7 +461,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			}
 
 			response.sendRedirect(renderUrl.toString());
-		} catch (PortalException | IOException e) {
+		} catch (Exception e) {
 			_log.error(e);
 		}
 

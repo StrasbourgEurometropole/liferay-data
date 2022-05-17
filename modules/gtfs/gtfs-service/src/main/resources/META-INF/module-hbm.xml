@@ -140,6 +140,7 @@
 		<property name="errorStackTrace" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="startDate" type="org.hibernate.type.TimestampType" />
 		<property name="finishDate" type="org.hibernate.type.TimestampType" />
+		<property name="gtfsFileHash" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="eu.strasbourg.service.gtfs.model.impl.LigneImpl" table="gtfs_Ligne">
 		<id name="ligneId" type="long">

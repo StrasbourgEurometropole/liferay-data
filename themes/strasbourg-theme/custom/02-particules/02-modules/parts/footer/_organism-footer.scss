@@ -189,7 +189,8 @@
         }
         .seu-mail{
             padding-top: 40px;
-            .seu-presse, .seu-newsletter{
+            .seu-presse, .seu-newsletter, .seu-offer, .seu-strasapp{
+                margin-bottom: 25px;
                 font-family: $montserrat;
                 font-size: 1.7rem;
                 font-weight: 700;
@@ -197,6 +198,7 @@
                 display: flex;
                 align-items: center;
                 text-transform: uppercase;
+
                 @include RWD(mobile){
                     justify-content: center;
                 }
@@ -226,7 +228,6 @@
                 }            
             }
             .seu-presse{
-                margin-bottom: 25px;
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-folders, #FFFFFF) );
                 }
@@ -234,6 +235,18 @@
             .seu-newsletter{
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-newsletter, #FFFFFF) );
+                }
+            }
+            .seu-offer{
+                .seu-picto{
+                    background-image: url( svg-bg-uri($svg-offers, #FFFFFF) );
+                    height: 30px;
+                }
+            }
+            .seu-strasapp{
+                margin-bottom: 0;
+                .seu-picto{
+                    background-image: url( svg-bg-uri($svg-strasapp, #FFFFFF) );
                 }
             }
         }

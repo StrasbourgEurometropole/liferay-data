@@ -77,6 +77,7 @@ public class ImportHistoricWrapper
 		attributes.put("errorStackTrace", getErrorStackTrace());
 		attributes.put("startDate", getStartDate());
 		attributes.put("finishDate", getFinishDate());
+		attributes.put("gtfsFileHash", getGtfsFileHash());
 
 		return attributes;
 	}
@@ -190,6 +191,12 @@ public class ImportHistoricWrapper
 		if (finishDate != null) {
 			setFinishDate(finishDate);
 		}
+
+		String gtfsFileHash = (String)attributes.get("gtfsFileHash");
+
+		if (gtfsFileHash != null) {
+			setGtfsFileHash(gtfsFileHash);
+		}
 	}
 
 	/**
@@ -297,6 +304,16 @@ public class ImportHistoricWrapper
 	@Override
 	public long getGroupId() {
 		return _importHistoric.getGroupId();
+	}
+
+	/**
+	 * Returns the gtfs file hash of this import historic.
+	 *
+	 * @return the gtfs file hash of this import historic
+	 */
+	@Override
+	public String getGtfsFileHash() {
+		return _importHistoric.getGtfsFileHash();
 	}
 
 	/**
@@ -657,6 +674,16 @@ public class ImportHistoricWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		_importHistoric.setGroupId(groupId);
+	}
+
+	/**
+	 * Sets the gtfs file hash of this import historic.
+	 *
+	 * @param gtfsFileHash the gtfs file hash of this import historic
+	 */
+	@Override
+	public void setGtfsFileHash(String gtfsFileHash) {
+		_importHistoric.setGtfsFileHash(gtfsFileHash);
 	}
 
 	/**

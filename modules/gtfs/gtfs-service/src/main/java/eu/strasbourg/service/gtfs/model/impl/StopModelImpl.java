@@ -89,7 +89,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null,stop_url VARCHAR(400) null,stop_desc VARCHAR(400) null)";
+		"create table gtfs_Stop (uuid_ VARCHAR(75) null,id_ LONG not null primary key,stop_id VARCHAR(75) null,stop_code VARCHAR(75) null,stop_lat VARCHAR(75) null,stop_lon VARCHAR(75) null,stop_name VARCHAR(75) null,stop_url VARCHAR(75) null,stop_desc VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table gtfs_Stop";
 
