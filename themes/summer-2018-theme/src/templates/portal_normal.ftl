@@ -6,6 +6,8 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
+
+<#assign isHome = layout.getFriendlyURL() == "/accueil" />
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
   <head>
@@ -101,7 +103,11 @@
   </head>
 
 
-  <body class="${css_class}">
+  <body class="${css_class} 
+    <#if isHome>
+      home
+    </#if>
+  ">
 
     <@liferay_ui["quick-access"] contentId="#main-content" />
 
