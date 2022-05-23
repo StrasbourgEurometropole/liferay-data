@@ -1,6 +1,18 @@
 #mns-global{
 
 	.mns-bloc-article{
+		
+		h2,
+		span.h2
+		{
+			font-size: 3rem;
+		}				
+
+		h3,
+		span.h3
+		{
+			font-size: 2rem;
+		}
 
 		.mns-title,.mns-catcher{
 			text-align: center;
