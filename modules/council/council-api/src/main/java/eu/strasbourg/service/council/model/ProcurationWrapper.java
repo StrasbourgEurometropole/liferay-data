@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,9 +35,8 @@ import java.util.Objects;
  * @see Procuration
  * @generated
  */
-@ProviderType
 public class ProcurationWrapper
-	implements Procuration, ModelWrapper<Procuration> {
+	implements ModelWrapper<Procuration>, Procuration {
 
 	public ProcurationWrapper(Procuration procuration) {
 		_procuration = procuration;
@@ -991,16 +988,16 @@ public class ProcurationWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ProcurationWrapper)) {
+		if (!(object instanceof ProcurationWrapper)) {
 			return false;
 		}
 
-		ProcurationWrapper procurationWrapper = (ProcurationWrapper)obj;
+		ProcurationWrapper procurationWrapper = (ProcurationWrapper)object;
 
 		if (Objects.equals(_procuration, procurationWrapper._procuration)) {
 			return true;

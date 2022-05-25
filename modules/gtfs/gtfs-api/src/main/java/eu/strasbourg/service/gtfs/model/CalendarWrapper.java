@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see Calendar
  * @generated
  */
-@ProviderType
 public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 
 	public CalendarWrapper(Calendar calendar) {
@@ -583,16 +580,16 @@ public class CalendarWrapper implements Calendar, ModelWrapper<Calendar> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CalendarWrapper)) {
+		if (!(object instanceof CalendarWrapper)) {
 			return false;
 		}
 
-		CalendarWrapper calendarWrapper = (CalendarWrapper)obj;
+		CalendarWrapper calendarWrapper = (CalendarWrapper)object;
 
 		if (Objects.equals(_calendar, calendarWrapper._calendar)) {
 			return true;

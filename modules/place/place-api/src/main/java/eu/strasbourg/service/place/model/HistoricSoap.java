@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class HistoricSoap implements Serializable {
 
 	public static HistoricSoap toSoapModel(Historic model) {

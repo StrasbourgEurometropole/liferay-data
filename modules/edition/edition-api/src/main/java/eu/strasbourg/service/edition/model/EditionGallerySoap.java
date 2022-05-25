@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class EditionGallerySoap implements Serializable {
 
 	public static EditionGallerySoap toSoapModel(EditionGallery model) {

@@ -45,7 +45,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class LikeServiceBaseImpl
-	extends BaseServiceImpl implements LikeService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, LikeService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -325,8 +325,8 @@ public abstract class LikeServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

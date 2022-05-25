@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
  * @see FoundObject
  * @generated
  */
-@ProviderType
 public abstract class FoundObjectBaseImpl
 	extends FoundObjectModelImpl implements FoundObject {
 

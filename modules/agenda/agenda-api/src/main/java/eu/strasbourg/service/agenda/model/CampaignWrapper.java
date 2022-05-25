@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Campaign
  * @generated
  */
-@ProviderType
 public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 
 	public CampaignWrapper(Campaign campaign) {
@@ -1215,16 +1212,16 @@ public class CampaignWrapper implements Campaign, ModelWrapper<Campaign> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CampaignWrapper)) {
+		if (!(object instanceof CampaignWrapper)) {
 			return false;
 		}
 
-		CampaignWrapper campaignWrapper = (CampaignWrapper)obj;
+		CampaignWrapper campaignWrapper = (CampaignWrapper)object;
 
 		if (Objects.equals(_campaign, campaignWrapper._campaign)) {
 			return true;

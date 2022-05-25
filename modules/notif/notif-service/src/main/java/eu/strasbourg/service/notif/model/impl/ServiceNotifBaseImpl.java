@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.notif.service.ServiceNotifLocalServiceUtil;
  * @see ServiceNotif
  * @generated
  */
-@ProviderType
 public abstract class ServiceNotifBaseImpl
 	extends ServiceNotifModelImpl implements ServiceNotif {
 

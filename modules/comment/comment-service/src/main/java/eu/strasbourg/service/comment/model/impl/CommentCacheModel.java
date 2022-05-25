@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Romain Vergnais
  * @generated
  */
-@ProviderType
 public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CommentCacheModel)) {
+		if (!(object instanceof CommentCacheModel)) {
 			return false;
 		}
 
-		CommentCacheModel commentCacheModel = (CommentCacheModel)obj;
+		CommentCacheModel commentCacheModel = (CommentCacheModel)object;
 
 		if (commentId == commentCacheModel.commentId) {
 			return true;
@@ -212,7 +209,9 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		commentId = objectInput.readLong();
@@ -231,7 +230,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		text = objectInput.readUTF();
+		text = (String)objectInput.readObject();
 
 		level = objectInput.readInt();
 		userQuality = objectInput.readUTF();
@@ -241,7 +240,7 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		publikId = objectInput.readUTF();
 
 		parentCommentId = objectInput.readLong();
-		urlProjectCommentaire = objectInput.readUTF();
+		urlProjectCommentaire = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -285,10 +284,10 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(statusDate);
 
 		if (text == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(text);
+			objectOutput.writeObject(text);
 		}
 
 		objectOutput.writeInt(level);
@@ -314,10 +313,10 @@ public class CommentCacheModel implements CacheModel<Comment>, Externalizable {
 		objectOutput.writeLong(parentCommentId);
 
 		if (urlProjectCommentaire == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(urlProjectCommentaire);
+			objectOutput.writeObject(urlProjectCommentaire);
 		}
 	}
 

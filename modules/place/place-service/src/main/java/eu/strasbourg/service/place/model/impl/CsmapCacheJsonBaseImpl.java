@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.CsmapCacheJson;
 import eu.strasbourg.service.place.service.CsmapCacheJsonLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.CsmapCacheJsonLocalServiceUtil;
  * @see CsmapCacheJson
  * @generated
  */
-@ProviderType
 public abstract class CsmapCacheJsonBaseImpl
 	extends CsmapCacheJsonModelImpl implements CsmapCacheJson {
 

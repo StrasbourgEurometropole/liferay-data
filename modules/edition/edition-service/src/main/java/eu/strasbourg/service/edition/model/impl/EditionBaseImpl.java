@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.edition.service.EditionLocalServiceUtil;
  * @see Edition
  * @generated
  */
-@ProviderType
 public abstract class EditionBaseImpl
 	extends EditionModelImpl implements Edition {
 

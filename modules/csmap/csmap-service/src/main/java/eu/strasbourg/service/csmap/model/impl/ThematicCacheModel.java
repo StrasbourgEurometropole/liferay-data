@@ -25,29 +25,26 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing Thematic in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class ThematicCacheModel
 	implements CacheModel<Thematic>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ThematicCacheModel)) {
+		if (!(object instanceof ThematicCacheModel)) {
 			return false;
 		}
 
-		ThematicCacheModel thematicCacheModel = (ThematicCacheModel)obj;
+		ThematicCacheModel thematicCacheModel = (ThematicCacheModel)object;
 
 		if (thematicId == thematicCacheModel.thematicId) {
 			return true;

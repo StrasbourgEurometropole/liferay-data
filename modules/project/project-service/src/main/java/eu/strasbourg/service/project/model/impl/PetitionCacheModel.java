@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class PetitionCacheModel
 	implements CacheModel<Petition>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PetitionCacheModel)) {
+		if (!(object instanceof PetitionCacheModel)) {
 			return false;
 		}
 
-		PetitionCacheModel petitionCacheModel = (PetitionCacheModel)obj;
+		PetitionCacheModel petitionCacheModel = (PetitionCacheModel)object;
 
 		if (petitionId == petitionCacheModel.petitionId) {
 			return true;
@@ -375,7 +372,9 @@ public class PetitionCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		petitionId = objectInput.readLong();
@@ -396,7 +395,7 @@ public class PetitionCacheModel
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		summary = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		placeTextArea = objectInput.readUTF();
 		filesDownload = objectInput.readUTF();
 		publicationDate = objectInput.readLong();
@@ -483,10 +482,10 @@ public class PetitionCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (placeTextArea == null) {

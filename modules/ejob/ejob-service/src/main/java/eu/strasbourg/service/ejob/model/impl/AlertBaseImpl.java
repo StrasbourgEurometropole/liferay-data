@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.ejob.model.Alert;
 import eu.strasbourg.service.ejob.service.AlertLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.ejob.service.AlertLocalServiceUtil;
  * @see Alert
  * @generated
  */
-@ProviderType
 public abstract class AlertBaseImpl extends AlertModelImpl implements Alert {
 
 	/*

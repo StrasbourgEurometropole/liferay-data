@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see AgendaExportPeriod
  * @generated
  */
-@ProviderType
 public class AgendaExportPeriodWrapper
 	implements AgendaExportPeriod, ModelWrapper<AgendaExportPeriod> {
 
@@ -336,17 +333,17 @@ public class AgendaExportPeriodWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AgendaExportPeriodWrapper)) {
+		if (!(object instanceof AgendaExportPeriodWrapper)) {
 			return false;
 		}
 
 		AgendaExportPeriodWrapper agendaExportPeriodWrapper =
-			(AgendaExportPeriodWrapper)obj;
+			(AgendaExportPeriodWrapper)object;
 
 		if (Objects.equals(
 				_agendaExportPeriod,

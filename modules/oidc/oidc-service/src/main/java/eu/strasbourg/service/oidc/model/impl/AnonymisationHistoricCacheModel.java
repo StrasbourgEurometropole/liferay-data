@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class AnonymisationHistoricCacheModel
 	implements CacheModel<AnonymisationHistoric>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AnonymisationHistoricCacheModel)) {
+		if (!(object instanceof AnonymisationHistoricCacheModel)) {
 			return false;
 		}
 
 		AnonymisationHistoricCacheModel anonymisationHistoricCacheModel =
-			(AnonymisationHistoricCacheModel)obj;
+			(AnonymisationHistoricCacheModel)object;
 
 		if (anonymisationHistoricId ==
 				anonymisationHistoricCacheModel.anonymisationHistoricId) {
@@ -220,7 +217,9 @@ public class AnonymisationHistoricCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		anonymisationHistoricId = objectInput.readLong();
@@ -242,9 +241,9 @@ public class AnonymisationHistoricCacheModel
 		statusDate = objectInput.readLong();
 
 		result = objectInput.readInt();
-		operations = objectInput.readUTF();
-		errorDescription = objectInput.readUTF();
-		errorStackTrace = objectInput.readUTF();
+		operations = (String)objectInput.readObject();
+		errorDescription = (String)objectInput.readObject();
+		errorStackTrace = (String)objectInput.readObject();
 		startDate = objectInput.readLong();
 		finishDate = objectInput.readLong();
 	}
@@ -293,24 +292,24 @@ public class AnonymisationHistoricCacheModel
 		objectOutput.writeInt(result);
 
 		if (operations == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(operations);
+			objectOutput.writeObject(operations);
 		}
 
 		if (errorDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(errorDescription);
+			objectOutput.writeObject(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(errorStackTrace);
+			objectOutput.writeObject(errorStackTrace);
 		}
 
 		objectOutput.writeLong(startDate);

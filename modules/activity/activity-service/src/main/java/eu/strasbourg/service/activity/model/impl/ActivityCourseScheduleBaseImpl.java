@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService
  * @see ActivityCourseSchedule
  * @generated
  */
-@ProviderType
 public abstract class ActivityCourseScheduleBaseImpl
 	extends ActivityCourseScheduleModelImpl implements ActivityCourseSchedule {
 

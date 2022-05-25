@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see ArretService
  * @generated
  */
-@ProviderType
 public class ArretServiceWrapper
 	implements ArretService, ServiceWrapper<ArretService> {
 

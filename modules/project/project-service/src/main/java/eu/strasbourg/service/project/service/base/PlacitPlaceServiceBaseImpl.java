@@ -61,7 +61,7 @@ import javax.sql.DataSource;
  */
 public abstract class PlacitPlaceServiceBaseImpl
 	extends BaseServiceImpl
-	implements PlacitPlaceService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, PlacitPlaceService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1259,8 +1259,8 @@ public abstract class PlacitPlaceServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.ImportReportLineLocalServiceUtil;
  * @see ImportReportLine
  * @generated
  */
-@ProviderType
 public abstract class ImportReportLineBaseImpl
 	extends ImportReportLineModelImpl implements ImportReportLine {
 

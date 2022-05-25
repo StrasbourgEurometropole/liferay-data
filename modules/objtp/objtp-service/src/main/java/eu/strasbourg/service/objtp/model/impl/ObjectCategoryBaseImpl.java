@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
  * @see ObjectCategory
  * @generated
  */
-@ProviderType
 public abstract class ObjectCategoryBaseImpl
 	extends ObjectCategoryModelImpl implements ObjectCategory {
 

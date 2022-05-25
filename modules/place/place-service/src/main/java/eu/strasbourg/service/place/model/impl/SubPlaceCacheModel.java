@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class SubPlaceCacheModel
 	implements CacheModel<SubPlace>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SubPlaceCacheModel)) {
+		if (!(object instanceof SubPlaceCacheModel)) {
 			return false;
 		}
 
-		SubPlaceCacheModel subPlaceCacheModel = (SubPlaceCacheModel)obj;
+		SubPlaceCacheModel subPlaceCacheModel = (SubPlaceCacheModel)object;
 
 		if (subPlaceId == subPlaceCacheModel.subPlaceId) {
 			return true;
@@ -141,7 +138,9 @@ public class SubPlaceCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		subPlaceId = objectInput.readLong();
@@ -152,7 +151,7 @@ public class SubPlaceCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 
 		placeId = objectInput.readLong();
 	}
@@ -189,10 +188,10 @@ public class SubPlaceCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		objectOutput.writeLong(placeId);

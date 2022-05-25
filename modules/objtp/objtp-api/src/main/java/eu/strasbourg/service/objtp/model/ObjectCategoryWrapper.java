@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,9 +33,8 @@ import java.util.Objects;
  * @see ObjectCategory
  * @generated
  */
-@ProviderType
 public class ObjectCategoryWrapper
-	implements ObjectCategory, ModelWrapper<ObjectCategory> {
+	implements ModelWrapper<ObjectCategory>, ObjectCategory {
 
 	public ObjectCategoryWrapper(ObjectCategory objectCategory) {
 		_objectCategory = objectCategory;
@@ -246,17 +243,17 @@ public class ObjectCategoryWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ObjectCategoryWrapper)) {
+		if (!(object instanceof ObjectCategoryWrapper)) {
 			return false;
 		}
 
 		ObjectCategoryWrapper objectCategoryWrapper =
-			(ObjectCategoryWrapper)obj;
+			(ObjectCategoryWrapper)object;
 
 		if (Objects.equals(
 				_objectCategory, objectCategoryWrapper._objectCategory)) {

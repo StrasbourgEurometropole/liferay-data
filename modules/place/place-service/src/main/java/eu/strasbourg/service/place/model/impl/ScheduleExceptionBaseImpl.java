@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
  * @see ScheduleException
  * @generated
  */
-@ProviderType
 public abstract class ScheduleExceptionBaseImpl
 	extends ScheduleExceptionModelImpl implements ScheduleException {
 

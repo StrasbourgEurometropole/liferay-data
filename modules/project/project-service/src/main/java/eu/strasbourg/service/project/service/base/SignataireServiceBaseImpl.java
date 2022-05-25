@@ -61,7 +61,7 @@ import javax.sql.DataSource;
  */
 public abstract class SignataireServiceBaseImpl
 	extends BaseServiceImpl
-	implements SignataireService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, SignataireService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1259,8 +1259,8 @@ public abstract class SignataireServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

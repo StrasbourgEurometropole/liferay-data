@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,21 +31,21 @@ import java.io.ObjectOutput;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class StrasbourgCacheModel
 	implements CacheModel<Strasbourg>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof StrasbourgCacheModel)) {
+		if (!(object instanceof StrasbourgCacheModel)) {
 			return false;
 		}
 
-		StrasbourgCacheModel strasbourgCacheModel = (StrasbourgCacheModel)obj;
+		StrasbourgCacheModel strasbourgCacheModel =
+			(StrasbourgCacheModel)object;
 
 		if (id == strasbourgCacheModel.id) {
 			return true;

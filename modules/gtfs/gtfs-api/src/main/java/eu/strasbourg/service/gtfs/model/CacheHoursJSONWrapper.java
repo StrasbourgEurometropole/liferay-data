@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see CacheHoursJSON
  * @generated
  */
-@ProviderType
 public class CacheHoursJSONWrapper
 	implements CacheHoursJSON, ModelWrapper<CacheHoursJSON> {
 
@@ -360,17 +357,17 @@ public class CacheHoursJSONWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheHoursJSONWrapper)) {
+		if (!(object instanceof CacheHoursJSONWrapper)) {
 			return false;
 		}
 
 		CacheHoursJSONWrapper cacheHoursJSONWrapper =
-			(CacheHoursJSONWrapper)obj;
+			(CacheHoursJSONWrapper)object;
 
 		if (Objects.equals(
 				_cacheHoursJSON, cacheHoursJSONWrapper._cacheHoursJSON)) {

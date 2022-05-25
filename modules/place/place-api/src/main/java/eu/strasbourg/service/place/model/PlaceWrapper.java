@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Place
  * @generated
  */
-@ProviderType
-public class PlaceWrapper implements Place, ModelWrapper<Place> {
+public class PlaceWrapper implements ModelWrapper<Place>, Place {
 
 	public PlaceWrapper(Place place) {
 		_place = place;
@@ -5017,16 +5014,16 @@ public class PlaceWrapper implements Place, ModelWrapper<Place> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PlaceWrapper)) {
+		if (!(object instanceof PlaceWrapper)) {
 			return false;
 		}
 
-		PlaceWrapper placeWrapper = (PlaceWrapper)obj;
+		PlaceWrapper placeWrapper = (PlaceWrapper)object;
 
 		if (Objects.equals(_place, placeWrapper._place)) {
 			return true;

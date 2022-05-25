@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see Alert
  * @generated
  */
-@ProviderType
 public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 
 	public AlertWrapper(Alert alert) {
@@ -707,16 +704,16 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AlertWrapper)) {
+		if (!(object instanceof AlertWrapper)) {
 			return false;
 		}
 
-		AlertWrapper alertWrapper = (AlertWrapper)obj;
+		AlertWrapper alertWrapper = (AlertWrapper)object;
 
 		if (Objects.equals(_alert, alertWrapper._alert)) {
 			return true;

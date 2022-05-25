@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link Thematic}.
@@ -31,10 +29,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see Thematic
  * @generated
  */
-@ProviderType
 public class ThematicWrapper
 	extends BaseModelWrapper<Thematic>
-	implements Thematic, ModelWrapper<Thematic> {
+	implements ModelWrapper<Thematic>, Thematic {
 
 	public ThematicWrapper(Thematic thematic) {
 		super(thematic);

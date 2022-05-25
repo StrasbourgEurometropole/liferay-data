@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Ligne
  * @generated
  */
-@ProviderType
 public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 
 	public LigneWrapper(Ligne ligne) {
@@ -833,16 +830,16 @@ public class LigneWrapper implements Ligne, ModelWrapper<Ligne> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof LigneWrapper)) {
+		if (!(object instanceof LigneWrapper)) {
 			return false;
 		}
 
-		LigneWrapper ligneWrapper = (LigneWrapper)obj;
+		LigneWrapper ligneWrapper = (LigneWrapper)object;
 
 		if (Objects.equals(_ligne, ligneWrapper._ligne)) {
 			return true;

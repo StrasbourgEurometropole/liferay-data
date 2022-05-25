@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.like.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,20 +31,19 @@ import java.io.ObjectOutput;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class LikeCacheModel implements CacheModel<Like>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof LikeCacheModel)) {
+		if (!(object instanceof LikeCacheModel)) {
 			return false;
 		}
 
-		LikeCacheModel likeCacheModel = (LikeCacheModel)obj;
+		LikeCacheModel likeCacheModel = (LikeCacheModel)object;
 
 		if (likeId == likeCacheModel.likeId) {
 			return true;

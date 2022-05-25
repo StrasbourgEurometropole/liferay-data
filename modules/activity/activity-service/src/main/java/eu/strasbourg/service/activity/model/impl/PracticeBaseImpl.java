@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.model.Practice;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
  * @see Practice
  * @generated
  */
-@ProviderType
 public abstract class PracticeBaseImpl
 	extends PracticeModelImpl implements Practice {
 

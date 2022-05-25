@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see PublikUser
  * @generated
  */
-@ProviderType
-public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
+public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 
 	public PublikUserWrapper(PublikUser publikUser) {
 		_publikUser = publikUser;
@@ -832,16 +829,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PublikUserWrapper)) {
+		if (!(object instanceof PublikUserWrapper)) {
 			return false;
 		}
 
-		PublikUserWrapper publikUserWrapper = (PublikUserWrapper)obj;
+		PublikUserWrapper publikUserWrapper = (PublikUserWrapper)object;
 
 		if (Objects.equals(_publikUser, publikUserWrapper._publikUser)) {
 			return true;

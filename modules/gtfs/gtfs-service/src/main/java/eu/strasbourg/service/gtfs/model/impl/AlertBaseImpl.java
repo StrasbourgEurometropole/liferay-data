@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
  * @see Alert
  * @generated
  */
-@ProviderType
 public abstract class AlertBaseImpl extends AlertModelImpl implements Alert {
 
 	/*

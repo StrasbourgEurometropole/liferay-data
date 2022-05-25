@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,9 +33,8 @@ import java.util.Objects;
  * @see NatureNotif
  * @generated
  */
-@ProviderType
 public class NatureNotifWrapper
-	implements NatureNotif, ModelWrapper<NatureNotif> {
+	implements ModelWrapper<NatureNotif>, NatureNotif {
 
 	public NatureNotifWrapper(NatureNotif natureNotif) {
 		_natureNotif = natureNotif;
@@ -416,16 +413,16 @@ public class NatureNotifWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof NatureNotifWrapper)) {
+		if (!(object instanceof NatureNotifWrapper)) {
 			return false;
 		}
 
-		NatureNotifWrapper natureNotifWrapper = (NatureNotifWrapper)obj;
+		NatureNotifWrapper natureNotifWrapper = (NatureNotifWrapper)object;
 
 		if (Objects.equals(_natureNotif, natureNotifWrapper._natureNotif)) {
 			return true;

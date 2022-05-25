@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PublikUserCacheModel
 	implements CacheModel<PublikUser>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PublikUserCacheModel)) {
+		if (!(object instanceof PublikUserCacheModel)) {
 			return false;
 		}
 
-		PublikUserCacheModel publikUserCacheModel = (PublikUserCacheModel)obj;
+		PublikUserCacheModel publikUserCacheModel =
+			(PublikUserCacheModel)object;
 
 		if (publikUserLiferayId == publikUserCacheModel.publikUserLiferayId) {
 			return true;
@@ -260,7 +258,9 @@ public class PublikUserCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		publikUserLiferayId = objectInput.readLong();
@@ -278,7 +278,7 @@ public class PublikUserCacheModel
 		displayConfig = objectInput.readUTF();
 		pactSignature = objectInput.readLong();
 		banishDate = objectInput.readLong();
-		banishDescription = objectInput.readUTF();
+		banishDescription = (String)objectInput.readObject();
 		imageURL = objectInput.readUTF();
 
 		pactDisplay = objectInput.readBoolean();
@@ -364,10 +364,10 @@ public class PublikUserCacheModel
 		objectOutput.writeLong(banishDate);
 
 		if (banishDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(banishDescription);
+			objectOutput.writeObject(banishDescription);
 		}
 
 		if (imageURL == null) {

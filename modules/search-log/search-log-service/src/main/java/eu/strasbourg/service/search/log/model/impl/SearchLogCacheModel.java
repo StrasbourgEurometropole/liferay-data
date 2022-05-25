@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.search.log.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class SearchLogCacheModel
 	implements CacheModel<SearchLog>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SearchLogCacheModel)) {
+		if (!(object instanceof SearchLogCacheModel)) {
 			return false;
 		}
 
-		SearchLogCacheModel searchLogCacheModel = (SearchLogCacheModel)obj;
+		SearchLogCacheModel searchLogCacheModel = (SearchLogCacheModel)object;
 
 		if (searchLogId == searchLogCacheModel.searchLogId) {
 			return true;

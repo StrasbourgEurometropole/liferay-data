@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.service.util;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.configuration.Filter;
@@ -26,7 +24,6 @@ import java.util.Properties;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class PropsUtil {
 
 	public static void addProperties(Properties properties) {

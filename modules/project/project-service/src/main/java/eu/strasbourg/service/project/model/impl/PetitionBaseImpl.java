@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
  * @see Petition
  * @generated
  */
-@ProviderType
 public abstract class PetitionBaseImpl
 	extends PetitionModelImpl implements Petition {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
@@ -25,7 +23,6 @@ import java.io.Serializable;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class OfficialTypeCouncilPK
 	implements Comparable<OfficialTypeCouncilPK>, Serializable {
 
@@ -96,16 +93,16 @@ public class OfficialTypeCouncilPK
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof OfficialTypeCouncilPK)) {
+		if (!(object instanceof OfficialTypeCouncilPK)) {
 			return false;
 		}
 
-		OfficialTypeCouncilPK pk = (OfficialTypeCouncilPK)obj;
+		OfficialTypeCouncilPK pk = (OfficialTypeCouncilPK)object;
 
 		if ((officialId == pk.officialId) && (typeId == pk.typeId)) {
 			return true;

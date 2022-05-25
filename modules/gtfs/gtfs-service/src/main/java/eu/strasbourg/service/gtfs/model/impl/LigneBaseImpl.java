@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
  * @see Ligne
  * @generated
  */
-@ProviderType
 public abstract class LigneBaseImpl extends LigneModelImpl implements Ligne {
 
 	/*

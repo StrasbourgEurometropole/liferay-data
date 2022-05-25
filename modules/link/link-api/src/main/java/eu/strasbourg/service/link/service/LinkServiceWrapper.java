@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.link.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see LinkService
  * @generated
  */
-@ProviderType
 public class LinkServiceWrapper
 	implements LinkService, ServiceWrapper<LinkService> {
 

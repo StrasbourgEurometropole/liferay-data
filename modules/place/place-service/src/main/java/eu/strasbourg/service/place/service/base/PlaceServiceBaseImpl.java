@@ -57,7 +57,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class PlaceServiceBaseImpl
-	extends BaseServiceImpl implements PlaceService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, PlaceService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -897,8 +897,8 @@ public abstract class PlaceServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see CsmapCacheJson
  * @generated
  */
-@ProviderType
 public class CsmapCacheJsonWrapper
 	implements CsmapCacheJson, ModelWrapper<CsmapCacheJson> {
 
@@ -431,17 +428,17 @@ public class CsmapCacheJsonWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CsmapCacheJsonWrapper)) {
+		if (!(object instanceof CsmapCacheJsonWrapper)) {
 			return false;
 		}
 
 		CsmapCacheJsonWrapper csmapCacheJsonWrapper =
-			(CsmapCacheJsonWrapper)obj;
+			(CsmapCacheJsonWrapper)object;
 
 		if (Objects.equals(
 				_csmapCacheJson, csmapCacheJsonWrapper._csmapCacheJson)) {

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PracticeCacheModel
 	implements CacheModel<Practice>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PracticeCacheModel)) {
+		if (!(object instanceof PracticeCacheModel)) {
 			return false;
 		}
 
-		PracticeCacheModel practiceCacheModel = (PracticeCacheModel)obj;
+		PracticeCacheModel practiceCacheModel = (PracticeCacheModel)object;
 
 		if (practiceId == practiceCacheModel.practiceId) {
 			return true;

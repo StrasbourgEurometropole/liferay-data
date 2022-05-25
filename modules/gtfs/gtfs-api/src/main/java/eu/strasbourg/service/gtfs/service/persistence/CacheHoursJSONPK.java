@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
@@ -25,7 +23,6 @@ import java.io.Serializable;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class CacheHoursJSONPK
 	implements Comparable<CacheHoursJSONPK>, Serializable {
 
@@ -88,16 +85,16 @@ public class CacheHoursJSONPK
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheHoursJSONPK)) {
+		if (!(object instanceof CacheHoursJSONPK)) {
 			return false;
 		}
 
-		CacheHoursJSONPK pk = (CacheHoursJSONPK)obj;
+		CacheHoursJSONPK pk = (CacheHoursJSONPK)object;
 
 		if (stopCode.equals(pk.stopCode) && (type == pk.type)) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,22 +31,21 @@ import java.io.ObjectOutput;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class NatureNotifCacheModel
 	implements CacheModel<NatureNotif>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof NatureNotifCacheModel)) {
+		if (!(object instanceof NatureNotifCacheModel)) {
 			return false;
 		}
 
 		NatureNotifCacheModel natureNotifCacheModel =
-			(NatureNotifCacheModel)obj;
+			(NatureNotifCacheModel)object;
 
 		if (natureId == natureNotifCacheModel.natureId) {
 			return true;

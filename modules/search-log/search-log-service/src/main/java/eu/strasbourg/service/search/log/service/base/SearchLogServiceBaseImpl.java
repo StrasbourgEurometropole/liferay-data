@@ -46,7 +46,7 @@ import javax.sql.DataSource;
  */
 public abstract class SearchLogServiceBaseImpl
 	extends BaseServiceImpl
-	implements SearchLogService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, SearchLogService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -329,8 +329,8 @@ public abstract class SearchLogServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
  * @see BudgetParticipatif
  * @generated
  */
-@ProviderType
 public abstract class BudgetParticipatifBaseImpl
 	extends BudgetParticipatifModelImpl implements BudgetParticipatif {
 

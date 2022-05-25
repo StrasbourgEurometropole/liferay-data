@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.List;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class DirectionSoap implements Serializable {
 
 	public static DirectionSoap toSoapModel(Direction model) {

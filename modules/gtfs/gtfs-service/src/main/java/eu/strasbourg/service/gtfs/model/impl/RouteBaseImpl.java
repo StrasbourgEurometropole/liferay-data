@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Route;
 import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
  * @see Route
  * @generated
  */
-@ProviderType
 public abstract class RouteBaseImpl extends RouteModelImpl implements Route {
 
 	/*

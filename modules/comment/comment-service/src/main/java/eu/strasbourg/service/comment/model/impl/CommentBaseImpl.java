@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
  * @see Comment
  * @generated
  */
-@ProviderType
 public abstract class CommentBaseImpl
 	extends CommentModelImpl implements Comment {
 

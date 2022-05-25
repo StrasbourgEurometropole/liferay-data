@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
  * @see PlacitPlace
  * @generated
  */
-@ProviderType
 public abstract class PlacitPlaceBaseImpl
 	extends PlacitPlaceModelImpl implements PlacitPlace {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.artwork.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see ArtworkCollection
  * @generated
  */
-@ProviderType
 public class ArtworkCollectionWrapper
 	implements ArtworkCollection, ModelWrapper<ArtworkCollection> {
 
@@ -1262,17 +1259,17 @@ public class ArtworkCollectionWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ArtworkCollectionWrapper)) {
+		if (!(object instanceof ArtworkCollectionWrapper)) {
 			return false;
 		}
 
 		ArtworkCollectionWrapper artworkCollectionWrapper =
-			(ArtworkCollectionWrapper)obj;
+			(ArtworkCollectionWrapper)object;
 
 		if (Objects.equals(
 				_artworkCollection,

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
  * @see Slot
  * @generated
  */
-@ProviderType
 public abstract class SlotBaseImpl extends SlotModelImpl implements Slot {
 
 	/*

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
@@ -25,7 +23,6 @@ import java.io.Serializable;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserNotificationTypePK
 	implements Comparable<UserNotificationTypePK>, Serializable {
 
@@ -88,16 +85,16 @@ public class UserNotificationTypePK
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserNotificationTypePK)) {
+		if (!(object instanceof UserNotificationTypePK)) {
 			return false;
 		}
 
-		UserNotificationTypePK pk = (UserNotificationTypePK)obj;
+		UserNotificationTypePK pk = (UserNotificationTypePK)object;
 
 		if (publikUserId.equals(pk.publikUserId) && (typeId == pk.typeId)) {
 			return true;

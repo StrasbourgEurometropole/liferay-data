@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.edition.service.EditionServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see EditionServiceHttp
  * @generated
  */
-@ProviderType
 public class EditionServiceSoap {
 }

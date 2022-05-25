@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.official.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author AngeliqueZUNINO
  * @generated
  */
-@ProviderType
 public class OfficialCacheModel
 	implements CacheModel<Official>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof OfficialCacheModel)) {
+		if (!(object instanceof OfficialCacheModel)) {
 			return false;
 		}
 
-		OfficialCacheModel officialCacheModel = (OfficialCacheModel)obj;
+		OfficialCacheModel officialCacheModel = (OfficialCacheModel)object;
 
 		if (officialId == officialCacheModel.officialId) {
 			return true;
@@ -228,7 +225,9 @@ public class OfficialCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		officialId = objectInput.readLong();
@@ -252,11 +251,11 @@ public class OfficialCacheModel
 		gender = objectInput.readInt();
 		lastName = objectInput.readUTF();
 		firstName = objectInput.readUTF();
-		thematicDelegation = objectInput.readUTF();
-		missions = objectInput.readUTF();
+		thematicDelegation = (String)objectInput.readObject();
+		missions = (String)objectInput.readObject();
 
 		wasMinister = objectInput.readBoolean();
-		contact = objectInput.readUTF();
+		contact = (String)objectInput.readObject();
 
 		orderDeputyMayor = objectInput.readInt();
 
@@ -323,26 +322,26 @@ public class OfficialCacheModel
 		}
 
 		if (thematicDelegation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(thematicDelegation);
+			objectOutput.writeObject(thematicDelegation);
 		}
 
 		if (missions == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(missions);
+			objectOutput.writeObject(missions);
 		}
 
 		objectOutput.writeBoolean(wasMinister);
 
 		if (contact == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(contact);
+			objectOutput.writeObject(contact);
 		}
 
 		objectOutput.writeInt(orderDeputyMayor);

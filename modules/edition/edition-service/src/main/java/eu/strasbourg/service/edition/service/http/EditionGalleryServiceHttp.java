@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.edition.service.EditionGalleryServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see EditionGalleryServiceSoap
  * @generated
  */
-@ProviderType
 public class EditionGalleryServiceHttp {
 }

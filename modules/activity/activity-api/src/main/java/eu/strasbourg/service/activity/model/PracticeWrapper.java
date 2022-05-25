@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Practice
  * @generated
  */
-@ProviderType
-public class PracticeWrapper implements Practice, ModelWrapper<Practice> {
+public class PracticeWrapper implements ModelWrapper<Practice>, Practice {
 
 	public PracticeWrapper(Practice practice) {
 		_practice = practice;
@@ -736,16 +733,16 @@ public class PracticeWrapper implements Practice, ModelWrapper<Practice> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PracticeWrapper)) {
+		if (!(object instanceof PracticeWrapper)) {
 			return false;
 		}
 
-		PracticeWrapper practiceWrapper = (PracticeWrapper)obj;
+		PracticeWrapper practiceWrapper = (PracticeWrapper)object;
 
 		if (Objects.equals(_practice, practiceWrapper._practice)) {
 			return true;

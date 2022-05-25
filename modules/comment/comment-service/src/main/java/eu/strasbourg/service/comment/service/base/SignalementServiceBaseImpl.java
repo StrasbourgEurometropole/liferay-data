@@ -50,7 +50,7 @@ import javax.sql.DataSource;
  */
 public abstract class SignalementServiceBaseImpl
 	extends BaseServiceImpl
-	implements SignalementService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, SignalementService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -569,8 +569,8 @@ public abstract class SignalementServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

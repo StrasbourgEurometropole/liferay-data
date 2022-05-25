@@ -25,28 +25,25 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing Agenda in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AgendaCacheModel)) {
+		if (!(object instanceof AgendaCacheModel)) {
 			return false;
 		}
 
-		AgendaCacheModel agendaCacheModel = (AgendaCacheModel)obj;
+		AgendaCacheModel agendaCacheModel = (AgendaCacheModel)object;
 
 		if (agendaId == agendaCacheModel.agendaId) {
 			return true;
