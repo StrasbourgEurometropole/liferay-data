@@ -27,6 +27,7 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.coordinatesZone = '${coordinatesZone}';
         window.groupId = ${groupId};
         window.newTab = ${openInNewTab};
+        window.backgroundId = '${backgroundId}';
         window.zoom = '${zoom}';
         window.cadrageX = '${cadrageX}';
         window.cadrageY = '${cadrageY}';
@@ -38,6 +39,8 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
         window.dateField = ${dateField};
         window.defaultDateRange = ${defaultDateRange};
         window.globalGroupId = ${globalGroupId};
+        window.fromDate = '${fromDate}';
+        window.toDate = '${toDate}';
 
         window.aroundMePortletNamespace = '<portlet:namespace />';
         window.publikProfileURL = '${strasbourgPropsUtil.getPublikProfileURL()}';

@@ -105,6 +105,13 @@ public class ImportHistoricLocalServiceUtil {
 	}
 
 	/**
+	 * Suppression des anciens imports d'historiques
+	 */
+	public static int deleteOldImportHistorics() {
+		return getService().deleteOldImportHistorics();
+	}
+
+	/**
 	 * @throws PortalException
 	 */
 	public static com.liferay.portal.kernel.model.PersistedModel
@@ -377,6 +384,16 @@ public class ImportHistoricLocalServiceUtil {
 			getIndexableActionableDynamicQuery() {
 
 		return getService().getIndexableActionableDynamicQuery();
+	}
+
+	/**
+	 * Retourne le dernier historique d'import
+	 */
+	public static eu.strasbourg.service.gtfs.model.ImportHistoric
+		getLatestImportHistoric(
+			eu.strasbourg.service.gtfs.model.ImportHistoric notCurrent) {
+
+		return getService().getLatestImportHistoric(notCurrent);
 	}
 
 	/**

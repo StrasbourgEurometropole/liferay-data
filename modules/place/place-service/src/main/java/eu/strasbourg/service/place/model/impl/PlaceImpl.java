@@ -1635,7 +1635,9 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("mercatorY", this.getMercatorY());
         }
         jsonPlace.put("friendlyURL", StrasbourgPropsUtil.getPlaceDetailURL() + "/-/entity/id/" + this.getPlaceId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
-
+        if (Validator.isNotNull(this.getSiteURL(Locale.FRANCE))) {
+            jsonPlace.put("websiteURL", this.getSiteURL(Locale.FRANCE));
+        }
         return jsonPlace;
     }
 

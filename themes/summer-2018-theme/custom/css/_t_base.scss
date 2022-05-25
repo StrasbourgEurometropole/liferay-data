@@ -6,13 +6,20 @@ body{
 
 #mns-global{
 	overflow-x: hidden;
+
+	.fit-cover img{
+		object-fit: cover;
+		font-family: 'object-fit: cover';
+		height: 100%;
+	}
+
 	.container{
 		@media (min-width: 1200px){
 			max-width: 1200px;
 		}
 	}
 
-	.navbar {
+	/*.navbar {
 		flex-wrap: wrap;
 		padding: 0;
 	}
@@ -32,7 +39,7 @@ body{
 		@include mobile{
 			margin-bottom: 90px;
 		}
-	}
+	}*/
 
 	.small-container{
 		width: 100%;
@@ -42,15 +49,9 @@ body{
 		padding-left: 15px;
 		margin-right: auto;
 		margin-left: auto;
-		@include tablet_portrait{
-			max-width: 750px;
-		}
-		@include mobile{
-			width: 100%;
-		}
 	}
 
-	.mns-p50{
+	/*.mns-p50{
 		padding: 25px 0;
 		@include mobile{
 			padding: 30px 15px;
@@ -102,142 +103,66 @@ body{
 	.publication{
 		@include ft($f_ms, 12.5px, 300, $c_txt, 16px);
 		display: block;
-	}
+	}*/
 
 	/* MNS FCK EDITOR */
-	.mns-fck{
-		h1{
-			@include ft($f_ms, 58px, 700, $c_txt, 62px);
-			width: 85%;
-			margin-bottom: 40px;
-			@include tablet_portrait{
-				width: 100%;
-			}
-			@include mobile{
-				font-size: 40px;
-				line-height: normal;
-			}
-		}
-		h2{
-			@include ft($f_ms, 25px, 600, $c_txt, 48px);
-			margin-bottom: 15px;
-			@include mobile{
-				line-height: normal;
-			}
-		}
-		h3{
+	.mns-fck {
+		/*h3{
 			@include ft($f_ms, 21.5px, 600, $c_txt, 28px);
 			margin-bottom: 20px;
-		}
+		}*/
+
 		strong, p{
-			font-size: 17.5px;
+			font-size: 1rem;
 			margin-bottom: 20px;
 		}
-
-		img{
-			margin-bottom: 40px;
-			@include mobile{
-				margin-left: 0 !important;
-				margin-right: 0 !important;
-			}
-		}
-
-		// a:not(.link){
-		// 	color: #8399ad;
-		// 	text-decoration: underline;
-		// 	@include an(all,0.3);
-		// 	&:hover{
-		// 		color: $c_main;
-		// 	}
-		// }
-
 
 		figure{
 			position: relative;
-			@include mobile{
-				margin-bottom: 40px;
-			}
 
 			img{
-				@include mobile{
-					margin-bottom: 0;
-				}
 			}
 
 			figcaption{
 				position: absolute;
-				top: 45px;
-				left: -40%;
-				width: 47%;
-				border-top: 1px solid #ebded3;
+				border: none;
+				left: 0;
+				bottom: 0;
+				top: initial;
+				display: inline-block;
+				width: auto;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				max-width: 120%;
 				padding-right: 10%;
 				padding-top: 20px;
 				text-align: right;
-				@include ft($f_ms, 14px, 400, #808080, 21px);
-				@include desktop{
-					left: -38%;
-					width: 45%;
-				}
-				@include mobile {
-					position: relative;
-					left: 0;
-					top: 15px;
-					width: 100%;
-					padding: 20px 0 0 0;
-				}
+				@include ft($f_ms, 0.625rem, 400, $c_black, 0.625rem);
 			}
+		}
+
+		img{
+			margin-bottom: 40px;
 		}
 
 		ul{
 			padding-left: 15px;
 			list-style-type: disc;
 			margin-bottom: 20px;
+
 			li{
 				margin: 0;
-				font-size: 16px;
-				line-height: 28px;
+				font-size: 1rem;
+				line-height: 1.75rem;
 				padding-left: 0;
-			}
-		}
-
-		blockquote{
-			position: relative;
-			border-left: none;
-			padding: 0;
-			width: 85%;
-			margin: 35px 0 55px 15%;
-			@include mobile{
-				margin-left: 0;
-				width: 100%;
-			}
-			&:before{
-				content: "";
-				background: url(/o/noel-theme/images/cote-left.png) no-repeat center center /contain;
-				position: absolute;
-				top: -30px;
-				left: -150px;
-				display: block;
-				width: 170px; 
-				height: 130px;
-				@include mobile{
-					top: -15px;
-					left: -15px;
-					width: 120px;
-					height: 90px;
-				}
-			}
-			.title{
-				@include ft($f_ms, 22px, 700, $c_txt, 30px);
-			}
-			p{
-				@include ft($f_ms, 17.5px, 300, $c_txt, 26px);
 			}
 		}
 	}
 
 
 	/* GLOBAL STYLE PAGINATION */
-	.mns-pagination{
+	/*.mns-pagination{
 		padding: 10px 0;
 		border-top: 1px solid $c_filet;
 		border-bottom: 1px solid $c_filet;
@@ -403,60 +328,117 @@ body{
 				}
 			}
 		}
-	}
+	}*/
 
 
 	/* ICONE Indicateur Lieu / Type */ 
 	.mns-indic{
+		margin-bottom: 10px;
+		padding: 0;
+
 		span, img{
 			display: inline-block;
 			vertical-align: middle;
 			width: auto;
 		}
-		img{
-			margin: 0 !important;
-		}
+
 		span{
-			@include ft($f_ms, 12.5px, 300, $c_txt, normal);
+			@include ft($f_ms, 0.875rem, 400, $c_grey, 1.0625rem);
+
+			&:before {
+				display: inline-block;
+				margin-right: 10px;
+				font-family: 'icomoon';
+			}
+
+			&.ico-map-marker:before {
+				content: "\e912";
+			}
+	
+			&.ico-type:before {
+				content: '\e914';
+			}
 		}
-		&:nth-child(1){
+		
+		/*img{
+			margin: 0 !important;
+		}*/
+
+		/*&:nth-child(1){
 			text-align: left;
 		}
 		&:nth-child(2){
 			text-align: left;
-		}
+		}*/
 	}
 
 
 	/* Fil d'ariane */ 
-	.mns-wrapper-bread{
+	/*.mns-wrapper-bread{
 		position: relative;
-	}
+	}*/
 
 	.mns-breadcrumbs{
-		position: absolute;
-		left: 0;
-		top: -70px;
-		margin-top: 70px;
+		margin: 100px 0 30px 30px;
+
 		@include mobile{
-			top: -80px;
-			overflow: scroll;
-			white-space: nowrap;
-			width: calc(100% - 15px);
+			margin: 30px 0 10px 0px;
 		}
+
+		a{
+			@include ft($f_ms, 0.9375rem, 400, $c_txt, 1.125rem);
+			text-decoration: none;
+			@include an(all,0.3);
+
+			&:after{
+				content: '';
+				height: 1px;
+				width: 18px;
+				background: $c_txt;
+				display: inline-block;
+				vertical-align: middle;
+				margin: 0 18px;
+			}
+
+			&:hover{
+				text-decoration: underline;
+			}
+		}
+
+		span{
+			@include ft($f_ms, 0.9375rem, 700, $c_txt, 1.125rem);
+		}
+
 		&.mns-bread-color{
+			background-color: $c_main;
+			padding: 20px 30px;
+			margin: 0;
+			margin-left: -15px;
+			box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+			transform: translateY(calc(-50% - 80px));
+			width: fit-content;
+
+			@include mobile{
+				margin-right: 5px;
+				margin-left: 5px;
+				box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.25);
+				transform: translateY(calc(-50% - 60px));
+			}
+			
 			a{
-				color: $c_txt;
-				text-decoration: none;
+				color: $c_white;
+
 				&:after{
-					background: $c_txt;
+					background: $c_white;
 				}
 			}
+
 			span{
-				color: $c_txt;
+				color: $c_white;
 			}
 		}
-		&.mns-bread-image{
+
+		/*&.mns-bread-image{
 			@include mobile {
 				margin-top: 90px !important;
 
@@ -467,10 +449,12 @@ body{
 						background: $c_txt;
 					}
 				}
+
 				span{
 					color: $c_txt;
 				}
 			}
+
 			@include tablet_portrait {
 				margin-top: 90px !important;
 
@@ -481,13 +465,16 @@ body{
 						background: $c_txt;
 					}
 				}
+
 				span{
 					color: $c_txt;
 				}
 			}
+
 			@media (min-width: 1000px){
 				text-shadow: #000 2px 2px 4px;
 			}
+
 			&:before{
 				content:'';
 				position:absolute;
@@ -498,27 +485,7 @@ body{
 				right:0;
 				filter:blur(4px);
 				box-shadow:inset 0 0 0 50vw rgba(255,255,255,0.2)
-			  }
-		}
-		a{
-			@include ft($f_ms, 16px, 400, $c_white, normal);
-			position: relative;
-			display: inline-block;
-			@include an(all,0.3);
-			&:after{
-				content: '';
-				height: 1px;
-				width: 10px;
-				background: $c_white;
-				position: relative;
-				display: inline-block;
-				vertical-align: middle;
-				margin-left: 5px;
 			}
-		}
-		span{
-			position: relative;
-			@include ft($f_ms, 16px, 700, $c_white, normal);
-		}
+		}*/
 	}
 }

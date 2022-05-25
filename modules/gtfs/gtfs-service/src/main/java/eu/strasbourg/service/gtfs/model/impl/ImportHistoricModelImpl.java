@@ -82,7 +82,8 @@ public class ImportHistoricModelImpl
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"result", Types.INTEGER}, {"operations", Types.CLOB},
 		{"errorDescription", Types.CLOB}, {"errorStackTrace", Types.CLOB},
-		{"startDate", Types.TIMESTAMP}, {"finishDate", Types.TIMESTAMP}
+		{"startDate", Types.TIMESTAMP}, {"finishDate", Types.TIMESTAMP},
+		{"gtfsFileHash", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -107,10 +108,11 @@ public class ImportHistoricModelImpl
 		TABLE_COLUMNS_MAP.put("errorStackTrace", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("finishDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("gtfsFileHash", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null,startDate DATE null,finishDate DATE null)";
+		"create table gtfs_ImportHistoric (uuid_ VARCHAR(75) null,importHistoricId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,result INTEGER,operations TEXT null,errorDescription TEXT null,errorStackTrace TEXT null,startDate DATE null,finishDate DATE null,gtfsFileHash VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table gtfs_ImportHistoric";
@@ -675,6 +677,28 @@ public class ImportHistoricModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"gtfsFileHash",
+			new Function<ImportHistoric, Object>() {
+
+				@Override
+				public Object apply(ImportHistoric importHistoric) {
+					return importHistoric.getGtfsFileHash();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"gtfsFileHash",
+			new BiConsumer<ImportHistoric, Object>() {
+
+				@Override
+				public void accept(
+					ImportHistoric importHistoric, Object gtfsFileHash) {
+
+					importHistoric.setGtfsFileHash((String)gtfsFileHash);
+				}
+
+			});
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
@@ -967,6 +991,21 @@ public class ImportHistoricModelImpl
 	}
 
 	@Override
+	public String getGtfsFileHash() {
+		if (_gtfsFileHash == null) {
+			return "";
+		}
+		else {
+			return _gtfsFileHash;
+		}
+	}
+
+	@Override
+	public void setGtfsFileHash(String gtfsFileHash) {
+		_gtfsFileHash = gtfsFileHash;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(ImportHistoric.class.getName()));
@@ -1101,6 +1140,7 @@ public class ImportHistoricModelImpl
 		importHistoricImpl.setErrorStackTrace(getErrorStackTrace());
 		importHistoricImpl.setStartDate(getStartDate());
 		importHistoricImpl.setFinishDate(getFinishDate());
+		importHistoricImpl.setGtfsFileHash(getGtfsFileHash());
 
 		importHistoricImpl.resetOriginalValues();
 
@@ -1300,6 +1340,14 @@ public class ImportHistoricModelImpl
 			importHistoricCacheModel.finishDate = Long.MIN_VALUE;
 		}
 
+		importHistoricCacheModel.gtfsFileHash = getGtfsFileHash();
+
+		String gtfsFileHash = importHistoricCacheModel.gtfsFileHash;
+
+		if ((gtfsFileHash != null) && (gtfsFileHash.length() == 0)) {
+			importHistoricCacheModel.gtfsFileHash = null;
+		}
+
 		return importHistoricCacheModel;
 	}
 
@@ -1393,6 +1441,7 @@ public class ImportHistoricModelImpl
 	private String _errorStackTrace;
 	private Date _startDate;
 	private Date _finishDate;
+	private String _gtfsFileHash;
 	private long _columnBitmask;
 	private ImportHistoric _escapedModel;
 

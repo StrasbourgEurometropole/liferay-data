@@ -20,23 +20,23 @@
 	            <form method="post" action="${contactURL}">
 	                <div class="form-group">
 	                    <label for="name"><liferay-ui:message key="contact.lastname" /></label>
-	                    <input type="text" class="form-control" id="lastName" name="lastName" value="${param.lastName}">
+	                    <input type="text" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.lastname' />">
 	                </div>
 	                <div class="form-group">
 	                    <label for="firstname"><liferay-ui:message key="contact.firstname" /></label>
-	                    <input type="text" class="form-control" id="firstName" name="firstName" value="${param.firstName}">
+	                    <input type="text" class="form-control" id="firstName" name="firstName" value="${param.firstName}" aria-label="<liferay-ui:message key='contact.firstname' />">
 	                </div>
 	                <div class="form-group">
 	                    <label for="email"><liferay-ui:message key="contact.mail" /></label>
-	                    <input type="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}">
+	                    <input type="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-label="<liferay-ui:message key='contact.mail' />">
 	                </div>
 	                <div class="form-group" style="visibility: hidden;">
 	                    <label for="tel">Phone</label>
-	                    <input type="tel" class="form-control" id="tel">
+	                    <input type="tel" class="form-control" id="tel" aria-label="<liferay-ui:message key='contact.phone' />">
 	                </div>
 	                <div class="form-group mns-textarea">
 	                    <label for="demande"><liferay-ui:message key="contact.request" /></label>
-	                    <textarea class="form-control" rows="3" id="demande" name="content">${param.content}</textarea>
+	                    <textarea class="form-control" rows="3" id="demande" name="content" aria-label="<liferay-ui:message key='contact.request' />">${param.content}</textarea>
 	                    <span><liferay-ui:message key="contact.required-fields" /></span>
 	                </div>
 	                <div class="checkbox">

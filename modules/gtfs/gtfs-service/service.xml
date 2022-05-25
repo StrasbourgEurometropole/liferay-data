@@ -34,6 +34,7 @@
 		<column name="errorStackTrace" type="String" />
 		<column name="startDate" type="Date" />
 		<column name="finishDate" type="Date" />
+		<column name="gtfsFileHash" type="String" />
 		
 		<!-- Order -->
 		<order by="desc">
@@ -411,7 +412,7 @@
 		<column name="trip_headsign" type="String" />
 		<column name="direction_id" type="boolean" />
 		<column name="block_id" type="String" />
-		
+
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="trip_id" />

@@ -3,15 +3,16 @@
 #mns-global{
 
 	label{
-		@include ft($f_ms, 14px, 700, $c_txt, 22px);
+		@include ft($f_ms, 0.875rem, 700, $c_txt, 1.625rem);
 	}
 
 	input{
 		background: none;
 		border: 1px solid #a6a6a6;
 		border-radius: 0;
-		height: 48px;
-		@include ft($f_ms, 14px, 600, $c_txt, 22px);
+		height: 3rem;
+		@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+
 		&:focus{
 			border-color: $c_main;
 			box-shadow: none;
@@ -23,7 +24,8 @@
 		border: 1px solid #a6a6a6;
 		border-radius: 0;
 		height: 275px;
-		@include ft($f_ms, 14px, 600, $c_txt, 22px);
+		@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+
 		&:focus{
 			border-color: $c_main;
 			box-shadow: none;
@@ -34,13 +36,15 @@
 		display: inline-block;
 		margin: 0;
 		position: relative;
+
 		label{
-			@include ft($f_ms, 14px, 400, $c_txt, 18px);
+			@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
 			padding-left: 0;
 		}
+
 		input{
 			vertical-align: middle;
-			height: 22px;
+			height: 1.375rem;
 			margin: 0;
 			margin-right: 15px;
 			position: absolute;
@@ -68,7 +72,7 @@
 
 	.checkbox .cr .cr-icon{
 		position: absolute;
-		font-size: 18px;
+		font-size: 1.125rem;
 		line-height: 0;
 		top: 30%;
 		left: 15%;
@@ -87,6 +91,7 @@
 		transform: scale(3) rotateZ(-20deg);
 		opacity: 0;
 		transition: all .2s ease-in;
+
 		&:before{
 			text-shadow: 2px 2px 0 #FFF, 0px -4px 0 #FFF;
 		}
@@ -103,25 +108,10 @@
 
 	.mns-submit{
 		text-align: center;
-		margin-top: 40px;
+		margin-top: 30px;
+		margin-bottom: 40px;
 		position: relative;
-		@include mobile{
-			margin-bottom: 40px;
-		}
-		input{
-			width: 275px;
-			padding: 12px 0;
-			height: auto;
-			background: $c_white;
-			border: none;
-			box-shadow: 0 14px 29px rgba(0,0,22,0.10), 0 0px 10px rgba(0,4,20,0.10);
-			@include ft($f_ms, 22px, 700, $c_txt, normal);
-			@include an(all,0.3);
-			&:hover{
-				background: $c_main;
-				color: $c_white;
-			}
-		}
+
 		span{
 			width: 100%;
 			height: 1px;
@@ -131,6 +121,22 @@
 			transform: translateY(-50%);
 			left: 0;
 			z-index: -1;
+		}
+
+		input{
+			width: 275px;
+			padding: 12px 0;
+			height: auto;
+			background: $c_white;
+			border: none;
+			box-shadow: 0px 1px 4px rgba(0,0,0,0.25);
+			@include ft($f_nr, 1.125rem, 400, $c_main, 1.625rem);
+			@include an(all,0.3);
+
+			&:hover{
+				background: $c_main;
+				color: $c_white;
+			}
 		}
 	}
 

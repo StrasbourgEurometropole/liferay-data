@@ -54,6 +54,7 @@ import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.model.impl.PlaceModelImpl;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
@@ -272,12 +273,12 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	}
 
 	@Override
-	public void updateRealTime() throws PortalException{
+	public void updateRealTime() throws SearchException {
 		updateRealTime(JSONFactoryUtil.createJSONArray());
 	}
 
 	@Override
-	public void updateRealTime(JSONArray parkingJsonArray) throws PortalException {
+	public void updateRealTime(JSONArray parkingJsonArray) throws SearchException {
         // System.out.println("Start import of places real time data");
         // System.out.println("RT import started");
 
@@ -389,8 +390,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
     }
 
 	@Override
-    public void updateRealTime(Place place, String type, long occupation, long available, long capacity, String status)
-            throws PortalException {
+    public void updateRealTime(Place place, String type, long occupation, long available, long capacity, String status) {
 
         place.setRTEnabled(true);
         place.setRTLastUpdate(new Date());
@@ -399,13 +399,8 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         place.setRTCapacity(capacity);
         place.setRTStatus(status);
         place.setRTType(type);
+        place.setModifiedDate(place.getModifiedDate());
         this.updatePlace(place);
-
-        AssetEntry entry = this.assetEntryLocalService
-                .getEntry(Place.class.getName(), place.getPrimaryKey());
-
-        this.assetEntryLocalService.updateAssetEntry(entry);
-
     }
 
 	/**

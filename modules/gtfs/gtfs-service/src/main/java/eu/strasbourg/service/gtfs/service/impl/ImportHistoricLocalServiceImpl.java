@@ -38,6 +38,8 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -285,7 +287,46 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 		GTFSImporter importer = new GTFSImporter(sc, importHistoric);
 		importer.doImport();
 	}
-	
+
+	/**
+	 * Suppression des anciens imports d'historiques
+	 */
+	@Override
+	public int deleteOldImportHistorics() {
+		List<ImportHistoric> importHistorics = this.importHistoricLocalService.getImportHistorics(-1, -1);
+		int nbSuppressions = 0;
+		LocalDate currentDate = LocalDate.now();
+		LocalDate threeMonthsBefore = currentDate.minusMonths(3);
+		for (ImportHistoric importHistoric : importHistorics) {
+			LocalDate createDate = importHistoric.getCreateDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			if (createDate.isBefore(threeMonthsBefore)) {
+				try {
+					removeImportHistoric(importHistoric.getImportHistoricId());
+					nbSuppressions++;
+				} catch (PortalException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return nbSuppressions;
+	}
+
+	/**
+	 * Retourne le dernier historique d'import
+	 */
+	@Override
+	public ImportHistoric getLatestImportHistoric(ImportHistoric notCurrent) {
+		List<ImportHistoric> importHistorics = this.importHistoricLocalService.getImportHistorics(-1, -1);
+		ImportHistoric result = null;
+		for (ImportHistoric importHistoric : importHistorics) {
+			if ((result == null || importHistoric.getCreateDate().after(result.getCreateDate())) &&
+				importHistoric.getImportHistoricId() != notCurrent.getImportHistoricId()) {
+				result = importHistoric;
+			}
+		}
+		return result;
+	}
+
 	/**
 	 * Retourne tous les projets d'un groupe
 	 */
