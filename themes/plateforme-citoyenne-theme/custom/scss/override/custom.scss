@@ -46,7 +46,7 @@
             .row{
                 margin-top: 25px;
 
-                label {
+                label, legend {
                     @include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
                     position: relative;
                     display: block;
