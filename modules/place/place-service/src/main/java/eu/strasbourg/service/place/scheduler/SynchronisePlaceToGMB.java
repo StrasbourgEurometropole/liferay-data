@@ -15,10 +15,12 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 /**
@@ -40,7 +42,7 @@ public class SynchronisePlaceToGMB extends BaseMessageListener {
         // Création du trigger "Tous les jours à 3h45"
         Trigger trigger = _triggerFactory.createTrigger(
                 listenerClass, listenerClass, fiveMinutesFromNow, null,
-                "0 45 3 * * ?");
+                "0 45 3 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
         SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
                 listenerClass, trigger);

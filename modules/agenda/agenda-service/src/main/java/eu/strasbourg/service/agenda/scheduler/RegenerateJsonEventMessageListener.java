@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -19,6 +20,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * remettre à jour le JSON des caches actifs dont regeneratedDate <= aujourd’hui – 30j
@@ -40,7 +42,8 @@ public class RegenerateJsonEventMessageListener
 		// Création du trigger "Tous les jours à XXh"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 30 4 * * ?");
+				"0 30 4 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
+
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

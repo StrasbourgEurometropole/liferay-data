@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalService;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -26,6 +27,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Component(
 		immediate = true, 
@@ -46,7 +48,7 @@ public class ImportGTFSMessageListener extends BaseMessageListener {
 		// Création du trigger "Tous les jours à 3h"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 0 3 * * ?");
+				"0 0 3 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

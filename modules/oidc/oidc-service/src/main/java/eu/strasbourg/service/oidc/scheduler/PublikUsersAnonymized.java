@@ -17,10 +17,12 @@ import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.*;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Passe au statut "APPROVED" tous les événements et les manifestations dont la
@@ -42,7 +44,7 @@ public class PublikUsersAnonymized extends BaseMessageListener {
 
 		// Création du trigger "Tous les jours à 3h30"
 		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 30 3 * * ?");
+				listenerClass, listenerClass, fiveMinutesFromNow, null, "0 30 3 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);
