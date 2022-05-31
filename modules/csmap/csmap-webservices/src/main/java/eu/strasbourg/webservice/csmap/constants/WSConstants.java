@@ -31,7 +31,6 @@ public class WSConstants {
      */
     public static final String REDIRECT_URI = "http://localhost:8080/static.html";
     public static final String ID_TOKEN = "id_token";
-    public static final String ACCESS_TOKEN = "access_token";
     public static final String SUB = "sub";
     public static final String NONCE = "nonce";
     public static final String GIVEN_NAME = "given_name";
