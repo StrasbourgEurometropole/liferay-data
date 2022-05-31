@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
  * @see PublicHoliday
  * @generated
  */
-@ProviderType
 public abstract class PublicHolidayBaseImpl
 	extends PublicHolidayModelImpl implements PublicHoliday {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
  * @see Video
  * @generated
  */
-@ProviderType
 public abstract class VideoBaseImpl extends VideoModelImpl implements Video {
 
 	/*

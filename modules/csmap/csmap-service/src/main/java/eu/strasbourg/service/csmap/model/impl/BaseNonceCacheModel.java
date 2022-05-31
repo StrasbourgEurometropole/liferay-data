@@ -27,29 +27,26 @@ import java.io.ObjectOutput;
 
 import java.util.Date;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing BaseNonce in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class BaseNonceCacheModel
 	implements CacheModel<BaseNonce>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof BaseNonceCacheModel)) {
+		if (!(object instanceof BaseNonceCacheModel)) {
 			return false;
 		}
 
-		BaseNonceCacheModel baseNonceCacheModel = (BaseNonceCacheModel)obj;
+		BaseNonceCacheModel baseNonceCacheModel = (BaseNonceCacheModel)object;
 
 		if (baseNonceId == baseNonceCacheModel.baseNonceId) {
 			return true;

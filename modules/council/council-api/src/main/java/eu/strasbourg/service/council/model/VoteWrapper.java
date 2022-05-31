@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see Vote
  * @generated
  */
-@ProviderType
-public class VoteWrapper implements Vote, ModelWrapper<Vote> {
+public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 
 	public VoteWrapper(Vote vote) {
 		_vote = vote;
@@ -444,16 +441,16 @@ public class VoteWrapper implements Vote, ModelWrapper<Vote> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof VoteWrapper)) {
+		if (!(object instanceof VoteWrapper)) {
 			return false;
 		}
 
-		VoteWrapper voteWrapper = (VoteWrapper)obj;
+		VoteWrapper voteWrapper = (VoteWrapper)object;
 
 		if (Objects.equals(_vote, voteWrapper._vote)) {
 			return true;

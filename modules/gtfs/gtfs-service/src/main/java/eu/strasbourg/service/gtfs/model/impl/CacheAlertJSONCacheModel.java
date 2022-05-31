@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class CacheAlertJSONCacheModel
 	implements CacheModel<CacheAlertJSON>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheAlertJSONCacheModel)) {
+		if (!(object instanceof CacheAlertJSONCacheModel)) {
 			return false;
 		}
 
 		CacheAlertJSONCacheModel cacheAlertJSONCacheModel =
-			(CacheAlertJSONCacheModel)obj;
+			(CacheAlertJSONCacheModel)object;
 
 		if (cacheId == cacheAlertJSONCacheModel.cacheId) {
 			return true;
@@ -123,11 +120,13 @@ public class CacheAlertJSONCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		cacheId = objectInput.readLong();
-		jsonAlert = objectInput.readUTF();
+		jsonAlert = (String)objectInput.readObject();
 		creationDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 	}
@@ -144,10 +143,10 @@ public class CacheAlertJSONCacheModel
 		objectOutput.writeLong(cacheId);
 
 		if (jsonAlert == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(jsonAlert);
+			objectOutput.writeObject(jsonAlert);
 		}
 
 		objectOutput.writeLong(creationDate);

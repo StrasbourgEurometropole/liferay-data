@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,7 +60,6 @@ import java.rmi.RemoteException;
  * @see AlertServiceHttp
  * @generated
  */
-@ProviderType
 public class AlertServiceSoap {
 
 	/**
@@ -79,10 +76,10 @@ public class AlertServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

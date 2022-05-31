@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.search.log.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see SearchLog
  * @generated
  */
-@ProviderType
-public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
+public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 
 	public SearchLogWrapper(SearchLog searchLog) {
 		_searchLog = searchLog;
@@ -758,16 +755,16 @@ public class SearchLogWrapper implements SearchLog, ModelWrapper<SearchLog> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SearchLogWrapper)) {
+		if (!(object instanceof SearchLogWrapper)) {
 			return false;
 		}
 
-		SearchLogWrapper searchLogWrapper = (SearchLogWrapper)obj;
+		SearchLogWrapper searchLogWrapper = (SearchLogWrapper)object;
 
 		if (Objects.equals(_searchLog, searchLogWrapper._searchLog)) {
 			return true;

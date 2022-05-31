@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,9 +35,8 @@ import java.util.Objects;
  * @see VideoGallery
  * @generated
  */
-@ProviderType
 public class VideoGalleryWrapper
-	implements VideoGallery, ModelWrapper<VideoGallery> {
+	implements ModelWrapper<VideoGallery>, VideoGallery {
 
 	public VideoGalleryWrapper(VideoGallery videoGallery) {
 		_videoGallery = videoGallery;
@@ -1111,16 +1108,16 @@ public class VideoGalleryWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof VideoGalleryWrapper)) {
+		if (!(object instanceof VideoGalleryWrapper)) {
 			return false;
 		}
 
-		VideoGalleryWrapper videoGalleryWrapper = (VideoGalleryWrapper)obj;
+		VideoGalleryWrapper videoGalleryWrapper = (VideoGalleryWrapper)object;
 
 		if (Objects.equals(_videoGallery, videoGalleryWrapper._videoGallery)) {
 			return true;

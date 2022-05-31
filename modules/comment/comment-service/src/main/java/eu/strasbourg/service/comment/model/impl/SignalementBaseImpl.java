@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
  * @see Signalement
  * @generated
  */
-@ProviderType
 public abstract class SignalementBaseImpl
 	extends SignalementModelImpl implements Signalement {
 

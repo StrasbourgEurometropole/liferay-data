@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see OfferService
  * @generated
  */
-@ProviderType
 public class OfferServiceWrapper
 	implements OfferService, ServiceWrapper<OfferService> {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
  * @see Signataire
  * @generated
  */
-@ProviderType
 public abstract class SignataireBaseImpl
 	extends SignataireModelImpl implements Signataire {
 

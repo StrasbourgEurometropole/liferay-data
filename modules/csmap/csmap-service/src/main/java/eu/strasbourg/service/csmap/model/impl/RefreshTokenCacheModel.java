@@ -27,30 +27,27 @@ import java.io.ObjectOutput;
 
 import java.util.Date;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing RefreshToken in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class RefreshTokenCacheModel
 	implements CacheModel<RefreshToken>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof RefreshTokenCacheModel)) {
+		if (!(object instanceof RefreshTokenCacheModel)) {
 			return false;
 		}
 
 		RefreshTokenCacheModel refreshTokenCacheModel =
-			(RefreshTokenCacheModel)obj;
+			(RefreshTokenCacheModel)object;
 
 		if (refreshTokenId == refreshTokenCacheModel.refreshTokenId) {
 			return true;

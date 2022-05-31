@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see SignataireService
  * @generated
  */
-@ProviderType
 public class SignataireServiceWrapper
-	implements SignataireService, ServiceWrapper<SignataireService> {
+	implements ServiceWrapper<SignataireService>, SignataireService {
 
 	public SignataireServiceWrapper(SignataireService signataireService) {
 		_signataireService = signataireService;

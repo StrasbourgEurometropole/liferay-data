@@ -17,8 +17,6 @@ package eu.strasbourg.service.csmap.model.impl;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the RefreshToken service. Represents a row in the &quot;csmap_RefreshToken&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see RefreshToken
  * @generated
  */
-@ProviderType
 public abstract class RefreshTokenBaseImpl
 	extends RefreshTokenModelImpl implements RefreshToken {
 

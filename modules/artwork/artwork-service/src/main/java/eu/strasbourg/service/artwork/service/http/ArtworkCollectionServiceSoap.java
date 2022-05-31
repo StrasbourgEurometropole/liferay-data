@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.artwork.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.artwork.service.ArtworkCollectionServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see ArtworkCollectionServiceHttp
  * @generated
  */
-@ProviderType
 public class ArtworkCollectionServiceSoap {
 }

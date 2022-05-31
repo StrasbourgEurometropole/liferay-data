@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.comment.service.SignalementServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see SignalementServiceHttp
  * @generated
  */
-@ProviderType
 public class SignalementServiceSoap {
 }

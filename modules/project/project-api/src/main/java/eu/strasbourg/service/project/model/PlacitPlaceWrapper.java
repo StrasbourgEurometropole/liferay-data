@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,9 +35,8 @@ import java.util.Objects;
  * @see PlacitPlace
  * @generated
  */
-@ProviderType
 public class PlacitPlaceWrapper
-	implements PlacitPlace, ModelWrapper<PlacitPlace> {
+	implements ModelWrapper<PlacitPlace>, PlacitPlace {
 
 	public PlacitPlaceWrapper(PlacitPlace placitPlace) {
 		_placitPlace = placitPlace;
@@ -1038,16 +1035,16 @@ public class PlacitPlaceWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PlacitPlaceWrapper)) {
+		if (!(object instanceof PlacitPlaceWrapper)) {
 			return false;
 		}
 
-		PlacitPlaceWrapper placitPlaceWrapper = (PlacitPlaceWrapper)obj;
+		PlacitPlaceWrapper placitPlaceWrapper = (PlacitPlaceWrapper)object;
 
 		if (Objects.equals(_placitPlace, placitPlaceWrapper._placitPlace)) {
 			return true;

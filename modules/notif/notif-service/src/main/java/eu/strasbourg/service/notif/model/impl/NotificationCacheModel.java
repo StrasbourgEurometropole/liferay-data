@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class NotificationCacheModel
 	implements CacheModel<Notification>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof NotificationCacheModel)) {
+		if (!(object instanceof NotificationCacheModel)) {
 			return false;
 		}
 
 		NotificationCacheModel notificationCacheModel =
-			(NotificationCacheModel)obj;
+			(NotificationCacheModel)object;
 
 		if (notificationId == notificationCacheModel.notificationId) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Interest
  * @generated
  */
-@ProviderType
 public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 
 	public InterestWrapper(Interest interest) {
@@ -1047,16 +1044,16 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof InterestWrapper)) {
+		if (!(object instanceof InterestWrapper)) {
 			return false;
 		}
 
-		InterestWrapper interestWrapper = (InterestWrapper)obj;
+		InterestWrapper interestWrapper = (InterestWrapper)object;
 
 		if (Objects.equals(_interest, interestWrapper._interest)) {
 			return true;

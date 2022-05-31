@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notification.model.UserNotificationType;
 import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServi
  * @see UserNotificationType
  * @generated
  */
-@ProviderType
 public abstract class UserNotificationTypeBaseImpl
 	extends UserNotificationTypeModelImpl implements UserNotificationType {
 

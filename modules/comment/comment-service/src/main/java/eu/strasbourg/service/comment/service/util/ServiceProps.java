@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.service.util;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.configuration.Configuration;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.configuration.Filter;
@@ -26,7 +24,6 @@ import java.util.Properties;
  * @author Romain Vergnais
  * @generated
  */
-@ProviderType
 public class ServiceProps {
 
 	public static void addProperties(Properties properties) {

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
  * @see Participation
  * @generated
  */
-@ProviderType
 public abstract class ParticipationBaseImpl
 	extends ParticipationModelImpl implements Participation {
 

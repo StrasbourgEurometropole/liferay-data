@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Romain Vergnais
  * @generated
  */
-@ProviderType
 public class SignalementCacheModel
 	implements CacheModel<Signalement>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SignalementCacheModel)) {
+		if (!(object instanceof SignalementCacheModel)) {
 			return false;
 		}
 
 		SignalementCacheModel signalementCacheModel =
-			(SignalementCacheModel)obj;
+			(SignalementCacheModel)object;
 
 		if (signalementId == signalementCacheModel.signalementId) {
 			return true;

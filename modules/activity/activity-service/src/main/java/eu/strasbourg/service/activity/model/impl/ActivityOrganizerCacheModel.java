@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class ActivityOrganizerCacheModel
 	implements CacheModel<ActivityOrganizer>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ActivityOrganizerCacheModel)) {
+		if (!(object instanceof ActivityOrganizerCacheModel)) {
 			return false;
 		}
 
 		ActivityOrganizerCacheModel activityOrganizerCacheModel =
-			(ActivityOrganizerCacheModel)obj;
+			(ActivityOrganizerCacheModel)object;
 
 		if (activityOrganizerId ==
 				activityOrganizerCacheModel.activityOrganizerId) {
@@ -218,7 +215,9 @@ public class ActivityOrganizerCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		activityOrganizerId = objectInput.readLong();
@@ -238,8 +237,8 @@ public class ActivityOrganizerCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		presentation = objectInput.readUTF();
-		address = objectInput.readUTF();
+		presentation = (String)objectInput.readObject();
+		address = (String)objectInput.readObject();
 		phone = objectInput.readUTF();
 		mail = objectInput.readUTF();
 		siteURL = objectInput.readUTF();
@@ -295,17 +294,17 @@ public class ActivityOrganizerCacheModel
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(presentation);
+			objectOutput.writeObject(presentation);
 		}
 
 		if (address == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(address);
+			objectOutput.writeObject(address);
 		}
 
 		if (phone == null) {

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author JeremyZwickert
  * @generated
  */
-@ProviderType
 public class FoundObjectCacheModel
 	implements CacheModel<FoundObject>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof FoundObjectCacheModel)) {
+		if (!(object instanceof FoundObjectCacheModel)) {
 			return false;
 		}
 
 		FoundObjectCacheModel foundObjectCacheModel =
-			(FoundObjectCacheModel)obj;
+			(FoundObjectCacheModel)object;
 
 		if (number.equals(foundObjectCacheModel.number)) {
 			return true;

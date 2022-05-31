@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
  * @see Campaign
  * @generated
  */
-@ProviderType
 public abstract class CampaignBaseImpl
 	extends CampaignModelImpl implements Campaign {
 

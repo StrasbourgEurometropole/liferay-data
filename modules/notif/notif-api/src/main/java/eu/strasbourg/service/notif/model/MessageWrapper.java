@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,7 +33,6 @@ import java.util.Objects;
  * @see Message
  * @generated
  */
-@ProviderType
 public class MessageWrapper implements Message, ModelWrapper<Message> {
 
 	public MessageWrapper(Message message) {
@@ -415,16 +412,16 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof MessageWrapper)) {
+		if (!(object instanceof MessageWrapper)) {
 			return false;
 		}
 
-		MessageWrapper messageWrapper = (MessageWrapper)obj;
+		MessageWrapper messageWrapper = (MessageWrapper)object;
 
 		if (Objects.equals(_message, messageWrapper._message)) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
  * @see CacheJson
  * @generated
  */
-@ProviderType
 public abstract class CacheJsonBaseImpl
 	extends CacheJsonModelImpl implements CacheJson {
 

@@ -46,7 +46,7 @@ import javax.sql.DataSource;
  */
 public abstract class TipiEntryServiceBaseImpl
 	extends BaseServiceImpl
-	implements TipiEntryService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, TipiEntryService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -329,8 +329,8 @@ public abstract class TipiEntryServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

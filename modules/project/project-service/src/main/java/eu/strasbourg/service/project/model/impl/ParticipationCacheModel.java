@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class ParticipationCacheModel
 	implements CacheModel<Participation>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ParticipationCacheModel)) {
+		if (!(object instanceof ParticipationCacheModel)) {
 			return false;
 		}
 
 		ParticipationCacheModel participationCacheModel =
-			(ParticipationCacheModel)obj;
+			(ParticipationCacheModel)object;
 
 		if (participationId == participationCacheModel.participationId) {
 			return true;
@@ -300,7 +297,9 @@ public class ParticipationCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		participationId = objectInput.readLong();
@@ -330,8 +329,8 @@ public class ParticipationCacheModel
 
 		mediaChoice = objectInput.readBoolean();
 		descriptionChapeau = objectInput.readUTF();
-		descriptionBody = objectInput.readUTF();
-		consultationPlacesBody = objectInput.readUTF();
+		descriptionBody = (String)objectInput.readObject();
+		consultationPlacesBody = (String)objectInput.readObject();
 
 		imageId = objectInput.readLong();
 		filesIds = objectInput.readUTF();
@@ -446,17 +445,17 @@ public class ParticipationCacheModel
 		}
 
 		if (descriptionBody == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(descriptionBody);
+			objectOutput.writeObject(descriptionBody);
 		}
 
 		if (consultationPlacesBody == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(consultationPlacesBody);
+			objectOutput.writeObject(consultationPlacesBody);
 		}
 
 		objectOutput.writeLong(imageId);

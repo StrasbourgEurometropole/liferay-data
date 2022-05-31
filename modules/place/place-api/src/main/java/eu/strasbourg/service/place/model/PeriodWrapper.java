@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see Period
  * @generated
  */
-@ProviderType
-public class PeriodWrapper implements Period, ModelWrapper<Period> {
+public class PeriodWrapper implements ModelWrapper<Period>, Period {
 
 	public PeriodWrapper(Period period) {
 		_period = period;
@@ -718,16 +715,16 @@ public class PeriodWrapper implements Period, ModelWrapper<Period> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PeriodWrapper)) {
+		if (!(object instanceof PeriodWrapper)) {
 			return false;
 		}
 
-		PeriodWrapper periodWrapper = (PeriodWrapper)obj;
+		PeriodWrapper periodWrapper = (PeriodWrapper)object;
 
 		if (Objects.equals(_period, periodWrapper._period)) {
 			return true;

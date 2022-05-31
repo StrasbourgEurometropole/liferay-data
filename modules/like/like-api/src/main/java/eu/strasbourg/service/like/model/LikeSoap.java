@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.like.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.List;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class LikeSoap implements Serializable {
 
 	public static LikeSoap toSoapModel(Like model) {

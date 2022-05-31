@@ -27,30 +27,27 @@ import java.io.ObjectOutput;
 
 import java.util.Date;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing HelpProposal in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class HelpProposalCacheModel
 	implements CacheModel<HelpProposal>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof HelpProposalCacheModel)) {
+		if (!(object instanceof HelpProposalCacheModel)) {
 			return false;
 		}
 
 		HelpProposalCacheModel helpProposalCacheModel =
-			(HelpProposalCacheModel)obj;
+			(HelpProposalCacheModel)object;
 
 		if (helpProposalId == helpProposalCacheModel.helpProposalId) {
 			return true;
@@ -265,7 +262,9 @@ public class HelpProposalCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		helpProposalId = objectInput.readLong();
@@ -285,7 +284,7 @@ public class HelpProposalCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		inTheNameOf = objectInput.readUTF();
 		address = objectInput.readUTF();
 		city = objectInput.readUTF();
@@ -303,7 +302,7 @@ public class HelpProposalCacheModel
 
 		imageId = objectInput.readLong();
 		publikId = objectInput.readUTF();
-		comment = objectInput.readUTF();
+		comment = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -354,10 +353,10 @@ public class HelpProposalCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (inTheNameOf == null) {
@@ -415,10 +414,10 @@ public class HelpProposalCacheModel
 		}
 
 		if (comment == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(comment);
+			objectOutput.writeObject(comment);
 		}
 	}
 

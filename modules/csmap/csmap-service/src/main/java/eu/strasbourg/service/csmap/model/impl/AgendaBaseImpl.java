@@ -17,8 +17,6 @@ package eu.strasbourg.service.csmap.model.impl;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the Agenda service. Represents a row in the &quot;csmap_Agenda&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see Agenda
  * @generated
  */
-@ProviderType
 public abstract class AgendaBaseImpl extends AgendaModelImpl implements Agenda {
 
 	/*

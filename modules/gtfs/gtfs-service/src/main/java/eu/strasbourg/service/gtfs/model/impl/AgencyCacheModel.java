@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,20 +31,19 @@ import java.io.ObjectOutput;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class AgencyCacheModel implements CacheModel<Agency>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AgencyCacheModel)) {
+		if (!(object instanceof AgencyCacheModel)) {
 			return false;
 		}
 
-		AgencyCacheModel agencyCacheModel = (AgencyCacheModel)obj;
+		AgencyCacheModel agencyCacheModel = (AgencyCacheModel)object;
 
 		if (id == agencyCacheModel.id) {
 			return true;

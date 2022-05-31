@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.notif.service.NatureNotifLocalServiceUtil;
  * @see NatureNotif
  * @generated
  */
-@ProviderType
 public abstract class NatureNotifBaseImpl
 	extends NatureNotifModelImpl implements NatureNotif {
 

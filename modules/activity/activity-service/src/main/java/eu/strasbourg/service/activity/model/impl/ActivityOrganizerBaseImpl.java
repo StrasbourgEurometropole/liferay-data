@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
  * @see ActivityOrganizer
  * @generated
  */
-@ProviderType
 public abstract class ActivityOrganizerBaseImpl
 	extends ActivityOrganizerModelImpl implements ActivityOrganizer {
 

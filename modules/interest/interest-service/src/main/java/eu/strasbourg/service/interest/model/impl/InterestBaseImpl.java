@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
  * @see Interest
  * @generated
  */
-@ProviderType
 public abstract class InterestBaseImpl
 	extends InterestModelImpl implements Interest {
 

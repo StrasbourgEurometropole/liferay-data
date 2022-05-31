@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
 
 import java.io.Serializable;
@@ -29,7 +27,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserNotificationChannelSoap implements Serializable {
 
 	public static UserNotificationChannelSoap toSoapModel(

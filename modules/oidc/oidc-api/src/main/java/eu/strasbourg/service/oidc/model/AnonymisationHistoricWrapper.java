@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see AnonymisationHistoric
  * @generated
  */
-@ProviderType
 public class AnonymisationHistoricWrapper
 	implements AnonymisationHistoric, ModelWrapper<AnonymisationHistoric> {
 
@@ -886,17 +883,17 @@ public class AnonymisationHistoricWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AnonymisationHistoricWrapper)) {
+		if (!(object instanceof AnonymisationHistoricWrapper)) {
 			return false;
 		}
 
 		AnonymisationHistoricWrapper anonymisationHistoricWrapper =
-			(AnonymisationHistoricWrapper)obj;
+			(AnonymisationHistoricWrapper)object;
 
 		if (Objects.equals(
 				_anonymisationHistoric,

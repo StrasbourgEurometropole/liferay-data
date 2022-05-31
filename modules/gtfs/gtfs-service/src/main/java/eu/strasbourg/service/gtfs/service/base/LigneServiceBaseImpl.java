@@ -62,7 +62,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class LigneServiceBaseImpl
-	extends BaseServiceImpl implements LigneService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, LigneService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1099,8 +1099,8 @@ public abstract class LigneServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

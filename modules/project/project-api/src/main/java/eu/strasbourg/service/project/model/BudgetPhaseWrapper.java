@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see BudgetPhase
  * @generated
  */
-@ProviderType
 public class BudgetPhaseWrapper
 	implements BudgetPhase, ModelWrapper<BudgetPhase> {
 
@@ -925,16 +922,16 @@ public class BudgetPhaseWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof BudgetPhaseWrapper)) {
+		if (!(object instanceof BudgetPhaseWrapper)) {
 			return false;
 		}
 
-		BudgetPhaseWrapper budgetPhaseWrapper = (BudgetPhaseWrapper)obj;
+		BudgetPhaseWrapper budgetPhaseWrapper = (BudgetPhaseWrapper)object;
 
 		if (Objects.equals(_budgetPhase, budgetPhaseWrapper._budgetPhase)) {
 			return true;

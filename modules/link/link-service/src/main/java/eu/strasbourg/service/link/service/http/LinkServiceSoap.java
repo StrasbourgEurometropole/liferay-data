@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.link.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.link.service.LinkServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see LinkServiceHttp
  * @generated
  */
-@ProviderType
 public class LinkServiceSoap {
 }

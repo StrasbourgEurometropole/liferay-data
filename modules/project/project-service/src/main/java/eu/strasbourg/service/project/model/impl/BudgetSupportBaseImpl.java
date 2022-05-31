@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
  * @see BudgetSupport
  * @generated
  */
-@ProviderType
 public abstract class BudgetSupportBaseImpl
 	extends BudgetSupportModelImpl implements BudgetSupport {
 

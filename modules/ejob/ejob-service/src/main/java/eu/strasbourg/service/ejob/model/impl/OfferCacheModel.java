@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof OfferCacheModel)) {
+		if (!(object instanceof OfferCacheModel)) {
 			return false;
 		}
 
-		OfferCacheModel offerCacheModel = (OfferCacheModel)obj;
+		OfferCacheModel offerCacheModel = (OfferCacheModel)object;
 
 		if (offerId == offerCacheModel.offerId) {
 			return true;
@@ -335,7 +332,9 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		offerId = objectInput.readLong();
@@ -364,11 +363,11 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 
 		isFullTime = objectInput.readBoolean();
 		fullTimeDescription = objectInput.readUTF();
-		introduction = objectInput.readUTF();
-		activities = objectInput.readUTF();
-		profil = objectInput.readUTF();
-		conditions = objectInput.readUTF();
-		avantages = objectInput.readUTF();
+		introduction = (String)objectInput.readObject();
+		activities = (String)objectInput.readObject();
+		profil = (String)objectInput.readObject();
+		conditions = (String)objectInput.readObject();
+		avantages = (String)objectInput.readObject();
 		limitDate = objectInput.readLong();
 		contact = objectInput.readUTF();
 		emails = objectInput.readUTF();
@@ -478,38 +477,38 @@ public class OfferCacheModel implements CacheModel<Offer>, Externalizable {
 		}
 
 		if (introduction == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(introduction);
+			objectOutput.writeObject(introduction);
 		}
 
 		if (activities == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(activities);
+			objectOutput.writeObject(activities);
 		}
 
 		if (profil == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(profil);
+			objectOutput.writeObject(profil);
 		}
 
 		if (conditions == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(conditions);
+			objectOutput.writeObject(conditions);
 		}
 
 		if (avantages == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(avantages);
+			objectOutput.writeObject(avantages);
 		}
 
 		objectOutput.writeLong(limitDate);

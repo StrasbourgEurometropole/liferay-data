@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,9 +34,8 @@ import java.util.Objects;
  * @see ServiceNotif
  * @generated
  */
-@ProviderType
 public class ServiceNotifWrapper
-	implements ServiceNotif, ModelWrapper<ServiceNotif> {
+	implements ModelWrapper<ServiceNotif>, ServiceNotif {
 
 	public ServiceNotifWrapper(ServiceNotif serviceNotif) {
 		_serviceNotif = serviceNotif;
@@ -470,16 +467,16 @@ public class ServiceNotifWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ServiceNotifWrapper)) {
+		if (!(object instanceof ServiceNotifWrapper)) {
 			return false;
 		}
 
-		ServiceNotifWrapper serviceNotifWrapper = (ServiceNotifWrapper)obj;
+		ServiceNotifWrapper serviceNotifWrapper = (ServiceNotifWrapper)object;
 
 		if (Objects.equals(_serviceNotif, serviceNotifWrapper._serviceNotif)) {
 			return true;

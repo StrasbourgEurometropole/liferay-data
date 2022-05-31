@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
  * @see Association
  * @generated
  */
-@ProviderType
 public abstract class AssociationBaseImpl
 	extends AssociationModelImpl implements Association {
 

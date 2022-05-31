@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AlertCacheModel)) {
+		if (!(object instanceof AlertCacheModel)) {
 			return false;
 		}
 
-		AlertCacheModel alertCacheModel = (AlertCacheModel)obj;
+		AlertCacheModel alertCacheModel = (AlertCacheModel)object;
 
 		if (alertId == alertCacheModel.alertId) {
 			return true;
@@ -139,7 +136,9 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		alertId = objectInput.readLong();
@@ -152,7 +151,7 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
 		ligneAndDirection = objectInput.readUTF();
-		perturbation = objectInput.readUTF();
+		perturbation = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -182,10 +181,10 @@ public class AlertCacheModel implements CacheModel<Alert>, Externalizable {
 		}
 
 		if (perturbation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(perturbation);
+			objectOutput.writeObject(perturbation);
 		}
 	}
 

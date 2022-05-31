@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,9 +33,8 @@ import java.util.Objects;
  * @see UserInterest
  * @generated
  */
-@ProviderType
 public class UserInterestWrapper
-	implements UserInterest, ModelWrapper<UserInterest> {
+	implements ModelWrapper<UserInterest>, UserInterest {
 
 	public UserInterestWrapper(UserInterest userInterest) {
 		_userInterest = userInterest;
@@ -257,16 +254,16 @@ public class UserInterestWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserInterestWrapper)) {
+		if (!(object instanceof UserInterestWrapper)) {
 			return false;
 		}
 
-		UserInterestWrapper userInterestWrapper = (UserInterestWrapper)obj;
+		UserInterestWrapper userInterestWrapper = (UserInterestWrapper)object;
 
 		if (Objects.equals(_userInterest, userInterestWrapper._userInterest)) {
 			return true;

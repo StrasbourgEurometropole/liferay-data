@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class CsmapCacheJsonCacheModel
 	implements CacheModel<CsmapCacheJson>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CsmapCacheJsonCacheModel)) {
+		if (!(object instanceof CsmapCacheJsonCacheModel)) {
 			return false;
 		}
 
 		CsmapCacheJsonCacheModel csmapCacheJsonCacheModel =
-			(CsmapCacheJsonCacheModel)obj;
+			(CsmapCacheJsonCacheModel)object;
 
 		if (eventId == csmapCacheJsonCacheModel.eventId) {
 			return true;
@@ -140,11 +137,13 @@ public class CsmapCacheJsonCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		eventId = objectInput.readLong();
-		jsonEvent = objectInput.readUTF();
+		jsonEvent = (String)objectInput.readObject();
 		createEvent = objectInput.readLong();
 		modifiedEvent = objectInput.readLong();
 
@@ -166,10 +165,10 @@ public class CsmapCacheJsonCacheModel
 		objectOutput.writeLong(eventId);
 
 		if (jsonEvent == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(jsonEvent);
+			objectOutput.writeObject(jsonEvent);
 		}
 
 		objectOutput.writeLong(createEvent);

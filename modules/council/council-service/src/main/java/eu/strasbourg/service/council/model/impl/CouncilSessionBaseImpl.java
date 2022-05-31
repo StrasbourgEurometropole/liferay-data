@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
  * @see CouncilSession
  * @generated
  */
-@ProviderType
 public abstract class CouncilSessionBaseImpl
 	extends CouncilSessionModelImpl implements CouncilSession {
 

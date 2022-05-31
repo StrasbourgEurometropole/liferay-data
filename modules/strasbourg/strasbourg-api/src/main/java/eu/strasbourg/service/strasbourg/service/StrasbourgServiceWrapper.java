@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see StrasbourgService
  * @generated
  */
-@ProviderType
 public class StrasbourgServiceWrapper
-	implements StrasbourgService, ServiceWrapper<StrasbourgService> {
+	implements ServiceWrapper<StrasbourgService>, StrasbourgService {
 
 	public StrasbourgServiceWrapper(StrasbourgService strasbourgService) {
 		_strasbourgService = strasbourgService;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class AgendaExportCacheModel
 	implements CacheModel<AgendaExport>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AgendaExportCacheModel)) {
+		if (!(object instanceof AgendaExportCacheModel)) {
 			return false;
 		}
 
 		AgendaExportCacheModel agendaExportCacheModel =
-			(AgendaExportCacheModel)obj;
+			(AgendaExportCacheModel)object;
 
 		if (agendaExportId == agendaExportCacheModel.agendaExportId) {
 			return true;
@@ -215,7 +212,9 @@ public class AgendaExportCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		agendaExportId = objectInput.readLong();
@@ -240,8 +239,8 @@ public class AgendaExportCacheModel
 		exportFormat = objectInput.readUTF();
 
 		templateId = objectInput.readLong();
-		eventCategories = objectInput.readUTF();
-		aggregations = objectInput.readUTF();
+		eventCategories = (String)objectInput.readObject();
+		aggregations = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -309,17 +308,17 @@ public class AgendaExportCacheModel
 		objectOutput.writeLong(templateId);
 
 		if (eventCategories == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(eventCategories);
+			objectOutput.writeObject(eventCategories);
 		}
 
 		if (aggregations == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(aggregations);
+			objectOutput.writeObject(aggregations);
 		}
 	}
 

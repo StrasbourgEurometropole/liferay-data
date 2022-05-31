@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Event
  * @generated
  */
-@ProviderType
 public class EventWrapper implements Event, ModelWrapper<Event> {
 
 	public EventWrapper(Event event) {
@@ -3972,16 +3969,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof EventWrapper)) {
+		if (!(object instanceof EventWrapper)) {
 			return false;
 		}
 
-		EventWrapper eventWrapper = (EventWrapper)obj;
+		EventWrapper eventWrapper = (EventWrapper)object;
 
 		if (Objects.equals(_event, eventWrapper._event)) {
 			return true;

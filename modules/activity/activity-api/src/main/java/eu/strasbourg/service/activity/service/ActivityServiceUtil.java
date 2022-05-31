@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see ActivityService
  * @generated
  */
-@ProviderType
 public class ActivityServiceUtil {
 
 	/*

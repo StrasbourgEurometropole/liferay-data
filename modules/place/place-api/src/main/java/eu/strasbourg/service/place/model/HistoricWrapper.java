@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see Historic
  * @generated
  */
-@ProviderType
 public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 
 	public HistoricWrapper(Historic historic) {
@@ -297,16 +294,16 @@ public class HistoricWrapper implements Historic, ModelWrapper<Historic> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof HistoricWrapper)) {
+		if (!(object instanceof HistoricWrapper)) {
 			return false;
 		}
 
-		HistoricWrapper historicWrapper = (HistoricWrapper)obj;
+		HistoricWrapper historicWrapper = (HistoricWrapper)object;
 
 		if (Objects.equals(_historic, historicWrapper._historic)) {
 			return true;

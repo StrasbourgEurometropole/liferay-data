@@ -17,8 +17,6 @@ package eu.strasbourg.service.csmap.model.impl;
 import eu.strasbourg.service.csmap.model.Thematic;
 import eu.strasbourg.service.csmap.service.ThematicLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the Thematic service. Represents a row in the &quot;csmap_Thematic&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see Thematic
  * @generated
  */
-@ProviderType
 public abstract class ThematicBaseImpl
 	extends ThematicModelImpl implements Thematic {
 

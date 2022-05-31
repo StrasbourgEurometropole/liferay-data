@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.search.log.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.search.log.service.SearchLogServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see SearchLogServiceSoap
  * @generated
  */
-@ProviderType
 public class SearchLogServiceHttp {
 }

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class ImportReportLineSoap implements Serializable {
 
 	public static ImportReportLineSoap toSoapModel(ImportReportLine model) {

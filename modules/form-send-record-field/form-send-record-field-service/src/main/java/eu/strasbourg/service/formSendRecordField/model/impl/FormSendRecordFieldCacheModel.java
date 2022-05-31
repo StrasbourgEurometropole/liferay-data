@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Angélique Zunino
  * @generated
  */
-@ProviderType
 public class FormSendRecordFieldCacheModel
 	implements CacheModel<FormSendRecordField>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof FormSendRecordFieldCacheModel)) {
+		if (!(object instanceof FormSendRecordFieldCacheModel)) {
 			return false;
 		}
 
 		FormSendRecordFieldCacheModel formSendRecordFieldCacheModel =
-			(FormSendRecordFieldCacheModel)obj;
+			(FormSendRecordFieldCacheModel)object;
 
 		if (formSendRecordFieldId ==
 				formSendRecordFieldCacheModel.formSendRecordFieldId) {
@@ -189,7 +186,9 @@ public class FormSendRecordFieldCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		formSendRecordFieldId = objectInput.readLong();
@@ -208,7 +207,7 @@ public class FormSendRecordFieldCacheModel
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
-		response = objectInput.readUTF();
+		response = (String)objectInput.readObject();
 
 		assetEntryId = objectInput.readLong();
 
@@ -259,10 +258,10 @@ public class FormSendRecordFieldCacheModel
 		objectOutput.writeLong(statusDate);
 
 		if (response == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(response);
+			objectOutput.writeObject(response);
 		}
 
 		objectOutput.writeLong(assetEntryId);

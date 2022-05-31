@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,9 +35,8 @@ import java.util.Objects;
  * @see Signalement
  * @generated
  */
-@ProviderType
 public class SignalementWrapper
-	implements Signalement, ModelWrapper<Signalement> {
+	implements ModelWrapper<Signalement>, Signalement {
 
 	public SignalementWrapper(Signalement signalement) {
 		_signalement = signalement;
@@ -767,16 +764,16 @@ public class SignalementWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SignalementWrapper)) {
+		if (!(object instanceof SignalementWrapper)) {
 			return false;
 		}
 
-		SignalementWrapper signalementWrapper = (SignalementWrapper)obj;
+		SignalementWrapper signalementWrapper = (SignalementWrapper)object;
 
 		if (Objects.equals(_signalement, signalementWrapper._signalement)) {
 			return true;

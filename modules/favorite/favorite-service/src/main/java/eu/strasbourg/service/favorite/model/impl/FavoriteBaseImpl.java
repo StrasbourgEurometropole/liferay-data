@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.favorite.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
  * @see Favorite
  * @generated
  */
-@ProviderType
 public abstract class FavoriteBaseImpl
 	extends FavoriteModelImpl implements Favorite {
 

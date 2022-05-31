@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,7 +60,6 @@ import java.rmi.RemoteException;
  * @see DeliberationServiceHttp
  * @generated
  */
-@ProviderType
 public class DeliberationServiceSoap {
 
 	public static String getUserFront(
@@ -76,10 +73,10 @@ public class DeliberationServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
