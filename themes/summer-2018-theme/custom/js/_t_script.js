@@ -122,25 +122,24 @@
 	});
 	
 	// Changement de comportement de la NavBar si nous sommes sur un iPad ou une tablette Android en mode portrait
-if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i) && height > width)) {
-    $('nav').addClass('mns-nav-scroll', 'mns-nav-ipad');
-}
-else if ((navigator.userAgent).match(/Android/i)) {
-    $('nav').removeClass('mns-nav-scroll', 'mns-nav-ipad');
-}
-if ($(window).width() > 991) {
-    $('.navbar-nav > li.dropdown').mouseenter(function () {
-        $(this).addClass('open');
-    });
+	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Tablet/i) && height > width)) {
+		$('nav').addClass('mns-nav-scroll', 'mns-nav-ipad');
+	}
+	else if ((navigator.userAgent).match(/Android/i)) {
+		$('nav').removeClass('mns-nav-scroll', 'mns-nav-ipad');
+	}
+	if ($(window).width() > 991) {
+		$('.navbar-nav > li.dropdown').mouseenter(function () {
+			$(this).addClass('open');
+		});
 
-    $('.navbar-nav > li.dropdown').mouseleave(function () {
-        $(this).removeClass('open');
-    });
-}else{
-    $('.navbar-nav > li.dropdown').click(function () {
-        window.location.href = $($(this).find("a")[0]).attr('href');
-    });
-}
+		$('.navbar-nav > li.dropdown').mouseleave(function () {
+			$(this).removeClass('open');
+		});
+	}
+	$('.navbar-nav > li.dropdown').click(function () {
+		window.location.href = $($(this).find("a")[0]).attr('href');
+	});
 
 
 	if ((navigator.userAgent).match(/iPad/i) || ((navigator.userAgent).match(/Android/i))){
