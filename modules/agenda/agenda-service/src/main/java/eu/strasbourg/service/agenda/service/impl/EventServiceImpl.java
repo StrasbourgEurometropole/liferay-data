@@ -18,6 +18,9 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -41,6 +44,7 @@ import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.CacheJsonLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventServiceBaseImpl;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.PlaceModel;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
@@ -149,7 +153,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getCategory(long id) throws PortalException {
+    public JSONObject getCategory(long id) {
         AssetCategory category = AssetCategoryLocalServiceUtil
                 .fetchAssetCategory(id);
         return AssetVocabularyHelper.categoryToJSON(category);
@@ -161,7 +165,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             return error("not authorized");
         }
 
-        JSONObject eventJSON = null;
+        JSONObject eventJSON;
         try {
             eventJSON = JSONFactoryUtil.createJSONObject(CacheJsonLocalServiceUtil.getByEventIdAndIsApproved(id).getJsonEvent());
         } catch (Exception e) {
@@ -171,7 +175,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getEvents() throws PortalException {
+    public JSONObject getEvents() {
         if (!isAuthorized()) {
             return error("not authorized");
         }
@@ -195,7 +199,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getEventsByDate(String date) throws PortalException {
+    public JSONObject getEventsByDate(String date) throws JSONException {
         if (!isAuthorized()) {
             return error("not authorized");
         }
@@ -203,21 +207,22 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         LocalDate localDate = LocalDate.parse(date,
                 DateTimeFormatter.ofPattern("ddMMyyyy"));
         Hits hits = SearchHelper.getEventWebServiceSearchHits(
-                Event.class.getName(), localDate, (long) 0, null);
-        List<Event> events = new ArrayList<Event>();
-        for (Document document : hits.getDocs()) {
-            Event event = this.eventLocalService.fetchEvent(
-                    GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-            if (event != null) {
-                events.add(event);
+                Event.class.getName(), localDate, 0, null);
+        List<Event> events = new ArrayList<>();
+        if (hits != null) {
+            for (Document document : hits.getDocs()) {
+                Event event = this.eventLocalService.fetchEvent(
+                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                if (event != null) {
+                    events.add(event);
+                }
             }
         }
         return this.getApprovedJSONEvents(events);
     }
 
     @Override
-    public JSONObject getEventsByCategory(String categoryId)
-            throws PortalException {
+    public JSONObject getEventsByCategory(String categoryId) throws JSONException {
         if (!isAuthorized()) {
             return error("not authorized");
         }
@@ -230,20 +235,21 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 
         Hits hits = SearchHelper.getEventWebServiceSearchHits(
                 Event.class.getName(), null, categId, null);
-        List<Event> events = new ArrayList<Event>();
-        for (Document document : hits.getDocs()) {
-            Event event = this.eventLocalService.fetchEvent(
-                    GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-            if (event != null) {
-                events.add(event);
+        List<Event> events = new ArrayList<>();
+        if (hits != null) {
+            for (Document document : hits.getDocs()) {
+                Event event = this.eventLocalService.fetchEvent(
+                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                if (event != null) {
+                    events.add(event);
+                }
             }
         }
         return this.getApprovedJSONEvents(events);
     }
 
     @Override
-    public JSONObject getEventsByPlace(String placeSIGId)
-            throws PortalException {
+    public JSONObject getEventsByPlace(String placeSIGId) throws JSONException {
         if (!isAuthorized()) {
             return error("not authorized");
         }
@@ -257,42 +263,44 @@ public class EventServiceImpl extends EventServiceBaseImpl {
     }
 
     @Override
-    public JSONObject getEventsByLanguage(String language)
-            throws PortalException {
+    public JSONObject getEventsByLanguage(String language) throws JSONException {
         if (!isAuthorized()) {
             return error("not authorized");
         }
 
         Locale locale = LocaleUtil.fromLanguageId(language);
         Hits hits = SearchHelper.getEventWebServiceSearchHits(
-                Event.class.getName(), null, (long) 0, locale);
-        List<Event> events = new ArrayList<Event>();
-        for (Document document : hits.getDocs()) {
-            Event event = this.eventLocalService.fetchEvent(
-                    GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-            if (event != null) {
-                events.add(event);
+                Event.class.getName(), null, 0, locale);
+        List<Event> events = new ArrayList<>();
+        if (hits != null) {
+            for (Document document : hits.getDocs()) {
+                Event event = this.eventLocalService.fetchEvent(
+                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                if (event != null) {
+                    events.add(event);
+                }
             }
         }
         return this.getApprovedJSONEvents(events);
     }
 
-    private JSONObject getApprovedJSONEvents(List<Event> events) {
+    private JSONObject getApprovedJSONEvents(List<Event> events) throws JSONException {
+
         JSONObject result = JSONFactoryUtil.createJSONObject();
         JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
-        Map<String, Place> places = PlaceLocalServiceUtil.getPlaces(-1, -1).stream()
-                .collect(Collectors.toMap(p -> p.getSIGid(), p -> p));
-        for (Event event : events) {
-            if (event.isApproved()) {
-                JSONObject eventJSON = event.toJSON();
-                if (Validator.isNotNull(event.getPlaceSIGId())) {
-                    JSONObject placeJSON = places.get(event.getPlaceSIGId()).toJSON();
-                    eventJSON.put("place", placeJSON);
-                }
-                jsonEvents.put(eventJSON);
-            }
+
+        List<Long> eventIds = events.stream().map(Event::getEventId).collect(Collectors.toList());
+        DynamicQuery dq = CacheJsonLocalServiceUtil.dynamicQuery();
+        Criterion cacheEventIds = RestrictionsFactoryUtil.in("eventId", eventIds);
+        Criterion isApproved = RestrictionsFactoryUtil.eq("isApproved", true);
+        dq.add(RestrictionsFactoryUtil.and(cacheEventIds, isApproved));
+        List<CacheJson> cachesJson = CacheJsonLocalServiceUtil.dynamicQuery(dq);
+
+        for (CacheJson cache : cachesJson) {
+            jsonEvents.put(cache.getJsonEvent());
         }
         result.put("events", jsonEvents);
+
         return result;
     }
     

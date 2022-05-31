@@ -276,8 +276,7 @@ public class EventServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCategory(
-			HttpPrincipal httpPrincipal, long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal, long id) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -292,13 +291,6 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -341,8 +333,7 @@ public class EventServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEvents(
-			HttpPrincipal httpPrincipal)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		HttpPrincipal httpPrincipal) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -356,13 +347,6 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					e);
 			}
@@ -378,7 +362,7 @@ public class EventServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByDate(
 			HttpPrincipal httpPrincipal, String date)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -393,11 +377,8 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
+				if (e instanceof com.liferay.portal.kernel.json.JSONException) {
+					throw (com.liferay.portal.kernel.json.JSONException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(
@@ -415,7 +396,7 @@ public class EventServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
 			HttpPrincipal httpPrincipal, String categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -431,11 +412,8 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
+				if (e instanceof com.liferay.portal.kernel.json.JSONException) {
+					throw (com.liferay.portal.kernel.json.JSONException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(
@@ -453,7 +431,7 @@ public class EventServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 			HttpPrincipal httpPrincipal, String placeSIGId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -469,11 +447,8 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
+				if (e instanceof com.liferay.portal.kernel.json.JSONException) {
+					throw (com.liferay.portal.kernel.json.JSONException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(
@@ -491,7 +466,7 @@ public class EventServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
 			HttpPrincipal httpPrincipal, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -507,11 +482,8 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception e) {
-				if (e instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						e;
+				if (e instanceof com.liferay.portal.kernel.json.JSONException) {
+					throw (com.liferay.portal.kernel.json.JSONException)e;
 				}
 
 				throw new com.liferay.portal.kernel.exception.SystemException(
