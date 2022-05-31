@@ -85,11 +85,6 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				switch (this.fieldType)
 				{
 					case "select":
-						String value =  valueID.replace("\"","");
-						value = value.replace("[", "");
-						value = value.replace("]", "");
-						valuesIDs.add(value);
-						break;
 					case "checkbox_multiple":
 						String[] values = valueID.split(",", 0);
 						for (String str : values) {
