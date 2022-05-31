@@ -70,6 +70,8 @@ public class MairieStateSOAPClient {
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
 		HttpURLConnection httpConn = (HttpURLConnection) connection;
+		httpConn.setConnectTimeout(5000);
+		httpConn.setReadTimeout(5000);
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		String xmlInput = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v1=\"http://www.esii.com/esirius/sitewaitingindicator/v1.0\">\n" +
 				"   <soapenv:Header/>\n" +
