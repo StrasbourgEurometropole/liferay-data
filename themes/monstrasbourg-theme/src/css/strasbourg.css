@@ -10077,13 +10077,10 @@ a {
         display: flex;
         background-color: #46cfc0; } }
     /* line 41, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
-    #mairie .flexbox .container-right .crowded-date {
-      text-transform: none; }
-    /* line 45, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
     #mairie .flexbox .container-right .crowded-caption {
       font-weight: 700;
       margin-bottom: 0px; }
-    /* line 50, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+    /* line 46, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
     #mairie .flexbox .container-right .crowded-amount {
       text-align: center;
       width: 70px;
@@ -10101,24 +10098,24 @@ a {
       margin-left: 10px;
       border: solid 2px #FFFFFF;
       white-space: nowrap; }
-      /* line 66, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 62, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.green {
         background-color: #40A040; }
-      /* line 67, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 63, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.orange {
         background-color: #FF470F; }
-      /* line 68, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 64, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.red {
         background-color: #FF0F0F; }
-      /* line 69, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 65, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.black {
         background-color: #272222; }
-      /* line 70, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 66, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.white {
         background-color: #FFFFFF;
         color: #000000;
         border-color: #000000; }
-      /* line 71, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
+      /* line 67, custom/02-particules/02-modules/district/mairie-direction/_organism-mairie.scss */
       #mairie .flexbox .container-right .crowded-amount.grey {
         background-color: #9E9E9E; }
 
