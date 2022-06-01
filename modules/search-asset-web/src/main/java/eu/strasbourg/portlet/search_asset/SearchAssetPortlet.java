@@ -592,6 +592,20 @@ public class SearchAssetPortlet extends MVCPortlet {
             sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
         }
 
+        if (resourceID.equals("entrySelectionProjectWorkshop")) {
+            keywords = null;
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
         // ClassNames de la configuration
         String[] classNames = ArrayUtil.toStringArray(getClassNames(configuration));
 
