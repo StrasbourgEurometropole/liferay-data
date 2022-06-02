@@ -198,7 +198,7 @@ public class MapPortlet extends MVCPortlet {
 
                         trafficInterestId = json.getString("trafficInterestId");
                     } catch (Exception ex) {
-                        _log.error("Missing expando field : map_global_config");
+                        _log.error("Problème à la récupération des données de map_global_config", ex);
                     }
                 }
                 // Chargement de la configuration du portlet sinon
