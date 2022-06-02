@@ -1,29 +1,6 @@
 Bundle-Name: office-exporter
 Bundle-SymbolicName: eu.strasbourg.service.office.exporter
 Bundle-Version: 1.31.0
-Bundle-ClassPath: \
-  .,\
- lib/poi.jar,\
- lib/commons-codec.jar,\
- lib/commons-lang3.jar,\
- lib/commons-collections4.jar,\
- lib/poi-ooxml.jar,\
- lib/curvesapi.jar,\
- lib/poi-ooxml-schemas.jar,\
- lib/xmlbeans.jar,\
- lib/jsch.jar,\
- 
--includeresource: \
- lib/poi.jar=poi-3.17.jar,\
- lib/commons-codec.jar=commons-codec-1.10.jar,\
- lib/commons-lang3.jar=commons-lang3-3.9.jar,\
- lib/commons-collections4.jar=commons-collections4-4.1.jar,\
- lib/poi-ooxml.jar=poi-ooxml-3.17.jar,\
- lib/curvesapi.jar=curvesapi-1.04.jar,\
- lib/poi-ooxml-schemas.jar=poi-ooxml-schemas-3.17.jar,\
- lib/xmlbeans.jar=xmlbeans-3.1.0.jar,\
- lib/xmlbeans.jar=commons-net-3.5.jar,\
- lib/jsch.jar=jsch-0.1.54.jar,\
 
 Import-Package: eu.strasbourg.*,*;resolution:=optional
  

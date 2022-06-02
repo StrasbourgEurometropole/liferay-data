@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see StopTime
  * @generated
  */
-@ProviderType
-public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
+public class StopTimeWrapper implements ModelWrapper<StopTime>, StopTime {
 
 	public StopTimeWrapper(StopTime stopTime) {
 		_stopTime = stopTime;
@@ -432,16 +429,16 @@ public class StopTimeWrapper implements StopTime, ModelWrapper<StopTime> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof StopTimeWrapper)) {
+		if (!(object instanceof StopTimeWrapper)) {
 			return false;
 		}
 
-		StopTimeWrapper stopTimeWrapper = (StopTimeWrapper)obj;
+		StopTimeWrapper stopTimeWrapper = (StopTimeWrapper)object;
 
 		if (Objects.equals(_stopTime, stopTimeWrapper._stopTime)) {
 			return true;

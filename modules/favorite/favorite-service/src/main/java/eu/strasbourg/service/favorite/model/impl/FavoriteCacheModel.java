@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.favorite.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class FavoriteCacheModel
 	implements CacheModel<Favorite>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof FavoriteCacheModel)) {
+		if (!(object instanceof FavoriteCacheModel)) {
 			return false;
 		}
 
-		FavoriteCacheModel favoriteCacheModel = (FavoriteCacheModel)obj;
+		FavoriteCacheModel favoriteCacheModel = (FavoriteCacheModel)object;
 
 		if (favoriteId == favoriteCacheModel.favoriteId) {
 			return true;

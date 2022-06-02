@@ -25,30 +25,27 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing PlaceCategories in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PlaceCategoriesCacheModel
 	implements CacheModel<PlaceCategories>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PlaceCategoriesCacheModel)) {
+		if (!(object instanceof PlaceCategoriesCacheModel)) {
 			return false;
 		}
 
 		PlaceCategoriesCacheModel placeCategoriesCacheModel =
-			(PlaceCategoriesCacheModel)obj;
+			(PlaceCategoriesCacheModel)object;
 
 		if (placeCategoriesId == placeCategoriesCacheModel.placeCategoriesId) {
 			return true;

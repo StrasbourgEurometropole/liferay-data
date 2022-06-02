@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,9 +34,8 @@ import java.util.Objects;
  * @see Notification
  * @generated
  */
-@ProviderType
 public class NotificationWrapper
-	implements Notification, ModelWrapper<Notification> {
+	implements ModelWrapper<Notification>, Notification {
 
 	public NotificationWrapper(Notification notification) {
 		_notification = notification;
@@ -799,16 +796,16 @@ public class NotificationWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof NotificationWrapper)) {
+		if (!(object instanceof NotificationWrapper)) {
 			return false;
 		}
 
-		NotificationWrapper notificationWrapper = (NotificationWrapper)obj;
+		NotificationWrapper notificationWrapper = (NotificationWrapper)object;
 
 		if (Objects.equals(_notification, notificationWrapper._notification)) {
 			return true;

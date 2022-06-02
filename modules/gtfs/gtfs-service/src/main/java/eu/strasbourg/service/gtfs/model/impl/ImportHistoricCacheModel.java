@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class ImportHistoricCacheModel
 	implements CacheModel<ImportHistoric>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ImportHistoricCacheModel)) {
+		if (!(object instanceof ImportHistoricCacheModel)) {
 			return false;
 		}
 
 		ImportHistoricCacheModel importHistoricCacheModel =
-			(ImportHistoricCacheModel)obj;
+			(ImportHistoricCacheModel)object;
 
 		if (importHistoricId == importHistoricCacheModel.importHistoricId) {
 			return true;
@@ -215,7 +212,9 @@ public class ImportHistoricCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		importHistoricId = objectInput.readLong();
@@ -236,9 +235,9 @@ public class ImportHistoricCacheModel
 		statusDate = objectInput.readLong();
 
 		result = objectInput.readInt();
-		operations = objectInput.readUTF();
-		errorDescription = objectInput.readUTF();
-		errorStackTrace = objectInput.readUTF();
+		operations = (String)objectInput.readObject();
+		errorDescription = (String)objectInput.readObject();
+		errorStackTrace = (String)objectInput.readObject();
 		startDate = objectInput.readLong();
 		finishDate = objectInput.readLong();
 		gtfsFileHash = objectInput.readUTF();
@@ -287,24 +286,24 @@ public class ImportHistoricCacheModel
 		objectOutput.writeInt(result);
 
 		if (operations == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(operations);
+			objectOutput.writeObject(operations);
 		}
 
 		if (errorDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(errorDescription);
+			objectOutput.writeObject(errorDescription);
 		}
 
 		if (errorStackTrace == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(errorStackTrace);
+			objectOutput.writeObject(errorStackTrace);
 		}
 
 		objectOutput.writeLong(startDate);

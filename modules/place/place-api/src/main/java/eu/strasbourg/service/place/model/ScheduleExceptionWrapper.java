@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,9 +34,8 @@ import java.util.Objects;
  * @see ScheduleException
  * @generated
  */
-@ProviderType
 public class ScheduleExceptionWrapper
-	implements ScheduleException, ModelWrapper<ScheduleException> {
+	implements ModelWrapper<ScheduleException>, ScheduleException {
 
 	public ScheduleExceptionWrapper(ScheduleException scheduleException) {
 		_scheduleException = scheduleException;
@@ -1409,17 +1406,17 @@ public class ScheduleExceptionWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ScheduleExceptionWrapper)) {
+		if (!(object instanceof ScheduleExceptionWrapper)) {
 			return false;
 		}
 
 		ScheduleExceptionWrapper scheduleExceptionWrapper =
-			(ScheduleExceptionWrapper)obj;
+			(ScheduleExceptionWrapper)object;
 
 		if (Objects.equals(
 				_scheduleException,

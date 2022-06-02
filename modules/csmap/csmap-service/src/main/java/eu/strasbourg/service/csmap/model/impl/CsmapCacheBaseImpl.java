@@ -17,8 +17,6 @@ package eu.strasbourg.service.csmap.model.impl;
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the CsmapCache service. Represents a row in the &quot;csmap_CsmapCache&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see CsmapCache
  * @generated
  */
-@ProviderType
 public abstract class CsmapCacheBaseImpl
 	extends CsmapCacheModelImpl implements CsmapCache {
 

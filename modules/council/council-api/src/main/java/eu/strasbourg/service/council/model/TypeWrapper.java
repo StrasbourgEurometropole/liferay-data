@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Type
  * @generated
  */
-@ProviderType
-public class TypeWrapper implements Type, ModelWrapper<Type> {
+public class TypeWrapper implements ModelWrapper<Type>, Type {
 
 	public TypeWrapper(Type type) {
 		_type = type;
@@ -733,16 +730,16 @@ public class TypeWrapper implements Type, ModelWrapper<Type> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof TypeWrapper)) {
+		if (!(object instanceof TypeWrapper)) {
 			return false;
 		}
 
-		TypeWrapper typeWrapper = (TypeWrapper)obj;
+		TypeWrapper typeWrapper = (TypeWrapper)object;
 
 		if (Objects.equals(_type, typeWrapper._type)) {
 			return true;

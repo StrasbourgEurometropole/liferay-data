@@ -58,7 +58,7 @@ import javax.sql.DataSource;
  */
 public abstract class ProjectTimelineServiceBaseImpl
 	extends BaseServiceImpl
-	implements ProjectTimelineService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, ProjectTimelineService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1085,8 +1085,8 @@ public abstract class ProjectTimelineServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

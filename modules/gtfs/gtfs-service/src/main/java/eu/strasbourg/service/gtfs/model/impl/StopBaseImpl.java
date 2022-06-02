@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
  * @see Stop
  * @generated
  */
-@ProviderType
 public abstract class StopBaseImpl extends StopModelImpl implements Stop {
 
 	/*

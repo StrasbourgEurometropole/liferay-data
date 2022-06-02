@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Official
  * @generated
  */
-@ProviderType
-public class OfficialWrapper implements Official, ModelWrapper<Official> {
+public class OfficialWrapper implements ModelWrapper<Official>, Official {
 
 	public OfficialWrapper(Official official) {
 		_official = official;
@@ -879,16 +876,16 @@ public class OfficialWrapper implements Official, ModelWrapper<Official> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof OfficialWrapper)) {
+		if (!(object instanceof OfficialWrapper)) {
 			return false;
 		}
 
-		OfficialWrapper officialWrapper = (OfficialWrapper)obj;
+		OfficialWrapper officialWrapper = (OfficialWrapper)object;
 
 		if (Objects.equals(_official, officialWrapper._official)) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class ImportReportCacheModel
 	implements CacheModel<ImportReport>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ImportReportCacheModel)) {
+		if (!(object instanceof ImportReportCacheModel)) {
 			return false;
 		}
 
 		ImportReportCacheModel importReportCacheModel =
-			(ImportReportCacheModel)obj;
+			(ImportReportCacheModel)object;
 
 		if (reportId == importReportCacheModel.reportId) {
 			return true;

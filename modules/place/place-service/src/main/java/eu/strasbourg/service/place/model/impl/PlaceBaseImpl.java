@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
  * @see Place
  * @generated
  */
-@ProviderType
 public abstract class PlaceBaseImpl extends PlaceModelImpl implements Place {
 
 	/*

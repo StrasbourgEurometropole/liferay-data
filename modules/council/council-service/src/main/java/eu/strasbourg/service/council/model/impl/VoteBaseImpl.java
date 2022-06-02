@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
  * @see Vote
  * @generated
  */
-@ProviderType
 public abstract class VoteBaseImpl extends VoteModelImpl implements Vote {
 
 	/*

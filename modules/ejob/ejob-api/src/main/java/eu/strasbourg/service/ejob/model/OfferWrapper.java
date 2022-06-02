@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Offer
  * @generated
  */
-@ProviderType
-public class OfferWrapper implements Offer, ModelWrapper<Offer> {
+public class OfferWrapper implements ModelWrapper<Offer>, Offer {
 
 	public OfferWrapper(Offer offer) {
 		_offer = offer;
@@ -2664,16 +2661,16 @@ public class OfferWrapper implements Offer, ModelWrapper<Offer> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof OfferWrapper)) {
+		if (!(object instanceof OfferWrapper)) {
 			return false;
 		}
 
-		OfferWrapper offerWrapper = (OfferWrapper)obj;
+		OfferWrapper offerWrapper = (OfferWrapper)object;
 
 		if (Objects.equals(_offer, offerWrapper._offer)) {
 			return true;

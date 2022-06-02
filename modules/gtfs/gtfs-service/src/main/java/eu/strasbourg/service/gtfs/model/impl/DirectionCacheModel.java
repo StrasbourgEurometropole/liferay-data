@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,21 +31,20 @@ import java.io.ObjectOutput;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class DirectionCacheModel
 	implements CacheModel<Direction>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof DirectionCacheModel)) {
+		if (!(object instanceof DirectionCacheModel)) {
 			return false;
 		}
 
-		DirectionCacheModel directionCacheModel = (DirectionCacheModel)obj;
+		DirectionCacheModel directionCacheModel = (DirectionCacheModel)object;
 
 		if (directionId == directionCacheModel.directionId) {
 			return true;

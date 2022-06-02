@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see VideoService
  * @generated
  */
-@ProviderType
 public class VideoServiceWrapper
-	implements VideoService, ServiceWrapper<VideoService> {
+	implements ServiceWrapper<VideoService>, VideoService {
 
 	public VideoServiceWrapper(VideoService videoService) {
 		_videoService = videoService;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Association
  * @generated
  */
-@ProviderType
 public class AssociationWrapper
 	implements Association, ModelWrapper<Association> {
 
@@ -1515,16 +1512,16 @@ public class AssociationWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AssociationWrapper)) {
+		if (!(object instanceof AssociationWrapper)) {
 			return false;
 		}
 
-		AssociationWrapper associationWrapper = (AssociationWrapper)obj;
+		AssociationWrapper associationWrapper = (AssociationWrapper)object;
 
 		if (Objects.equals(_association, associationWrapper._association)) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.like.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
  * @see Like
  * @generated
  */
-@ProviderType
 public abstract class LikeBaseImpl extends LikeModelImpl implements Like {
 
 	/*

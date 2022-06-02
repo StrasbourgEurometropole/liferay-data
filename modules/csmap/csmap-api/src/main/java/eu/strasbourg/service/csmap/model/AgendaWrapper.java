@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link Agenda}.
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see Agenda
  * @generated
  */
-@ProviderType
 public class AgendaWrapper
 	extends BaseModelWrapper<Agenda> implements Agenda, ModelWrapper<Agenda> {
 

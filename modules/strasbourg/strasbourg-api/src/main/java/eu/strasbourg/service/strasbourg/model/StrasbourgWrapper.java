@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,8 +33,7 @@ import java.util.Objects;
  * @see Strasbourg
  * @generated
  */
-@ProviderType
-public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
+public class StrasbourgWrapper implements ModelWrapper<Strasbourg>, Strasbourg {
 
 	public StrasbourgWrapper(Strasbourg strasbourg) {
 		_strasbourg = strasbourg;
@@ -246,16 +243,16 @@ public class StrasbourgWrapper implements Strasbourg, ModelWrapper<Strasbourg> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof StrasbourgWrapper)) {
+		if (!(object instanceof StrasbourgWrapper)) {
 			return false;
 		}
 
-		StrasbourgWrapper strasbourgWrapper = (StrasbourgWrapper)obj;
+		StrasbourgWrapper strasbourgWrapper = (StrasbourgWrapper)object;
 
 		if (Objects.equals(_strasbourg, strasbourgWrapper._strasbourg)) {
 			return true;

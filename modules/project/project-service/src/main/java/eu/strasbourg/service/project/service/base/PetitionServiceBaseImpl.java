@@ -61,7 +61,7 @@ import javax.sql.DataSource;
  */
 public abstract class PetitionServiceBaseImpl
 	extends BaseServiceImpl
-	implements PetitionService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, PetitionService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1260,8 +1260,8 @@ public abstract class PetitionServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,20 +31,19 @@ import java.io.ObjectOutput;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class SlotCacheModel implements CacheModel<Slot>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SlotCacheModel)) {
+		if (!(object instanceof SlotCacheModel)) {
 			return false;
 		}
 
-		SlotCacheModel slotCacheModel = (SlotCacheModel)obj;
+		SlotCacheModel slotCacheModel = (SlotCacheModel)object;
 
 		if (slotId == slotCacheModel.slotId) {
 			return true;

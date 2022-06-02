@@ -61,7 +61,7 @@ import javax.sql.DataSource;
  */
 public abstract class InitiativeServiceBaseImpl
 	extends BaseServiceImpl
-	implements InitiativeService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, InitiativeService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1259,8 +1259,8 @@ public abstract class InitiativeServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

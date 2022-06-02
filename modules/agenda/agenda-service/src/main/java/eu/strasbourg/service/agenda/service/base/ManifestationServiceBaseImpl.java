@@ -64,7 +64,7 @@ import javax.sql.DataSource;
  */
 public abstract class ManifestationServiceBaseImpl
 	extends BaseServiceImpl
-	implements ManifestationService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, ManifestationService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1252,8 +1252,8 @@ public abstract class ManifestationServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

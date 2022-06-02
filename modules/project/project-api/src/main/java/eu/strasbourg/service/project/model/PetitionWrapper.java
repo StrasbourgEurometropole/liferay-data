@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Petition
  * @generated
  */
-@ProviderType
-public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
+public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 
 	public PetitionWrapper(Petition petition) {
 		_petition = petition;
@@ -1764,16 +1761,16 @@ public class PetitionWrapper implements Petition, ModelWrapper<Petition> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PetitionWrapper)) {
+		if (!(object instanceof PetitionWrapper)) {
 			return false;
 		}
 
-		PetitionWrapper petitionWrapper = (PetitionWrapper)obj;
+		PetitionWrapper petitionWrapper = (PetitionWrapper)object;
 
 		if (Objects.equals(_petition, petitionWrapper._petition)) {
 			return true;

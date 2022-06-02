@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;
  * @see Message
  * @generated
  */
-@ProviderType
 public abstract class MessageBaseImpl
 	extends MessageModelImpl implements Message {
 

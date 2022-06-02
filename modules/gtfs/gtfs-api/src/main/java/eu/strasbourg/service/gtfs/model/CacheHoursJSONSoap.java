@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 
 import java.io.Serializable;
@@ -30,7 +28,6 @@ import java.util.List;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class CacheHoursJSONSoap implements Serializable {
 
 	public static CacheHoursJSONSoap toSoapModel(CacheHoursJSON model) {

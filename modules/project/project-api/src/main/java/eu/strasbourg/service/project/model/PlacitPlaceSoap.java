@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class PlacitPlaceSoap implements Serializable {
 
 	public static PlacitPlaceSoap toSoapModel(PlacitPlace model) {

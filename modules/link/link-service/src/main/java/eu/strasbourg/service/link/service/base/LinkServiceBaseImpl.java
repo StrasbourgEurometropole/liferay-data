@@ -48,7 +48,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class LinkServiceBaseImpl
-	extends BaseServiceImpl implements LinkService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, LinkService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -501,8 +501,8 @@ public abstract class LinkServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

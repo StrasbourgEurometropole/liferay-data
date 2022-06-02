@@ -27,30 +27,27 @@ import java.io.ObjectOutput;
 
 import java.util.Date;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The cache model class for representing HelpRequest in entity cache.
  *
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class HelpRequestCacheModel
 	implements CacheModel<HelpRequest>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof HelpRequestCacheModel)) {
+		if (!(object instanceof HelpRequestCacheModel)) {
 			return false;
 		}
 
 		HelpRequestCacheModel helpRequestCacheModel =
-			(HelpRequestCacheModel)obj;
+			(HelpRequestCacheModel)object;
 
 		if (helpRequestId == helpRequestCacheModel.helpRequestId) {
 			return true;
@@ -210,7 +207,9 @@ public class HelpRequestCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		helpRequestId = objectInput.readLong();
@@ -233,7 +232,7 @@ public class HelpRequestCacheModel
 
 		helpProposalId = objectInput.readLong();
 		phoneNumber = objectInput.readUTF();
-		message = objectInput.readUTF();
+		message = (String)objectInput.readObject();
 
 		studentCardImageId = objectInput.readLong();
 
@@ -242,7 +241,7 @@ public class HelpRequestCacheModel
 		agreementSigned2 = objectInput.readBoolean();
 
 		agreementSigned3 = objectInput.readBoolean();
-		comment = objectInput.readUTF();
+		comment = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -302,10 +301,10 @@ public class HelpRequestCacheModel
 		}
 
 		if (message == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(message);
+			objectOutput.writeObject(message);
 		}
 
 		objectOutput.writeLong(studentCardImageId);
@@ -317,10 +316,10 @@ public class HelpRequestCacheModel
 		objectOutput.writeBoolean(agreementSigned3);
 
 		if (comment == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(comment);
+			objectOutput.writeObject(comment);
 		}
 	}
 

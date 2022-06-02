@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see NotificationService
  * @generated
  */
-@ProviderType
 public class NotificationServiceWrapper
 	implements NotificationService, ServiceWrapper<NotificationService> {
 

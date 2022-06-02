@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Signataire
  * @generated
  */
-@ProviderType
-public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
+public class SignataireWrapper implements ModelWrapper<Signataire>, Signataire {
 
 	public SignataireWrapper(Signataire signataire) {
 		_signataire = signataire;
@@ -961,16 +958,16 @@ public class SignataireWrapper implements Signataire, ModelWrapper<Signataire> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SignataireWrapper)) {
+		if (!(object instanceof SignataireWrapper)) {
 			return false;
 		}
 
-		SignataireWrapper signataireWrapper = (SignataireWrapper)obj;
+		SignataireWrapper signataireWrapper = (SignataireWrapper)object;
 
 		if (Objects.equals(_signataire, signataireWrapper._signataire)) {
 			return true;

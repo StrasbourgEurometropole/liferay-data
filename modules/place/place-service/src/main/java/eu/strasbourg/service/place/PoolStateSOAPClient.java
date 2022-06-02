@@ -80,6 +80,8 @@ public class PoolStateSOAPClient {
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
 		HttpURLConnection httpConn = (HttpURLConnection)connection;
+		httpConn.setConnectTimeout(5000);
+		httpConn.setReadTimeout(5000);
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		String xmlInput = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:tem=\"http://tempuri.org/\">\n" +
 				"   <soap:Header/>\n" +

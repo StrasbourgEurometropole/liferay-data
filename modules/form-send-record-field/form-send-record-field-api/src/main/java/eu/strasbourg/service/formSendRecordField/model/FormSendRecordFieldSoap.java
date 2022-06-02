@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.formSendRecordField.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Angélique Zunino
  * @generated
  */
-@ProviderType
 public class FormSendRecordFieldSoap implements Serializable {
 
 	public static FormSendRecordFieldSoap toSoapModel(

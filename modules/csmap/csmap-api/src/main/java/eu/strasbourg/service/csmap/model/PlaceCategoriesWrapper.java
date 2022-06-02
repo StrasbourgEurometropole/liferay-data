@@ -20,8 +20,6 @@ import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link PlaceCategories}.
@@ -31,10 +29,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see PlaceCategories
  * @generated
  */
-@ProviderType
 public class PlaceCategoriesWrapper
 	extends BaseModelWrapper<PlaceCategories>
-	implements PlaceCategories, ModelWrapper<PlaceCategories> {
+	implements ModelWrapper<PlaceCategories>, PlaceCategories {
 
 	public PlaceCategoriesWrapper(PlaceCategories placeCategories) {
 		super(placeCategories);

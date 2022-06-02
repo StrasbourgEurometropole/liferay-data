@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class AnonymisationHistoricSoap implements Serializable {
 
 	public static AnonymisationHistoricSoap toSoapModel(

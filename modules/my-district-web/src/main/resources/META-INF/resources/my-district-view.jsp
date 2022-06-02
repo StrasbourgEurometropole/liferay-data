@@ -384,14 +384,6 @@
 						<div class="container-right">
 							<c:if test="${townHall.isEnabled()}">
 								<c:set var="occupationState" value="${townHall.getRealTime()}" />
-								<h3>
-									<liferay-ui:message key="estimated-time" />
-									<fmt:formatDate value="${now}" type="date" var="dateNow" pattern="dd MMMM yyyy"/>
-									<fmt:formatDate value="${now}" type="date" var="hourNow" pattern="HH:mm"/>
-									<p class="crowded-date">
-											${dateNow} - ${hourNow}
-									</p>
-								</h3>
 								<div class="flexbox">
 									<div class="container-left" style="display: inline-table; width: auto;">
 										<!-- green orange red black -->

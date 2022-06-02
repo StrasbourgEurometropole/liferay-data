@@ -17,8 +17,6 @@ package eu.strasbourg.service.csmap.model.impl;
 import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.service.BaseNonceLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the BaseNonce service. Represents a row in the &quot;csmap_BaseNonce&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see BaseNonce
  * @generated
  */
-@ProviderType
 public abstract class BaseNonceBaseImpl
 	extends BaseNonceModelImpl implements BaseNonce {
 

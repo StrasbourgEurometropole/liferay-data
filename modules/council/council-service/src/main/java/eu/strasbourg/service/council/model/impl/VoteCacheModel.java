@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -36,20 +34,19 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class VoteCacheModel implements CacheModel<Vote>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof VoteCacheModel)) {
+		if (!(object instanceof VoteCacheModel)) {
 			return false;
 		}
 
-		VoteCacheModel voteCacheModel = (VoteCacheModel)obj;
+		VoteCacheModel voteCacheModel = (VoteCacheModel)object;
 
 		if (votePK.equals(voteCacheModel.votePK)) {
 			return true;

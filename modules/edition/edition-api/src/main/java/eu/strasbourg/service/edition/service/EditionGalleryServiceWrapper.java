@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see EditionGalleryService
  * @generated
  */
-@ProviderType
 public class EditionGalleryServiceWrapper
 	implements EditionGalleryService, ServiceWrapper<EditionGalleryService> {
 

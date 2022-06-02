@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see EditionGallery
  * @generated
  */
-@ProviderType
 public class EditionGalleryWrapper
 	implements EditionGallery, ModelWrapper<EditionGallery> {
 
@@ -1140,17 +1137,17 @@ public class EditionGalleryWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof EditionGalleryWrapper)) {
+		if (!(object instanceof EditionGalleryWrapper)) {
 			return false;
 		}
 
 		EditionGalleryWrapper editionGalleryWrapper =
-			(EditionGalleryWrapper)obj;
+			(EditionGalleryWrapper)object;
 
 		if (Objects.equals(
 				_editionGallery, editionGalleryWrapper._editionGallery)) {

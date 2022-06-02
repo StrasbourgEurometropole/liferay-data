@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
  * @see ProjectTimeline
  * @generated
  */
-@ProviderType
 public abstract class ProjectTimelineBaseImpl
 	extends ProjectTimelineModelImpl implements ProjectTimeline {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class CsmapCacheJsonCacheModel
 	implements CacheModel<CsmapCacheJson>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CsmapCacheJsonCacheModel)) {
+		if (!(object instanceof CsmapCacheJsonCacheModel)) {
 			return false;
 		}
 
 		CsmapCacheJsonCacheModel csmapCacheJsonCacheModel =
-			(CsmapCacheJsonCacheModel)obj;
+			(CsmapCacheJsonCacheModel)object;
 
 		if (sigId.equals(csmapCacheJsonCacheModel.sigId)) {
 			return true;
@@ -141,11 +138,13 @@ public class CsmapCacheJsonCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 		sigId = objectInput.readUTF();
-		jsonLieu = objectInput.readUTF();
-		jsonHoraire = objectInput.readUTF();
+		jsonLieu = (String)objectInput.readObject();
+		jsonHoraire = (String)objectInput.readObject();
 		createPlace = objectInput.readLong();
 		modifiedPlace = objectInput.readLong();
 
@@ -169,17 +168,17 @@ public class CsmapCacheJsonCacheModel
 		}
 
 		if (jsonLieu == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(jsonLieu);
+			objectOutput.writeObject(jsonLieu);
 		}
 
 		if (jsonHoraire == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(jsonHoraire);
+			objectOutput.writeObject(jsonHoraire);
 		}
 
 		objectOutput.writeLong(createPlace);

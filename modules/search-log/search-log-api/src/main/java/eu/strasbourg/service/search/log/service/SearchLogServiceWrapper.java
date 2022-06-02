@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.search.log.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see SearchLogService
  * @generated
  */
-@ProviderType
 public class SearchLogServiceWrapper
 	implements SearchLogService, ServiceWrapper<SearchLogService> {
 

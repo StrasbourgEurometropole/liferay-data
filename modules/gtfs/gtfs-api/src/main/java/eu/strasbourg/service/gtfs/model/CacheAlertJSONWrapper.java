@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see CacheAlertJSON
  * @generated
  */
-@ProviderType
 public class CacheAlertJSONWrapper
 	implements CacheAlertJSON, ModelWrapper<CacheAlertJSON> {
 
@@ -328,17 +325,17 @@ public class CacheAlertJSONWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheAlertJSONWrapper)) {
+		if (!(object instanceof CacheAlertJSONWrapper)) {
 			return false;
 		}
 
 		CacheAlertJSONWrapper cacheAlertJSONWrapper =
-			(CacheAlertJSONWrapper)obj;
+			(CacheAlertJSONWrapper)object;
 
 		if (Objects.equals(
 				_cacheAlertJSON, cacheAlertJSONWrapper._cacheAlertJSON)) {

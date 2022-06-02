@@ -61,7 +61,7 @@ import javax.sql.DataSource;
  */
 public abstract class ParticipationServiceBaseImpl
 	extends BaseServiceImpl
-	implements ParticipationService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, ParticipationService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1261,8 +1261,8 @@ public abstract class ParticipationServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

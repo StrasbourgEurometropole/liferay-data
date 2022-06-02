@@ -49,7 +49,7 @@ import javax.sql.DataSource;
  */
 public abstract class InterestServiceBaseImpl
 	extends BaseServiceImpl
-	implements InterestService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, InterestService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -505,8 +505,8 @@ public abstract class InterestServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

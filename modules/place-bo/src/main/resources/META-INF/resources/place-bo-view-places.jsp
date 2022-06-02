@@ -125,19 +125,6 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
-	
-	<%-- Import des données de LR 6 (désactivé)
-		<liferay-portlet:actionURL name="importLegacyData" varImpl="importLegacyURL">
-		</liferay-portlet:actionURL>
-		<aui:form action="${importLegacyURL}" name="import">
-			<c:if test="${themeDisplay.permissionChecker.isOmniadmin()}">
-				<p>
-					<aui:button id="importFromLR6" value="import-data-from-liferay-6" />
-				</p>
-			</c:if>
-		</aui:form>
-	--%>
-		
 </div>
 
 

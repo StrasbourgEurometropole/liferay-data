@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalServiceUtil;
  * @see CacheAlertJSON
  * @generated
  */
-@ProviderType
 public abstract class CacheAlertJSONBaseImpl
 	extends CacheAlertJSONModelImpl implements CacheAlertJSON {
 

@@ -48,7 +48,7 @@ import javax.sql.DataSource;
  */
 public abstract class OfficialServiceBaseImpl
 	extends BaseServiceImpl
-	implements OfficialService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, OfficialService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -461,8 +461,8 @@ public abstract class OfficialServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

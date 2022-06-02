@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.tipi.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see TipiEntry
  * @generated
  */
-@ProviderType
-public class TipiEntryWrapper implements TipiEntry, ModelWrapper<TipiEntry> {
+public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 
 	public TipiEntryWrapper(TipiEntry tipiEntry) {
 		_tipiEntry = tipiEntry;
@@ -405,16 +402,16 @@ public class TipiEntryWrapper implements TipiEntry, ModelWrapper<TipiEntry> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof TipiEntryWrapper)) {
+		if (!(object instanceof TipiEntryWrapper)) {
 			return false;
 		}
 
-		TipiEntryWrapper tipiEntryWrapper = (TipiEntryWrapper)obj;
+		TipiEntryWrapper tipiEntryWrapper = (TipiEntryWrapper)object;
 
 		if (Objects.equals(_tipiEntry, tipiEntryWrapper._tipiEntry)) {
 			return true;

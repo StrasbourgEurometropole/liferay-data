@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class BudgetParticipatifCacheModel
 	implements CacheModel<BudgetParticipatif>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof BudgetParticipatifCacheModel)) {
+		if (!(object instanceof BudgetParticipatifCacheModel)) {
 			return false;
 		}
 
 		BudgetParticipatifCacheModel budgetParticipatifCacheModel =
-			(BudgetParticipatifCacheModel)obj;
+			(BudgetParticipatifCacheModel)object;
 
 		if (budgetParticipatifId ==
 				budgetParticipatifCacheModel.budgetParticipatifId) {
@@ -361,7 +358,9 @@ public class BudgetParticipatifCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		budgetParticipatifId = objectInput.readLong();
@@ -381,10 +380,10 @@ public class BudgetParticipatifCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		summary = objectInput.readUTF();
 		budget = objectInput.readUTF();
-		motif = objectInput.readUTF();
+		motif = (String)objectInput.readObject();
 		placeTextArea = objectInput.readUTF();
 		inTheNameOf = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
@@ -406,7 +405,7 @@ public class BudgetParticipatifCacheModel
 		opacityImage = objectInput.readDouble();
 
 		isCrush = objectInput.readBoolean();
-		crushComment = objectInput.readUTF();
+		crushComment = (String)objectInput.readObject();
 		publikId = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
@@ -465,10 +464,10 @@ public class BudgetParticipatifCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (summary == null) {
@@ -486,10 +485,10 @@ public class BudgetParticipatifCacheModel
 		}
 
 		if (motif == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(motif);
+			objectOutput.writeObject(motif);
 		}
 
 		if (placeTextArea == null) {
@@ -575,10 +574,10 @@ public class BudgetParticipatifCacheModel
 		objectOutput.writeBoolean(isCrush);
 
 		if (crushComment == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(crushComment);
+			objectOutput.writeObject(crushComment);
 		}
 
 		if (publikId == null) {

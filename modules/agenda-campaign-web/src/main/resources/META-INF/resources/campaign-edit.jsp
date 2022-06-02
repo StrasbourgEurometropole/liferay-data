@@ -539,7 +539,7 @@
 				<aui:fieldset collapsed="true" collapsible="false" label="history">
 					<div class="status-history">
 						<c:forEach var="status" items="${dc.campaignEvent.statusHistory}">
-							<p><fmt:formatDate pattern="dd-MM-yyyy hh:mm" value="${status.date}" /> - <span class="${status.statusLabel}"><liferay-ui:message key="${status.statusLabel}" /></span><c:if test="${not empty status.comment}"> - ${status.comment}</c:if></p>
+							<p><fmt:formatDate pattern="dd-MM-yyyy HH:mm" value="${status.date}" /> - <span class="${status.statusLabel}"><liferay-ui:message key="${status.statusLabel}" /></span><c:if test="${not empty status.comment}"> - ${status.comment}</c:if></p>
 						</c:forEach>
 					</div>
 				</aui:fieldset>

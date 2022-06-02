@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -27,7 +25,6 @@ import java.util.List;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class SlotSoap implements Serializable {
 
 	public static SlotSoap toSoapModel(Slot model) {

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
 import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalServiceUtil;
  * @see CacheHoursJSON
  * @generated
  */
-@ProviderType
 public abstract class CacheHoursJSONBaseImpl
 	extends CacheHoursJSONModelImpl implements CacheHoursJSON {
 

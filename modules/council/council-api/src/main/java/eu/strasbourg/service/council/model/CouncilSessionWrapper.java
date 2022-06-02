@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see CouncilSession
  * @generated
  */
-@ProviderType
 public class CouncilSessionWrapper
 	implements CouncilSession, ModelWrapper<CouncilSession> {
 
@@ -827,17 +824,17 @@ public class CouncilSessionWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CouncilSessionWrapper)) {
+		if (!(object instanceof CouncilSessionWrapper)) {
 			return false;
 		}
 
 		CouncilSessionWrapper councilSessionWrapper =
-			(CouncilSessionWrapper)obj;
+			(CouncilSessionWrapper)object;
 
 		if (Objects.equals(
 				_councilSession, councilSessionWrapper._councilSession)) {

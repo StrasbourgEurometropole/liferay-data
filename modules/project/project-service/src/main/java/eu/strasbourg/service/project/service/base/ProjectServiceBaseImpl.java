@@ -60,7 +60,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class ProjectServiceBaseImpl
-	extends BaseServiceImpl implements ProjectService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, ProjectService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1259,8 +1259,8 @@ public abstract class ProjectServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
  * @see ImportHistoric
  * @generated
  */
-@ProviderType
 public abstract class ImportHistoricBaseImpl
 	extends ImportHistoricModelImpl implements ImportHistoric {
 

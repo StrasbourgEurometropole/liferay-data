@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.tipi.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.tipi.service.TipiEntryServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see TipiEntryServiceSoap
  * @generated
  */
-@ProviderType
 public class TipiEntryServiceHttp {
 }
