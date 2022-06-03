@@ -728,7 +728,7 @@ public class AssetVocabularyHelper {
 						assetCityCategories.add(strasbourg);
 					}
 				} catch (PortalException e) {
-					_log.error("Le group Global n'a pas été trouvé");
+					_log.error("Le group Global n'a pas été trouvé", e);
 				}
 			}
 
