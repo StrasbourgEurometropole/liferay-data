@@ -41,7 +41,7 @@
 			<aui:input type="checkbox" name="vocabulary_0"
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_2_${catStatus.index}"
+				id="vocabulary_0_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
