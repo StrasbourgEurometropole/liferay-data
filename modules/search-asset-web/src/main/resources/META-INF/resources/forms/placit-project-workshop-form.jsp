@@ -29,7 +29,7 @@
 
 <!-- Recherche par thématiques -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir toutes les thématiques"><liferay-ui:message key="eu.thematics" /></a>
+    <a href="#" title="<liferay-ui:message key='eu.search.asset.web.see.all.thematics' />"><liferay-ui:message key="eu.thematics" /></a>
     <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par thématique</legend>
 

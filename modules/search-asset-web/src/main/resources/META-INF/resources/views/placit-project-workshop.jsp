@@ -9,7 +9,7 @@
                 <span>
                     <span>
                         <a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
-                        <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-news" /></span>
+                        <span class="breadcrumb_last"><liferay-ui:message key="eu.search.asset.web.breadcrumb.workshop" /></span>
                     </span>
                 </span>
             </div>
