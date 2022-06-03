@@ -51,13 +51,13 @@
 
 <!-- Recherche par quartiers -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="eu.districts" /></a>
+    <a href="#" title="Voir tous les territoires"><liferay-ui:message key="eu.territory" /></a>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
-        <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
+        <c:set var="territoryVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
-			items="${dc.getDropdownRootCategories(districtVocabulary)}"
+			items="${dc.getDropdownRootCategories(territoryVocabulary)}"
 			var="category"
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_1"

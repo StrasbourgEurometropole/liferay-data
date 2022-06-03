@@ -1021,7 +1021,7 @@ function createProjectWorkshop(projectWorkshop){
                 '<span class="publication">Publiée le ' + projectWorkshop.modifiedDate + '</span>' +
                 '<h3>' + projectWorkshop.title + '</h3>' +
                 '<p>' + projectWorkshop.chapo + (projectWorkshop.chapo.length > 100 ? '...' : '') + '</p>' +
-                '<span class="link">Lire la suite</span>' +
+                '<span class="link">Découvrir le projet</span>' +
             '</div>' +
         '</a>' +
     '</div>';
