@@ -51,7 +51,7 @@
 
 <!-- Recherche par quartiers -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir tous les territoires"><liferay-ui:message key="eu.territory" /></a>
+    <a href="#" title="Voir tous les territoires"><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></a>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
