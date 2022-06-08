@@ -54,17 +54,7 @@ import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.REDIRECT_UR
         service = MVCActionCommand.class
 )
 public class SignPetitionActionCommand implements MVCActionCommand {
-	
-    public String publikId;
-    public long entryId;
-    public Petition petition;
-    private PublikUser user;
-    private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
+
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     /**
@@ -79,54 +69,85 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
 
         // Recuperation des identifiants assujetis a la requete
-        this.entryId = ParamUtil.getLong(request, "entryId");
-        this.publikId = getPublikID(request);
-        
-        if (this.entryId == 0)
+        long entryId = ParamUtil.getLong(request, "entryId");
+        if (entryId == 0)
             throw new PortletException("Une erreur est survenue avec cette p&eacute;tition");
-        
-        if (publikId == null || publikId.isEmpty())
-            throw new PortletException("veuillez vous identifier/enregistrer");
-        
-        // Recuperation des champs
-        this.birthday = ParamUtil.getDate(request, "birthday", dateFormat);
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
-        this.postalcode = ParamUtil.getLong(request, "postalcode");
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
 
-        // Validation de la requete
-        if (validate(request)) {
-        
+        // Recuperation de l'utilsiteur Publik ayant lance la demande
+        PublikUser user = null;
+        String publikId = getPublikID(request);
+        if (publikId != null && !publikId.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikId);
+        }else
+            throw new PortletException("veuillez vous identifier/enregistrer");
+
+        // Recuperation la pétition
+        Petition petition = null;
+        try {
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryId);
+            petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
+        } catch (PortalException e) {
+            SessionErrors.add(request, "unfound-petition-error");
+            _log.error(e);
+        }
+
+        // Recuperation des champs
+        Date birthday = ParamUtil.getDate(request, "birthday", dateFormat);
+        String address = HtmlUtil.stripHtml(ParamUtil.getString(request, "address"));
+        String city = HtmlUtil.stripHtml(ParamUtil.getString(request, "city"));
+        long postalcode = ParamUtil.getLong(request, "postalcode");
+        String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, "phone"));
+        String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, "mobile"));
+
+        // Verification de la validite des informations
+        if (validate(request, petition, publikId, user,  birthday, city)) {
+
 	        // Sauvegarde des infos utilisateur
 	        String saveInfo = ParamUtil.getString(request, "saveinfo");
 	        if (saveInfo.equals("save-info")) {
 	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	            String dateNaiss = sdf.format(this.birthday);
+	            String dateNaiss = sdf.format(birthday);
 	            PublikApiClient.setAllUserDetails(
-	            		this.publikId, 
-	            		this.user.getLastName(), 
-	            		this.address, 
-	            		"" + this.postalcode, 
-	            		this.city, 
+	            		publikId,
+	            		user.getLastName(),
+	            		address,
+	            		"" + postalcode,
+	            		city,
 	            		dateNaiss, 
-	            		this.phone,
-	            		this.mobile
+	            		phone,
+	            		mobile
 	            );
 	        }
 	
 	        try {
-				this.signPetition(request);
+                ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+                Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);
+
+                signataire.setSignataireFirstname(user.getFirstName());
+                signataire.setSignataireName(user.getLastName());
+                signataire.setBirthday(birthday);
+                signataire.setAddress(address);
+                signataire.setPostalCode(postalcode);
+                signataire.setCity(city);
+                signataire.setMail(user.getEmail());
+                signataire.setMobilePhone(mobile);
+                signataire.setPhone(phone);
+                signataire.setPublikUserId(user.getPublikId());
+                signataire.setPetitionId(petition != null ? petition.getPetitionId() : 0);
+
+                signataire = SignataireLocalServiceUtil.updateSignataire(signataire);
+
+                _log.info("Signataire : " + signataire);
 			} catch (PortalException e) {
-				_log.error("Erreur lors de la signature de la petition " + this.petition.getPetitionId() + " : ", e);
+				_log.error("Erreur lors de la signature de la petition " + (petition != null ? petition.getPetitionId() : 0) + " : ", e);
 			}
         }
         else {
         	_log.error("Demande de signature non valide de la petition d'asset ID '" +
-					this.entryId +
+					entryId +
 					"' par l'utilisateur a publik ID '" + 
-					this.publikId);
+					publikId);
         }
 
         try {
@@ -137,36 +158,6 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         }
 
         return true;
-    }  
-    
-    /**
-     * Signature d'une petition
-     * @param actionRequest la request
-     * @throws PortletException PortletException
-     * @throws PortalException 
-     */
-    private void signPetition(ActionRequest actionRequest) throws PortletException, PortalException {
-        
-        ServiceContext sc = ServiceContextFactory.getInstance(actionRequest);
-
-        Signataire signataire = SignataireLocalServiceUtil.createSignataire(sc);
-        
-        signataire.setSignataireFirstname(this.user.getFirstName());
-        signataire.setSignataireName(this.user.getLastName());
-        signataire.setBirthday(this.birthday);
-        signataire.setAddress(this.address);
-        signataire.setPostalCode(this.postalcode);
-        signataire.setCity(this.city);
-        signataire.setMail(this.user.getEmail());
-        signataire.setMobilePhone(this.mobile);
-        signataire.setPhone(this.phone);
-        signataire.setPublikUserId(this.user.getPublikId());
-        signataire.setPetitionId(this.petition.getPetitionId());
-        
-        signataire = SignataireLocalServiceUtil.updateSignataire(signataire);
-        
-        _log.info("Signataire : " + signataire);
-
     }
 
     /**
@@ -175,35 +166,26 @@ public class SignPetitionActionCommand implements MVCActionCommand {
      * @param request la request
      * @return la réponse.
      */
-    private boolean validate(ActionRequest request) {
+    private boolean validate(ActionRequest request, Petition petition, String publikId,
+                             PublikUser user, Date birthday, String city) {
     	
     	// petition
-    	try {
-            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryId);
-            this.petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
-        } catch (PortalException e) {
-        	SessionErrors.add(request, "unfound-petition-error");
-            _log.error(e);
-            return false;
-        }
-    	if (this.petition == null) {
+    	if (petition == null) {
     		SessionErrors.add(request, "unfound-petition-error");
     		return false;
         }
         
         // utilisateur
-        if (this.publikId == null ||this.publikId.isEmpty()) {
+        if (publikId == null ||publikId.isEmpty()) {
         	SessionErrors.add(request, "unfound-user-error");
-        	return false;
+            return false;
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikId);
-        	
-        	if (this.user.isBanned()) {
+        	if (user.isBanned()) {
         		SessionErrors.add(request, "is-banned-error");
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
+                return false;
+        	} else if (user.getPactSignature() == null) {
         		SessionErrors.add(request, "pact-unsigned-error");
-        		return false;
+                return false;
         	}
         }
         
@@ -211,18 +193,18 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         List<Signataire> signataireList;
 		try {
 			signataireList = SignataireLocalServiceUtil.findSignatairesByPetitionIdAndPublikUserId(
-					this.petition.getPetitionId(), 
-					this.user.getPublikId());
+					petition.getPetitionId(),
+					user.getPublikId());
 			
 			Signataire signataireTemp = signataireList.stream().filter(signataire -> user.getPublikId().equals(signataire.getPublikUserId())).findAny().orElse(null);
 			
 			if (signataireTemp != null) {
 				SessionErrors.add(request, "user-already-sign-error");
-        		return false;
+                return false;
 			}
 		} catch (PortletException e) {
 			SessionErrors.add(request, "unfound-sign-error");
-    		return false;
+            return false;
 		}
         
         // birthday
@@ -240,7 +222,7 @@ public class SignPetitionActionCommand implements MVCActionCommand {
         // age legal de vote
         if (!checkLegalAge(birthday)) {
         	SessionErrors.add(request, "legalage-error");
-        	return false;
+            return false;
         }
         
         return true;

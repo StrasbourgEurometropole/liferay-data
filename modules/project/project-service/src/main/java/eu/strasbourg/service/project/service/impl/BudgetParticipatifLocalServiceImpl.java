@@ -14,16 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -43,20 +33,33 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.service.like.exception.NoSuchLikeException;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.model.LikeType;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
-import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.model.BudgetParticipatifModel;
+import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -484,27 +487,28 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
     	
     	List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
-    	
-    	try {
-	    	// Recuperation de budgets correspondants
-	    	for (BudgetSupport budgetSupport : budgetSupports) {
-	    		BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+
+        // Recuperation de budgets correspondants
+        for (BudgetSupport budgetSupport : budgetSupports) {
+            BudgetParticipatif budgetParticipatif = null;
+    	    try {
+	    		budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+            } catch (PortalException e) {
+                _log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
+            }
 	    		
-	    		// Verification d'une phase existante pour les dits budgets
-	    		if (budgetParticipatif.getPhase() != null) {
-	    			budgetParticipatifs.add(budgetParticipatif);
-	    		}
-	    	}
+            // Verification d'une phase existante pour les dits budgets
+            if (budgetParticipatif != null && budgetParticipatif.getPhase() != null) {
+                budgetParticipatifs.add(budgetParticipatif);
+            }
+        }
 	    	
-	    	// Tri sur ceux correspondant a la phase donnee
-	    	budgetParticipatifs = budgetParticipatifs
-	        		.stream()
-	        		.filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
-	        		.collect(Collectors.toList());
-	    	
-    	} catch (PortalException e) {
-    		_log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
-		}
+        // filtre sur ceux correspondant a la phase donnee
+        budgetParticipatifs = budgetParticipatifs
+                .stream()
+                .filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
+                .collect(Collectors.toList());
+
     	
     	return budgetParticipatifs;
     }

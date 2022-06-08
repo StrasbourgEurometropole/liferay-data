@@ -24,7 +24,14 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
@@ -77,26 +84,6 @@ public class EditBudgetActionCommand implements MVCActionCommand {
     private static final String DELETE_PHOTO = "deletePhoto";
     private static final String VIDEO = "budgetVideo";
 
-    private String publikID;
-    private PublikUser user;
-    private String video;
-    private String title;
-    private String summary;
-    private String description;
-    private String lieu;
-    private boolean deletePhoto;
-    private long projectId;
-    private long quartierId;
-    private long themeId;
-    private long entryId;
-    private String messageKey;
-    private String nbFiles = "0";
-    private String typesFiles = "";
-    private String sizeFile = "0";
-    private String[] fileNames;
-    private File[] files;
-    private String[] oldFileIds;
-
 
     @Override
 	public boolean processAction(ActionRequest request, ActionResponse response) throws PortletException {
@@ -104,24 +91,36 @@ public class EditBudgetActionCommand implements MVCActionCommand {
 		boolean result = false;
 		
 		// Recuperation des identifiants assujetis a la requete
-        this.entryId = ParamUtil.getLong(request, "entryId");
-        this.publikID = getPublikID(request);
+        long entryId = ParamUtil.getLong(request, "entryId");
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
         
 		// Recuperation de l'URL de redirection
         String redirectURL = ParamUtil.getString(request, REDIRECT_URL_PARAM);
         
         // Recuperation des informations du budget participatif du formulaire
-        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
-        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
-        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
-        this.description = ParamUtil.getString(request, BUDGETDESCRIPTION);
-        this.projectId = ParamUtil.getLong(request, PROJECT);
-        this.quartierId = ParamUtil.getLong(request, QUARTIER);
-        this.themeId = ParamUtil.getLong(request, THEME);
-        this.deletePhoto = ParamUtil.getString(request, DELETE_PHOTO).equals("true") ? true : false;
+        String lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
+        String video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
+        String title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
+        String description = ParamUtil.getString(request, BUDGETDESCRIPTION);
+        long projectId = ParamUtil.getLong(request, PROJECT);
+        long quartierId = ParamUtil.getLong(request, QUARTIER);
+        long themeId = ParamUtil.getLong(request, THEME);
+        boolean deletePhoto = ParamUtil.getString(request, DELETE_PHOTO).equals("true");
 
         // Récupération des info d'upload
+        String nbFiles = null;
+        String typesFiles = null;
+        String sizeFile = null;
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String fileName = uploadRequest.getFileName("budgetPhoto");
+        String[] fileNames = uploadRequest.getFileNames("budgetFile");
+        File[] files = uploadRequest.getFiles("budgetFile");
+        String[] oldFileIds = ParamUtil.getStringValues(request, "budgetFileId");
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
@@ -134,11 +133,74 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         }
 
         // Verification de la validite des informations
-        if (validate(request)) {
+        String messageKey = validate(request, publikID, user, title, summary, description, oldFileIds, nbFiles, fileNames,
+                typesFiles, files, sizeFile);
+        if (messageKey.equals("")) {
             // Envoi de la demande de modification du budget
-            result = editBudget(request);
+            try {
+                AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryId);
+                BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
+                ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+                List<AssetCategory> categories = bp.getCategories();
+
+                //On recupère les catégories du bp, sans la thematique, le projet ou les territoires
+                for (AssetCategory assetCategory : bp.getCategories()) {
+                    AssetVocabulary voca = AssetVocabularyLocalServiceUtil.getVocabulary(assetCategory.getVocabularyId());
+                    if(StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.TERRITORY) ||
+                            StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.PROJECT) ||
+                            StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.THEMATIC)) {
+                        categories.remove(assetCategory);
+                    }
+                }
+
+                List<Long> idCategories = categories.stream().map(AssetCategoryModel::getCategoryId).collect(Collectors.toList());
+
+                if (quartierId == 0) {
+                    List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+
+                    idCategories.addAll(districts.stream()
+                            .map(AssetCategoryModel::getCategoryId)
+                            .collect(Collectors.toList()));
+                } else
+                    idCategories.add(quartierId);
+                if (projectId != 0)
+                    idCategories.add(projectId);
+                if (themeId != 0)
+                    idCategories.add(themeId);
+
+                sc.setAssetCategoryIds(idCategories.stream().mapToLong(w -> w).toArray());
+                bp.setTitle(title);
+                bp.setSummary(summary);
+                bp.setDescription(description);
+                bp.setVideoUrl(video);
+                bp.setPlaceTextArea(lieu);
+
+                if(deletePhoto && (fileName == null || fileName.isEmpty()))
+                    bp.setImageId(0);
+                else
+                    uploadFile(bp, request, title);
+
+                // on ajoute les nouveaux documents
+                String newFilesIds = String.join(",", oldFileIds);
+                if(files.length > 0) {
+                    String bpFilesIds = uploadDocuments(bp, request, oldFileIds, nbFiles, fileNames,
+                            typesFiles, files, sizeFile, title);
+                    if(newFilesIds.length() > 0 && bpFilesIds.length() > 0)
+                        newFilesIds += ",";
+                    newFilesIds += bpFilesIds;
+                }
+                bp.setFilesIds(newFilesIds);
+
+                //Mise à jour du BP
+                BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(bp, sc);
+
+            } catch (PortalException | IOException e) {
+                _log.error(e);
+                throw new PortletException(e);
+            }
         }else{
-            SessionErrors.add(request, this.messageKey);
+            SessionErrors.add(request, messageKey);
             return false;
         }
         
@@ -150,79 +212,8 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         }
 
         
-		return result;
+		return true;
 	}
-	
-	private boolean editBudget(ActionRequest request) throws PortletException {
-        
-        try {
-        	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryId);
-        	BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
-        	ServiceContext sc = ServiceContextFactory.getInstance(request);
-        	
-            List<AssetCategory> categories = bp.getCategories();
-            
-            //On recupère les catégories du bp, sans la thematique, le projet ou les territoires 
-            for (AssetCategory assetCategory : bp.getCategories()) {
-            	AssetVocabulary voca = AssetVocabularyLocalServiceUtil.getVocabulary(assetCategory.getVocabularyId());
-            	if(StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.TERRITORY) ||
-            			StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.PROJECT) ||
-            			StringHelper.compareIgnoringAccentuation(voca.getName().toLowerCase(), VocabularyNames.THEMATIC)) {
-            		categories.remove(assetCategory);
-            	}
-			}
-            
-            List<Long> idCategories = categories.stream().map(c->c.getCategoryId()).collect(Collectors.toList());
-            
-            if (this.quartierId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                
-                idCategories.addAll(districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList()));
-            } else 
-                idCategories.add(quartierId);
-            if (this.projectId != 0) 
-                idCategories.add(projectId);
-            if (this.themeId != 0) 
-                idCategories.add(themeId);
-            
-            sc.setAssetCategoryIds(idCategories.stream().mapToLong(w -> w).toArray());
-            bp.setTitle(this.title);
-            bp.setSummary(this.summary);
-            bp.setDescription(this.description);
-            bp.setVideoUrl(this.video);
-            bp.setPlaceTextArea(this.lieu);
-            
-            UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-            String fileName = uploadRequest.getFileName("budgetPhoto");
-            if(this.deletePhoto && (fileName == null || fileName.isEmpty()))
-            	bp.setImageId(0);
-            else
-            	uploadFile(bp, request);
-
-            // on ajoute les nouveaux documents
-            String newFilesIds = String.join(",", this.oldFileIds);
-            if(this.files.length > 0) {
-                String bpFilesIds = uploadDocuments(bp, request);
-                if(newFilesIds.length() > 0 && bpFilesIds.length() > 0)
-                    newFilesIds += ",";
-                newFilesIds += bpFilesIds;
-            }
-            bp.setFilesIds(newFilesIds);
-
-            //Mise à jour du BP
-            BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(bp, sc);
-            
-        } catch (PortalException e) {
-            _log.error(e);
-            throw new PortletException(e);
-        } catch (IOException e) {
-        	_log.error(e);
-        	throw new PortletException(e);
-		}
-        return true;
-    }
 	
 	/**
      * Recuperer l'image uploadée par l'utilisateur.
@@ -233,7 +224,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
      * @throws IOException
      * @throws PortalException
      */
-    private void uploadFile(BudgetParticipatif budgetParticipatif, ActionRequest request) throws PortalException, IOException{
+    private void uploadFile(BudgetParticipatif budgetParticipatif, ActionRequest request, String title) throws PortalException, IOException{
     	
     	// Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -284,28 +275,29 @@ public class EditBudgetActionCommand implements MVCActionCommand {
      * @throws IOException
      * @throws PortalException
      */
-    private String uploadDocuments(BudgetParticipatif budgetParticipatif, ActionRequest request) throws PortalException, IOException{
+    private String uploadDocuments(BudgetParticipatif budgetParticipatif, ActionRequest request, String[] oldFileIds,
+                                   String nbFiles, String[] fileNames, String typesFiles, File[] files, String sizeFile,
+                                   String title) throws PortalException, IOException{
 
         // Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         ServiceContext sc = ServiceContextFactory.getInstance(request);
-        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String filesIds = "";
 
         // Verification du nombre de fichiers
-        if (validateNbFiles(request)) {
+        if (validateNbFiles(fileNames, oldFileIds, nbFiles)) {
 
             // Verification de l'extention des fichier
-            if (validateFileExtensions(request)) {
+            if (validateFileExtensions(fileNames, typesFiles)) {
 
                 // Vérification de la taille des fichiers
-                if(validateFileSizes()){
+                if(validateFileSizes(files, sizeFile)){
 
                     // Vérification que le(s) fichier(s) est/sont clean
-                    if(antiVirusVerif()){
-
+                    String message = antiVirusVerif(files);
+                    if (message.equals("")){
                         int numFile = 0;
-                        for (File file : this.files) {
+                        for (File file : files) {
 
                             // Verification de la bonne recuperation du contenu du fichier
                             if (file != null && file.exists()) {
@@ -348,7 +340,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 }
 
                                 //récupère le nom du fichier envoyé
-                                String name = this.fileNames[numFile];
+                                String name = fileNames[numFile];
 
                                 // Ajout du fichier
                                 FileEntry fileEntry;
@@ -402,28 +394,22 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         return result;
     }
 
-    private boolean validateNbFiles(ActionRequest request) throws PortalException {
+    private boolean validateNbFiles(String[] fileNames, String[] oldFileIds, String nbFiles) {
         boolean result = true;
-        // récupère les nouveaux documents
-        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
-        this.files = uploadRequest.getFiles("budgetFile");
-        this.fileNames = uploadRequest.getFileNames("budgetFile");
-        // récupère les anciens documents gardés
-        this.oldFileIds = ParamUtil.getStringValues(request, "budgetFileId");
-        if ((this.fileNames.length + oldFileIds.length) > 0) {
-            if ((this.fileNames.length + oldFileIds.length) > Long.parseLong(nbFiles)) {
+        if ((fileNames.length + oldFileIds.length) > 0) {
+            if ((fileNames.length + oldFileIds.length) > Long.parseLong(nbFiles)) {
                 result = false;
             }
         }
         return result;
     }
 
-    private boolean validateFileExtensions(ActionRequest request) throws PortalException {
+    private boolean validateFileExtensions(String[] fileNames, String typesFiles) {
         boolean result = true;
-        for (String fileName : this.fileNames) {
+        for (String fileName : fileNames) {
             if (fileName != null && !fileName.isEmpty()) {
                 String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-                if (!Arrays.stream(typesFiles.split(",")).anyMatch(type.toLowerCase()::equals)) {
+                if (!Arrays.asList(typesFiles.split(",")).contains(type.toLowerCase())) {
                     result = false;
                     break;
                 }
@@ -432,9 +418,9 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         return result;
     }
 
-    private boolean validateFileSizes() throws PortalException {
+    private boolean validateFileSizes(File[] files, String sizeFile) {
         boolean result = true;
-        for (File file : this.files) {
+        for (File file : files) {
             if (file != null) {
                 long fileSize = file.length() / (1024 * 1024);
                 if(fileSize > Long.parseLong(sizeFile)){
@@ -446,41 +432,36 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         return result;
     }
 
-    private boolean antiVirusVerif() throws PortalException {
-        boolean result = true;
-        for (File file : this.files) {
+    private String antiVirusVerif(File[] files) {
+        for (File file : files) {
             if (file != null) {
                 String error = FileEntryHelper.scanFile(file);
                 if (Validator.isNotNull(error)) {
-                    this.messageKey = error;
-                    return false;
+                    return error;
                 }
             }
         }
-        return result;
+        return "";
     }
 	
 	/**
 	 * Validation des champs de la requete (excpet photo)
 	 * @return Valide ou pas
 	 */
-	private boolean validate(ActionRequest request) {
+	private String validate(ActionRequest request, String publikID, PublikUser user, String title, String summary,
+                            String description, String[] oldFileIds, String nbFiles, String[] fileNames, String typesFiles, File[] files,
+                            String sizeFile) {
         
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         
         // utilisateur 
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.messageKey = "user";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "user";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.messageKey = "banned";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.messageKey = "pact";
-        		return false;
+        	if (user.isBanned()) {
+                return "banned";
+        	} else if (user.getPactSignature() == null) {
+                return "pact";
         	}
         }
         
@@ -488,61 +469,48 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
         if (activePhase != null) {
         	if (!activePhase.isInDepositPeriod()) {
-        		this.messageKey = "phase";
-                return false;
+                return "phase";
         	}
         } else {
-        	this.messageKey = "phase";
-            return false;
+            return "phase";
         }
         
         // title
-        if (Validator.isNull(this.title)) {
-        	this.messageKey = "title";
-            return false;
+        if (Validator.isNull(title)) {
+            return "title";
         }
         
         // Resume
-        if (Validator.isNull(this.summary)) {
-        	this.messageKey = "summary";
-            return false;
+        if (Validator.isNull(summary)) {
+            return "summary";
         }
 
         // description
-        if (Validator.isNull(HtmlUtil.stripHtml(this.description))) {
-        	this.messageKey = "description";
-            return false;
+        if (Validator.isNull(HtmlUtil.stripHtml(description))) {
+            return "description";
         }
 
         if (!validateFileName(request)) {
-			this.messageKey = "image";
-		    return false;
+            return "image";
 		}
 
-        try {
-            if (!validateNbFiles(request)) {
-                this.messageKey = "too-much";
-                return false;
+        if (!validateNbFiles(fileNames, oldFileIds, nbFiles)) {
+            return "too-much";
+        }else{
+            if (!validateFileExtensions(fileNames, typesFiles)) {
+                return "extension";
             }else{
-                if (!validateFileExtensions(request)) {
-                    this.messageKey = "extension";
-                    return false;
-                }else{
-                    if (!validateFileSizes()) {
-                        this.messageKey = "big";
-                        return false;
-                    }else if (!antiVirusVerif()) {
-                        return false;
-                    }
+                if (!validateFileSizes(files, sizeFile)) {
+                    return "big";
+                }else {
+                    String message = antiVirusVerif(files);
+                    if (!message.equals(""))
+                        return message;
                 }
             }
-        } catch (PortalException e) {
-            _log.error(e);
-            this.messageKey = "read";
-            return false;
         }
 
-        return true;
+        return "";
     }
 	
 	/**

@@ -19,10 +19,22 @@ import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.UploadRequest;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.FileUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.portlet.projectpopup.configuration.ProjectPopupConfiguration;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -40,7 +52,6 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.File;
@@ -49,7 +60,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -85,7 +103,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String PROJECT = "project";
     private static final String QUARTIER = "quartier";
     private static final String THEME = "theme";
-    private static final String PHOTO = "budgetPhoto";
     private static final String VIDEO = "video";
     private static final String SAVEINFO = "saveinfo";
     private static final String PATTERN = "dd/MM/yyyy";
@@ -96,34 +113,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private static final String ERROR_VIRUS_DETECTED = "project.popup.web.error.a.virus.was.detected.in.the.file";
     private static final String ERROR_DURING_SAVING_PROJECT = "project.popup.web.error.while.project.saving";
 
-    /** Tampon contexte de requête */
-    private ThemeDisplay themeDisplay;
-    private ServiceContext sc;
-    private ProjectPopupConfiguration configuration;
-
-    /** Tampon paramètres de requête */
-    private String publikID;
-    private PublikUser user;
-    private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
-    private String video;
-    private String title;
-    private String summary;
-    private String squiredescription;
-    private String lieu;
-    private long projectId;
-    private long quartierId;
-    private long themeId;
-    private String message;
-    private File photoFile;
-    private String photoFileName;
-    private String[] documentsFileNames;
-    private File[] documentFiles;
-
     /** le log */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
@@ -132,78 +121,172 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             this.getClass().getClassLoader());
 
     @Override
-    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) {
         // Recuperation du contexte de la requete
-        this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = null;
+        ProjectPopupConfiguration configuration = null;
         try {
-            this.sc = ServiceContextFactory.getInstance(request);
-            this.configuration = this.themeDisplay.getPortletDisplay()
+            sc = ServiceContextFactory.getInstance(request);
+            configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
         } catch (PortalException e) {
             _log.error(e);
         }
-        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         DateFormat dateFormat = new SimpleDateFormat(PATTERN);
         
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean savedInfo = false;
-        this.message = "";
         
         // Recuperation de l'utilsiteur Publik ayant lance la demande
-        this.publikID = getPublikID(request);
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
+
+        // Recuperation la phase active
+        BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
         
         // Recuperation des informations du formulaire
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
-        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
-        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
-        this.squiredescription = ParamUtil.getString(request, SQUIREDESCRIPTION);
-        this.projectId = ParamUtil.getLong(request, PROJECT);
-        this.quartierId = ParamUtil.getLong(request, QUARTIER);
-        this.themeId = ParamUtil.getLong(request, THEME);
-        this.photoFile = uploadRequest.getFile(PHOTO);
-        this.photoFileName = uploadRequest.getFileName("budgetPhoto");
-        this.documentFiles = uploadRequest.getFiles("budgetFile");
-        this.documentsFileNames = uploadRequest.getFileNames("budgetFile");
+        String title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
+        String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
+        String squiredescription = ParamUtil.getString(request, SQUIREDESCRIPTION);
+        String address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        long postalcode = ParamUtil.getLong(request, POSTALCODE);
+        String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        Date birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        String video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
+        String lieu = HtmlUtil.stripHtml(ParamUtil.getString(request, LIEU));
+        String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        long projectId = ParamUtil.getLong(request, PROJECT);
+        long quartierId = ParamUtil.getLong(request, QUARTIER);
+        long themeId = ParamUtil.getLong(request, THEME);
+        UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
+        String photoFileName = uploadRequest.getFileName("budgetPhoto");
+        File photoFile = uploadRequest.getFile("budgetPhoto");
+        File[] documentFiles = uploadRequest.getFiles("budgetFile");
+        String[] documentsFileNames = uploadRequest.getFileNames("budgetFile");
         
         // Verification de la validite des informations
-        if (validate(request)) {
+        String message = validate(request, configuration, publikID, user,  activePhase, title, summary,
+                squiredescription, city, address, postalcode, quartierId, photoFileName, photoFile, documentFiles,
+                documentsFileNames);
+        if (message.equals("")) {
         
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
         	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String dateNaiss = sdf.format(this.birthday);
+                String dateNaiss = sdf.format(birthday);
                 PublikApiClient.setAllUserDetails(
-                        this.publikID,
-                        this.user.getLastName(),
-                        this.address,
-                        "" + this.postalcode,
-                        this.city,
+                        publikID,
+                        user != null ? user.getLastName() : null,
+                        address,
+                        "" + postalcode,
+                        city,
                         dateNaiss,
-                        this.phone,
-                        this.mobile
+                        phone,
+                        mobile
                 );
             }
+
+            List<Long> identifiants = new ArrayList<>();
+            if (quartierId == 0) {
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+                assert districts != null;
+                identifiants = districts.stream()
+                        .map(AssetCategoryModel::getCategoryId)
+                        .collect(Collectors.toList());
+            } else {
+                identifiants.add(quartierId);
+            }
+            if (projectId != 0) {
+                identifiants.add(projectId);
+            }
+            if (themeId != 0) {
+                identifiants.add(themeId);
+            }
+
+            long[] ids = new long[identifiants.size()];
+            for (int i = 0; i < identifiants.size(); i++) {
+                ids[i] = identifiants.get(i);
+            }
+
+            if (sc != null) {
+                sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+                sc.setAssetCategoryIds(ids);
+            }
+
+            // Création du budget participatif
+            BudgetParticipatif budgetParticipatif = null;
+            try {
+                budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
+                budgetParticipatif.setTitle(title);
+                budgetParticipatif.setSummary(summary);
+                budgetParticipatif.setDescription(squiredescription);
+                budgetParticipatif.setCitoyenFirstname(user != null ? user.getFirstName() : null);
+                budgetParticipatif.setCitoyenLastname(user != null ? user.getLastName() : null);
+                budgetParticipatif.setCitoyenAdresse(address);
+                budgetParticipatif.setCitoyenPostalCode(postalcode);
+                budgetParticipatif.setCitoyenCity(city);
+                budgetParticipatif.setCitoyenEmail(user != null ? user.getEmail() : null);
+                budgetParticipatif.setCitoyenMobile(mobile);
+                budgetParticipatif.setCitoyenBirthday(birthday);
+                if (!video.isEmpty())
+                    budgetParticipatif.setVideoUrl(video);
+                budgetParticipatif.setPlaceTextArea(lieu);
+                budgetParticipatif.setCitoyenPhone(phone);
+                budgetParticipatif.setPublikId(publikID);
+                budgetParticipatif = uploadFile(photoFile, themeDisplay, sc, budgetParticipatif);
+
+                // Récpère la phase active (si elle existe)
+                long groupId;
+                if (sc != null) {
+                    groupId = sc.getThemeDisplay().getLayout().getGroupId();
+                    BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
+                    if (budgetPhaseActive != null) {
+                        budgetParticipatif.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
+                        AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+
+                        //Recuperation des categories id déjà passés dans le service context
+                        ids = sc.getAssetCategoryIds();
+
+                        //On ajoute la catégorie "Phase du budget participatif" de la phase active au BP dans la liste existante
+                        List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
+                        idsLong.add(phaseCat.getCategoryId());
+
+                        //Affecte la categorie "Phase du budget participatif" de la phase active au BP
+                        //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
+                        sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
+                    }
+                }
+
+                budgetParticipatif = uploadDocuments(documentFiles, themeDisplay, sc, budgetParticipatif, documentsFileNames);
+                budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, sc);
+                AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
+                if (assetEntry == null)
+                    throw new PortalException("aucune assetCategory pour le budget"
+                            + budgetParticipatif.getBudgetParticipatifId());
+            } catch (PortalException | IOException e) {
+                _log.error(e);
+                message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);
+            }
+            _log.info("budget cree : " + budgetParticipatif);
             
-         	// Envoi de la demande
-            result = sendBudget();
-            
-            if(result)
-            	sendBPMailConfirmation(request);
-        }
+            if(message.equals("")) {
+                result = true;
+                sendBPMailConfirmation(request, themeDisplay, title, squiredescription, user);
+            }
+        }else if(message.equals("error"))
+            message = "";
         
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -216,111 +299,29 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         }
         return result;
     }
-
-    private boolean sendBudget() throws PortletException {
-        BudgetParticipatif budgetParticipatif;
-        
-        try {
-            this.sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-
-            List<Long> identifiants = new ArrayList<>();
-            if (this.quartierId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            } else {
-                identifiants.add(quartierId);
-            }
-            if (this.projectId != 0) {
-                identifiants.add(projectId);
-            }
-            if (this.themeId != 0) {
-                identifiants.add(themeId);
-            }
-
-            long[] ids = new long[identifiants.size()];
-            for (int i = 0; i < identifiants.size(); i++) {
-                ids[i] = identifiants.get(i);
-            }
-            sc.setAssetCategoryIds(ids);
-
-            budgetParticipatif = BudgetParticipatifLocalServiceUtil.createBudgetParticipatif(sc);
-            budgetParticipatif.setTitle(this.title);
-            budgetParticipatif.setSummary(this.summary);
-            budgetParticipatif.setDescription(this.squiredescription);
-            budgetParticipatif.setCitoyenFirstname(this.user.getFirstName());
-            budgetParticipatif.setCitoyenLastname(this.user.getLastName());
-            budgetParticipatif.setCitoyenAdresse(this.address);
-            budgetParticipatif.setCitoyenPostalCode(this.postalcode);
-            budgetParticipatif.setCitoyenCity(this.city);
-            budgetParticipatif.setCitoyenEmail(this.user.getEmail());
-            budgetParticipatif.setCitoyenMobile(this.mobile);
-            budgetParticipatif.setCitoyenBirthday(this.birthday);
-            if (!this.video.isEmpty())
-                budgetParticipatif.setVideoUrl(this.video);
-            budgetParticipatif.setPlaceTextArea(this.lieu);
-            budgetParticipatif.setCitoyenPhone(this.phone);
-            budgetParticipatif.setPublikId(this.publikID);
-            budgetParticipatif = uploadFile(budgetParticipatif);
-
-            // Récpère la phase active (si elle existe)
-            long groupId = this.sc.getThemeDisplay().getLayout().getGroupId();
-            BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(groupId);
-            if (budgetPhaseActive != null) {
-                budgetParticipatif.setBudgetPhaseId(budgetPhaseActive.getBudgetPhaseId());
-                AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
-
-                //Recuperation des categories id déjà passés dans le service context
-                ids = this.sc.getAssetCategoryIds();
-
-                //On ajoute la catégorie "Phase du budget participatif" de la phase active au BP dans la liste existante
-                List<Long> idsLong = Arrays.stream(ids).boxed().collect(Collectors.toList());
-                idsLong.add(phaseCat.getCategoryId());
-
-                //Affecte la categorie "Phase du budget participatif" de la phase active au BP
-                //La categorie est ajoutee dans le service context car le BP n'est pas encore cree
-                this.sc.setAssetCategoryIds(idsLong.stream().mapToLong(w -> w).toArray());
-            }
-
-            budgetParticipatif = uploadDocuments(budgetParticipatif);
-            budgetParticipatif = BudgetParticipatifLocalServiceUtil.updateBudgetParticipatif(budgetParticipatif, this.sc);
-            AssetEntry assetEntry = budgetParticipatif.getAssetEntry();
-            if (assetEntry == null)
-                throw new PortalException("aucune assetCategory pour le budget"
-                        + budgetParticipatif.getBudgetParticipatifId());
-        } catch (PortalException | IOException e) {
-            _log.error(e);
-            this.message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);
-            return false;
-        }
-        _log.info("budget cree : " + budgetParticipatif);
-        return true;
-    }
-    
     
     /**
 	 * Envoi du mail de confirmation de soumission du budget participatif
 	 */
-    private void sendBPMailConfirmation(ResourceRequest request) {
+    private void sendBPMailConfirmation(ResourceRequest request, ThemeDisplay themeDisplay, String title,
+                                        String description, PublikUser user) {
     	
     	try {
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
+			String headerImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png";
+			String btnImage = hostUrl +
+					"/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png";
 	    	
 			// préparation du template de mail
 			Map<String, Object> context = new HashMap<>();
-			context.put("link", this.themeDisplay.getURLPortal() + this.themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.title);
-			context.put("Message", this.squiredescription);
+			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
+			context.put("headerImage", headerImage);
+			context.put("footerImage", btnImage);
+			context.put("Title", title);
+			context.put("Message", description);
 
             StringWriter out = new StringWriter();
 
@@ -339,10 +340,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			String subject = LanguageUtil.get(PortalUtil.getHttpServletRequest(request), "modal.submitbudget.mail.information");
 			
 			InternetAddress fromAddress = new InternetAddress("no-reply@no-reply.strasbourg.eu",
-					this.themeDisplay.getScopeGroup().getName(request.getLocale()));
+					themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
-			InternetAddress address = new InternetAddress(this.user.getEmail());
+			InternetAddress address = new InternetAddress(user.getEmail());
 			toAddresses = ArrayUtil.append(toAddresses, address);
 			
 			// envoi du mail aux utilisateurs
@@ -359,35 +360,36 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
      * @param budgetParticipatif le budget participatif correspondant.
      * @return le budgetParticipatif avec l'imageId
      */
-    private BudgetParticipatif uploadFile(BudgetParticipatif budgetParticipatif) throws IOException, PortalException {
+    private BudgetParticipatif uploadFile(File photoFile, ThemeDisplay themeDisplay, ServiceContext sc,
+                      BudgetParticipatif budgetParticipatif) throws IOException, PortalException {
 
         // Verification de la bonne recuperation du contenu du fichier
-        if (this.photoFile != null && this.photoFile.exists()) {
-            byte[] imageBytes = FileUtil.getBytes(this.photoFile);
+        if (photoFile != null && photoFile.exists()) {
+            byte[] imageBytes = FileUtil.getBytes(photoFile);
 
             // Dossier a la racine
-            DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
+            DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                                                                         DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
                                                                         "budget participatif");
             // Dossier d'upload de l'entite
-            DLFolder folder = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
+            DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                                                                 folderparent.getFolderId(),
                                                                 "uploads");
             // TODO Remove this after debug
-            FileEntryHelper.logFileInfo(this.photoFile);
+            FileEntryHelper.logFileInfo(photoFile);
 
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                    this.sc.getUserId(), folder.getRepositoryId(),
-                    folder.getFolderId(), this.photoFile.getName(),
-                    MimeTypesUtil.getContentType(this.photoFile),
-                    this.photoFile.getName(), this.title,
-                    "", imageBytes, this.sc);
+                    sc.getUserId(), folder.getRepositoryId(),
+                    folder.getFolderId(), photoFile.getName(),
+                    MimeTypesUtil.getContentType(photoFile),
+                    photoFile.getName(), budgetParticipatif.getTitle(),
+                    "", imageBytes, sc);
 
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
 
-            _log.info("Photo budget participatif uploade : [" + this.photoFile + "]");
+            _log.info("Photo budget participatif uploade : [" + photoFile + "]");
 
         }
         return budgetParticipatif;
@@ -399,28 +401,30 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
      * @param budgetParticipatif le budget participatif correspondant.
      * @return le budgetParticipatif avec les fichiers
      */
-    private BudgetParticipatif uploadDocuments(BudgetParticipatif budgetParticipatif) throws IOException, PortalException {
+    private BudgetParticipatif uploadDocuments(File[] documentFiles, ThemeDisplay themeDisplay,
+                       ServiceContext sc, BudgetParticipatif budgetParticipatif, String[] documentsFileNames
+    ) throws IOException, PortalException {
 
         String filesIds = "";
 
         int numFile = 0;
-        for (File file : this.documentFiles) {
+        for (File file : documentFiles) {
 
             // Verification de la bonne recuperation du contenu du fichier
             if (file != null && file.exists()) {
                 byte[] imageBytes = FileUtil.getBytes(file);
 
                 // Dossier a la racine
-                DLFolder folderParent = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
+                DLFolder folderParent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
                         "budget participatif");
                 // Dossier d'upload de l'entite
-                DLFolder folderUpload = DLFolderLocalServiceUtil.getFolder(this.themeDisplay.getScopeGroupId(),
+                DLFolder folderUpload = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         folderParent.getFolderId(),
                         "uploads");
 
                 // Dossier nom de la phase
-                long repositoryId = DLFolderConstants.getDataRepositoryId(this.themeDisplay.getScopeGroupId(), DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+                long repositoryId = DLFolderConstants.getDataRepositoryId(themeDisplay.getScopeGroupId(), DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
                 Folder folderPhase;
                 try {
                     folderPhase = DLAppServiceUtil.getFolder(repositoryId,
@@ -428,10 +432,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             budgetParticipatif.getPhase().getTitle());
                 }catch(Exception e) {
                     folderPhase = DLAppLocalServiceUtil.addFolder(
-                            this.sc.getUserId(), repositoryId,
+                            sc.getUserId(), repositoryId,
                             folderUpload.getFolderId(),
                             budgetParticipatif.getPhase().getTitle(),
-                            "", this.sc);
+                            "", sc);
                 }
 
                 // Dossier d'upload de l'entite (nom du projet)
@@ -442,13 +446,13 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             budgetParticipatif.getTitle());
                 }catch(Exception e) {
                     folder = DLAppLocalServiceUtil.addFolder(
-                            this.sc.getUserId(), repositoryId,
+                            sc.getUserId(), repositoryId,
                             folderPhase.getFolderId(), budgetParticipatif.getTitle(),
-                            "", this.sc);
+                            "", sc);
                 }
 
                 //récupère le nom du fichier envoyé
-                String name = this.documentsFileNames[numFile];
+                String name = documentsFileNames[numFile];
 
                 // Ajout du fichier
                 FileEntry fileEntry;
@@ -457,11 +461,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     FileEntryHelper.logFileInfo(file);
 
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                            this.sc.getUserId(), folder.getRepositoryId(),
+                            sc.getUserId(), folder.getRepositoryId(),
                             folder.getFolderId(), name,
                             MimeTypesUtil.getContentType(file),
-                            name, title,
-                            "", imageBytes, this.sc);
+                            name, budgetParticipatif.getTitle(),
+                            "", imageBytes, sc);
                 }catch(Exception e) {
                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);
@@ -491,10 +495,10 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validateNbFiles(File[] files)  {
+    private boolean validateNbFiles(ProjectPopupConfiguration configuration, File[] files)  {
         boolean result = true;
         if (files.length > 0) {
-            long nbFileMax = !this.configuration.nbFiles().equals("") ? Integer.parseInt(this.configuration.nbFiles()) : 3;
+            long nbFileMax = !configuration.nbFiles().equals("") ? Integer.parseInt(configuration.nbFiles()) : 3;
             if (files.length > nbFileMax) {
                 result = false;
             }
@@ -502,13 +506,13 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validateFileExtensions(String[] fileNames) {
+    private boolean validateFileExtensions(ProjectPopupConfiguration configuration, String[] fileNames) {
         boolean result = true;
-        String[] typesFiles = this.configuration.typesFiles().split(",");
+        String[] typesFiles = configuration.typesFiles().split(",");
         for (String fileName : fileNames) {
             if (fileName != null && !fileName.isEmpty()) {
                 String type = fileName.substring(fileName.lastIndexOf(".") + 1);
-                if (!Arrays.stream(typesFiles).anyMatch(type.toLowerCase()::equals)) {
+                if (!Arrays.asList(typesFiles).contains(type.toLowerCase())) {
                     result = false;
                     break;
                 }
@@ -517,9 +521,9 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validateFileSizes(File[] documentFiles)  {
+    private boolean validateFileSizes(ProjectPopupConfiguration configuration, File[] documentFiles)  {
         boolean result = true;
-        long fileSizeMax = !this.configuration.sizeFile().equals("") ? Integer.parseInt(this.configuration.sizeFile()) : 3;
+        long fileSizeMax = !configuration.sizeFile().equals("") ? Integer.parseInt(configuration.sizeFile()) : 3;
         for (File file : documentFiles) {
             if (file != null) {
                 long fileSize = file.length() / (1024 * 1024);
@@ -532,8 +536,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean antiVirusVerif(File[] files) {
-        boolean result = true;
+    private String antiVirusVerif(File[] files) {
+        String result = "";
         if (StrasbourgPropsUtil.getParticiperAntivirusActivation()) {
             for (File file : files) {
                 if (file != null) {
@@ -541,13 +545,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     if (Validator.isNotNull(error)) {
                         switch (error) {
                             case "a-virus-was-detected-in-the-file":
-                                this.message = LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
-                                result = false;
+                                result =  LanguageUtil.get(languageBundle, ERROR_VIRUS_DETECTED);
                                 break;
                             case "unable-to-scan-file-for-viruses":
                             default:
-                                this.message = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
-                                result = false;
+                                result = LanguageUtil.get(languageBundle, ERROR_UNABLE_TO_SCAN_FILE);
                                 break;
                         }
                         break;
@@ -558,106 +560,94 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         return result;
     }
 
-    private boolean validate(ResourceRequest request) {
+    private String validate(ResourceRequest request, ProjectPopupConfiguration configuration, String publikID,
+                            PublikUser user, BudgetPhase activePhase, String title, String summary, String description,
+                            String city, String address, long postalcode, long quartierId, String photoFileName,
+                            File photoFile, File[] documentFiles, String[] documentsFileNames) {
         // utilisateur
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "Utilisateur non reconnu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez soutenir ce projet";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
-        		return false;
+        	if (user.isBanned()) {
+                return "Vous ne pouvez soutenir ce projet";
+        	} else if (user.getPactSignature() == null) {
+                return "Vous devez signer le Pacte pour soumettre un projet";
         	}
         }
         
         // Phase
-        BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(this.themeDisplay.getScopeGroupId());
         if (activePhase != null) {
         	if (!activePhase.isInDepositPeriod()) {
-        		this.message = "Nous ne sommes pas en phase de depot";
-                return false;
+                return "Nous ne sommes pas en phase de depot";
         	}
         } else {
-        	this.message = "Nous ne sommes pas en phase de depot";
-            return false;
+            return "Nous ne sommes pas en phase de depot";
         }
         
         // title
-        if (Validator.isNull(this.title)) {
-        	this.message = "Titre non valide";
-            return false;
+        if (Validator.isNull(title)) {
+            return "Titre non valide";
         }
         
         // resume
-        if (Validator.isNull(this.summary)) {
-        	this.message = "Resume non valide";
-            return false;
+        if (Validator.isNull(summary)) {
+            return "Resume non valide";
         }
 
         // description
-        if (Validator.isNull(HtmlUtil.stripHtml(this.squiredescription))) {
-        	this.message = "Description non valide";
-            return false;
+        if (Validator.isNull(HtmlUtil.stripHtml(description))) {
+            return "Description non valide";
         }
 
         // quartier
-        if (Validator.isNull(this.quartierId)) {
-            this.message = "Quartier non valide";
-            return false;
+        if (Validator.isNull(quartierId)) {
+            return "Quartier non valide";
         }
 
         // city
-        if (Validator.isNull(this.city)) {
-            this.message = "Ville non valide";
-            return false;
+        if (Validator.isNull(city)) {
+            return "Ville non valide";
         }
 
         // address
-        if (Validator.isNull(this.address)) {
-        	this.message = "Adresse non valide";
-        	return false;
+        if (Validator.isNull(address)) {
+            return "Adresse non valide";
         }
 
         // postalcode
-        if (Validator.isNull(this.postalcode)) {
-        	this.message = "Code postal non valide";
-            return false;
+        if (Validator.isNull(postalcode)) {
+            return "Code postal non valide";
         }
 
         // Photo
-        if (!validateFileName(this.photoFileName)) {
-            this.message = "Nom du fichier de l'image non valide";
-            return false;
+        if (!validateFileName(photoFileName)) {
+            return "Nom du fichier de l'image non valide";
         }
-        if (!antiVirusVerif(new File[]{this.photoFile})) {
-            return false;
+        String message = antiVirusVerif(new File[]{photoFile});
+        if (!message.equals("")) {
+            return message;
         }
 
         // Documents
-        if (!validateNbFiles(this.documentFiles)) {
-            this.message = "Trop de fichiers";
-            return false;
+        if (!validateNbFiles(configuration, documentFiles)) {
+            return"Trop de fichiers";
         } else {
-            if (!validateFileExtensions(this.documentsFileNames)) {
-                this.message = "Extension(s) de fichier(s) non valide(s)";
-                return false;
+            if (!validateFileExtensions(configuration, documentsFileNames)) {
+                return "Extension(s) de fichier(s) non valide(s)";
             } else {
-                if (!validateFileSizes(this.documentFiles)) {
-                    this.message = LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
+                if (!validateFileSizes(configuration, documentFiles)) {
+                    return LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
                             + ParamUtil.getLong(request, "sizeFile") + "Mo)";
-                    return false;
-                } else if (!antiVirusVerif(this.documentFiles)) {
-                    return false;
+                } else {
+                    message = antiVirusVerif(documentFiles);
+                    if (!message.equals("")) {
+                        return message;
+                    }
                 }
             }
         }
 
-        return true;
+        return "";
     }
 
 }

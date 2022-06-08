@@ -46,7 +46,7 @@ import java.util.Date;
     service = MVCResourceCommand.class
 )
 public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
-	
+
 	// Constantes des ID de recuperation d'informations de la requete
 	private static final String BIRTHDAY = "birthday";
     private static final String ADDRESS = "address";
@@ -57,17 +57,19 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
     private static final String SAVEINFO = "saveinfo";
     private static final String FORMATTED_DATE_PATTERN = "dd/MM/yyyy";
 
-	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+    @Override
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
 
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean saveInfo = false;
 
-        // Initialisations respectives de : nombre de votes pour l'entite courante, nombre de votes de l'utilisateur pour l'entite courante, nombre de votes de l'utilisateur
+        // Initialisations respectives de : nombre de votes pour l'entite courante, le nombre de votes de l'utilisateur
+        // pour l'entite courante, le nombre de votes de l'utilisateur, le nombre de votes pour la phase active
         int nbUserSupports = 0;
         int nbUserEntrySupports = 0;
         int nbEntrySupports = 0;
+        long nbSupportForActivePhase = 0;
 
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         PublikUser user = null;
@@ -75,7 +77,7 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         if (publikID != null && !publikID.isEmpty()) {
             user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
         }
-        
+
         // Recuperation du budget participatif en question
         BudgetParticipatif budgetParticipatif = null;
         long entryID = ParamUtil.getLong(request, "entryId");
@@ -90,15 +92,17 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             nbUserEntrySupports = budgetParticipatif.getNbSupportOfUser(publikID);
             // Recuperation du nombre de votes pour l'entite courante
             nbEntrySupports = (int) budgetParticipatif.getNbSupports();
+            // Recuperation du nombre de votes pour la phase
+            nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
         } catch (PortalException e1) {
             _log.error(e1);
         }
 
         // Verification de la validite des informations
-        String message = validate(request, publikID, user,  budgetParticipatif, nbUserSupports);
+        String message = validate(publikID, user,  budgetParticipatif, nbUserSupports);
         if (message.equals("")) {
 
-        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
+            // Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
 
             // Recuperation des informations du formulaire
@@ -114,14 +118,14 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 
             if (saveInfo) {
                 PublikApiClient.setAllUserDetails(
-                		publikID,
-                		user.getLastName(),
-                		address,
-                		"" + postalcode,
-                		city,
-                		dateNaiss, 
-                		phone,
-                		mobile
+                        publikID,
+                        user != null ? user.getLastName() : null,
+                        address,
+                        "" + postalcode,
+                        city,
+                        dateNaiss,
+                        phone,
+                        mobile
                 );
             }
 
@@ -129,15 +133,15 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             budgetSupport.setCitoyenAddress(address);
             budgetSupport.setCitoyenBirthday(birthday);
             budgetSupport.setCitoyenCity(city);
-            budgetSupport.setCitoyenFirstname(user.getFirstName());
-            budgetSupport.setCitoyenLastName(user.getLastName());
+            budgetSupport.setCitoyenFirstname(user != null ? user.getFirstName() : null);
+            budgetSupport.setCitoyenLastName(user != null ? user.getLastName() : null);
             budgetSupport.setCitoyenPostalCode(postalcode);
             budgetSupport.setCitoyenPhone(phone);
             if (!mobile.isEmpty())
                 budgetSupport.setCitoyenMobilePhone(mobile);
-            budgetSupport.setCitoyenMail(user.getEmail());
+            budgetSupport.setCitoyenMail(user != null ? user.getEmail() : null);
             budgetSupport.setPublikUserId(publikID);
-            budgetSupport.setBudgetParticipatifId(budgetParticipatif.getBudgetParticipatifId());
+            budgetSupport.setBudgetParticipatifId(budgetParticipatif != null ? budgetParticipatif.getBudgetParticipatifId() : 0);
             budgetSupport = BudgetSupportLocalServiceUtil.updateBudgetSupport(budgetSupport);
             _log.info("Soutien cree : " + budgetSupport);
             result = true;
@@ -147,20 +151,20 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
             nbEntrySupports++;
 
         }
-        
+
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", saveInfo);
-        
+
         JSONObject updatedSupportsInfo = JSONFactoryUtil.createJSONObject();
-        
+
         updatedSupportsInfo.put("nbUserSupports", nbUserSupports);
         updatedSupportsInfo.put("nbUserEntrySupports", nbUserEntrySupports);
         updatedSupportsInfo.put("nbEntrySupports", nbEntrySupports);
-        updatedSupportsInfo.put("nbSupportForActivePhase", budgetParticipatif.getPhase().getNumberOfVote());
-        
+        updatedSupportsInfo.put("nbSupportForActivePhase", nbSupportForActivePhase);
+
         jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -168,19 +172,21 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         try {
             writer = response.getWriter();
         } catch (IOException e) {
-        	_log.error(e);
+            _log.error(e);
         }
-        writer.print(jsonResponse.toString());
+        if (writer != null) {
+            writer.print(jsonResponse.toString());
+        }
 
         return result;
-	}
+    }
 
     /**
      * Envoi de la demande de soutien
      * @return Si la demande s'est bien passee
      */
     private ServiceContext getServiceContext(ResourceRequest request) throws PortletException {
-        ServiceContext sc = null;
+        ServiceContext sc;
 
         try {
             sc = ServiceContextFactory.getInstance(request);
@@ -192,24 +198,24 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 
         return sc;
     }
-	
-	/**
-	 * Verification des information du formulaire issu de la requete et validation
-	 * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
-	 * @return Si la requete est tangible
-	 */
-	private String validate(ResourceRequest request, String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserSupports) {
-        // utilisateur 
+
+    /**
+     * Verification des information du formulaire issu de la requete et validation
+     * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
+     * @return le message d'erreur s'il y a une erreur
+     */
+    private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserSupports) {
+        // utilisateur
         if (publikID == null || publikID.isEmpty()) {
             return "Utilisateur non reconnu";
         } else {
-        	if (user.isBanned()) {
+            if (user.isBanned()) {
                 return "Vous ne pouvez soutenir ce projet";
-        	} else if (user.getPactSignature() == null) {
+            } else if (user.getPactSignature() == null) {
                 return "Vous devez signer le Pacte pour soutenir ce projet";
-        	}
+            }
         }
-        
+
         // budget participatif
         if (budgetParticipatif != null) {
             if (!budgetParticipatif.isVotable()) {
@@ -218,17 +224,17 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         } else {
             return "Erreur lors de la recherche du budget participatif";
         }
-        
+
         // nombre de votes de l'utilisateur
         if (nbUserSupports >= budgetParticipatif.getPhase().getNumberOfVote()) {
             return "Vous ne pouvez plus voter pour cette phase";
         }
-        
+
         return ""; //désactivation du controle des champs  de l'usager suite à la désactivation de la popup au premier vote
-        
+
     }
-	
-	/**
+
+    /**
      * Recuperation du publik ID avec la session
      */
     private String getPublikID(PortletRequest request) {
@@ -236,8 +242,8 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
         return SessionParamUtil.getString(originalRequest, "publik_internal_id");
     }
-	
-	/**
+
+    /**
      * Le log
      */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
