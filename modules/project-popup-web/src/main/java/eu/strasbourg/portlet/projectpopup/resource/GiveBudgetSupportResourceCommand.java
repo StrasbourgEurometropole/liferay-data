@@ -60,10 +60,8 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
 
-        // Initialisations respectives de : resultat probant de la requete, message en cas d'impossibilité de prendre
-        // en compte le vote, sauvegarde ou non des informations Publik, message de retour
+        // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
-        String message = "";
         boolean saveInfo = false;
 
         // Initialisations respectives de : nombre de votes pour l'entite courante, nombre de votes de l'utilisateur pour l'entite courante, nombre de votes de l'utilisateur
@@ -97,7 +95,8 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
         }
 
         // Verification de la validite des informations
-        if (validate(request, message, publikID, user,  budgetParticipatif, nbUserSupports)) {
+        String message = validate(request, publikID, user,  budgetParticipatif, nbUserSupports);
+        if (message.equals("")) {
 
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             saveInfo = ParamUtil.getBoolean(request, SAVEINFO);
@@ -199,39 +198,33 @@ public class GiveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
 	 * @return Si la requete est tangible
 	 */
-	private boolean validate(ResourceRequest request, String message, String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserSupports) {
+	private String validate(ResourceRequest request, String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, int nbUserSupports) {
         // utilisateur 
         if (publikID == null || publikID.isEmpty()) {
-            message = "Utilisateur non reconnu";
-            return false;
+            return "Utilisateur non reconnu";
         } else {
         	if (user.isBanned()) {
-        		message = "Vous ne pouvez soutenir ce projet";
-        		return false;
+                return "Vous ne pouvez soutenir ce projet";
         	} else if (user.getPactSignature() == null) {
-        		message = "Vous devez signer le Pacte pour soutenir ce projet";
-        		return false;
+                return "Vous devez signer le Pacte pour soutenir ce projet";
         	}
         }
         
         // budget participatif
         if (budgetParticipatif != null) {
             if (!budgetParticipatif.isVotable()) {
-                message = "Ce budget participatif n'est pas en phase de vote";
-                return false;
+                return "Ce budget participatif n'est pas en phase de vote";
             }
         } else {
-            message = "Erreur lors de la recherche du budget participatif";
-            return false;
+            return "Erreur lors de la recherche du budget participatif";
         }
         
         // nombre de votes de l'utilisateur
         if (nbUserSupports >= budgetParticipatif.getPhase().getNumberOfVote()) {
-        	message = "Vous ne pouvez plus voter pour cette phase";
-			return false;
+            return "Vous ne pouvez plus voter pour cette phase";
         }
         
-        return true; //désactivation du controle des champs  de l'usager suite à la désactivation de la popup au premier vote
+        return ""; //désactivation du controle des champs  de l'usager suite à la désactivation de la popup au premier vote
         
     }
 	
