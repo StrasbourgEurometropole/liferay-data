@@ -37,7 +37,6 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 
 import java.io.Serializable;
