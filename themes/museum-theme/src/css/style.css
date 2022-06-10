@@ -922,22 +922,19 @@ div[class^=col-] {
 }
 @font-face {
   font-family: proximanova-light;
-  src: url("../fonts/proximanova/proximanova-light.eot");
-  src: url("../fonts/proximanova/proximanova-light.eot?#iefix") format("embedded-opentype"), url("../fonts/proximanova/proximanova-light.svg") format("svg"), url("../fonts/proximanova/proximanova-light.woff") format("woff"), url("../fonts/proximanova/proximanova-light.ttf") format("truetype");
+  src: url("../fonts/proximanova/proximanova-light.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: proximanova-regular;
-  src: url("../fonts/proximanova/proximanova-regular.eot");
-  src: url("../fonts/proximanova/proximanova-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/proximanova/proximanova-regular.svg") format("svg"), url("../fonts/proximanova/proximanova-regular.woff") format("woff"), url("../fonts/proximanova/proximanova-regular.ttf") format("truetype");
+  src: url("../fonts/proximanova/proximanova-regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: proximanova-bold;
-  src: url("../fonts/proximanova/proximanova-bold.eot");
-  src: url("../fonts/proximanova/proximanova-bold.eot?#iefix") format("embedded-opentype"), url("../fonts/proximanova/proximanova-bold.svg") format("svg"), url("../fonts/proximanova/proximanova-bold.woff") format("woff"), url("../fonts/proximanova/proximanova-bold.ttf") format("truetype");
+  src: url("../fonts/proximanova/proximanova-bold.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }

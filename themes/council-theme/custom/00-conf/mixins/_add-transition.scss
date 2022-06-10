@@ -1,6 +1,0 @@
-// Mixin Transition effect
-// ==========================================================================
-@mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease) {
-	$anim: $effect $duration $easeing;
-	transition: $anim;
-}

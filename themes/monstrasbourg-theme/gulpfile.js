@@ -14,9 +14,31 @@ var plugins = require('gulp-load-plugins')({
 });
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
+var del = require('del');
+var runSequence = require('run-sequence').use(gulp);
 
 liferayThemeTasks.registerTasks({
-	gulp: gulp
+  gulp: gulp,
+  hookFn: function(gulp) {
+    gulp.task('build:r2', function(done) {
+      const plugins = require('gulp-load-plugins')();
+  
+      return gulp
+        .src(['./build/css/*.css','!./build/css/*_rtl.css'])
+    });
+
+    gulp.hook('after:build:move-compiled-css', function(done) {
+        runSequence('remove-maps', 'remove-scss', done);
+    })
+  }
+});
+
+gulp.task('remove-maps', cb => {
+	del('./build/**/*.map').then(() => cb());
+});
+
+gulp.task('remove-scss', cb => {
+	del('./build/**/*.scss').then(() => cb());
 });
 
 
