@@ -7,7 +7,7 @@ dependencies {
 
 	compileOnly group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.twitter4j', version: '4.0.7_1'
 
-	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
 
 	compileOnly group: "javax.portlet", name: "portlet-api"
 
