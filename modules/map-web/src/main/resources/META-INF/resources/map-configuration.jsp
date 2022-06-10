@@ -65,8 +65,8 @@
                         <aui:select class="group" label="select-background" name="backgroundId">
                             <aui:option value="monstrasbourg" label="default"
                                 selected="${'monstrasbourg' eq backgroundId}" />
-                            <aui:option value="summer" label="summer"
-                                selected="${'summer' eq backgroundId}" />
+                            <aui:option value="fond_ete" label="summer"
+                                selected="${'fond_ete' eq backgroundId}" />
                         </aui:select>
                     </div>
 
