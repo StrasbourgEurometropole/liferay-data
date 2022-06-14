@@ -307,6 +307,9 @@
                         <aui:option value="placit-initiatives" selected="${searchForm eq 'placit-initiatives'}">
                             <liferay-ui:message key="placit-initiatives" />
                         </aui:option>
+                        <aui:option value="placit-project-workshop" selected="${searchForm eq 'placit-project-workshop'}">
+                            <liferay-ui:message key="placit-project-workshop" />
+                        </aui:option>
                         <aui:option value="ops-agenda" selected="${searchForm eq 'ops-agenda'}">
                             <liferay-ui:message key="ops-agenda" />
                         </aui:option>

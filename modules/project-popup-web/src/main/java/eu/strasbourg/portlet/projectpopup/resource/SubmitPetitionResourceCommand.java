@@ -12,7 +12,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -29,11 +33,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
-import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import java.io.IOException;
@@ -41,7 +43,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -80,70 +87,60 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
     private static final String EMAIL = "email";
     private static final String PATTERN = "dd/MM/yyyy";
 
-    private String publikID;
-    private PublikUser user;
-    private DateFormat dateFormat;
-    private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
-    private String lastname;
-    private String firstname;
-    private String email;
-    private String title;
-    private String summary;
-    private String description;
-    private String inTheNameOf;
-    private String lieu;
-    private long projectId;
-    private long quartierId;
-    private long themeId;
-    private String message;
-
     /**
      * le log
      */
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    /**
-     * En attendant de faire un fichier properties, on utilise cette variable
-     */
-
     @Override
-    public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        
+    public boolean serveResource(ResourceRequest request, ResourceResponse response) {
+        // Recuperation du contexte de la requete
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        ServiceContext sc = null;
+        try {
+            sc = ServiceContextFactory.getInstance(request);
+        } catch (PortalException e) {
+            _log.error(e);
+        }
+
     	// Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean savedInfo = false;
-        this.message = "";
+
+        int signatureNumber = (int) themeDisplay.getSiteGroup().getExpandoBridge()
+                .getAttribute("number_of_signatures_required_per_petition");
         
         // Recuperation de l'utilsiteur Publik ayant lance la demande
-        this.publikID = getPublikID(request);
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
         
         // Recuperation des informations du formulaire
-        this.dateFormat = new SimpleDateFormat(PATTERN);
-        this.birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
-        this.firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
-        this.email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
-        this.lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONTITLE));
-        this.summary = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONSUMMARY));
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>"));
-        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
-        this.projectId = ParamUtil.getLong(request, PROJECT);
-        this.quartierId = ParamUtil.getLong(request, QUARTIER);
-        this.themeId = ParamUtil.getLong(request, THEME);
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
+        Date birthday = ParamUtil.getDate(request, BIRTHDAY, dateFormat);
+        String address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        long postalcode = ParamUtil.getLong(request, POSTALCODE);
+        String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        String lastname = HtmlUtil.stripHtml(ParamUtil.getString(request, LASTNAME));
+        String firstname = HtmlUtil.stripHtml(ParamUtil.getString(request, FIRSTNAME));
+        String email = HtmlUtil.stripHtml(ParamUtil.getString(request, EMAIL));
+        String lieu = HtmlUtil.stripHtml(ParamUtil.getString(request,LIEU));
+        String title = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONTITLE));
+        String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONSUMMARY));
+        String description = HtmlUtil.stripHtml(ParamUtil.getString(request, PETITIONDESCRIPTION).replace("\n", "<br>"));
+        String inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
+        long projectId = ParamUtil.getLong(request, PROJECT);
+        long quartierId = ParamUtil.getLong(request, QUARTIER);
+        long themeId = ParamUtil.getLong(request, THEME);
         
         // Verification de la validite des informations
-        if (validate(request)) {
+        String message = validate(publikID, user,  title, summary,
+                description, birthday, city, address, postalcode);
+        if (message.equals("")) {
         	
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
             savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
@@ -151,29 +148,84 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(birthday);
                 PublikApiClient.setAllUserDetails(
-                		this.publikID, 
-                		this.user.getLastName(), 
-                		this.address, 
-                		"" + this.postalcode,
-                		this.city,
-                		dateNaiss, 
-                		this.phone, 
-                		this.mobile
+                		publikID,
+                        user != null ? user.getLastName() : null,
+                		address,
+                		"" + postalcode,
+                		city,
+                		dateNaiss,
+                		phone,
+                		mobile
                 );
             }
-            
-            // Envoi de la demande
-            result = sendPetition(request);
-            
-            if(result)
-            	sendPetitionMailConfirmation(request);
-            	
+
+            List<Long> identifiants = new ArrayList<>();
+            if (quartierId == 0) {
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+                assert districts != null;
+                identifiants = districts.stream()
+                        .map(AssetCategoryModel::getCategoryId)
+                        .collect(Collectors.toList());
+            }else {
+                identifiants.add(quartierId);
+            }
+            if (projectId != 0) {
+                identifiants.add(projectId);
+            }
+            if (themeId != 0) {
+                identifiants.add(themeId);
+            }
+            long[] ids = new long[identifiants.size()];
+            for (int i = 0; i < identifiants.size(); i++) {
+                ids[i]=identifiants.get(i);
+            }
+
+            if (sc != null) {
+                sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+                sc.setAssetCategoryIds(ids);
+            }
+
+            Petition petition = null;
+            try {
+                petition = PetitionLocalServiceUtil.createPetition(sc);
+                petition.setTitle(title);
+                petition.setSummary(summary);
+                petition.setDescription(description);
+                petition.setInTheNameOf(inTheNameOf);
+                petition.setQuotaSignature(signatureNumber);
+                petition.setPetitionnaireAdresse(address);
+                petition.setPetitionnaireBirthday(birthday);
+                petition.setPetitionnaireCity(city);
+                petition.setPlaceTextArea(lieu);
+                petition.setPetitionnaireFirstname(firstname);
+                petition.setPetitionnaireLastname(lastname);
+                petition.setPetitionnairePostalCode(postalcode);
+                petition.setPetitionnairePhone(phone);
+                if (!mobile.isEmpty())
+                    petition.setPetitionnairePhone(mobile);
+                petition.setPetitionnaireEmail(email);
+                petition.setPublikId(publikID);
+                petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
+                AssetEntry assetEntry = petition.getAssetEntry();
+                if (assetEntry == null)
+                    throw new PortalException("aucune assetCategory pour la pétition"
+                            + petition.getPetitionId());
+            } catch (PortalException e) {
+                _log.error(e);
+                message = "error";
+            }
+            _log.info("pétition créé : " + petition);
+
+            if(message.equals("")) {
+                result = true;
+                sendPetitionMailConfirmation(request, title, description, email);
+            }
         }
 
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
@@ -183,95 +235,36 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        writer.print(jsonResponse.toString());
+        if (writer != null) {
+            writer.print(jsonResponse.toString());
+        }
 
         return result;
-    }
-
-    private boolean sendPetition(ResourceRequest request) throws PortletException {
-        ServiceContext sc;
-        Petition petition;
-        
-        try {
-            ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            int signatureNumber = (int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition");
-            sc = ServiceContextFactory.getInstance(request);
-            sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<>();
-            if (this.quartierId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            }else {
-                identifiants.add(this.quartierId);
-            }
-            if (this.projectId != 0) {
-                identifiants.add(this.projectId);
-            }
-            if (this.themeId != 0) {
-                identifiants.add(this.themeId);
-            }
-            long[] ids = new long[identifiants.size()];
-            for (int i = 0; i < identifiants.size(); i++) {
-                ids[i]=identifiants.get(i);
-            }
-            sc.setAssetCategoryIds(ids);
-            
-            petition = PetitionLocalServiceUtil.createPetition(sc);
-            petition.setTitle(this.title);
-            petition.setSummary(this.summary);
-            petition.setDescription(this.description);
-            petition.setInTheNameOf(this.inTheNameOf);
-            petition.setQuotaSignature(signatureNumber);
-            petition.setPetitionnaireAdresse(this.address);
-            petition.setPetitionnaireBirthday(this.birthday);
-            petition.setPetitionnaireCity(this.city);
-            petition.setPlaceTextArea(this.lieu);
-            petition.setPetitionnaireFirstname(this.firstname);
-            petition.setPetitionnaireLastname(this.lastname);
-            petition.setPetitionnairePostalCode(this.postalcode);
-            petition.setPetitionnairePhone(this.phone);
-            if (!this.mobile.isEmpty())
-                petition.setPetitionnairePhone(this.mobile);
-            petition.setPetitionnaireEmail(this.email);
-            petition.setPublikId(this.publikID);
-            petition = PetitionLocalServiceUtil.updatePetition(petition, sc);
-            AssetEntry assetEntry = petition.getAssetEntry();
-            if (assetEntry == null)
-                throw new PortalException("aucune assetCategory pour la pétition"
-                        + petition.getPetitionId());
-        } catch (PortalException e) {
-            _log.error(e);
-            throw new PortletException(e);
-        }
-        _log.info("pétition créé : " + petition);
-        return true;
     }
     
     /**
 	 * Envoi du mail de confirmation de soumission de la pétition
 	 */
-    private void sendPetitionMailConfirmation(ResourceRequest request) {
+    private void sendPetitionMailConfirmation(ResourceRequest request, String title,
+                                              String description, String email) {
     	
     	try {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
-	    	
-			// préparation du template de mail
+            String headerImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png";
+            String btnImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png";
+
+            // préparation du template de mail
 			Map<String, Object> context = new HashMap<>();
 			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.title);
-			context.put("Message", this.description);
+            context.put("headerImage", headerImage);
+            context.put("footerImage", btnImage);
+			context.put("Title", title);
+			context.put("Message", description);
 
             StringWriter out = new StringWriter();
 
@@ -293,7 +286,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
-            InternetAddress address = new InternetAddress(this.email);
+            InternetAddress address = new InternetAddress(email);
             toAddresses = ArrayUtil.append(toAddresses, address);
 
             // Copie carbone invisible
@@ -307,71 +300,59 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 		}
     }
 
-    private boolean validate(ResourceRequest request) {
+    private String validate(String publikID, PublikUser user, String title, String summary, String description,
+                            Date birthday, String city, String address, long postalcode) {
     	
     	// utilisateur 
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "Utilisateur non reconnu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez soutenir ce projet";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soumettre un projet";
-        		return false;
+        	if (user.isBanned()) {
+                return "Vous ne pouvez soutenir ce projet";
+        	} else if (user.getPactSignature() == null) {
+                return "Vous devez signer le Pacte pour soumettre un projet";
         	}
         }
 
         // title
-        if (Validator.isNull(this.title)) {
-            this.message = "Titre non valide";
-            return false;
+        if (Validator.isNull(title)) {
+            return "Titre non valide";
         }
-        if (this.title.length() > 45) {
-            this.message = "Taille du titre trop grande";
-            return false;
+        if (title.length() > 45) {
+            return "Taille du titre trop grande";
         }
 
         // Summary
-        if (this.summary.length() > 500) {
-            this.message = "Taille du r\u00e9sum\u00e9 trop grande";
-            return false;
+        if (summary.length() > 500) {
+            return "Taille du r\u00e9sum\u00e9 trop grande";
         }
         
         // description
-        if (Validator.isNull(this.description)) {
-        	this.message = "Description non valide";
-            return false;
+        if (Validator.isNull(description)) {
+            return "Description non valide";
         }
 
         // birthday
-        if (Validator.isNull(this.birthday)) {
-        	this.message = "Date de naissance non valide";
-            return false;
+        if (Validator.isNull(birthday)) {
+            return "Date de naissance non valide";
         }
 
         // city
-        if (Validator.isNull(this.city)) {
-        	this.message = "Ville non valide";
-            return false;
+        if (Validator.isNull(city)) {
+            return "Ville non valide";
         }
 
         // address
-        if (Validator.isNull(this.address)) {
-        	this.message = "Adresse non valide";
-        	return false;
+        if (Validator.isNull(address)) {
+            return "Adresse non valide";
         }
 
         // postalcode
-        if (Validator.isNull(this.postalcode)) {
-        	this.message = "Code postal non valide";
-            return false;
+        if (Validator.isNull(postalcode)) {
+            return "Code postal non valide";
         }
 
-        return true;
+        return "";
     }
 
 }
