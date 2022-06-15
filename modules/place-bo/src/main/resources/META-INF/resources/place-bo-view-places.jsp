@@ -162,13 +162,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <aui:script>
-	$('#<portlet:namespace />importFromLR6').on('click', function() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-import-from-lr6" />')) {
-			var form = AUI.$(document.<portlet:namespace />import);	
-			submitForm(form, '${importLegacyURL}');
-		}
-	});
-	
 	function <portlet:namespace />deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);
