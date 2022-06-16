@@ -354,7 +354,7 @@ public class GoogleSynchronisation {
         }
         byte[] postDataByte = postData.toString().getBytes(StandardCharsets.UTF_8);
 
-        String url = StrasbourgPropsUtil.getGMBUrl() + "/" + locationId + "?" + postData;
+        String url = StrasbourgPropsUtil.getGMBUpdateUrl() + "/" + locationId + "?" + postData;
         URL u = new URL(url);
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
