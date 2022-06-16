@@ -108,6 +108,20 @@ public class GoogleSynchronisation {
                             }else {
                                 this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
                                 this.googleMyBusinessHistoric.addNewOperation(jsonResult.getJSONObject("error").getString("message"));
+                                JSONArray details = jsonResult.getJSONObject("error").getJSONArray("details");
+                                JSONArray errorDetails = JSONFactoryUtil.createJSONArray();
+                                for (Object detail : details) {
+                                    JSONObject detailJson = JSONFactoryUtil.createJSONObject(detail.toString());
+                                    if(detailJson.getJSONArray("errorDetails").length() > 0)
+                                        errorDetails = detailJson.getJSONArray("errorDetails");
+                                }
+                                if(errorDetails.length() > 0) {
+                                    this.googleMyBusinessHistoric.addNewOperation("D&eacute;tail de l'erreur :");
+                                    for (Object errorDetail : errorDetails) {
+                                        JSONObject errorDetailJson = JSONFactoryUtil.createJSONObject(errorDetail.toString());
+                                        this.googleMyBusinessHistoric.addNewOperation(errorDetailJson.getString("message"));
+                                    }
+                                }
                             }
                         }else{
                             this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas d'horaires");
@@ -192,7 +206,7 @@ public class GoogleSynchronisation {
                 LocalDate dateLocale = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
                 // récupère les horaires
-                List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<Pair<LocalTime, LocalTime>>();
+                List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<>();
                 // vérifie si le lieu est ouvert 24h/24 ou s'il est fermé
                 Boolean isAlwaysOpen = false;
                 Boolean isClosed = false;
@@ -228,8 +242,18 @@ public class GoogleSynchronisation {
                     if(isAlwaysOpen){
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("startDate", jsonDate);
-                        jsonPeriod.put("openTime", "00:00");
-                        jsonPeriod.put("closeTime", "24:00");
+                        JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
+                        jsonOpenTime.put("seconds", 0);
+                        jsonOpenTime.put("nanos", 0);
+                        jsonOpenTime.put("hours", 0);
+                        jsonOpenTime.put("minutes", 0);
+                        jsonPeriod.put("openTime", jsonOpenTime);
+                        JSONObject jsonCloseTime = JSONFactoryUtil.createJSONObject();
+                        jsonCloseTime.put("seconds", 0);
+                        jsonCloseTime.put("nanos", 0);
+                        jsonCloseTime.put("hours", 24);
+                        jsonCloseTime.put("minutes", 0);
+                        jsonPeriod.put("closeTime", jsonCloseTime);
                         jsonPeriod.put("isClosed", false);
                         jsonSpecialHourPeriods.put(jsonPeriod);
                     }else if (isClosed) {
@@ -241,8 +265,20 @@ public class GoogleSynchronisation {
                         for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
                             JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                             jsonPeriod.put("startDate", jsonDate);
-                            jsonPeriod.put("openTime", openingTime.getFirst());
-                            jsonPeriod.put("closeTime", openingTime.getSecond());
+                            String[] time = openingTime.getFirst().toString().split(":");
+                            JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
+                            jsonOpenTime.put("seconds", 0);
+                            jsonOpenTime.put("nanos", 0);
+                            jsonOpenTime.put("hours", time[0]);
+                            jsonOpenTime.put("minutes", time[1]);
+                            jsonPeriod.put("openTime", jsonOpenTime);
+                            time = openingTime.getSecond().toString().split(":");
+                            JSONObject jsonCloseTime = JSONFactoryUtil.createJSONObject();
+                            jsonCloseTime.put("seconds", 0);
+                            jsonCloseTime.put("nanos", 0);
+                            jsonCloseTime.put("hours", time[0]);
+                            jsonCloseTime.put("minutes", time[1]);
+                            jsonPeriod.put("closeTime", jsonCloseTime);
                             jsonPeriod.put("isClosed", false);
                             jsonSpecialHourPeriods.put(jsonPeriod);
                         }
@@ -253,17 +289,39 @@ public class GoogleSynchronisation {
                 if(isAlwaysOpen){
                     JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                     jsonPeriod.put("openDay", day);
-                    jsonPeriod.put("openTime", "00:00");
+                    JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
+                    jsonOpenTime.put("seconds", 0);
+                    jsonOpenTime.put("nanos", 0);
+                    jsonOpenTime.put("hours", 0);
+                    jsonOpenTime.put("minutes", 0);
+                    jsonPeriod.put("openTime", jsonOpenTime);
                     jsonPeriod.put("closeDay", day);
-                    jsonPeriod.put("closeTime", "24:00");
+                    JSONObject jsonCloseTime = JSONFactoryUtil.createJSONObject();
+                    jsonCloseTime.put("seconds", 0);
+                    jsonCloseTime.put("nanos", 0);
+                    jsonCloseTime.put("hours", 24);
+                    jsonCloseTime.put("minutes", 0);
+                    jsonPeriod.put("closeTime", jsonCloseTime);
                     jsonPeriods.put(jsonPeriod);
                 }else {
                     for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("openDay", day);
-                        jsonPeriod.put("openTime", openingTime.getFirst());
+                        String[] time = openingTime.getFirst().toString().split(":");
+                        JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
+                        jsonOpenTime.put("seconds", 0);
+                        jsonOpenTime.put("nanos", 0);
+                        jsonOpenTime.put("hours", time[0]);
+                        jsonOpenTime.put("minutes", time[1]);
+                        jsonPeriod.put("openTime", jsonOpenTime);
                         jsonPeriod.put("closeDay", day);
-                        jsonPeriod.put("closeTime", openingTime.getSecond());
+                        time = openingTime.getSecond().toString().split(":");
+                        JSONObject jsonCloseTime = JSONFactoryUtil.createJSONObject();
+                        jsonCloseTime.put("seconds", 0);
+                        jsonCloseTime.put("nanos", 0);
+                        jsonCloseTime.put("hours", time[0]);
+                        jsonCloseTime.put("minutes", time[1]);
+                        jsonPeriod.put("closeTime", jsonCloseTime);
                         jsonPeriods.put(jsonPeriod);
                     }
                 }
