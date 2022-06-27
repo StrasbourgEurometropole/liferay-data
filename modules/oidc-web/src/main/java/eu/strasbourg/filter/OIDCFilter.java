@@ -5,7 +5,10 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -48,6 +51,7 @@ public class OIDCFilter extends BaseFilter {
     private String hasPactSignedAttribute = "has_pact_signed";
     private String isBanishAttribute = "is_banish";
     private String photoAttribute = "photo";
+
 
     @Override
     protected Log getLog() {
@@ -254,7 +258,7 @@ public class OIDCFilter extends BaseFilter {
 
                 StrasbourgPropsUtil.getPublikAuthorizeURL()
                         + "&redirect_uri=" + this.getDomainRoot(request)
-                        + "&state=" + request.getRequestURL().toString());
+                        + "&state=" + getProtocoledRequestURL(request));
     }
 
     /**
@@ -351,7 +355,7 @@ public class OIDCFilter extends BaseFilter {
         try {
             response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
                     + "?post_logout_redirect_uri=" + this.getDomainRoot(request)
-                    + "&state=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"));
+                    + "&state=" + URLEncoder.encode(getProtocoledRequestURL(request), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -400,9 +404,25 @@ public class OIDCFilter extends BaseFilter {
     }
 
     private String getDomainRoot(HttpServletRequest request) {
-        return request.getRequestURL().toString()
+        return getProtocoledRequestURL(request)
                 .replace(request.getPathInfo(), "")
                 .replace(request.getServletPath(), "");
     }
 
+    /**
+     * Transforme l'URL de la requête pour correspondre au protocole renseigné dans le portal ext
+     * @param request request
+     * @return L'url retravaillé par le portal ext
+     */
+    private String getProtocoledRequestURL(HttpServletRequest request) {
+        String httpsUrl = request.getRequestURL().toString();
+        try {
+            String protocol = PropsUtil.get(PropsKeys.WEB_SERVER_PROTOCOL);
+            URL rawURL = new URL(request.getRequestURL().toString());
+            // Si la clé n'a pas été renseigné on renvoie via HTTPS
+            httpsUrl = new URL(Validator.isNotNull(protocol) ? protocol : Http.HTTPS, rawURL.getHost(), rawURL.getPort(), rawURL.getFile()).toString();
+        } catch (MalformedURLException ignored) {
+        }
+        return httpsUrl;
+    }
 }
