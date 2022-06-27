@@ -94,7 +94,7 @@
 
             // Ajout de la couche couleur 'gct_fond_de_carte_couleur' à la carte
             var wmsLayer = L.tileLayer.wms('https://adict.strasbourg.eu/mapproxy/service?', {
-                layers: 'monstrasbourg'
+                layers: window.backgroundId
             }).addTo(mymap);
 
             // Contrôle correspondant à la liste des markers
