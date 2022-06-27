@@ -5,10 +5,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.BaseFilter;
 import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -415,14 +413,6 @@ public class OIDCFilter extends BaseFilter {
      * @return L'url retravaillé par le portal ext
      */
     private String getProtocoledRequestURL(HttpServletRequest request) {
-        String httpsUrl = request.getRequestURL().toString();
-        try {
-            String protocol = PropsUtil.get(PropsKeys.WEB_SERVER_PROTOCOL);
-            URL rawURL = new URL(request.getRequestURL().toString());
-            // Si la clé n'a pas été renseigné on renvoie via HTTPS
-            httpsUrl = new URL(Validator.isNotNull(protocol) ? protocol : Http.HTTPS, rawURL.getHost(), rawURL.getPort(), rawURL.getFile()).toString();
-        } catch (MalformedURLException ignored) {
-        }
-        return httpsUrl;
+        return PortalUtil.getPortalURL(request) + request.getRequestURI();
     }
 }
