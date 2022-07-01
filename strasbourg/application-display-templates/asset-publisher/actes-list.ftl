@@ -7,10 +7,12 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
+        
+<#assign dLFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService")>
+    <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="rte"> 
-        <#assign commission = "" />
         <#list entries as curEntry>
             <#assign file = curEntry.getAssetRenderer().getAssetObject() />
             <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
@@ -20,18 +22,6 @@
                 <#assign description = file.getTitle()?keep_before_last(".") />
             </#if> 
             <#assign description = file.getTitle()?keep_before_last(".") />
-            <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
-            <#assign categories = assetVocabularyHelper.getAssetEntryCategories(curEntry) />
-
-            <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
-            <#assign categories = assetVocabularyHelper.getAssetEntryCategories(curEntry) />
-            <#if categories?has_content>
-                <#assign commissionCateg = categories[0].getTitle(locale) />
-                <#if commission != commissionCateg>
-                    <h2>${commissionCateg}</h2>
-                    <#assign commission = commissionCateg />
-                </#if>
-            </#if>
             
             <div class="seu-wi seu-media seu-wi-download"> 
                 <div class="seu-media-container"> 
@@ -41,8 +31,22 @@
                     <div class="seu-media-right"> 
                         <div class="seu-media-text"> 
                             <div class="seu-media-title">${description}</div> 
-                            <p>${file.getExtension()?upper_case} - 
-                            ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)}</p> 
+                            <p>
+                                <#assign dlFileEntry = dLFileEntryLocalService.fetchDLFileEntry(file.getFileEntryId()) />
+                                <#assign fileVersionId = dlFileEntry.getLatestFileVersion(true).getFileVersionId() />
+                                <#assign ddmFormValuesMap = dlFileEntry.getDDMFormValuesMap(fileVersionId) />
+                                <#list ddmFormValuesMap as ddmFormKeys,ddmFormValues>
+                                    <#list ddmFormValues.getDDMFormFieldValues() as ddmFormFieldValue>
+                                        <#if ddmFormFieldValue.getName() == "publicationDate">
+                                            <span style="">Publié le </span>
+                                            <#assign publicationDate = ddmFormFieldValue.getValue().getString(locale) />
+                                            ${dateHelperService.displayShortDate(publicationDate?date.xs, locale)} -
+                                        </#if>
+                                    </#list>
+                                </#list>
+                                ${file.getExtension()?upper_case} - 
+                                ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)}
+                            </p> 
                         </div> 
                         <a class="seu-media-download seu-btn-square seu-filled seu-second" 
                             href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" target="_blank" 
