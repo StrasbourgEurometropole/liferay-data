@@ -6,6 +6,8 @@ ENV SOURCES_PATH=./sources
 ENV KEY_PATH=./activation-key
 ENV DIST_PATH=./dist
 
+RUN cp -SOURCES_PATH/liferay_entrypoint.sh /usr/local/bin
+
 # Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
 
