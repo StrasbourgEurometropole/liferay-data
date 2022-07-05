@@ -250,6 +250,16 @@ public class FavoriteLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne la liste des favoris liferay passés en paramètre
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+		getCSMapFavoriteById(java.util.List<Long> favoriteIds) {
+
+		return _favoriteLocalService.getCSMapFavoriteById(favoriteIds);
+	}
+
+	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
 	@Override

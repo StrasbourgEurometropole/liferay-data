@@ -11,12 +11,10 @@ import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalService;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
-import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
@@ -37,6 +35,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -91,7 +90,7 @@ public class FavoriteApplication extends Application {
             if (Validator.isNull(idsFavorite)) {
                 idsFavorite = "";
             }
-            List<Favorite> favorites = FavoriteLocalServiceUtil.getCSMapFavoriteByPublikUser(publikUser.getPublikId());
+            List<Favorite> favorites = favoriteLocalService.getCSMapFavoriteByPublikUser(publikUser.getPublikId());
 
             JSONArray jsonAjout = JSONFactoryUtil.createJSONArray();
             JSONArray jsonModif = JSONFactoryUtil.createJSONArray();
@@ -120,7 +119,7 @@ public class FavoriteApplication extends Application {
             JSONArray jsonSuppr = JSONFactoryUtil.createJSONArray();
             if (Validator.isNotNull(idsFavorite) && idsFavorite != "") {
                 for (String idFavorite : idsFavorite.split(",")) {
-                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(Long.parseLong(idFavorite));
+                    Favorite favorite = favoriteLocalService.fetchFavorite(Long.parseLong(idFavorite));
                     if (Validator.isNull(favorite)) {
                         jsonSuppr.put(idFavorite);
                     }
@@ -155,11 +154,36 @@ public class FavoriteApplication extends Application {
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
             JSONObject jsonFavorites = JSONFactoryUtil.createJSONObject(content);
+            List<Long> favoriteIds = new ArrayList<>();
             JSONArray jsonAdds = jsonFavorites.getJSONArray("ADD");
+            JSONArray jsonUpdates = jsonFavorites.getJSONArray("UPDATE");
+            if (jsonUpdates != null && jsonUpdates.length() != 0) {
+                for (Object update : jsonUpdates) {
+                    JSONObject jsonUpdate = JSONFactoryUtil.createJSONObject(update.toString());
+                    long favoriteId = jsonUpdate.getLong("favoriteId");
+                    favoriteIds.add(favoriteId);
+                }
+            }
+            JSONArray jsonDeletes = jsonFavorites.getJSONArray("DELETE");
+            if (jsonDeletes != null && jsonDeletes.length() != 0) {
+                for (Object delete : jsonDeletes) {
+                    JSONObject jsonDelete = JSONFactoryUtil.createJSONObject(delete.toString());
+                    long favoriteId = jsonDelete.getLong("favoriteId");
+                    favoriteIds.add(favoriteId);
+                }
+            }
+            if(Validator.isNotNull(favoriteIds) && favoriteIds.size() > 0) {
+                List<Favorite> favorites = favoriteLocalService.getCSMapFavoriteById(favoriteIds);
+                Favorite favorite = favorites.stream().filter(f -> !f.getPublikUserId().equals(publikUser.getPublikId())).findFirst().orElse(null);
+                if (Validator.isNotNull(favorite)) {
+                    log.error("Le favori : " + favorite.getFavoriteId() + " n'appartient pas a cet utilisateur : " + publikUser.getPublikId());
+                    return WSResponseUtil.buildErrorResponse(403, "Le favori : " + favorite.getFavoriteId() + " n'appartient pas a cet utilisateur : " + publikUser.getPublikId());
+                }
+            }
             if (jsonAdds != null && jsonAdds.length() != 0) {
-                for (int j = 0; j < jsonAdds.length(); j++) {
-                    JSONObject jsonAdd = jsonAdds.getJSONObject(j);
-                    Favorite favorite;
+                for(Object add : jsonAdds){
+                    JSONObject jsonAdd = JSONFactoryUtil.createJSONObject(add.toString());
+                    Favorite favoriteToAdd;
                     String csmapIdFavorite = jsonAdd.getString("csmapId");
                     String titleFavorite = jsonAdd.getString("title");
                     long typeFavorite = jsonAdd.getLong("type");
@@ -195,12 +219,12 @@ public class FavoriteApplication extends Application {
                             }
                         }
                         if(Validator.isNull(favoriteExist) || favoriteExist.isEmpty()) {
-                            favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                            favoriteToAdd = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         } else{
-                            favorite = WSFavorite.createOrUpdateFavorite(favoriteExist.get(0), titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                            favoriteToAdd = WSFavorite.createOrUpdateFavorite(favoriteExist.get(0), titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         }
                         JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
-                        jsonResult.put("favoriteId", favorite.getFavoriteId());
+                        jsonResult.put("favoriteId", favoriteToAdd.getFavoriteId());
                         jsonResult.put("csmapId", csmapIdFavorite);
                         json.put(jsonResult);
                     } catch (NullPointerException e){
@@ -215,10 +239,9 @@ public class FavoriteApplication extends Application {
                     }
                 }
             }
-            JSONArray jsonUpdates = jsonFavorites.getJSONArray("UPDATE");
             if (jsonUpdates != null && jsonUpdates.length() != 0) {
-                for (int j = 0; j < jsonUpdates.length(); j++) {
-                    JSONObject jsonUpdate = jsonUpdates.getJSONObject(j);
+                for(Object update : jsonUpdates){
+                    JSONObject jsonUpdate = JSONFactoryUtil.createJSONObject(update.toString());
                     String csmapIdFavorite = jsonUpdate.getString("csmapId");
                     long idFavorite = jsonUpdate.getLong("favoriteId");
                     String titleFavorite = jsonUpdate.getString("title");
@@ -226,7 +249,7 @@ public class FavoriteApplication extends Application {
                     String elementIdFavorite = jsonUpdate.getString("elementId");
                     int orderFavorite = jsonUpdate.getInt("order");
                     String contentFavorite = jsonUpdate.getString("content");
-                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
+                    Favorite favoriteToUpdate = favoriteLocalService.fetchFavorite(idFavorite);
                     boolean isNew = false;
                     // Verifie si l'entite existe encore
                     try {
@@ -239,21 +262,21 @@ public class FavoriteApplication extends Application {
                             EventLocalServiceUtil.fetchEvent(entityId).getEventId();
                         }
                         // Verifie si le favori existe, s'il n'existe pas on le recree
-                        if(Validator.isNull(favorite)){
-                            favorite = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                        if(Validator.isNull(favoriteToUpdate)){
+                            favoriteToUpdate = WSFavorite.createOrUpdateFavorite(null, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                             isNew =true;
                         } else{
-                            favorite = WSFavorite.createOrUpdateFavorite(favorite, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
+                            favoriteToUpdate = WSFavorite.createOrUpdateFavorite(favoriteToUpdate, titleFavorite, publikUser, typeFavorite, elementIdFavorite, orderFavorite, contentFavorite);
                         }
                         if(isNew){
                             JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
-                            jsonResult.put("favoriteId", favorite.getFavoriteId());
+                            jsonResult.put("favoriteId", favoriteToUpdate.getFavoriteId());
                             jsonResult.put("csmapId", csmapIdFavorite);
                             json.put(jsonResult);
                         }
                     } catch (NullPointerException e){
-                        if(Validator.isNotNull(favorite))
-                            favoriteLocalService.deleteFavorite(favorite);
+                        if(Validator.isNotNull(favoriteToUpdate))
+                            favoriteLocalService.deleteFavorite(favoriteToUpdate);
                         JSONObject jsonResult = JSONFactoryUtil.createJSONObject();
                         jsonResult.put("favoriteId", 0);
                         jsonResult.put("csmapId", csmapIdFavorite);
@@ -261,14 +284,13 @@ public class FavoriteApplication extends Application {
                     }
                 }
             }
-            JSONArray jsonDeletes = jsonFavorites.getJSONArray("DELETE");
             if (jsonDeletes != null && jsonDeletes.length() != 0) {
-                for (int j = 0; j < jsonDeletes.length(); j++) {
-                    JSONObject jsonDelete = jsonDeletes.getJSONObject(j);
+                for(Object delete : jsonDeletes){
+                    JSONObject jsonDelete = JSONFactoryUtil.createJSONObject(delete.toString());
                     long idFavorite = jsonDelete.getLong("favoriteId");
-                    Favorite favorite = FavoriteLocalServiceUtil.fetchFavorite(idFavorite);
-                    if (Validator.isNotNull(favorite)) {
-                        FavoriteLocalServiceUtil.deleteFavorite(idFavorite);
+                    Favorite favoriteToDelete = favoriteLocalService.fetchFavorite(idFavorite);
+                    if (Validator.isNotNull(favoriteToDelete)) {
+                        favoriteLocalService.deleteFavorite(idFavorite);
                     }
                 }
             }
