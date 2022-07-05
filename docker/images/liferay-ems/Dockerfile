@@ -6,11 +6,11 @@ ENV SOURCES_PATH=./sources
 ENV KEY_PATH=./activation-key
 ENV DIST_PATH=./dist
 
-RUN cp $SOURCES_PATH/liferay_entrypoint_debug.sh /usr/local/bin/ \
-    && chmod ug+rwx /usr/local/bin/liferay_entrypoint_debug.sh
-
 # Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
+
+COPY $SOURCES_PATH/liferay_entrypoint_debug.sh /usr/local/bin/
+RUN chmod ug+rwx /usr/local/bin/liferay_entrypoint_debug.sh
 
 # Création des dossiers temporaires
 RUN mkdir -p /tmp/certificates
