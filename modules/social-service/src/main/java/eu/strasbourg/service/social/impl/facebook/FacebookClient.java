@@ -73,7 +73,7 @@ public class FacebookClient {
 				posts.add(post);
 			}
 		} catch (JSONException | IOException e) {
-			log.error(e);
+			log.error(e.getMessage());
 		}
 
 		MultiVMPoolUtil.getPortalCache("facebook_cache").remove(accessToken);
