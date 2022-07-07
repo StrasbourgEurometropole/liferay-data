@@ -1,7 +1,5 @@
 <!-- Webmag - breve -->
 <#setting locale = locale />
-<#-- Récupération de DateHelper pour le format date -->
-<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign request = serviceContext.getRequest()/>
 
@@ -25,9 +23,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="filler"></div>
         <p class="seu-published">
             <@liferay_ui.message key="eu.published-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-display-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${.vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]} 
            - <@liferay_ui.message key="eu.modified-on" /> 
-            ${dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-modified-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${.vars['reserved-article-modified-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")?string["dd/MM/yyyy"]} 
         </p>
     </div>
     <h1>
