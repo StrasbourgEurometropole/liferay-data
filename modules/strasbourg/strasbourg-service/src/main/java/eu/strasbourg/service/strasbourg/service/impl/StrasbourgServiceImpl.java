@@ -19,16 +19,27 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryMetadata;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
+import com.liferay.document.library.kernel.model.DLFileVersion;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryMetadataLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileVersionLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
+import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
+import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
+import com.liferay.dynamic.data.mapping.kernel.StorageEngineManagerUtil;
+import com.liferay.dynamic.data.mapping.kernel.Value;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -74,8 +85,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -313,13 +326,14 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	 * @param  fileName le nom du fichier
 	 * @param  commissionName le nom de la commission
 	 * @param  publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param  documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param  endPublicationDate la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param  documentType Le type de document (Strasbourg, Eurométropole)
 	 * @param  documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	@Override
 	public JSONObject addDocument(String fileContent, String fileName, String commissionName,
-								  String publicationDate, String documentType, String documentName) {
+								  String publicationDate, String endPublicationDate, String documentType, String documentName) {
 		if (!isAuthorized()) {
 			return error("not authorized");
 		}
@@ -331,9 +345,6 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		if (Validator.isNull(fileName)) {
 			return error("fileName is empty");
 		}
-		if (Validator.isNull(commissionName)) {
-			return error("commissionName is empty");
-		}
 		if (Validator.isNull(publicationDate)) {
 			return error("publicationDate is empty");
 		}
@@ -342,6 +353,18 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			publicationLocalDate = LocalDateTime.parse(publicationDate);
 		} catch (DateTimeParseException e) {
 			return error("wrong date format");
+		}
+		if (Validator.isNull(endPublicationDate)) {
+			return error("endPublicationDate is empty");
+		}
+		LocalDateTime endPublicationLocalDate;
+		try {
+			endPublicationLocalDate = LocalDateTime.parse(endPublicationDate);
+		} catch (DateTimeParseException e) {
+			return error("wrong date format");
+		}
+		if (!LocalDateTime.now().isBefore(endPublicationLocalDate)) {
+			return error("Document expired");
 		}
 		if (Validator.isNull(documentType)) {
 			return error("documentType is empty");
@@ -451,21 +474,23 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 				if(Validator.isNotNull(fileEntry))
 					return error("document already existe");
 			}catch(PortalException e) {
-				// récupération de la catégorie de la commission (création si elle n'existe pas)
-				AssetVocabulary commissionVocabulary = AssetVocabularyHelper
-						.getVocabulary("Commission des actes reglementaires et normatifs", groupId);
 				AssetCategory commissionCateg = null;
-				if(Validator.isNotNull(commissionVocabulary)) {
-					Optional<AssetCategory> commissionCategOptional = commissionVocabulary.getCategories().stream()
-							.filter(c -> StringHelper.compareIgnoringAccentuation(c.getTitle(Locale.FRANCE),commissionName)).findFirst();
-					if(commissionCategOptional.isPresent()) {
-						commissionCateg = commissionCategOptional.get();
-					}else{
-						try {
-							commissionCateg = AssetCategoryLocalServiceUtil.addCategory(userId, groupId,
-									commissionName, commissionVocabulary.getVocabularyId(), sc);
-						} catch (PortalException e2) {
-							return error("commission category adding problem");
+				if(Validator.isNotNull(commissionName)) {
+					// récupération de la catégorie de la commission (création si elle n'existe pas)
+					AssetVocabulary commissionVocabulary = AssetVocabularyHelper
+							.getVocabulary("Commission des actes reglementaires et normatifs", groupId);
+					if (Validator.isNotNull(commissionVocabulary)) {
+						Optional<AssetCategory> commissionCategOptional = commissionVocabulary.getCategories().stream()
+								.filter(c -> StringHelper.compareIgnoringAccentuation(c.getTitle(Locale.FRANCE), commissionName)).findFirst();
+						if (commissionCategOptional.isPresent()) {
+							commissionCateg = commissionCategOptional.get();
+						} else {
+							try {
+								commissionCateg = AssetCategoryLocalServiceUtil.addCategory(userId, groupId,
+										commissionName, commissionVocabulary.getVocabularyId(), sc);
+							} catch (PortalException e2) {
+								return error("commission category adding problem");
+							}
 						}
 					}
 				}
@@ -477,11 +502,16 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 				if(fileTypeOptional.isPresent()){
 					DLFileEntryType fileType = fileTypeOptional.get();
 
-					//lier à la catégorie de la commission
-					assert commissionCateg != null;
-					sc.setAssetCategoryIds(new long[]{commissionCateg.getCategoryId()});
+					if(Validator.isNotNull(commissionName)) {
+						//lier à la catégorie de la commission
+						assert commissionCateg != null;
+						sc.setAssetCategoryIds(new long[]{commissionCateg.getCategoryId()});
+					}
+
 					//lier au tag Strasbourg ou Eurométropole
 					sc.setAssetTagNames(new String[]{documentType});
+					/* Si je le laisse, il me dit que le dlFileEntry existe déjà au niveau du
+					DLFileEntryLocalServiceUtil.addFileEntry
 					try {
 						fileEntry = DLAppLocalServiceUtil.addFileEntry(
 								userId, folder.getRepositoryId(),
@@ -491,19 +521,100 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 								"", decoder, sc);
 					} catch (PortalException ex) {
 						return error("document adding problem");
+					}*/
+
+					// renseigner les dates de publication
+					Map<String, DDMFormValues> ddmFormValuesMap = new HashMap<>();
+					List<DDMStructure> ddmStructures = fileType.getDDMStructures();
+					for(DDMStructure ddmStructure : ddmStructures) {
+
+						if(ddmStructure.getClassName().equals(DLFileEntryMetadata.class.getName())) {
+
+							/*
+							C'est ce que j'ai trouvé dans
+							https://liferay.dev/fr/ask/questions/development/how-to-access-custom-metadata-values-programattically-1
+							A répondu 12/02/2020 11:39
+							Mais que je n'ai pas réussi à faire fonctionner
+							sc.setAttribute("fileEntryTypeId", dlFileEntryType.getFileEntryTypeId());
+							sc.setAttribute(ddmStructure.getStructureId() + "publicationDate", publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							sc.setAttribute(ddmStructure.getStructureId() + "endPublicationDate", endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							DLFileEntryLocalServiceUtil.updateFileEntryType(userId, dlFileEntry.getFileEntryId(), dlFileEntryType.getFileEntryTypeId(), sc);
+							*/
+
+							/* trouvé dans
+							https://liferay.dev/fr/ask/questions/development/how-do-you-create-dlfileentrymetadata-object--1
+							que j'ai dû revoir avec l'aide de
+							https://liferay.dev/fr/ask/questions/development/liferay-7-2-how-to-create-a-ddmformvalues-to-add-a-ddlrecord--1
+							car dlFileEntry ne prend plus des Map<String, Fields>  mais des Map<String, DDMFormValues>*/
+							DDMFormValues ddmFormValues =  new DDMFormValues(ddmStructure.getDDMForm());
+
+							/*
+							Invalid available locales set for field name publicationDate
+							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
+							publicationDateFormFieldValue.setName("publicationDate");
+							Value publicationDateValue = new LocalizedValue();
+							publicationDateValue.addString(Locale.FRANCE, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							publicationDateFormFieldValue.setValue(publicationDateValue);
+							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
+
+							Invalid available locales set for field name publicationDate
+							DDMFormFieldValue endPublicationDateFormFieldValue = new DDMFormFieldValue();
+							endPublicationDateFormFieldValue.setName("endPublicationDate");
+							Value endPublicationDateValue = new LocalizedValue();
+							endPublicationDateValue.addString(Locale.forLanguageTag("fr-FR"), endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							endPublicationDateFormFieldValue.setValue(endPublicationDateValue);
+							ddmFormValues.addDDMFormFieldValue(endPublicationDateFormFieldValue);*/
+
+							/*
+							Suite au message de David dans
+							https://liferay.dev/fr/ask/questions/development/invalid-available-locales-set-for-field-name-businessid-1,
+							J'ai testé en mettant un champs date sans le multilangue :
+							Invalid value set for field name date
+							*/
+							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
+							publicationDateFormFieldValue.setName("date");
+							Value publicationDateValue = new LocalizedValue();
+							publicationDateValue.addString(null, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							publicationDateFormFieldValue.setValue(publicationDateValue);
+							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
+
+							ddmFormValuesMap.put(ddmStructure.getStructureKey(), ddmFormValues);
+						}
 					}
 
 					DLFileEntry dlFileEntry;
 					try {
-						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntryType(userId, fileEntry.getFileEntryId(),
-							fileType.getFileEntryTypeId(), sc);
+
+						dlFileEntry = DLFileEntryLocalServiceUtil.addFileEntry(userId, groupId, folder.getRepositoryId(),
+								folder.getFolderId(), fileName, MimeTypesUtil.getContentType(document), fileName,
+								StringPool.BLANK, StringPool.BLANK, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
+								null, document.length(), sc);
+
+						/*
+						Remplacer par la ligne au dessus pour permettre l'ajout des valeurs des champs du type de document
+						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntryType(userId, dlFileEntry.getFileEntryId(),
+								fileType.getFileEntryTypeId(), sc);
+								*/
+
+
 					} catch (PortalException ex) {
 						return error("document type change problem");
 					}
 
-					//mise à jour du champs expando
-					dlFileEntry.getExpandoBridge().setAttribute("publication-date", publicationLocalDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+					// j'ai l'impression que c'est cette ligne qui permet de mettre un document en publié, car
+					// s'il passe dans l'erreur de la ligne 601 le doc est créé mais en brouillon (alors qu'il ne passe pas par la suite)
 					DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry);
+
+					// mise en brouillon si pas encore publié
+					if(LocalDateTime.now().isBefore(publicationLocalDate)) {
+						try {
+							DLFileVersion version = dlFileEntry.getFileVersion();
+							version.setStatus(WorkflowConstants.STATUS_DRAFT);
+							DLFileVersionLocalServiceUtil.updateDLFileVersion(version);
+						} catch (PortalException ex) {
+							ex.printStackTrace();
+						}
+					}
 				}else{
 					return error("document type not found");
 				}
