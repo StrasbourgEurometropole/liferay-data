@@ -61,8 +61,8 @@
 
                 <c:if test="${isAdmin || isAdminEvote}">
                     <!-- Colonne : Type de conseil -->
-                    <liferay-ui:search-container-column-text cssClass="content-column"
-                        name="council-type" truncate="true"
+                    <liferay-ui:search-container-column-text
+                        name="council-type"
                         orderable="true" value="${councilSession.typeCouncil.title}" />
                 </c:if>
 
@@ -70,8 +70,8 @@
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 
 				<!-- Colonne : Date -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="date" orderable="true"
 					value="${formattedDate}" />
 
                 <!-- Colonne : Président -->

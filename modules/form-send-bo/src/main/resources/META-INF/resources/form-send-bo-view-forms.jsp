@@ -66,15 +66,15 @@
 					value="${ddmFormInstance.getName(locale)}" />
 
 				<%-- Colonne : Id --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${viewFormSendsURL}" name="id" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					href="${viewFormSendsURL}" name="id" orderable="true"
 					value="${ddmFormInstance.formInstanceId}" />
 
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${ddmFormInstance.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 			</liferay-ui:search-container-row>
 

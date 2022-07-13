@@ -81,15 +81,16 @@
 					value="${petition.title}" />
                 
                 <%-- Colonne : Auteur --%>
-                <liferay-ui:search-container-column-text name="author">
+                <liferay-ui:search-container-column-text name="author"
+                    cssClass="content-column" truncate="true">
                     ${petition.getAuthorLabel()}
                 </liferay-ui:search-container-column-text>
 				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${petition.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 				
 				<%-- Colonne : Administrateur --%>
