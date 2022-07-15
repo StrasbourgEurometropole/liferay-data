@@ -60,7 +60,7 @@
 
                 <!-- Colonne : Publication -->
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editOfferURL}" name="publication-id" truncate="true"
+					href="${editOfferURL}" name="publication-id"
 					orderable="true" value="${offer.publicationId}" />
 
                 <!-- Colonne : type d'export' -->
@@ -77,7 +77,7 @@
                    </c:otherwise>
                 </c:choose>
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="ejob-export-totem" truncate="true"
+					name="ejob-export-totem"
 					orderable="true" value="${isExported}" />
 
                 <!-- Colonne : intitulé du post -->
@@ -89,21 +89,21 @@
 				<fmt:formatDate value="${offer.publicationStartDate}"
 					var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="publication-date" truncate="true"
+					name="publication-date"
 					orderable="true" value="${formattedPublicationStartDate}" />
 
                 <!-- Colonne : date de fin de publication -->
 				<fmt:formatDate value="${offer.publicationEndDate}"
 					var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="end-date" truncate="true"
+					name="end-date"
 					orderable="true" value="${formattedPublicationEndDate}" />
 
                 <!-- Colonne : date de modification -->
 				<fmt:formatDate value="${offer.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy" />
 				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true"
+					name="modified-date"
 					orderable="true" value="${formattedModifiedDate}" />
 
                 <!-- Colonne : statut -->

@@ -174,9 +174,12 @@ public class AuthApplication extends Application {
 
             jsonResponse.put(WSConstants.JSON_JWT_CSM, csmapJWT);
 
-        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException | NoSuchAlgorithmException e) {
-            log.error(e);
+        } catch (NoSuchRefreshTokenException | RefreshTokenExpiredException e) {
+            log.info(e.getMessage());
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            log.error("No Algorithm found");
+            return WSResponseUtil.buildErrorResponse(401, "No Algorithm found");
         }
 
         return WSResponseUtil.buildOkResponse(jsonResponse);

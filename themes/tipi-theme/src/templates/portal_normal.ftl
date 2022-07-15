@@ -129,6 +129,7 @@
 					<li> <a href="https://www.strasbourg.eu/donnees-personnelles" title="Données personnelles">Données personnelles</a></li> 
 					<li> <a href="javascript:tarteaucitron.userInterface.openPanel();" title="Gestion des cookies">Gestion des cookies</a></li> 
 					<li> <a href="https://www.strasbourg.eu/politique-cookies" title="Politique cookies">Politique cookies</a></li> 
+					<li> <a href="https://tipi.strasbourg.eu/accessibilite" title="Accessibilité (partiellement conforme)">Accessibilité (partiellement conforme)</a></li> 
 				</ul> 
 				
 				<p class="footer-contact"> Ville et Eurométropole de Strasbourg © ${.now?string.yyyy}</p> 

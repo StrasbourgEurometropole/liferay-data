@@ -81,14 +81,14 @@
 
 				<fmt:formatDate value="${gallery.publicationDate}"
 					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="publication-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="publication-date" orderable="true"
 					value="${formattedPublicationDate}" />
 
 				<fmt:formatDate value="${gallery.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 					
 				<liferay-ui:search-container-column-text name="user">

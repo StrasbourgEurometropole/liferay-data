@@ -2,8 +2,11 @@ package eu.strasbourg.portlet.place.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.service.TicketLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
@@ -68,19 +71,31 @@ public class ViewTokenDisplayContext {
         return this.lastAccesToken;
     }
 
-    public Map<String, String> getLocationIds() throws Exception{
+    public Map<String, String> getLocationIds(){
         Map<String, String> locationIds = new HashMap<String, String>();
         //récupère les infos des lieux
-        JSONObject json = getLocation();
+        JSONObject json = null;
+        try {
+            json = getLocation();
+        } catch (Exception e) {
+            _log.error(e);
+        }
         String error = json.getString("error");
         if (Validator.isNull(error)) {
             JSONArray locations = json.getJSONArray("locations");
             for (Object location : locations) {
-                JSONObject jsonLocation = JSONFactoryUtil.createJSONObject(location.toString());
-                String lieu = jsonLocation.getString("locationName");
+                JSONObject jsonLocation = null;
+                try {
+                    jsonLocation = JSONFactoryUtil.createJSONObject(location.toString());
+                } catch (JSONException e) {
+                    _log.error(e);
+                }
+                String lieu = jsonLocation.getString("title");
                 String locationId = jsonLocation.getString("name").split("locations/")[1];
                 locationIds.put(lieu,locationId);
             }
+        }else{
+            _log.error(error);
         }
         return locationIds;
     }
@@ -93,7 +108,7 @@ public class ViewTokenDisplayContext {
         if (Validator.isNull(error)) {
             String accessToken = json.getString("access_token");
 
-            String url = StrasbourgPropsUtil.getGMBUrl();
+            String url = StrasbourgPropsUtil.getGMBListUrl() + "?readMask=name,title";
             URL u = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             conn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
@@ -145,4 +160,6 @@ public class ViewTokenDisplayContext {
         }
         return jsonResponse;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
