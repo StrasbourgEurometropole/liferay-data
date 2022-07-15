@@ -534,7 +534,7 @@ public class StrasbourgServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
 		HttpPrincipal httpPrincipal, String fileContent, String fileName,
 		String commissionName, String publicationDate,
-		String endPublicationDate, String documentType, String documentName) {
+		String publicationDateFin, String documentType, String documentName) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -543,7 +543,7 @@ public class StrasbourgServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, fileContent, fileName, commissionName,
-				publicationDate, endPublicationDate, documentType,
+				publicationDate, publicationDateFin, documentType,
 				documentName);
 
 			Object returnObj = null;

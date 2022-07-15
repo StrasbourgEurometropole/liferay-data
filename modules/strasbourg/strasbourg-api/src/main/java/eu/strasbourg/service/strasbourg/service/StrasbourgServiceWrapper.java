@@ -39,7 +39,7 @@ public class StrasbourgServiceWrapper
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission
 	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param endPublicationDate la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
 	 * @param documentType Le type de document (Strasbourg, Eurométropole)
 	 * @param documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
@@ -47,12 +47,12 @@ public class StrasbourgServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addDocument(
 		String fileContent, String fileName, String commissionName,
-		String publicationDate, String endPublicationDate, String documentType,
+		String publicationDate, String publicationDateFin, String documentType,
 		String documentName) {
 
 		return _strasbourgService.addDocument(
 			fileContent, fileName, commissionName, publicationDate,
-			endPublicationDate, documentType, documentName);
+			publicationDateFin, documentType, documentName);
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFileVersion;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.model.DLVersionNumberIncrease;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
@@ -37,6 +38,8 @@ import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
 import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
 import com.liferay.dynamic.data.mapping.kernel.StorageEngineManagerUtil;
 import com.liferay.dynamic.data.mapping.kernel.Value;
+import com.liferay.dynamic.data.mapping.storage.Field;
+import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
@@ -82,14 +85,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The implementation of the strasbourg remote service.
@@ -326,14 +333,14 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	 * @param  fileName le nom du fichier
 	 * @param  commissionName le nom de la commission
 	 * @param  publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param  endPublicationDate la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param  publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
 	 * @param  documentType Le type de document (Strasbourg, Eurométropole)
 	 * @param  documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	@Override
 	public JSONObject addDocument(String fileContent, String fileName, String commissionName,
-								  String publicationDate, String endPublicationDate, String documentType, String documentName) {
+								  String publicationDate, String publicationDateFin, String documentType, String documentName) {
 		if (!isAuthorized()) {
 			return error("not authorized");
 		}
@@ -354,12 +361,12 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		} catch (DateTimeParseException e) {
 			return error("wrong date format");
 		}
-		if (Validator.isNull(endPublicationDate)) {
-			return error("endPublicationDate is empty");
+		if (Validator.isNull(publicationDateFin)) {
+			return error("publicationDateFin is empty");
 		}
 		LocalDateTime endPublicationLocalDate;
 		try {
-			endPublicationLocalDate = LocalDateTime.parse(endPublicationDate);
+			endPublicationLocalDate = LocalDateTime.parse(publicationDateFin);
 		} catch (DateTimeParseException e) {
 			return error("wrong date format");
 		}
@@ -510,8 +517,46 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 					//lier au tag Strasbourg ou Eurométropole
 					sc.setAssetTagNames(new String[]{documentType});
-					/* Si je le laisse, il me dit que le dlFileEntry existe déjà au niveau du
-					DLFileEntryLocalServiceUtil.addFileEntry
+
+					// renseigner les dates de publication
+					Map<String, DDMFormValues> ddmFormValuesMap = new HashMap<>();
+					List<DDMStructure> ddmStructures = fileType.getDDMStructures();
+					// Définition des locales disponiables pour DDMFormValues (obligatoire)
+					Set<Locale> availableLocales = new HashSet<>();
+					availableLocales.add(Locale.FRANCE);
+					Map fieldsmap = new HashMap<>();
+					for(DDMStructure ddmStructure : ddmStructures) {
+
+						if(ddmStructure.getClassName().equals(DLFileEntryMetadata.class.getName())) {
+
+							// Récupération de DDMFormValues
+							DDMFormValues ddmFormValues =  new DDMFormValues(ddmStructure.getDDMForm());
+							ddmFormValues.setAvailableLocales(availableLocales);
+							ddmFormValues.setDefaultLocale(Locale.FRANCE);
+
+							// Création de la métadonnées "Date de publication"
+							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
+							publicationDateFormFieldValue.setName("publicationDate");
+							Value publicationDateValue = new LocalizedValue();
+							publicationDateValue.addString(Locale.FRANCE, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							publicationDateFormFieldValue.setValue(publicationDateValue);
+
+							// Création de la métadonnées "Date de fin de publication"
+							DDMFormFieldValue endPublicationDateFormFieldValue = new DDMFormFieldValue();
+							endPublicationDateFormFieldValue.setName("endPublicationDate");
+							Value endPublicationDateValue = new LocalizedValue();
+							endPublicationDateValue.addString(Locale.FRANCE, endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							endPublicationDateFormFieldValue.setValue(endPublicationDateValue);
+
+							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
+							ddmFormValues.addDDMFormFieldValue(endPublicationDateFormFieldValue);
+							ddmFormValuesMap.put(ddmStructure.getStructureKey(), ddmFormValues);
+						}
+					}
+
+					// AJout du type de document dans le servcie Context (pris en compte alors dans le addFileEntry)
+					sc.setAttribute("fileEntryTypeId", fileType.getFileEntryTypeId());
+					sc.setUserId(userId);
 					try {
 						fileEntry = DLAppLocalServiceUtil.addFileEntry(
 								userId, folder.getRepositoryId(),
@@ -521,89 +566,20 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 								"", decoder, sc);
 					} catch (PortalException ex) {
 						return error("document adding problem");
-					}*/
-
-					// renseigner les dates de publication
-					Map<String, DDMFormValues> ddmFormValuesMap = new HashMap<>();
-					List<DDMStructure> ddmStructures = fileType.getDDMStructures();
-					for(DDMStructure ddmStructure : ddmStructures) {
-
-						if(ddmStructure.getClassName().equals(DLFileEntryMetadata.class.getName())) {
-
-							/*
-							C'est ce que j'ai trouvé dans
-							https://liferay.dev/fr/ask/questions/development/how-to-access-custom-metadata-values-programattically-1
-							A répondu 12/02/2020 11:39
-							Mais que je n'ai pas réussi à faire fonctionner
-							sc.setAttribute("fileEntryTypeId", dlFileEntryType.getFileEntryTypeId());
-							sc.setAttribute(ddmStructure.getStructureId() + "publicationDate", publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							sc.setAttribute(ddmStructure.getStructureId() + "endPublicationDate", endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							DLFileEntryLocalServiceUtil.updateFileEntryType(userId, dlFileEntry.getFileEntryId(), dlFileEntryType.getFileEntryTypeId(), sc);
-							*/
-
-							/* trouvé dans
-							https://liferay.dev/fr/ask/questions/development/how-do-you-create-dlfileentrymetadata-object--1
-							que j'ai dû revoir avec l'aide de
-							https://liferay.dev/fr/ask/questions/development/liferay-7-2-how-to-create-a-ddmformvalues-to-add-a-ddlrecord--1
-							car dlFileEntry ne prend plus des Map<String, Fields>  mais des Map<String, DDMFormValues>*/
-							DDMFormValues ddmFormValues =  new DDMFormValues(ddmStructure.getDDMForm());
-
-							/*
-							Invalid available locales set for field name publicationDate
-							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
-							publicationDateFormFieldValue.setName("publicationDate");
-							Value publicationDateValue = new LocalizedValue();
-							publicationDateValue.addString(Locale.FRANCE, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							publicationDateFormFieldValue.setValue(publicationDateValue);
-							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
-
-							Invalid available locales set for field name publicationDate
-							DDMFormFieldValue endPublicationDateFormFieldValue = new DDMFormFieldValue();
-							endPublicationDateFormFieldValue.setName("endPublicationDate");
-							Value endPublicationDateValue = new LocalizedValue();
-							endPublicationDateValue.addString(Locale.forLanguageTag("fr-FR"), endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							endPublicationDateFormFieldValue.setValue(endPublicationDateValue);
-							ddmFormValues.addDDMFormFieldValue(endPublicationDateFormFieldValue);*/
-
-							/*
-							Suite au message de David dans
-							https://liferay.dev/fr/ask/questions/development/invalid-available-locales-set-for-field-name-businessid-1,
-							J'ai testé en mettant un champs date sans le multilangue :
-							Invalid value set for field name date
-							*/
-							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
-							publicationDateFormFieldValue.setName("date");
-							Value publicationDateValue = new LocalizedValue();
-							publicationDateValue.addString(null, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-							publicationDateFormFieldValue.setValue(publicationDateValue);
-							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
-
-							ddmFormValuesMap.put(ddmStructure.getStructureKey(), ddmFormValues);
-						}
 					}
 
-					DLFileEntry dlFileEntry;
+					DLFileEntry dlFileEntry = null;
 					try {
-
-						dlFileEntry = DLFileEntryLocalServiceUtil.addFileEntry(userId, groupId, folder.getRepositoryId(),
-								folder.getFolderId(), fileName, MimeTypesUtil.getContentType(document), fileName,
-								StringPool.BLANK, StringPool.BLANK, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
+						//Réenregistrement du DLFileEntry pour mettre à jour les métadonnées
+						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(userId, fileEntry.getFileEntryId(), fileName,
+								MimeTypesUtil.getContentType(document), fileName,
+								StringPool.BLANK, StringPool.BLANK,DLVersionNumberIncrease.NONE, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
 								null, document.length(), sc);
 
-						/*
-						Remplacer par la ligne au dessus pour permettre l'ajout des valeurs des champs du type de document
-						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntryType(userId, dlFileEntry.getFileEntryId(),
-								fileType.getFileEntryTypeId(), sc);
-								*/
-
-
-					} catch (PortalException ex) {
+					} catch (Exception ex) {
+						log.error(ex);
 						return error("document type change problem");
 					}
-
-					// j'ai l'impression que c'est cette ligne qui permet de mettre un document en publié, car
-					// s'il passe dans l'erreur de la ligne 601 le doc est créé mais en brouillon (alors qu'il ne passe pas par la suite)
-					DLFileEntryLocalServiceUtil.updateDLFileEntry(dlFileEntry);
 
 					// mise en brouillon si pas encore publié
 					if(LocalDateTime.now().isBefore(publicationLocalDate)) {
@@ -612,7 +588,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 							version.setStatus(WorkflowConstants.STATUS_DRAFT);
 							DLFileVersionLocalServiceUtil.updateDLFileVersion(version);
 						} catch (PortalException ex) {
-							ex.printStackTrace();
+							log.error(ex);
 						}
 					}
 				}else{
