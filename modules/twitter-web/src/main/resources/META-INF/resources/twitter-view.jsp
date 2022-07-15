@@ -39,7 +39,7 @@
 				<div class="social-network">
 				    <span><liferay-ui:message key="tw.partage" /></span>
                     <ul>
-                        <li><a class="btn-fb" href="//www.facebook.com/Strasbourg.aime.ses.etudiants/" target="_blank"></a></li>
+                        <li><a class="btn-fb" href="https://www.facebook.com/strasetudiants" target="_blank"></a></li>
                         <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
                         <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
                     </ul>

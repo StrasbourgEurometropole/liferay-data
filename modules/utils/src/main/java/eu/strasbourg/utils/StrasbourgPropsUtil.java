@@ -317,7 +317,9 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBActivated() {return PropsUtil.get("eu.strasbourg.google.synchronized.activated");}
 
-	public static String getGMBUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized");}
+	public static String getGMBListUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized.list");}
+
+	public static String getGMBUpdateUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized.update");}
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 

@@ -38,12 +38,13 @@
 				<%-- Colonne : Date de creation --%>
 				<fmt:formatDate value="${importHistoric.createDate}"
 					var="formattedCreateDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="create-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="create-date" orderable="true"
 					value="${formattedCreateDate}" />
 				
 				<%-- Colonne : Createur --%>
-				<liferay-ui:search-container-column-text name="user">
+				<liferay-ui:search-container-column-text name="user"
+				    cssClass="content-column" truncate="true" >
 					${importHistoric.statusByUserName}
 				</liferay-ui:search-container-column-text>
 

@@ -24,18 +24,18 @@ import com.liferay.portal.kernel.exception.NoSuchModelException;
 public class NoSuchRefreshTokenException extends NoSuchModelException {
 
 	public NoSuchRefreshTokenException() {
+		super("No Refresh token for");
 	}
 
 	public NoSuchRefreshTokenException(String msg) {
-		super(msg);
+		super("No Refresh token for : " + msg);
 	}
 
 	public NoSuchRefreshTokenException(String msg, Throwable cause) {
-		super(msg, cause);
+		super("No Refresh token for : " + msg, cause);
 	}
 
 	public NoSuchRefreshTokenException(Throwable cause) {
-		super(cause);
+		super("No Refresh token for", cause);
 	}
-
 }

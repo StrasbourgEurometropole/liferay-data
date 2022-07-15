@@ -111,12 +111,14 @@ public class OfferMessageListener
 		log.info("Start envoi mail aux partenaires");
 		// Envoi mail aux partenaires
 		// Recuperation des offres a envoyer
+		log.info("Partenaires - Récupération des offres à envoyer");
 		List<Offer> offersExterne = _offerLocalService.findOffersNotSent();
 
 		// on ne prend que les offres validées
 		// on ne prend que les offres externes
 		// on ne prend que les offres ayant au moins une adresse mail
 		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
+		log.info("Partenaires - Filtre des offres à envoyer");
 		offersExterne = offersExterne.stream()
 				.filter(o -> o.getStatus() == WorkflowConstants.STATUS_APPROVED)
 				.filter(o -> !o.getTypePublication().getName().equals("Interne uniquement"))
@@ -126,6 +128,7 @@ public class OfferMessageListener
 		// on envoi un mail aux partenaires
 		int nbMailSend = 0;
 		for (Offer offer : offersExterne) {
+			log.info("Partenaires - Envoi mail - Offre : "+ offer.getOfferId());
 			if (offer.sendMail()) {
 				offer.setEmailPartnerSent(1);
 				_offerLocalService.updateOffer(offer);
@@ -142,6 +145,7 @@ public class OfferMessageListener
 		// ClassNames de l'offre
 		String classNames = Offer.class.getName();
 
+		log.info("Utilisateurs - Récupération Alertes");
 		List<Alert> alerts = _alertLocalService.getAlerts(-1, -1);
 		List<Offer> offersSend = new ArrayList<>();
 		nbMailSend = 0;
@@ -159,10 +163,12 @@ public class OfferMessageListener
 			// Locale
 			Locale locale = LocaleUtil.fromLanguageId(alert.getLanguage());
 
+			log.info("Utilisateurs - Recherche ES des offres pour l'alerte : "+alert.getAlertId());
 			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds,
 					keywords, locale);
 
 			if (hits != null) {
+				log.info("Utilisateurs - Récupération des offres pour l'alerte : "+alert.getAlertId());
 				List<Offer> offersToSend = new ArrayList<>();
 				for (Document document : hits.getDocs()) {
 					Offer offer = _offerLocalService.fetchOffer(Long.parseLong(document.get(Field.ENTRY_CLASS_PK)));
@@ -174,6 +180,7 @@ public class OfferMessageListener
 				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0)
 				// on ne prend que les offres externes
 				// qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
+				log.info("Utilisateurs - Filtre des offres pour l'alerte : "+alert.getAlertId());
 				offersToSend = offersToSend.stream()
 						.filter(o -> o.getEmailSend() == 0)
 						.filter(o -> !o.getTypePublication().equals("Interne uniquement"))
@@ -181,6 +188,7 @@ public class OfferMessageListener
 						.collect(Collectors.toList());
 
 				if(offersToSend.size() > 0) {
+					log.info("Utilisateurs - Envoie de mail pour l'alerte : "+alert.getAlertId());
 					if (alert.sendMail(offersToSend)) {
 						offersSend.addAll(offersToSend);
 						nbMailSend++;

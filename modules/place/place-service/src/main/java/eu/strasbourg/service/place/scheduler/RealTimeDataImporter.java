@@ -1,6 +1,8 @@
 package eu.strasbourg.service.place.scheduler;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -56,8 +58,10 @@ public class RealTimeDataImporter extends BaseMessageListener {
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
+		this.log.info("Start updating real time");
 		JSONArray parkingJsonArray = openDataRealTimeParkingService.getParkingJSON();
 	    _placeLocalService.updateRealTime(parkingJsonArray);
+		this.log.info("End updating real time");
 	}
 
 	@Reference(unbind = "-")
@@ -86,5 +90,6 @@ public class RealTimeDataImporter extends BaseMessageListener {
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
+	private final Log log = LogFactoryUtil.getLog(this.getClass());
 
 }

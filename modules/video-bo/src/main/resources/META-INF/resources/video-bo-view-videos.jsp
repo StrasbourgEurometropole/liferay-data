@@ -80,7 +80,7 @@
 					orderable="true" value="${video.titleCurrentValue}" />
 					
 				<liferay-ui:search-container-column-text
-					cssClass="content-column table-cell-content" name="eu.video.provider">
+					name="eu.video.provider">
 					<c:forEach var="provider" items="${video.providers}" varStatus="status">
 						<c:if test="${status.index gt 0}">
 						 - 
@@ -90,7 +90,7 @@
 				</liferay-ui:search-container-column-text>
 				
 				<liferay-ui:search-container-column-text
-					cssClass="content-column table-cell-content" name="themes">
+					name="themes">
 					<c:forEach var="theme" items="${video.themes}" varStatus="status">
 						<c:if test="${status.index gt 0}">
 						 - 
@@ -111,7 +111,7 @@
 
 				<fmt:formatDate value="${video.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text
 					name="modified-date" truncate="true" orderable="true"
 					value="${formattedModifiedDate}" />
 					
