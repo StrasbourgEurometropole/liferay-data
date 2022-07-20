@@ -77,8 +77,11 @@
 		                    <img src="${images_folder}/../img/logo_strasbourg.png" alt="Strasbourg.eu" />
 		                </a>
 		                <ul>
-		                    <li class="contact">
+		                    <!-- <li class="contact">
 		                        <a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/pied-de-page/contact" title="Contact"><@liferay_ui.message key='contact' /></a>
+		                    </li> -->
+		                    <li class="contact">
+		                        <a href="https://lumen.oeuvre-notre-dame.eu/" target="_blank" title="LUMEN, le portail des collections de la Fondation de l'Oeuvre Notre-Dame (<@liferay_ui.message key='new-window' />)" alt="LUMEN, le portail des collections de la Fondation de l'Oeuvre Notre-Dame">LUMEN</a>
 		                    </li>
 		                </ul>
 		                <div class="clearfix"></div>

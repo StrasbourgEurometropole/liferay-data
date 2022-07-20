@@ -84,15 +84,15 @@
 					value="${budgetPhase.title}" />
 				
 				<%-- Colonne : Active --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editBudgetPhaseURL}" name="is-active" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					href="${editBudgetPhaseURL}" name="is-active" orderable="true"
 					value="${budgetPhase.isActive ? 'Oui' : 'Non'}" />
 				
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${budgetPhase.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 				
 				<%-- Colonne : Createur --%>

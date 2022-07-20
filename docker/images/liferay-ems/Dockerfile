@@ -9,6 +9,9 @@ ENV DIST_PATH=./dist
 # Changement d'utilisateur sur root pour les opérations nécéssitants ses droits 
 USER root
 
+COPY $SOURCES_PATH/liferay_entrypoint_debug.sh /usr/local/bin/
+RUN chmod ug+rwx,o+rx /usr/local/bin/liferay_entrypoint_debug.sh
+
 # Création des dossiers temporaires
 RUN mkdir -p /tmp/certificates
 

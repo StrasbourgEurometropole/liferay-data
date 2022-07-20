@@ -75,18 +75,20 @@
 					href="${editActivityCourseURL}" name="name" truncate="true"
 					orderable="true" value="${activityCourse.nameCurrentValue}" />
 
-				<liferay-ui:search-container-column-text name="activity">
+				<liferay-ui:search-container-column-text name="activity"
+				    cssClass="content-column" truncate="true" >
 					${activityCourse.activity.titleCurrentValue}
 				</liferay-ui:search-container-column-text>
 				
-				<liferay-ui:search-container-column-text name="activity-organizer">
+				<liferay-ui:search-container-column-text name="activity-organizer"
+				    cssClass="content-column" truncate="true" >
 					${activityCourse.activityOrganizer.nameCurrentValue}
 				</liferay-ui:search-container-column-text>
 					
 				<fmt:formatDate value="${activityCourse.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 
 				<liferay-ui:search-container-column-text name="user">
