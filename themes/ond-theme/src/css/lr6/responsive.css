@@ -58,7 +58,7 @@
         position: relative;
     }
     
-    .header .nav-lang ul li.contact,.header .bx-controls.bx-has-controls-auto
+    .header .bx-controls.bx-has-controls-auto
     {
         display: none
     }
