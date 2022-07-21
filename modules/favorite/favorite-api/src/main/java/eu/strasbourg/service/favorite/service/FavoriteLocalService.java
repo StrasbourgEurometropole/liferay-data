@@ -211,6 +211,12 @@ public interface FavoriteLocalService
 		long type, long entityId, String publikUserId, String content);
 
 	/**
+	 * Retourne la liste des favoris liferay passés en paramètre
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Favorite> getCSMapFavoriteById(List<Long> favoriteIds);
+
+	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

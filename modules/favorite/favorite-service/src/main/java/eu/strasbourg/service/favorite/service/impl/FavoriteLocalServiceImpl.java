@@ -98,6 +98,18 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		return FavoriteLocalServiceUtil.dynamicQuery(dq);
 	}
 
+	/**
+	 * Retourne la liste des favoris liferay passés en paramètre
+	 */
+	@Override
+	public List<Favorite> getCSMapFavoriteById(List<Long> favoriteIds) {
+		DynamicQuery dq = FavoriteLocalServiceUtil.dynamicQuery();
+		Criterion type = RestrictionsFactoryUtil.in("favoriteId", favoriteIds);
+		dq.add(type);
+
+		return FavoriteLocalServiceUtil.dynamicQuery(dq);
+	}
+
 	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId) {
 		List<Favorite> favorites = this.favoritePersistence.findByEntityIdAndTypeId(entityId, typeId);
 
