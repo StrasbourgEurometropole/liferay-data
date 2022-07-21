@@ -93,7 +93,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image de l'auteur"/>
                             </figure>
                             <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${user.getFullName()}</strong></p>
+                            <p><strong>${entry.getStatusByUserName()}</strong></p>
                         </div>
                     </div>
 
@@ -200,18 +200,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Documents à télécharger</h3>
                                 <div class="row">
-                                        <#list entry.filesURLs as fileURL>
-                                            <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                            <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                            <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                                            <div class="col-sm-6">
-                                                <a href="${fileURL}" download title="${title}">
-                                                    <span class="pro-filename">${title}</span>
-                                                    <span class="pro-poids">Poids ${size}</span>
-                                                </a>
-                                            </div>
-                                        </#list>
-
+                                    <#list entry.filesURLs as fileURL>
+                                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+                                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                                        <div class="col-sm-6">
+                                            <a href="${fileURL}" download title="${title}">
+                                                <span class="pro-filename">${title}</span>
+                                                <span class="pro-poids">Poids ${size}</span>
+                                            </a>
+                                        </div>
+                                    </#list>
                                 </div>
                             </div>
                         </#if>
