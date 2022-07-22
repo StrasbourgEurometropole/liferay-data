@@ -8,7 +8,7 @@
 
 <#-- Recuperation du créateur de la participation -->
 <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
-<#assign user = UserLocalService.getUser(entry.getAssetEntry().userId) />
+<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
 
 <#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
