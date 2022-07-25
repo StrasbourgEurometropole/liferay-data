@@ -208,14 +208,13 @@
             </p>
             <p class="privacy-policy">
               <label><@liferay_ui.message key="eu.privacy-policy" /></label>
-              <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+              <#assign preferences = freeMarkerPortletPreferences.getPreferences("portletSetupPortletDecoratorId", "barebone") />
               <@liferay_portlet["runtime"]
-                defaultPreferences="${freeMarkerPortletPreferences}"
+                defaultPreferences="${preferences}"
                 portletProviderAction=portletProviderAction.VIEW
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
                 settingsScope="group"
                 instanceId="entityDetail" />
-              ${freeMarkerPortletPreferences.reset()}
             </p>
           </form>
         </div>
