@@ -1,0 +1,80 @@
+#canopee {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    @include RWD(mobile){
+        flex-direction: column;
+        align-content: center;
+    
+    }
+
+    div{
+        background-repeat: no-repeat;
+        background-size: contain;
+        font-family: $amiko;
+        font-weight: 700;
+        width: 300px;
+        @include RWD(tablet_only){
+            width: 220px;
+        }
+        
+        &:before {
+            content: "";
+            float: left;
+            padding-top: 100%; 	/* initial ratio of 1:1*/
+        }
+        
+        + div{
+            margin-left: 25px;
+            @include RWD(tablet_only){
+                margin-left: 10px;
+            }
+            @include RWD(mobile){
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        &.arbres{
+            background-image: url("../images/canopee/ARBRE_PLANTES.png");
+            color: #00701c;
+        }
+
+        &.ecole{
+            background-image: url("../images/canopee/COURS_ECOLE.png");
+            color: #f2f230;
+        }
+
+        &.demineralisee{
+            background-image: url("../images/canopee/DEMINERALISEE.png");
+            color: white;
+        }
+
+        .number{
+            text-align: center;
+            font-size: 70px;
+            letter-spacing: 7px;
+            line-height: 70px;
+            margin-top: 110px;
+            @include RWD(tablet_only){
+                font-size: 54px;
+                letter-spacing: 5px;
+                line-height: 42px;
+                margin-top: 90px;
+            }
+        }
+
+        .label{
+            border: none;
+            padding: 0;
+            font-size: 35px;
+            line-height: 36px;
+            margin: 0 0 0 24px;
+            @include RWD(tablet_only){
+                font-size: 27px;
+                line-height: 28px;
+                margin-left: 19px;
+            }
+        }
+    }
+}

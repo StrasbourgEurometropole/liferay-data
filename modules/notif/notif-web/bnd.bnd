@@ -1,0 +1,4 @@
+Bundle-Name: notif-web
+Bundle-SymbolicName: notif.web
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.notif.itemselector

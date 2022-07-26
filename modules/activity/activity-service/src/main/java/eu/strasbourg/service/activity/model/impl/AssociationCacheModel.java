@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class AssociationCacheModel
 	implements CacheModel<Association>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof AssociationCacheModel)) {
+		if (!(object instanceof AssociationCacheModel)) {
 			return false;
 		}
 
 		AssociationCacheModel associationCacheModel =
-			(AssociationCacheModel)obj;
+			(AssociationCacheModel)object;
 
 		if (associationId == associationCacheModel.associationId) {
 			return true;
@@ -220,7 +217,9 @@ public class AssociationCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		associationId = objectInput.readLong();
@@ -234,12 +233,12 @@ public class AssociationCacheModel
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		presentation = objectInput.readUTF();
+		presentation = (String)objectInput.readObject();
 		phone = objectInput.readUTF();
 		siteURL = objectInput.readUTF();
 		mail = objectInput.readUTF();
 		facebookURL = objectInput.readUTF();
-		othersInformations = objectInput.readUTF();
+		othersInformations = (String)objectInput.readObject();
 
 		status = objectInput.readInt();
 
@@ -283,10 +282,10 @@ public class AssociationCacheModel
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(presentation);
+			objectOutput.writeObject(presentation);
 		}
 
 		if (phone == null) {
@@ -318,10 +317,10 @@ public class AssociationCacheModel
 		}
 
 		if (othersInformations == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(othersInformations);
+			objectOutput.writeObject(othersInformations);
 		}
 
 		objectOutput.writeInt(status);

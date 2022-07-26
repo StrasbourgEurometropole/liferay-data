@@ -39,9 +39,8 @@ import eu.strasbourg.service.council.model.CouncilSession;
 
 import java.io.Serializable;
 
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Provides the local service interface for CouncilSession. Methods of this
@@ -70,11 +69,21 @@ public interface CouncilSessionLocalService
 	/**
 	 * Adds the council session to the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CouncilSessionLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param councilSession the council session
 	 * @return the council session that was added
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public CouncilSession addCouncilSession(CouncilSession councilSession);
+
+	/**
+	 * Calcul de la date pour trouver le conseil
+	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
+	 */
+	public java.util.GregorianCalendar calculDateForFindCouncil();
 
 	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
@@ -94,6 +103,10 @@ public interface CouncilSessionLocalService
 	/**
 	 * Deletes the council session from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CouncilSessionLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param councilSession the council session
 	 * @return the council session that was removed
 	 */
@@ -102,6 +115,10 @@ public interface CouncilSessionLocalService
 
 	/**
 	 * Deletes the council session with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CouncilSessionLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param councilSessionId the primary key of the council session
 	 * @return the council session that was removed
@@ -134,7 +151,7 @@ public interface CouncilSessionLocalService
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -150,7 +167,7 @@ public interface CouncilSessionLocalService
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -201,7 +218,7 @@ public interface CouncilSessionLocalService
 	/**
 	 * Recherche par Date de CouncilSession
 	 */
-	public List<CouncilSession> findByDate(Date date);
+	public List<CouncilSession> findByDate(java.util.Date date);
 
 	/**
 	 * Recherche par titre de CouncilSession
@@ -244,7 +261,7 @@ public interface CouncilSessionLocalService
 	 * Returns a range of all the council sessions.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.council.model.impl.CouncilSessionModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of council sessions
@@ -296,7 +313,7 @@ public interface CouncilSessionLocalService
 	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CouncilSession> getFutureCouncilSessions(Date date);
+	public List<CouncilSession> getFutureCouncilSessions(java.util.Date date);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -308,6 +325,9 @@ public interface CouncilSessionLocalService
 	 */
 	public String getOSGiServiceIdentifier();
 
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
@@ -318,12 +338,6 @@ public interface CouncilSessionLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasDelib(long councilSessionId);
-
-	/**
-	 * Si la date avec l'ID donné est déjà utilisé par une autre session
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isDateAlreadyUsed(Date date, long councilSessionId);
 
 	/**
 	 * Si le titre avec l'ID donné est déjà utilisé par une autre session du même type de conseil
@@ -340,6 +354,10 @@ public interface CouncilSessionLocalService
 
 	/**
 	 * Updates the council session in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CouncilSessionLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param councilSession the council session
 	 * @return the council session that was updated
@@ -365,7 +383,7 @@ public interface CouncilSessionLocalService
 	 */
 	public CouncilSession updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			Map<String, Serializable> workflowContext)
+			java.util.Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

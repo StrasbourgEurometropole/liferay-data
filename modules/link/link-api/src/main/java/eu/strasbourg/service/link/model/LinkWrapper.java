@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.link.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Link
  * @generated
  */
-@ProviderType
 public class LinkWrapper implements Link, ModelWrapper<Link> {
 
 	public LinkWrapper(Link link) {
@@ -1154,16 +1151,16 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof LinkWrapper)) {
+		if (!(object instanceof LinkWrapper)) {
 			return false;
 		}
 
-		LinkWrapper linkWrapper = (LinkWrapper)obj;
+		LinkWrapper linkWrapper = (LinkWrapper)object;
 
 		if (Objects.equals(_link, linkWrapper._link)) {
 			return true;

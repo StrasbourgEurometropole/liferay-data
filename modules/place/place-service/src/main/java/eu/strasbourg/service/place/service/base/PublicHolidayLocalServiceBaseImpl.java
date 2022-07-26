@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.service.base;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -35,6 +33,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -44,7 +43,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.service.PublicHolidayLocalService;
-import eu.strasbourg.service.place.service.persistence.CacheJsonPersistence;
+import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
@@ -72,10 +71,9 @@ import javax.sql.DataSource;
  * @see eu.strasbourg.service.place.service.impl.PublicHolidayLocalServiceImpl
  * @generated
  */
-@ProviderType
 public abstract class PublicHolidayLocalServiceBaseImpl
 	extends BaseLocalServiceImpl
-	implements PublicHolidayLocalService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, PublicHolidayLocalService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -85,6 +83,10 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 
 	/**
 	 * Adds the public holiday to the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PublicHolidayLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param publicHoliday the public holiday
 	 * @return the public holiday that was added
@@ -112,6 +114,10 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	/**
 	 * Deletes the public holiday with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PublicHolidayLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param publicHolidayId the primary key of the public holiday
 	 * @return the public holiday that was removed
 	 * @throws PortalException if a public holiday with the primary key could not be found
@@ -126,6 +132,10 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 
 	/**
 	 * Deletes the public holiday from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PublicHolidayLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param publicHoliday the public holiday
 	 * @return the public holiday that was removed
@@ -159,7 +169,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -179,7 +189,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -295,6 +305,13 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 			(PublicHoliday)persistedModel);
 	}
 
+	public BasePersistence<PublicHoliday> getBasePersistence() {
+		return publicHolidayPersistence;
+	}
+
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
@@ -306,7 +323,7 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	 * Returns a range of all the public holidaies.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of public holidaies
@@ -331,6 +348,10 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	/**
 	 * Updates the public holiday in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PublicHolidayLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param publicHoliday the public holiday
 	 * @return the public holiday that was updated
 	 */
@@ -341,46 +362,46 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the cache json local service.
+	 * Returns the csmap cache json local service.
 	 *
-	 * @return the cache json local service
+	 * @return the csmap cache json local service
 	 */
-	public eu.strasbourg.service.place.service.CacheJsonLocalService
-		getCacheJsonLocalService() {
+	public eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
 
-		return cacheJsonLocalService;
+		return csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Sets the cache json local service.
+	 * Sets the csmap cache json local service.
 	 *
-	 * @param cacheJsonLocalService the cache json local service
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
 	 */
-	public void setCacheJsonLocalService(
-		eu.strasbourg.service.place.service.CacheJsonLocalService
-			cacheJsonLocalService) {
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
 
-		this.cacheJsonLocalService = cacheJsonLocalService;
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Returns the cache json persistence.
+	 * Returns the csmap cache json persistence.
 	 *
-	 * @return the cache json persistence
+	 * @return the csmap cache json persistence
 	 */
-	public CacheJsonPersistence getCacheJsonPersistence() {
-		return cacheJsonPersistence;
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
 	}
 
 	/**
-	 * Sets the cache json persistence.
+	 * Sets the csmap cache json persistence.
 	 *
-	 * @param cacheJsonPersistence the cache json persistence
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
 	 */
-	public void setCacheJsonPersistence(
-		CacheJsonPersistence cacheJsonPersistence) {
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
 
-		this.cacheJsonPersistence = cacheJsonPersistence;
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -941,19 +962,19 @@ public abstract class PublicHolidayLocalServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 
 	@BeanReference(
-		type = eu.strasbourg.service.place.service.CacheJsonLocalService.class
+		type = eu.strasbourg.service.place.service.CsmapCacheJsonLocalService.class
 	)
-	protected eu.strasbourg.service.place.service.CacheJsonLocalService
-		cacheJsonLocalService;
+	protected eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
 
-	@BeanReference(type = CacheJsonPersistence.class)
-	protected CacheJsonPersistence cacheJsonPersistence;
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class

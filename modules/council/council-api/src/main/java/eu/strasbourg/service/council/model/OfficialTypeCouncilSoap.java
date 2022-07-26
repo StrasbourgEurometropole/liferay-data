@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK;
 
 import java.io.Serializable;
@@ -30,7 +28,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class OfficialTypeCouncilSoap implements Serializable {
 
 	public static OfficialTypeCouncilSoap toSoapModel(

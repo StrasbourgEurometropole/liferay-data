@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.project.service.PetitionServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see PetitionServiceHttp
  * @generated
  */
-@ProviderType
 public class PetitionServiceSoap {
 }

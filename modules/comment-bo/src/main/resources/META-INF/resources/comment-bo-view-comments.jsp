@@ -79,8 +79,8 @@
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : userName --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					href="${editCommentURL}" name="userName" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					href="${editCommentURL}" name="userName" orderable="true"
 					value="${comment.userName}" />
 
                 <%-- Colonne : comment --%>
@@ -91,8 +91,8 @@
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${comment.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 
 				<%-- Colonne : Statut --%>
@@ -102,12 +102,12 @@
 				</liferay-ui:search-container-column-text>
 
 				<%-- Colonne : le nombre de signalement--%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
-                    name="reportings" truncate="true" orderable="true" align="center"
+				<liferay-ui:search-container-column-text
+                    name="reportings" orderable="true" align="center"
                     value="${comment.getCountSignalements()}" />
 
 				<%-- Colonne : Type de l'entite --%>
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text
                     name="entityType" truncate="true" orderable="true"
                     value="${comment.getTypeAssetEntry()}" />
 
@@ -117,8 +117,8 @@
                     value="${comment.getAssetEntryTitle()}" />
 
 				<%-- Colonne : lien vers la page--%>
-				<liferay-ui:search-container-column-text cssClass="content-column" name="linkTitle" >
-				    <aui:button href="${comment.urlProjectCommentaire}" value="link"/>
+				<liferay-ui:search-container-column-text  name="linkTitle" >
+				    <aui:button style="width: min-content" href="${comment.urlProjectCommentaire}" value="link"/>
 				</liferay-ui:search-container-column-text>
 			</liferay-ui:search-container-row>
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
@@ -25,7 +23,6 @@ import java.io.Serializable;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class VotePK implements Comparable<VotePK>, Serializable {
 
 	public long officialId;
@@ -95,16 +92,16 @@ public class VotePK implements Comparable<VotePK>, Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof VotePK)) {
+		if (!(object instanceof VotePK)) {
 			return false;
 		}
 
-		VotePK pk = (VotePK)obj;
+		VotePK pk = (VotePK)object;
 
 		if ((officialId == pk.officialId) &&
 			(deliberationId == pk.deliberationId)) {

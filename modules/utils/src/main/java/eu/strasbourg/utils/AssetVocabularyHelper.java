@@ -366,8 +366,29 @@ public class AssetVocabularyHelper {
 	public static AssetCategory getCategory(String categoryName, long groupId) {
 		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
 		for (AssetCategory category : categories) {
+
 			if (StringHelper.compareIgnoringAccentuation(category.getName().toLowerCase(), categoryName)
 					&& category.getGroupId() == groupId) {
+				return category;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Retourne la category ayant la propriété "externalId" ou "SIGId".
+	 *  Retourne null si aucune catégorie ne correspond à ces critères.
+	 */
+	public static AssetCategory getCategoryByExternalId(String externalId) {
+		List<AssetCategory> categories = AssetCategoryLocalServiceUtil.getAssetCategories(-1, -1);
+		for (AssetCategory category : categories) {
+			String SIGIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), "SIG");
+			if (SIGIdProperty.equals(externalId)) {
+				return category;
+			}
+			String externalIdProperty = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(),
+					"externalId");
+			if (externalIdProperty.equals(externalId)) {
 				return category;
 			}
 		}
@@ -394,6 +415,44 @@ public class AssetVocabularyHelper {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Retourne une map <ExternalId, Catégorie> d'un vocabulaire
+	 * @param vocabulary vocabulaire
+	 * @param propertyName Nom de la propriété (externalId ou SIG, par exemple)
+	 * @return la Map <ExternalId, Catégorie>
+	 */
+	public static Map<String, AssetCategory> getMapCategoriesByExternalId(AssetVocabulary vocabulary, String propertyName) {
+		List<AssetCategory> categories = vocabulary.getCategories();
+		Map<String, AssetCategory> map = new HashMap<>();
+		for (AssetCategory category : categories) {
+
+			String property = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), propertyName);
+			if (Validator.isNotNull(property)) {
+				map.put(property, category);
+			}
+		}
+		return map;
+	}
+
+	/**
+	 * Retourne une map <Catégorie ID, ExternalId> d'un vocabulaire
+	 * @param vocabulary vocabulaire
+	 * @param propertyName Nom de la propriété (externalId ou SIG, par exemple)
+	 * @return la Map <Catégorie ID, ExternalId>
+	 */
+	public static Map<Long, String> getMapExternalIdsByCategory(AssetVocabulary vocabulary, String propertyName) {
+		List<AssetCategory> categories = vocabulary.getCategories();
+		Map<Long, String> map = new HashMap<>();
+		for (AssetCategory category : categories) {
+
+			String property = AssetVocabularyHelper.getCategoryProperty(category.getCategoryId(), propertyName);
+			if (Validator.isNotNull(property)) {
+				map.put(category.getCategoryId(), property);
+			}
+		}
+		return map;
 	}
 
 	/**
@@ -655,7 +714,7 @@ public class AssetVocabularyHelper {
 
 		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
 			result.append("Aucune commune");
-		} else if (AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size())) {
+		} else if (isAllCities) {
 			result.append("Toutes les communes de l\u2019Eurom\u00e9tropole");
 		} else {
 			if (!assetDistrictCategories.isEmpty()) {
@@ -669,7 +728,7 @@ public class AssetVocabularyHelper {
 						assetCityCategories.add(strasbourg);
 					}
 				} catch (PortalException e) {
-					_log.error("Le group Global n'a pas été trouvé");
+					_log.error("Le group Global n'a pas été trouvé", e);
 				}
 			}
 

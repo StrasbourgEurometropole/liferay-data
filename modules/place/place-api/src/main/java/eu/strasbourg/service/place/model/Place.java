@@ -394,11 +394,6 @@ public interface Place extends PersistedModel, PlaceModel {
 	public com.liferay.portal.kernel.json.JSONObject toGeoJSON();
 
 	/**
-	 * Reprise de l'horriblissime webservice des lieux de LR6
-	 */
-	public com.liferay.portal.kernel.json.JSONObject toLegacyJSON();
-
-	/**
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
@@ -413,5 +408,15 @@ public interface Place extends PersistedModel, PlaceModel {
 	 * Renvoie le JSON des horaires sur 7 jours au format CSMap
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON();
+
+	/**
+	 * Renvoie le titre du lieu pour friendlyUrl
+	 */
+	public String getNormalizedAlias();
+
+	/**
+	 * Renvoie le titre du lieu pour friendlyUrl
+	 */
+	public String getNormalizedAlias(java.util.Locale locale);
 
 }

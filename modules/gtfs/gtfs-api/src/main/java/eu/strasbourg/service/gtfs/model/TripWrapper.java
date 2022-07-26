@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,8 +33,7 @@ import java.util.Objects;
  * @see Trip
  * @generated
  */
-@ProviderType
-public class TripWrapper implements Trip, ModelWrapper<Trip> {
+public class TripWrapper implements ModelWrapper<Trip>, Trip {
 
 	public TripWrapper(Trip trip) {
 		_trip = trip;
@@ -414,16 +411,16 @@ public class TripWrapper implements Trip, ModelWrapper<Trip> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof TripWrapper)) {
+		if (!(object instanceof TripWrapper)) {
 			return false;
 		}
 
-		TripWrapper tripWrapper = (TripWrapper)obj;
+		TripWrapper tripWrapper = (TripWrapper)object;
 
 		if (Objects.equals(_trip, tripWrapper._trip)) {
 			return true;

@@ -22,6 +22,21 @@
                     <aui:input type="radio" name="mode" value="aroundme" label="aroundme-mode" checked="${defaultConfig}"/>
                 </div>
 
+                <!-- Accesibilité -->
+                <aui:fieldset collapsed="true" collapsible="true" label="accessibility" >
+                    <!-- Hyérarchie du titre -->
+                    <div>
+                        <aui:select class="group" label="select-hierarchy" name="hierarchy">
+                            <aui:option value="h1" label="H1"
+                                selected="${'h1' eq hierarchy}" />
+                            <aui:option value="h2" label="H2"
+                                selected="${'h2' eq hierarchy}" />
+                            <aui:option value="h3" label="H3"
+                                selected="${'h3' eq hierarchy}" />
+                        </aui:select>
+                    </div>
+                </aui:fieldset>
+
                 <!-- Type de contenu carto autre que widget -->
                 <aui:fieldset collapsed="true" collapsible="true"
                         label="type-contenu" cssClass="noWidgetMode" >
@@ -45,9 +60,24 @@
 
                 <!-- Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="display-label">
+                    <!-- Choix du fond de plan -->
+                    <div>
+                        <aui:select class="group" label="select-background" name="backgroundId">
+                            <aui:option value="monstrasbourg" label="default"
+                                selected="${'monstrasbourg' eq backgroundId}" />
+                            <aui:option value="fond_ete" label="summer"
+                                selected="${'fond_ete' eq backgroundId}" />
+                        </aui:select>
+                    </div>
+
                     <!-- Choix de l'affichage de la zone de configuration -->
                     <div class="showConfig noWidgetMode">
                         <aui:input type="checkbox" name="showConfig" value="${showConfig || !hasConfig}" label="show-config" />
+                    </div>
+
+                    <!-- Choix de l'affichage du lien de suppression des filtres -->
+                    <div class="showDeleteFilter noWidgetMode">
+                        <aui:input type="checkbox" name="showDeleteFilter" value="${showDeleteFilter}" label="show-delete-filter" />
                     </div>
 
                     <!-- Choix de l'affichage des pictos dans la configuration -->
@@ -56,8 +86,13 @@
                     </div>
 
                     <!-- Choix de l'affichage de la liste -->
-                    <div class="noWidgetMode">
+                    <div class="showList noWidgetMode">
                         <aui:input type="checkbox" name="showList" value="${showList}" label="show-list" />
+                    </div>
+
+                    <!-- Choix de l'affichage du rappel des filtres dans la liste des points d'intérêt -->
+                    <div class="showFiltersReminder noWidgetMode">
+                        <aui:input type="checkbox" name="showFiltersReminder" value="${showFiltersReminder}" label="show-filters-reminder" />
                     </div>
 
                     <!-- Détourage d'un quartier ou d'une commune -->
@@ -360,13 +395,16 @@
 
                     var refreshConfigShowConfig = function() {
                        if ($('.showConfig input[type=checkbox]').is(":checked")) {
+                           $('.showDeleteFilter').show();
                            $('.showPictos').show();
                            $('.filter-type').show();
                            refreshTypeFilterChoice();
                            $('.default-filters-label').html(Liferay.Language.get("default-filters-with-config-label"));
                            $('.filters').show();
                            $('.dateField').show();
+                           refreshFilterReminderChoice();
                        } else {
+                           $('.showDeleteFilter').hide();
                            $('.showPictos').hide();
                            $('.filter-type').hide();
                            $('.default-filters-label').html(Liferay.Language.get("default-filters-without-config-label"));
@@ -374,6 +412,7 @@
                            $('.filters').hide();
                            $('.listChosen').hide();
                            $('.dateField').hide();
+                           $('.showFiltersReminder').hide();
 
                        }
                     }
@@ -393,6 +432,14 @@
                        } else {
                            $('.checkboxChosen').hide();
                            $('.listChosen').show();
+                       }
+                    }
+
+                    var refreshFilterReminderChoice = function() {
+                       if ($('.showList input[type=checkbox]').is(":checked")) {
+                           $('.showFiltersReminder').show();
+                       } else {
+                           $('.showFiltersReminder').hide();
                        }
                     }
 
@@ -430,6 +477,10 @@
 
                     $('.filter-type input[type=radio]').on('change', function() {
                         refreshTypeFilterChoice();
+                    })
+
+                    $('.showList input[type=checkbox]').on('change', function() {
+                        refreshFilterReminderChoice();
                     })
 
                     $('.dateField input[type=checkbox]').on('change', function() {

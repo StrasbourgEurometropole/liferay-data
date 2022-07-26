@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
  * @see StopTime
  * @generated
  */
-@ProviderType
 public abstract class StopTimeBaseImpl
 	extends StopTimeModelImpl implements StopTime {
 

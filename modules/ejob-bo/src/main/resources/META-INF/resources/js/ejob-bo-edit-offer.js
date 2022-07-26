@@ -96,7 +96,8 @@ function initialise(){
                 permanentDescription.parentNode.style.display="none";
         }
         if (typeRecrutementsValue == "Vacataire"){
-            gradeRangeAutoFields.reset();
+            if(gradeRangeAutoFields != null)
+                gradeRangeAutoFields.reset();
             gradeRangeFields.style.display="none";
         }else{
             gradeRangeFields.style.display="block";
@@ -297,7 +298,7 @@ function changeHandlerEjobFiliere(element) {
                         var grade_range_fields = document.getElementById('grade-range-fields');
                         var form_row = grade_range_fields.getElementsByClassName('lfr-form-row');
                         var form_row_hide = grade_range_fields.getElementsByClassName('lfr-form-row hide');
-                        if(form_row.length - form_row_hide.length >= 3){
+                        if(form_row.length - form_row_hide.length >= 5){
                             for (var i = 0 ; i < form_row.length ; i++) {
                                 form_row[i].getElementsByClassName('add-row')[0].style.display = "none";
                             }
@@ -307,7 +308,7 @@ function changeHandlerEjobFiliere(element) {
                         var grade_range_fields = document.getElementById('grade-range-fields');
                         var form_row = grade_range_fields.getElementsByClassName('lfr-form-row');
                         var form_row_hide = grade_range_fields.getElementsByClassName('lfr-form-row hide');
-                        if(form_row.length - form_row_hide.length < 3){
+                        if(form_row.length - form_row_hide.length < 5){
                             for (var i = 0 ; i < form_row.length ; i++) {
                                 form_row[i].getElementsByClassName('add-row')[0].style.display = "inline-block";
                             }
@@ -316,7 +317,7 @@ function changeHandlerEjobFiliere(element) {
                 }
 			}).render();
             var form_row = gradeRangeFields.getElementsByClassName('lfr-form-row');
-            if(form_row.length >= 3){
+            if(form_row.length >= 5){
                 for (var i = 0 ; i < form_row.length ; i++) {
                     form_row[i].getElementsByClassName('add-row')[0].style.display = "none";
                 }
@@ -324,3 +325,8 @@ function changeHandlerEjobFiliere(element) {
 		}
 	});
 })(jQuery);
+
+// Transformation des champs select-multiple
+new Choices('.choices-element', {
+	removeItemButton: true
+});

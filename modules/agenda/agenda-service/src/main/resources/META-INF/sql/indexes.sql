@@ -6,10 +6,8 @@ create unique index IX_F53FD6CF on agenda_AgendaExport (uuid_[$COLUMN_LENGTH:75$
 create index IX_52D68D89 on agenda_AgendaExportPeriod (agendaExportId);
 create index IX_144F1DBA on agenda_AgendaExportPeriod (uuid_[$COLUMN_LENGTH:75$]);
 
-create index IX_DB52A855 on agenda_CacheJson (createEvent, isActive);
-create index IX_856DB394 on agenda_CacheJson (createEvent, modifiedEvent, isActive);
-create index IX_D5F405E8 on agenda_CacheJson (modifiedEvent, isActive);
-create index IX_17D24A17 on agenda_CacheJson (uuid_[$COLUMN_LENGTH:75$]);
+create index IX_9FFB271D on agenda_CacheJson (eventId, isApproved);
+create index IX_5EEE9B2 on agenda_CacheJson (isApproved);
 
 create index IX_33C5F7C1 on agenda_Campaign (groupId);
 create index IX_B306DFDF on agenda_Campaign (title[$COLUMN_LENGTH:400$]);
@@ -22,6 +20,12 @@ create unique index IX_8B3A9D3 on agenda_CampaignEvent (uuid_[$COLUMN_LENGTH:75$
 
 create index IX_CDE8F146 on agenda_CampaignEventStatus (campaignEventId);
 create index IX_D3F95625 on agenda_CampaignEventStatus (uuid_[$COLUMN_LENGTH:75$]);
+
+create index IX_89FBBB51 on agenda_CsmapCacheJson (createEvent, isActive, hasSchedules);
+create index IX_22E4E184 on agenda_CsmapCacheJson (createEvent, modifiedEvent, isActive, hasSchedules);
+create index IX_EBCC6DEE on agenda_CsmapCacheJson (modifiedEvent, isActive);
+create index IX_DFBFB7E7 on agenda_CsmapCacheJson (regeneratedDate, isActive);
+create index IX_5440C79D on agenda_CsmapCacheJson (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_D69467AB on agenda_Event (groupId, title[$COLUMN_LENGTH:400$]);
 create index IX_3BEFC8D7 on agenda_Event (idSource[$COLUMN_LENGTH:75$]);

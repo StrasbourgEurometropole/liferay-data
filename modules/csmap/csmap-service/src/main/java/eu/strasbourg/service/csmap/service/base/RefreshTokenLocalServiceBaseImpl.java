@@ -33,13 +33,19 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
+import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
+import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
+import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
+import eu.strasbourg.service.csmap.service.persistence.PlaceCategoriesPersistence;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
+import eu.strasbourg.service.csmap.service.persistence.ThematicPersistence;
 
 import java.io.Serializable;
 
@@ -47,7 +53,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -61,10 +66,9 @@ import org.osgi.service.component.annotations.Reference;
  * @see eu.strasbourg.service.csmap.service.impl.RefreshTokenLocalServiceImpl
  * @generated
  */
-@ProviderType
 public abstract class RefreshTokenLocalServiceBaseImpl
 	extends BaseLocalServiceImpl
-	implements RefreshTokenLocalService, AopService, IdentifiableOSGiService {
+	implements AopService, IdentifiableOSGiService, RefreshTokenLocalService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -74,6 +78,10 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	/**
 	 * Adds the refresh token to the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect RefreshTokenLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was added
@@ -101,6 +109,10 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	/**
 	 * Deletes the refresh token with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect RefreshTokenLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param refreshTokenId the primary key of the refresh token
 	 * @return the refresh token that was removed
 	 * @throws PortalException if a refresh token with the primary key could not be found
@@ -115,6 +127,10 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	/**
 	 * Deletes the refresh token from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect RefreshTokenLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was removed
@@ -148,7 +164,7 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -168,7 +184,7 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -284,6 +300,13 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 			(RefreshToken)persistedModel);
 	}
 
+	public BasePersistence<RefreshToken> getBasePersistence() {
+		return refreshTokenPersistence;
+	}
+
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
@@ -295,7 +318,7 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	 * Returns a range of all the refresh tokens.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of refresh tokens
@@ -319,6 +342,10 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	/**
 	 * Updates the refresh token in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect RefreshTokenLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was updated
@@ -379,15 +406,30 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
+
+	@Reference
+	protected AgendaPersistence agendaPersistence;
+
+	@Reference
+	protected BaseNoncePersistence baseNoncePersistence;
+
+	@Reference
+	protected CsmapCachePersistence csmapCachePersistence;
+
+	@Reference
+	protected PlaceCategoriesPersistence placeCategoriesPersistence;
 
 	protected RefreshTokenLocalService refreshTokenLocalService;
 
 	@Reference
 	protected RefreshTokenPersistence refreshTokenPersistence;
+
+	@Reference
+	protected ThematicPersistence thematicPersistence;
 
 	@Reference
 	protected com.liferay.counter.kernel.service.CounterLocalService

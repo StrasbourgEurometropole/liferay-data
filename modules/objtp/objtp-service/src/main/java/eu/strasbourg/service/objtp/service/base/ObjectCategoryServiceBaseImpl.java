@@ -47,7 +47,7 @@ import javax.sql.DataSource;
  */
 public abstract class ObjectCategoryServiceBaseImpl
 	extends BaseServiceImpl
-	implements ObjectCategoryService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, ObjectCategoryService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -398,8 +398,8 @@ public abstract class ObjectCategoryServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

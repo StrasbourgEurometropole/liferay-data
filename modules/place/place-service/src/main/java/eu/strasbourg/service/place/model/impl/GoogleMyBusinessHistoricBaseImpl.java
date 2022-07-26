@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalServiceU
  * @see GoogleMyBusinessHistoric
  * @generated
  */
-@ProviderType
 public abstract class GoogleMyBusinessHistoricBaseImpl
 	extends GoogleMyBusinessHistoricModelImpl
 	implements GoogleMyBusinessHistoric {

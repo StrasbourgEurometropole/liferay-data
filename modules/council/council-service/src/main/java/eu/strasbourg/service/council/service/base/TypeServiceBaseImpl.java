@@ -54,7 +54,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class TypeServiceBaseImpl
-	extends BaseServiceImpl implements TypeService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, TypeService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -809,8 +809,8 @@ public abstract class TypeServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

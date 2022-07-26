@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PriceCacheModel)) {
+		if (!(object instanceof PriceCacheModel)) {
 			return false;
 		}
 
-		PriceCacheModel priceCacheModel = (PriceCacheModel)obj;
+		PriceCacheModel priceCacheModel = (PriceCacheModel)object;
 
 		if (priceId == priceCacheModel.priceId) {
 			return true;
@@ -136,7 +133,9 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		priceId = objectInput.readLong();
@@ -147,7 +146,7 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		priceDescription = objectInput.readUTF();
+		priceDescription = (String)objectInput.readObject();
 	}
 
 	@Override
@@ -182,10 +181,10 @@ public class PriceCacheModel implements CacheModel<Price>, Externalizable {
 		}
 
 		if (priceDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(priceDescription);
+			objectOutput.writeObject(priceDescription);
 		}
 	}
 

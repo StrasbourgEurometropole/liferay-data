@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class CampaignEventStatusCacheModel
 	implements CacheModel<CampaignEventStatus>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CampaignEventStatusCacheModel)) {
+		if (!(object instanceof CampaignEventStatusCacheModel)) {
 			return false;
 		}
 
 		CampaignEventStatusCacheModel campaignEventStatusCacheModel =
-			(CampaignEventStatusCacheModel)obj;
+			(CampaignEventStatusCacheModel)object;
 
 		if (statusId == campaignEventStatusCacheModel.statusId) {
 			return true;
@@ -141,13 +138,15 @@ public class CampaignEventStatusCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		statusId = objectInput.readLong();
 
 		status = objectInput.readInt();
-		comment = objectInput.readUTF();
+		comment = (String)objectInput.readObject();
 
 		deletionDenied = objectInput.readBoolean();
 		date = objectInput.readLong();
@@ -174,10 +173,10 @@ public class CampaignEventStatusCacheModel
 		objectOutput.writeInt(status);
 
 		if (comment == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(comment);
+			objectOutput.writeObject(comment);
 		}
 
 		objectOutput.writeBoolean(deletionDenied);

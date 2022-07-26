@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,7 +60,6 @@ import java.rmi.RemoteException;
  * @see ProjectFollowedServiceHttp
  * @generated
  */
-@ProviderType
 public class ProjectFollowedServiceSoap {
 
 	/**
@@ -77,10 +74,10 @@ public class ProjectFollowedServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -94,10 +91,10 @@ public class ProjectFollowedServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -114,10 +111,10 @@ public class ProjectFollowedServiceSoap {
 			return eu.strasbourg.service.project.model.ProjectFollowedSoap.
 				toSoapModels(returnValue);
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

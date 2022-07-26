@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,7 +34,6 @@ import java.util.Objects;
  * @see CacheJson
  * @generated
  */
-@ProviderType
 public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 
 	public CacheJsonWrapper(CacheJson cacheJson) {
@@ -57,24 +54,17 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("uuid", getUuid());
 		attributes.put("eventId", getEventId());
 		attributes.put("jsonEvent", getJsonEvent());
 		attributes.put("createEvent", getCreateEvent());
 		attributes.put("modifiedEvent", getModifiedEvent());
-		attributes.put("isActive", isIsActive());
+		attributes.put("isApproved", isIsApproved());
 
 		return attributes;
 	}
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		String uuid = (String)attributes.get("uuid");
-
-		if (uuid != null) {
-			setUuid(uuid);
-		}
-
 		Long eventId = (Long)attributes.get("eventId");
 
 		if (eventId != null) {
@@ -99,10 +89,10 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 			setModifiedEvent(modifiedEvent);
 		}
 
-		Boolean isActive = (Boolean)attributes.get("isActive");
+		Boolean isApproved = (Boolean)attributes.get("isApproved");
 
-		if (isActive != null) {
-			setIsActive(isActive);
+		if (isApproved != null) {
+			setIsApproved(isApproved);
 		}
 	}
 
@@ -144,13 +134,13 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
-	 * Returns the is active of this cache json.
+	 * Returns the is approved of this cache json.
 	 *
-	 * @return the is active of this cache json
+	 * @return the is approved of this cache json
 	 */
 	@Override
-	public boolean getIsActive() {
-		return _cacheJson.getIsActive();
+	public boolean getIsApproved() {
+		return _cacheJson.getIsApproved();
 	}
 
 	/**
@@ -188,16 +178,6 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		return _cacheJson.getPrimaryKeyObj();
 	}
 
-	/**
-	 * Returns the uuid of this cache json.
-	 *
-	 * @return the uuid of this cache json
-	 */
-	@Override
-	public String getUuid() {
-		return _cacheJson.getUuid();
-	}
-
 	@Override
 	public int hashCode() {
 		return _cacheJson.hashCode();
@@ -214,13 +194,13 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
-	 * Returns <code>true</code> if this cache json is is active.
+	 * Returns <code>true</code> if this cache json is is approved.
 	 *
-	 * @return <code>true</code> if this cache json is is active; <code>false</code> otherwise
+	 * @return <code>true</code> if this cache json is is approved; <code>false</code> otherwise
 	 */
 	@Override
-	public boolean isIsActive() {
-		return _cacheJson.isIsActive();
+	public boolean isIsApproved() {
+		return _cacheJson.isIsApproved();
 	}
 
 	@Override
@@ -276,13 +256,13 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	/**
-	 * Sets whether this cache json is is active.
+	 * Sets whether this cache json is is approved.
 	 *
-	 * @param isActive the is active of this cache json
+	 * @param isApproved the is approved of this cache json
 	 */
 	@Override
-	public void setIsActive(boolean isActive) {
-		_cacheJson.setIsActive(isActive);
+	public void setIsApproved(boolean isApproved) {
+		_cacheJson.setIsApproved(isApproved);
 	}
 
 	/**
@@ -325,16 +305,6 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 		_cacheJson.setPrimaryKeyObj(primaryKeyObj);
 	}
 
-	/**
-	 * Sets the uuid of this cache json.
-	 *
-	 * @param uuid the uuid of this cache json
-	 */
-	@Override
-	public void setUuid(String uuid) {
-		_cacheJson.setUuid(uuid);
-	}
-
 	@Override
 	public com.liferay.portal.kernel.model.CacheModel
 		<eu.strasbourg.service.agenda.model.CacheJson> toCacheModel() {
@@ -363,16 +333,16 @@ public class CacheJsonWrapper implements CacheJson, ModelWrapper<CacheJson> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheJsonWrapper)) {
+		if (!(object instanceof CacheJsonWrapper)) {
 			return false;
 		}
 
-		CacheJsonWrapper cacheJsonWrapper = (CacheJsonWrapper)obj;
+		CacheJsonWrapper cacheJsonWrapper = (CacheJsonWrapper)object;
 
 		if (Objects.equals(_cacheJson, cacheJsonWrapper._cacheJson)) {
 			return true;

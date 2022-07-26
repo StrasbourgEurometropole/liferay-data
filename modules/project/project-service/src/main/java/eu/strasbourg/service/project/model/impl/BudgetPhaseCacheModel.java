@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class BudgetPhaseCacheModel
 	implements CacheModel<BudgetPhase>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof BudgetPhaseCacheModel)) {
+		if (!(object instanceof BudgetPhaseCacheModel)) {
 			return false;
 		}
 
 		BudgetPhaseCacheModel budgetPhaseCacheModel =
-			(BudgetPhaseCacheModel)obj;
+			(BudgetPhaseCacheModel)object;
 
 		if (budgetPhaseId == budgetPhaseCacheModel.budgetPhaseId) {
 			return true;
@@ -218,7 +215,9 @@ public class BudgetPhaseCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		budgetPhaseId = objectInput.readLong();
@@ -238,7 +237,7 @@ public class BudgetPhaseCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 
 		numberOfVote = objectInput.readLong();
 
@@ -297,10 +296,10 @@ public class BudgetPhaseCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		objectOutput.writeLong(numberOfVote);

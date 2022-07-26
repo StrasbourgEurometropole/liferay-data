@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
  * @see EditionGallery
  * @generated
  */
-@ProviderType
 public abstract class EditionGalleryBaseImpl
 	extends EditionGalleryModelImpl implements EditionGallery {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.service.persistence;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 
@@ -25,7 +23,6 @@ import java.io.Serializable;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserInterestPK
 	implements Comparable<UserInterestPK>, Serializable {
 
@@ -88,16 +85,16 @@ public class UserInterestPK
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserInterestPK)) {
+		if (!(object instanceof UserInterestPK)) {
 			return false;
 		}
 
-		UserInterestPK pk = (UserInterestPK)obj;
+		UserInterestPK pk = (UserInterestPK)object;
 
 		if ((interestId == pk.interestId) &&
 			publikUserId.equals(pk.publikUserId)) {

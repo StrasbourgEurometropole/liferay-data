@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -22,6 +23,7 @@ import org.osgi.service.component.annotations.Reference;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +45,7 @@ public class updateJsonHoraire extends BaseMessageListener {
 		// Création du trigger "Tous les jours à 0h01"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 1 0 * * ?");
+				"0 1 0 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

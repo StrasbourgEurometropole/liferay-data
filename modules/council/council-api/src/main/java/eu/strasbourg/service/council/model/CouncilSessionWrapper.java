@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see CouncilSession
  * @generated
  */
-@ProviderType
 public class CouncilSessionWrapper
 	implements CouncilSession, ModelWrapper<CouncilSession> {
 
@@ -73,6 +70,7 @@ public class CouncilSessionWrapper
 		attributes.put("statusDate", getStatusDate());
 		attributes.put("title", getTitle());
 		attributes.put("date", getDate());
+		attributes.put("lastDelibProcessed", getLastDelibProcessed());
 		attributes.put("officialLeaderId", getOfficialLeaderId());
 		attributes.put("typeId", getTypeId());
 
@@ -163,6 +161,12 @@ public class CouncilSessionWrapper
 
 		if (date != null) {
 			setDate(date);
+		}
+
+		Long lastDelibProcessed = (Long)attributes.get("lastDelibProcessed");
+
+		if (lastDelibProcessed != null) {
+			setLastDelibProcessed(lastDelibProcessed);
 		}
 
 		Long officialLeaderId = (Long)attributes.get("officialLeaderId");
@@ -262,6 +266,16 @@ public class CouncilSessionWrapper
 	@Override
 	public long getGroupId() {
 		return _councilSession.getGroupId();
+	}
+
+	/**
+	 * Returns the last delib processed of this council session.
+	 *
+	 * @return the last delib processed of this council session
+	 */
+	@Override
+	public long getLastDelibProcessed() {
+		return _councilSession.getLastDelibProcessed();
 	}
 
 	/**
@@ -621,6 +635,16 @@ public class CouncilSessionWrapper
 	}
 
 	/**
+	 * Sets the last delib processed of this council session.
+	 *
+	 * @param lastDelibProcessed the last delib processed of this council session
+	 */
+	@Override
+	public void setLastDelibProcessed(long lastDelibProcessed) {
+		_councilSession.setLastDelibProcessed(lastDelibProcessed);
+	}
+
+	/**
 	 * Sets the modified date of this council session.
 	 *
 	 * @param modifiedDate the modified date of this council session
@@ -800,17 +824,17 @@ public class CouncilSessionWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CouncilSessionWrapper)) {
+		if (!(object instanceof CouncilSessionWrapper)) {
 			return false;
 		}
 
 		CouncilSessionWrapper councilSessionWrapper =
-			(CouncilSessionWrapper)obj;
+			(CouncilSessionWrapper)object;
 
 		if (Objects.equals(
 				_councilSession, councilSessionWrapper._councilSession)) {

@@ -1055,5 +1055,82 @@ public class SearchHelper {
 		}
 	}
 
+	/**
+	 * Retourne les Hits correspondant aux paramètres pour le webservice des
+	 * événements
+	 */
+	public static Hits getEventsAgendaWebServiceSearchHits(String className, List<Long[]> categoriesIds,
+														   String[] tagsNames) {
+		try {
+			SearchContext searchContext = new SearchContext();
+			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
+			// Query
+			Query query = SearchHelper.getEventsAgendaWebServiceQuery(className, categoriesIds, tagsNames);
+
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
+
+	/**
+	 * Retourne la requête pour le webservice des agendas
+	 */
+	private static Query getEventsAgendaWebServiceQuery(String className, List<Long[]> categoriesIds,
+														String[] tagsNames) {
+
+		try {
+			// Construction de la requète
+			BooleanQuery superQuery = new BooleanQueryImpl();
+			BooleanQuery query = new BooleanQueryImpl();
+
+			// ClassNames
+			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
+			query.add(classNameQuery, BooleanClauseOccur.MUST);
+
+			// Statut et visibilité
+			query.addRequiredTerm(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+			query.addRequiredTerm("visible", true);
+
+			// Catégories
+			// On fait un "ou" entre les catégories d'un même vocabulaire et un
+			// "et" entre les différents vocabulaires
+			for (Long[] categoriesIdsGroupByVocabulary : categoriesIds) {
+				BooleanQuery vocabularyQuery = new BooleanQueryImpl();
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
+					BooleanQuery categoryQuery = new BooleanQueryImpl();
+					categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+					vocabularyQuery.add(categoryQuery, BooleanClauseOccur.SHOULD);
+				}
+				query.add(vocabularyQuery, BooleanClauseOccur.MUST);
+			}
+
+			//  tags
+			// On fait un "ou" entre les tags
+			if (Validator.isNotNull(tagsNames) && tagsNames.length > 0) {
+				BooleanQuery tagsQuery = new BooleanQueryImpl();
+				for (String tagName : tagsNames) {
+					BooleanQuery tagQuery = new BooleanQueryImpl();
+					tagQuery.addExactTerm(Field.ASSET_TAG_NAMES, String.valueOf(tagName));
+					tagsQuery.add(tagQuery, BooleanClauseOccur.SHOULD);
+				}
+				query.add(tagsQuery, BooleanClauseOccur.MUST);
+			}
+
+			superQuery.add(query, BooleanClauseOccur.SHOULD);
+
+			return superQuery;
+		} catch (ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(SearchHelper.class.getName());
 }

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Arret
  * @generated
  */
-@ProviderType
 public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 
 	public ArretWrapper(Arret arret) {
@@ -879,16 +876,16 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ArretWrapper)) {
+		if (!(object instanceof ArretWrapper)) {
 			return false;
 		}
 
-		ArretWrapper arretWrapper = (ArretWrapper)obj;
+		ArretWrapper arretWrapper = (ArretWrapper)object;
 
 		if (Objects.equals(_arret, arretWrapper._arret)) {
 			return true;

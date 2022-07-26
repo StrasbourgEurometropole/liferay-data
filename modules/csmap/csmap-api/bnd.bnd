@@ -5,6 +5,8 @@ Export-Package:\
 	eu.strasbourg.service.csmap.exception,\
 	eu.strasbourg.service.csmap.model,\
 	eu.strasbourg.service.csmap.service,\
-	eu.strasbourg.service.csmap.service.persistence
+	eu.strasbourg.service.csmap.service.persistence,\
+	eu.strasbourg.service.csmap.constants,\
+	eu.strasbourg.service.csmap.utils
 -check: EXPORTS
 -includeresource: META-INF/service.xml=../csmap-service/service.xml

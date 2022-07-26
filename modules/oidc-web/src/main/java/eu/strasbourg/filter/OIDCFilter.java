@@ -1,5 +1,27 @@
 package eu.strasbourg.filter;
 
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.BaseFilter;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.JWTUtils;
+import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.service.component.annotations.Component;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,27 +34,6 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.utils.JSONHelper;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.BaseFilter;
-
-import eu.strasbourg.service.oidc.model.PublikUser;
-import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.utils.JWTUtils;
-import eu.strasbourg.utils.PublikApiClient;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 @Component(immediate = true, property = {"dispatcher=FORWARD", "dispatcher=REQUEST", "url-pattern=/*",
         "servlet-context-name=", "servlet-filter-name=SSO Publik"}, service = Filter.class)
@@ -48,6 +49,7 @@ public class OIDCFilter extends BaseFilter {
     private String hasPactSignedAttribute = "has_pact_signed";
     private String isBanishAttribute = "is_banish";
     private String photoAttribute = "photo";
+
 
     @Override
     protected Log getLog() {
@@ -168,13 +170,20 @@ public class OIDCFilter extends BaseFilter {
                     email = JWTUtils.getJWTClaim(jwt, "email", StrasbourgPropsUtil.getPublikClientSecret(),
                             StrasbourgPropsUtil.getPublikIssuer());
                     photo = PublikApiClient.getUserPhoto(internalId);
+                    String accordPlacit = JWTUtils.getJWTClaim(jwt, "accord_placit",
+                            StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+                    String listingPlacit = JWTUtils.getJWTClaim(jwt, "accord_placit_listing",
+                            StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+                    LOG.info(accordPlacit);
+                    LOG.info(listingPlacit);
 
                     // Recuperation des donnees inherantes a la plateforme participative
                     PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
                     if (user != null) {
                         hasPactSigned = user.getPactSignature() != null ? true : false;
                         isBanish = user.isBanned();
-                    }
+                    }else
+                        hasPactSigned = accordPlacit != null && accordPlacit.equals("true") ? true : false;
 
                     // On crée un nouveau jwt signé internalement pour y mettre
                     // l'id utilisateur
@@ -190,7 +199,7 @@ public class OIDCFilter extends BaseFilter {
 
                     // Et on update la base
                     PublikUserLocalServiceUtil.updateUserInfoInDatabase(internalId, accessToken, givenName,
-                            familyName, email, photo);
+                            familyName, email, photo, accordPlacit, listingPlacit);
                 }
             }
 
@@ -247,7 +256,7 @@ public class OIDCFilter extends BaseFilter {
 
                 StrasbourgPropsUtil.getPublikAuthorizeURL()
                         + "&redirect_uri=" + this.getDomainRoot(request)
-                        + "&state=" + request.getRequestURL().toString());
+                        + "&state=" + getProtocoledRequestURL(request));
     }
 
     /**
@@ -344,29 +353,9 @@ public class OIDCFilter extends BaseFilter {
         try {
             response.sendRedirect(StrasbourgPropsUtil.getPublikLogoutURL()
                     + "?post_logout_redirect_uri=" + this.getDomainRoot(request)
-                    + "&state=" + URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"));
+                    + "&state=" + URLEncoder.encode(getProtocoledRequestURL(request), "UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Enregistre ou update l'utilisateur en base
-     */
-    private void updateUserInfoInDatabase(String internalId, String accessToken, String givenName,
-                                          String familyName, String email, String photo) {
-        if (internalId != null && internalId.length() > 0) {
-            PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
-            if (user == null) {
-                user = PublikUserLocalServiceUtil.createPublikUser();
-                user.setPublikId(internalId);
-            }
-            user.setAccessToken(accessToken);
-            user.setFirstName(givenName);
-            user.setLastName(familyName);
-            user.setEmail(email);
-            user.setImageURL(photo);
-            PublikUserLocalServiceUtil.updatePublikUser(user);
         }
     }
 
@@ -413,9 +402,17 @@ public class OIDCFilter extends BaseFilter {
     }
 
     private String getDomainRoot(HttpServletRequest request) {
-        return request.getRequestURL().toString()
+        return getProtocoledRequestURL(request)
                 .replace(request.getPathInfo(), "")
                 .replace(request.getServletPath(), "");
     }
 
+    /**
+     * Transforme l'URL de la requête pour correspondre au protocole renseigné dans le portal ext
+     * @param request request
+     * @return L'url retravaillé par le portal ext
+     */
+    private String getProtocoledRequestURL(HttpServletRequest request) {
+        return PortalUtil.getPortalURL(request) + request.getRequestURI();
+    }
 }

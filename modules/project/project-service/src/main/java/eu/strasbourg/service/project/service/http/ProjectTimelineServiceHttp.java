@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.project.service.ProjectTimelineServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see ProjectTimelineServiceSoap
  * @generated
  */
-@ProviderType
 public class ProjectTimelineServiceHttp {
 }

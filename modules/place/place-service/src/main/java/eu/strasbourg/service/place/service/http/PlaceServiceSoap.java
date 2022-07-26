@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,7 +60,6 @@ import java.rmi.RemoteException;
  * @see PlaceServiceHttp
  * @generated
  */
-@ProviderType
 public class PlaceServiceSoap {
 
 	public static String getPlaces() throws RemoteException {
@@ -72,10 +69,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -86,10 +83,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -100,10 +97,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -114,10 +111,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -130,10 +127,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -146,10 +143,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -163,10 +160,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -181,61 +178,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	public static String getLegacyJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	public static String getLegacyCategoriesJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyCategoriesJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	public static String getLegacyTerritoriesJSON() throws RemoteException {
-		try {
-			com.liferay.portal.kernel.json.JSONObject returnValue =
-				PlaceServiceUtil.getLegacyTerritoriesJSON();
-
-			return returnValue.toString();
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -246,10 +192,24 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getEquipments() throws RemoteException {
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				PlaceServiceUtil.getEquipments();
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -260,10 +220,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -277,10 +237,10 @@ public class PlaceServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

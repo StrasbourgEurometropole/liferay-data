@@ -66,12 +66,7 @@ public class StopTimeLocalServiceImpl extends StopTimeLocalServiceBaseImpl {
 		StopTime stopTime = this.stopTimeLocalService.createStopTime(pk);
 		
 		stopTime.setTrip_id(entry.getTrip_id());
-		stopTime.setArrival_time(entry.getArrival_time().getTime());
-		stopTime.setDeparture_time(entry.getDeparture_time().getTime());
 		stopTime.setStop_id(entry.getStop_id());
-		stopTime.setStop_sequence(entry.getStop_sequence());
-		stopTime.setPickup_type(Integer.toString(entry.getPickup_type()));
-		stopTime.setDrop_off_type(Integer.toString(entry.getDrop_off_type()));
 		
 		stopTime = this.stopTimeLocalService.updateStopTime(stopTime);
 

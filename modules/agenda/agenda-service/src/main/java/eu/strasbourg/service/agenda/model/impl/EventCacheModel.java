@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof EventCacheModel)) {
+		if (!(object instanceof EventCacheModel)) {
 			return false;
 		}
 
-		EventCacheModel eventCacheModel = (EventCacheModel)obj;
+		EventCacheModel eventCacheModel = (EventCacheModel)object;
 
 		if (eventId == eventCacheModel.eventId) {
 			return true;
@@ -64,7 +61,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(121);
+		StringBundler sb = new StringBundler(125);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -120,6 +117,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(placeCity);
 		sb.append(", placeCountry=");
 		sb.append(placeCountry);
+		sb.append(", mercatorX=");
+		sb.append(mercatorX);
+		sb.append(", mercatorY=");
+		sb.append(mercatorY);
 		sb.append(", access=");
 		sb.append(access);
 		sb.append(", accessForDisabled=");
@@ -339,6 +340,20 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setPlaceCountry(placeCountry);
 		}
 
+		if (mercatorX == null) {
+			eventImpl.setMercatorX("");
+		}
+		else {
+			eventImpl.setMercatorX(mercatorX);
+		}
+
+		if (mercatorY == null) {
+			eventImpl.setMercatorY("");
+		}
+		else {
+			eventImpl.setMercatorY(mercatorY);
+		}
+
 		if (access == null) {
 			eventImpl.setAccess("");
 		}
@@ -526,7 +541,9 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		eventId = objectInput.readLong();
@@ -548,7 +565,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		externalImageURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 
@@ -562,8 +579,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		placeZipCode = objectInput.readUTF();
 		placeCity = objectInput.readUTF();
 		placeCountry = objectInput.readUTF();
-		access = objectInput.readUTF();
-		accessForDisabled = objectInput.readUTF();
+		mercatorX = objectInput.readUTF();
+		mercatorY = objectInput.readUTF();
+		access = (String)objectInput.readObject();
+		accessForDisabled = (String)objectInput.readObject();
 
 		accessForBlind = objectInput.readBoolean();
 
@@ -581,8 +600,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		websiteName = objectInput.readUTF();
 
 		free = objectInput.readInt();
-		price = objectInput.readUTF();
-		bookingDescription = objectInput.readUTF();
+		price = (String)objectInput.readObject();
+		bookingDescription = (String)objectInput.readObject();
 		bookingURL = objectInput.readUTF();
 		subscriptionURL = objectInput.readUTF();
 		source = objectInput.readUTF();
@@ -591,7 +610,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		distribution = objectInput.readUTF();
 		composer = objectInput.readUTF();
 		concertId = objectInput.readUTF();
-		program = objectInput.readUTF();
+		program = (String)objectInput.readObject();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
 		createDateSource = objectInput.readLong();
@@ -662,10 +681,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (externalImageURL == null) {
@@ -735,18 +754,32 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			objectOutput.writeUTF(placeCountry);
 		}
 
-		if (access == null) {
+		if (mercatorX == null) {
 			objectOutput.writeUTF("");
 		}
 		else {
-			objectOutput.writeUTF(access);
+			objectOutput.writeUTF(mercatorX);
+		}
+
+		if (mercatorY == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(mercatorY);
+		}
+
+		if (access == null) {
+			objectOutput.writeObject("");
+		}
+		else {
+			objectOutput.writeObject(access);
 		}
 
 		if (accessForDisabled == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(accessForDisabled);
+			objectOutput.writeObject(accessForDisabled);
 		}
 
 		objectOutput.writeBoolean(accessForBlind);
@@ -797,17 +830,17 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		objectOutput.writeInt(free);
 
 		if (price == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(price);
+			objectOutput.writeObject(price);
 		}
 
 		if (bookingDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(bookingDescription);
+			objectOutput.writeObject(bookingDescription);
 		}
 
 		if (bookingURL == null) {
@@ -862,10 +895,10 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 
 		if (program == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(program);
+			objectOutput.writeObject(program);
 		}
 
 		objectOutput.writeLong(firstStartDate);
@@ -909,6 +942,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String placeZipCode;
 	public String placeCity;
 	public String placeCountry;
+	public String mercatorX;
+	public String mercatorY;
 	public String access;
 	public String accessForDisabled;
 	public boolean accessForBlind;

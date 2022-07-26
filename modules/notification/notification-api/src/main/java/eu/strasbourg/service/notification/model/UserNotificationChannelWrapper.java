@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,9 +33,8 @@ import java.util.Objects;
  * @see UserNotificationChannel
  * @generated
  */
-@ProviderType
 public class UserNotificationChannelWrapper
-	implements UserNotificationChannel, ModelWrapper<UserNotificationChannel> {
+	implements ModelWrapper<UserNotificationChannel>, UserNotificationChannel {
 
 	public UserNotificationChannelWrapper(
 		UserNotificationChannel userNotificationChannel) {
@@ -261,17 +258,17 @@ public class UserNotificationChannelWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserNotificationChannelWrapper)) {
+		if (!(object instanceof UserNotificationChannelWrapper)) {
 			return false;
 		}
 
 		UserNotificationChannelWrapper userNotificationChannelWrapper =
-			(UserNotificationChannelWrapper)obj;
+			(UserNotificationChannelWrapper)object;
 
 		if (Objects.equals(
 				_userNotificationChannel,

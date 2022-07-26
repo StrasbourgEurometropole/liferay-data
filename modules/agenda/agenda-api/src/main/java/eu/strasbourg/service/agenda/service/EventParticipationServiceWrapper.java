@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see EventParticipationService
  * @generated
  */
-@ProviderType
 public class EventParticipationServiceWrapper
 	implements EventParticipationService,
 			   ServiceWrapper<EventParticipationService> {

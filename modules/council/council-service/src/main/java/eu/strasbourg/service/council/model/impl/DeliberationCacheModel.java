@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class DeliberationCacheModel
 	implements CacheModel<Deliberation>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof DeliberationCacheModel)) {
+		if (!(object instanceof DeliberationCacheModel)) {
 			return false;
 		}
 
 		DeliberationCacheModel deliberationCacheModel =
-			(DeliberationCacheModel)obj;
+			(DeliberationCacheModel)object;
 
 		if (deliberationId == deliberationCacheModel.deliberationId) {
 			return true;
@@ -66,7 +63,7 @@ public class DeliberationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(41);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -102,6 +99,10 @@ public class DeliberationCacheModel
 		sb.append(countOfficialsVoting);
 		sb.append(", countOfficialsActive=");
 		sb.append(countOfficialsActive);
+		sb.append(", beginningVoteDate=");
+		sb.append(beginningVoteDate);
+		sb.append(", endVoteDate=");
+		sb.append(endVoteDate);
 		sb.append(", councilSessionId=");
 		sb.append(councilSessionId);
 		sb.append("}");
@@ -181,6 +182,21 @@ public class DeliberationCacheModel
 
 		deliberationImpl.setCountOfficialsVoting(countOfficialsVoting);
 		deliberationImpl.setCountOfficialsActive(countOfficialsActive);
+
+		if (beginningVoteDate == Long.MIN_VALUE) {
+			deliberationImpl.setBeginningVoteDate(null);
+		}
+		else {
+			deliberationImpl.setBeginningVoteDate(new Date(beginningVoteDate));
+		}
+
+		if (endVoteDate == Long.MIN_VALUE) {
+			deliberationImpl.setEndVoteDate(null);
+		}
+		else {
+			deliberationImpl.setEndVoteDate(new Date(endVoteDate));
+		}
+
 		deliberationImpl.setCouncilSessionId(councilSessionId);
 
 		deliberationImpl.resetOriginalValues();
@@ -216,6 +232,8 @@ public class DeliberationCacheModel
 		countOfficialsVoting = objectInput.readInt();
 
 		countOfficialsActive = objectInput.readInt();
+		beginningVoteDate = objectInput.readLong();
+		endVoteDate = objectInput.readLong();
 
 		councilSessionId = objectInput.readLong();
 	}
@@ -279,6 +297,8 @@ public class DeliberationCacheModel
 		objectOutput.writeInt(countOfficialsVoting);
 
 		objectOutput.writeInt(countOfficialsActive);
+		objectOutput.writeLong(beginningVoteDate);
+		objectOutput.writeLong(endVoteDate);
 
 		objectOutput.writeLong(councilSessionId);
 	}
@@ -300,6 +320,8 @@ public class DeliberationCacheModel
 	public String stage;
 	public int countOfficialsVoting;
 	public int countOfficialsActive;
+	public long beginningVoteDate;
+	public long endVoteDate;
 	public long councilSessionId;
 
 }

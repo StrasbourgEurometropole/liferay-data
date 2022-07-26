@@ -364,6 +364,34 @@ public interface DeliberationModel
 	public void setCountOfficialsActive(int countOfficialsActive);
 
 	/**
+	 * Returns the beginning vote date of this deliberation.
+	 *
+	 * @return the beginning vote date of this deliberation
+	 */
+	public Date getBeginningVoteDate();
+
+	/**
+	 * Sets the beginning vote date of this deliberation.
+	 *
+	 * @param beginningVoteDate the beginning vote date of this deliberation
+	 */
+	public void setBeginningVoteDate(Date beginningVoteDate);
+
+	/**
+	 * Returns the end vote date of this deliberation.
+	 *
+	 * @return the end vote date of this deliberation
+	 */
+	public Date getEndVoteDate();
+
+	/**
+	 * Sets the end vote date of this deliberation.
+	 *
+	 * @param endVoteDate the end vote date of this deliberation
+	 */
+	public void setEndVoteDate(Date endVoteDate);
+
+	/**
 	 * Returns the council session ID of this deliberation.
 	 *
 	 * @return the council session ID of this deliberation

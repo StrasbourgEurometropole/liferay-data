@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
  * @see VideoGallery
  * @generated
  */
-@ProviderType
 public abstract class VideoGalleryBaseImpl
 	extends VideoGalleryModelImpl implements VideoGallery {
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PublikUserSoap implements Serializable {
 
 	public static PublikUserSoap toSoapModel(PublikUser model) {
@@ -52,6 +49,10 @@ public class PublikUserSoap implements Serializable {
 		soapModel.setBanishDescription(model.getBanishDescription());
 		soapModel.setImageURL(model.getImageURL());
 		soapModel.setPactDisplay(model.isPactDisplay());
+		soapModel.setCsmapJSON(model.getCsmapJSON());
+		soapModel.setModifiedDateJSON(model.getModifiedDateJSON());
+		soapModel.setTopicsFCM(model.getTopicsFCM());
+		soapModel.setLastUpdateTimeTopics(model.getLastUpdateTimeTopics());
 
 		return soapModel;
 	}
@@ -253,6 +254,38 @@ public class PublikUserSoap implements Serializable {
 		_pactDisplay = pactDisplay;
 	}
 
+	public String getCsmapJSON() {
+		return _csmapJSON;
+	}
+
+	public void setCsmapJSON(String csmapJSON) {
+		_csmapJSON = csmapJSON;
+	}
+
+	public Date getModifiedDateJSON() {
+		return _modifiedDateJSON;
+	}
+
+	public void setModifiedDateJSON(Date modifiedDateJSON) {
+		_modifiedDateJSON = modifiedDateJSON;
+	}
+
+	public String getTopicsFCM() {
+		return _topicsFCM;
+	}
+
+	public void setTopicsFCM(String topicsFCM) {
+		_topicsFCM = topicsFCM;
+	}
+
+	public long getLastUpdateTimeTopics() {
+		return _lastUpdateTimeTopics;
+	}
+
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		_lastUpdateTimeTopics = lastUpdateTimeTopics;
+	}
+
 	private String _uuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
@@ -271,5 +304,9 @@ public class PublikUserSoap implements Serializable {
 	private String _banishDescription;
 	private String _imageURL;
 	private boolean _pactDisplay;
+	private String _csmapJSON;
+	private Date _modifiedDateJSON;
+	private String _topicsFCM;
+	private long _lastUpdateTimeTopics;
 
 }

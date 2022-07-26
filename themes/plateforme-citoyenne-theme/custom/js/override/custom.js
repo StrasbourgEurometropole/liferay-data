@@ -674,7 +674,12 @@ function getResult(searchPage, data) {
             }
 
             if(json.class == "com.liferay.journal.model.JournalArticle"){
-                listing += createNews(json.json);
+
+                if(searchPage == "project-workshop"){
+                    listing += createProjectWorkshop(json.json);
+                }else{
+                    listing += createNews(json.json);
+                }
             }
 			
         });
@@ -970,9 +975,10 @@ function createParticipation(participation){
  * @return
 */
 function createAgenda(agenda){
+    debugger;
     var vignette =
     '<div class="vignette">' +
-        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '" title="lien de la page" class="item pro-bloc-card-event"' + 
+        '<a href="' + homeURL + 'detail-evenement/-/entity/id/' + agenda.id + '/' + agenda.normalizedTitle + '" title="lien de la page" class="item pro-bloc-card-event"' + 
             'data-lat="' + agenda.mercatorY + '"' +  
             'data-lng="' + agenda.mercatorX + '"' + 
         '>' + 
@@ -994,7 +1000,37 @@ function createAgenda(agenda){
 }
 
 /**
-* Création de la vignette event (agenda)
+* Création de la vignette Atelier projet
+ * @return
+*/
+function createProjectWorkshop(projectWorkshop){
+    var vignette =
+    '<div class="col-md-3 col-sm-6 col-xs-12 vignette">' + 
+        '<a href="' + projectWorkshop.detailURL + '" title="Lien vers la page (' + projectWorkshop.title + ')" class="pro-bloc-actu">' +          
+            '<div class="img">' +
+                '<figure role="group">' +
+                    '<img src="' + projectWorkshop.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
+                '</figure>' +
+                '<span>';
+                    vignette += projectWorkshop.jsonVocabulariesTitle;
+
+    vignette +=
+                '</span>' +
+            '</div>' +
+            '<div class="content">' +
+                '<span class="publication">Publiée le ' + projectWorkshop.modifiedDate + '</span>' +
+                '<h3>' + projectWorkshop.title + '</h3>' +
+                '<p>' + projectWorkshop.chapo + (projectWorkshop.chapo.length > 100 ? '...' : '') + '</p>' +
+                '<span class="link">Découvrir le projet</span>' +
+            '</div>' +
+        '</a>' +
+    '</div>';
+
+    return vignette;
+}
+
+/**
+* Création de la vignette actualité
  * @return
 */
 function createNews(news){
@@ -1006,10 +1042,8 @@ function createNews(news){
                     '<img src="' + news.thumbnail + '?imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
                 '</figure>' +
                 '<span>';
-                for(var i = 0 ; i < news.jsonVocabulariesTitle.length ; i++){
-                    vignette += news.jsonVocabulariesTitle[i]["fr_FR"] + (i != (news.jsonVocabulariesTitle.length - 1) ? ', ' : '');
+                    vignette += news.jsonVocabulariesTitle;
 
-                }
     vignette +=
                 '</span>' +
             '</div>' +

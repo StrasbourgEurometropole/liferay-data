@@ -57,7 +57,6 @@ import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,94 +95,127 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
     
     // Pattern de recuperation des dates
     private static final String PATTERN = "dd/MM/yyyy";
-	
-	// Champs
-	private String title;
-	private String description;
-	private String inTheNameOf;
-	private long districtId;
-	private long thematicId;
-	private long projectId;
-	private String place;
-	private String video;
-	private Date birthday;
-    private String address;
-    private String city;
-    private long postalcode;
-    private String phone;
-    private String mobile;
-
-    // Gestion et contexte de la requete
-    private String publikID;
-    private PublikUser user;
-    private DateFormat dateFormat;
-    private String message;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 	@Override
 	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
-        
+        // Recuperation du contexte de la requete
+        ServiceContext sc = null;
+        try {
+            sc = ServiceContextFactory.getInstance(request);
+        } catch (PortalException e) {
+            _log.error(e);
+        }
+        DateFormat dateFormat = new SimpleDateFormat(PATTERN);
+
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour, format de date
         boolean result = false;
         boolean savedInfo = false;
-        this.message = "";
-        this.dateFormat = new SimpleDateFormat(PATTERN);
-        
+
         // Recuperation de l'utilsiteur Publik ayant lance la demande
-        this.publikID = getPublikID(request);
-        
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
+
         // Recuperation des informations du formulaire
-        this.title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
-        this.description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
-        this.districtId = ParamUtil.getLong(request, DISTRICT);
-        this.thematicId = ParamUtil.getLong(request, THEMATIC);
-        this.projectId = ParamUtil.getLong(request, PROJECT);
-        this.place = HtmlUtil.stripHtml(ParamUtil.getString(request, PLACE));
-        this.video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
-        this.birthday = ParamUtil.getDate(request, BIRTHDAY, this.dateFormat);
-        this.address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
-        this.city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
-        this.postalcode = ParamUtil.getLong(request, POSTALCODE);
-        this.phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
-        this.mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
-        this.inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
+        String title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
+        String description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
+        long districtId = ParamUtil.getLong(request, DISTRICT);
+        long thematicId = ParamUtil.getLong(request, THEMATIC);
+        long projectId = ParamUtil.getLong(request, PROJECT);
+        String place = HtmlUtil.stripHtml(ParamUtil.getString(request, PLACE));
+        String video = HtmlUtil.stripHtml(ParamUtil.getString(request, VIDEO));
+        String address = HtmlUtil.stripHtml(ParamUtil.getString(request, ADDRESS));
+        String city = HtmlUtil.stripHtml(ParamUtil.getString(request, CITY));
+        long postalcode = ParamUtil.getLong(request, POSTALCODE);
+        String phone = HtmlUtil.stripHtml(ParamUtil.getString(request, PHONE));
+        String mobile = HtmlUtil.stripHtml(ParamUtil.getString(request, MOBILE));
+        String inTheNameOf = HtmlUtil.stripHtml(ParamUtil.getString(request, IN_THE_NAME_OF));
 		
         // Verification de la validite des informations
-        if (validate(request)) {
-        
+        String message = validate(publikID, user, title, description);
+        if (message.equals("")) {
+
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
         	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(ParamUtil.getDate(request, BIRTHDAY, dateFormat));
                 PublikApiClient.setAllUserDetails(
-                        this.publikID,
-                        this.user.getLastName(),
-                        this.address,
-                        "" + this.postalcode,
-                        this.city,
+                        publikID,
+                        user != null ? user.getLastName() : null,
+                        address,
+                        "" + postalcode,
+                        city,
                         dateNaiss,
-                        this.phone,
-                        this.mobile
+                        phone,
+                        mobile
                 );
             }
-            
-         	// Envoi de la demande
-            result = saveInitiative(request);
-            
-            if(result)
-            	sendInitiativeMailConfirmation(request);
+
+            List<Long> identifiants = new ArrayList<>();
+            if (districtId == 0) {
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+                assert districts != null;
+                identifiants = districts.stream()
+                        .map(AssetCategoryModel::getCategoryId)
+                        .collect(Collectors.toList());
+            } else {
+                identifiants.add(districtId);
+            }
+            if (projectId != 0) {
+                identifiants.add(projectId);
+            }
+            if (thematicId != 0) {
+                identifiants.add(thematicId);
+            }
+            long[] ids = new long[identifiants.size()];
+            for (int i = 0; i < identifiants.size(); i++) {
+                ids[i] = identifiants.get(i);
+            }
+
+            if (sc != null) {
+                sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+                sc.setAssetCategoryIds(ids);
+            }
+
+            Initiative initiative = null;
+            try {
+                initiative = InitiativeLocalServiceUtil.createInitiative(sc);
+
+                initiative.setTitle(title);
+                initiative.setDescription(description);
+                initiative.setInTheNameOf(inTheNameOf);
+                initiative.setPlaceTextArea(place);
+                initiative.setVideoUrl(video);
+                initiative.setPublikId(publikID);
+                initiative = uploadFile(initiative, request);
+
+                initiative = InitiativeLocalServiceUtil.updateInitiative(initiative, sc);
+
+            } catch (PortalException | IOException e) {
+                _log.error(e);
+                throw new PortletException(e);
+            }
+            _log.info("Initiative cree : " + initiative);
+
+            if(message.equals("")) {
+                result = true;
+                sendInitiativeMailConfirmation(request, title, description, user);
+            }
         }
         
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
 
         // Recuperation de l'élément d'écriture de la réponse
-        PrintWriter writer = null;
+        PrintWriter writer;
         try {
             writer = response.getWriter();
             writer.print(jsonResponse.toString());
@@ -193,77 +225,29 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         return result;
 	}
 	
-	private boolean saveInitiative(ResourceRequest request) throws PortletException {
-		ServiceContext sc;
-        Initiative initiative;
-        
-        try {
-            sc = ServiceContextFactory.getInstance(request);
-            sc.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
-            List<Long> identifiants = new ArrayList<>();
-            if (this.districtId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            } else {
-                identifiants.add(districtId);
-            }
-            if (this.projectId != 0) {
-                identifiants.add(projectId);
-            }
-            if (this.thematicId != 0) {
-                identifiants.add(thematicId);
-            }
-            long[] ids = new long[identifiants.size()];
-            for (int i = 0; i < identifiants.size(); i++) {
-                ids[i] = identifiants.get(i);
-            }
-            sc.setAssetCategoryIds(ids);
-
-            initiative = InitiativeLocalServiceUtil.createInitiative(sc);
-            
-            initiative.setTitle(this.title);
-            initiative.setDescription(this.description);
-            initiative.setInTheNameOf(this.inTheNameOf);
-            initiative.setPlaceTextArea(this.place);
-            initiative.setVideoUrl(this.video);
-            initiative.setPublikId(this.publikID);
-            initiative = uploadFile(initiative, request);
-            
-            initiative = InitiativeLocalServiceUtil.updateInitiative(initiative, sc);
-            
-        } catch (PortalException | IOException e) {
-            _log.error(e);
-            throw new PortletException(e);
-        }
-        _log.info("Initiative cree : " + initiative);
-        return true;
-    }
-	
 	/**
 	 * Envoi du mail de confirmation de soumission d'une initiative
 	 */
-    private void sendInitiativeMailConfirmation(ResourceRequest request) {
+    private void sendInitiativeMailConfirmation(ResourceRequest request, String title,
+                                                String description, PublikUser user) {
     	
     	try {
 	    	ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 	    	// récupération des images
 			StringBuilder hostUrl = new StringBuilder("https://");
 			hostUrl.append(request.getServerName());
-			StringBuilder headerImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png");
-			StringBuilder btnImage = new StringBuilder(hostUrl)
-					.append("/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png");
-	    	
-			// préparation du template de mail
+            String headerImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-img-header-pcs.png";
+            String btnImage = hostUrl +
+                    "/o/plateforme-citoyenne-theme/images/logos/mail-btn-knowmore.png";
+
+            // préparation du template de mail
 			Map<String, Object> context = new HashMap<>();
 			context.put("link", themeDisplay.getURLPortal() + themeDisplay.getURLCurrent());
-			context.put("headerImage", headerImage.toString());
-			context.put("footerImage", btnImage.toString());
-			context.put("Title", this.title);
-			context.put("Message", this.description);
+            context.put("headerImage", headerImage);
+            context.put("footerImage", btnImage);
+			context.put("Title", title);
+			context.put("Message", description);
 
             StringWriter out = new StringWriter();
 
@@ -285,7 +269,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 					themeDisplay.getScopeGroup().getName(request.getLocale()));
 			
 			InternetAddress[] toAddresses = new InternetAddress[0];
-			InternetAddress address = new InternetAddress(this.user.getEmail());
+			InternetAddress address = new InternetAddress(user.getEmail());
 			toAddresses = ArrayUtil.append(toAddresses, address);
 
             // Copie carbone invisible
@@ -304,10 +288,10 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
      *
      * @param initiative Entite concernee
      * @return l'inititive avec l'imageId
-     * @throws IOException
-     * @throws PortalException
+      * @throws PortalException Fichier sans image
+      * @throws IOException Pb récupération de la photo
      */
-    private Initiative uploadFile(Initiative initiative, ResourceRequest request) throws IOException, PortalException {
+    private Initiative uploadFile(Initiative initiative, ResourceRequest request) throws PortalException, IOException {
     	
     	// Recuperation du contexte de la requete
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
@@ -337,7 +321,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                         sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
-                        photo.getName(), title,
+                        photo.getName(), initiative.getTitle(),
                         "", imageBytes, sc);
                 // Lien de l'image a l'entite
                 initiative.setImageId(fileEntry.getFileEntryId());
@@ -356,7 +340,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	 * Validation du nom du fichier photo
 	 * @return Valide ou pas
 	 */
-	private boolean validateFileName(ResourceRequest request) throws PortalException {
+	private boolean validateFileName(ResourceRequest request) {
         boolean result = true;
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName(PHOTO);
@@ -371,62 +355,30 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 	 * Validation des champs de la requete (excpet photo)
 	 * @return Valide ou pas
 	 */
-	private boolean validate(PortletRequest request) {
+	private String validate(String publikID, PublikUser user, String title, String description) {
         
         // utilisateur 
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "Utilisateur non reconnu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez soumettre une initiative";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour soumettre une initiative";
-        		return false;
+        	if (user.isBanned()) {
+                return "Vous ne pouvez soumettre une initiative";
+        	} else if (user.getPactSignature() == null) {
+                return "Vous devez signer le Pacte pour soumettre une initiative";
         	}
         }
 
         // title
-        if (Validator.isNull(this.title)) {
-        	this.message = "Titre non valide";
-            return false;
+        if (Validator.isNull(title)) {
+            return "Titre non valide";
         }
 
         // description
-        if (Validator.isNull(this.description)) {
-        	this.message = "Description non valide";
-            return false;
+        if (Validator.isNull(description)) {
+            return "Description non valide";
         }
 
-        /** desactivation de la verification de certains champs obligatoires
-        // birthday
-        if (Validator.isNull(this.birthday)) {
-        	this.message = "Date de naissance non valide";
-            return false;
-        }
-
-        // city
-        if (Validator.isNull(this.city)) {
-        	this.message = "Ville non valide";
-            return false;
-        }
-
-        // address
-        if (Validator.isNull(this.address)) {
-        	this.message = "Adresse non valide";
-        	return false;
-        }
-
-        // postalcode
-        if (Validator.isNull(this.postalcode)) {
-        	this.message = "Code postal non valide";
-            return false;
-        }**/
-
-        return true;
+        return "";
     }
 
     /**

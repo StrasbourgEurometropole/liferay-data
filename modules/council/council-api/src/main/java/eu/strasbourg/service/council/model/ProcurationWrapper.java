@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,9 +35,8 @@ import java.util.Objects;
  * @see Procuration
  * @generated
  */
-@ProviderType
 public class ProcurationWrapper
-	implements Procuration, ModelWrapper<Procuration> {
+	implements ModelWrapper<Procuration>, Procuration {
 
 	public ProcurationWrapper(Procuration procuration) {
 		_procuration = procuration;
@@ -75,6 +72,14 @@ public class ProcurationWrapper
 		attributes.put("officialUnavailableId", getOfficialUnavailableId());
 		attributes.put("councilSessionId", getCouncilSessionId());
 		attributes.put("isAbsent", isIsAbsent());
+		attributes.put("procurationMode", getProcurationMode());
+		attributes.put("presential", getPresential());
+		attributes.put("isAfterVote", isIsAfterVote());
+		attributes.put("startHour", getStartHour());
+		attributes.put("endHour", getEndHour());
+		attributes.put("startDelib", getStartDelib());
+		attributes.put("endDelib", getEndDelib());
+		attributes.put("otherProcurationMode", getOtherProcurationMode());
 
 		return attributes;
 	}
@@ -177,6 +182,55 @@ public class ProcurationWrapper
 		if (isAbsent != null) {
 			setIsAbsent(isAbsent);
 		}
+
+		Integer procurationMode = (Integer)attributes.get("procurationMode");
+
+		if (procurationMode != null) {
+			setProcurationMode(procurationMode);
+		}
+
+		Integer presential = (Integer)attributes.get("presential");
+
+		if (presential != null) {
+			setPresential(presential);
+		}
+
+		Boolean isAfterVote = (Boolean)attributes.get("isAfterVote");
+
+		if (isAfterVote != null) {
+			setIsAfterVote(isAfterVote);
+		}
+
+		Date startHour = (Date)attributes.get("startHour");
+
+		if (startHour != null) {
+			setStartHour(startHour);
+		}
+
+		Date endHour = (Date)attributes.get("endHour");
+
+		if (endHour != null) {
+			setEndHour(endHour);
+		}
+
+		Long startDelib = (Long)attributes.get("startDelib");
+
+		if (startDelib != null) {
+			setStartDelib(startDelib);
+		}
+
+		Long endDelib = (Long)attributes.get("endDelib");
+
+		if (endDelib != null) {
+			setEndDelib(endDelib);
+		}
+
+		String otherProcurationMode = (String)attributes.get(
+			"otherProcurationMode");
+
+		if (otherProcurationMode != null) {
+			setOtherProcurationMode(otherProcurationMode);
+		}
 	}
 
 	@Override
@@ -221,6 +275,26 @@ public class ProcurationWrapper
 		return _procuration.getCreateDate();
 	}
 
+	/**
+	 * Returns the end delib of this procuration.
+	 *
+	 * @return the end delib of this procuration
+	 */
+	@Override
+	public long getEndDelib() {
+		return _procuration.getEndDelib();
+	}
+
+	/**
+	 * Returns the end hour of this procuration.
+	 *
+	 * @return the end hour of this procuration
+	 */
+	@Override
+	public Date getEndHour() {
+		return _procuration.getEndHour();
+	}
+
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return _procuration.getExpandoBridge();
@@ -244,6 +318,16 @@ public class ProcurationWrapper
 	@Override
 	public boolean getIsAbsent() {
 		return _procuration.getIsAbsent();
+	}
+
+	/**
+	 * Returns the is after vote of this procuration.
+	 *
+	 * @return the is after vote of this procuration
+	 */
+	@Override
+	public boolean getIsAfterVote() {
+		return _procuration.getIsAfterVote();
 	}
 
 	/**
@@ -285,6 +369,26 @@ public class ProcurationWrapper
 	}
 
 	/**
+	 * Returns the other procuration mode of this procuration.
+	 *
+	 * @return the other procuration mode of this procuration
+	 */
+	@Override
+	public String getOtherProcurationMode() {
+		return _procuration.getOtherProcurationMode();
+	}
+
+	/**
+	 * Returns the presential of this procuration.
+	 *
+	 * @return the presential of this procuration
+	 */
+	@Override
+	public int getPresential() {
+		return _procuration.getPresential();
+	}
+
+	/**
 	 * Returns the primary key of this procuration.
 	 *
 	 * @return the primary key of this procuration
@@ -307,6 +411,36 @@ public class ProcurationWrapper
 	@Override
 	public long getProcurationId() {
 		return _procuration.getProcurationId();
+	}
+
+	/**
+	 * Returns the procuration mode of this procuration.
+	 *
+	 * @return the procuration mode of this procuration
+	 */
+	@Override
+	public int getProcurationMode() {
+		return _procuration.getProcurationMode();
+	}
+
+	/**
+	 * Returns the start delib of this procuration.
+	 *
+	 * @return the start delib of this procuration
+	 */
+	@Override
+	public long getStartDelib() {
+		return _procuration.getStartDelib();
+	}
+
+	/**
+	 * Returns the start hour of this procuration.
+	 *
+	 * @return the start hour of this procuration
+	 */
+	@Override
+	public Date getStartHour() {
+		return _procuration.getStartHour();
 	}
 
 	/**
@@ -484,6 +618,16 @@ public class ProcurationWrapper
 		return _procuration.isIsAbsent();
 	}
 
+	/**
+	 * Returns <code>true</code> if this procuration is is after vote.
+	 *
+	 * @return <code>true</code> if this procuration is is after vote; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIsAfterVote() {
+		return _procuration.isIsAfterVote();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _procuration.isNew();
@@ -549,6 +693,26 @@ public class ProcurationWrapper
 		_procuration.setCreateDate(createDate);
 	}
 
+	/**
+	 * Sets the end delib of this procuration.
+	 *
+	 * @param endDelib the end delib of this procuration
+	 */
+	@Override
+	public void setEndDelib(long endDelib) {
+		_procuration.setEndDelib(endDelib);
+	}
+
+	/**
+	 * Sets the end hour of this procuration.
+	 *
+	 * @param endHour the end hour of this procuration
+	 */
+	@Override
+	public void setEndHour(Date endHour) {
+		_procuration.setEndHour(endHour);
+	}
+
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
@@ -587,6 +751,16 @@ public class ProcurationWrapper
 	}
 
 	/**
+	 * Sets whether this procuration is is after vote.
+	 *
+	 * @param isAfterVote the is after vote of this procuration
+	 */
+	@Override
+	public void setIsAfterVote(boolean isAfterVote) {
+		_procuration.setIsAfterVote(isAfterVote);
+	}
+
+	/**
 	 * Sets the modified date of this procuration.
 	 *
 	 * @param modifiedDate the modified date of this procuration
@@ -622,6 +796,26 @@ public class ProcurationWrapper
 	}
 
 	/**
+	 * Sets the other procuration mode of this procuration.
+	 *
+	 * @param otherProcurationMode the other procuration mode of this procuration
+	 */
+	@Override
+	public void setOtherProcurationMode(String otherProcurationMode) {
+		_procuration.setOtherProcurationMode(otherProcurationMode);
+	}
+
+	/**
+	 * Sets the presential of this procuration.
+	 *
+	 * @param presential the presential of this procuration
+	 */
+	@Override
+	public void setPresential(int presential) {
+		_procuration.setPresential(presential);
+	}
+
+	/**
 	 * Sets the primary key of this procuration.
 	 *
 	 * @param primaryKey the primary key of this procuration
@@ -644,6 +838,36 @@ public class ProcurationWrapper
 	@Override
 	public void setProcurationId(long procurationId) {
 		_procuration.setProcurationId(procurationId);
+	}
+
+	/**
+	 * Sets the procuration mode of this procuration.
+	 *
+	 * @param procurationMode the procuration mode of this procuration
+	 */
+	@Override
+	public void setProcurationMode(int procurationMode) {
+		_procuration.setProcurationMode(procurationMode);
+	}
+
+	/**
+	 * Sets the start delib of this procuration.
+	 *
+	 * @param startDelib the start delib of this procuration
+	 */
+	@Override
+	public void setStartDelib(long startDelib) {
+		_procuration.setStartDelib(startDelib);
+	}
+
+	/**
+	 * Sets the start hour of this procuration.
+	 *
+	 * @param startHour the start hour of this procuration
+	 */
+	@Override
+	public void setStartHour(Date startHour) {
+		_procuration.setStartHour(startHour);
 	}
 
 	/**
@@ -764,16 +988,16 @@ public class ProcurationWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ProcurationWrapper)) {
+		if (!(object instanceof ProcurationWrapper)) {
 			return false;
 		}
 
-		ProcurationWrapper procurationWrapper = (ProcurationWrapper)obj;
+		ProcurationWrapper procurationWrapper = (ProcurationWrapper)object;
 
 		if (Objects.equals(_procuration, procurationWrapper._procuration)) {
 			return true;

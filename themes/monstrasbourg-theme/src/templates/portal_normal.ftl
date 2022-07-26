@@ -42,6 +42,7 @@
   <@liferay_util["include"] page=top_head_include />
    
   <link type="text/css" rel="stylesheet" href="/o/monstrasbourg-theme/css/strasbourg.css">
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
   <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
   <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
   <title>${the_title?replace('-', '|')}</title>

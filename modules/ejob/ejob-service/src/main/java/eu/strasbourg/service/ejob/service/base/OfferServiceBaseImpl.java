@@ -49,7 +49,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class OfferServiceBaseImpl
-	extends BaseServiceImpl implements OfferService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, OfferService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -564,8 +564,8 @@ public abstract class OfferServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

@@ -14,6 +14,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,7 +25,7 @@ import java.util.Date;
  */
 @Component(immediate = true, service = ImportEventsMessageListener.class)
 public class ImportEventsMessageListener
-	extends BaseMessageListener {
+		extends BaseMessageListener {
 
 	@Activate
 	@Modified
@@ -32,15 +34,40 @@ public class ImportEventsMessageListener
 
 		String listenerClass = getClass().getName();
 
-		// Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
-		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, 5);
-		Date fiveMinutesFromNow = now.getTime();
-
-		// Création du trigger "Tous les jours à 4h"
-		Trigger trigger = _triggerFactory.createTrigger(
-				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 0 4 * * ?");
+		LocalDateTime now = LocalDateTime.now();
+		LocalDateTime firstTrigger = now.withHour(1).withMinute(30).withSecond(0);
+		LocalDateTime secondTrigger = now.withHour(13).withMinute(30).withSecond(0);
+		LocalDateTime thirdTrigger = now.plusDays(1).withHour(1).withMinute(30).withSecond(0);
+		// Création du trigger "Tous à 1h30 ou 13h30 toutes les 12 heures"
+		Trigger trigger;
+		if(now.isBefore(firstTrigger)){
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(firstTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		} else if(now.isBefore(secondTrigger)) {
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(secondTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		} else {
+			trigger = _triggerFactory.createTrigger(
+					listenerClass,
+					listenerClass,
+					java.util.Date
+							.from(thirdTrigger.atZone(ZoneId.systemDefault())
+									.toInstant()),
+					null,
+					12, TimeUnit.HOUR);
+		}
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

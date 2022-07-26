@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
  * @see Event
  * @generated
  */
-@ProviderType
 public abstract class EventBaseImpl extends EventModelImpl implements Event {
 
 	/*

@@ -70,6 +70,12 @@ public class FileEntryHelper {
 	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
 		String url = "";
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+
+		return getFileEntryURLWithTimeStamp(fileEntry);
+	}
+
+	public static String getFileEntryURLWithTimeStamp(DLFileEntry fileEntry) {
+		String url = "";
 		if (fileEntry != null) {
 			FileEntryHelper.getImageCopyright(fileEntry.getFileEntryId(), null);
 			if (fileEntry != null) {
@@ -87,6 +93,7 @@ public class FileEntryHelper {
 		}
 		return url;
 	}
+
 
 	public static String getReadableFileEntrySize(long fileEntryId, Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);

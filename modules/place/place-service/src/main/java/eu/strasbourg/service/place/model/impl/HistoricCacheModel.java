@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class HistoricCacheModel
 	implements CacheModel<Historic>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof HistoricCacheModel)) {
+		if (!(object instanceof HistoricCacheModel)) {
 			return false;
 		}
 
-		HistoricCacheModel historicCacheModel = (HistoricCacheModel)obj;
+		HistoricCacheModel historicCacheModel = (HistoricCacheModel)object;
 
 		if (sigId.equals(historicCacheModel.sigId)) {
 			return true;

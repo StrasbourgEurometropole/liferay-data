@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service.base;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -35,6 +33,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -51,6 +50,7 @@ import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventFinder;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
@@ -77,7 +77,6 @@ import javax.sql.DataSource;
  * @see eu.strasbourg.service.agenda.service.impl.CacheJsonLocalServiceImpl
  * @generated
  */
-@ProviderType
 public abstract class CacheJsonLocalServiceBaseImpl
 	extends BaseLocalServiceImpl
 	implements CacheJsonLocalService, IdentifiableOSGiService {
@@ -90,6 +89,10 @@ public abstract class CacheJsonLocalServiceBaseImpl
 
 	/**
 	 * Adds the cache json to the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was added
@@ -117,6 +120,10 @@ public abstract class CacheJsonLocalServiceBaseImpl
 	/**
 	 * Deletes the cache json with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param eventId the primary key of the cache json
 	 * @return the cache json that was removed
 	 * @throws PortalException if a cache json with the primary key could not be found
@@ -129,6 +136,10 @@ public abstract class CacheJsonLocalServiceBaseImpl
 
 	/**
 	 * Deletes the cache json from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was removed
@@ -162,7 +173,7 @@ public abstract class CacheJsonLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -182,7 +193,7 @@ public abstract class CacheJsonLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -294,6 +305,13 @@ public abstract class CacheJsonLocalServiceBaseImpl
 		return cacheJsonLocalService.deleteCacheJson((CacheJson)persistedModel);
 	}
 
+	public BasePersistence<CacheJson> getBasePersistence() {
+		return cacheJsonPersistence;
+	}
+
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
@@ -305,7 +323,7 @@ public abstract class CacheJsonLocalServiceBaseImpl
 	 * Returns a range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -329,6 +347,10 @@ public abstract class CacheJsonLocalServiceBaseImpl
 
 	/**
 	 * Updates the cache json in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was updated
@@ -612,6 +634,49 @@ public abstract class CacheJsonLocalServiceBaseImpl
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
 
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
+	}
+
+	/**
+	 * Returns the csmap cache json local service.
+	 *
+	 * @return the csmap cache json local service
+	 */
+	public eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
+
+		return csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Sets the csmap cache json local service.
+	 *
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
+	 */
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
+
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Returns the csmap cache json persistence.
+	 *
+	 * @return the csmap cache json persistence
+	 */
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
+	}
+
+	/**
+	 * Sets the csmap cache json persistence.
+	 *
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
+	 */
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
+
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -1108,8 +1173,8 @@ public abstract class CacheJsonLocalServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 
@@ -1168,6 +1233,15 @@ public abstract class CacheJsonLocalServiceBaseImpl
 
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
+
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.agenda.service.EventLocalService.class

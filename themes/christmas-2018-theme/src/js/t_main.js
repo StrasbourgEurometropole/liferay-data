@@ -3320,59 +3320,6 @@ $(window).on('scroll', function (e) {
         $('.social-share').removeClass('fadein');
     }
 });
-var th_dropdown = {
-
-    $last: null,
-
-    init: function(){
-        th_dropdown.parse($('body'));
-    },
-
-    parse: function(el){
-        $('.dropdown > a',el).each(function(){
-            $(this).on('click',function(e){
-                e.preventDefault();
-                if($(this).parent().hasClass('open')){
-                    th_dropdown.close();
-                }else{
-                    th_dropdown.open($(this).parent());
-                }
-            });
-        });
-    },
-
-    open: function($dropdown){
-        if($dropdown == th_dropdown.$last){
-            return false;
-        }
-        $('#shadow-bg').addClass('display-bloc');
-        $dropdown.addClass('open');
-        setTimeout(function(){
-            th_dropdown.$last = $dropdown;
-            $(document).on('click',th_dropdown.closeLastOnClick);
-        },50);
-    },
-
-    closeLastOnClick: function(e){
-        if($(e.target).parents('.dropdown').first() && th_dropdown.$last && ($(e.target).parents('.dropdown').first()[0] == th_dropdown.$last[0])) {
-            return true;
-            $('#shadow-bg').removeClass('display-bloc');
-        }
-        th_dropdown.close();
-    },
-
-    close: function(){
-        th_dropdown.$last.removeClass('open');
-        $('#shadow-bg').removeClass('display-bloc');
-
-        $(document).off('click',th_dropdown.closeLastOnClick);
-        th_dropdown.$last = null;
-        $('#shadow-bg').removeClass('display-bloc');
-    }
-
-};
-
-th_dropdown.init();
 /*
         EGALISE EN HAUTEUR DES BLOCKS
 
@@ -3581,6 +3528,33 @@ $('.owl-instagram').each(function () {
         _self.owlCarousel(options);
     }
 });
+
+// Carsousel Section Slider Social Wall
+$('#owl-social-wall').owlCarousel({
+    responsive:{
+        0:{
+            loop: true,
+            items:1.5,
+            margin: 20
+        },
+        768:{
+            loop: false,
+            items:2,
+            margin: 20
+        },
+        1024:{
+            loop: false,
+            items: 4,
+            margin: 60
+        }
+    },
+    loop: false,
+    dots: false,
+    nav:true,
+    autoplay: false,
+    navText: ["<span class='icon-chevron-thin-left'></span>","<span class='icon-chevron-thin-right'></span>"]
+});
+
 // Bloc video
 $('.mns-bloc-video').each(function() {
 
@@ -3747,11 +3721,6 @@ $('.mns-questions-pagination .mns-next').on('click', function (e) {
 $(window).on("load",function() {
     $('.mns-page-experientielle').addClass('mns-loaded');
 });
-// Service Google Analytics (universal)
-tarteaucitron.user.analyticsUa = 'UA-19910890-1'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
-tarteaucitron.user.analyticsMore = function () {  };
-(tarteaucitron.job = tarteaucitron.job || []).push('analytics');
-
 // Service Youtube
 //<div class="youtube_player" videoID="video_id" width="width" height="height" theme="theme (dark | light)" rel="rel (1 | 0)" controls="controls (1 | 0)" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" mute="mute (0 | 1)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('youtube');
@@ -3952,10 +3921,6 @@ $(function() {
             favoriteButton[0].children[0].textContent = Liferay.Language.get('eu.add-to-favorite');
         }
     });
-});
-// Affiche Dropdown menu
-$('.dropdown').click(function(){
-    $(this).toggleClass('open');
 });
 $(window).scroll(function () {
     if ($(window).scrollTop() > 100) {

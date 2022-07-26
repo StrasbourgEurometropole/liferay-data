@@ -7,6 +7,7 @@
   <title>${the_title}</title>
 
   <link rel="stylesheet" type="text/css" href="/o/single-page-theme/css/custom-animations.css" />
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 
    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,300,300italic,400italic,500italic&subset=latin,latin-ext" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:400,700" rel="stylesheet">

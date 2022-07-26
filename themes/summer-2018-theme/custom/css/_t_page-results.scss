@@ -34,17 +34,6 @@
 		    display: flex;
 		    justify-content: center;
 		    margin-top: 20px;
-
-		    @media only screen and (max-width: 767px) {
-			    display: block;
-			    text-align: center;
-
-			    button+button {
-			    	margin: 0 !important;
-    				margin-top: 10px !important;
-			    }
-
-			}
 		}
 
 		.mns-btn-square {
@@ -56,6 +45,9 @@
 		    transition: all,.5s;
 		    overflow: hidden;
 
+			@include mobile{
+				padding: 15px 5px;
+			}
 
 		    &:before {
 	    		content: '';
@@ -79,6 +71,7 @@
 		    		.mns-btn-text {
 		    			color: $c_white;
 		    		}
+
 		    		&:before {
 		    			height: 103%;
 		    			background-color: $c_main;
@@ -95,11 +88,24 @@
 		    		.mns-btn-text {
 		    			color: $c_main;
 		    		}
+
 		    		&:before {
 		    			height: 100%;
 		    		}
 		    	}
 		    }
+
+			&[type="submit"]{
+				.mns-flexbox .mns-btn-text{
+					color: $c_main;
+				} 
+
+    			&:hover {
+		    		.mns-btn-text {
+		    			color: $c_white;
+		    		}
+		    	}
+			}
 
 		    .mns-flexbox {
 			    display: flex;
@@ -109,11 +115,14 @@
     			position: relative;
 
 			    .mns-btn-text {
-			    	font-size: 1.4rem;
+					@include ft($f_nr, 18px, 400, $c_white, normal);
 				    text-transform: uppercase;
-				    font-weight: 600;
 				    transition: all,.3s;
 				    width: 100%;
+
+					@include mobile_small{
+						@include ft($f_nr, 15px, 400, $c_white, normal);
+					}
 			    }
 	    
 		    }
@@ -151,7 +160,7 @@
 	    align-items: center;
 	    border: 0;
 	    position: relative;
-	    padding-top: 45px;
+		padding: 45px 0 0;
 	    margin-bottom: 60px;
 
 	    li:nth-child(2) {
@@ -167,14 +176,12 @@
 		    .mns-btn-text {
 		    	order: 2;
 		    	margin-left: 20px;
-		    	@media only screen and (max-width: 767px) {
-		    		font-size: 0 !important;
-		    		&:before {
-		    			content:'PREC';
-		    			font-size: 14px;
-		    		}
-		    	}
+
+				@include mobile{
+					display: none;
+				}
 		    }
+
 		    .mns-btn-arrow {
 			    transform: rotate(-180deg);
 			    order: 1;
@@ -186,33 +193,32 @@
    			margin-right: 0;
 		    padding: 0;
 		    width: 150px;
+
    			.mns-btn-text {
    				margin-right: 20px;
-		    	@media only screen and (max-width: 767px) {
-		    		font-size: 0 !important;
-		    		&:before {
-		    			content:'SUIV';
-		    			font-size: 14px;
-		    		}
-		    	}
+
+				@include mobile{
+					display: none;
+				}
 		    }
 		}
 
 		.mns-pagin-item {
 			.mns-btn-text {
-				font-weight: 600;
 				color: $c_main;
+				font-family: $f_nr;
+			}
+
+			@include mobile{
+				&:not(.mns-pagin-next):not(.mns-pagin-prev){
+					display: none;
+				}
 			}
 
 			&.mns-is-active {
 				.mns-btn-text {
+					font-weight: bold;
 					color: $c_txt;
-				}
-			}
-
-			@media only screen and (max-width: 767px) {
-				&:not(.mns-pagin-next):not(.mns-pagin-prev) {
-					display: none;
 				}
 			}
 		}
@@ -250,9 +256,11 @@
 		    		.mns-btn-text {
 		    			color: $c_white;
 		    		}
+
 					.mns-btn-arrow{
 		                background-image: url( svg-bg-uri($svg-arrow1, $c_white) );
 		            }
+
 		    		&:before {
 		    			height: 100%;
 		    		}
@@ -267,9 +275,8 @@
     			position: relative;
 
 			    .mns-btn-text {
-			    	font-size: 1.4rem;
+					@include ft($f_nr, 1.2rem, 400, $c_main, 1.25rem);
 				    text-transform: uppercase;
-				    font-weight: 600;
 				    transition: all,.3s;
 				    width: 100%;
 			    }
@@ -291,11 +298,13 @@
 
 	.mns-item-results{
 		padding: 2px 0;
+
 		> a{
 			padding: 35px 10px;
 			display: block;
 			border-top: 1px solid $c_filet;
 			@include an(all,0.3);
+
 			&:hover{
 				transform: scale(1.02);
 				-webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.15);
@@ -303,18 +312,19 @@
 				box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.15);
 			}
 		}
+
 		h3{
-			@include ft($f_ms, 21.5px, 600, $c_txt, normal);	
+			@include ft($f_nr, 25px, 400, $c_main, normal);	
 			margin-bottom: 10px;
 		}
 
-		.msn-cat{
+		/*.msn-cat{
 			width: 300px;
 			margin: auto;
 			display: block;
 			margin-bottom: 10px;
 			text-align: center;
-		}
+		}*/
 
 		p{
 			clear: both;

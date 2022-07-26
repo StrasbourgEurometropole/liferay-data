@@ -23,7 +23,6 @@ import eu.strasbourg.service.agenda.model.CacheJson;
 
 import java.io.Serializable;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,267 +50,40 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 		Set<Serializable> primaryKeys);
 
 	/**
-	 * Returns all the cache jsons where uuid = &#63;.
+	 * Returns the cache json where eventId = &#63; or throws a <code>NoSuchCacheJsonException</code> if it could not be found.
 	 *
-	 * @param uuid the uuid
-	 * @return the matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByUuid(String uuid);
-
-	/**
-	 * Returns a range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByUuid(
-		String uuid, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByUuid(
-		String uuid, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByUuid(
-		String uuid, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator,
-		boolean retrieveFromCache);
-
-	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
+	 * @param eventId the event ID
+	 * @return the matching cache json
 	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
-	public CacheJson findByUuid_First(
-			String uuid,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
+	public CacheJson findByeventId(long eventId)
 		throws NoSuchCacheJsonException;
 
 	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
+	 * Returns the cache json where eventId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
+	 * @param eventId the event ID
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
-	public CacheJson fetchByUuid_First(
-		String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
+	public CacheJson fetchByeventId(long eventId);
 
 	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
+	 * Returns the cache json where eventId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
+	 * @param eventId the event ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
-	public CacheJson findByUuid_Last(
-			String uuid,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
+	public CacheJson fetchByeventId(long eventId, boolean useFinderCache);
+
+	/**
+	 * Removes the cache json where eventId = &#63; from the database.
+	 *
+	 * @param eventId the event ID
+	 * @return the cache json that was removed
+	 */
+	public CacheJson removeByeventId(long eventId)
 		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByUuid_Last(
-		String uuid,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
-	 */
-	public CacheJson[] findByUuid_PrevAndNext(
-			long eventId, String uuid,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Removes all the cache jsons where uuid = &#63; from the database.
-	 *
-	 * @param uuid the uuid
-	 */
-	public void removeByUuid(String uuid);
-
-	/**
-	 * Returns the number of cache jsons where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @return the number of matching cache jsons
-	 */
-	public int countByUuid(String uuid);
-
-	/**
-	 * Returns all the cache jsons where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @return the matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByeventId(long eventId);
-
-	/**
-	 * Returns a range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByeventId(
-		long eventId, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByeventId(
-		long eventId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByeventId(
-		long eventId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator,
-		boolean retrieveFromCache);
-
-	/**
-	 * Returns the first cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByeventId_First(
-			long eventId,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the first cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByeventId_First(
-		long eventId,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the last cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByeventId_Last(
-			long eventId,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the last cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByeventId_Last(
-		long eventId,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Removes all the cache jsons where eventId = &#63; from the database.
-	 *
-	 * @param eventId the event ID
-	 */
-	public void removeByeventId(long eventId);
 
 	/**
 	 * Returns the number of cache jsons where eventId = &#63;.
@@ -322,494 +94,200 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 	public int countByeventId(long eventId);
 
 	/**
-	 * Returns all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or throws a <code>NoSuchCacheJsonException</code> if it could not be found.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @return the matching cache jsons
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
-	public java.util.List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive);
+	public CacheJson findByeventIdAndIsApproved(
+			long eventId, boolean isApproved)
+		throws NoSuchCacheJsonException;
 
 	/**
-	 * Returns a range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public CacheJson fetchByeventIdAndIsApproved(
+		long eventId, boolean isApproved);
+
+	/**
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
+	 */
+	public CacheJson fetchByeventIdAndIsApproved(
+		long eventId, boolean isApproved, boolean useFinderCache);
+
+	/**
+	 * Removes the cache json where eventId = &#63; and isApproved = &#63; from the database.
+	 *
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the cache json that was removed
+	 */
+	public CacheJson removeByeventIdAndIsApproved(
+			long eventId, boolean isApproved)
+		throws NoSuchCacheJsonException;
+
+	/**
+	 * Returns the number of cache jsons where eventId = &#63; and isApproved = &#63;.
+	 *
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the number of matching cache jsons
+	 */
+	public int countByeventIdAndIsApproved(long eventId, boolean isApproved);
+
+	/**
+	 * Returns all the cache jsons where isApproved = &#63;.
+	 *
+	 * @param isApproved the is approved
+	 * @return the matching cache jsons
+	 */
+	public java.util.List<CacheJson> findByisApproved(boolean isApproved);
+
+	/**
+	 * Returns a range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @return the range of matching cache jsons
 	 */
-	public java.util.List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end);
+	public java.util.List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching cache jsons
 	 */
-	public java.util.List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end,
+	public java.util.List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching cache jsons
 	 */
-	public java.util.List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end,
+	public java.util.List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 			orderByComparator,
-		boolean retrieveFromCache);
+		boolean useFinderCache);
 
 	/**
-	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the first cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching cache json
 	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
-	public CacheJson findByCreatedDateAndIsActive_First(
-			Date createEvent, boolean isActive,
+	public CacheJson findByisApproved_First(
+			boolean isApproved,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 				orderByComparator)
 		throws NoSuchCacheJsonException;
 
 	/**
-	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the first cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
-	public CacheJson fetchByCreatedDateAndIsActive_First(
-		Date createEvent, boolean isActive,
+	public CacheJson fetchByisApproved_First(
+		boolean isApproved,
 		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 			orderByComparator);
 
 	/**
-	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the last cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching cache json
 	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
-	public CacheJson findByCreatedDateAndIsActive_Last(
-			Date createEvent, boolean isActive,
+	public CacheJson findByisApproved_Last(
+			boolean isApproved,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 				orderByComparator)
 		throws NoSuchCacheJsonException;
 
 	/**
-	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the last cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
-	public CacheJson fetchByCreatedDateAndIsActive_Last(
-		Date createEvent, boolean isActive,
+	public CacheJson fetchByisApproved_Last(
+		boolean isApproved,
 		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 			orderByComparator);
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache jsons before and after the current cache json in the ordered set where isApproved = &#63;.
 	 *
 	 * @param eventId the primary key of the current cache json
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next cache json
 	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
 	 */
-	public CacheJson[] findByCreatedDateAndIsActive_PrevAndNext(
-			long eventId, Date createEvent, boolean isActive,
+	public CacheJson[] findByisApproved_PrevAndNext(
+			long eventId, boolean isApproved,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 				orderByComparator)
 		throws NoSuchCacheJsonException;
 
 	/**
-	 * Removes all the cache jsons where createEvent &ge; &#63; and isActive = &#63; from the database.
+	 * Removes all the cache jsons where isApproved = &#63; from the database.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 */
-	public void removeByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive);
+	public void removeByisApproved(boolean isApproved);
 
 	/**
-	 * Returns the number of cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the number of cache jsons where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @return the number of matching cache jsons
 	 */
-	public int countByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive);
-
-	/**
-	 * Returns all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the matching cache jsons
-	 */
-	public java.util.List<CacheJson>
-		findByCreatedDateAndModifiedDateAndIsActive(
-			Date createEvent, Date modifiedEvent, boolean isActive);
-
-	/**
-	 * Returns a range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	public java.util.List<CacheJson>
-		findByCreatedDateAndModifiedDateAndIsActive(
-			Date createEvent, Date modifiedEvent, boolean isActive, int start,
-			int end);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson>
-		findByCreatedDateAndModifiedDateAndIsActive(
-			Date createEvent, Date modifiedEvent, boolean isActive, int start,
-			int end,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson>
-		findByCreatedDateAndModifiedDateAndIsActive(
-			Date createEvent, Date modifiedEvent, boolean isActive, int start,
-			int end,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator,
-			boolean retrieveFromCache);
-
-	/**
-	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_First(
-			Date createEvent, Date modifiedEvent, boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_First(
-		Date createEvent, Date modifiedEvent, boolean isActive,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_Last(
-			Date createEvent, Date modifiedEvent, boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_Last(
-		Date createEvent, Date modifiedEvent, boolean isActive,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
-	 */
-	public CacheJson[] findByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-			long eventId, Date createEvent, Date modifiedEvent,
-			boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Removes all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; from the database.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 */
-	public void removeByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive);
-
-	/**
-	 * Returns the number of cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the number of matching cache jsons
-	 */
-	public int countByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive);
-
-	/**
-	 * Returns all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive);
-
-	/**
-	 * Returns a range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	public java.util.List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator,
-		boolean retrieveFromCache);
-
-	/**
-	 * Returns the first cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByModifiedDateAndIsActive_First(
-			Date modifiedEvent, boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the first cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByModifiedDateAndIsActive_First(
-		Date modifiedEvent, boolean isActive,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the last cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	public CacheJson findByModifiedDateAndIsActive_Last(
-			Date modifiedEvent, boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Returns the last cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	public CacheJson fetchByModifiedDateAndIsActive_Last(
-		Date modifiedEvent, boolean isActive,
-		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-			orderByComparator);
-
-	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
-	 */
-	public CacheJson[] findByModifiedDateAndIsActive_PrevAndNext(
-			long eventId, Date modifiedEvent, boolean isActive,
-			com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
-				orderByComparator)
-		throws NoSuchCacheJsonException;
-
-	/**
-	 * Removes all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63; from the database.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 */
-	public void removeByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive);
-
-	/**
-	 * Returns the number of cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the number of matching cache jsons
-	 */
-	public int countByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive);
+	public int countByisApproved(boolean isApproved);
 
 	/**
 	 * Caches the cache json in the entity cache if it is enabled.
@@ -873,7 +351,7 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 	 * Returns a range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -886,7 +364,7 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 	 * Returns an ordered range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -903,20 +381,20 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 	 * Returns an ordered range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of cache jsons
 	 */
 	public java.util.List<CacheJson> findAll(
 		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<CacheJson>
 			orderByComparator,
-		boolean retrieveFromCache);
+		boolean useFinderCache);
 
 	/**
 	 * Removes all the cache jsons from the database.
@@ -929,8 +407,5 @@ public interface CacheJsonPersistence extends BasePersistence<CacheJson> {
 	 * @return the number of cache jsons
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class ArretCacheModel implements CacheModel<Arret>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ArretCacheModel)) {
+		if (!(object instanceof ArretCacheModel)) {
 			return false;
 		}
 
-		ArretCacheModel arretCacheModel = (ArretCacheModel)obj;
+		ArretCacheModel arretCacheModel = (ArretCacheModel)object;
 
 		if (arretId == arretCacheModel.arretId) {
 			return true;

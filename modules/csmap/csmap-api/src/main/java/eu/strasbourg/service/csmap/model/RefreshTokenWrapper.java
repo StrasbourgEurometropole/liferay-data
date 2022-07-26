@@ -21,8 +21,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * <p>
  * This class is a wrapper for {@link RefreshToken}.
@@ -32,10 +30,9 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see RefreshToken
  * @generated
  */
-@ProviderType
 public class RefreshTokenWrapper
 	extends BaseModelWrapper<RefreshToken>
-	implements RefreshToken, ModelWrapper<RefreshToken> {
+	implements ModelWrapper<RefreshToken>, RefreshToken {
 
 	public RefreshTokenWrapper(RefreshToken refreshToken) {
 		super(refreshToken);

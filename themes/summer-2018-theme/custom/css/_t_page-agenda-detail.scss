@@ -12,255 +12,241 @@
 
 	.mns-agenda-detail{
 		margin: 30px auto;
-		@include tablet_portrait {
-				margin-top: 50px !important;
-			}
 
-		.mns-section-agenda{
-			padding-bottom: 50px;
-			h2{
-				text-align: left;
-				@include ft($f_ms, 25px, 600, $c_txt, normal);
-				display: inline-block;
-				vertical-align: middle;
-			}
-			.link{
-				float: right;
-				position: relative;
-				top: 10px;
-				color: $c_txt;
-				text-decoration: none;
-			}
-		}
+		.mns-aside-info{
+			margin-bottom: 40px;
+			height: fit-content;
 
-		&.mns-fck figure figcaption{
-			border: none;
-			right: 0;
-			left: initial;
-			bottom: 0;
-			top: initial;
-			transform: translate(100%,0) rotate(-90deg);
-			color: $c_white;
-			display: inline-block;
-			padding: 15px;
-			transform-origin: bottom left;
-			width: auto;
-			text-align: left;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			white-space: nowrap;
-			max-width: 120%;
-			font-size: 10px;
-		}
+			figure {
+				margin: 0;
+				background: $c_black;
+	
+				img{
+					width: 100%;
 
-		.mns-img-agenda-top{
-			margin: 0;
-		}
-
-		figure img{
-			width: 100%;
-		}
-
-		.mns-info-pratiques{
-			max-width: 298px;
-    		margin-left: 1px;
-    		background-color: $c_main;
-			.mns-sec-info{
-				border-bottom: 0px;
-				.mns-title-info{
-					text-transform: uppercase;
-					color: $c_white;
-					font-family: $f_ms;
-				}
-				p{
-					width: 90%;
-					margin-bottom: 20px;
-					display: block;
-				}
-				a{
-					display: block;
-					@include ft($f_ms, 18px, 700, $c_white, 24px);
-					margin-bottom: 20px;
-					@include an(all,0.3);
-					&:hover{
-						color: $c_txt;
+					&.mns-img-agenda-top{
+						margin: 0;
 					}
-					&:last-child{
-						margin-bottom: 0;
+				}
+	
+				figcaption{
+					color: $c_white;
+				}
+			}
+
+			.mns-info-pratiques{
+				background-color: $c_main;
+				position: relative;
+	
+				.mns-sec-info{
+					padding: 30px 20px;
+					border-bottom: 1px solid $c_main;
+			
+					.mns-title-info{
+						@include ft($f_nr, 1.5rem, 400, $c_white, 1.75rem);
+						margin: 0;
+	
+						&:after {
+							content: '';
+							height: 4px;
+							width: 25px;
+							display: block;
+							background: $c_white;
+							margin-top: 15px;
+							margin-bottom: 20px;
+						}
+					}
+	
+					p{
+						width: 90%;
+						margin-bottom: 15px;
+						display: block;
+						line-height: 1.25rem;
+						color: $c_white;
+					}
+	
+					a{
+						display: block;
+						@include ft($f_ms, 1rem, 700, $c_white, 1.25rem);
+						margin-bottom: 15px;
+						@include an(all,0.3);
+						
+						&:last-child{
+							margin-bottom: 0;
+						}
+
+						&:hover, &:focus{
+							text-decoration: underline;
+						}
 					}
 				}
 			}
 
 			&:after{
 				content: '';
+				position: absolute;
+				z-index: -1;
+				background: $second-color;
 				width: 290px;
-				height: 350px;
-				right: initial;
-				left: -50px;
-				top: initial;
-				bottom: -20px;
+				height: 66%;
+				bottom: 70px;
+				left: -40px;
 			}
-		}
-
-		.mns-event-date{
-			@include ft($f_ms, 20px, 700, $c_txt, normal);
-			margin-bottom: 15px;
-			display: block;
 		}
 
 		.mns-content-agenda-detail{
-			@include mobile{
-				padding: 0;
-			}
 
-			a{
-				color: #8399ad;
-				text-decoration: underline;
-				@include an(all,0.3);
-				&:hover{
-					color: $c_main;
-				}
+			.mns-event-date{
+				@include ft($f_ms, 1.25rem, 700, $c_txt, 1.5rem);
+				margin-bottom: 23px;
+				display: block;
 			}
 
 			h1{
-				@include ft($f_ms, 60px, 100, $c_txt, 54px);
 				width: 100%;
-				margin-bottom: 20px;
 			}
+
 			.mns-indic{
+
 				span{
+					font-size: 1rem;
+					line-height: 1.25rem;
 					margin-right: 5px;
+
 					&:nth-child(2){
 						margin-right: 15px;
 					}
 				}
-				.icon-ico-map-marker{
-					height: 15px;
-			  		width: 15px;
-
-					&:before {
-					  	content: '';
-			  			background: url(/o/summer-2018-theme/images/pin.png) no-repeat center center /contain;
-			  			position: absolute;
-			  			height: 15px;
-			  			width: 15px;
-			  		}
-				}
-
-				.icon-ico-type{
-					height: 15px;
-			  		width: 15px;
-
-			  		&:before {
-					  	content: '';
-			  			background: url(/o/summer-2018-theme/images/label.png) no-repeat center center /contain;
-			  			position: absolute;
-			  			height: 15px;
-			  			width: 15px;
-		  			}
-				}
 			}
-
-			.mns-title-detail-actu{
-				@include ft($f_ms, 16px, 700, $c_txt, normal);	
+				
+			.mns-line {
+				width: 25px;
+				height: 4px;
+				background: $c_main;
 				display: block;
+				margin: 40px 0 60px;
 			}
 
-			.mns-info-more{
-				margin: 25px 0;
-				@include mobile{
-					margin-bottom: 30px;
-				}
-				&:nth-last-child(2), &:nth-last-child(1){
-					margin-bottom: 0;
-					@include mobile{
-						margin-bottom: 30px;
-					}
-				}
-				&:last-child{
-					@include mobile{
-						margin-bottom: 60px;
-					}
-				}
-				p{
-					margin-bottom: 10px;
-					width: 100%;
-				}
+			.mns-wrapper-info-more{
 
-				span[class^="icon-"]{
-					font-size: 40px;
-					margin-right: 10px;
-					@include tablet_portrait{
-						margin-right: 5px;
+				.mns-info-more{
+					margin: 25px 0;
+	
+					&:nth-last-child(2), &:nth-last-child(1){
+						margin-bottom: 0;
 					}
-				}
 
-				.booking{
-					margin-top: 30px;
+					.mns-title-detail-actu{
+						@include ft($f_nr, 1.125rem, 400, $c_txt, 1.375rem);	
+						display: block;
+						padding: 0 0 10px 0;
+						border-bottom: 1px solid $c_main;
+						margin-bottom: 25px;
+					}
+	
+					span[class^="icon-"]{
+						font-size: 2.5rem;
+						margin-right: 10px;
+					}
 					
-					a{ 
-						width: 150px;
-						padding: 14px 50px;
-						height: auto;
-						background: $c_txt;
-						border: none;
-						box-shadow: none;
-						z-index: 2;
-						text-decoration: none;
-						@include ft($f_txt, 15px, 700, $c_white, normal);
-						@include an(all,0.3);
-						&:hover{
+					p{
+						margin-bottom: 10px;
+						width: 100%;
+					}
+	
+					.booking{
+						margin-top: 45px;
+						margin-bottom: 50px;
+						
+						a{ 
+							padding: 14px 50px;
 							background: $c_main;
-							color: $c_white;
+							text-decoration: none;
+							@include ft($f_nr, 1.125rem, 400, $c_white, 1.375rem);
+							@include an(all,0.3);
+							
+							&:hover{
+								background: $c_txt;
+							}
 						}
 					}
 				}
-			}
-		}
 
-		.mns-toggle-collapse{
-			border-width: 0px;
-			background-color: transparent;
-			cursor: pointer;
-			padding-top: 15px;
-			margin-bottom: 20px;
-			border-bottom: solid 1px $c_light;
-			width: 100%;
-
-			.contact{
-				display: flex;
-				align-items: center;
-				margin: 0;
-
-				&:after{
-					width: 40px;
-					height: 46px;
-					background-size: 30px;
-					background-image: url(/o/summer-2018-theme/images/plus.png);
-					display: inline-block;
-					background-position: center;
-					background-repeat: no-repeat;
-					content: '';
+				.mns-toggle-collapse{
+					border-width: 0px;
+					background-color: transparent;
+					cursor: pointer;
+					padding: 15px 0 0;
+					margin-bottom: 20px;
+					border-bottom: solid 1px $c_filet;
+					width: 100%;
+					outline: none;
+		
+					.contact{
+						display: flex;
+						align-items: center;
+						margin: 0;
+						padding-bottom: 7px;
+						@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+		
+						span{
+							flex: 1;
+							text-align: left;
+							padding-top: 2px;
+						}
+		
+						&:after{
+							width: 30px;
+							height: 30px;
+							background: center / contain no-repeat url(svg-bg-uri($svg-plus, $c_main)), no-repeat;
+							display: inline-block;
+							content: '';
+						}
+					}
+		
+					&.mns-opened .contact:after{
+						background: center / contain no-repeat url(svg-bg-uri($svg-minus, $c_main)), no-repeat;
+					}
 				}
+	
+				.mns-collapsing-box{
+					display: none;
+					
+					.rte .checkbox label{
+						font-weight: 700;
+					}
 
-				span{
-					flex: 1;
-					text-align: left;
-					line-height: 1.2em;
-					padding-top: 2px;
+					.mns-submit {			
+						span{
+							height: 2px;
+							background: #d8dae4;
+						}
+			
+						input{
+							width: 230px;
+						}
+					}
+
+					.mns-outro-form{
+						font-size: 0.875rem;
+						line-height: 1.625rem;
+					}
 				}
 			}
 
-			&.mns-opened .contact:after{
-				background-image: url(/o/summer-2018-theme/images/moins.png);
+			a{
+				color: $c_main;
+				font-weight: 700;
+				text-decoration: underline;
+				@include an(all,0.3);
+
+				&:hover{
+					color: $c_txt;
+				}
 			}
 		}
 
-		.mns-collapsing-box{
-			display: none;
-		}
-
-		.lfr-alert-container {
+		/*.lfr-alert-container {
 			position: static;
 			padding: 40px;
 			margin-bottom: 25px;
@@ -282,42 +268,19 @@
 				margin: 0;
 				padding: 0;
 				color: white;
-				line-height: 25px;
+				line-height: 1.5rem;
 				font-size: 1.8rem;
 				
 				button, .lead {
 					display: none;
 				}
 			}
-		}
+		}*/
 
 		.mail-success{
 			background: #4CAF50;
-			color: white;
+			color: $c_white;
 			padding: 40px;
-		}
-
-		.mns-submit {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 40px;
-    		input{
-				width: 150px;
-				padding: 6px 0;
-				height: auto;
-				background: $c_white;
-				border: none;
-				box-shadow: none;
-				color: $c_main !important;
-				z-index: 2;
-				border: 4px solid $c_main;
-				@include ft($f_ms, 15px, 700, $c_txt, normal);
-				@include an(all,0.3);
-				&:hover{
-					background: $c_main;
-					color: $c_white !important;
-				}
-			}
 		}
 	}
 	

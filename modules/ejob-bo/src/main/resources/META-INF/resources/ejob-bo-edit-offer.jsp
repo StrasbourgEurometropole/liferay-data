@@ -246,12 +246,23 @@
                 </div>
 
                 <%-- Champ : Famille de métiers --%>
-                <aui:select cssClass="toCustomSelect" id="ejobFamille" name="ejobFamille" label="ejobFamille" required="true">
-                    <aui:option style="display: none" selected="${empty dc.offer}"><liferay-ui:message key="choose-famille" /></aui:option>
-                    <c:forEach items="${dc.familles}" var="famille">
-                        <aui:option value="${famille.categoryId}" selected="${dc.offer.famille.categoryId == famille.categoryId}">${famille.name}</aui:option>
-                    </c:forEach>
-                </aui:select>
+                <label><liferay-ui:message key="ejobFamille" /><span style="color:#B95000;font-weight:600;"> *</span></label>
+                    <select class="choices-element"
+                        id="ejobFamille"
+                        name="<portlet:namespace />ejobFamille"
+                        placeholder="<liferay-ui:message key="choose-famille" />" multiple>
+                        <option style="display: none" ></option>
+                        <c:forEach items="${dc.familles}" var="famille">
+                            <option
+                                value="${famille.categoryId}"
+                                <c:if test="${fn:contains(dc.getFamilyCategories(), famille.categoryId)}">
+                                    selected="selected"
+                                </c:if>
+                            >
+                                ${famille.name}
+                            </option>
+                        </c:forEach>
+                    </select>
 
                 <%-- Champ : Date limite de candidatures --%>
                 <aui:input name="limitDate" required="true" />
@@ -400,7 +411,13 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
+    	<!-- Include Choices JavaScript -->
+    	<script src="/o/ejobbo/js/moment.min.js" type="text/javascript"></script>
+        <script src="/o/ejobbo/js/choices.min.js" type="text/javascript"></script>
 	<script src="/o/ejobbo/js/ejob-bo-edit-offer.js" type="text/javascript"></script>
+	    <!-- Include Choices CSS -->
+    	<link rel="stylesheet" href="/o/ejobbo/css/choices.min.css">
+
 	<style>
 	    strong.required{color: #B95000;}
 	    [type="radio"]{margin-right: 10px;}

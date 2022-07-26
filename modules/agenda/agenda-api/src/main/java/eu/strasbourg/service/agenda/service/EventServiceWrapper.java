@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see EventService
  * @generated
  */
-@ProviderType
 public class EventServiceWrapper
 	implements EventService, ServiceWrapper<EventService> {
 
@@ -48,9 +45,7 @@ public class EventServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getEvent(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getEvent(long id) {
 		return _eventService.getEvent(id);
 	}
 
@@ -63,7 +58,7 @@ public class EventServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			long categoryId)
+			String categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _eventService.getEventsByCategory(categoryId);

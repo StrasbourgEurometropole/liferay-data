@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
  * @see Period
  * @generated
  */
-@ProviderType
 public abstract class PeriodBaseImpl extends PeriodModelImpl implements Period {
 
 	/*

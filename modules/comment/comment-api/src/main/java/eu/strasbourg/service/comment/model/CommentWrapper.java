@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Comment
  * @generated
  */
-@ProviderType
 public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 
 	public CommentWrapper(Comment comment) {
@@ -994,16 +991,16 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CommentWrapper)) {
+		if (!(object instanceof CommentWrapper)) {
 			return false;
 		}
 
-		CommentWrapper commentWrapper = (CommentWrapper)obj;
+		CommentWrapper commentWrapper = (CommentWrapper)object;
 
 		if (Objects.equals(_comment, commentWrapper._comment)) {
 			return true;

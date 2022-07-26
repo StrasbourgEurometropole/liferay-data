@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see PublikUser
  * @generated
  */
-@ProviderType
-public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
+public class PublikUserWrapper implements ModelWrapper<PublikUser>, PublikUser {
 
 	public PublikUserWrapper(PublikUser publikUser) {
 		_publikUser = publikUser;
@@ -75,6 +72,10 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		attributes.put("banishDescription", getBanishDescription());
 		attributes.put("imageURL", getImageURL());
 		attributes.put("pactDisplay", isPactDisplay());
+		attributes.put("csmapJSON", getCsmapJSON());
+		attributes.put("modifiedDateJSON", getModifiedDateJSON());
+		attributes.put("topicsFCM", getTopicsFCM());
+		attributes.put("lastUpdateTimeTopics", getLastUpdateTimeTopics());
 
 		return attributes;
 	}
@@ -188,6 +189,31 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 		if (pactDisplay != null) {
 			setPactDisplay(pactDisplay);
 		}
+
+		String csmapJSON = (String)attributes.get("csmapJSON");
+
+		if (csmapJSON != null) {
+			setCsmapJSON(csmapJSON);
+		}
+
+		Date modifiedDateJSON = (Date)attributes.get("modifiedDateJSON");
+
+		if (modifiedDateJSON != null) {
+			setModifiedDateJSON(modifiedDateJSON);
+		}
+
+		String topicsFCM = (String)attributes.get("topicsFCM");
+
+		if (topicsFCM != null) {
+			setTopicsFCM(topicsFCM);
+		}
+
+		Long lastUpdateTimeTopics = (Long)attributes.get(
+			"lastUpdateTimeTopics");
+
+		if (lastUpdateTimeTopics != null) {
+			setLastUpdateTimeTopics(lastUpdateTimeTopics);
+		}
 	}
 
 	@Override
@@ -240,6 +266,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public Date getCreateDate() {
 		return _publikUser.getCreateDate();
+	}
+
+	/**
+	 * Returns the csmap json of this publik user.
+	 *
+	 * @return the csmap json of this publik user
+	 */
+	@Override
+	public String getCsmapJSON() {
+		return _publikUser.getCsmapJSON();
 	}
 
 	/**
@@ -306,6 +342,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Returns the last update time topics of this publik user.
+	 *
+	 * @return the last update time topics of this publik user
+	 */
+	@Override
+	public long getLastUpdateTimeTopics() {
+		return _publikUser.getLastUpdateTimeTopics();
+	}
+
+	/**
 	 * Returns the map config of this publik user.
 	 *
 	 * @return the map config of this publik user
@@ -323,6 +369,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public Date getModifiedDate() {
 		return _publikUser.getModifiedDate();
+	}
+
+	/**
+	 * Returns the modified date json of this publik user.
+	 *
+	 * @return the modified date json of this publik user
+	 */
+	@Override
+	public Date getModifiedDateJSON() {
+		return _publikUser.getModifiedDateJSON();
 	}
 
 	/**
@@ -378,6 +434,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public long getPublikUserLiferayId() {
 		return _publikUser.getPublikUserLiferayId();
+	}
+
+	/**
+	 * Returns the topics fcm of this publik user.
+	 *
+	 * @return the topics fcm of this publik user
+	 */
+	@Override
+	public String getTopicsFCM() {
+		return _publikUser.getTopicsFCM();
 	}
 
 	/**
@@ -509,6 +575,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Sets the csmap json of this publik user.
+	 *
+	 * @param csmapJSON the csmap json of this publik user
+	 */
+	@Override
+	public void setCsmapJSON(String csmapJSON) {
+		_publikUser.setCsmapJSON(csmapJSON);
+	}
+
+	/**
 	 * Sets the display config of this publik user.
 	 *
 	 * @param displayConfig the display config of this publik user
@@ -576,6 +652,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	/**
+	 * Sets the last update time topics of this publik user.
+	 *
+	 * @param lastUpdateTimeTopics the last update time topics of this publik user
+	 */
+	@Override
+	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		_publikUser.setLastUpdateTimeTopics(lastUpdateTimeTopics);
+	}
+
+	/**
 	 * Sets the map config of this publik user.
 	 *
 	 * @param mapConfig the map config of this publik user
@@ -593,6 +679,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_publikUser.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the modified date json of this publik user.
+	 *
+	 * @param modifiedDateJSON the modified date json of this publik user
+	 */
+	@Override
+	public void setModifiedDateJSON(Date modifiedDateJSON) {
+		_publikUser.setModifiedDateJSON(modifiedDateJSON);
 	}
 
 	@Override
@@ -653,6 +749,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
 		_publikUser.setPublikUserLiferayId(publikUserLiferayId);
+	}
+
+	/**
+	 * Sets the topics fcm of this publik user.
+	 *
+	 * @param topicsFCM the topics fcm of this publik user
+	 */
+	@Override
+	public void setTopicsFCM(String topicsFCM) {
+		_publikUser.setTopicsFCM(topicsFCM);
 	}
 
 	/**
@@ -723,16 +829,16 @@ public class PublikUserWrapper implements PublikUser, ModelWrapper<PublikUser> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PublikUserWrapper)) {
+		if (!(object instanceof PublikUserWrapper)) {
 			return false;
 		}
 
-		PublikUserWrapper publikUserWrapper = (PublikUserWrapper)obj;
+		PublikUserWrapper publikUserWrapper = (PublikUserWrapper)object;
 
 		if (Objects.equals(_publikUser, publikUserWrapper._publikUser)) {
 			return true;

@@ -2151,3 +2151,7 @@
 .select2-container--classic.select2-container--open .select2-dropdown {
     border-color: #5897fb
 }
+
+#wi-aroundme #aroundme #aroundme__side .liste .filtres__list .infowindow__address{
+    display: none;
+}

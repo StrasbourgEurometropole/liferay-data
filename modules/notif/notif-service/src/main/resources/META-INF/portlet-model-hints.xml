@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.notif.model.Message">
+		<field name="messageId" type="long" />
+		<field name="serviceId" type="long" />
+		<field localized="true" name="content" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.notif.model.NatureNotif">
+		<field name="natureId" type="long" />
+		<field name="serviceId" type="long" />
+		<field localized="true" name="name" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.notif.model.Notification">
+		<field name="uuid" type="String" />
+		<field name="notificationId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="serviceId" type="long" />
+		<field name="isAlert" type="int" />
+		<field name="natureId" type="long" />
+		<field localized="true" name="title" type="String" />
+		<field localized="true" name="subtitle" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="broadcastDate" type="Date" />
+		<field name="messageId" type="long" />
+		<field localized="true" name="content" type="String" />
+		<field localized="true" name="labelUrl" type="String" />
+		<field localized="true" name="url" type="String" />
+		<field name="typeBroadcast" type="long" />
+		<field name="district" type="long" />
+		<field name="broadcastChannels" type="String" />
+		<field name="sendStatusCsmap" type="long" />
+		<field name="sendStatusTwitter" type="long" />
+		<field name="sendStatusMonst" type="long" />
+		<field name="sendStatusMail" type="long" />
+		<field name="sendStatusSegur" type="long" />
+		<field name="isSend" type="Boolean" />
+	</model>
+	<model name="eu.strasbourg.service.notif.model.ServiceNotif">
+		<field name="serviceId" type="long" />
+		<field name="organisationId" type="long" />
+		<field name="name" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="pictoId" type="long" />
+		<field name="csmapSubscriptionLabel" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="csmapSubscriptionMandatory" type="boolean" />
+		<field name="csmapTopic" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+</model-hints>

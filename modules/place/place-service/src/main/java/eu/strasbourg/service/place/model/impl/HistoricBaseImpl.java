@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.Historic;
 import eu.strasbourg.service.place.service.HistoricLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.HistoricLocalServiceUtil;
  * @see Historic
  * @generated
  */
-@ProviderType
 public abstract class HistoricBaseImpl
 	extends HistoricModelImpl implements Historic {
 

@@ -12,6 +12,10 @@
 
 .has-control-menu #mns-global {
   margin-top: 56px;
+  
+  @include tablet_portrait {
+    margin-top: 48px;
+}
 }
 
 .has-control-menu #mns-global .mns-nav.mns-nav-scroll {
@@ -34,11 +38,6 @@
 
 .portlet-asset-publisher .portlet-body > div > .h2 {
   display: none;
-}
-
-#mns-global .mns-wrapper-duo-content .col-md-6 img {
-  width: auto !important;
-  height: auto !important;
 }
 
 // affichage des menus des portlets
@@ -69,4 +68,8 @@
       }
     }
   }
+}
+
+.portlet-layout .portlet-header {
+  margin-bottom: 0;
 }

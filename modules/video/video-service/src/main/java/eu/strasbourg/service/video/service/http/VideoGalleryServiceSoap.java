@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the SOAP utility for the
  * <code>eu.strasbourg.service.video.service.VideoGalleryServiceUtil</code> service
@@ -55,6 +53,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see VideoGalleryServiceHttp
  * @generated
  */
-@ProviderType
 public class VideoGalleryServiceSoap {
 }

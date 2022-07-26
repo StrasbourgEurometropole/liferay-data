@@ -6,8 +6,8 @@ var entityType = {
 	DISTRICT : 'vocabulary_1',
 }
 
-var sortField = "publishDate_sortable";
-var sortType = "asc";
+var sortField = "modified_sortable";
+var sortType = "desc";
 
 
 $(document).ready(function(){

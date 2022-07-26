@@ -143,13 +143,6 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	public String getWebImageURL();
 
 	/**
-	 * Retourne l'objet "LegacyPlace" correspondant au lieu de l'événement, s'il
-	 * existe
-	 */
-	public eu.strasbourg.utils.models.LegacyPlace getLegacyPlace(
-		java.util.Locale locale);
-
-	/**
 	 * Retourne les périodes
 	 */
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>

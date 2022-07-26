@@ -1,13 +1,13 @@
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
 
-	compileOnly group: 'com.github.virtuald', name: 'curvesapi', version: '1.04'
+	compileInclude group: 'com.github.virtuald', name: 'curvesapi', version: '1.04'
 
 	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
 
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 
-	compileOnly group: 'commons-codec', name: 'commons-codec', version: '1.10'
+	compileInclude group: 'commons-codec', name: 'commons-codec', version: '1.10'
 
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 
@@ -16,17 +16,17 @@ dependencies {
 	compileOnly group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
 	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
-	compileOnly group: 'org.apache.poi', name: 'poi', version: '3.17'
-	compileOnly group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
-	compileOnly group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.17'
+	compileInclude group: 'org.apache.poi', name: 'poi', version: '3.17'
+	compileInclude group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+	compileInclude group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.17'
 
 	compileInclude group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
 	compileInclude 'org.apache.commons:commons-text:1.4'
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
-	compileOnly group: 'com.jcraft', name: 'jsch', version: '0.1.54'
-  	
+	compileInclude group: 'com.jcraft', name: 'jsch', version: '0.1.54'
+
 	compile project (':modules:place:place-api')
 	compile project (':modules:agenda:agenda-api')
 	compile project (':modules:oidc:oidc-api')

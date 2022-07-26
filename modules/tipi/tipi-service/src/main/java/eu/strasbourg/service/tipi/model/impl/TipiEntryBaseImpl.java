@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.tipi.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
  * @see TipiEntry
  * @generated
  */
-@ProviderType
 public abstract class TipiEntryBaseImpl
 	extends TipiEntryModelImpl implements TipiEntry {
 

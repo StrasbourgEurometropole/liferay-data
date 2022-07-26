@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,8 +33,7 @@ import java.util.Objects;
  * @see Slot
  * @generated
  */
-@ProviderType
-public class SlotWrapper implements Slot, ModelWrapper<Slot> {
+public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 
 	public SlotWrapper(Slot slot) {
 		_slot = slot;
@@ -558,16 +555,16 @@ public class SlotWrapper implements Slot, ModelWrapper<Slot> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SlotWrapper)) {
+		if (!(object instanceof SlotWrapper)) {
 			return false;
 		}
 
-		SlotWrapper slotWrapper = (SlotWrapper)obj;
+		SlotWrapper slotWrapper = (SlotWrapper)object;
 
 		if (Objects.equals(_slot, slotWrapper._slot)) {
 			return true;

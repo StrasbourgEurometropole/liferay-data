@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see ActivityOrganizerServiceSoap
  * @generated
  */
-@ProviderType
 public class ActivityOrganizerServiceHttp {
 }

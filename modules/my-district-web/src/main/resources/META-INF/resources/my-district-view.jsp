@@ -183,7 +183,7 @@
 			                category: 'agenda',
 			                title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
 			                type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
-			                link: '${homeStrasbourgURL}evenement/-/entity/id/${event.eventId}',
+			                link: '${homeStrasbourgURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}',
 			                ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
 			                id: '${event.eventId}',
 			                <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
@@ -323,13 +323,13 @@
 										<a href="#" class="add-favorites"
 										   data-type="1"
 										   data-title="${territoryDirection.getAlias(locale)}"
-										   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}"
+										   data-url="${themeDisplay.getPortalURL()}${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.getSIGid()}/${territoryDirection.getNormalizedAlias(locale)}"
 										   data-id="${territoryDirection.placeId}">
 											<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 										</a>
 									</div>
 								</div>
-								<a href="${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.SIGid}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
+								<a href="${homeStrasbourgURL}lieu/-/entity/sig/${territoryDirection.SIGid}/${territoryDirection.getNormalizedAlias(locale)}" class="btn-square--bordered--core" title="${territoryDirection.getAlias(locale)}">
 										<span class="flexbox">
 											<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 											<span class="btn-arrow"></span>
@@ -376,7 +376,7 @@
 							<a href="#" class="add-favorites"
 							   data-type="1"
 							   data-title="${townHall.getAlias(locale)}"
-							   data-url="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}"
+							   data-url="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.getSIGid()}/${townHall.getNormalizedAlias(locale)}"
 							   data-id="${townHall.placeId}">
 								<span><liferay-ui:message key="eu.add-to-favorite" /></span>
 							</a>
@@ -384,14 +384,6 @@
 						<div class="container-right">
 							<c:if test="${townHall.isEnabled()}">
 								<c:set var="occupationState" value="${townHall.getRealTime()}" />
-								<h3>
-									<liferay-ui:message key="estimated-time" />
-									<fmt:formatDate value="${now}" type="date" var="dateNow" pattern="dd MMMM yyyy"/>
-									<fmt:formatDate value="${now}" type="date" var="hourNow" pattern="HH:mm"/>
-									<p class="crowded-date">
-											${dateNow} - ${hourNow}
-									</p>
-								</h3>
 								<div class="flexbox">
 									<div class="container-left" style="display: inline-table; width: auto;">
 										<!-- green orange red black -->
@@ -411,7 +403,7 @@
 							</c:if>
 						</div>
 					</div>
-					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.SIGid}" class="btn-square--bordered--core" title="${townHall.getAlias(locale)}">
+					<a href="${homeStrasbourgURL}lieu/-/entity/sig/${townHall.SIGid}/${townHall.getNormalizedAlias(locale)}" class="btn-square--bordered--core" title="${townHall.getAlias(locale)}">
 							<span class="flexbox">
 								<span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
 								<span class="btn-arrow"></span>
@@ -457,11 +449,11 @@
                                         <a href="#" class="add-favorites"
                                            data-type="1"
                                            data-title="${school.getAlias(locale)}"
-                                           data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}"
+                                           data-url="${homeStrasbourgURL}lieu/-/entity/sig/${school.getSIGid()}/${school.getNormalizedAlias(locale)}"
                                            data-id="${school.placeId}">
                                             <span><liferay-ui:message key="eu.add-to-favorite" /></span>
                                         </a>
-                                        <a href="${homeStrasbourgURL}lieu/-/entity/sig/${school.SIGid}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
+                                        <a href="${homeStrasbourgURL}lieu/-/entity/sig/${school.SIGid}/${school.getNormalizedAlias(locale)}" class="btn-square--bordered--core" title="${school.getAlias(locale)}">
                                                 <span class="flexbox">
                                                     <span class="btn-text"><liferay-ui:message key="detailed-card" /></span>
                                                     <span class="btn-arrow"></span>

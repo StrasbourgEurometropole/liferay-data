@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.ejob.service.OfferLocalServiceUtil;
  * @see Offer
  * @generated
  */
-@ProviderType
 public abstract class OfferBaseImpl extends OfferModelImpl implements Offer {
 
 	/*

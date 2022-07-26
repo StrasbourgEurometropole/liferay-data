@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see ArretService
  * @generated
  */
-@ProviderType
 public class ArretServiceUtil {
 
 	/*
@@ -50,6 +47,18 @@ public class ArretServiceUtil {
 		String stopCode) {
 
 		return getService().getArretRealTime(stopCode);
+	}
+
+	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 * @param type type de l'arret (0 -> tram, 3 -> bus)
+	 */
+	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
+		String stopCode, int type, int timeOut) {
+
+		return getService().getArretRealTime(stopCode, type, timeOut);
 	}
 
 	/**

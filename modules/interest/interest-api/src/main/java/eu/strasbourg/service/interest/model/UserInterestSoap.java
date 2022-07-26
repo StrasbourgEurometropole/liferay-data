@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
 
 import java.io.Serializable;
@@ -29,7 +27,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserInterestSoap implements Serializable {
 
 	public static UserInterestSoap toSoapModel(UserInterest model) {

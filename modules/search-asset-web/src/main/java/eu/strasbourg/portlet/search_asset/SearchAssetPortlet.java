@@ -9,6 +9,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -241,6 +242,10 @@ public class SearchAssetPortlet extends MVCPortlet {
                 ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
                 attributes.remove(td.getPpid());
             });
+
+            // vérifie si on veut les entités échues
+            renderRequest.setAttribute("isDueEntity", configuration.defaultSortField().equals("endDate_Number_sortable"));
+
             super.render(renderRequest, renderResponse);
         } catch (Exception e) {
             _log.error(e);
@@ -398,14 +403,16 @@ public class SearchAssetPortlet extends MVCPortlet {
                                 imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
                             }
                             json.put("thumbnail", imageURL);
-                            JSONArray jsonVocabulariesTitle = JSONFactoryUtil.createJSONArray();
+
                             AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
                             List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
                                     asset, "territoire");
-                            for (AssetCategory assetCategory : listVocabulary) {
-                                jsonVocabulariesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
-                            }
-                            json.put("jsonVocabulariesTitle", jsonVocabulariesTitle);
+                            List<AssetCategory> districtCategories = AssetVocabularyHelper.getDistrictCategories(listVocabulary);
+                            List<AssetCategory> cityCategories = AssetVocabularyHelper.getCityCategories(listVocabulary);
+
+                            String districts = AssetVocabularyHelper.getDistrictTitle(Locale.FRANCE, districtCategories, cityCategories);
+                            json.put("jsonVocabulariesTitle", districts);
+
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
                             json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
                             String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
@@ -572,6 +579,20 @@ public class SearchAssetPortlet extends MVCPortlet {
         }
 
         if (resourceID.equals("entrySelectionNews")) {
+            keywords = null;
+            startDay = ParamUtil.getInteger(request, "selectedStartDay");
+            startMonth = ParamUtil.getString(request, "selectedStartMonth");
+            startYear = ParamUtil.getInteger(request, "selectedStartYear");
+            endDay = ParamUtil.getInteger(request, "selectedEndDay");
+            endMonth = ParamUtil.getString(request, "selectedEndMonth");
+            endYear = ParamUtil.getInteger(request, "selectedEndYear");
+            states = ParamUtil.getLongValues(request, "selectedStates");
+            districts = ParamUtil.getLongValues(request, "selectedDistricts");
+            thematics = ParamUtil.getLongValues(request, "selectedThematics");
+            sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+        }
+
+        if (resourceID.equals("entrySelectionProjectWorkshop")) {
             keywords = null;
             startDay = ParamUtil.getInteger(request, "selectedStartDay");
             startMonth = ParamUtil.getString(request, "selectedStartMonth");

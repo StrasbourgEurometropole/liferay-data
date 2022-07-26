@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see OfficialService
  * @generated
  */
-@ProviderType
 public class OfficialServiceWrapper
 	implements OfficialService, ServiceWrapper<OfficialService> {
 
@@ -37,7 +34,7 @@ public class OfficialServiceWrapper
 	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
 	 *
 	 * @param councilSessionId
-	 * @param groupId ID du site
+	 * @param groupId          ID du site
 	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
 	 */
 	@Override
@@ -51,10 +48,10 @@ public class OfficialServiceWrapper
 	/**
 	 * Recherche d'élu pour l'autocompletion
 	 *
-	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
-	 * @param type Type de l'élu recherché (peut être vide)
+	 * @param fullName          Nom, prénom ou les deux de l'élu à trouver
+	 * @param type              Type de l'élu recherché (peut être vide)
 	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
-	 * @param groupId Site sur lequel cherchés
+	 * @param groupId           Site sur lequel cherchés
 	 * @return Liste des élus au format JSON
 	 */
 	@Override

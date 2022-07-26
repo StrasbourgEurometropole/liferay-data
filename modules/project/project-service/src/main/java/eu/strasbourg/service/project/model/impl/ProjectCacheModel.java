@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ProjectCacheModel)) {
+		if (!(object instanceof ProjectCacheModel)) {
 			return false;
 		}
 
-		ProjectCacheModel projectCacheModel = (ProjectCacheModel)obj;
+		ProjectCacheModel projectCacheModel = (ProjectCacheModel)object;
 
 		if (projectId == projectCacheModel.projectId) {
 			return true;
@@ -280,7 +277,9 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		projectId = objectInput.readLong();
@@ -304,12 +303,12 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		externalImageCopyright = objectInput.readUTF();
 
 		opacityImage = objectInput.readDouble();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		detailURL = objectInput.readUTF();
 		budget = objectInput.readUTF();
 		label = objectInput.readUTF();
 		duration = objectInput.readUTF();
-		partners = objectInput.readUTF();
+		partners = (String)objectInput.readObject();
 		contactName = objectInput.readUTF();
 		contactLine1 = objectInput.readUTF();
 		contactLine2 = objectInput.readUTF();
@@ -382,10 +381,10 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		objectOutput.writeDouble(opacityImage);
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (detailURL == null) {
@@ -417,10 +416,10 @@ public class ProjectCacheModel implements CacheModel<Project>, Externalizable {
 		}
 
 		if (partners == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(partners);
+			objectOutput.writeObject(partners);
 		}
 
 		if (contactName == null) {

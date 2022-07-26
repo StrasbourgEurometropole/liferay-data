@@ -14,14 +14,12 @@
 
 package eu.strasbourg.service.favorite.service.impl;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import eu.strasbourg.service.agenda.model.CacheJson;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
@@ -95,6 +93,18 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		Criterion publikUser = RestrictionsFactoryUtil.eq("publikUserId", publikUserId);
 		Criterion type = RestrictionsFactoryUtil.in("typeId", FavoriteType.getAllIsCSMapIds());
 		dq.add(publikUser);
+		dq.add(type);
+
+		return FavoriteLocalServiceUtil.dynamicQuery(dq);
+	}
+
+	/**
+	 * Retourne la liste des favoris liferay passés en paramètre
+	 */
+	@Override
+	public List<Favorite> getCSMapFavoriteById(List<Long> favoriteIds) {
+		DynamicQuery dq = FavoriteLocalServiceUtil.dynamicQuery();
+		Criterion type = RestrictionsFactoryUtil.in("favoriteId", favoriteIds);
 		dq.add(type);
 
 		return FavoriteLocalServiceUtil.dynamicQuery(dq);

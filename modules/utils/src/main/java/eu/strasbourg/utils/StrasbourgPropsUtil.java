@@ -12,20 +12,16 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.url");
 	}
 
+	public static String getHcaptchaSecretKey() {
+		return PropsUtil.get("eu.strasbourg.hcaptcha.secret");
+	}
+
 	public static String getRecaptchaSecretKey() {
 		return PropsUtil.get("eu.strasbourg.recaptcha.secret");
 	}
 
 	public static String getRecaptchaPublicKey() {
 		return PropsUtil.get("eu.strasbourg.recaptcha.public");
-	}
-
-	public static String getLegacyPlaceApiUrl() {
-		return PropsUtil.get("eu.strasbourg.legacy.place.api.url");
-	}
-
-	public static String getLegacyPlaceApiAutocompleteUrl() {
-		return PropsUtil.get("eu.strasbourg.legacy.place.api.autocomplete.url");
 	}
 
 	public static String getAgendaImportMails() {
@@ -35,6 +31,7 @@ public class StrasbourgPropsUtil {
 	public static String getAgendaImportMailsForProvider(String provider) {
 		return PropsUtil.get("eu.strasbourg.agenda.mail." + provider);
 	}
+
 	public static String getUrlCozeJson() {
 		return PropsUtil.get("eu.strasbourg.agenda.url.coze");
 	}
@@ -204,6 +201,9 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.graveyard.url");
 	}
 
+	public static String getMediathequeURL(){
+		return PropsUtil.get("eu.strasbourg.mediatheque.home.url");
+	}
 	public static String getMediathequeBorrower(){
 		return PropsUtil.get("eu.strasbourg.mediatheque.borrower");
 	}
@@ -221,8 +221,13 @@ public class StrasbourgPropsUtil {
 	}
 
 	public static String getResidantURL(){
-		return PropsUtil.get("eu.strasbourg.resid.url");
+		return PropsUtil.get("eu.strasbourg.resid.home.url");
 	}
+
+	public static String getResidantWebServiceURL(){
+		return PropsUtil.get("eu.strasbourg.resid.webservice.url");
+	}
+
 
 	public static String getDailymotionApiUrl() {
 		return PropsUtil.get("eu.strasbourg.dailymotion.api.url");
@@ -245,14 +250,18 @@ public class StrasbourgPropsUtil {
 
 	}
 
-	public static String getFamilySpace(){
-		return PropsUtil.get("eu.strasbourg.family.space.url");
+	public static String getFamilySpaceURL(){
+		return PropsUtil.get("eu.strasbourg.family.space.home.url");
 	}
+
+	public static String getFamilySpaceWebServiceURL(){
+		return PropsUtil.get("eu.strasbourg.family.space.webservice.url");
+	}
+
 
 	public static String getDashboardURL() {
 		return PropsUtil.get("eu.strasbourg.dashboard.url");
 	}
-
 
 	public static String getGTFSPath() {
 		return PropsUtil.get("eu.strasbourg.gtfs.files.path");
@@ -308,7 +317,9 @@ public class StrasbourgPropsUtil {
 
 	public static String getGMBActivated() {return PropsUtil.get("eu.strasbourg.google.synchronized.activated");}
 
-	public static String getGMBUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized");}
+	public static String getGMBListUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized.list");}
+
+	public static String getGMBUpdateUrl() {return PropsUtil.get("eu.strasbourg.google.synchronized.update");}
 
 	public static String getGMBEmail() {return PropsUtil.get("eu.strasbourg.google.synchronized.report.mail");}
 
@@ -357,7 +368,7 @@ public class StrasbourgPropsUtil {
 	public static int getCSMAPRefreshTokenNbValidityDays() {
 		int result;
 		try {
-			String property = PropsUtil.get("eu.strasbourg.entraide.user.submit.bcc.mail");
+			String property = PropsUtil.get("eu.strasbourg.csmap.refresh.token.nb.validity.days");
 			result = Integer.parseInt(property);
 		} catch (Exception ignored) {
 			result = 90;
@@ -389,5 +400,17 @@ public class StrasbourgPropsUtil {
 
 	public static String getOpenDataCities() {
 		return PropsUtil.get("eu.strasbourg.opendata.cities");
+	}
+
+	public static String getEntrouvertURL() {
+		return PropsUtil.get("eu.strasbourg.publik.issuer");
+	}
+
+	public static String getFCMConfigurationFile(){
+		return PropsUtil.get("eu.strasbourg.notif.app.fcm.configuration.file");
+	}
+
+	public static String getOpenDataParking() {
+		return PropsUtil.get("eu.strasbourg.opendata.realtime.parking");
 	}
 }

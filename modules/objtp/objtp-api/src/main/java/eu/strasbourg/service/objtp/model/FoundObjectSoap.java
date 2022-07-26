@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author JeremyZwickert
  * @generated
  */
-@ProviderType
 public class FoundObjectSoap implements Serializable {
 
 	public static FoundObjectSoap toSoapModel(FoundObject model) {

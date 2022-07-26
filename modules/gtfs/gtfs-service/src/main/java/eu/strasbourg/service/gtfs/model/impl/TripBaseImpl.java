@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
  * @see Trip
  * @generated
  */
-@ProviderType
 public abstract class TripBaseImpl extends TripModelImpl implements Trip {
 
 	/*

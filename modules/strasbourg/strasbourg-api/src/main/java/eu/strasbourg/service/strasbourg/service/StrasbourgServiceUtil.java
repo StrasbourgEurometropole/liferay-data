@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see StrasbourgService
  * @generated
  */
-@ProviderType
 public class StrasbourgServiceUtil {
 
 	/*
@@ -50,17 +47,19 @@ public class StrasbourgServiceUtil {
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission
 	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de document (Strasbourg, Eurométropole)
 	 * @param documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
 		String fileContent, String fileName, String commissionName,
-		String publicationDate, String documentType, String documentName) {
+		String publicationDate, String publicationDateFin, String documentType,
+		String documentName) {
 
 		return getService().addDocument(
 			fileContent, fileName, commissionName, publicationDate,
-			documentType, documentName);
+			publicationDateFin, documentType, documentName);
 	}
 
 	public static void foldPortlet(String portletId) {

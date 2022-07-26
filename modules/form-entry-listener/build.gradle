@@ -3,7 +3,8 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
 	compileOnly group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api"
-	compileOnly group: "javax.mail", name: "mail"
+	compileOnly group: "javax.mail", name: "mail", version: '1.4.7'
+	compileInclude group: "org.apache.commons", name: "commons-text", version: "1.9"
 
 	compile project (':modules:utils')
 }

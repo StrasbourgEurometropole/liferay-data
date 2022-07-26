@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.ejob.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see AlertService
  * @generated
  */
-@ProviderType
 public class AlertServiceWrapper
 	implements AlertService, ServiceWrapper<AlertService> {
 

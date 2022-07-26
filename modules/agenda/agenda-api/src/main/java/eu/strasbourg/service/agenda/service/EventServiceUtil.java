@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see EventService
  * @generated
  */
-@ProviderType
 public class EventServiceUtil {
 
 	/*
@@ -52,9 +49,7 @@ public class EventServiceUtil {
 		return getService().getCategory(id);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id) {
 		return getService().getEvent(id);
 	}
 
@@ -65,7 +60,7 @@ public class EventServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			long categoryId)
+			String categoryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getEventsByCategory(categoryId);

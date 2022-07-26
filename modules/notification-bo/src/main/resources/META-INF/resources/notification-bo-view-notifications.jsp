@@ -77,8 +77,8 @@
 
 				<fmt:formatDate value="${notification.publicationDate}"
 					var="formattedPublicationDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="publication-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="publication-date" orderable="true"
 					value="${formattedPublicationDate}" />
 					
 				<liferay-ui:search-container-column-text name="status">

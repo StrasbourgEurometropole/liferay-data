@@ -14,15 +14,6 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetLink;
@@ -42,17 +33,33 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
+import eu.strasbourg.service.comment.exception.NoSuchCommentException;
+import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
+import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeType;
+import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.constants.ParticiperCategories;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetParticipatifModel;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the budget participatif local service.
@@ -147,6 +154,47 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
                     this.placitPlaceLocalService.removePlacitPlace(
                             placitPlace.getPlacitPlaceId());
                 }
+            }
+
+            // Supprime les BudgetSupport
+            List<BudgetSupport> budgets = this.budgetSupportLocalService.getBudgetSupportsByBudgetParticipatifId(budgetId);
+            if (budgets != null && !budgets.isEmpty()) {
+                for (BudgetSupport budget : budgets) {
+                    this.budgetSupportLocalService.removeBudgetSupport(budget.getBudgetSupportId());
+                }
+            }
+
+            // Supprime les ProjectTimeline
+            List<ProjectTimeline> projects = this.projectTimelineLocalService.getByBudgetParticipatifId(budgetId);
+            if (projects != null && !projects.isEmpty()) {
+                for (ProjectTimeline projet : projects) {
+                    this.projectTimelineLocalService.deleteProjectTimeline(projet.getProjectTimelineId());
+                }
+            }
+
+            // Supprime les Comments
+            try {
+                // Récupère uniquement les commentaires de niveau 1, les enfants sont gérés par la méthode de supprssion
+                List<Comment> comments = CommentLocalServiceUtil.getByAssetEntryAndLevel(entry.getEntryId(), 1,0);
+                if (comments != null && !comments.isEmpty()) {
+                    for (Comment comment : comments) {
+                        CommentLocalServiceUtil.removeComment(comment.getCommentId());
+                    }
+                }
+            } catch (NoSuchCommentException e) {
+                _log.error(e);
+            }
+
+            // Supprime les Likes
+            try {
+                List<Like> likes = LikeLocalServiceUtil.getByEntityIdAndTypeId(budgetId, LikeType.BUDGET_PARTICIPATIF.getId());
+                if (likes != null && !likes.isEmpty()) {
+                    for (Like like : likes) {
+                        LikeLocalServiceUtil.deleteLike(like);
+                    }
+                }
+            } catch (Exception e) {
+                _log.error(e);
             }
 
             // Supprime le budgetParticipatif
@@ -439,27 +487,28 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     	List<BudgetSupport> budgetSupports = this.budgetSupportPersistence.findByPublikUserId(publikUserId);
     	
     	List<BudgetParticipatif> budgetParticipatifs = new ArrayList<BudgetParticipatif>();
-    	
-    	try {
-	    	// Recuperation de budgets correspondants
-	    	for (BudgetSupport budgetSupport : budgetSupports) {
-	    		BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+
+        // Recuperation de budgets correspondants
+        for (BudgetSupport budgetSupport : budgetSupports) {
+            BudgetParticipatif budgetParticipatif = null;
+    	    try {
+	    		budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(budgetSupport.getBudgetParticipatifId());
+            } catch (PortalException e) {
+                _log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
+            }
 	    		
-	    		// Verification d'une phase existante pour les dits budgets
-	    		if (budgetParticipatif.getPhase() != null) {
-	    			budgetParticipatifs.add(budgetParticipatif);
-	    		}
-	    	}
+            // Verification d'une phase existante pour les dits budgets
+            if (budgetParticipatif != null && budgetParticipatif.getPhase() != null) {
+                budgetParticipatifs.add(budgetParticipatif);
+            }
+        }
 	    	
-	    	// Tri sur ceux correspondant a la phase donnee
-	    	budgetParticipatifs = budgetParticipatifs
-	        		.stream()
-	        		.filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
-	        		.collect(Collectors.toList());
-	    	
-    	} catch (PortalException e) {
-    		_log.error("Erreur lors du retour des budgets soutenus par un utilisateur dans une phase donnee \n:" + e.getStackTrace());
-		}
+        // filtre sur ceux correspondant a la phase donnee
+        budgetParticipatifs = budgetParticipatifs
+                .stream()
+                .filter(budgetParticipatif -> budgetParticipatif.getPhase().getBudgetPhaseId() == budgetPhaseId)
+                .collect(Collectors.toList());
+
     	
     	return budgetParticipatifs;
     }
@@ -549,6 +598,35 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         assetEntryLocalService.updateAssetEntry(entry);
         reindex(budgetParticipatif, false);
         return budgetParticipatif;
+    }
+
+    /**
+     * On randomise la date de modifications des budgets participatifs
+     * Cela permet de simuler un tri aléatoire
+     */
+    @Override
+    public void randomizeModifiedDate() throws SearchException {
+        List<BudgetParticipatif> budgets = this.getBudgetParticipatifs(-1,-1);
+        Random rnd;
+        Date    dt;
+        long    ms;
+
+        for (BudgetParticipatif budget: budgets) {
+
+            // Get a new random instance, seeded from the clock
+            rnd = new Random();
+
+            // Get an Epoch value roughly between 1940 and 2010
+            // -946771200000L = January 1, 1940
+            // Add up to 70 years to it (using modulus on the next long)
+            ms = -946771200000L + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000));
+
+            // Construct a date
+            dt = new Date(ms);
+            budget.setModifiedDate(dt);
+            this.updateBudgetParticipatif(budget);
+            this.reindex(budget, false);
+        }
     }
     
     @Override

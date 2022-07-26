@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.search.log.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
  * @see SearchLog
  * @generated
  */
-@ProviderType
 public abstract class SearchLogBaseImpl
 	extends SearchLogModelImpl implements SearchLog {
 

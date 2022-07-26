@@ -14,13 +14,21 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
-import com.liferay.portal.kernel.xml.Node;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -28,16 +36,22 @@ import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.UriHelper;
 
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
-import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -377,15 +391,15 @@ public class InterestViewerDisplayContext {
 	}
 
 	public String getJournalArticleTitle(JournalArticle article, Locale locale) {
-		return getJournalArticleFieldValue(article, "title", locale);
+		return JournalArticleHelper.getJournalArticleFieldValue(article, "title", locale);
 	}
 
 	public String getJournalArticleCatcher(JournalArticle article, Locale locale) {
-		return getJournalArticleFieldValue(article, "chapo", locale);
+		return JournalArticleHelper.getJournalArticleFieldValue(article, "chapo", locale);
 	}
 
 	public String getJournalArticleImage(JournalArticle article, Locale locale) {
-		String documentStructure = getJournalArticleFieldValue(article, "thumbnail", locale);
+		String documentStructure = JournalArticleHelper.getJournalArticleFieldValue(article, "thumbnail", locale);
 		return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
 	}
 
@@ -414,25 +428,6 @@ public class InterestViewerDisplayContext {
 	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
 		return group.getPublicLayoutSet().getVirtualHostname();
-	}
-
-	private String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale) {
-		String content = article.getContentByLocale(locale.toString());
-
-		String value = "";
-
-		com.liferay.portal.kernel.xml.Document document = null;
-
-		try {
-			document = SAXReaderUtil.read(new StringReader(content));
-			Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
-			if (node != null && node.getText().length() > 0) {
-				value = node.getText();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return value;
 	}
 
 	private List<AssetVocabulary> getJournalArticleVocabularies() {

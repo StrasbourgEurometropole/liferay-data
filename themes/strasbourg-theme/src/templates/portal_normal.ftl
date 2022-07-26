@@ -11,6 +11,7 @@
     <@liferay_util["include"] page=top_head_include />
     <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/strasbourg.css">
     <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/libraries.css">
+	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
     <#assign isWebmag = (layout.getFriendlyURL() == "/lactu" || layout.getFriendlyURL()?starts_with("/lactu-")) />
     <#if isWebmag>
       <link type="text/css" rel="stylesheet" href="/o/strasbourg-theme/css/webmag.css">

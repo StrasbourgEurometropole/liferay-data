@@ -77,6 +77,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
 
+			// Choix de la hiérarchie du titre
+			String hierarchy = ParamUtil.getString(request, "hierarchy");
+			setPreference(request, "hierarchy", hierarchy);
+
 			// Config par défaut
 			setPreference(request, "defaultConfig", String.valueOf(mode.equals("aroundme")));
 
@@ -126,6 +130,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				}
 			}
 
+			// Choix du fond de plan
+			String backgroundId = ParamUtil.getString(request, "backgroundId");
+			setPreference(request, "backgroundId", backgroundId);
+
 			// Choix afficher la zone de config
 			boolean displayConfig = false;
 			if(mode.equals("widget")) {
@@ -135,6 +143,19 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 				String showConfig = ParamUtil.getString(request, "showConfig");
 				setPreference(request, "showConfig", showConfig);
 				displayConfig = Boolean.parseBoolean(showConfig);
+			}
+
+			// Affichage du lien de suppression des filtres
+			if(mode.equals("widget")) {
+				// Pas utilisé en mode widget
+				setPreference(request, "showDeleteFilter", "");
+			}else {
+				if(displayConfig) {
+					String showDeleteFilter = ParamUtil.getString(request, "showDeleteFilter");
+					setPreference(request, "showDeleteFilter", showDeleteFilter);
+				}else{
+					setPreference(request, "showDeleteFilter", "");
+				}
 			}
 
 			// Affichage des pictos dans la config
@@ -151,12 +172,31 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			}
 
 			// Choix afficher la liste à droite
+			boolean displayList = false;
 			if(mode.equals("widget")) {
 				// Pas utilisé en mode widget
 				setPreference(request, "showList", "");
 			}else {
 				String showList = ParamUtil.getString(request, "showList");
 				setPreference(request, "showList", showList);
+				displayList = Boolean.parseBoolean(showList);
+			}
+
+			// Affichage du du rappel des filtres dans la liste des points d'intérêt
+			if(mode.equals("widget")) {
+				// Pas utilisé en mode widget
+				setPreference(request, "showFiltersReminder", "");
+			}else {
+				if(displayConfig) {
+					if(displayList) {
+						String showFiltersReminder = ParamUtil.getString(request, "showFiltersReminder");
+						setPreference(request, "showFiltersReminder", showFiltersReminder);
+					}else{
+						setPreference(request, "showFiltersReminder", "");
+					}
+				}else{
+					setPreference(request, "showFiltersReminder", "");
+				}
 			}
 
 			// Détourage d'un quartier ou d'une commune
@@ -495,6 +535,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod du portlet
 			request.setAttribute("widgetMod", configuration.widgetMod());
 
+			// Choix de la hiérarchie du titre
+			request.setAttribute("hierarchy", configuration.hierarchy());
+
 			// Config par défaut
 			request.setAttribute("defaultConfig", configuration.defaultConfig());
 
@@ -514,14 +557,23 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// texte explicatif sur les évènements
 			request.setAttribute("eventExplanation", configuration.eventExplanationXML());
 
+			// Choix du fond de plan
+			request.setAttribute("backgroundId", configuration.backgroundId());
+
 			// Choix afficher la zone de config
 			request.setAttribute("showConfig", configuration.showConfig());
+
+			// Choix de l'affichage du lien de suppression des filtres
+			request.setAttribute("showDeleteFilter", configuration.showDeleteFilter());
 
 			// Choix afficher picto dans la zone de config
 			request.setAttribute("showPictos", configuration.showPictos());
 
 			// Choix afficher la liste à droite
 			request.setAttribute("showList", configuration.showList());
+
+			// Choix afficher le rappel des filtres dans la liste des points d'intérêt
+			request.setAttribute("showFiltersReminder", configuration.showFiltersReminder());
 
 			// Détourage d'un quartier ou d'une commune
 			request.setAttribute("clippingTerritory", configuration.clippingTerritory());

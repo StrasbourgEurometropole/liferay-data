@@ -1,6 +1,7 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -8,15 +9,18 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.model.Ligne;
-import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
-import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
-import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ArretLocalService;
+import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService;
+import eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService;
+import eu.strasbourg.service.gtfs.service.LigneLocalService;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
 import javax.ws.rs.FormParam;
@@ -28,11 +32,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component(
         property = {
@@ -87,31 +91,39 @@ public class TransportApplication extends Application {
                 if (Validator.isNull(ids_lines)) {
                         ids_lines = "";
                 }
+                List<String> linesListUser = Arrays.asList(ids_lines.split(","));
                 try {
                         JSONObject jsonStop = JSONFactoryUtil.createJSONObject();
                         JSONObject jsonLine = JSONFactoryUtil.createJSONObject();
-                        List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1);
+                        List<Arret> arrets = _arretLocalService.getByStatus(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonArretAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonArretModif = JSONFactoryUtil.createJSONArray();
                         for(Arret arret : arrets){
-                                if(lastUpdateTime.before(arret.getCreateDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                if(lastUpdateTime.before(arret.getCreateDate())){
                                         jsonArretAjout.put(CSMapJSonHelper.arretCSMapJSON(arret));
-                                } else if(lastUpdateTime.before(arret.getModifiedDate()) && arret.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                } else if(lastUpdateTime.before(arret.getModifiedDate())){
                                         jsonArretModif.put(CSMapJSonHelper.arretCSMapJSON(arret));
                                 }
                         }
-                        List<Ligne> lignes = LigneLocalServiceUtil.getLignes(-1,-1);
+                        // Il peut exister plusieurs entrées de Ligne en BDD corresponsdant à la même ligne (différence de direction/route ou autres)
+                        // Ces différences ne nous intéresse pas dans le cadre des informations envoyés à l'application
+                        // Etant donné qu'on ne sait pas si au moment où on calcule le JSON si on va retomber sur la même entrée en BDD
+                        // On récupère les lignes ordonnées par Date de modification et on gère les doublons de noms de ligne
+                        // Ainsi on en traite chaque Ligne qu'une fois et pour l'update on regarde que par rapport à la dernière modifiée
+                        List<Ligne> lignes = _ligneLocalService.getByStatusOrderedByModifiedDate(WorkflowConstants.STATUS_APPROVED);
                         JSONArray jsonLigneAjout = JSONFactoryUtil.createJSONArray();
                         JSONArray jsonLigneModif = JSONFactoryUtil.createJSONArray();
                         List<String> lineNumbers = new ArrayList<>();
                         for(Ligne ligne : lignes){
                                 String lineName = ligne.getShortName();
                                 if(!lineNumbers.contains(lineName)) {
-                                        lineNumbers.add(lineName);
-                                        if(lastUpdateTime.before(ligne.getCreateDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
+                                        if(!linesListUser.contains(lineName)){
                                                 jsonLigneAjout.put(CSMapJSonHelper.lineCSMapJSON(ligne));
-                                        } else if(lastUpdateTime.before(ligne.getModifiedDate()) && ligne.getStatus() == WorkflowConstants.STATUS_APPROVED){
-                                                jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                                lineNumbers.add(lineName);
+                                        } else {
+                                                if(lastUpdateTime.before(ligne.getModifiedDate()))
+                                                        jsonLigneModif.put(CSMapJSonHelper.lineCSMapJSON(ligne));
+                                                lineNumbers.add(lineName);
                                         }
                                 }
                         }
@@ -120,7 +132,7 @@ public class TransportApplication extends Application {
                         JSONArray stopsJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idStop : ids_stops.split(",")) {
                                 if(Validator.isNotNull(idStop)) {
-                                        Arret arret = ArretLocalServiceUtil.getByStopId(idStop);
+                                        Arret arret = _arretLocalService.getByStopId(idStop);
                                         if (Validator.isNull(arret) || arret.getStatus() != WorkflowConstants.STATUS_APPROVED) {
                                                 JSONObject stopJSONDelete = JSONFactoryUtil.createJSONObject();
                                                 stopJSONDelete.put("stopId", idStop);
@@ -132,7 +144,7 @@ public class TransportApplication extends Application {
                         JSONArray linesJSONDelete = JSONFactoryUtil.createJSONArray();
                         for (String idLine : ids_lines.split(",")) {
                                 if(Validator.isNotNull(idLine)) {
-                                        List<Ligne> lines = LigneLocalServiceUtil.getByShortNameAndStatus(idLine,0);
+                                        List<Ligne> lines = _ligneLocalService.getByShortNameAndStatus(idLine,0);
                                         if (Validator.isNull(lines) || lines.isEmpty()) {
                                                 JSONObject lineJSONDelete = JSONFactoryUtil.createJSONObject();
                                                 lineJSONDelete.put("lineNumber", idLine);
@@ -162,37 +174,84 @@ public class TransportApplication extends Application {
 
         @GET
         @Produces("application/json")
-        @Path("/get-hours/{stopCode}")
+        @Path("/get-hours/{stopCode}/{type}")
         public Response getHours(
-                @PathParam("stopCode") String stopCode){
-               JSONObject json = JSONFactoryUtil.createJSONObject();
+                @PathParam("stopCode") String stopCode,
+                @PathParam("type") String type){
                 if(Validator.isNull(stopCode)){
                         return WSResponseUtil.buildErrorResponse(500, "No stopCode");
                 }
-                List<Arret> arrets = ArretLocalServiceUtil.getArrets(-1,-1).stream().filter(a -> a.getCode().equals(stopCode)).collect(Collectors.toList());
+                if(Validator.isNull(type)){
+                        return WSResponseUtil.buildErrorResponse(500, "No type");
+                }
+                List<Arret> arrets = _arretLocalService.getByStopCode(stopCode);
                 if(Validator.isNull(arrets) || arrets.isEmpty()){
                         return WSResponseUtil.buildErrorResponse(500, "Not valid stopCode");
                 }
+                if(!type.equals("0") && !type.equals("3")){
+                        return WSResponseUtil.buildErrorResponse(500, "Not valid type");
+                }
+
+                JSONObject json;
                 try{
-                        JSONArray arretsRealTime = ArretServiceUtil.getArretRealTime(stopCode);
-                        JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-                        if(arretsRealTime != null) {
-                                for(int i = 0; i < arretsRealTime.length(); i++){
-                                        JSONObject arretRealTime = arretsRealTime.getJSONObject(i);
-                                        JSONObject monitoredVehicleJourney = arretRealTime.getJSONObject("MonitoredVehicleJourney");
-                                        JSONObject monitoredCall = monitoredVehicleJourney.getJSONObject("MonitoredCall");
-                                        JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-                                        scheduleJSON.put("lineNumber", monitoredVehicleJourney.getString("LineRef"));
-                                        scheduleJSON.put("destinationName", monitoredVehicleJourney.getString("DestinationName"));
-                                        scheduleJSON.put("departureTime", monitoredCall.getString("ExpectedDepartureTime"));
-                                        schedulesJSON.put(scheduleJSON);
-                                }
+                        json = JSONFactoryUtil.createJSONObject(cacheHoursJsonLocalService.getJsonHour(stopCode, Integer.parseInt(type), WSConstants.TIMEOUT));
+                } catch(JSONException e){
+                        log.error(e);
+                        return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+                }
+                if(json.length() == 0)
+                        return WSResponseUtil.buildOkResponse(json, 201);
+                return WSResponseUtil.buildOkResponse(json);
+        }
+
+        @GET
+        @Produces("application/json")
+        @Path("/get-alerts")
+        public Response getAlerts() {
+                JSONObject json;
+                try {
+                        // On récupère le cache du json des alertes
+                        CacheAlertJSON cache = cacheAlertJsonLocalService.getCacheAlertJSONs(-1, -1).get(0);
+                        json = JSONFactoryUtil.createJSONObject(cache.getJsonAlert());
+                        if(json.has("error")){
+                                return WSResponseUtil.buildErrorResponse(500, json.getString("error"));
                         }
-                        json.put("schedules", schedulesJSON);
-                } catch(Exception e){
+                } catch (JSONException e) {
                         log.error(e);
                         return WSResponseUtil.buildErrorResponse(500, e.getMessage());
                 }
                 return WSResponseUtil.buildOkResponse(json);
+        }
+
+        @Reference(unbind = "-")
+        protected void setLigneLocalService(LigneLocalService ligneLocalService) {
+                _ligneLocalService = ligneLocalService;
+        }
+
+        @Reference
+        protected LigneLocalService _ligneLocalService;
+
+        @Reference(unbind = "-")
+        protected void setArretLocalService(ArretLocalService arretLocalService) {
+                _arretLocalService = arretLocalService;
+        }
+
+        @Reference
+        protected ArretLocalService _arretLocalService;
+
+        @Reference
+        protected CacheAlertJSONLocalService cacheAlertJsonLocalService;
+
+        @Reference(unbind = "-")
+        protected void setCacheAlertJsonLocalService(CacheAlertJSONLocalService cacheAlertJsonLocalService) {
+                this.cacheAlertJsonLocalService = cacheAlertJsonLocalService;
+        }
+
+        @Reference
+        protected CacheHoursJSONLocalService cacheHoursJsonLocalService;
+
+        @Reference(unbind = "-")
+        protected void setCacheHoursJsonLocalService(CacheHoursJSONLocalService cacheHoursJsonLocalService) {
+                this.cacheHoursJsonLocalService = cacheHoursJsonLocalService;
         }
 }

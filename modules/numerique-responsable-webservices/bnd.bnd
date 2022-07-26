@@ -1,0 +1,7 @@
+Bundle-Name: numerique-responsable-webservices
+Bundle-SymbolicName: eu.strasbourg.service.numeriqueresponsablewebservices
+Bundle-Version: 1.0.0
+Liferay-Configuration-Path: /configuration
+Export-Package: \
+    eu.strasbourg.webservice.numerique_responsable.service
+-dsannotations: *

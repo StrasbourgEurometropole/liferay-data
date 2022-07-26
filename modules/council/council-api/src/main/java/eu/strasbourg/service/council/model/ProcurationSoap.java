@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class ProcurationSoap implements Serializable {
 
 	public static ProcurationSoap toSoapModel(Procuration model) {
@@ -50,6 +47,14 @@ public class ProcurationSoap implements Serializable {
 		soapModel.setOfficialUnavailableId(model.getOfficialUnavailableId());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 		soapModel.setIsAbsent(model.isIsAbsent());
+		soapModel.setProcurationMode(model.getProcurationMode());
+		soapModel.setPresential(model.getPresential());
+		soapModel.setIsAfterVote(model.isIsAfterVote());
+		soapModel.setStartHour(model.getStartHour());
+		soapModel.setEndHour(model.getEndHour());
+		soapModel.setStartDelib(model.getStartDelib());
+		soapModel.setEndDelib(model.getEndDelib());
+		soapModel.setOtherProcurationMode(model.getOtherProcurationMode());
 
 		return soapModel;
 	}
@@ -235,6 +240,74 @@ public class ProcurationSoap implements Serializable {
 		_isAbsent = isAbsent;
 	}
 
+	public int getProcurationMode() {
+		return _procurationMode;
+	}
+
+	public void setProcurationMode(int procurationMode) {
+		_procurationMode = procurationMode;
+	}
+
+	public int getPresential() {
+		return _presential;
+	}
+
+	public void setPresential(int presential) {
+		_presential = presential;
+	}
+
+	public boolean getIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	public boolean isIsAfterVote() {
+		return _isAfterVote;
+	}
+
+	public void setIsAfterVote(boolean isAfterVote) {
+		_isAfterVote = isAfterVote;
+	}
+
+	public Date getStartHour() {
+		return _startHour;
+	}
+
+	public void setStartHour(Date startHour) {
+		_startHour = startHour;
+	}
+
+	public Date getEndHour() {
+		return _endHour;
+	}
+
+	public void setEndHour(Date endHour) {
+		_endHour = endHour;
+	}
+
+	public long getStartDelib() {
+		return _startDelib;
+	}
+
+	public void setStartDelib(long startDelib) {
+		_startDelib = startDelib;
+	}
+
+	public long getEndDelib() {
+		return _endDelib;
+	}
+
+	public void setEndDelib(long endDelib) {
+		_endDelib = endDelib;
+	}
+
+	public String getOtherProcurationMode() {
+		return _otherProcurationMode;
+	}
+
+	public void setOtherProcurationMode(String otherProcurationMode) {
+		_otherProcurationMode = otherProcurationMode;
+	}
+
 	private String _uuid;
 	private long _procurationId;
 	private long _groupId;
@@ -251,5 +324,13 @@ public class ProcurationSoap implements Serializable {
 	private long _officialUnavailableId;
 	private long _councilSessionId;
 	private boolean _isAbsent;
+	private int _procurationMode;
+	private int _presential;
+	private boolean _isAfterVote;
+	private Date _startHour;
+	private Date _endHour;
+	private long _startDelib;
+	private long _endDelib;
+	private String _otherProcurationMode;
 
 }

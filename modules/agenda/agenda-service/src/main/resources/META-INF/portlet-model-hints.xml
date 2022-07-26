@@ -36,12 +36,13 @@
 		<field name="agendaExportId" type="long" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CacheJson">
-		<field name="uuid" type="String" />
 		<field name="eventId" type="long" />
-		<field name="jsonEvent" type="String" />
+		<field name="jsonEvent" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="createEvent" type="Date" />
 		<field name="modifiedEvent" type="Date" />
-		<field name="isActive" type="boolean" />
+		<field name="isApproved" type="boolean" />
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.Campaign">
 		<field name="uuid" type="String" />
@@ -145,6 +146,18 @@
 		<field name="userId" type="long" />
 		<field name="userName" type="String" />
 	</model>
+	<model name="eu.strasbourg.service.agenda.model.CsmapCacheJson">
+		<field name="uuid" type="String" />
+		<field name="eventId" type="long" />
+		<field name="jsonEvent" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="createEvent" type="Date" />
+		<field name="modifiedEvent" type="Date" />
+		<field name="isActive" type="boolean" />
+		<field name="regeneratedDate" type="Date" />
+		<field name="hasSchedules" type="boolean" />
+	</model>
 	<model name="eu.strasbourg.service.agenda.model.Event">
 		<field name="uuid" type="String" />
 		<field name="eventId" type="long" />
@@ -187,6 +200,8 @@
 		<field name="placeCountry" type="String">
 			<hint name="default-value">France</hint>
 		</field>
+		<field name="mercatorX" type="String" />
+		<field name="mercatorY" type="String" />
 		<field localized="true" name="access" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

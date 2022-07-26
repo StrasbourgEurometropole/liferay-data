@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class PublikUserCacheModel
 	implements CacheModel<PublikUser>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PublikUserCacheModel)) {
+		if (!(object instanceof PublikUserCacheModel)) {
 			return false;
 		}
 
-		PublikUserCacheModel publikUserCacheModel = (PublikUserCacheModel)obj;
+		PublikUserCacheModel publikUserCacheModel =
+			(PublikUserCacheModel)object;
 
 		if (publikUserLiferayId == publikUserCacheModel.publikUserLiferayId) {
 			return true;
@@ -65,7 +63,7 @@ public class PublikUserCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -103,6 +101,14 @@ public class PublikUserCacheModel
 		sb.append(imageURL);
 		sb.append(", pactDisplay=");
 		sb.append(pactDisplay);
+		sb.append(", csmapJSON=");
+		sb.append(csmapJSON);
+		sb.append(", modifiedDateJSON=");
+		sb.append(modifiedDateJSON);
+		sb.append(", topicsFCM=");
+		sb.append(topicsFCM);
+		sb.append(", lastUpdateTimeTopics=");
+		sb.append(lastUpdateTimeTopics);
 		sb.append("}");
 
 		return sb.toString();
@@ -223,13 +229,38 @@ public class PublikUserCacheModel
 
 		publikUserImpl.setPactDisplay(pactDisplay);
 
+		if (csmapJSON == null) {
+			publikUserImpl.setCsmapJSON("");
+		}
+		else {
+			publikUserImpl.setCsmapJSON(csmapJSON);
+		}
+
+		if (modifiedDateJSON == Long.MIN_VALUE) {
+			publikUserImpl.setModifiedDateJSON(null);
+		}
+		else {
+			publikUserImpl.setModifiedDateJSON(new Date(modifiedDateJSON));
+		}
+
+		if (topicsFCM == null) {
+			publikUserImpl.setTopicsFCM("");
+		}
+		else {
+			publikUserImpl.setTopicsFCM(topicsFCM);
+		}
+
+		publikUserImpl.setLastUpdateTimeTopics(lastUpdateTimeTopics);
+
 		publikUserImpl.resetOriginalValues();
 
 		return publikUserImpl;
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		publikUserLiferayId = objectInput.readLong();
@@ -247,10 +278,15 @@ public class PublikUserCacheModel
 		displayConfig = objectInput.readUTF();
 		pactSignature = objectInput.readLong();
 		banishDate = objectInput.readLong();
-		banishDescription = objectInput.readUTF();
+		banishDescription = (String)objectInput.readObject();
 		imageURL = objectInput.readUTF();
 
 		pactDisplay = objectInput.readBoolean();
+		csmapJSON = objectInput.readUTF();
+		modifiedDateJSON = objectInput.readLong();
+		topicsFCM = objectInput.readUTF();
+
+		lastUpdateTimeTopics = objectInput.readLong();
 	}
 
 	@Override
@@ -328,10 +364,10 @@ public class PublikUserCacheModel
 		objectOutput.writeLong(banishDate);
 
 		if (banishDescription == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(banishDescription);
+			objectOutput.writeObject(banishDescription);
 		}
 
 		if (imageURL == null) {
@@ -342,6 +378,24 @@ public class PublikUserCacheModel
 		}
 
 		objectOutput.writeBoolean(pactDisplay);
+
+		if (csmapJSON == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(csmapJSON);
+		}
+
+		objectOutput.writeLong(modifiedDateJSON);
+
+		if (topicsFCM == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(topicsFCM);
+		}
+
+		objectOutput.writeLong(lastUpdateTimeTopics);
 	}
 
 	public String uuid;
@@ -362,5 +416,9 @@ public class PublikUserCacheModel
 	public String banishDescription;
 	public String imageURL;
 	public boolean pactDisplay;
+	public String csmapJSON;
+	public long modifiedDateJSON;
+	public String topicsFCM;
+	public long lastUpdateTimeTopics;
 
 }

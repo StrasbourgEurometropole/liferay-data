@@ -103,13 +103,14 @@ public class VariousDataApplication extends Application {
             for (AssetEntry entry : entries) {
                 // récupération de la dernière version du journalArticle
                 JournalArticle journalArticle = JournalArticleHelper.getLatestArticleByResourcePrimKey(entry.getClassPK());
-                if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
-                    JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
-
-                    if (lastUpdateTime.before(journalArticle.getCreateDate()))
-                        jsonAjout.put(jsonWC);
-                    else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
-                        jsonModif.put(jsonWC);
+                if(Validator.isNotNull(journalArticle)) {
+                    if (structure.getStructureKey().equals(journalArticle.getDDMStructureKey()) && journalArticle.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                        JSONObject jsonWC = CSMapJSonHelper.getBreveCSMapJSON(journalArticle);
+                        if (lastUpdateTime.before(journalArticle.getCreateDate()))
+                            jsonAjout.put(jsonWC);
+                        else if (lastUpdateTime.before(journalArticle.getModifiedDate()))
+                            jsonModif.put(jsonWC);
+                    }
                 }
             }
 
@@ -140,7 +141,7 @@ public class VariousDataApplication extends Application {
             if(jsonAjout.length() == 0 && jsonModif.length() == 0 && jsonSuppr.length() == 0)
                 return WSResponseUtil.buildOkResponse(json, 201);
         }catch (Exception e){
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
 
@@ -196,6 +197,13 @@ public class VariousDataApplication extends Application {
             Map<String,Map<AssetCategory, List<JournalArticle>>> mapsEmergencyHelps = new HashMap<>(WSEmergencies.getMapEmergencyHelps(lastUpdateTime,ids_emergency_help_category));
             Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapAdd = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_ADD));
             Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapUpdate = new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_UPDATE));
+            // On récupère la liste des catégories d'aides d'urgence qui sont à supprimer (Celles qui sont existantes mais sans Contenu web associé)
+            //On récupère une liste d'id catégorie qu'on comparera à la liste de catégorie déjà chez l'utilisateur
+            Map<AssetCategory, List<JournalArticle>> emergencyHelpsMapToDelete= new HashMap<>(mapsEmergencyHelps.get(WSConstants.JSON_DELETE));
+            List<Long> emergencyHelpCategoriesIdToDelete = new ArrayList<>();
+            for (Map.Entry entry : emergencyHelpsMapToDelete.entrySet()) {
+                emergencyHelpCategoriesIdToDelete.add(((AssetCategory)entry.getKey()).getCategoryId());
+            }
 
             // Gestion des deletes
             JSONArray emergencyNumbersJSONDelete = JSONFactoryUtil.createJSONArray();
@@ -214,14 +222,13 @@ public class VariousDataApplication extends Application {
             }
 
             JSONArray emergencyHelpsJSONDelete = JSONFactoryUtil.createJSONArray();
-            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category));
+            // Récupère la liste des Ids de catégories d'aides urgences considérées comme à supprimer
+            List<Long> idEmergencyHelpCategorys = new ArrayList<>(WSEmergencies.getJSONEmergencyHelpsDelete(ids_emergency_help_category,emergencyHelpCategoriesIdToDelete));
             for (long idEmergencyHelpCategory : idEmergencyHelpCategorys) {
                 if(Validator.isNotNull(idEmergencyHelpCategory)) {
-                    if (Validator.isNull(AssetCategoryLocalServiceUtil.fetchAssetCategory(idEmergencyHelpCategory))) {
-                        JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
-                        emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
-                        emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
-                    }
+                    JSONObject emergencyHelpJSONDelete = JSONFactoryUtil.createJSONObject();
+                    emergencyHelpJSONDelete.put(WSConstants.JSON_WC_ID,idEmergencyHelpCategory);
+                    emergencyHelpsJSONDelete.put(emergencyHelpJSONDelete);
                 }
             }
             JSONObject emergencyJSONDelete = JSONFactoryUtil.createJSONObject();
@@ -406,14 +413,74 @@ public class VariousDataApplication extends Application {
             }
 
             // Ajout de ADD dans le JSON final
-            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsAdd));
+            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.simpleContentCSMapJSON(generalConditionsAdd));
             // Ajout de UPDATE dans le JSON final
-            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.generalConditionsCSMapJSON(generalConditionsUpdate));
-            // Ajout de DELETE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.simpleContentCSMapJSON(generalConditionsUpdate));
 
-        }catch (PortalException e) {
+        }catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(json);
+
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-accessibility")
+    public Response getAccessibility() {
+        return getAccessibility("0");
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("/get-accessibility/{last_update_time}")
+    public Response getAccessibility(
+            @PathParam("last_update_time") String lastUpdateTimeString){
+        JSONObject json = JSONFactoryUtil.createJSONObject();
+
+        // On transforme la date string en date
+        Date lastUpdateTime;
+        try {
+            long lastUpdateTimeLong = Long.parseLong(lastUpdateTimeString);
+            lastUpdateTime = DateHelper.getDateFromUnixTimestamp(lastUpdateTimeLong);
+        }catch (Exception e) {
+            return WSResponseUtil.lastUpdateTimeFormatError();
+        }
+
+        try {
+            Group csmapGroup = WSCSMapUtil.getGroupByKey(WSConstants.GROUP_KEY_CSMAP);
+            long csmapGroupId = csmapGroup.getGroupId();
+            JournalFolder accessibilityFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId,WSConstants.FOLDER_DIVERS);
+            long accessibilityFolderId = accessibilityFolder.getFolderId();
+
+            // Recuperation des JournalArticle dans le dossier Numeros urgence
+            List<JournalArticle> accessibilitys = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, accessibilityFolderId));
+            // Recuperation des Numeros urgence a ADD et UPDATE
+            List<JournalArticle> accessibilityAdd = new ArrayList<>();
+            List<JournalArticle> accessibilityUpdate = new ArrayList<>();
+
+            // Verification des Numeros urgence si nouveau ou modifie
+            for (JournalArticle accessibility : accessibilitys) {
+                if(accessibility.getTitle(Locale.FRANCE).equals(WSConstants.ACCESSIBILITY) && accessibility.getStatus() == WorkflowConstants.STATUS_APPROVED) {
+                    if (lastUpdateTime.before(accessibility.getCreateDate())) {
+                        accessibilityAdd.add(accessibility);
+                    }
+                    else if (lastUpdateTime.before(accessibility.getModifiedDate())) {
+                        accessibilityUpdate.add(accessibility);
+                    }
+                }
+            }
+
+            if(accessibilityAdd.isEmpty() && accessibilityUpdate.isEmpty()){
+                return WSResponseUtil.buildOkResponse(json,201);
+            }
+
+            // Ajout de ADD dans le JSON final
+            json.put(WSConstants.JSON_ADD, CSMapJSonHelper.simpleContentCSMapJSON(accessibilityAdd));
+            // Ajout de UPDATE dans le JSON final
+            json.put(WSConstants.JSON_UPDATE, CSMapJSonHelper.simpleContentCSMapJSON(accessibilityUpdate));
+
         }catch (Exception e) {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());

@@ -61,8 +61,8 @@
                     orderable="false" value="${official.email}" />
 
                 <!-- Colonne : Est actif ? -->
-                <liferay-ui:search-container-column-text cssClass="content-column"
-                    name="is-active" truncate="true"
+                <liferay-ui:search-container-column-text
+                    name="is-active"
                     orderable="false" value="${official.isActive ? 'Oui' : 'Non'}" />
 
                 <!-- ACTIONS -->

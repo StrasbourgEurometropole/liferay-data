@@ -29,6 +29,7 @@ import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -115,7 +116,7 @@ public class PrintPDF {
 			document.add(title);
 
 			// image d'entête
-			String domaine = "http://localhost:8080";
+			String domaine = StrasbourgPropsUtil.getBaseURL();
 			ImageData image = ImageDataFactory.create(domaine + "/o/councilbo/images/logo_strasbourg_vert.jpg");
 			Image img = new Image(image);
 			float newWidth = 140;

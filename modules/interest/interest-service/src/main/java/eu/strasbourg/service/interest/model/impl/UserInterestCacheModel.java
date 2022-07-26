@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -34,22 +32,21 @@ import java.io.ObjectOutput;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserInterestCacheModel
 	implements CacheModel<UserInterest>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserInterestCacheModel)) {
+		if (!(object instanceof UserInterestCacheModel)) {
 			return false;
 		}
 
 		UserInterestCacheModel userInterestCacheModel =
-			(UserInterestCacheModel)obj;
+			(UserInterestCacheModel)object;
 
 		if (userInterestPK.equals(userInterestCacheModel.userInterestPK)) {
 			return true;

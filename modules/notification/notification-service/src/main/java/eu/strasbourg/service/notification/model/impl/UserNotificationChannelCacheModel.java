@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -34,22 +32,21 @@ import java.io.ObjectOutput;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserNotificationChannelCacheModel
 	implements CacheModel<UserNotificationChannel>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof UserNotificationChannelCacheModel)) {
+		if (!(object instanceof UserNotificationChannelCacheModel)) {
 			return false;
 		}
 
 		UserNotificationChannelCacheModel userNotificationChannelCacheModel =
-			(UserNotificationChannelCacheModel)obj;
+			(UserNotificationChannelCacheModel)object;
 
 		if (userNotificationChannelPK.equals(
 				userNotificationChannelCacheModel.userNotificationChannelPK)) {

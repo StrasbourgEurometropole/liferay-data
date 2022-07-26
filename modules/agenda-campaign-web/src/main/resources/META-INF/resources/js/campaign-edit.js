@@ -28,8 +28,8 @@ jQuery('body').off('click').on('click', '#' + namespace + 'save-as-draft', funct
 // Gestion du champ conditionnel service
 $('[name=serviceType]').on('click change', function(e) {
 	var classOfDivToShow = e.target.value;
-	var classOfDivToHide = 'emsServiceotherService'.replace(classOfDivToShow, '');
-	$('.emsService, .otherService').hide();	
+	var classOfDivToHide = 'emsServiceotherStructure'.replace(classOfDivToShow, '');
+	$('.emsService, .otherStructure').hide();
 	$('.' + classOfDivToShow).show();
 	$('.' + classOfDivToHide + ' input').val('');
 	$('.' + classOfDivToHide + ' select').val('');
@@ -37,7 +37,6 @@ $('[name=serviceType]').on('click change', function(e) {
 
 //Autocomplete des lieux
 jQuery(function() {
-	if (!!window.placeAutocompleteURL) {
 		var options = {
 			type : "POST",
 			serviceUrl : "/api/jsonws/place.place/get-places-by-name-and-language/",
@@ -71,7 +70,6 @@ jQuery(function() {
 		};
 		jQuery('.place-autocomplete-input-wrapper input').autocomplete(
 				options);
-	}
 	setConditionalValidators();
 });
 
@@ -297,7 +295,6 @@ function setConditionalValidators() {
 	    shouldSort: false
 	}
 
-	var manifestationChoices = new Choices('[name=' + namespace + 'manifestations][multiple]', choicesOptions);
 	var themeChoices = new Choices('[name=' + namespace + 'themesIds][multiple]', choicesOptions);
 	var typeChoices = new Choices('[name=' + namespace + 'typesIds][multiple]', choicesOptions);
 	var publicChoices = new Choices('[name=' + namespace + 'publicsIds][multiple]', choicesOptions);
@@ -370,7 +367,6 @@ function setConditionalValidators() {
 	
 })(jQuery);
 
-
 // Validation des périodes (et des langues)
 function validatePeriods(event) {
 	var allValidated = true;
@@ -378,34 +374,11 @@ function validatePeriods(event) {
 	var nbPeriod = 0;
 	for (var i = 0; i < dateRanges.length; i++) {
 		var dateRange = dateRanges[i];
-		var validated = true;
-		var id = $(dateRange).attr('id');
 		// On ne lance la validation que si une période a déjà été sélectionnée
 		// et que l'élément ne contient pas la classe "hide"
 		if ($(dateRange).text().indexOf('-') > 0 
 				&& $(dateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
             nbPeriod++;
-			var startDate = moment($(dateRange).text().split(' - ')[0], 'DD/MM/YYYY');
-			var endDate = moment($(dateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-			var otherDateRanges = document.querySelectorAll('#date-fields .date-range');
-			for (var j = 0; j < otherDateRanges.length; j++) {
-				var otherDateRange = document.querySelectorAll('#date-fields .date-range')[j];
-				var otherId = $(otherDateRange).attr('id');
-				if (otherId !== id && $(otherDateRange).text().indexOf('-') > 0  
-						&& $(otherDateRange).parents('.lfr-form-row').attr('class').indexOf('hide') === -1) {
-					var otherStartDate = moment($(otherDateRange).text().split(' - ')[0], 'DD/MM/YYYY');
-					var otherEndDate = moment($(otherDateRange).text().split(' - ')[1], 'DD/MM/YYYY');
-				    if (startDate.isSameOrBefore(otherEndDate) && endDate.isSameOrAfter(otherStartDate)) {
-				    	validated = false;
-				    	break;
-				    }
-				}
-			}
-		}
-		if (!validated) {
-			$('.event-period-conflict', $(dateRange).parent()).show();
-            $(".event-period-conflict", $(dateRange).parent()).get(0).scrollIntoView();
-			allValidated = false;
 		}
 	}
 

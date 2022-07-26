@@ -15,6 +15,7 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
+import eu.strasbourg.webservice.csmap.service.WSAccountData;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
 import org.osgi.service.component.annotations.Component;
@@ -64,7 +65,7 @@ public class AccountDataApplication extends Application {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
 
             // On récupère toutes les procédures
-            List<Procedure> procedures = ProcedureHelper.getProcedures(publikUser.getPublikId());
+            List<Procedure> procedures = ProcedureHelper.getProcedures(publikUser.getPublikId(), WSConstants.TIMEOUT);
             if(procedures.isEmpty())
                 return WSResponseUtil.buildOkResponse(jsonProcedures, 201);
             for (Procedure procedure: procedures) {
@@ -82,10 +83,10 @@ public class AccountDataApplication extends Application {
                 jsonProcedures.put(jsonProcedure);
             }
         }catch (NoJWTInHeaderException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(400, e.getMessage());
         } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
         }   catch (NoUserFormException e){
             log.error(e);
@@ -95,6 +96,108 @@ public class AccountDataApplication extends Application {
         return WSResponseUtil.buildOkResponse(jsonProcedures);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("get-mediatheque")
+    public Response getMediatheque(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.getMediatheque(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
+            int httpResponseCode = (int)response.get("responseCode");
+            String httpResponseMessage = (String)response.get("errorDescription");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("get-resid")
+    public Response getResid(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.getResid(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
+            int httpResponseCode = (int)response.get("responseCode");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                String httpResponseMessage = (String)response.get("errorDescription");
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
+    }
+
+    @GET
+    @Produces("application/json")
+    @Path("get-family-space")
+    public Response getFamily(@Context HttpHeaders httpHeaders) {
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+
+        try {
+            PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
+
+            response = WSAccountData.getFamily(publikUser.getPublikId(), WSConstants.TIMEOUT_WIDGET);
+            int httpResponseCode = (int)response.get("responseCode");
+            String httpResponseMessage = (String)response.get("errorDescription");
+
+            if (httpResponseCode == 200) {
+                return WSResponseUtil.buildOkResponse(response);
+            }
+            if (httpResponseCode == 500 || httpResponseCode == 400) {
+                return WSResponseUtil.buildErrorResponse(httpResponseCode, httpResponseMessage);
+            }
+
+        } catch (NoJWTInHeaderException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(400, e.getMessage());
+        } catch (InvalidJWTException | NoSubInJWTException | NoSuchPublikUserException e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (Exception e) {
+            log.error(e);
+            return WSResponseUtil.buildErrorResponse(500, e.getMessage());
+        }
+        return WSResponseUtil.buildOkResponse(response);
+    }
+
     @Reference(unbind = "-")
     protected void setWSAuthenticator(WSAuthenticator authenticator) {
         this.authenticator = authenticator;
@@ -102,5 +205,4 @@ public class AccountDataApplication extends Application {
 
     @Reference
     protected WSAuthenticator authenticator;
-
 }

@@ -29,7 +29,7 @@
 
 <!-- Recherche par thématiques -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir toutes les thématiques"><liferay-ui:message key="eu.thematics" /></a>
+    <a href="#" title="<liferay-ui:message key='eu.search.asset.web.see.all.thematics' />"><liferay-ui:message key="eu.thematics" /></a>
     <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par thématique</legend>
 
@@ -41,7 +41,7 @@
 			<aui:input type="checkbox" name="vocabulary_0"
 				value="${category.categoryId}"
 				checked="${fn:contains(dc.filterCategoriesIdsString, category.categoryId)}"
-				id="vocabulary_2_${catStatus.index}"
+				id="vocabulary_0_${catStatus.index}"
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
@@ -51,13 +51,13 @@
 
 <!-- Recherche par quartiers -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="eu.districts" /></a>
+    <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></a>
     <fieldset id="districts_fieldset" class="pro-checkbox">
-        <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
+        <legend aria-hidden="true" class="hide">Choix par nom de territoire</legend>
         
-        <c:set var="districtVocabulary" value="${vocabularyAccessor.getTerritories()}" />
+        <c:set var="territoryVocabulary" value="${vocabularyAccessor.getTerritories()}" />
 		<c:forEach
-			items="${dc.getDropdownRootCategories(districtVocabulary)}"
+			items="${dc.getDropdownRootCategories(territoryVocabulary)}"
 			var="category"
 			varStatus="catStatus">
 			<aui:input type="checkbox" name="vocabulary_1"

@@ -227,8 +227,12 @@ public class SearchAssetDisplayContext {
 		// Champ date
 		boolean dateField = this._configuration.dateField();
 		String dateFieldName = this._configuration.defaultSortField();
-		LocalDate fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+		LocalDate fromDate = LocalDate.of(2017,1, 1);
+		LocalDate toDate = LocalDate.now().minusDays(1);
+		if(!dateFieldName.equals("endDate_Number_sortable")){
+			fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
+			toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+		}
 
 		// Ordre
 		String sortField = this.getSortField();

@@ -36,7 +36,7 @@ public class ExportCampaignJsonToFolderActionCommand implements MVCActionCommand
         try {
             f.createNewFile();
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.error(e);
         }
         long campaignId = ParamUtil.getLong(request, "campaignId");
         Campaign campaign = campaignLocalService.fetchCampaign(campaignId);

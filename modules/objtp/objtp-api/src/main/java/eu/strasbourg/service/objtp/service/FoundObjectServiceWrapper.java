@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.objtp.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see FoundObjectService
  * @generated
  */
-@ProviderType
 public class FoundObjectServiceWrapper
 	implements FoundObjectService, ServiceWrapper<FoundObjectService> {
 

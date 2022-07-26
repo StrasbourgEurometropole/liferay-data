@@ -38,7 +38,6 @@ public class JSONHelper {
         }
         return sb.toString();
     }
-
     public static JSONObject readJsonFromURL(String URL, String basicAuthUser, String basicAuthPassword, int timeout)
             throws IOException, JSONException {
         HttpURLConnection httpConn = (HttpURLConnection) new URL(URL).openConnection();

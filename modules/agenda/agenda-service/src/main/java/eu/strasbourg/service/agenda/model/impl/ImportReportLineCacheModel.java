@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,22 +31,21 @@ import java.io.ObjectOutput;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class ImportReportLineCacheModel
 	implements CacheModel<ImportReportLine>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ImportReportLineCacheModel)) {
+		if (!(object instanceof ImportReportLineCacheModel)) {
 			return false;
 		}
 
 		ImportReportLineCacheModel importReportLineCacheModel =
-			(ImportReportLineCacheModel)obj;
+			(ImportReportLineCacheModel)object;
 
 		if (lineId == importReportLineCacheModel.lineId) {
 			return true;
@@ -141,14 +138,16 @@ public class ImportReportLineCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		lineId = objectInput.readLong();
 		type = objectInput.readUTF();
 
 		status = objectInput.readLong();
-		log = objectInput.readUTF();
+		log = (String)objectInput.readObject();
 		entityName = objectInput.readUTF();
 		entityExternalId = objectInput.readUTF();
 
@@ -178,10 +177,10 @@ public class ImportReportLineCacheModel
 		objectOutput.writeLong(status);
 
 		if (log == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(log);
+			objectOutput.writeObject(log);
 		}
 
 		if (entityName == null) {

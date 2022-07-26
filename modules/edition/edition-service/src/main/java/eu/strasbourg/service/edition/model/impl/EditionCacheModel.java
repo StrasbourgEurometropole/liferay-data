@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.edition.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof EditionCacheModel)) {
+		if (!(object instanceof EditionCacheModel)) {
 			return false;
 		}
 
-		EditionCacheModel editionCacheModel = (EditionCacheModel)obj;
+		EditionCacheModel editionCacheModel = (EditionCacheModel)object;
 
 		if (editionId == editionCacheModel.editionId) {
 			return true;
@@ -310,7 +307,9 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		editionId = objectInput.readLong();
@@ -332,7 +331,7 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		subtitle = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		URL = objectInput.readUTF();
 		author = objectInput.readUTF();
 		editor = objectInput.readUTF();
@@ -409,10 +408,10 @@ public class EditionCacheModel implements CacheModel<Edition>, Externalizable {
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (URL == null) {

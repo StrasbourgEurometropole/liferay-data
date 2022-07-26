@@ -3,6 +3,26 @@
 @import 'lib/toastr.min.css';
 @import "tarteaucitron";
 
+.event-subtitle {
+  font-size: 30px;
+}
+
+.event_bouton {
+    background: rgb(70, 126, 173);
+    display: block;
+    line-height: 40px;
+    width: 120px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+}
+
+.event-booking {
+  margin-top: 40px;
+}
+
 // Enleve les border autour des labels de contact
 .form-assembly-portlet form label.preField
 {

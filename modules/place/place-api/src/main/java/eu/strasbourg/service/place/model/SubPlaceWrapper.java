@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see SubPlace
  * @generated
  */
-@ProviderType
-public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
+public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 
 	public SubPlaceWrapper(SubPlace subPlace) {
 		_subPlace = subPlace;
@@ -947,16 +944,16 @@ public class SubPlaceWrapper implements SubPlace, ModelWrapper<SubPlace> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof SubPlaceWrapper)) {
+		if (!(object instanceof SubPlaceWrapper)) {
 			return false;
 		}
 
-		SubPlaceWrapper subPlaceWrapper = (SubPlaceWrapper)obj;
+		SubPlaceWrapper subPlaceWrapper = (SubPlaceWrapper)object;
 
 		if (Objects.equals(_subPlace, subPlaceWrapper._subPlace)) {
 			return true;

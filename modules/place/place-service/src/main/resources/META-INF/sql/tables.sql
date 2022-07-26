@@ -8,6 +8,16 @@ create table place_CacheJson (
 	isActive BOOLEAN
 );
 
+create table place_CsmapCacheJson (
+	uuid_ VARCHAR(75) null,
+	sigId VARCHAR(75) not null primary key,
+	jsonLieu TEXT null,
+	jsonHoraire TEXT null,
+	createPlace DATE null,
+	modifiedPlace DATE null,
+	isActive BOOLEAN
+);
+
 create table place_GoogleMyBusinessHistoric (
 	uuid_ VARCHAR(75) null,
 	googleMyBusinessHistoricId LONG not null primary key,

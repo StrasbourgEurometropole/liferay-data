@@ -160,7 +160,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setOnSitePhone(onSitePhone);
 
 			/**
-			 * Informations sur l'événément
+			 * Détail de l'événement
 			 */
 			// Titre, sous-titre, description
 			Map<Locale, String> title = LocalizationUtil
@@ -188,6 +188,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
 			File image = uploadRequest.getFile("image");
+			long imageId = 0;
 			if (image != null && image.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(image);
 				DLFolder folder = DLFolderLocalServiceUtil
@@ -197,11 +198,13 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					folder.getFolderId(), image.getName(),
 					MimeTypesUtil.getContentType(image), image.getName(), "",
 					"", imageBytes, sc);
-				campaignEvent.setImageId(fileEntry.getFileEntryId());
+				
+				imageId = fileEntry.getFileEntryId();
+				campaignEvent.setImageId(imageId);
 			}
 
 			// Dans le cas où le responsable clique sur le bouton pour récupérer l'image de l'auteur
-			Long webImageId = ParamUtil.getLong(request, "webImageId");
+			long webImageId = ParamUtil.getLong(request, "webImageId");
 			
 			File webImage = uploadRequest.getFile("webImage");
 			if (webImage != null && webImage.exists()) {
@@ -215,18 +218,15 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 					"", "", imageBytes, sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
 			}
-			else if(webImageId != null && webImageId != 0) {
-				campaignEvent.setWebImageId(webImageId);
+			else {
+				if(webImageId != 0)
+					campaignEvent.setWebImageId(webImageId);
+				else
+					campaignEvent.setWebImageId(imageId);
 			}
 
 			String imageOwner = ParamUtil.getString(request, "imageOwner");
 			campaignEvent.setImageOwner(imageOwner);
-
-			// Manifestation
-			long[] manifestationsIds = ParamUtil.getLongValues(request,
-				"manifestations");
-			campaignEvent
-				.setManifestationsIds(StringUtil.merge(manifestationsIds));
 
 			// Lieu
 			String placeSIGId = ParamUtil.getString(request, "placeSIGId");
@@ -461,7 +461,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			}
 
 			response.sendRedirect(renderUrl.toString());
-		} catch (PortalException | IOException e) {
+		} catch (Exception e) {
 			_log.error(e);
 		}
 

@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -24,7 +12,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
@@ -32,6 +20,15 @@ import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 @Component(
 	immediate = true,
@@ -42,54 +39,77 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
     service = MVCResourceCommand.class
 )
 public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
-	
-	// Variables tempons
-    private String publikID;
-    private PublikUser user;
-    private int nbUserSupports;
-    private int nbUserEntrySupports;
-    private int nbEntrySupports;
-    private long entryID;
-    private BudgetParticipatif budgetParticipatif;
-    private BudgetSupport budgetSupport;
-    private String message;
 
 	@Override
-	public boolean serveResource(ResourceRequest request, ResourceResponse response) throws PortletException {
+	public boolean serveResource(ResourceRequest request, ResourceResponse response) {
 		
 		boolean result = false;
+
+        // Initialisations respectives de : nombre de votes pour l'entite courante, le nombre de votes de l'utilisateur
+        // pour l'entite courante, le nombre de votes de l'utilisateur, le nombre de votes pour la phase active
+        int nbUserSupports = 0;
+        int nbUserEntrySupports = 0;
+        int nbEntrySupports = 0;
+        long nbSupportForActivePhase = 0;
 		
 		// Recuperation de l'utilsiteur Publik ayant lance la demande
-        this.publikID = getPublikID(request);
+        PublikUser user = null;
+        String publikID = getPublikID(request);
+        if (publikID != null && !publikID.isEmpty()) {
+            user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+        }
         
         // Recuperation du budget participatif en question
-        this.entryID = ParamUtil.getLong(request, "entryId");
+        BudgetParticipatif budgetParticipatif = null;
+        BudgetSupport budgetSupport = null;
+        long entryID = ParamUtil.getLong(request, "entryId");
+        try {
+            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(entryID);
+            budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
+
+            // Recuperation du budget support lié
+            List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+                    budgetParticipatif.getBudgetParticipatifId(),
+                    publikID);
+
+            if (!budgetSupports.isEmpty()) {
+                budgetSupport = budgetSupports.get(0);
+            }
+        } catch (PortalException e1) {
+            _log.error(e1);
+        }
         
-        // Verification de la validite des informations        
-        if (validate(request)) {
-        	
-            result = removeBudgetSupport(request);
-            
+        // Verification de la validite des informations
+        String message = validate(publikID, user, budgetParticipatif, budgetSupport);
+        if (message.equals("")) {
+
+            if (budgetSupport != null) {
+                result = removeBudgetSupport(budgetSupport);
+            }
+
             // Recuperation du nombre de vote de l'utilisateur pour l'entite courante
-            this.nbUserEntrySupports = this.budgetParticipatif.getNbSupportOfUser(this.publikID);
-            this.nbEntrySupports = (int) this.budgetParticipatif.getNbSupports();
-            this.nbUserSupports =  BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
-				                		this.publikID,
-				                		this.budgetParticipatif.getPhase().getBudgetPhaseId()
-				                	);
+            if (budgetParticipatif != null) {
+                nbUserEntrySupports = budgetParticipatif.getNbSupportOfUser(publikID);
+                nbEntrySupports = (int) budgetParticipatif.getNbSupports();
+                nbUserSupports =  BudgetParticipatifLocalServiceUtil.countBudgetSupportedByPublikUserInPhase(
+                        publikID,
+                        budgetParticipatif.getPhase().getBudgetPhaseId()
+                );
+                nbSupportForActivePhase = budgetParticipatif.getPhase().getNumberOfVote();
+            }
         }
         
         // Récupération du json des entités
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("message", message);
         
         JSONObject updatedSupportsInfo = JSONFactoryUtil.createJSONObject();
         
-        updatedSupportsInfo.put("nbUserSupports", this.nbUserSupports);
-        updatedSupportsInfo.put("nbUserEntrySupports", this.nbUserEntrySupports);
-        updatedSupportsInfo.put("nbEntrySupports", this.nbEntrySupports);
-        updatedSupportsInfo.put("nbSupportForActivePhase", this.budgetParticipatif.getPhase().getNumberOfVote());
+        updatedSupportsInfo.put("nbUserSupports", nbUserSupports);
+        updatedSupportsInfo.put("nbUserEntrySupports", nbUserEntrySupports);
+        updatedSupportsInfo.put("nbEntrySupports", nbEntrySupports);
+        updatedSupportsInfo.put("nbSupportForActivePhase", nbSupportForActivePhase);
         
         jsonResponse.put("updatedSupportsInfo", updatedSupportsInfo);
 
@@ -100,7 +120,9 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
         } catch (IOException e) {
         	_log.error(e);
         }
-        writer.print(jsonResponse.toString());
+        if (writer != null) {
+            writer.print(jsonResponse.toString());
+        }
 
         return result;
 	}
@@ -109,10 +131,10 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * Envoi de la demande de supression de soutien
 	 * @return Si la demande s'est bien passee
 	 */
-	private boolean removeBudgetSupport(ResourceRequest request) throws PortletException {
-        BudgetSupportLocalServiceUtil.removeBudgetSupport(this.budgetSupport.getBudgetSupportId());
+	private boolean removeBudgetSupport(BudgetSupport budgetSupport) {
+        BudgetSupportLocalServiceUtil.removeBudgetSupport(budgetSupport.getBudgetSupportId());
 
-        _log.info("Soutien retire : " + this.budgetSupport);
+        _log.info("Soutien retire : " + budgetSupport);
         return true;
     }
 	
@@ -121,57 +143,34 @@ public class RemoveBudgetSupportResourceCommand implements MVCResourceCommand {
 	 * du contexte fonctionnel de la requete (ex: vote possible, entite perime, etc)
 	 * @return Si la requete est tangible
 	 */
-	private boolean validate(ResourceRequest request) {
+	private String validate(String publikID, PublikUser user, BudgetParticipatif budgetParticipatif, BudgetSupport budgetSupport) {
 		
 		// Utilisateur
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non recconu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+            return "Utilisateur non recconu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
-        	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez revenir sur votre vote";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour revenir sur votre vote";
-        		return false;
+        	if (user.isBanned()) {
+                return "Vous ne pouvez revenir sur votre vote";
+        	} else if (user.getPactSignature() == null) {
+                return "Vous devez signer le Pacte pour revenir sur votre vote";
         	}
         }
-        
+
         // Budget participatif
-        try {
-            AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(this.entryID);
-			this.budgetParticipatif = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(assetEntry.getClassPK());
-			
-			if (this.budgetParticipatif != null) {
-				if (!this.budgetParticipatif.isVotable()) {
-					this.message = "Ce budget participatif n'est pas en phase de vote";
-					return false;
-				}
-			} else {
-				this.message = "Erreur lors de la recherche du budget participatif";
-				return false;
-			}
-		} catch (PortalException e1) {
-			_log.error(e1);
-			this.message = "Erreur lors de la recherche du budget participatif";
-			return false;
-		}
-        
-        // Soutien
-        List<BudgetSupport> budgetSupports = BudgetSupportLocalServiceUtil.getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-				this.budgetParticipatif.getBudgetParticipatifId(), 
-				this.publikID);
-        
-        if (budgetSupports.size() == 0) {
-        	this.message = "Erreur lors de la recherche du vote";
-			return false;
+        if (budgetParticipatif != null) {
+            if (!budgetParticipatif.isVotable()) {
+                return "Ce budget participatif n'est pas en phase de vote";
+            }
         } else {
-        	this.budgetSupport = budgetSupports.get(0);
+            return "Erreur lors de la recherche du budget participatif";
+        }
+
+        // Soutien
+        if (Validator.isNull(budgetSupport)) {
+            return "Erreur lors de la recherche du vote";
         }
         
-        return true;
+        return "";
 	}
 	
 	/**
