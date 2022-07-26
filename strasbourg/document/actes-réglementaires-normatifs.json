@@ -47,7 +47,7 @@
             "name": "publicationDate",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "ddm-date"
         },
@@ -71,7 +71,7 @@
             "name": "endPublicationDate",
             "readOnly": false,
             "repeatable": false,
-            "required": false,
+            "required": true,
             "showLabel": true,
             "type": "ddm-date"
         }
