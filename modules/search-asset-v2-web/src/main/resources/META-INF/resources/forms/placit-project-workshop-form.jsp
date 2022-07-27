@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionNews" var="newsSelectionURL">
+<portlet:resourceURL id="entrySelectionProjectWorkshop" var="projectWorkshopSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -51,7 +51,7 @@
 
 <!-- Recherche par quartiers -->
 <div class="pro-sort pro-dropdown">
-    <a href="#" title="Voir tous les quartiers"><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></a>
+    <a href="#" title="Voir tous les territoires"><liferay-ui:message key="eu.search.asset.web.platit.participation.territories" /></a>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de territoire</legend>
         
@@ -82,12 +82,13 @@
 <liferay-util:html-top>
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
-
-        var newsSelectionURL = '${newsSelectionURL}';
+        var projectWorkshopSelectionURL = '${projectWorkshopSelectionURL}';
+        var sortField = "${dc.sortField}";
+        var sortType = "${dc.sortType}";
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetv2web/js/placit-news.js"></script>
+	<script src="/o/searchassetweb/js/placit-project-workshop.js"></script>
 
 </liferay-util:html-bottom>

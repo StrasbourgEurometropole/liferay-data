@@ -94,11 +94,12 @@
                 <!-- GROUPE : Filtres -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
-                    <!-- CHAMP : Colonne sur laqualle filtrer par défaut -->
+                    <!-- CHAMP : Colonne sur laquelle filtrer par défaut -->
                     <aui:select name="filterField">
                         <aui:option label="modification-date" value="modified_sortable" selected="${dc.configurationData.filterField eq 'modified_sortable'}"/>
                         <aui:option label="publication-date" value="publishDate_sortable" selected="${dc.configurationData.filterField eq 'publishDate_sortable'}"/>
                         <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.filterField eq 'dates_Number_sortable'}"/>
+                        <aui:option label="due-date" value="endDate_Number_sortable" selected="${dc.configurationData.filterField eq 'endDate_Number_sortable'}"/>
                     </aui:select>
 
                     <!-- CHAMP : Filtre par date par defaut -->
@@ -295,6 +296,9 @@
                         </aui:option>
                         <aui:option value="placit-initiatives" selected="${dc.configurationData.searchForm eq 'placit-initiatives'}">
                             <liferay-ui:message key="placit-initiatives" />
+                        </aui:option>
+                        <aui:option value="placit-project-workshop" selected="${dc.configurationData.searchForm eq 'placit-project-workshop'}">
+                            <liferay-ui:message key="placit-project-workshop" />
                         </aui:option>
                         <aui:option value="ops-agenda" selected="${dc.configurationData.searchForm eq 'ops-agenda'}">
                             <liferay-ui:message key="ops-agenda" />
