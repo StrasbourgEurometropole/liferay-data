@@ -39,6 +39,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.bean.AssetType;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -493,8 +494,13 @@ public class SearchAssetDisplayContext {
 		String keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
 
 		// Filtre sur les dates
-		LocalDate fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+		LocalDate fromDate = LocalDate.of(2017,1, 1);
+		LocalDate toDate = LocalDate.now().minusDays(1);
+		if(getConfigurationData().getUtilsAssetTypeList().size() > 1 || !getConfigurationData().getUtilsAssetTypeList().get(0).getClassName().equals("eu.strasbourg.service.ejob.model.Offer")
+				|| !getConfigurationData().getFilterField().equals("endDate_Number_sortable")){
+			fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
+			toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
+		}
 
 		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
