@@ -3,12 +3,10 @@ Bundle-SymbolicName: eu.strasbourg.service.social
 Bundle-Version: 1.31.0
 Bundle-ClassPath: \
   .,\
- lib/twitter4j.jar,\
- lib/commons-lang3.jar
+ lib/twitter4j.jar
  
 -includeresource: \
- lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.7_1.jar,\
- lib/commons-lang3.jar=commons-lang3-3.9.jar
+ lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.7_1.jar
 
 Export-Package: \
     eu.strasbourg.service.social,\
