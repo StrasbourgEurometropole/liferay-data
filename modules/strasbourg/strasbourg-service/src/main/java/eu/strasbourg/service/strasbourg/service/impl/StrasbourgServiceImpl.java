@@ -530,7 +530,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 
 					Map<String, DDMFormValues> ddmFormValuesMap = new HashMap<>();
 					List<DDMStructure> ddmStructures = fileType.getDDMStructures();
-					// Définition des locales disponiables pour DDMFormValues (obligatoire)
+					// Définition des locales disponibles pour DDMFormValues (obligatoire)
 					Set<Locale> availableLocales = new HashSet<>();
 					availableLocales.add(Locale.FRANCE);
 					Map fieldsmap = new HashMap<>();
@@ -564,7 +564,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 						}
 					}
 
-					// AJout du type de document dans le servcie Context (pris en compte alors dans le addFileEntry)
+					// AJout du type de document dans le service Context (pris en compte alors dans le addFileEntry)
 					sc.setAttribute("fileEntryTypeId", fileType.getFileEntryTypeId());
 					sc.setUserId(userId);
 					try {
