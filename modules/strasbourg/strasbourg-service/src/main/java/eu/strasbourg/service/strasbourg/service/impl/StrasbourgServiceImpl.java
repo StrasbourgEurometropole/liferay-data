@@ -31,19 +31,17 @@ import com.liferay.document.library.kernel.model.DLVersionNumberIncrease;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-import com.liferay.document.library.kernel.service.DLFileEntryMetadataLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileVersionLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
 import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
-import com.liferay.dynamic.data.mapping.kernel.StorageEngineManagerUtil;
 import com.liferay.dynamic.data.mapping.kernel.Value;
-import com.liferay.dynamic.data.mapping.storage.Field;
-import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.journal.model.JournalArticleDisplay;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -90,8 +88,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -629,8 +625,8 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			long classNameId = ClassNameLocalServiceUtil.getClassNameId(JournalArticle.class.getName());
 
 			// récupère les structures du group
-			List<DDMStructure> structures = DDMStructureLocalServiceUtil.getStructures(groupIds, classNameId);
-			for (DDMStructure structure : structures) {
+			List<com.liferay.dynamic.data.mapping.model.DDMStructure> structures = DDMStructureLocalServiceUtil.getStructures(groupIds, classNameId);
+			for (com.liferay.dynamic.data.mapping.model.DDMStructure structure : structures) {
 				Group group = GroupLocalServiceUtil.fetchGroup(structure.getGroupId());
 				JSONObject structureJson = JSONFactoryUtil.createJSONObject();
 				structureJson.put("id", structure.getStructureId());
