@@ -300,13 +300,6 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -367,13 +360,6 @@ public class EventServiceHttp {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
@@ -407,9 +393,9 @@ public class EventServiceHttp {
 			}
 			catch (Exception exception) {
 				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
+						com.liferay.portal.kernel.json.JSONException) {
 
-					throw (com.liferay.portal.kernel.exception.PortalException)
+					throw (com.liferay.portal.kernel.json.JSONException)
 						exception;
 				}
 
@@ -447,9 +433,9 @@ public class EventServiceHttp {
 			}
 			catch (Exception exception) {
 				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
+						com.liferay.portal.kernel.json.JSONException) {
 
-					throw (com.liferay.portal.kernel.exception.PortalException)
+					throw (com.liferay.portal.kernel.json.JSONException)
 						exception;
 				}
 
@@ -487,9 +473,9 @@ public class EventServiceHttp {
 			}
 			catch (Exception exception) {
 				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
+						com.liferay.portal.kernel.json.JSONException) {
 
-					throw (com.liferay.portal.kernel.exception.PortalException)
+					throw (com.liferay.portal.kernel.json.JSONException)
 						exception;
 				}
 
@@ -527,9 +513,9 @@ public class EventServiceHttp {
 			}
 			catch (Exception exception) {
 				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
+						com.liferay.portal.kernel.json.JSONException) {
 
-					throw (com.liferay.portal.kernel.exception.PortalException)
+					throw (com.liferay.portal.kernel.json.JSONException)
 						exception;
 				}
 

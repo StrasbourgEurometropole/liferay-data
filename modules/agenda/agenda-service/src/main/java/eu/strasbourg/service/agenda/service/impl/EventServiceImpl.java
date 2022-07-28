@@ -297,7 +297,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         List<CacheJson> cachesJson = CacheJsonLocalServiceUtil.dynamicQuery(dq);
 
         for (CacheJson cache : cachesJson) {
-            jsonEvents.put(cache.getJsonEvent());
+            jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
         }
         result.put("events", jsonEvents);
 
