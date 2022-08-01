@@ -833,18 +833,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#assign isVelhopStation = entry.isVelhopStation() />
                                 <#if isSwimmingPool || isIceRink >
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
-                                <#else>
-                                    <#if isMairie>
-                                        <h3><@liferay_ui.message key="estimated-time" /></h3>
-                                    <#else>
-                                        <#if isParking >
-                                            <h3><@liferay_ui.message key="live-occupation" /></h3>
-                                        <#else>
-                                            <#if isVelhopStation >
-                                                <h3><@liferay_ui.message key="live-disponibility" /></h3>
-                                            </#if>
-                                        </#if>
-                                    </#if>
+                                <#elseif isMairie>
+                                    <h3><@liferay_ui.message key="estimated-time" /></h3>
+                                <#elseif isParking>
+                                    <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                <#elseif isVelhopStation>
+                                    <h3><@liferay_ui.message key="live-disponibility" /></h3>
                                 </#if>
                             </div>
                             <div class="flex-right">
@@ -852,10 +846,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
                                     <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel}
-                                    <#else>
-                                        <#if isParking || isVelhopStation >
-                                            ${occupationState.available}
-                                        </#if>
+                                    <#elseif isParking || isVelhopStation>
+                                        ${occupationState.available}
                                     </#if>
                                 </div>
                             </div>
@@ -863,14 +855,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="crowded-caption">
                             <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
-                            <#else>
-                                <#if isParking >
-                                    <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
-                                <#else>
-                                    <#if isVelhopStation >
-                                        <@liferay_ui.message key="eu.place.available-velhop" /> ${occupationState.available}
-                                    </#if>
-                                </#if>
+                            <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                            <#elseif isVelhopStation>
+                                <@liferay_ui.message key="eu.place.available-velhop" /> ${occupationState.available}
                             </#if>
                         </div>
                         <!-- ajout post covid : affichage capacité totale -->
@@ -882,18 +870,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="crowded-fyi">    
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
-                            <#else>
-                                <#if isMairie>
-                                    <@liferay_ui.message key="estimated-time-explanation" />
-                                <#else>
-                                    <#if isParking>
-                                        <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
-                                    <#else>
-                                        <#if isIceRink>
-                                            <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
-                                        </#if>
-                                    </#if>
-                                </#if>
+                            <#elseif isMairie>
+                                <@liferay_ui.message key="estimated-time-explanation" />
+                            <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            <#elseif isIceRink>
+                                <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
                             </#if>
                         </div>
                     </#if>
