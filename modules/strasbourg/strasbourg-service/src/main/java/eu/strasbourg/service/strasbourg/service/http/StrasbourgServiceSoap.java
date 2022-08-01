@@ -307,20 +307,107 @@ public class StrasbourgServiceSoap {
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission
 	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
-	 * @param documentType Le type de docuemnt (Strasbourg, Eurométropole)
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de document (Strasbourg, Eurométropole)
 	 * @param documentName Le nom du document
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public static String addDocument(
 			String fileContent, String fileName, String commissionName,
-			String publicationDate, String documentType, String documentName)
+			String publicationDate, String publicationDateFin,
+			String documentType, String documentName)
 		throws RemoteException {
 
 		try {
 			com.liferay.portal.kernel.json.JSONObject returnValue =
 				StrasbourgServiceUtil.addDocument(
 					fileContent, fileName, commissionName, publicationDate,
-					documentType, documentName);
+					publicationDateFin, documentType, documentName);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getStructuresByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getStructuresByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.
+					getTagsAndCategoriesByGroupIdsAndClassName(
+						groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getTagsByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getTagsByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getCategoriesByClassNameAndGroupIds(
+			long[] groupIds, String className)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getCategoriesByClassNameAndGroupIds(
+					groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getVocabulariesByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getVocabulariesByGroupIds(groupIds);
 
 			return returnValue.toString();
 		}
