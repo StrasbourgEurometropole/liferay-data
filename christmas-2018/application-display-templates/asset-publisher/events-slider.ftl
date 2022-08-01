@@ -5,6 +5,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <div class="mns-agenda-detail">
     <div class="mns-section-agenda">
         <div class="small-container">
@@ -21,7 +22,7 @@
                         <#assign event = curEntry.getAssetRenderer().getEvent() />
                         <div class="item">
                             <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                <a href="${homeURL}event/-/entity/id/${event.eventId}">
+                                <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
                                         <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />

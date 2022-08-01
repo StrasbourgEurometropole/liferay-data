@@ -1,16 +1,28 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<div class="event-detail" style="margin-left:60px; margin-right:60px">
+<div class="event-detail" style="margin-left:40px; margin-right:10px">
   <div class="event-header">
+  
+    <div class="go-back-to-agenda">
+        <a class="go-back-to-agenda" href="https://bibliotheques-ideales.strasbourg.eu/agenda"><p><span>←</span> Retourner au programme</p></a>
+    </div>
+  
     <h4 class="event-title">
       ${entry.getTitle(locale)}
     </h4>
+    
+    <h5 class="event-subtitle">${entry.getSubtitle(locale)}</h5>
+    
+    <p><strong>
+    <#assign categories = entry.getTypeLabel(locale) />
+        ${categories}
+    </strong></p>
    
     <div class="event-dates">
     <h6>
     <ul>
           <#list entry.eventPeriods as period>
-            <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
+            <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></li>
           </#list>
         </ul></h6>
     </div>
@@ -31,14 +43,14 @@
   </div>
   <div class="event-info">
     <div class="event-60">
-      <div class="image-with-copyright-on-hover">
-        <img src="${entry.getImageURL()}" style="max-width: 500px;">
-        <#if entry.getImageCopyright(locale)?has_content>
-          <div class="image-copyright" style="font-style: italic;">
-              ${entry.getImageCopyright(locale)}
-          </div>
-        </#if>
-      </div>
+        <div class="image-with-copyright-on-hover">
+          <img src="${entry.getImageURL()}">
+          <#if entry.getImageCopyright(locale)?has_content>
+            <div class="image-copyright" style="font-style: italic;">
+                ${entry.getImageCopyright(locale)}
+            </div>
+          </#if>
+        </div>
       <#if entry.getDescription(locale)?has_content >
         <div class="event-info-section event-description">
           <h5></h5>
@@ -57,15 +69,42 @@
           </#list>
         </div>
       </#if>
+      
+      <!-- Affichage Tarif - 2020 -->
+    <#if entry.free == 1 || entry.getPrice(locale)?has_content>  
+      <h6><br /><br /><@liferay_ui.message key="eu.event-prices" /></h6>
+      <#if entry.free == 1>
+        <@liferay_ui.message key="eu.free-event" />
+      </#if>
+      ${entry.getPrice(locale)}
+    </#if>
+    
+  <!-- Affichage Réservation - 2020 -->
+    <#if entry.getBookingDescription(locale)?has_content || entry.getBookingURL()?has_content >
+      <h6 class="event-booking"><@liferay_ui.message key="eu.event.booking" /></h6>
+       <#if entry.getBookingDescription(locale)?has_content>
+          <div class="event-booking-description">
+            ${entry.getBookingDescription(locale)}
+          </div>
+        </#if>
+        <#if entry.getBookingURL()?has_content >
+          <div class="event-booking-url">
+            <a class="event_bouton" style="color: white;" href="${entry.getBookingURL()}"><@liferay_ui.message key="eu.booking_label" /></a>
+          </div>
+        </#if>
+    </#if>
+
+<!-- Affichage accès situation handicap - 2020 -->
+      
       <#if entry.getAccess(locale)?has_content >
         <div class="event-info-section event-access">
-          <h6>Infos pratiques <@liferay_ui.message key="eu.access-and-services" /></h6>
+          <h6><@liferay_ui.message key="eu.practical-information" /> </h6>
           ${entry.getAccess(locale)}
         </div>
       </#if>
       <#if entry.hasAnyAccessForDisabled() || entry.getAccessForDisabled(locale)?has_content >
         <div class="event-info-section event-access-for-disabled">
-          <h5></h5>
+          <h6>Accès et services</h6>
           <#if entry.hasAnyAccessForDisabled() >
             <div class="access-for-disabled-icons">
                 <#if entry.accessForWheelchair>
@@ -158,7 +197,7 @@
               <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
                 
               <input type="checkbox" class="notification-email"
-                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
+                name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked> <@liferay_ui.message key="eu.do-you-want-a-notification" />
               </label>
             </div>
             <p>
@@ -169,14 +208,13 @@
             </p>
             <p class="privacy-policy">
               <label><@liferay_ui.message key="eu.privacy-policy" /></label>
-              <#assign VOID = freeMarkerPortletPreferences.setValue("portletSetupPortletDecoratorId", "barebone") />
+              <#assign preferences = freeMarkerPortletPreferences.getPreferences("portletSetupPortletDecoratorId", "barebone") />
               <@liferay_portlet["runtime"]
-                defaultPreferences="${freeMarkerPortletPreferences}"
+                defaultPreferences="${preferences}"
                 portletProviderAction=portletProviderAction.VIEW
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
                 settingsScope="group"
                 instanceId="entityDetail" />
-              ${freeMarkerPortletPreferences.reset()}
             </p>
           </form>
         </div>

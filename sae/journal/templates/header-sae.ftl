@@ -1,11 +1,54 @@
-<div class="parameter-video" data-video-width='480' data-video-height='270' data-video-src='${youtubevideo.getData()}' style="background-image:url(${backgroundpicture.getData()});" role="img" aria-label="">
-  <#if youtubevideo.getData()?has_content && youtubevideo.getData()?length > 0 >
-     <iframe tabindex="-1" src="//www.youtube.com/embed/${youtubevideo.getData()}?iv_load_policy=3&modestbranding=1&rel=0&showinfo=0&controls=0&loop=1&autoplay=1&playlist=${youtubevideo.getData()}&widget_referrer=%2F%2Fwww.strasbourgaimesesetudiants.eu&enablejsapi=1&origin=%2F%2Fwww.strasbourgaimesesetudiants.eu&widgetid=1" title="YouTube video player" allowfullscreen="1" id="player" frameborder="0" height="100%" width="100%" ></iframe>
-  </#if>
-</div>
+<#if backgroundvideo?? && backgroundvideo.data?has_content>
+  <video class="parameter-video" autoplay muted loop id="herovideo">
+  </video>
+</#if>
+
 
 <style>
-.class-inner .page-header {
+.page-header {
   background-image: url(${backgroundpicture.getData()}) !important;
 }
 </style>
+
+<#if backgroundvideo?? && backgroundvideo.data?has_content>
+    <script type="text/javascript">
+    
+        $(document).ready(function() {
+    
+            var breakpoint = 1199;
+    
+            loadVideo();
+    
+            // Play video when page resizes
+            $(window).resize(function() {
+                loadVideo();
+            });
+    
+            function loadVideo() {
+                var video = document.getElementById('herovideo');
+    
+                // Remove existing source tags for mobile
+                if ($(document).width() < breakpoint + 1) {
+                    while (video.firstChild) {
+                        video.removeChild(video.firstChild);
+                    }
+                }
+    
+                // Add source tags if not already present
+                if ($(document).width() > breakpoint) {
+                    if (document.querySelectorAll("#herovideo > source").length < 1) {
+                        var source1 = document.createElement('source');
+    
+                        source1.setAttribute('src', '${backgroundvideo.getData()}');
+                        source1.setAttribute('type', 'video/mp4');
+    
+                        video.appendChild(source1);
+                    }
+    
+                    // Play the video
+                    $('#herovideo')[0].play();
+                }
+            }
+        });
+    </script>
+</#if>

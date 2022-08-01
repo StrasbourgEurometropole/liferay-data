@@ -1,12 +1,12 @@
+<#setting locale = localeUtil.getDefault() />
+<#assign displayDate = .vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")/>
+<#assign modifiedDate = .vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")/>
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
-
-<#-- Récupération de DateHelper pour le format date -->
-<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign request = serviceContext.getRequest()/>
@@ -33,9 +33,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="filler"></div>
         <p class="seu-published">
             <@liferay_ui.message key="eu.published-on" /> 
-            ${dateHelperService.displayShortDate(.vars['reserved-article-display-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${displayDate?string["dd/MM/yyyy"]}
             - <@liferay_ui.message key="eu.modified-on" /> 
-            ${dateHelperService.displayShortDate(.vars['reserved-article-modified-date'].getData()?datetime("EEE, dd MMM yyyy hh:mm:ss Z"), locale)} 
+            ${modifiedDate?string["dd/MM/yyyy"]}
         </p>
         <a href="#" class="add-favorites"
             data-type="6" 

@@ -8,16 +8,17 @@
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-  <@liferay_portlet.param name="classPK" value="${entry.getEventId()}" />
+  <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />
+  <@liferay_portlet.param name="title" value="${entry.getNormalizedTitle(locale)}" />
   <@liferay_portlet.param name="returnURL" value="${currentURL}" />
 </@liferay_portlet.renderURL>
 
 <@liferay_portlet.actionURL var="detailURLFilter">
-  <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
-  <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
-  <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
-  <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-  <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+    <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
+    <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
+    <@liferay_portlet.param name="userTargetTitle" value="${entry.getTitle(locale)}" />
+    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
 <!-- Vignette événement -->
@@ -58,7 +59,7 @@
             <a href="#" class="item-misc"
             data-type="2" 
             data-title="${entry.getTitle(locale)}" 
-            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}" 
+            data-url="${themeDisplay.getPortalURL()}${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
             data-id="${entry.eventId}">
                 <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
             </a>

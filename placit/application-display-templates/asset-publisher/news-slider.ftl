@@ -26,6 +26,12 @@
     		<!-- Parcours des entites de l'asset publisher -->
             <#list entries as curEntry>
 
+			<#assign territories = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "territoire") />
+			<#assign cities = assetVocabularyHelper.getCityCategories(territories) />
+			<#assign districts = assetVocabularyHelper.getDistrictCategories(territories) />
+			<#assign territoriesLabel = assetVocabularyHelper.getDistrictTitle(locale, districts, cities) />		
+			
+
             <!-- Recuperation de l'entite -->
              <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
              <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
@@ -38,7 +44,6 @@
 			 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 
              <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', curEntry.getAssetRenderer().getArticle().resourcePrimKey) >
-             <#assign territoires = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire") />
 
 	            <div class="col-md-3 col-sm-6 col-xs-12">
 	                <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
@@ -47,9 +52,7 @@
 	                            <img src='${imageURL}?imagePreview=1' loading="lazy" alt="Image agenda" width="360" height="174" class="fit-cover"/>
 	                        </figure>
 	                        <span>
-	                        	<#list territoires as t>
-									${t.getTitle(locale)}<#sep>, </#sep>
-								</#list>									
+	                        	<span> ${territoriesLabel} <span>								
 							</span>
 	                    </div>
 	                    <div class="content">

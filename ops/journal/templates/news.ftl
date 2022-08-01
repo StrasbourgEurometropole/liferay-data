@@ -1,11 +1,10 @@
 <!-- DETAIL ACTUALITE -->
 
 <#-- Chargement de la variable de localisation -->
+<#setting locale = localeUtil.getDefault() />
+<#-- Récupération des dates inhérentes à l'article -->
+<#assign publishedDate = .vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")/>
 <#setting locale = locale />
-
-<#-- Récupération de DateHelper pour le format date -->
-<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
-
 <#-- Récupération de l'id du webcontent -->
 <#assign journalArticleId = .vars['reserved-article-id'].data>
 <#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>
@@ -14,9 +13,6 @@
 <#-- Récupération des catégories associées -->
 <#assign articleResourcePK = journalArticleResourceLocalServiceUtil.getArticleResourcePrimKey(groupId, journalArticleId)/>
 <#assign categoryList=assetCategoryLocalServiceUtil.getCategories("com.liferay.journal.model.JournalArticle",articleResourcePK) >
-
-<#-- Récupération des dates inhérentes à l'article -->
-<#assign publishedDate = dateHelperService.displayShortDate(dateHelperService.convertStringToDate(.vars['reserved-article-display-date'].getData(), "EEE, dd MMM yyyy hh:mm:ss Z"), locale)>
 
 <div class="ops-page-article">
 
@@ -32,8 +28,8 @@
             <h1>${title.getData()}</h1>
             <span class="ops-date-article">
                 <@liferay_ui.message key="eu.ops.published.on" /> 
-                <time datetime="${publishedDate}">
-                    ${publishedDate}
+                <time datetime="${publishedDate?string.iso}">
+                    ${publishedDate?string["dd/MM/yyyy"]}
                 </time>
             </span>
         </header>
