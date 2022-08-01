@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
  * @see Project
  * @generated
  */
-@ProviderType
 public abstract class ProjectBaseImpl
 	extends ProjectModelImpl implements Project {
 

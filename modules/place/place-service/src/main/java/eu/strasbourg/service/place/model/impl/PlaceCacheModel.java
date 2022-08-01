@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PlaceCacheModel)) {
+		if (!(object instanceof PlaceCacheModel)) {
 			return false;
 		}
 
-		PlaceCacheModel placeCacheModel = (PlaceCacheModel)obj;
+		PlaceCacheModel placeCacheModel = (PlaceCacheModel)object;
 
 		if (placeId == placeCacheModel.placeId) {
 			return true;
@@ -570,7 +567,9 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		placeId = objectInput.readLong();
@@ -603,16 +602,16 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		RGF93Y = objectInput.readUTF();
 		locationId = objectInput.readUTF();
 		alias = objectInput.readUTF();
-		presentation = objectInput.readUTF();
-		serviceAndActivities = objectInput.readUTF();
-		characteristics = objectInput.readUTF();
+		presentation = (String)objectInput.readObject();
+		serviceAndActivities = (String)objectInput.readObject();
+		characteristics = (String)objectInput.readObject();
 
 		subjectToPublicHoliday = objectInput.readBoolean();
-		exceptionalSchedule = objectInput.readUTF();
+		exceptionalSchedule = (String)objectInput.readObject();
 
 		displayEvents = objectInput.readBoolean();
-		additionalInformation = objectInput.readUTF();
-		contenuTooltipCarto = objectInput.readUTF();
+		additionalInformation = (String)objectInput.readObject();
+		contenuTooltipCarto = (String)objectInput.readObject();
 
 		hasURLSchedule = objectInput.readBoolean();
 		scheduleLinkName = objectInput.readUTF();
@@ -626,8 +625,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		instagramURL = objectInput.readUTF();
 		instagramLabel = objectInput.readUTF();
 		accesMap = objectInput.readUTF();
-		access = objectInput.readUTF();
-		accessForDisabled = objectInput.readUTF();
+		access = (String)objectInput.readObject();
+		accessForDisabled = (String)objectInput.readObject();
 
 		accessForBlind = objectInput.readBoolean();
 
@@ -796,49 +795,49 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(presentation);
+			objectOutput.writeObject(presentation);
 		}
 
 		if (serviceAndActivities == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(serviceAndActivities);
+			objectOutput.writeObject(serviceAndActivities);
 		}
 
 		if (characteristics == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(characteristics);
+			objectOutput.writeObject(characteristics);
 		}
 
 		objectOutput.writeBoolean(subjectToPublicHoliday);
 
 		if (exceptionalSchedule == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(exceptionalSchedule);
+			objectOutput.writeObject(exceptionalSchedule);
 		}
 
 		objectOutput.writeBoolean(displayEvents);
 
 		if (additionalInformation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(additionalInformation);
+			objectOutput.writeObject(additionalInformation);
 		}
 
 		if (contenuTooltipCarto == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(contenuTooltipCarto);
+			objectOutput.writeObject(contenuTooltipCarto);
 		}
 
 		objectOutput.writeBoolean(hasURLSchedule);
@@ -921,17 +920,17 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		}
 
 		if (access == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(access);
+			objectOutput.writeObject(access);
 		}
 
 		if (accessForDisabled == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(accessForDisabled);
+			objectOutput.writeObject(accessForDisabled);
 		}
 
 		objectOutput.writeBoolean(accessForBlind);

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notification.service.persistence.UserNotificationTypePK;
 
 import java.io.Serializable;
@@ -29,7 +27,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class UserNotificationTypeSoap implements Serializable {
 
 	public static UserNotificationTypeSoap toSoapModel(

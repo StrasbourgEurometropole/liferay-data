@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.official.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author AngeliqueZUNINO
  * @generated
  */
-@ProviderType
 public class OfficialSoap implements Serializable {
 
 	public static OfficialSoap toSoapModel(Official model) {

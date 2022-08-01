@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see PlaceService
  * @generated
  */
-@ProviderType
 public class PlaceServiceWrapper
 	implements PlaceService, ServiceWrapper<PlaceService> {
 
@@ -33,32 +30,11 @@ public class PlaceServiceWrapper
 		_placeService = placeService;
 	}
 
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyCategoriesJSON()
+	public com.liferay.portal.kernel.json.JSONArray getEquipments()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _placeService.getLegacyCategoriesJSON();
-	}
-
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyJSON() {
-		return _placeService.getLegacyJSON();
-	}
-
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	@Override
-	public com.liferay.portal.kernel.json.JSONObject getLegacyTerritoriesJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _placeService.getLegacyTerritoriesJSON();
+		return _placeService.getEquipments();
 	}
 
 	/**
@@ -72,31 +48,25 @@ public class PlaceServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getPlaceById(long id) {
 		return _placeService.getPlaceById(id);
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getPlaceByIdSIG(
-			String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String sigId) {
 
 		return _placeService.getPlaceByIdSIG(sigId);
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlaces()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONArray getPlaces() {
 		return _placeService.getPlaces();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
-			String name, String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		String name, String language) {
 
 		return _placeService.getPlacesByNameAndLanguage(name, language);
 	}
@@ -137,16 +107,12 @@ public class PlaceServiceWrapper
 	 * Retourne le géoJSON des lieux
 	 */
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getPlacesGeoJSON() {
 		return _placeService.getPlacesGeoJSON();
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getRealtime()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getRealtime() {
 		return _placeService.getRealtime();
 	}
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Agency;
 import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
  * @see Agency
  * @generated
  */
-@ProviderType
 public abstract class AgencyBaseImpl extends AgencyModelImpl implements Agency {
 
 	/*

@@ -342,3 +342,17 @@ h2 {
         }
     }
 }
+
+.council-list {
+    margin-top: 25px;
+    .council {
+        @include RWD(desktop){    
+            max-width: 570px;
+        }
+
+        &:hover {
+            background-color: #46cfc0;
+            color:#31455d;
+        }
+    }
+}

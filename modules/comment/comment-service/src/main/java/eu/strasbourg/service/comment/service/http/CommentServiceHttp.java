@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.comment.service.CommentServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see CommentServiceSoap
  * @generated
  */
-@ProviderType
 public class CommentServiceHttp {
 }

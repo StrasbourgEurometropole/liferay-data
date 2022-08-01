@@ -50,7 +50,7 @@ import javax.sql.DataSource;
  */
 public abstract class VideoGalleryServiceBaseImpl
 	extends BaseServiceImpl
-	implements VideoGalleryService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, VideoGalleryService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -569,8 +569,8 @@ public abstract class VideoGalleryServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

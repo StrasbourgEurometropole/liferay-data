@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 /**
  * Provides the HTTP utility for the
  * <code>eu.strasbourg.service.agenda.service.EventPeriodServiceUtil</code> service
@@ -43,6 +41,5 @@ import aQute.bnd.annotation.ProviderType;
  * @see EventPeriodServiceSoap
  * @generated
  */
-@ProviderType
 public class EventPeriodServiceHttp {
 }

@@ -7,8 +7,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.exception.NoSuchBaseNonceException;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
+import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.BaseNonceLocalService;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
@@ -21,8 +24,10 @@ import eu.strasbourg.webservice.csmap.constants.WSConstants;
 import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
-import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -36,6 +41,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 
@@ -51,13 +58,15 @@ public class WSAuthenticator {
     /**
      * Envoi de la requête vers l'IdP afin de récupérer un access token et l'id token
      */
-    public JSONObject sendTokenRequest(String code) throws IOException {
+    public JSONObject sendTokenRequest(String code, int timeOut) throws IOException {
         // Récupération des URL/URI configurables
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
         String redirectURI = WSConstants.REDIRECT_URI;
 
         // Initialisation de la requête
         HttpURLConnection connection = (HttpURLConnection) new URL(authURL).openConnection();
+        connection.setConnectTimeout(timeOut);
+        connection.setReadTimeout(timeOut);
         connection.setRequestMethod("POST");
 
         // Authentification
@@ -97,10 +106,18 @@ public class WSAuthenticator {
     }
 
     /**
-     * Génére et enregistre un refresh token pour un utilisateur Publik
+     * Génère un refreshToken
+     * @return Valeur d'un refreshToken
+     */
+    public String generateRefreshToken() {
+        return WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH);
+    }
+
+    /**
+     * Enregistre un refresh token pour un utilisateur Publik à partir d'une valeur de refrehToken
      * @param publikId ID de l'utilisateur à qui générer le refresh token
      */
-    public RefreshToken generateAndSaveRefreshTokenForUser(String publikId) throws RefreshTokenCreationFailedException {
+    public RefreshToken saveRefreshTokenForUser(String publikId, String refreshTokenValue) throws RefreshTokenCreationFailedException {
         try {
             ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
 
@@ -108,13 +125,35 @@ public class WSAuthenticator {
 
             refreshToken.setCreateDate(new Date());
             refreshToken.setPublikId(publikId);
-            refreshToken.setValue(WSTokenUtil.generateRandomToken(WSConstants.TOKEN_LENGTH));
+            // Hashage de la valeur du RefreshTOken via SHA-256 avec un pepper
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash256 = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
+            refreshToken.setValue(String.format("%064x", new java.math.BigInteger(1, hash256)));
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
-        } catch (PortalException e) {
+        } catch (PortalException | NoSuchAlgorithmException e) {
             throw new RefreshTokenCreationFailedException(e);
         }
     }
+
+    /**
+     * Génére et enregistre un BaseNonce
+     */
+    public BaseNonce generateAndSaveBaseNonce() throws BaseNonceCreationFailedException {
+        try {
+            ServiceContext sc = ServiceContextHelper.generateGlobalServiceContext();
+
+            BaseNonce baseNonce = baseNonceLocalService.createBaseNonce(sc);
+
+            baseNonce.setCreateDate(new Date());
+            baseNonce.setValue(WSTokenUtil.generateRandomToken(WSConstants.BASE_NONCE_LENGTH));
+
+            return baseNonceLocalService.updateBaseNonce(baseNonce, sc);
+        } catch (PortalException e) {
+            throw new BaseNonceCreationFailedException(e);
+        }
+    }
+
 
     /**
      * Recherche le refresh token en base, vérifie sa validité
@@ -126,8 +165,11 @@ public class WSAuthenticator {
      * @throws RefreshTokenExpiredException Le refresh token trouvé en base est expiré
      */
     public RefreshToken controlRefreshToken(String refreshTokenValue)
-            throws NoSuchRefreshTokenException, RefreshTokenExpiredException {
-        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(refreshTokenValue);
+            throws NoSuchRefreshTokenException, RefreshTokenExpiredException, NoSuchAlgorithmException {
+        // On hashe la valeur pour matcher les refreshToken hashé en base
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashRefreshTokenValue = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
+        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(String.format("%064x", new java.math.BigInteger(1, hashRefreshTokenValue)));
 
         if (Validator.isNull(refreshToken))
             throw new NoSuchRefreshTokenException(refreshTokenValue);
@@ -139,6 +181,59 @@ public class WSAuthenticator {
         }
 
         return refreshToken;
+    }
+
+    /**
+     * Recherche le baseNonce en base, vérifie sa validité
+     *
+     * @param baseNonceValue la valeur du baseNonce (le baseNonce en lui-même et non l'objet du service)
+     * @return le baseNonce valide trouvé en base
+     * @throws NoSuchBaseNonceException Le baseNonce n'existe pas en base
+     * @throws BaseNonceExpiredException Le baseNonce trouvé en base est expiré
+     */
+    public BaseNonce controlBaseNonce(String baseNonceValue)
+            throws NoSuchBaseNonceException, BaseNonceExpiredException {
+        BaseNonce baseNonce = baseNonceLocalService.fetchByValue(baseNonceValue);
+
+        if (Validator.isNull(baseNonce))
+            throw new NoSuchBaseNonceException(WSConstants.ERROR_NO_SUCH_BASE_NONCE +" : " +  baseNonceValue);
+
+        if (!WSTokenUtil.isBaseNonceDateValid(baseNonce.getCreateDate(),
+                WSConstants.BASE_NONCE_VALIDITY_SECONDS)) {
+            throw new BaseNonceExpiredException(baseNonceValue);
+        }
+
+        return baseNonce;
+    }
+
+    public boolean checkNonce(String idToken, String baseNonce, String codeVerifier) {
+        boolean result = false;
+
+        try {
+            String codeChallenge = WSTokenUtil.hashCodeVerifier(codeVerifier);
+            String nonce = baseNonce + codeChallenge;
+
+            String codeTochallenge = JWTUtils.getJWTClaim(idToken, WSConstants.NONCE,
+                    StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+
+            if(nonce.equals(codeTochallenge)) {
+                result = true;
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+            _log.error("Algorithme inexistant lors du hashe du code_verifier en code_challenge");
+            return false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Suppression du base Nonce
+     * @param baseNonce base nonce à supprimer
+     */
+    public void deleteBaseNonce(BaseNonce baseNonce) {
+        baseNonceLocalService.deleteBaseNonce(baseNonce);
     }
 
     /**
@@ -182,9 +277,8 @@ public class WSAuthenticator {
      * Met à jour un utilisateur Publik ou le crée s'il n'existe pas en base
      *
      * @param jwt JWT reçu lors de la demande de token à Authentik (appelé "id_token")
-     * @param accessToken Token reçu lors de la demande de token à Authentik (appelé "access_token")
      */
-    public void updateUserFromAuthentikInDatabase(String jwt, String accessToken) {
+    public void updateUserFromAuthentikInDatabase(String jwt) {
         String givenName = JWTUtils.getJWTClaim(jwt, WSConstants.GIVEN_NAME,
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String familyName = JWTUtils.getJWTClaim(jwt, WSConstants.FAMILY_NAME,
@@ -193,10 +287,14 @@ public class WSAuthenticator {
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String email = JWTUtils.getJWTClaim(jwt, WSConstants.EMAIL,
                 StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String accordPlacit = JWTUtils.getJWTClaim(jwt, WSConstants.ACCORD_PLACIT,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
+        String listingPlacit = JWTUtils.getJWTClaim(jwt, WSConstants.LISTING_PLACIT,
+                StrasbourgPropsUtil.getCSMAPPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
         String photo = PublikApiClient.getUserPhoto(internalId);
-
+        // Envoi null car pour csmap on ne modifie pas l'accessToken
         publikUserLocalService.updateUserInfoInDatabase(
-                internalId, accessToken, givenName, familyName, email, photo);
+                internalId, null, givenName, familyName, email, photo, accordPlacit, listingPlacit);
     }
 
     @Reference(unbind = "-")
@@ -208,6 +306,9 @@ public class WSAuthenticator {
     protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
         this.publikUserLocalService = publikUserLocalService;
     }
+
+    @Reference
+    protected BaseNonceLocalService baseNonceLocalService;
 
     @Reference
     protected RefreshTokenLocalService refreshTokenLocalService;

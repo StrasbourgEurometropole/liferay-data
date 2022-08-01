@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class DeliberationSoap implements Serializable {
 
 	public static DeliberationSoap toSoapModel(Deliberation model) {
@@ -51,6 +48,8 @@ public class DeliberationSoap implements Serializable {
 		soapModel.setStage(model.getStage());
 		soapModel.setCountOfficialsVoting(model.getCountOfficialsVoting());
 		soapModel.setCountOfficialsActive(model.getCountOfficialsActive());
+		soapModel.setBeginningVoteDate(model.getBeginningVoteDate());
+		soapModel.setEndVoteDate(model.getEndVoteDate());
 		soapModel.setCouncilSessionId(model.getCouncilSessionId());
 
 		return soapModel;
@@ -241,6 +240,22 @@ public class DeliberationSoap implements Serializable {
 		_countOfficialsActive = countOfficialsActive;
 	}
 
+	public Date getBeginningVoteDate() {
+		return _beginningVoteDate;
+	}
+
+	public void setBeginningVoteDate(Date beginningVoteDate) {
+		_beginningVoteDate = beginningVoteDate;
+	}
+
+	public Date getEndVoteDate() {
+		return _endVoteDate;
+	}
+
+	public void setEndVoteDate(Date endVoteDate) {
+		_endVoteDate = endVoteDate;
+	}
+
 	public long getCouncilSessionId() {
 		return _councilSessionId;
 	}
@@ -266,6 +281,8 @@ public class DeliberationSoap implements Serializable {
 	private String _stage;
 	private int _countOfficialsVoting;
 	private int _countOfficialsActive;
+	private Date _beginningVoteDate;
+	private Date _endVoteDate;
 	private long _councilSessionId;
 
 }

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.social.SocialService;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 /**
@@ -42,7 +44,7 @@ public class AccessTokenRefresh extends BaseMessageListener {
 		// Création du trigger "Tous les jours à 4h45"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow, null,
-				"0 45 4 * * ?");
+				"0 45 4 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
 				listenerClass, trigger);

@@ -379,6 +379,21 @@ public interface ImportHistoricModel
 	public void setFinishDate(Date finishDate);
 
 	/**
+	 * Returns the gtfs file hash of this import historic.
+	 *
+	 * @return the gtfs file hash of this import historic
+	 */
+	@AutoEscape
+	public String getGtfsFileHash();
+
+	/**
+	 * Sets the gtfs file hash of this import historic.
+	 *
+	 * @param gtfsFileHash the gtfs file hash of this import historic
+	 */
+	public void setGtfsFileHash(String gtfsFileHash);
+
+	/**
 	 * Returns <code>true</code> if this import historic is approved.
 	 *
 	 * @return <code>true</code> if this import historic is approved; <code>false</code> otherwise

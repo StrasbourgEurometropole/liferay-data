@@ -30,8 +30,6 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import eu.strasbourg.service.council.model.*;
 import eu.strasbourg.service.council.service.*;
 
-import java.util.*;
-
 /**
  * Provides the remote service interface for Deliberation. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -71,6 +69,7 @@ public interface DeliberationService extends BaseService {
 	public String getOSGiServiceIdentifier();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getUserFront(long officialId, String officialDeviceInfo);
+	public JSONObject getUserFront(
+		long officialId, String officialDeviceInfo, long councilSessionId);
 
 }

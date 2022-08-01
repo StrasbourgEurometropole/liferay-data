@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class InterestCacheModel
 	implements CacheModel<Interest>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof InterestCacheModel)) {
+		if (!(object instanceof InterestCacheModel)) {
 			return false;
 		}
 
-		InterestCacheModel interestCacheModel = (InterestCacheModel)obj;
+		InterestCacheModel interestCacheModel = (InterestCacheModel)object;
 
 		if (interestId == interestCacheModel.interestId) {
 			return true;
@@ -187,7 +184,9 @@ public class InterestCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		interestId = objectInput.readLong();
@@ -208,7 +207,7 @@ public class InterestCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 
 		typeId = objectInput.readLong();
 	}
@@ -262,10 +261,10 @@ public class InterestCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		objectOutput.writeLong(typeId);

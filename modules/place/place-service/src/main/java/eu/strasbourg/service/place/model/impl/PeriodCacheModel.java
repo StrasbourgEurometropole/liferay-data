@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class PeriodCacheModel implements CacheModel<Period>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PeriodCacheModel)) {
+		if (!(object instanceof PeriodCacheModel)) {
 			return false;
 		}
 
-		PeriodCacheModel periodCacheModel = (PeriodCacheModel)obj;
+		PeriodCacheModel periodCacheModel = (PeriodCacheModel)object;
 
 		if (periodId == periodCacheModel.periodId) {
 			return true;

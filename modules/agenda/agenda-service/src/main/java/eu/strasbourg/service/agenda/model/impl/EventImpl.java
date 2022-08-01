@@ -44,8 +44,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import eu.strasbourg.service.adict.AdictService;
-import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventParticipation;
@@ -72,6 +70,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,14 +103,11 @@ public class EventImpl extends EventBaseImpl {
 
 	private static final long serialVersionUID = -263639533491031888L;
 
-	private AdictService adictService;
-	private AdictServiceTracker adictServiceTracker;
-
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a event model
-	 * instance should use the {@link eu.strasbourg.service.agenda.model.Event}
+	 * instance should use the {@link eu.strasbourg.service.agenda.getCSmodel.Event}
 	 * interface instead.
 	 */
 	public EventImpl() {
@@ -361,46 +357,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
-	 */
-	@Override
-	public String getMercatorX() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(0).toString() : "";
-		} else {
-			return this.getPlace().getMercatorX();
-		}
-	}
-
-	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
-	 */
-	@Override
-	public String getMercatorY() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return coorResult != null ? coorResult.get(1).toString() : "";
-		} else {
-			return this.getPlace().getMercatorY();
-		}
-	}
-
-	/**
 	 * Retourne les coordonnees mercator en axe X et Y Notes : permet de ne pas
 	 * multiplier les appels
 	 *
@@ -408,27 +364,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public List<String> getMercators() {
-		if (this.getPlace() == null) {
-			// Appel a Addict pour trouver les coordonnees selon l'adresse
-			JSONArray coorResult = null;
-			try {
-				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if (coorResult != null) {
-				String mercatorX = coorResult.get(0).toString();
-				String mercatorY = coorResult.get(1).toString();
-
-				return Arrays.asList(mercatorX, mercatorY);
-			} else {
-				return new ArrayList<String>();
-			}
-		} else {
-			return Arrays.asList(this.getPlace().getMercatorX(), this.getPlace().getMercatorY());
-		}
+		return Arrays.asList(this.getMercatorX(), this.getMercatorY());
 	}
 
 	/**
@@ -706,18 +642,6 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
-	 * Recupere le service du module Adict sans passer par reference
-	 */
-	private AdictService getAdictService() {
-		if (adictService == null) {
-			adictServiceTracker = new AdictServiceTracker(this);
-			adictServiceTracker.open();
-			adictService = adictServiceTracker.getService();
-		}
-		return adictService;
-	}
-
-	/**
 	 * Demande si l'utilisateur demandé participe à l'événement
 	 */
 	@Override
@@ -749,6 +673,7 @@ public class EventImpl extends EventBaseImpl {
 				dateTimeFormat.format(this.getModifiedDate()));
 
 		jsonEvent.put("title", JSONHelper.getJSONFromI18nMap(this.getTitleMap()));
+		jsonEvent.put("normalizedTitle", UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
 		if (Validator.isNotNull(this.getSubtitle())) {
 			jsonEvent.put("subtitle", JSONHelper.getJSONFromI18nMap(this.getSubtitleMap()));
@@ -885,16 +810,26 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate", getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", this.getCompleteAddress(Locale.FRENCH));
 		jsonEvent.put("nbPart", this.getNbEventParticipations());
 
+		if (Validator.isNotNull(this.getBookingDescription())) {
+			jsonEvent.put("bookingDescription", JSONHelper.getJSONFromI18nMap(this.getBookingDescriptionMap()));
+		}
+
+		if (Validator.isNotNull(this.getBookingURL())) {
+			jsonEvent.put("bookingURL", this.getBookingURL());
+		}
+
+		if (Validator.isNotNull(this.getSubscriptionURL())) {
+			jsonEvent.put("subscriptionURL", this.getSubscriptionURL());
+		}
 		return jsonEvent;
 
 	}
@@ -1048,11 +983,10 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("services", jsonServices);
 		}
 
-		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId());
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
 
-		List<String> mercators = this.getMercators();
-		jsonEvent.put("mercatorX", mercators.size() == 2 ? mercators.get(0) : 0);
-		jsonEvent.put("mercatorY", mercators.size() == 2 ? mercators.get(1) : 0);
+		jsonEvent.put("mercatorX", this.getMercatorX());
+		jsonEvent.put("mercatorY", this.getMercatorY());
 
 		jsonEvent.put("firstDate",  getCurrentOrFuturePeriodStringDate());
 		jsonEvent.put("completeAddress", HtmlUtil.stripHtml(HtmlUtil.escape(this.getCompleteAddress(Locale.FRENCH))));
@@ -1242,7 +1176,7 @@ public class EventImpl extends EventBaseImpl {
 			} else {
 				url = "https://" + virtualHostName + "/";
 			}
-			url += "evenement/-/entity/id/" + this.getEventId();
+			url += "evenement/-/entity/id/" + this.getEventId() + "/" + this.getNormalizedTitle(locale);
 			properties.put("url", url);
 		}
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
@@ -1325,42 +1259,17 @@ public class EventImpl extends EventBaseImpl {
 		geometry.put("type", "Point");
 		JSONArray coordinates = JSONFactoryUtil.createJSONArray();
 		// récupère le marker du lieu ou se déroule l'évènement
-		if (place != null) {
-			coordinates.put(Float.valueOf(place.getMercatorX()));
-			coordinates.put(Float.valueOf(place.getMercatorY()));
-		} else {
-			// Si c'est un lieu manuel on récupère ses coordonnées
-			String address = this.getPlaceAddress(locale) + " " + this.getPlaceZipCode() + " "
-					+ this.getPlaceCity(locale);
-			coordinates = getCoordinateForAddress(address);
-		}
-		if (coordinates != null) {
+		if(Validator.isNotNull(this.getMercatorX()))
+			coordinates.put(Float.valueOf(this.getMercatorX()));
+		if(Validator.isNotNull(this.getMercatorY()))
+			coordinates.put(Float.valueOf(this.getMercatorY()));
+
+		if (coordinates != null && coordinates.length() == 2) {
 			geometry.put("coordinates", coordinates);
 			feature.put("geometry", geometry);
 		}
 
 		return feature;
-	}
-
-	/**
-	 * Retourne les coordonnées d'une adresse en JSon
-	 */
-	private static JSONArray getCoordinateForAddress(String address) {
-		JSONArray coordinates = null;
-		try {
-			String urlSearch = StrasbourgPropsUtil.getAdictBaseURL();
-			String url = urlSearch + HtmlUtil.escapeURL(address);
-			JSONObject addresses = JSONHelper.readJsonFromURL(url);
-			JSONArray features = addresses.getJSONArray("features");
-			if (features.length() > 0) {
-				JSONObject geometry = features.getJSONObject(0).getJSONObject("geometry");
-				coordinates = geometry.getJSONArray("coordinates");
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return coordinates;
 	}
 
 	/**
@@ -1394,7 +1303,7 @@ public class EventImpl extends EventBaseImpl {
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 			JSONObject placeName = JSONFactoryUtil.createJSONObject();
-			placeName.put("fr_FR", this.getTitle(Locale.FRANCE));
+			placeName.put("fr_FR", place.getAlias(Locale.FRANCE));
 			jsonPlace.put("name", placeName);
 			String street = place.getAddressStreet();
 			if(!street.isEmpty() || Validator.isNotNull(street)){
@@ -1452,10 +1361,10 @@ public class EventImpl extends EventBaseImpl {
 		jsonEvent.put("freeEntry", this.getFree());
 
 		if (Validator.isNotNull(this.getPrice())) {
-			String price = this.getPriceCurrentValue();
+			String price = this.getPrice(Locale.FRANCE);
 			String regexInt = "([0-9]+)";
-			String regexDouble = "([0-9]+)\\.([0-9]+)";
-			String regexDoubleSimple = "([0-9]+)\\.([0-9]{1})";
+			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
+			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
 			if (Pattern.matches(regexInt, price)){
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
@@ -1473,43 +1382,62 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 
-		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		Date now = new Date();
+		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
+				.atZone(ZoneId.systemDefault()).toInstant());
+		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
 		for (EventPeriod period : this.getEventPeriods()) {
-			SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = period.getStartDate();
-			LocalDate currentDate = LocalDate.now();
-			LocalDate datePlusDays = currentDate.plusDays(30);
-			LocalDate localDate = date.toInstant()
-					.atZone(ZoneId.systemDefault())
-					.toLocalDate();
-			if (localDate.isBefore(datePlusDays)) {
-				JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+			Map<Locale, String> timeDetail = new HashMap<>();
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				timeDetail = period.getTimeDetailMap();
+			}
+			Date startDate = period.getStartDate().after(now) ?  period.getStartDate() : now;
+			Date endDate = period.getEndDate().after(datePlusDays) ?  datePlusDays : period.getEndDate();
+			periods.put(DateHelper.getDaysBetweenDates(startDate, endDate), timeDetail);
+		}
+		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+		SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
+			String timeDetail = period.getValue().get(Locale.FRANCE);
+			List<String[]> timesDetailSchedule = new ArrayList<>();
+			if(Validator.isNotNull(timeDetail))
+				timesDetailSchedule = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
 
-				periodJSON.put("date", dateFormat.format(date));
-
-				if (Validator.isNotNull(period.getTimeDetail())) {
-					periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			List<Date> dates = period.getKey();
+			for (Date date : dates) {
+				for (String[] timeDetailSchedule : timesDetailSchedule) {
+					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
+					// si l'heure de fin est < à l'heure de début, on ajoute 1j à la date de fin
+					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
+					if(Validator.isNotNull(timeDetailSchedule[1])) {
+						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
+						if (startTime.isAfter(endTime)) {
+							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
+									.toLocalDate().plusDays(1);
+							scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
+									.toInstant())) + " " + timeDetailSchedule[1]);
+						} else
+							scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
+					}
+					schedulesJSON.put(scheduleJSON);
 				}
-				periodsJSON.put(periodJSON);
 			}
 		}
-
-		jsonEvent.put("schedules", periodsJSON);
-
-		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
-		if (jsonTypes.length() > 0) {
-			jsonEvent.put("types", jsonTypes);
-		}
+		jsonEvent.put("schedules", schedulesJSON);
 
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
-		if (jsonThemes.length() > 0) {
-			jsonEvent.put("themes", jsonThemes);
-		}
+		jsonEvent.put("themes", jsonThemes);
 
-		List<String> mercators = this.getMercators();
-		if(mercators.size() == 2) {
-			jsonEvent.put("mercatorX", mercators.get(0));
-			jsonEvent.put("mercatorY", mercators.get(1));
+		JSONArray jsonTypes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTypes());
+		jsonEvent.put("types", jsonTypes);
+
+		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
+		jsonEvent.put("territoires", jsonTerritories);
+
+		if(Validator.isNotNull(this.getMercatorX()) && Validator.isNotNull(this.getMercatorY())) {
+			jsonEvent.put("mercatorX",this.getMercatorX());
+			jsonEvent.put("mercatorY", this.getMercatorY());
 		}
 
 		// Inscription
@@ -1529,4 +1457,21 @@ public class EventImpl extends EventBaseImpl {
 
 		return jsonEvent;
 	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle() {
+		return UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE));
+	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(Locale locale) {
+		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
+	}
+
 }

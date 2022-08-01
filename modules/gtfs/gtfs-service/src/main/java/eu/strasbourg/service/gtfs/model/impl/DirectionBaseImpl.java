@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
  * @see Direction
  * @generated
  */
-@ProviderType
 public abstract class DirectionBaseImpl
 	extends DirectionModelImpl implements Direction {
 

@@ -1,3 +1,0 @@
-.media-audio-player{
-    @extend %molecule-audio-player;
-}

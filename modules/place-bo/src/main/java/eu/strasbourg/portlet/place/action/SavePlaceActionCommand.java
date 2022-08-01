@@ -513,9 +513,37 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 		// Périodes
 		long nbPeriod = request.getActionParameters().getNames().stream().filter(p -> p.contains("namePeriod") && !p.contains("_")).count();
 		String periodsIndexes = ParamUtil.getString(request, "periodsIndexes");
-		long nbIndex = periodsIndexes.split(",").length;
-		if(nbIndex != nbPeriod) {
+		long nbPeriodIndex = periodsIndexes.isEmpty()?0:periodsIndexes.split(",").length;
+		if(nbPeriodIndex != nbPeriod) {
 			SessionErrors.add(request, "period-error");
+			isValid = false;
+		}
+
+		// Slots
+		long nbSlots = request.getActionParameters().getNames().stream().filter(p -> p.contains("startHour") && !p.contains("_")).count();
+		long nbSlotIndex = 0;
+		if (Validator.isNotNull(periodsIndexes)) {
+			for (String periodIndex : periodsIndexes.split(",")) {
+				if (Validator.isNotNull(periodIndex)){
+					for (int jour = 0; jour < 7; jour++) {
+						String slotsIndexes = ParamUtil.getString(request,
+								"slotsIndexes" + periodIndex + "-" + jour);
+						nbSlotIndex += slotsIndexes.isEmpty()?0:slotsIndexes.split(",").length;
+					}
+				}
+			}
+		}
+		if(nbSlotIndex != nbSlots) {
+			SessionErrors.add(request, "slot-error");
+			isValid = false;
+		}
+
+		// ScheduleException
+		long nbScheduleExceptions = request.getActionParameters().getNames().stream().filter(p -> p.contains("scheduleExceptionDescription") && !p.contains("_")).count();
+		String scheduleExceptionsIndexes = ParamUtil.getString(request, "shedulesExceptionsIndexes");
+		long nbScheduleExceptionIndex = scheduleExceptionsIndexes.isEmpty()?0:scheduleExceptionsIndexes.split(",").length;
+		if(nbScheduleExceptionIndex != nbScheduleExceptions) {
+			SessionErrors.add(request, "schedule-exception-error");
 			isValid = false;
 		}
 

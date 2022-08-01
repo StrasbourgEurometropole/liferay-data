@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLoca
  * @see FormSendRecordField
  * @generated
  */
-@ProviderType
 public abstract class FormSendRecordFieldBaseImpl
 	extends FormSendRecordFieldModelImpl implements FormSendRecordField {
 

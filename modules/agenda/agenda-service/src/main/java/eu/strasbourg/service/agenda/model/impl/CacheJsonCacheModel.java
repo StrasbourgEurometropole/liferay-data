@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class CacheJsonCacheModel
 	implements CacheModel<CacheJson>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CacheJsonCacheModel)) {
+		if (!(object instanceof CacheJsonCacheModel)) {
 			return false;
 		}
 
-		CacheJsonCacheModel cacheJsonCacheModel = (CacheJsonCacheModel)obj;
+		CacheJsonCacheModel cacheJsonCacheModel = (CacheJsonCacheModel)object;
 
 		if (eventId == cacheJsonCacheModel.eventId) {
 			return true;
@@ -65,11 +62,9 @@ public class CacheJsonCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(11);
 
-		sb.append("{uuid=");
-		sb.append(uuid);
-		sb.append(", eventId=");
+		sb.append("{eventId=");
 		sb.append(eventId);
 		sb.append(", jsonEvent=");
 		sb.append(jsonEvent);
@@ -77,8 +72,8 @@ public class CacheJsonCacheModel
 		sb.append(createEvent);
 		sb.append(", modifiedEvent=");
 		sb.append(modifiedEvent);
-		sb.append(", isActive=");
-		sb.append(isActive);
+		sb.append(", isApproved=");
+		sb.append(isApproved);
 		sb.append("}");
 
 		return sb.toString();
@@ -87,13 +82,6 @@ public class CacheJsonCacheModel
 	@Override
 	public CacheJson toEntityModel() {
 		CacheJsonImpl cacheJsonImpl = new CacheJsonImpl();
-
-		if (uuid == null) {
-			cacheJsonImpl.setUuid("");
-		}
-		else {
-			cacheJsonImpl.setUuid(uuid);
-		}
 
 		cacheJsonImpl.setEventId(eventId);
 
@@ -118,7 +106,7 @@ public class CacheJsonCacheModel
 			cacheJsonImpl.setModifiedEvent(new Date(modifiedEvent));
 		}
 
-		cacheJsonImpl.setIsActive(isActive);
+		cacheJsonImpl.setIsApproved(isApproved);
 
 		cacheJsonImpl.resetOriginalValues();
 
@@ -126,46 +114,38 @@ public class CacheJsonCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
-		uuid = objectInput.readUTF();
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
 
 		eventId = objectInput.readLong();
-		jsonEvent = objectInput.readUTF();
+		jsonEvent = (String)objectInput.readObject();
 		createEvent = objectInput.readLong();
 		modifiedEvent = objectInput.readLong();
 
-		isActive = objectInput.readBoolean();
+		isApproved = objectInput.readBoolean();
 	}
 
 	@Override
 	public void writeExternal(ObjectOutput objectOutput) throws IOException {
-		if (uuid == null) {
-			objectOutput.writeUTF("");
-		}
-		else {
-			objectOutput.writeUTF(uuid);
-		}
-
 		objectOutput.writeLong(eventId);
 
 		if (jsonEvent == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(jsonEvent);
+			objectOutput.writeObject(jsonEvent);
 		}
 
 		objectOutput.writeLong(createEvent);
 		objectOutput.writeLong(modifiedEvent);
 
-		objectOutput.writeBoolean(isActive);
+		objectOutput.writeBoolean(isApproved);
 	}
 
-	public String uuid;
 	public long eventId;
 	public String jsonEvent;
 	public long createEvent;
 	public long modifiedEvent;
-	public boolean isActive;
+	public boolean isApproved;
 
 }

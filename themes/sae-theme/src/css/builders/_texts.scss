@@ -27,6 +27,9 @@
 	font-weight: 300;
 	font-size: 35px;
 	font-size: 3.5rem;
+	@include RWD(mobile){
+		font-size: 3rem;
+	}
 	line-height: normal;
 	color: #343433;
 	text-transform: uppercase;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Romain Vergnais
  * @generated
  */
-@ProviderType
 public class CommentSoap implements Serializable {
 
 	public static CommentSoap toSoapModel(Comment model) {

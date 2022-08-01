@@ -1,5 +1,7 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -21,5 +23,9 @@ public class UriHelper {
 
     public static URI appendUriImagePreview(String uri) throws URISyntaxException {
         return appendUri(uri, "imagePreview=1");
+    }
+
+    public static String normalizeToFriendlyUrl(String s){
+        return  FriendlyURLNormalizerUtil.normalizeWithPeriodsAndSlashes(s);
     }
 }

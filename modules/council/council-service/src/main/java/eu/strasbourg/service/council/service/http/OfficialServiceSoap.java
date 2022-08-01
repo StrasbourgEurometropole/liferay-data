@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,16 +60,15 @@ import java.rmi.RemoteException;
  * @see OfficialServiceHttp
  * @generated
  */
-@ProviderType
 public class OfficialServiceSoap {
 
 	/**
 	 * Recherche d'élu pour l'autocompletion
 	 *
-	 * @param fullName Nom, prénom ou les deux de l'élu à trouver
-	 * @param type Type de l'élu recherché (peut être vide)
+	 * @param fullName          Nom, prénom ou les deux de l'élu à trouver
+	 * @param type              Type de l'élu recherché (peut être vide)
 	 * @param removedOfficialId ID de l'élu à retirer de la liste des résultats (0 si non-utilisé)
-	 * @param groupId Site sur lequel cherchés
+	 * @param groupId           Site sur lequel cherchés
 	 * @return Liste des élus au format JSON
 	 */
 	public static String getOfficialByFullNameAndType(
@@ -85,10 +82,10 @@ public class OfficialServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 
@@ -96,7 +93,7 @@ public class OfficialServiceSoap {
 	 * Recherche des électeurs pour une session données groupés par statut de connexion et nom complet
 	 *
 	 * @param councilSessionId
-	 * @param groupId ID du site
+	 * @param groupId          ID du site
 	 * @return Tableaux des statuts possibles contenant la liste des électeurs assimilables auxdits statuts
 	 */
 	public static String getOfficialByConnexionStatus(
@@ -110,10 +107,10 @@ public class OfficialServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

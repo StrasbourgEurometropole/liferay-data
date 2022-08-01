@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Activity
  * @generated
  */
-@ProviderType
 public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 
 	public ActivityWrapper(Activity activity) {
@@ -1173,16 +1170,16 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ActivityWrapper)) {
+		if (!(object instanceof ActivityWrapper)) {
 			return false;
 		}
 
-		ActivityWrapper activityWrapper = (ActivityWrapper)obj;
+		ActivityWrapper activityWrapper = (ActivityWrapper)object;
 
 		if (Objects.equals(_activity, activityWrapper._activity)) {
 			return true;

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.CalendarDate;
 import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
  * @see CalendarDate
  * @generated
  */
-@ProviderType
 public abstract class CalendarDateBaseImpl
 	extends CalendarDateModelImpl implements CalendarDate {
 

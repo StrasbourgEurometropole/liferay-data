@@ -75,13 +75,13 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	 */
 
 	@Override
-	public JSONArray getPlaces() throws PortalException {
+	public JSONArray getPlaces() {
 		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
 		return this.getApprovedJSONPlaces(places);
 	}
 
 	@Override
-	public JSONObject getPlaceById(long id) throws PortalException {
+	public JSONObject getPlaceById(long id) {
 		Place place = this.placeLocalService.fetchPlace(id);
 		if (place == null || !place.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
@@ -90,7 +90,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONObject getPlaceByIdSIG(String sigId) throws PortalException {
+	public JSONObject getPlaceByIdSIG(String sigId) {
 		Place place = this.placeLocalService.getPlaceBySIGId(sigId);
 		if (place == null || !place.isApproved()) {
 			return JSONFactoryUtil.createJSONObject();
@@ -120,8 +120,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-	
-	
+
 	@Override
 	public JSONArray getPlacesByTypes(List<String> typesId) throws PortalException {
 		// Recherche du catégoryId
@@ -149,11 +148,9 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-	
 
 	@Override
-	public JSONArray getPlacesByTerritory(String territoryId)
-			throws PortalException {
+	public JSONArray getPlacesByTerritory(String territoryId)throws PortalException {
 		// Recherche du catégoryId
 		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
 				.getGlobalVocabulary("Territoire");
@@ -176,8 +173,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getPlacesByNameAndLanguage(String name, String language)
-			throws PortalException {
+	public JSONArray getPlacesByNameAndLanguage(String name, String language) {
 		Locale locale = LocaleUtil.fromLanguageId(language);
 		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
 				Place.class.getName(), null, name, locale);
@@ -194,8 +190,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getPlacesByTerritoryAndType(String territoryId,
-			String typeId) throws PortalException {
+	public JSONArray getPlacesByTerritoryAndType(String territoryId, String typeId) throws PortalException {
 		// Recherche du catégoryId du vocabulaire Territoire
 		AssetVocabulary vocabularyTerritory = AssetVocabularyHelper
 				.getGlobalVocabulary("Territoire");
@@ -224,97 +219,19 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		return this.getApprovedJSONPlaces(places);
 	}
-	
-	/**
-	 * Retourne l'horrible ancien web service LR6
-	 */
+
 	@Override
-	public JSONObject getLegacyJSON() {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		json.put("javaClass", "java.util.ArrayList");
-
-		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
-		json.put("list", this.getApprovedJSONPlaces(places, true));
-		return json;		
-	}
-
-	private JSONArray getApprovedJSONPlaces(List<Place> places) {
-		return getApprovedJSONPlaces(places, false);
-	}
-	
-	private JSONArray getApprovedJSONPlaces(List<Place> places, boolean legacy) {
-		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
-		for (Place place : places) {
-			try {
-				if (place.isApproved()) {
-					if (legacy) {
-						jsonPlaces.put(place.toLegacyJSON());
-					} else {
-						jsonPlaces.put(place.toJSON());
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return jsonPlaces;
-	}
-
-	
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Types de lieu
-	 */
-	public JSONObject getLegacyCategoriesJSON() throws PortalException {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		
-		
-		List<AssetCategory> assetCategories = new ArrayList<>();
-		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-		
-		assetCategories = vocabulary.getCategories();
-		
-		for(AssetCategory asset : assetCategories)
-		{
-			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
-			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
-			jsonbis.put("nom", asset.getName());
-			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
-		}
-		
-		return json;		
-	}
-	
-	
-	/**
-	 * Retourne l'ancien web service LR6 concernant les Territoires
-	 */
-	public JSONObject getLegacyTerritoriesJSON() throws PortalException {
-		JSONObject json = JSONFactoryUtil.createJSONObject();
-		
-		
-		List<AssetCategory> assetCategories = new ArrayList<>();
-		AssetVocabulary vocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-		
-		assetCategories = vocabulary.getCategories();
-		
-		for(AssetCategory asset : assetCategories)
-		{
-			JSONObject jsonbis = JSONFactoryUtil.createJSONObject();		
-			jsonbis.put("parentCode", AssetVocabularyHelper.getCategoryProperty(asset.getParentCategoryId(), "SIG"));
-			jsonbis.put("nom", asset.getName());
-			json.put(AssetVocabularyHelper.getCategoryProperty(asset.getCategoryId(), "SIG"), jsonbis);
-		}
-		
-		return json;		
-	}
-	
-	@Override
-	public JSONArray getTypes() throws PortalException {	
+	public JSONArray getTypes() throws PortalException {
 		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.PLACE_TYPE));
 	}
 
 	@Override
-	public JSONObject getRealtime() throws PortalException {
+	public JSONArray getEquipments() throws PortalException {
+		return AssetVocabularyHelper.toJSON(AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.EQUIPMENT));
+	}
+
+	@Override
+	public JSONObject getRealtime() {
 		JSONObject jsonRealtime = JSONFactoryUtil.createJSONObject();
 		JSONArray jsonResults = JSONFactoryUtil.createJSONArray();
 
@@ -366,6 +283,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 				}
 				switch (place.getRTType()) {
 					case "1": // Piscines
+					case "4": // Patinoires
 						jsonPlace.put("occupation", realtime.getOccupationLabel());
 						jsonPlace.put("available", org.json.JSONObject.NULL);
 						jsonPlace.put("capacity", org.json.JSONObject.NULL);
@@ -425,9 +343,23 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	 * Retourne le géoJSON des lieux
 	 */
 	@Override
-	public JSONObject getPlacesGeoJSON() throws PortalException {
+	public JSONObject getPlacesGeoJSON() {
 		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
 		return this.getApprovedGeoJSONPlaces(places);
+	}
+
+	private JSONArray getApprovedJSONPlaces(List<Place> places) {
+		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
+		for (Place place : places) {
+			try {
+				if (place.isApproved()) {
+					jsonPlaces.put(place.toJSON());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return jsonPlaces;
 	}
 
 	private JSONObject getApprovedGeoJSONPlaces(List<Place> places) {

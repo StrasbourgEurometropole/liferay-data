@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -36,8 +34,7 @@ import java.util.Objects;
  * @see Price
  * @generated
  */
-@ProviderType
-public class PriceWrapper implements Price, ModelWrapper<Price> {
+public class PriceWrapper implements ModelWrapper<Price>, Price {
 
 	public PriceWrapper(Price price) {
 		_price = price;
@@ -794,16 +791,16 @@ public class PriceWrapper implements Price, ModelWrapper<Price> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof PriceWrapper)) {
+		if (!(object instanceof PriceWrapper)) {
 			return false;
 		}
 
-		PriceWrapper priceWrapper = (PriceWrapper)obj;
+		PriceWrapper priceWrapper = (PriceWrapper)object;
 
 		if (Objects.equals(_price, priceWrapper._price)) {
 			return true;

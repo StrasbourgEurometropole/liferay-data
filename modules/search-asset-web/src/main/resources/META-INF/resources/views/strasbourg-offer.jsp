@@ -3,7 +3,7 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <main class="seu-container">
-	<div class="seu-view-offer">
+	<div class="${isDueEntity?'seu-view-due-offer':'seu-view-offer'}">
 		<!-- Formulaire -->
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />

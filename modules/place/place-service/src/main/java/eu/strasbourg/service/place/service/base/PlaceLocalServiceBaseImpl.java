@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.service.base;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.asset.kernel.service.persistence.AssetEntryPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetLinkPersistence;
 import com.liferay.asset.kernel.service.persistence.AssetTagPersistence;
@@ -52,6 +50,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
 import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -62,7 +61,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
-import eu.strasbourg.service.place.service.persistence.CacheJsonPersistence;
+import eu.strasbourg.service.place.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
@@ -90,10 +89,9 @@ import javax.sql.DataSource;
  * @see eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl
  * @generated
  */
-@ProviderType
 public abstract class PlaceLocalServiceBaseImpl
 	extends BaseLocalServiceImpl
-	implements PlaceLocalService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, PlaceLocalService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -103,6 +101,10 @@ public abstract class PlaceLocalServiceBaseImpl
 
 	/**
 	 * Adds the place to the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PlaceLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param place the place
 	 * @return the place that was added
@@ -130,6 +132,10 @@ public abstract class PlaceLocalServiceBaseImpl
 	/**
 	 * Deletes the place with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PlaceLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param placeId the primary key of the place
 	 * @return the place that was removed
 	 * @throws PortalException if a place with the primary key could not be found
@@ -142,6 +148,10 @@ public abstract class PlaceLocalServiceBaseImpl
 
 	/**
 	 * Deletes the place from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PlaceLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param place the place
 	 * @return the place that was removed
@@ -175,7 +185,7 @@ public abstract class PlaceLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -194,7 +204,7 @@ public abstract class PlaceLocalServiceBaseImpl
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -441,6 +451,13 @@ public abstract class PlaceLocalServiceBaseImpl
 		return placeLocalService.deletePlace((Place)persistedModel);
 	}
 
+	public BasePersistence<Place> getBasePersistence() {
+		return placePersistence;
+	}
+
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException {
@@ -500,7 +517,7 @@ public abstract class PlaceLocalServiceBaseImpl
 	 * Returns a range of all the places.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.place.model.impl.PlaceModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of places
@@ -525,6 +542,10 @@ public abstract class PlaceLocalServiceBaseImpl
 	/**
 	 * Updates the place in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect PlaceLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param place the place
 	 * @return the place that was updated
 	 */
@@ -535,46 +556,46 @@ public abstract class PlaceLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the cache json local service.
+	 * Returns the csmap cache json local service.
 	 *
-	 * @return the cache json local service
+	 * @return the csmap cache json local service
 	 */
-	public eu.strasbourg.service.place.service.CacheJsonLocalService
-		getCacheJsonLocalService() {
+	public eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
 
-		return cacheJsonLocalService;
+		return csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Sets the cache json local service.
+	 * Sets the csmap cache json local service.
 	 *
-	 * @param cacheJsonLocalService the cache json local service
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
 	 */
-	public void setCacheJsonLocalService(
-		eu.strasbourg.service.place.service.CacheJsonLocalService
-			cacheJsonLocalService) {
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
 
-		this.cacheJsonLocalService = cacheJsonLocalService;
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
 	}
 
 	/**
-	 * Returns the cache json persistence.
+	 * Returns the csmap cache json persistence.
 	 *
-	 * @return the cache json persistence
+	 * @return the csmap cache json persistence
 	 */
-	public CacheJsonPersistence getCacheJsonPersistence() {
-		return cacheJsonPersistence;
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
 	}
 
 	/**
-	 * Sets the cache json persistence.
+	 * Sets the csmap cache json persistence.
 	 *
-	 * @param cacheJsonPersistence the cache json persistence
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
 	 */
-	public void setCacheJsonPersistence(
-		CacheJsonPersistence cacheJsonPersistence) {
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
 
-		this.cacheJsonPersistence = cacheJsonPersistence;
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -1261,19 +1282,19 @@ public abstract class PlaceLocalServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 
 	@BeanReference(
-		type = eu.strasbourg.service.place.service.CacheJsonLocalService.class
+		type = eu.strasbourg.service.place.service.CsmapCacheJsonLocalService.class
 	)
-	protected eu.strasbourg.service.place.service.CacheJsonLocalService
-		cacheJsonLocalService;
+	protected eu.strasbourg.service.place.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
 
-	@BeanReference(type = CacheJsonPersistence.class)
-	protected CacheJsonPersistence cacheJsonPersistence;
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService.class

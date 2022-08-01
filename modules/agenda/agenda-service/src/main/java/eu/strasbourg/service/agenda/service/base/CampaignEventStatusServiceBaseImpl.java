@@ -36,6 +36,7 @@ import eu.strasbourg.service.agenda.service.persistence.CampaignEventFinder;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
 import eu.strasbourg.service.agenda.service.persistence.CampaignPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CsmapCacheJsonPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventFinder;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
@@ -410,6 +411,49 @@ public abstract class CampaignEventStatusServiceBaseImpl
 		CampaignEventStatusPersistence campaignEventStatusPersistence) {
 
 		this.campaignEventStatusPersistence = campaignEventStatusPersistence;
+	}
+
+	/**
+	 * Returns the csmap cache json local service.
+	 *
+	 * @return the csmap cache json local service
+	 */
+	public eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		getCsmapCacheJsonLocalService() {
+
+		return csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Sets the csmap cache json local service.
+	 *
+	 * @param csmapCacheJsonLocalService the csmap cache json local service
+	 */
+	public void setCsmapCacheJsonLocalService(
+		eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+			csmapCacheJsonLocalService) {
+
+		this.csmapCacheJsonLocalService = csmapCacheJsonLocalService;
+	}
+
+	/**
+	 * Returns the csmap cache json persistence.
+	 *
+	 * @return the csmap cache json persistence
+	 */
+	public CsmapCacheJsonPersistence getCsmapCacheJsonPersistence() {
+		return csmapCacheJsonPersistence;
+	}
+
+	/**
+	 * Sets the csmap cache json persistence.
+	 *
+	 * @param csmapCacheJsonPersistence the csmap cache json persistence
+	 */
+	public void setCsmapCacheJsonPersistence(
+		CsmapCacheJsonPersistence csmapCacheJsonPersistence) {
+
+		this.csmapCacheJsonPersistence = csmapCacheJsonPersistence;
 	}
 
 	/**
@@ -1033,8 +1077,8 @@ public abstract class CampaignEventStatusServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 
@@ -1111,6 +1155,15 @@ public abstract class CampaignEventStatusServiceBaseImpl
 
 	@BeanReference(type = CampaignEventStatusPersistence.class)
 	protected CampaignEventStatusPersistence campaignEventStatusPersistence;
+
+	@BeanReference(
+		type = eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService.class
+	)
+	protected eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService
+		csmapCacheJsonLocalService;
+
+	@BeanReference(type = CsmapCacheJsonPersistence.class)
+	protected CsmapCacheJsonPersistence csmapCacheJsonPersistence;
 
 	@BeanReference(
 		type = eu.strasbourg.service.agenda.service.EventLocalService.class

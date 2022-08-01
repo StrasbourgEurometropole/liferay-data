@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.AgendaExport;
 import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
  * @see AgendaExport
  * @generated
  */
-@ProviderType
 public abstract class AgendaExportBaseImpl
 	extends AgendaExportModelImpl implements AgendaExport {
 

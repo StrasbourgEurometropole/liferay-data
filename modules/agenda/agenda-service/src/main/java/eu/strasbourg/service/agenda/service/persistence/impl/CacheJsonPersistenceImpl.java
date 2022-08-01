@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -28,10 +26,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException;
@@ -42,19 +38,14 @@ import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.sql.Timestamp;
-
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -67,7 +58,6 @@ import java.util.Set;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class CacheJsonPersistenceImpl
 	extends BasePersistenceImpl<CacheJson> implements CacheJsonPersistence {
 
@@ -88,842 +78,168 @@ public class CacheJsonPersistenceImpl
 	private FinderPath _finderPathWithPaginationFindAll;
 	private FinderPath _finderPathWithoutPaginationFindAll;
 	private FinderPath _finderPathCountAll;
-	private FinderPath _finderPathWithPaginationFindByUuid;
-	private FinderPath _finderPathWithoutPaginationFindByUuid;
-	private FinderPath _finderPathCountByUuid;
-
-	/**
-	 * Returns all the cache jsons where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @return the matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByUuid(String uuid) {
-		return findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-	}
-
-	/**
-	 * Returns a range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByUuid(String uuid, int start, int end) {
-		return findByUuid(uuid, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByUuid(
-		String uuid, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		return findByUuid(uuid, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where uuid = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param uuid the uuid
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByUuid(
-		String uuid, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
-
-		uuid = Objects.toString(uuid, "");
-
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByUuid;
-			finderArgs = new Object[] {uuid};
-		}
-		else {
-			finderPath = _finderPathWithPaginationFindByUuid;
-			finderArgs = new Object[] {uuid, start, end, orderByComparator};
-		}
-
-		List<CacheJson> list = null;
-
-		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if (!uuid.equals(cacheJson.getUuid())) {
-						list = null;
-
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(3);
-			}
-
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
-			}
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByUuid_First(
-			String uuid, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByUuid_First(uuid, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("uuid=");
-		msg.append(uuid);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByUuid_First(
-		String uuid, OrderByComparator<CacheJson> orderByComparator) {
-
-		List<CacheJson> list = findByUuid(uuid, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByUuid_Last(
-			String uuid, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByUuid_Last(uuid, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("uuid=");
-		msg.append(uuid);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByUuid_Last(
-		String uuid, OrderByComparator<CacheJson> orderByComparator) {
-
-		int count = countByUuid(uuid);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<CacheJson> list = findByUuid(
-			uuid, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where uuid = &#63;.
-	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param uuid the uuid
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
-	 */
-	@Override
-	public CacheJson[] findByUuid_PrevAndNext(
-			long eventId, String uuid,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		uuid = Objects.toString(uuid, "");
-
-		CacheJson cacheJson = findByPrimaryKey(eventId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			CacheJson[] array = new CacheJsonImpl[3];
-
-			array[0] = getByUuid_PrevAndNext(
-				session, cacheJson, uuid, orderByComparator, true);
-
-			array[1] = cacheJson;
-
-			array[2] = getByUuid_PrevAndNext(
-				session, cacheJson, uuid, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected CacheJson getByUuid_PrevAndNext(
-		Session session, CacheJson cacheJson, String uuid,
-		OrderByComparator<CacheJson> orderByComparator, boolean previous) {
-
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(3);
-		}
-
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
-
-		boolean bindUuid = false;
-
-		if (uuid.isEmpty()) {
-			query.append(_FINDER_COLUMN_UUID_UUID_3);
-		}
-		else {
-			bindUuid = true;
-
-			query.append(_FINDER_COLUMN_UUID_UUID_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindUuid) {
-			qPos.add(uuid);
-		}
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
-
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<CacheJson> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the cache jsons where uuid = &#63; from the database.
-	 *
-	 * @param uuid the uuid
-	 */
-	@Override
-	public void removeByUuid(String uuid) {
-		for (CacheJson cacheJson :
-				findByUuid(uuid, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-
-			remove(cacheJson);
-		}
-	}
-
-	/**
-	 * Returns the number of cache jsons where uuid = &#63;.
-	 *
-	 * @param uuid the uuid
-	 * @return the number of matching cache jsons
-	 */
-	@Override
-	public int countByUuid(String uuid) {
-		uuid = Objects.toString(uuid, "");
-
-		FinderPath finderPath = _finderPathCountByUuid;
-
-		Object[] finderArgs = new Object[] {uuid};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(2);
-
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
-
-			boolean bindUuid = false;
-
-			if (uuid.isEmpty()) {
-				query.append(_FINDER_COLUMN_UUID_UUID_3);
-			}
-			else {
-				bindUuid = true;
-
-				query.append(_FINDER_COLUMN_UUID_UUID_2);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUuid) {
-					qPos.add(uuid);
-				}
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_UUID_UUID_2 =
-		"cacheJson.uuid = ?";
-
-	private static final String _FINDER_COLUMN_UUID_UUID_3 =
-		"(cacheJson.uuid IS NULL OR cacheJson.uuid = '')";
-
-	private FinderPath _finderPathWithPaginationFindByeventId;
-	private FinderPath _finderPathWithoutPaginationFindByeventId;
+	private FinderPath _finderPathFetchByeventId;
 	private FinderPath _finderPathCountByeventId;
 
 	/**
-	 * Returns all the cache jsons where eventId = &#63;.
+	 * Returns the cache json where eventId = &#63; or throws a <code>NoSuchCacheJsonException</code> if it could not be found.
 	 *
 	 * @param eventId the event ID
-	 * @return the matching cache jsons
+	 * @return the matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByeventId(long eventId) {
-		return findByeventId(
-			eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public CacheJson findByeventId(long eventId)
+		throws NoSuchCacheJsonException {
+
+		CacheJson cacheJson = fetchByeventId(eventId);
+
+		if (cacheJson == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("eventId=");
+			sb.append(eventId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchCacheJsonException(sb.toString());
+		}
+
+		return cacheJson;
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the cache json where eventId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByeventId(long eventId, int start, int end) {
-		return findByeventId(eventId, start, end, null);
+	public CacheJson fetchByeventId(long eventId) {
+		return fetchByeventId(eventId, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the cache json where eventId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByeventId(
-		long eventId, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		return findByeventId(eventId, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where eventId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param eventId the event ID
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByeventId(
-		long eventId, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
-
-		boolean pagination = true;
-		FinderPath finderPath = null;
+	public CacheJson fetchByeventId(long eventId, boolean useFinderCache) {
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByeventId;
+		if (useFinderCache) {
 			finderArgs = new Object[] {eventId};
 		}
-		else {
-			finderPath = _finderPathWithPaginationFindByeventId;
-			finderArgs = new Object[] {eventId, start, end, orderByComparator};
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByeventId, finderArgs, this);
 		}
 
-		List<CacheJson> list = null;
+		if (result instanceof CacheJson) {
+			CacheJson cacheJson = (CacheJson)result;
 
-		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if ((eventId != cacheJson.getEventId())) {
-						list = null;
-
-						break;
-					}
-				}
+			if (eventId != cacheJson.getEventId()) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
 
-			if (orderByComparator != null) {
-				query = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(3);
-			}
+			sb.append(_SQL_SELECT_CACHEJSON_WHERE);
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			sb.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
-			query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(eventId);
+				queryPos.add(eventId);
 
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+				List<CacheJson> list = query.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByeventId, finderArgs, list);
+					}
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {eventId};
+							}
+
+							_log.warn(
+								"CacheJsonPersistenceImpl.fetchByeventId(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					CacheJson cacheJson = list.get(0);
+
+					result = cacheJson;
+
+					cacheResult(cacheJson);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByeventId, finderArgs);
 				}
 
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByeventId_First(
-			long eventId, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByeventId_First(eventId, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("eventId=");
-		msg.append(eventId);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByeventId_First(
-		long eventId, OrderByComparator<CacheJson> orderByComparator) {
-
-		List<CacheJson> list = findByeventId(eventId, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByeventId_Last(
-			long eventId, OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByeventId_Last(eventId, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(4);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("eventId=");
-		msg.append(eventId);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where eventId = &#63;.
-	 *
-	 * @param eventId the event ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByeventId_Last(
-		long eventId, OrderByComparator<CacheJson> orderByComparator) {
-
-		int count = countByeventId(eventId);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<CacheJson> list = findByeventId(
-			eventId, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (CacheJson)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Removes all the cache jsons where eventId = &#63; from the database.
+	 * Removes the cache json where eventId = &#63; from the database.
 	 *
 	 * @param eventId the event ID
+	 * @return the cache json that was removed
 	 */
 	@Override
-	public void removeByeventId(long eventId) {
-		for (CacheJson cacheJson :
-				findByeventId(
-					eventId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public CacheJson removeByeventId(long eventId)
+		throws NoSuchCacheJsonException {
 
-			remove(cacheJson);
-		}
+		CacheJson cacheJson = findByeventId(eventId);
+
+		return remove(cacheJson);
 	}
 
 	/**
@@ -941,33 +257,33 @@ public class CacheJsonPersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler sb = new StringBundler(2);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			sb.append(_SQL_COUNT_CACHEJSON_WHERE);
 
-			query.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
+			sb.append(_FINDER_COLUMN_EVENTID_EVENTID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(eventId);
+				queryPos.add(eventId);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -980,578 +296,237 @@ public class CacheJsonPersistenceImpl
 	private static final String _FINDER_COLUMN_EVENTID_EVENTID_2 =
 		"cacheJson.eventId = ?";
 
-	private FinderPath _finderPathWithPaginationFindByCreatedDateAndIsActive;
-	private FinderPath _finderPathWithPaginationCountByCreatedDateAndIsActive;
+	private FinderPath _finderPathFetchByeventIdAndIsApproved;
+	private FinderPath _finderPathCountByeventIdAndIsApproved;
 
 	/**
-	 * Returns all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or throws a <code>NoSuchCacheJsonException</code> if it could not be found.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @return the matching cache jsons
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the matching cache json
+	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive) {
+	public CacheJson findByeventIdAndIsApproved(
+			long eventId, boolean isApproved)
+		throws NoSuchCacheJsonException {
 
-		return findByCreatedDateAndIsActive(
-			createEvent, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		CacheJson cacheJson = fetchByeventIdAndIsApproved(eventId, isApproved);
+
+		if (cacheJson == null) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("eventId=");
+			sb.append(eventId);
+
+			sb.append(", isApproved=");
+			sb.append(isApproved);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchCacheJsonException(sb.toString());
+		}
+
+		return cacheJson;
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end) {
+	public CacheJson fetchByeventIdAndIsApproved(
+		long eventId, boolean isApproved) {
 
-		return findByCreatedDateAndIsActive(
-			createEvent, isActive, start, end, null);
+		return fetchByeventIdAndIsApproved(eventId, isApproved, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache json where eventId = &#63; and isApproved = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
+	public CacheJson fetchByeventIdAndIsApproved(
+		long eventId, boolean isApproved, boolean useFinderCache) {
 
-		return findByCreatedDateAndIsActive(
-			createEvent, isActive, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
-
-		boolean pagination = true;
-		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = _finderPathWithPaginationFindByCreatedDateAndIsActive;
-		finderArgs = new Object[] {
-			_getTime(createEvent), isActive, start, end, orderByComparator
-		};
+		if (useFinderCache) {
+			finderArgs = new Object[] {eventId, isApproved};
+		}
 
-		List<CacheJson> list = null;
+		Object result = null;
 
-		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
-				finderPath, finderArgs, this);
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByeventIdAndIsApproved, finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if ((createEvent.getTime() >
-							cacheJson.getCreateEvent().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
+		if (result instanceof CacheJson) {
+			CacheJson cacheJson = (CacheJson)result;
 
-						list = null;
+			if ((eventId != cacheJson.getEventId()) ||
+				(isApproved != cacheJson.isIsApproved())) {
 
-						break;
-					}
-				}
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
+		if (result == null) {
+			StringBundler sb = new StringBundler(4);
 
-			if (orderByComparator != null) {
-				query = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+			sb.append(_SQL_SELECT_CACHEJSON_WHERE);
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			sb.append(_FINDER_COLUMN_EVENTIDANDISAPPROVED_EVENTID_2);
 
-			boolean bindCreateEvent = false;
+			sb.append(_FINDER_COLUMN_EVENTIDANDISAPPROVED_ISAPPROVED_2);
 
-			if (createEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_1);
-			}
-			else {
-				bindCreateEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_2);
-			}
-
-			query.append(_FINDER_COLUMN_CREATEDDATEANDISACTIVE_ISACTIVE_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				if (bindCreateEvent) {
-					qPos.add(new Timestamp(createEvent.getTime()));
-				}
+				queryPos.add(eventId);
 
-				qPos.add(isActive);
+				queryPos.add(isApproved);
 
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
+				List<CacheJson> list = query.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByeventIdAndIsApproved, finderArgs,
+							list);
+					}
 				}
 				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {eventId, isApproved};
+							}
+
+							_log.warn(
+								"CacheJsonPersistenceImpl.fetchByeventIdAndIsApproved(long, boolean, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					CacheJson cacheJson = list.get(0);
+
+					result = cacheJson;
+
+					cacheResult(cacheJson);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByeventIdAndIsApproved, finderArgs);
 				}
 
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByCreatedDateAndIsActive_First(
-			Date createEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByCreatedDateAndIsActive_First(
-			createEvent, isActive, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("createEvent=");
-		msg.append(createEvent);
-
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByCreatedDateAndIsActive_First(
-		Date createEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		List<CacheJson> list = findByCreatedDateAndIsActive(
-			createEvent, isActive, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByCreatedDateAndIsActive_Last(
-			Date createEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByCreatedDateAndIsActive_Last(
-			createEvent, isActive, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("createEvent=");
-		msg.append(createEvent);
-
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByCreatedDateAndIsActive_Last(
-		Date createEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		int count = countByCreatedDateAndIsActive(createEvent, isActive);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<CacheJson> list = findByCreatedDateAndIsActive(
-			createEvent, isActive, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (CacheJson)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &ge; &#63; and isActive = &#63;.
+	 * Removes the cache json where eventId = &#63; and isApproved = &#63; from the database.
 	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
+	 * @return the cache json that was removed
 	 */
 	@Override
-	public CacheJson[] findByCreatedDateAndIsActive_PrevAndNext(
-			long eventId, Date createEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
+	public CacheJson removeByeventIdAndIsApproved(
+			long eventId, boolean isApproved)
 		throws NoSuchCacheJsonException {
 
-		CacheJson cacheJson = findByPrimaryKey(eventId);
+		CacheJson cacheJson = findByeventIdAndIsApproved(eventId, isApproved);
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			CacheJson[] array = new CacheJsonImpl[3];
-
-			array[0] = getByCreatedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createEvent, isActive, orderByComparator,
-				true);
-
-			array[1] = cacheJson;
-
-			array[2] = getByCreatedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createEvent, isActive, orderByComparator,
-				false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected CacheJson getByCreatedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date createEvent,
-		boolean isActive, OrderByComparator<CacheJson> orderByComparator,
-		boolean previous) {
-
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
-
-		boolean bindCreateEvent = false;
-
-		if (createEvent == null) {
-			query.append(_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_1);
-		}
-		else {
-			bindCreateEvent = true;
-
-			query.append(_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_2);
-		}
-
-		query.append(_FINDER_COLUMN_CREATEDDATEANDISACTIVE_ISACTIVE_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindCreateEvent) {
-			qPos.add(new Timestamp(createEvent.getTime()));
-		}
-
-		qPos.add(isActive);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
-
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<CacheJson> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
+		return remove(cacheJson);
 	}
 
 	/**
-	 * Removes all the cache jsons where createEvent &ge; &#63; and isActive = &#63; from the database.
+	 * Returns the number of cache jsons where eventId = &#63; and isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
-	 */
-	@Override
-	public void removeByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive) {
-
-		for (CacheJson cacheJson :
-				findByCreatedDateAndIsActive(
-					createEvent, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null)) {
-
-			remove(cacheJson);
-		}
-	}
-
-	/**
-	 * Returns the number of cache jsons where createEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param createEvent the create event
-	 * @param isActive the is active
+	 * @param eventId the event ID
+	 * @param isApproved the is approved
 	 * @return the number of matching cache jsons
 	 */
 	@Override
-	public int countByCreatedDateAndIsActive(
-		Date createEvent, boolean isActive) {
+	public int countByeventIdAndIsApproved(long eventId, boolean isApproved) {
+		FinderPath finderPath = _finderPathCountByeventIdAndIsApproved;
 
-		FinderPath finderPath =
-			_finderPathWithPaginationCountByCreatedDateAndIsActive;
-
-		Object[] finderArgs = new Object[] {_getTime(createEvent), isActive};
+		Object[] finderArgs = new Object[] {eventId, isApproved};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(3);
+			StringBundler sb = new StringBundler(3);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			sb.append(_SQL_COUNT_CACHEJSON_WHERE);
 
-			boolean bindCreateEvent = false;
+			sb.append(_FINDER_COLUMN_EVENTIDANDISAPPROVED_EVENTID_2);
 
-			if (createEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_1);
-			}
-			else {
-				bindCreateEvent = true;
+			sb.append(_FINDER_COLUMN_EVENTIDANDISAPPROVED_ISAPPROVED_2);
 
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_2);
-			}
-
-			query.append(_FINDER_COLUMN_CREATEDDATEANDISACTIVE_ISACTIVE_2);
-
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				if (bindCreateEvent) {
-					qPos.add(new Timestamp(createEvent.getTime()));
-				}
+				queryPos.add(eventId);
 
-				qPos.add(isActive);
+				queryPos.add(isApproved);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1561,135 +536,117 @@ public class CacheJsonPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_1 =
-			"cacheJson.createEvent IS NULL AND ";
+	private static final String _FINDER_COLUMN_EVENTIDANDISAPPROVED_EVENTID_2 =
+		"cacheJson.eventId = ? AND ";
 
 	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_CREATEEVENT_2 =
-			"cacheJson.createEvent >= ? AND ";
+		_FINDER_COLUMN_EVENTIDANDISAPPROVED_ISAPPROVED_2 =
+			"cacheJson.isApproved = ?";
 
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
-
-	private FinderPath
-		_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive;
-	private FinderPath
-		_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive;
+	private FinderPath _finderPathWithPaginationFindByisApproved;
+	private FinderPath _finderPathWithoutPaginationFindByisApproved;
+	private FinderPath _finderPathCountByisApproved;
 
 	/**
-	 * Returns all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns all the cache jsons where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @return the matching cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive) {
-
-		return findByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public List<CacheJson> findByisApproved(boolean isApproved) {
+		return findByisApproved(
+			isApproved, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns a range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @return the range of matching cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive, int start,
-		int end) {
+	public List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end) {
 
-		return findByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive, start, end, null);
+		return findByisApproved(isApproved, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive, int start,
-		int end, OrderByComparator<CacheJson> orderByComparator) {
+	public List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator) {
 
-		return findByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive, start, end, orderByComparator,
-			true);
+		return findByisApproved(
+			isApproved, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns an ordered range of all the cache jsons where isApproved = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching cache jsons
 	 */
 	@Override
-	public List<CacheJson> findByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive, int start,
-		int end, OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
+	public List<CacheJson> findByisApproved(
+		boolean isApproved, int start, int end,
+		OrderByComparator<CacheJson> orderByComparator,
+		boolean useFinderCache) {
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath =
-			_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive;
-		finderArgs = new Object[] {
-			_getTime(createEvent), _getTime(modifiedEvent), isActive, start,
-			end, orderByComparator
-		};
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByisApproved;
+				finderArgs = new Object[] {isApproved};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByisApproved;
+			finderArgs = new Object[] {
+				isApproved, start, end, orderByComparator
+			};
+		}
 
 		List<CacheJson> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<CacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
 				for (CacheJson cacheJson : list) {
-					if ((createEvent.getTime() <=
-							cacheJson.getCreateEvent().getTime()) ||
-						(modifiedEvent.getTime() >
-							cacheJson.getModifiedEvent().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
-
+					if (isApproved != cacheJson.isIsApproved()) {
 						list = null;
 
 						break;
@@ -1699,97 +656,56 @@ public class CacheJsonPersistenceImpl
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
-					5 + (orderByComparator.getOrderByFields().length * 2));
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(5);
+				sb = new StringBundler(3);
 			}
 
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
+			sb.append(_SQL_SELECT_CACHEJSON_WHERE);
 
-			boolean bindCreateEvent = false;
-
-			if (createEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_1);
-			}
-			else {
-				bindCreateEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_2);
-			}
-
-			boolean bindModifiedEvent = false;
-
-			if (modifiedEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-			}
-			else {
-				bindModifiedEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-			}
-
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_ISACTIVE_2);
+			sb.append(_FINDER_COLUMN_ISAPPROVED_ISAPPROVED_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			else {
+				sb.append(CacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				if (bindCreateEvent) {
-					qPos.add(new Timestamp(createEvent.getTime()));
-				}
+				queryPos.add(isApproved);
 
-				if (bindModifiedEvent) {
-					qPos.add(new Timestamp(modifiedEvent.getTime()));
-				}
-
-				qPos.add(isActive);
-
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<CacheJson>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1800,63 +716,50 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the first cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching cache json
 	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_First(
-			Date createEvent, Date modifiedEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
+	public CacheJson findByisApproved_First(
+			boolean isApproved, OrderByComparator<CacheJson> orderByComparator)
 		throws NoSuchCacheJsonException {
 
-		CacheJson cacheJson =
-			fetchByCreatedDateAndModifiedDateAndIsActive_First(
-				createEvent, modifiedEvent, isActive, orderByComparator);
+		CacheJson cacheJson = fetchByisApproved_First(
+			isApproved, orderByComparator);
 
 		if (cacheJson != null) {
 			return cacheJson;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler sb = new StringBundler(4);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("createEvent=");
-		msg.append(createEvent);
+		sb.append("isApproved=");
+		sb.append(isApproved);
 
-		msg.append(", modifiedEvent=");
-		msg.append(modifiedEvent);
+		sb.append("}");
 
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCacheJsonException(sb.toString());
 	}
 
 	/**
-	 * Returns the first cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the first cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_First(
-		Date createEvent, Date modifiedEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+	public CacheJson fetchByisApproved_First(
+		boolean isApproved, OrderByComparator<CacheJson> orderByComparator) {
 
-		List<CacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive, 0, 1, orderByComparator);
+		List<CacheJson> list = findByisApproved(
+			isApproved, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1866,70 +769,56 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the last cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching cache json
 	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
 	 */
 	@Override
-	public CacheJson findByCreatedDateAndModifiedDateAndIsActive_Last(
-			Date createEvent, Date modifiedEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
+	public CacheJson findByisApproved_Last(
+			boolean isApproved, OrderByComparator<CacheJson> orderByComparator)
 		throws NoSuchCacheJsonException {
 
-		CacheJson cacheJson = fetchByCreatedDateAndModifiedDateAndIsActive_Last(
-			createEvent, modifiedEvent, isActive, orderByComparator);
+		CacheJson cacheJson = fetchByisApproved_Last(
+			isApproved, orderByComparator);
 
 		if (cacheJson != null) {
 			return cacheJson;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler sb = new StringBundler(4);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("createEvent=");
-		msg.append(createEvent);
+		sb.append("isApproved=");
+		sb.append(isApproved);
 
-		msg.append(", modifiedEvent=");
-		msg.append(modifiedEvent);
+		sb.append("}");
 
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
+		throw new NoSuchCacheJsonException(sb.toString());
 	}
 
 	/**
-	 * Returns the last cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the last cache json in the ordered set where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
 	 */
 	@Override
-	public CacheJson fetchByCreatedDateAndModifiedDateAndIsActive_Last(
-		Date createEvent, Date modifiedEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
+	public CacheJson fetchByisApproved_Last(
+		boolean isApproved, OrderByComparator<CacheJson> orderByComparator) {
 
-		int count = countByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive);
+		int count = countByisApproved(isApproved);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<CacheJson> list = findByCreatedDateAndModifiedDateAndIsActive(
-			createEvent, modifiedEvent, isActive, count - 1, count,
-			orderByComparator);
+		List<CacheJson> list = findByisApproved(
+			isApproved, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1939,20 +828,18 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the cache jsons before and after the current cache json in the ordered set where isApproved = &#63;.
 	 *
 	 * @param eventId the primary key of the current cache json
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next cache json
 	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
 	 */
 	@Override
-	public CacheJson[] findByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-			long eventId, Date createEvent, Date modifiedEvent,
-			boolean isActive, OrderByComparator<CacheJson> orderByComparator)
+	public CacheJson[] findByisApproved_PrevAndNext(
+			long eventId, boolean isApproved,
+			OrderByComparator<CacheJson> orderByComparator)
 		throws NoSuchCacheJsonException {
 
 		CacheJson cacheJson = findByPrimaryKey(eventId);
@@ -1964,161 +851,123 @@ public class CacheJsonPersistenceImpl
 
 			CacheJson[] array = new CacheJsonImpl[3];
 
-			array[0] = getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createEvent, modifiedEvent, isActive,
-				orderByComparator, true);
+			array[0] = getByisApproved_PrevAndNext(
+				session, cacheJson, isApproved, orderByComparator, true);
 
 			array[1] = cacheJson;
 
-			array[2] = getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, createEvent, modifiedEvent, isActive,
-				orderByComparator, false);
+			array[2] = getByisApproved_PrevAndNext(
+				session, cacheJson, isApproved, orderByComparator, false);
 
 			return array;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
 		}
 	}
 
-	protected CacheJson getByCreatedDateAndModifiedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date createEvent,
-		Date modifiedEvent, boolean isActive,
+	protected CacheJson getByisApproved_PrevAndNext(
+		Session session, CacheJson cacheJson, boolean isApproved,
 		OrderByComparator<CacheJson> orderByComparator, boolean previous) {
 
-		StringBundler query = null;
+		StringBundler sb = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
-				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(5);
+			sb = new StringBundler(3);
 		}
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
+		sb.append(_SQL_SELECT_CACHEJSON_WHERE);
 
-		boolean bindCreateEvent = false;
-
-		if (createEvent == null) {
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_1);
-		}
-		else {
-			bindCreateEvent = true;
-
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_2);
-		}
-
-		boolean bindModifiedEvent = false;
-
-		if (modifiedEvent == null) {
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-		}
-		else {
-			bindModifiedEvent = true;
-
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-		}
-
-		query.append(
-			_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_ISACTIVE_2);
+		sb.append(_FINDER_COLUMN_ISAPPROVED_ISAPPROVED_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
 				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
+				sb.append(WHERE_AND);
 			}
 
 			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
 
 				if ((i + 1) < orderByConditionFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
+						sb.append(WHERE_GREATER_THAN);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN);
+						sb.append(WHERE_LESSER_THAN);
 					}
 				}
 			}
 
-			query.append(ORDER_BY_CLAUSE);
+			sb.append(ORDER_BY_CLAUSE);
 
 			String[] orderByFields = orderByComparator.getOrderByFields();
 
 			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
 
 				if ((i + 1) < orderByFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
 					}
 					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
+						sb.append(ORDER_BY_ASC);
 					}
 					else {
-						query.append(ORDER_BY_DESC);
+						sb.append(ORDER_BY_DESC);
 					}
 				}
 			}
 		}
 		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
+			sb.append(CacheJsonModelImpl.ORDER_BY_JPQL);
 		}
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
-		Query q = session.createQuery(sql);
+		Query query = session.createQuery(sql);
 
-		q.setFirstResult(0);
-		q.setMaxResults(2);
+		query.setFirstResult(0);
+		query.setMaxResults(2);
 
-		QueryPos qPos = QueryPos.getInstance(q);
+		QueryPos queryPos = QueryPos.getInstance(query);
 
-		if (bindCreateEvent) {
-			qPos.add(new Timestamp(createEvent.getTime()));
-		}
-
-		if (bindModifiedEvent) {
-			qPos.add(new Timestamp(modifiedEvent.getTime()));
-		}
-
-		qPos.add(isActive);
+		queryPos.add(isApproved);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(cacheJson)) {
 
-				qPos.add(orderByConditionValue);
+				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<CacheJson> list = q.list();
+		List<CacheJson> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -2129,109 +978,62 @@ public class CacheJsonPersistenceImpl
 	}
 
 	/**
-	 * Removes all the cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63; from the database.
+	 * Removes all the cache jsons where isApproved = &#63; from the database.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 */
 	@Override
-	public void removeByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive) {
-
+	public void removeByisApproved(boolean isApproved) {
 		for (CacheJson cacheJson :
-				findByCreatedDateAndModifiedDateAndIsActive(
-					createEvent, modifiedEvent, isActive, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null)) {
+				findByisApproved(
+					isApproved, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
 			remove(cacheJson);
 		}
 	}
 
 	/**
-	 * Returns the number of cache jsons where createEvent &lt; &#63; and modifiedEvent &ge; &#63; and isActive = &#63;.
+	 * Returns the number of cache jsons where isApproved = &#63;.
 	 *
-	 * @param createEvent the create event
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
+	 * @param isApproved the is approved
 	 * @return the number of matching cache jsons
 	 */
 	@Override
-	public int countByCreatedDateAndModifiedDateAndIsActive(
-		Date createEvent, Date modifiedEvent, boolean isActive) {
+	public int countByisApproved(boolean isApproved) {
+		FinderPath finderPath = _finderPathCountByisApproved;
 
-		FinderPath finderPath =
-			_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive;
-
-		Object[] finderArgs = new Object[] {
-			_getTime(createEvent), _getTime(modifiedEvent), isActive
-		};
+		Object[] finderArgs = new Object[] {isApproved};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler sb = new StringBundler(2);
 
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
+			sb.append(_SQL_COUNT_CACHEJSON_WHERE);
 
-			boolean bindCreateEvent = false;
+			sb.append(_FINDER_COLUMN_ISAPPROVED_ISAPPROVED_2);
 
-			if (createEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_1);
-			}
-			else {
-				bindCreateEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_2);
-			}
-
-			boolean bindModifiedEvent = false;
-
-			if (modifiedEvent == null) {
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-			}
-			else {
-				bindModifiedEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-			}
-
-			query.append(
-				_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_ISACTIVE_2);
-
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				if (bindCreateEvent) {
-					qPos.add(new Timestamp(createEvent.getTime()));
-				}
+				queryPos.add(isApproved);
 
-				if (bindModifiedEvent) {
-					qPos.add(new Timestamp(modifiedEvent.getTime()));
-				}
-
-				qPos.add(isActive);
-
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -2241,642 +1043,11 @@ public class CacheJsonPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_1 =
-			"cacheJson.createEvent IS NULL AND ";
-
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_CREATEEVENT_2 =
-			"cacheJson.createEvent < ? AND ";
-
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1 =
-			"cacheJson.modifiedEvent IS NULL AND ";
-
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2 =
-			"cacheJson.modifiedEvent >= ? AND ";
-
-	private static final String
-		_FINDER_COLUMN_CREATEDDATEANDMODIFIEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
-
-	private FinderPath _finderPathWithPaginationFindByModifiedDateAndIsActive;
-	private FinderPath _finderPathWithPaginationCountByModifiedDateAndIsActive;
-
-	/**
-	 * Returns all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive) {
-
-		return findByModifiedDateAndIsActive(
-			modifiedEvent, isActive, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
-	}
-
-	/**
-	 * Returns a range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @return the range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end) {
-
-		return findByModifiedDateAndIsActive(
-			modifiedEvent, isActive, start, end, null);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		return findByModifiedDateAndIsActive(
-			modifiedEvent, isActive, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param start the lower bound of the range of cache jsons
-	 * @param end the upper bound of the range of cache jsons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching cache jsons
-	 */
-	@Override
-	public List<CacheJson> findByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive, int start, int end,
-		OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
-
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
-
-		finderPath = _finderPathWithPaginationFindByModifiedDateAndIsActive;
-		finderArgs = new Object[] {
-			_getTime(modifiedEvent), isActive, start, end, orderByComparator
-		};
-
-		List<CacheJson> list = null;
-
-		if (retrieveFromCache) {
-			list = (List<CacheJson>)finderCache.getResult(
-				finderPath, finderArgs, this);
-
-			if ((list != null) && !list.isEmpty()) {
-				for (CacheJson cacheJson : list) {
-					if ((modifiedEvent.getTime() >
-							cacheJson.getModifiedEvent().getTime()) ||
-						(isActive != cacheJson.isIsActive())) {
-
-						list = null;
-
-						break;
-					}
-				}
-			}
-		}
-
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(
-					4 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
-
-			query.append(_SQL_SELECT_CACHEJSON_WHERE);
-
-			boolean bindModifiedEvent = false;
-
-			if (modifiedEvent == null) {
-				query.append(
-					_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-			}
-			else {
-				bindModifiedEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-			}
-
-			query.append(_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else if (pagination) {
-				query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-			}
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindModifiedEvent) {
-					qPos.add(new Timestamp(modifiedEvent.getTime()));
-				}
-
-				qPos.add(isActive);
-
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return list;
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByModifiedDateAndIsActive_First(
-			Date modifiedEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByModifiedDateAndIsActive_First(
-			modifiedEvent, isActive, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("modifiedEvent=");
-		msg.append(modifiedEvent);
-
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the first cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByModifiedDateAndIsActive_First(
-		Date modifiedEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		List<CacheJson> list = findByModifiedDateAndIsActive(
-			modifiedEvent, isActive, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json
-	 * @throws NoSuchCacheJsonException if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson findByModifiedDateAndIsActive_Last(
-			Date modifiedEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = fetchByModifiedDateAndIsActive_Last(
-			modifiedEvent, isActive, orderByComparator);
-
-		if (cacheJson != null) {
-			return cacheJson;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("modifiedEvent=");
-		msg.append(modifiedEvent);
-
-		msg.append(", isActive=");
-		msg.append(isActive);
-
-		msg.append("}");
-
-		throw new NoSuchCacheJsonException(msg.toString());
-	}
-
-	/**
-	 * Returns the last cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching cache json, or <code>null</code> if a matching cache json could not be found
-	 */
-	@Override
-	public CacheJson fetchByModifiedDateAndIsActive_Last(
-		Date modifiedEvent, boolean isActive,
-		OrderByComparator<CacheJson> orderByComparator) {
-
-		int count = countByModifiedDateAndIsActive(modifiedEvent, isActive);
-
-		if (count == 0) {
-			return null;
-		}
-
-		List<CacheJson> list = findByModifiedDateAndIsActive(
-			modifiedEvent, isActive, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the cache jsons before and after the current cache json in the ordered set where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param eventId the primary key of the current cache json
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next cache json
-	 * @throws NoSuchCacheJsonException if a cache json with the primary key could not be found
-	 */
-	@Override
-	public CacheJson[] findByModifiedDateAndIsActive_PrevAndNext(
-			long eventId, Date modifiedEvent, boolean isActive,
-			OrderByComparator<CacheJson> orderByComparator)
-		throws NoSuchCacheJsonException {
-
-		CacheJson cacheJson = findByPrimaryKey(eventId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			CacheJson[] array = new CacheJsonImpl[3];
-
-			array[0] = getByModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, modifiedEvent, isActive, orderByComparator,
-				true);
-
-			array[1] = cacheJson;
-
-			array[2] = getByModifiedDateAndIsActive_PrevAndNext(
-				session, cacheJson, modifiedEvent, isActive, orderByComparator,
-				false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected CacheJson getByModifiedDateAndIsActive_PrevAndNext(
-		Session session, CacheJson cacheJson, Date modifiedEvent,
-		boolean isActive, OrderByComparator<CacheJson> orderByComparator,
-		boolean previous) {
-
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(
-				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_CACHEJSON_WHERE);
-
-		boolean bindModifiedEvent = false;
-
-		if (modifiedEvent == null) {
-			query.append(
-				_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-		}
-		else {
-			bindModifiedEvent = true;
-
-			query.append(
-				_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-		}
-
-		query.append(_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2);
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(CacheJsonModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindModifiedEvent) {
-			qPos.add(new Timestamp(modifiedEvent.getTime()));
-		}
-
-		qPos.add(isActive);
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(cacheJson)) {
-
-				qPos.add(orderByConditionValue);
-			}
-		}
-
-		List<CacheJson> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
-	}
-
-	/**
-	 * Removes all the cache jsons where modifiedEvent &ge; &#63; and isActive = &#63; from the database.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 */
-	@Override
-	public void removeByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive) {
-
-		for (CacheJson cacheJson :
-				findByModifiedDateAndIsActive(
-					modifiedEvent, isActive, QueryUtil.ALL_POS,
-					QueryUtil.ALL_POS, null)) {
-
-			remove(cacheJson);
-		}
-	}
-
-	/**
-	 * Returns the number of cache jsons where modifiedEvent &ge; &#63; and isActive = &#63;.
-	 *
-	 * @param modifiedEvent the modified event
-	 * @param isActive the is active
-	 * @return the number of matching cache jsons
-	 */
-	@Override
-	public int countByModifiedDateAndIsActive(
-		Date modifiedEvent, boolean isActive) {
-
-		FinderPath finderPath =
-			_finderPathWithPaginationCountByModifiedDateAndIsActive;
-
-		Object[] finderArgs = new Object[] {_getTime(modifiedEvent), isActive};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler query = new StringBundler(3);
-
-			query.append(_SQL_COUNT_CACHEJSON_WHERE);
-
-			boolean bindModifiedEvent = false;
-
-			if (modifiedEvent == null) {
-				query.append(
-					_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1);
-			}
-			else {
-				bindModifiedEvent = true;
-
-				query.append(
-					_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2);
-			}
-
-			query.append(_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2);
-
-			String sql = query.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query q = session.createQuery(sql);
-
-				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindModifiedEvent) {
-					qPos.add(new Timestamp(modifiedEvent.getTime()));
-				}
-
-				qPos.add(isActive);
-
-				count = (Long)q.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
-
-				throw processException(e);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String
-		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_1 =
-			"cacheJson.modifiedEvent IS NULL AND ";
-
-	private static final String
-		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_MODIFIEDEVENT_2 =
-			"cacheJson.modifiedEvent >= ? AND ";
-
-	private static final String
-		_FINDER_COLUMN_MODIFIEDDATEANDISACTIVE_ISACTIVE_2 =
-			"cacheJson.isActive = ?";
+	private static final String _FINDER_COLUMN_ISAPPROVED_ISAPPROVED_2 =
+		"cacheJson.isApproved = ?";
 
 	public CacheJsonPersistenceImpl() {
 		setModelClass(CacheJson.class);
-
-		Map<String, String> dbColumnNames = new HashMap<String, String>();
-
-		dbColumnNames.put("uuid", "uuid_");
-
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception e) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(e, e);
-			}
-		}
 	}
 
 	/**
@@ -2889,6 +1060,15 @@ public class CacheJsonPersistenceImpl
 		entityCache.putResult(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
 			cacheJson.getPrimaryKey(), cacheJson);
+
+		finderCache.putResult(
+			_finderPathFetchByeventId, new Object[] {cacheJson.getEventId()},
+			cacheJson);
+
+		finderCache.putResult(
+			_finderPathFetchByeventIdAndIsApproved,
+			new Object[] {cacheJson.getEventId(), cacheJson.isIsApproved()},
+			cacheJson);
 
 		cacheJson.resetOriginalValues();
 	}
@@ -2944,6 +1124,8 @@ public class CacheJsonPersistenceImpl
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((CacheJsonModelImpl)cacheJson, true);
 	}
 
 	@Override
@@ -2955,6 +1137,90 @@ public class CacheJsonPersistenceImpl
 			entityCache.removeResult(
 				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
 				cacheJson.getPrimaryKey());
+
+			clearUniqueFindersCache((CacheJsonModelImpl)cacheJson, true);
+		}
+	}
+
+	public void clearCache(Set<Serializable> primaryKeys) {
+		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (Serializable primaryKey : primaryKeys) {
+			entityCache.removeResult(
+				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
+				primaryKey);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		CacheJsonModelImpl cacheJsonModelImpl) {
+
+		Object[] args = new Object[] {cacheJsonModelImpl.getEventId()};
+
+		finderCache.putResult(
+			_finderPathCountByeventId, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByeventId, args, cacheJsonModelImpl, false);
+
+		args = new Object[] {
+			cacheJsonModelImpl.getEventId(), cacheJsonModelImpl.isIsApproved()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByeventIdAndIsApproved, args, Long.valueOf(1),
+			false);
+		finderCache.putResult(
+			_finderPathFetchByeventIdAndIsApproved, args, cacheJsonModelImpl,
+			false);
+	}
+
+	protected void clearUniqueFindersCache(
+		CacheJsonModelImpl cacheJsonModelImpl, boolean clearCurrent) {
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {cacheJsonModelImpl.getEventId()};
+
+			finderCache.removeResult(_finderPathCountByeventId, args);
+			finderCache.removeResult(_finderPathFetchByeventId, args);
+		}
+
+		if ((cacheJsonModelImpl.getColumnBitmask() &
+			 _finderPathFetchByeventId.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				cacheJsonModelImpl.getOriginalEventId()
+			};
+
+			finderCache.removeResult(_finderPathCountByeventId, args);
+			finderCache.removeResult(_finderPathFetchByeventId, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				cacheJsonModelImpl.getEventId(),
+				cacheJsonModelImpl.isIsApproved()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByeventIdAndIsApproved, args);
+			finderCache.removeResult(
+				_finderPathFetchByeventIdAndIsApproved, args);
+		}
+
+		if ((cacheJsonModelImpl.getColumnBitmask() &
+			 _finderPathFetchByeventIdAndIsApproved.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				cacheJsonModelImpl.getOriginalEventId(),
+				cacheJsonModelImpl.getOriginalIsApproved()
+			};
+
+			finderCache.removeResult(
+				_finderPathCountByeventIdAndIsApproved, args);
+			finderCache.removeResult(
+				_finderPathFetchByeventIdAndIsApproved, args);
 		}
 	}
 
@@ -2970,10 +1236,6 @@ public class CacheJsonPersistenceImpl
 
 		cacheJson.setNew(true);
 		cacheJson.setPrimaryKey(eventId);
-
-		String uuid = PortalUUIDUtil.generate();
-
-		cacheJson.setUuid(uuid);
 
 		return cacheJson;
 	}
@@ -3020,11 +1282,11 @@ public class CacheJsonPersistenceImpl
 
 			return remove(cacheJson);
 		}
-		catch (NoSuchCacheJsonException nsee) {
-			throw nsee;
+		catch (NoSuchCacheJsonException noSuchEntityException) {
+			throw noSuchEntityException;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3047,8 +1309,8 @@ public class CacheJsonPersistenceImpl
 				session.delete(cacheJson);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3083,12 +1345,6 @@ public class CacheJsonPersistenceImpl
 
 		CacheJsonModelImpl cacheJsonModelImpl = (CacheJsonModelImpl)cacheJson;
 
-		if (Validator.isNull(cacheJson.getUuid())) {
-			String uuid = PortalUUIDUtil.generate();
-
-			cacheJson.setUuid(uuid);
-		}
-
 		Session session = null;
 
 		try {
@@ -3103,8 +1359,8 @@ public class CacheJsonPersistenceImpl
 				cacheJson = (CacheJson)session.merge(cacheJson);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3116,17 +1372,11 @@ public class CacheJsonPersistenceImpl
 			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 		}
 		else if (isNew) {
-			Object[] args = new Object[] {cacheJsonModelImpl.getUuid()};
+			Object[] args = new Object[] {cacheJsonModelImpl.isIsApproved()};
 
-			finderCache.removeResult(_finderPathCountByUuid, args);
+			finderCache.removeResult(_finderPathCountByisApproved, args);
 			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {cacheJsonModelImpl.getEventId()};
-
-			finderCache.removeResult(_finderPathCountByeventId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByeventId, args);
+				_finderPathWithoutPaginationFindByisApproved, args);
 
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
@@ -3134,47 +1384,31 @@ public class CacheJsonPersistenceImpl
 		}
 		else {
 			if ((cacheJsonModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					cacheJsonModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {cacheJsonModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((cacheJsonModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByeventId.
+				 _finderPathWithoutPaginationFindByisApproved.
 					 getColumnBitmask()) != 0) {
 
 				Object[] args = new Object[] {
-					cacheJsonModelImpl.getOriginalEventId()
+					cacheJsonModelImpl.getOriginalIsApproved()
 				};
 
-				finderCache.removeResult(_finderPathCountByeventId, args);
+				finderCache.removeResult(_finderPathCountByisApproved, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByeventId, args);
+					_finderPathWithoutPaginationFindByisApproved, args);
 
-				args = new Object[] {cacheJsonModelImpl.getEventId()};
+				args = new Object[] {cacheJsonModelImpl.isIsApproved()};
 
-				finderCache.removeResult(_finderPathCountByeventId, args);
+				finderCache.removeResult(_finderPathCountByisApproved, args);
 				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByeventId, args);
+					_finderPathWithoutPaginationFindByisApproved, args);
 			}
 		}
 
 		entityCache.putResult(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
 			cacheJson.getPrimaryKey(), cacheJson, false);
+
+		clearUniqueFindersCache(cacheJsonModelImpl, false);
+		cacheUniqueFindersCache(cacheJsonModelImpl);
 
 		cacheJson.resetOriginalValues();
 
@@ -3256,12 +1490,12 @@ public class CacheJsonPersistenceImpl
 						CacheJsonImpl.class, primaryKey, nullModel);
 				}
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				entityCache.removeResult(
 					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 					CacheJsonImpl.class, primaryKey);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3332,31 +1566,31 @@ public class CacheJsonPersistenceImpl
 			return map;
 		}
 
-		StringBundler query = new StringBundler(
+		StringBundler sb = new StringBundler(
 			uncachedPrimaryKeys.size() * 2 + 1);
 
-		query.append(_SQL_SELECT_CACHEJSON_WHERE_PKS_IN);
+		sb.append(_SQL_SELECT_CACHEJSON_WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
+			sb.append((long)primaryKey);
 
-			query.append(",");
+			sb.append(",");
 		}
 
-		query.setIndex(query.index() - 1);
+		sb.setIndex(sb.index() - 1);
 
-		query.append(")");
+		sb.append(")");
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Query q = session.createQuery(sql);
+			Query query = session.createQuery(sql);
 
-			for (CacheJson cacheJson : (List<CacheJson>)q.list()) {
+			for (CacheJson cacheJson : (List<CacheJson>)query.list()) {
 				map.put(cacheJson.getPrimaryKeyObj(), cacheJson);
 
 				cacheResult(cacheJson);
@@ -3370,8 +1604,8 @@ public class CacheJsonPersistenceImpl
 					CacheJsonImpl.class, primaryKey, nullModel);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3394,7 +1628,7 @@ public class CacheJsonPersistenceImpl
 	 * Returns a range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -3410,7 +1644,7 @@ public class CacheJsonPersistenceImpl
 	 * Returns an ordered range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -3429,64 +1663,62 @@ public class CacheJsonPersistenceImpl
 	 * Returns an ordered range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
 	 * @param end the upper bound of the range of cache jsons (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of cache jsons
 	 */
 	@Override
 	public List<CacheJson> findAll(
 		int start, int end, OrderByComparator<CacheJson> orderByComparator,
-		boolean retrieveFromCache) {
+		boolean useFinderCache) {
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindAll;
-			finderArgs = FINDER_ARGS_EMPTY;
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindAll;
+				finderArgs = FINDER_ARGS_EMPTY;
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath = _finderPathWithPaginationFindAll;
 			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<CacheJson> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<CacheJson>)finderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					2 + (orderByComparator.getOrderByFields().length * 2));
 
-				query.append(_SQL_SELECT_CACHEJSON);
+				sb.append(_SQL_SELECT_CACHEJSON);
 
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
-				sql = query.toString();
+				sql = sb.toString();
 			}
 			else {
 				sql = _SQL_SELECT_CACHEJSON;
 
-				if (pagination) {
-					sql = sql.concat(CacheJsonModelImpl.ORDER_BY_JPQL);
-				}
+				sql = sql.concat(CacheJsonModelImpl.ORDER_BY_JPQL);
 			}
 
 			Session session = null;
@@ -3494,29 +1726,23 @@ public class CacheJsonPersistenceImpl
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				if (!pagination) {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<CacheJson>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<CacheJson>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3553,18 +1779,18 @@ public class CacheJsonPersistenceImpl
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(_SQL_COUNT_CACHEJSON);
+				Query query = session.createQuery(_SQL_COUNT_CACHEJSON);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3572,11 +1798,6 @@ public class CacheJsonPersistenceImpl
 		}
 
 		return count.intValue();
-	}
-
-	@Override
-	public Set<String> getBadColumnNames() {
-		return _badColumnNames;
 	}
 
 	@Override
@@ -3605,41 +1826,10 @@ public class CacheJsonPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_finderPathWithPaginationFindByUuid = new FinderPath(
+		_finderPathFetchByeventId = new FinderPath(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
-			new String[] {
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			CacheJsonModelImpl.UUID_COLUMN_BITMASK);
-
-		_finderPathCountByUuid = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
-
-		_finderPathWithPaginationFindByeventId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByeventId",
-			new String[] {
-				Long.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			});
-
-		_finderPathWithoutPaginationFindByeventId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByeventId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByeventId",
 			new String[] {Long.class.getName()},
 			CacheJsonModelImpl.EVENTID_COLUMN_BITMASK);
 
@@ -3649,65 +1839,42 @@ public class CacheJsonPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByeventId",
 			new String[] {Long.class.getName()});
 
-		_finderPathWithPaginationFindByCreatedDateAndIsActive = new FinderPath(
+		_finderPathFetchByeventIdAndIsApproved = new FinderPath(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByCreatedDateAndIsActive",
-			new String[] {
-				Date.class.getName(), Boolean.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
+			FINDER_CLASS_NAME_ENTITY, "fetchByeventIdAndIsApproved",
+			new String[] {Long.class.getName(), Boolean.class.getName()},
+			CacheJsonModelImpl.EVENTID_COLUMN_BITMASK |
+			CacheJsonModelImpl.ISAPPROVED_COLUMN_BITMASK);
 
-		_finderPathWithPaginationCountByCreatedDateAndIsActive = new FinderPath(
+		_finderPathCountByeventIdAndIsApproved = new FinderPath(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"countByCreatedDateAndIsActive",
-			new String[] {Date.class.getName(), Boolean.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByeventIdAndIsApproved",
+			new String[] {Long.class.getName(), Boolean.class.getName()});
 
-		_finderPathWithPaginationFindByCreatedDateAndModifiedDateAndIsActive =
-			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-				"findByCreatedDateAndModifiedDateAndIsActive",
-				new String[] {
-					Date.class.getName(), Date.class.getName(),
-					Boolean.class.getName(), Integer.class.getName(),
-					Integer.class.getName(), OrderByComparator.class.getName()
-				});
-
-		_finderPathWithPaginationCountByCreatedDateAndModifiedDateAndIsActive =
-			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
-				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-				"countByCreatedDateAndModifiedDateAndIsActive",
-				new String[] {
-					Date.class.getName(), Date.class.getName(),
-					Boolean.class.getName()
-				});
-
-		_finderPathWithPaginationFindByModifiedDateAndIsActive = new FinderPath(
+		_finderPathWithPaginationFindByisApproved = new FinderPath(
 			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByModifiedDateAndIsActive",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByisApproved",
 			new String[] {
-				Date.class.getName(), Boolean.class.getName(),
-				Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
+				Boolean.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
 			});
 
-		_finderPathWithPaginationCountByModifiedDateAndIsActive =
-			new FinderPath(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-				CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
-				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-				"countByModifiedDateAndIsActive",
-				new String[] {Date.class.getName(), Boolean.class.getName()});
+		_finderPathWithoutPaginationFindByisApproved = new FinderPath(
+			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByisApproved",
+			new String[] {Boolean.class.getName()},
+			CacheJsonModelImpl.ISAPPROVED_COLUMN_BITMASK);
+
+		_finderPathCountByisApproved = new FinderPath(
+			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
+			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByisApproved",
+			new String[] {Boolean.class.getName()});
 	}
 
 	public void destroy() {
@@ -3722,14 +1889,6 @@ public class CacheJsonPersistenceImpl
 
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
-
-	private Long _getTime(Date date) {
-		if (date == null) {
-			return null;
-		}
-
-		return date.getTime();
-	}
 
 	private static final String _SQL_SELECT_CACHEJSON =
 		"SELECT cacheJson FROM CacheJson cacheJson";
@@ -3756,8 +1915,5 @@ public class CacheJsonPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CacheJsonPersistenceImpl.class);
-
-	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid"});
 
 }

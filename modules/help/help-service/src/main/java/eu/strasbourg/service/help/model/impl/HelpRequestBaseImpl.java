@@ -17,8 +17,6 @@ package eu.strasbourg.service.help.model.impl;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the HelpRequest service. Represents a row in the &quot;help_HelpRequest&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see HelpRequest
  * @generated
  */
-@ProviderType
 public abstract class HelpRequestBaseImpl
 	extends HelpRequestModelImpl implements HelpRequest {
 

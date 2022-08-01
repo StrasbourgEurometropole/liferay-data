@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see EventService
  * @generated
  */
-@ProviderType
 public class EventServiceUtil {
 
 	/*
@@ -46,48 +43,44 @@ public class EventServiceUtil {
 		return getService().getCategories();
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getCategory(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static com.liferay.portal.kernel.json.JSONObject getCategory(
+		long id) {
 
 		return getService().getCategory(id);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getEvent(long id) {
 		return getService().getEvent(id);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONObject getEvents()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static com.liferay.portal.kernel.json.JSONObject getEvents() {
 		return getService().getEvents();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
-			long categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			String categoryId)
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return getService().getEventsByCategory(categoryId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByDate(
 			String date)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return getService().getEventsByDate(date);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
 			String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return getService().getEventsByLanguage(language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 			String placeSIGId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return getService().getEventsByPlace(placeSIGId);
 	}

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.official.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
  * @see Official
  * @generated
  */
-@ProviderType
 public abstract class OfficialBaseImpl
 	extends OfficialModelImpl implements Official {
 

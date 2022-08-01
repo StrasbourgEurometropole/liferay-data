@@ -207,6 +207,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					}
 				}
 			}
+			/* FIX Temporaire : Mantis 5899 */
+			Place bainsMunicipaux = null;
+			/* FIX Temporaire : Mantis 5899 */
 
 			// Récupère tous les lieux publiés de la catégorie
 			List<Place> places = new ArrayList<Place>();
@@ -223,7 +226,15 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 						if (Validator.isNotNull(place) && place.isApproved()) {
 							places.add(place);
 							if (Validator.isNull(placeId)) {
-								selectedPlaces.add(place);
+
+								/* FIX Temporaire : Mantis 5899 */
+								if(place.getSIGid().equals("400_SPO_1")) {
+									bainsMunicipaux = place;
+								} else {
+									selectedPlaces.add(place);
+								}
+								/* FIX Temporaire : Mantis 5899 */
+
 								// récupération des ouvertures et fermetures
 								// exceptionnelles des lieux sur 2 mois à partir du lundi de la semaine choisie
 								List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true,
@@ -275,6 +286,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					oldException = exception;
 				}
 			}
+
+			/* FIX Temporaire : Mantis 5899 */
+			if (bainsMunicipaux != null) {
+				selectedPlaces.add(bainsMunicipaux);
+			}
+			/* FIX Temporaire : Mantis 5899 */
+
 			request.setAttribute("exceptions", exceptions);
 			request.setAttribute("selectedPlaces", selectedPlaces);
 			request.setAttribute("places", places);

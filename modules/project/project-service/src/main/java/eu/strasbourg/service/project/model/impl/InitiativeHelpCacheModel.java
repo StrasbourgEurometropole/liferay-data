@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class InitiativeHelpCacheModel
 	implements CacheModel<InitiativeHelp>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof InitiativeHelpCacheModel)) {
+		if (!(object instanceof InitiativeHelpCacheModel)) {
 			return false;
 		}
 
 		InitiativeHelpCacheModel initiativeHelpCacheModel =
-			(InitiativeHelpCacheModel)obj;
+			(InitiativeHelpCacheModel)object;
 
 		if (initiativeHelpId == initiativeHelpCacheModel.initiativeHelpId) {
 			return true;

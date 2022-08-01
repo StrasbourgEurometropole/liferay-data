@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see ImportHistoric
  * @generated
  */
-@ProviderType
 public class ImportHistoricWrapper
 	implements ImportHistoric, ModelWrapper<ImportHistoric> {
 
@@ -77,6 +74,7 @@ public class ImportHistoricWrapper
 		attributes.put("errorStackTrace", getErrorStackTrace());
 		attributes.put("startDate", getStartDate());
 		attributes.put("finishDate", getFinishDate());
+		attributes.put("gtfsFileHash", getGtfsFileHash());
 
 		return attributes;
 	}
@@ -190,6 +188,12 @@ public class ImportHistoricWrapper
 		if (finishDate != null) {
 			setFinishDate(finishDate);
 		}
+
+		String gtfsFileHash = (String)attributes.get("gtfsFileHash");
+
+		if (gtfsFileHash != null) {
+			setGtfsFileHash(gtfsFileHash);
+		}
 	}
 
 	/**
@@ -297,6 +301,16 @@ public class ImportHistoricWrapper
 	@Override
 	public long getGroupId() {
 		return _importHistoric.getGroupId();
+	}
+
+	/**
+	 * Returns the gtfs file hash of this import historic.
+	 *
+	 * @return the gtfs file hash of this import historic
+	 */
+	@Override
+	public String getGtfsFileHash() {
+		return _importHistoric.getGtfsFileHash();
 	}
 
 	/**
@@ -660,6 +674,16 @@ public class ImportHistoricWrapper
 	}
 
 	/**
+	 * Sets the gtfs file hash of this import historic.
+	 *
+	 * @param gtfsFileHash the gtfs file hash of this import historic
+	 */
+	@Override
+	public void setGtfsFileHash(String gtfsFileHash) {
+		_importHistoric.setGtfsFileHash(gtfsFileHash);
+	}
+
+	/**
 	 * Sets the import historic ID of this import historic.
 	 *
 	 * @param importHistoricId the import historic ID of this import historic
@@ -847,17 +871,17 @@ public class ImportHistoricWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ImportHistoricWrapper)) {
+		if (!(object instanceof ImportHistoricWrapper)) {
 			return false;
 		}
 
 		ImportHistoricWrapper importHistoricWrapper =
-			(ImportHistoricWrapper)obj;
+			(ImportHistoricWrapper)object;
 
 		if (Objects.equals(
 				_importHistoric, importHistoricWrapper._importHistoric)) {

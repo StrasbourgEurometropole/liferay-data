@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.like.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,7 +33,6 @@ import java.util.Objects;
  * @see Like
  * @generated
  */
-@ProviderType
 public class LikeWrapper implements Like, ModelWrapper<Like> {
 
 	public LikeWrapper(Like like) {
@@ -400,16 +397,16 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof LikeWrapper)) {
+		if (!(object instanceof LikeWrapper)) {
 			return false;
 		}
 
-		LikeWrapper likeWrapper = (LikeWrapper)obj;
+		LikeWrapper likeWrapper = (LikeWrapper)object;
 
 		if (Objects.equals(_like, likeWrapper._like)) {
 			return true;

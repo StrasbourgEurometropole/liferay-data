@@ -42,6 +42,24 @@ create table gtfs_Arret (
 	type_ INTEGER
 );
 
+create table gtfs_CacheAlertJSON (
+	uuid_ VARCHAR(75) null,
+	cacheId LONG not null primary key,
+	jsonAlert TEXT null,
+	creationDate DATE null,
+	modifiedDate DATE null
+);
+
+create table gtfs_CacheHoursJSON (
+	uuid_ VARCHAR(75) null,
+	stopCode VARCHAR(75) not null,
+	type_ INTEGER not null,
+	jsonHour TEXT null,
+	creationDate DATE null,
+	modifiedDate DATE null,
+	primary key (stopCode, type_)
+);
+
 create table gtfs_Calendar (
 	uuid_ VARCHAR(75) null,
 	id_ LONG not null primary key,
@@ -94,7 +112,8 @@ create table gtfs_ImportHistoric (
 	errorDescription TEXT null,
 	errorStackTrace TEXT null,
 	startDate DATE null,
-	finishDate DATE null
+	finishDate DATE null,
+	gtfsFileHash VARCHAR(75) null
 );
 
 create table gtfs_Ligne (
@@ -124,7 +143,7 @@ create table gtfs_Route (
 	route_id VARCHAR(75) null,
 	route_short_name VARCHAR(75) null,
 	route_long_name VARCHAR(200) null,
-	route_desc VARCHAR(400) null,
+	route_desc VARCHAR(75) null,
 	route_type INTEGER,
 	route_color VARCHAR(75) null,
 	route_text_color VARCHAR(75) null
@@ -138,8 +157,8 @@ create table gtfs_Stop (
 	stop_lat VARCHAR(75) null,
 	stop_lon VARCHAR(75) null,
 	stop_name VARCHAR(75) null,
-	stop_url VARCHAR(400) null,
-	stop_desc VARCHAR(400) null
+	stop_url VARCHAR(75) null,
+	stop_desc VARCHAR(75) null
 );
 
 create table gtfs_StopTime (

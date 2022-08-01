@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.place.model.Price;
 import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.place.service.PriceLocalServiceUtil;
  * @see Price
  * @generated
  */
-@ProviderType
 public abstract class PriceBaseImpl extends PriceModelImpl implements Price {
 
 	/*

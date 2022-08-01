@@ -44,7 +44,8 @@
 					value="${formattedCreateDate}" />
 
 				<%-- Colonne : Createur --%>
-				<liferay-ui:search-container-column-text name="user">
+				<liferay-ui:search-container-column-text name="user"
+				    cssClass="content-column" truncate="true" >
 					${anonymisationHistoric.statusByUserName}
 				</liferay-ui:search-container-column-text>
 

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.HttpPrincipal;
@@ -52,7 +50,6 @@ import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
  * @see ArretServiceSoap
  * @generated
  */
-@ProviderType
 public class ArretServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
@@ -71,17 +68,51 @@ public class ArretServiceHttp {
 			try {
 				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				throw new com.liferay.portal.kernel.exception.SystemException(
-					e);
+					exception);
 			}
 
 			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
 		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
 
-			throw se;
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
+		HttpPrincipal httpPrincipal, String stopCode, int type, int timeOut) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ArretServiceUtil.class, "getArretRealTime",
+				_getArretRealTimeParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, stopCode, type, timeOut);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
 		}
 	}
 
@@ -89,5 +120,7 @@ public class ArretServiceHttp {
 
 	private static final Class<?>[] _getArretRealTimeParameterTypes0 =
 		new Class[] {String.class};
+	private static final Class<?>[] _getArretRealTimeParameterTypes1 =
+		new Class[] {String.class, int.class, int.class};
 
 }

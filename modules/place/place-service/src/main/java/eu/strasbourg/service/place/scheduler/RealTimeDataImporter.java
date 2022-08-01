@@ -1,5 +1,8 @@
 package eu.strasbourg.service.place.scheduler;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -9,6 +12,7 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
+import eu.strasbourg.service.opendata.realtime.parking.OpenDataRealTimeParkingService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -54,7 +58,10 @@ public class RealTimeDataImporter extends BaseMessageListener {
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
-	    _placeLocalService.updateRealTime();
+		this.log.info("Start updating real time");
+		JSONArray parkingJsonArray = openDataRealTimeParkingService.getParkingJSON();
+	    _placeLocalService.updateRealTime(parkingJsonArray);
+		this.log.info("End updating real time");
 	}
 
 	@Reference(unbind = "-")
@@ -74,8 +81,15 @@ public class RealTimeDataImporter extends BaseMessageListener {
 		_triggerFactory = triggerFactory;
 	}
 
+	@Reference(unbind = "-")
+	public void setOpenDataRealTimeParkingService(OpenDataRealTimeParkingService openDataRealTimeParkingService) {
+		this.openDataRealTimeParkingService = openDataRealTimeParkingService;
+	}
+
+	private OpenDataRealTimeParkingService openDataRealTimeParkingService;
 	private volatile SchedulerEngineHelper _schedulerEngineHelper;
 	private PlaceLocalService _placeLocalService;
 	private TriggerFactory _triggerFactory;
+	private final Log log = LogFactoryUtil.getLog(this.getClass());
 
 }

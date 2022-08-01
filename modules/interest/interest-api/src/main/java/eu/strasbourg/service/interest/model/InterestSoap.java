@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.interest.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class InterestSoap implements Serializable {
 
 	public static InterestSoap toSoapModel(Interest model) {

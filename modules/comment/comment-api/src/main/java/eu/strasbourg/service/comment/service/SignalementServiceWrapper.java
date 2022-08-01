@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.comment.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see SignalementService
  * @generated
  */
-@ProviderType
 public class SignalementServiceWrapper
-	implements SignalementService, ServiceWrapper<SignalementService> {
+	implements ServiceWrapper<SignalementService>, SignalementService {
 
 	public SignalementServiceWrapper(SignalementService signalementService) {
 		_signalementService = signalementService;

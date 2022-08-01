@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,8 +35,7 @@ import java.util.Objects;
  * @see Project
  * @generated
  */
-@ProviderType
-public class ProjectWrapper implements Project, ModelWrapper<Project> {
+public class ProjectWrapper implements ModelWrapper<Project>, Project {
 
 	public ProjectWrapper(Project project) {
 		_project = project;
@@ -1276,16 +1273,16 @@ public class ProjectWrapper implements Project, ModelWrapper<Project> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ProjectWrapper)) {
+		if (!(object instanceof ProjectWrapper)) {
 			return false;
 		}
 
-		ProjectWrapper projectWrapper = (ProjectWrapper)obj;
+		ProjectWrapper projectWrapper = (ProjectWrapper)object;
 
 		if (Objects.equals(_project, projectWrapper._project)) {
 			return true;

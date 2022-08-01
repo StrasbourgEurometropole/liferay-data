@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
  * @see InitiativeHelp
  * @generated
  */
-@ProviderType
 public abstract class InitiativeHelpBaseImpl
 	extends InitiativeHelpModelImpl implements InitiativeHelp {
 

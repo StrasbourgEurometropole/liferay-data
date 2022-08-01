@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -33,20 +31,19 @@ import java.io.ObjectOutput;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class RouteCacheModel implements CacheModel<Route>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof RouteCacheModel)) {
+		if (!(object instanceof RouteCacheModel)) {
 			return false;
 		}
 
-		RouteCacheModel routeCacheModel = (RouteCacheModel)obj;
+		RouteCacheModel routeCacheModel = (RouteCacheModel)object;
 
 		if (id == routeCacheModel.id) {
 			return true;

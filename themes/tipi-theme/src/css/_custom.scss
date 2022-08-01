@@ -33,7 +33,24 @@
 }
 
 .footer .footer-top {
+    @media only screen and (max-width: 1199px) {
+		margin: 0 30px; 
 
+		> div{
+			min-width: 210px;
+		}
+	}
+
+    @media only screen and (max-width: 767px) {
+		margin: 0;
+		flex-direction: column; 
+	}
+
+    display: flex;
+    justify-content: space-evenly;
+    margin: 0 260px 60px;
+	align-items: center;
+	
 	.nav-footer li a {
 		font-size: 11.34px;
 	}
@@ -46,6 +63,10 @@
 		font-size: 12.6px;
 	}
 
+}
+
+.footer .closure a{
+	margin: auto;
 }
 
 a:hover, a:focus{

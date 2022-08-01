@@ -42,8 +42,6 @@ public class StrasbourgPortletKeys {
 	
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
 	
-	public static final String LEGACY_PLACE_VIEWER = "eu_strasbourg_portlet_legacy_place_LegacyPlaceViewerPortlet";
-	
 	public static final String PLACE_SCHEDULE_WEB = "eu_strasbourg_portlet_place_schedule_PlaceSchedulePortlet";
 	
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
@@ -132,4 +130,10 @@ public class StrasbourgPortletKeys {
     public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
 	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";
 	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";
+
+	public static final String CSMAP_BO_PLACE = "eu_strasbourg_portlet_place_csmap_CsmapBoPlacePortlet";
+	public static final String CSMAP_BO_AGENDA = "eu_strasbourg_portlet_agenda_csmap_CsmapBoAgendaPortlet";
+
+	public static final String NOTIF_BO = "eu_strasbourg_portlet_notif_NotifBOPortlet";
+	public static final String NOTIF_WEB = "eu_strasbourg_portlet_notif_NotifPortlet";
 }

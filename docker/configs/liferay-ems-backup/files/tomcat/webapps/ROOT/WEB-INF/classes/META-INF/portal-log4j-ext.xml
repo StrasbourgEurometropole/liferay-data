@@ -581,7 +581,7 @@
 	</category>
 
 	<category name="com.liferay.portal.servlet.LanguageServlet">
-		<priority value="WARN" />
+		<priority value="FATAL" />
 	</category>
 
 	<category name="com.liferay.portal.servlet.PortalSessionCreator">

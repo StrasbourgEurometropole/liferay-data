@@ -332,7 +332,7 @@
 
 	</entity>
 
-	<entity local-service="true" name="CacheJson"
+	<entity local-service="true" name="CsmapCacheJson"
 			cache-enabled="true" remote-service="false" uuid="true">
 
 		<!-- PK fields -->

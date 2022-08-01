@@ -69,8 +69,6 @@ public class TripLocalServiceImpl extends TripLocalServiceBaseImpl {
 		trip.setService_id(entry.getService_id());
 		trip.setTrip_id(entry.getTrip_id());
 		trip.setTrip_headsign(entry.getTrip_headsign());
-		trip.setDirection_id(entry.getDirection_id() == 1);
-		trip.setBlock_id(entry.getBlock_id());
 		
 		trip = this.tripLocalService.updateTrip(trip);
 

@@ -1,52 +1,33 @@
 #mns-global{
 
 	.mns-bloc-article{
-		@include mobile{
-			margin-top: 30px !important;
-		}
-		@include tablet_portrait {
-			margin-top: 30px !important;
-		}
-		.mns-wrapper-title{
-			display: flex;
-		    justify-content: center;
-			.mns-title {
-				@include ft($f_ms, 70px, 100, $c_txt, normal);
-				text-transform: uppercase;
-				display: inline-block;
-				width: 85%;
-				padding: 0 80px;
-				@include mobile {
-					font-size: 40px;
-					padding: 0px;
-				}
-				text-align: center;
-			}
-		}
-		.mns-catcher {
-			p{
-				@include ft($f_ms, 20px, 400, $c_txt, normal);
+		@include not-mobile{
+			h2,
+			span.h2
+			{
+				font-size: 3rem;
+				line-height: 3.5rem;
+			}				
+
+			h3,
+			span.h3
+			{
+				font-size: 2rem;
+				line-height: 2.5rem;
 			}
 		}
 
+		.mns-title,.mns-catcher{
+			text-align: center;
+		}
+		
 		a{
-			@include ft($f_ms, 17.5px, 500, $c_main, normal);
+			@include ft($f_ms, 1rem, 700, $c_main, 1.625rem);
 			text-decoration: underline;
+
 			&:hover{
 				color: $c_txt;
-				text-decoration: none;
 			}
-		}
-
-		h3,h2 {
-			font-weight: 600;
-		}
-
-		h3 {
-			font-size: 21.5px;
-		}
-		h1 {
-			font-family: $f_ms;
 		}
 	}
 }

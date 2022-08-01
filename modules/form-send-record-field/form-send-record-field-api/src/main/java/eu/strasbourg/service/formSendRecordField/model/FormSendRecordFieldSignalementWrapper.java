@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.formSendRecordField.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see FormSendRecordFieldSignalement
  * @generated
  */
-@ProviderType
 public class FormSendRecordFieldSignalementWrapper
 	implements FormSendRecordFieldSignalement,
 			   ModelWrapper<FormSendRecordFieldSignalement> {
@@ -741,18 +738,18 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof FormSendRecordFieldSignalementWrapper)) {
+		if (!(object instanceof FormSendRecordFieldSignalementWrapper)) {
 			return false;
 		}
 
 		FormSendRecordFieldSignalementWrapper
 			formSendRecordFieldSignalementWrapper =
-				(FormSendRecordFieldSignalementWrapper)obj;
+				(FormSendRecordFieldSignalementWrapper)object;
 
 		if (Objects.equals(
 				_formSendRecordFieldSignalement,

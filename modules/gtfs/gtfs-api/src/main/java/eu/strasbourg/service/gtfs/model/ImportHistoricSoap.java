@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class ImportHistoricSoap implements Serializable {
 
 	public static ImportHistoricSoap toSoapModel(ImportHistoric model) {
@@ -52,6 +49,7 @@ public class ImportHistoricSoap implements Serializable {
 		soapModel.setErrorStackTrace(model.getErrorStackTrace());
 		soapModel.setStartDate(model.getStartDate());
 		soapModel.setFinishDate(model.getFinishDate());
+		soapModel.setGtfsFileHash(model.getGtfsFileHash());
 
 		return soapModel;
 	}
@@ -254,6 +252,14 @@ public class ImportHistoricSoap implements Serializable {
 		_finishDate = finishDate;
 	}
 
+	public String getGtfsFileHash() {
+		return _gtfsFileHash;
+	}
+
+	public void setGtfsFileHash(String gtfsFileHash) {
+		_gtfsFileHash = gtfsFileHash;
+	}
+
 	private String _uuid;
 	private long _importHistoricId;
 	private long _groupId;
@@ -272,5 +278,6 @@ public class ImportHistoricSoap implements Serializable {
 	private String _errorStackTrace;
 	private Date _startDate;
 	private Date _finishDate;
+	private String _gtfsFileHash;
 
 }

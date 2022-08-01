@@ -55,7 +55,7 @@ import javax.sql.DataSource;
  */
 public abstract class PracticeServiceBaseImpl
 	extends BaseServiceImpl
-	implements PracticeService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, PracticeService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -915,8 +915,8 @@ public abstract class PracticeServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

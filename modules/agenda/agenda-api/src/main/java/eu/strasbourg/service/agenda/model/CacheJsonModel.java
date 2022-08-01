@@ -61,21 +61,6 @@ public interface CacheJsonModel extends BaseModel<CacheJson> {
 	public void setPrimaryKey(long primaryKey);
 
 	/**
-	 * Returns the uuid of this cache json.
-	 *
-	 * @return the uuid of this cache json
-	 */
-	@AutoEscape
-	public String getUuid();
-
-	/**
-	 * Sets the uuid of this cache json.
-	 *
-	 * @param uuid the uuid of this cache json
-	 */
-	public void setUuid(String uuid);
-
-	/**
 	 * Returns the event ID of this cache json.
 	 *
 	 * @return the event ID of this cache json
@@ -133,25 +118,25 @@ public interface CacheJsonModel extends BaseModel<CacheJson> {
 	public void setModifiedEvent(Date modifiedEvent);
 
 	/**
-	 * Returns the is active of this cache json.
+	 * Returns the is approved of this cache json.
 	 *
-	 * @return the is active of this cache json
+	 * @return the is approved of this cache json
 	 */
-	public boolean getIsActive();
+	public boolean getIsApproved();
 
 	/**
-	 * Returns <code>true</code> if this cache json is is active.
+	 * Returns <code>true</code> if this cache json is is approved.
 	 *
-	 * @return <code>true</code> if this cache json is is active; <code>false</code> otherwise
+	 * @return <code>true</code> if this cache json is is approved; <code>false</code> otherwise
 	 */
-	public boolean isIsActive();
+	public boolean isIsApproved();
 
 	/**
-	 * Sets whether this cache json is is active.
+	 * Sets whether this cache json is is approved.
 	 *
-	 * @param isActive the is active of this cache json
+	 * @param isApproved the is approved of this cache json
 	 */
-	public void setIsActive(boolean isActive);
+	public void setIsApproved(boolean isApproved);
 
 	@Override
 	public boolean isNew();

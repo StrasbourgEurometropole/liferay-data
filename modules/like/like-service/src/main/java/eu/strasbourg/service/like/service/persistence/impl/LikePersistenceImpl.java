@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.like.service.persistence.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -61,7 +59,6 @@ import java.util.Set;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class LikePersistenceImpl
 	extends BasePersistenceImpl<Like> implements LikePersistence {
 
@@ -102,7 +99,7 @@ public class LikePersistenceImpl
 	 * Returns a range of all the likes where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -121,7 +118,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -143,35 +140,35 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where publikUserId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
 	 * @param start the lower bound of the range of likes
 	 * @param end the upper bound of the range of likes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching likes
 	 */
 	@Override
 	public List<Like> findByPublikUserId(
 		String publikUserId, int start, int end,
-		OrderByComparator<Like> orderByComparator, boolean retrieveFromCache) {
+		OrderByComparator<Like> orderByComparator, boolean useFinderCache) {
 
 		publikUserId = Objects.toString(publikUserId, "");
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByPublikUserId;
-			finderArgs = new Object[] {publikUserId};
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByPublikUserId;
+				finderArgs = new Object[] {publikUserId};
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath = _finderPathWithPaginationFindByPublikUserId;
 			finderArgs = new Object[] {
 				publikUserId, start, end, orderByComparator
@@ -180,7 +177,7 @@ public class LikePersistenceImpl
 
 		List<Like> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<Like>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
@@ -196,73 +193,67 @@ public class LikePersistenceImpl
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					3 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(3);
+				sb = new StringBundler(3);
 			}
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+				sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+				sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
 			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else if (pagination) {
-				query.append(LikeModelImpl.ORDER_BY_JPQL);
+			else {
+				sb.append(LikeModelImpl.ORDER_BY_JPQL);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
-				if (!pagination) {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<Like>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -291,16 +282,16 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler sb = new StringBundler(4);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikUserId=");
-		msg.append(publikUserId);
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -343,16 +334,16 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler sb = new StringBundler(4);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikUserId=");
-		msg.append(publikUserId);
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -418,8 +409,8 @@ public class LikePersistenceImpl
 
 			return array;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -430,28 +421,28 @@ public class LikePersistenceImpl
 		Session session, Like like, String publikUserId,
 		OrderByComparator<Like> orderByComparator, boolean previous) {
 
-		StringBundler query = null;
+		StringBundler sb = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
+			sb = new StringBundler(
 				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(3);
+			sb = new StringBundler(3);
 		}
 
-		query.append(_SQL_SELECT_LIKE__WHERE);
+		sb.append(_SQL_SELECT_LIKE__WHERE);
 
 		boolean bindPublikUserId = false;
 
 		if (publikUserId.isEmpty()) {
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 		}
 		else {
 			bindPublikUserId = true;
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
 		}
 
 		if (orderByComparator != null) {
@@ -459,83 +450,83 @@ public class LikePersistenceImpl
 				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
+				sb.append(WHERE_AND);
 			}
 
 			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
 
 				if ((i + 1) < orderByConditionFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
+						sb.append(WHERE_GREATER_THAN);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN);
+						sb.append(WHERE_LESSER_THAN);
 					}
 				}
 			}
 
-			query.append(ORDER_BY_CLAUSE);
+			sb.append(ORDER_BY_CLAUSE);
 
 			String[] orderByFields = orderByComparator.getOrderByFields();
 
 			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
 
 				if ((i + 1) < orderByFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
 					}
 					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
+						sb.append(ORDER_BY_ASC);
 					}
 					else {
-						query.append(ORDER_BY_DESC);
+						sb.append(ORDER_BY_DESC);
 					}
 				}
 			}
 		}
 		else {
-			query.append(LikeModelImpl.ORDER_BY_JPQL);
+			sb.append(LikeModelImpl.ORDER_BY_JPQL);
 		}
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
-		Query q = session.createQuery(sql);
+		Query query = session.createQuery(sql);
 
-		q.setFirstResult(0);
-		q.setMaxResults(2);
+		query.setFirstResult(0);
+		query.setMaxResults(2);
 
-		QueryPos qPos = QueryPos.getInstance(q);
+		QueryPos queryPos = QueryPos.getInstance(query);
 
 		if (bindPublikUserId) {
-			qPos.add(publikUserId);
+			queryPos.add(publikUserId);
 		}
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(like)) {
 
-				qPos.add(orderByConditionValue);
+				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<Like> list = q.list();
+		List<Like> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -577,44 +568,44 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler sb = new StringBundler(2);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
+				sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
+				sb.append(_FINDER_COLUMN_PUBLIKUSERID_PUBLIKUSERID_2);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -655,7 +646,7 @@ public class LikePersistenceImpl
 	 * Returns a range of all the likes where publikUserId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -676,7 +667,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where publikUserId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -699,7 +690,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where publikUserId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param publikUserId the publik user ID
@@ -707,29 +698,29 @@ public class LikePersistenceImpl
 	 * @param start the lower bound of the range of likes
 	 * @param end the upper bound of the range of likes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching likes
 	 */
 	@Override
 	public List<Like> findByPublikUserIdAndIsDislike(
 		String publikUserId, boolean isDislike, int start, int end,
-		OrderByComparator<Like> orderByComparator, boolean retrieveFromCache) {
+		OrderByComparator<Like> orderByComparator, boolean useFinderCache) {
 
 		publikUserId = Objects.toString(publikUserId, "");
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath =
-				_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike;
-			finderArgs = new Object[] {publikUserId, isDislike};
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike;
+				finderArgs = new Object[] {publikUserId, isDislike};
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath =
 				_finderPathWithPaginationFindByPublikUserIdAndIsDislike;
 			finderArgs = new Object[] {
@@ -739,7 +730,7 @@ public class LikePersistenceImpl
 
 		List<Like> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<Like>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
@@ -757,79 +748,73 @@ public class LikePersistenceImpl
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(4);
+				sb = new StringBundler(4);
 			}
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_2);
 			}
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else if (pagination) {
-				query.append(LikeModelImpl.ORDER_BY_JPQL);
+			else {
+				sb.append(LikeModelImpl.ORDER_BY_JPQL);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				if (!pagination) {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<Like>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -861,19 +846,19 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler sb = new StringBundler(6);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikUserId=");
-		msg.append(publikUserId);
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
 
-		msg.append(", isDislike=");
-		msg.append(isDislike);
+		sb.append(", isDislike=");
+		sb.append(isDislike);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -921,19 +906,19 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler sb = new StringBundler(6);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("publikUserId=");
-		msg.append(publikUserId);
+		sb.append("publikUserId=");
+		sb.append(publikUserId);
 
-		msg.append(", isDislike=");
-		msg.append(isDislike);
+		sb.append(", isDislike=");
+		sb.append(isDislike);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -1004,8 +989,8 @@ public class LikePersistenceImpl
 
 			return array;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -1016,118 +1001,116 @@ public class LikePersistenceImpl
 		Session session, Like like, String publikUserId, boolean isDislike,
 		OrderByComparator<Like> orderByComparator, boolean previous) {
 
-		StringBundler query = null;
+		StringBundler sb = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
+			sb = new StringBundler(
 				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(4);
+			sb = new StringBundler(4);
 		}
 
-		query.append(_SQL_SELECT_LIKE__WHERE);
+		sb.append(_SQL_SELECT_LIKE__WHERE);
 
 		boolean bindPublikUserId = false;
 
 		if (publikUserId.isEmpty()) {
-			query.append(
-				_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_3);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_3);
 		}
 		else {
 			bindPublikUserId = true;
 
-			query.append(
-				_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_2);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_2);
 		}
 
-		query.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
+		sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
 				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
+				sb.append(WHERE_AND);
 			}
 
 			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
 
 				if ((i + 1) < orderByConditionFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
+						sb.append(WHERE_GREATER_THAN);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN);
+						sb.append(WHERE_LESSER_THAN);
 					}
 				}
 			}
 
-			query.append(ORDER_BY_CLAUSE);
+			sb.append(ORDER_BY_CLAUSE);
 
 			String[] orderByFields = orderByComparator.getOrderByFields();
 
 			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
 
 				if ((i + 1) < orderByFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
 					}
 					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
+						sb.append(ORDER_BY_ASC);
 					}
 					else {
-						query.append(ORDER_BY_DESC);
+						sb.append(ORDER_BY_DESC);
 					}
 				}
 			}
 		}
 		else {
-			query.append(LikeModelImpl.ORDER_BY_JPQL);
+			sb.append(LikeModelImpl.ORDER_BY_JPQL);
 		}
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
-		Query q = session.createQuery(sql);
+		Query query = session.createQuery(sql);
 
-		q.setFirstResult(0);
-		q.setMaxResults(2);
+		query.setFirstResult(0);
+		query.setMaxResults(2);
 
-		QueryPos qPos = QueryPos.getInstance(q);
+		QueryPos queryPos = QueryPos.getInstance(query);
 
 		if (bindPublikUserId) {
-			qPos.add(publikUserId);
+			queryPos.add(publikUserId);
 		}
 
-		qPos.add(isDislike);
+		queryPos.add(isDislike);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(like)) {
 
-				qPos.add(orderByConditionValue);
+				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<Like> list = q.list();
+		List<Like> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -1176,50 +1159,50 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(3);
+			StringBundler sb = new StringBundler(3);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_PUBLIKUSERID_2);
 			}
 
-			query.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_PUBLIKUSERIDANDISDISLIKE_ISDISLIKE_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1265,32 +1248,32 @@ public class LikePersistenceImpl
 			publikUserId, title, isDislike, typeId, entityId);
 
 		if (like == null) {
-			StringBundler msg = new StringBundler(12);
+			StringBundler sb = new StringBundler(12);
 
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("publikUserId=");
-			msg.append(publikUserId);
+			sb.append("publikUserId=");
+			sb.append(publikUserId);
 
-			msg.append(", title=");
-			msg.append(title);
+			sb.append(", title=");
+			sb.append(title);
 
-			msg.append(", isDislike=");
-			msg.append(isDislike);
+			sb.append(", isDislike=");
+			sb.append(isDislike);
 
-			msg.append(", typeId=");
-			msg.append(typeId);
+			sb.append(", typeId=");
+			sb.append(typeId);
 
-			msg.append(", entityId=");
-			msg.append(entityId);
+			sb.append(", entityId=");
+			sb.append(entityId);
 
-			msg.append("}");
+			sb.append("}");
 
 			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
+				_log.debug(sb.toString());
 			}
 
-			throw new NoSuchLikeException(msg.toString());
+			throw new NoSuchLikeException(sb.toString());
 		}
 
 		return like;
@@ -1323,24 +1306,28 @@ public class LikePersistenceImpl
 	 * @param isDislike the is dislike
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching like, or <code>null</code> if a matching like could not be found
 	 */
 	@Override
 	public Like fetchByAllAttributes(
 		String publikUserId, String title, boolean isDislike, long typeId,
-		long entityId, boolean retrieveFromCache) {
+		long entityId, boolean useFinderCache) {
 
 		publikUserId = Objects.toString(publikUserId, "");
 		title = Objects.toString(title, "");
 
-		Object[] finderArgs = new Object[] {
-			publikUserId, title, isDislike, typeId, entityId
-		};
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {
+				publikUserId, title, isDislike, typeId, entityId
+			};
+		}
 
 		Object result = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			result = finderCache.getResult(
 				_finderPathFetchByAllAttributes, finderArgs, this);
 		}
@@ -1359,74 +1346,83 @@ public class LikePersistenceImpl
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(7);
+			StringBundler sb = new StringBundler(7);
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_2);
 			}
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_3);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
 			}
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_ISDISLIKE_2);
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
 				if (bindTitle) {
-					qPos.add(title);
+					queryPos.add(title);
 				}
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				List<Like> list = q.list();
+				List<Like> list = query.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchByAllAttributes, finderArgs, list);
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByAllAttributes, finderArgs, list);
+					}
 				}
 				else {
 					if (list.size() > 1) {
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									publikUserId, title, isDislike, typeId,
+									entityId
+								};
+							}
+
 							_log.warn(
 								"LikePersistenceImpl.fetchByAllAttributes(String, String, boolean, long, long, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
@@ -1441,11 +1437,13 @@ public class LikePersistenceImpl
 					cacheResult(like);
 				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathFetchByAllAttributes, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByAllAttributes, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1509,71 +1507,71 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(6);
+			StringBundler sb = new StringBundler(6);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_PUBLIKUSERID_2);
 			}
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_3);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TITLE_2);
 			}
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_ISDISLIKE_2);
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_TYPEID_2);
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTES_ENTITYID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
 				if (bindTitle) {
-					qPos.add(title);
+					queryPos.add(title);
 				}
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1626,29 +1624,29 @@ public class LikePersistenceImpl
 			publikUserId, title, typeId, entityId);
 
 		if (like == null) {
-			StringBundler msg = new StringBundler(10);
+			StringBundler sb = new StringBundler(10);
 
-			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-			msg.append("publikUserId=");
-			msg.append(publikUserId);
+			sb.append("publikUserId=");
+			sb.append(publikUserId);
 
-			msg.append(", title=");
-			msg.append(title);
+			sb.append(", title=");
+			sb.append(title);
 
-			msg.append(", typeId=");
-			msg.append(typeId);
+			sb.append(", typeId=");
+			sb.append(typeId);
 
-			msg.append(", entityId=");
-			msg.append(entityId);
+			sb.append(", entityId=");
+			sb.append(entityId);
 
-			msg.append("}");
+			sb.append("}");
 
 			if (_log.isDebugEnabled()) {
-				_log.debug(msg.toString());
+				_log.debug(sb.toString());
 			}
 
-			throw new NoSuchLikeException(msg.toString());
+			throw new NoSuchLikeException(sb.toString());
 		}
 
 		return like;
@@ -1678,24 +1676,26 @@ public class LikePersistenceImpl
 	 * @param title the title
 	 * @param typeId the type ID
 	 * @param entityId the entity ID
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching like, or <code>null</code> if a matching like could not be found
 	 */
 	@Override
 	public Like fetchByAllAttributesExceptIsDislike(
 		String publikUserId, String title, long typeId, long entityId,
-		boolean retrieveFromCache) {
+		boolean useFinderCache) {
 
 		publikUserId = Objects.toString(publikUserId, "");
 		title = Objects.toString(title, "");
 
-		Object[] finderArgs = new Object[] {
-			publikUserId, title, typeId, entityId
-		};
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {publikUserId, title, typeId, entityId};
+		}
 
 		Object result = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			result = finderCache.getResult(
 				_finderPathFetchByAllAttributesExceptIsDislike, finderArgs,
 				this);
@@ -1714,76 +1714,81 @@ public class LikePersistenceImpl
 		}
 
 		if (result == null) {
-			StringBundler query = new StringBundler(6);
+			StringBundler sb = new StringBundler(6);
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_2);
 			}
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(
-					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(
-					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
 			}
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
 
-			query.append(
-				_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
 				if (bindTitle) {
-					qPos.add(title);
+					queryPos.add(title);
 				}
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				List<Like> list = q.list();
+				List<Like> list = query.list();
 
 				if (list.isEmpty()) {
-					finderCache.putResult(
-						_finderPathFetchByAllAttributesExceptIsDislike,
-						finderArgs, list);
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByAllAttributesExceptIsDislike,
+							finderArgs, list);
+					}
 				}
 				else {
 					if (list.size() > 1) {
 						Collections.sort(list, Collections.reverseOrder());
 
 						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									publikUserId, title, typeId, entityId
+								};
+							}
+
 							_log.warn(
 								"LikePersistenceImpl.fetchByAllAttributesExceptIsDislike(String, String, long, long, boolean) with parameters (" +
 									StringUtil.merge(finderArgs) +
@@ -1798,11 +1803,14 @@ public class LikePersistenceImpl
 					cacheResult(like);
 				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(
-					_finderPathFetchByAllAttributesExceptIsDislike, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByAllAttributesExceptIsDislike,
+						finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1862,72 +1870,69 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(5);
+			StringBundler sb = new StringBundler(5);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
 			boolean bindPublikUserId = false;
 
 			if (publikUserId.isEmpty()) {
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_3);
 			}
 			else {
 				bindPublikUserId = true;
 
-				query.append(
+				sb.append(
 					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_PUBLIKUSERID_2);
 			}
 
 			boolean bindTitle = false;
 
 			if (title.isEmpty()) {
-				query.append(
-					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_3);
 			}
 			else {
 				bindTitle = true;
 
-				query.append(
-					_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
+				sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TITLE_2);
 			}
 
-			query.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_TYPEID_2);
 
-			query.append(
-				_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ALLATTRIBUTESEXCEPTISDISLIKE_ENTITYID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindPublikUserId) {
-					qPos.add(publikUserId);
+					queryPos.add(publikUserId);
 				}
 
 				if (bindTitle) {
-					qPos.add(title);
+					queryPos.add(title);
 				}
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -1982,7 +1987,7 @@ public class LikePersistenceImpl
 	 * Returns a range of all the likes where entityId = &#63; and typeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2002,7 +2007,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where entityId = &#63; and typeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2025,7 +2030,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where entityId = &#63; and typeId = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2033,26 +2038,27 @@ public class LikePersistenceImpl
 	 * @param start the lower bound of the range of likes
 	 * @param end the upper bound of the range of likes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching likes
 	 */
 	@Override
 	public List<Like> findByEntityIdAndTypeId(
 		long entityId, long typeId, int start, int end,
-		OrderByComparator<Like> orderByComparator, boolean retrieveFromCache) {
+		OrderByComparator<Like> orderByComparator, boolean useFinderCache) {
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindByEntityIdAndTypeId;
-			finderArgs = new Object[] {entityId, typeId};
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindByEntityIdAndTypeId;
+				finderArgs = new Object[] {entityId, typeId};
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath = _finderPathWithPaginationFindByEntityIdAndTypeId;
 			finderArgs = new Object[] {
 				entityId, typeId, start, end, orderByComparator
@@ -2061,7 +2067,7 @@ public class LikePersistenceImpl
 
 		List<Like> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<Like>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
@@ -2079,66 +2085,60 @@ public class LikePersistenceImpl
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(4);
+				sb = new StringBundler(4);
 			}
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else if (pagination) {
-				query.append(LikeModelImpl.ORDER_BY_JPQL);
+			else {
+				sb.append(LikeModelImpl.ORDER_BY_JPQL);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				if (!pagination) {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<Like>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -2170,19 +2170,19 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler sb = new StringBundler(6);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("entityId=");
-		msg.append(entityId);
+		sb.append("entityId=");
+		sb.append(entityId);
 
-		msg.append(", typeId=");
-		msg.append(typeId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -2229,19 +2229,19 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(6);
+		StringBundler sb = new StringBundler(6);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("entityId=");
-		msg.append(entityId);
+		sb.append("entityId=");
+		sb.append(entityId);
 
-		msg.append(", typeId=");
-		msg.append(typeId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -2307,8 +2307,8 @@ public class LikePersistenceImpl
 
 			return array;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -2319,105 +2319,105 @@ public class LikePersistenceImpl
 		Session session, Like like, long entityId, long typeId,
 		OrderByComparator<Like> orderByComparator, boolean previous) {
 
-		StringBundler query = null;
+		StringBundler sb = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
+			sb = new StringBundler(
 				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(4);
+			sb = new StringBundler(4);
 		}
 
-		query.append(_SQL_SELECT_LIKE__WHERE);
+		sb.append(_SQL_SELECT_LIKE__WHERE);
 
-		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+		sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
 
-		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+		sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
 				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
+				sb.append(WHERE_AND);
 			}
 
 			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
 
 				if ((i + 1) < orderByConditionFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
+						sb.append(WHERE_GREATER_THAN);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN);
+						sb.append(WHERE_LESSER_THAN);
 					}
 				}
 			}
 
-			query.append(ORDER_BY_CLAUSE);
+			sb.append(ORDER_BY_CLAUSE);
 
 			String[] orderByFields = orderByComparator.getOrderByFields();
 
 			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
 
 				if ((i + 1) < orderByFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
 					}
 					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
+						sb.append(ORDER_BY_ASC);
 					}
 					else {
-						query.append(ORDER_BY_DESC);
+						sb.append(ORDER_BY_DESC);
 					}
 				}
 			}
 		}
 		else {
-			query.append(LikeModelImpl.ORDER_BY_JPQL);
+			sb.append(LikeModelImpl.ORDER_BY_JPQL);
 		}
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
-		Query q = session.createQuery(sql);
+		Query query = session.createQuery(sql);
 
-		q.setFirstResult(0);
-		q.setMaxResults(2);
+		query.setFirstResult(0);
+		query.setMaxResults(2);
 
-		QueryPos qPos = QueryPos.getInstance(q);
+		QueryPos queryPos = QueryPos.getInstance(query);
 
-		qPos.add(entityId);
+		queryPos.add(entityId);
 
-		qPos.add(typeId);
+		queryPos.add(typeId);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(like)) {
 
-				qPos.add(orderByConditionValue);
+				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<Like> list = q.list();
+		List<Like> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -2460,37 +2460,37 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(3);
+			StringBundler sb = new StringBundler(3);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_ENTITYID_2);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEID_TYPEID_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -2533,7 +2533,7 @@ public class LikePersistenceImpl
 	 * Returns a range of all the likes where entityId = &#63; and typeId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2555,7 +2555,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where entityId = &#63; and typeId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2579,7 +2579,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes where entityId = &#63; and typeId = &#63; and isDislike = &#63;.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param entityId the entity ID
@@ -2588,27 +2588,27 @@ public class LikePersistenceImpl
 	 * @param start the lower bound of the range of likes
 	 * @param end the upper bound of the range of likes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching likes
 	 */
 	@Override
 	public List<Like> findByEntityIdAndTypeIdAndIsDislike(
 		long entityId, long typeId, boolean isDislike, int start, int end,
-		OrderByComparator<Like> orderByComparator, boolean retrieveFromCache) {
+		OrderByComparator<Like> orderByComparator, boolean useFinderCache) {
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath =
-				_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike;
-			finderArgs = new Object[] {entityId, typeId, isDislike};
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike;
+				finderArgs = new Object[] {entityId, typeId, isDislike};
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath =
 				_finderPathWithPaginationFindByEntityIdAndTypeIdAndIsDislike;
 			finderArgs = new Object[] {
@@ -2618,7 +2618,7 @@ public class LikePersistenceImpl
 
 		List<Like> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<Like>)finderCache.getResult(
 				finderPath, finderArgs, this);
 
@@ -2637,72 +2637,64 @@ public class LikePersistenceImpl
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					5 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				query = new StringBundler(5);
+				sb = new StringBundler(5);
 			}
 
-			query.append(_SQL_SELECT_LIKE__WHERE);
+			sb.append(_SQL_SELECT_LIKE__WHERE);
 
-			query.append(
-				_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
 
-			query.append(
-				_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 			}
-			else if (pagination) {
-				query.append(LikeModelImpl.ORDER_BY_JPQL);
+			else {
+				sb.append(LikeModelImpl.ORDER_BY_JPQL);
 			}
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				if (!pagination) {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<Like>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -2735,22 +2727,22 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler sb = new StringBundler(8);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("entityId=");
-		msg.append(entityId);
+		sb.append("entityId=");
+		sb.append(entityId);
 
-		msg.append(", typeId=");
-		msg.append(typeId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 
-		msg.append(", isDislike=");
-		msg.append(isDislike);
+		sb.append(", isDislike=");
+		sb.append(isDislike);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -2800,22 +2792,22 @@ public class LikePersistenceImpl
 			return like;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler sb = new StringBundler(8);
 
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
-		msg.append("entityId=");
-		msg.append(entityId);
+		sb.append("entityId=");
+		sb.append(entityId);
 
-		msg.append(", typeId=");
-		msg.append(typeId);
+		sb.append(", typeId=");
+		sb.append(typeId);
 
-		msg.append(", isDislike=");
-		msg.append(isDislike);
+		sb.append(", isDislike=");
+		sb.append(isDislike);
 
-		msg.append("}");
+		sb.append("}");
 
-		throw new NoSuchLikeException(msg.toString());
+		throw new NoSuchLikeException(sb.toString());
 	}
 
 	/**
@@ -2887,8 +2879,8 @@ public class LikePersistenceImpl
 
 			return array;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -2900,109 +2892,109 @@ public class LikePersistenceImpl
 		boolean isDislike, OrderByComparator<Like> orderByComparator,
 		boolean previous) {
 
-		StringBundler query = null;
+		StringBundler sb = null;
 
 		if (orderByComparator != null) {
-			query = new StringBundler(
+			sb = new StringBundler(
 				6 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			query = new StringBundler(5);
+			sb = new StringBundler(5);
 		}
 
-		query.append(_SQL_SELECT_LIKE__WHERE);
+		sb.append(_SQL_SELECT_LIKE__WHERE);
 
-		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
+		sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
 
-		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
+		sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
 
-		query.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
+		sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
 				orderByComparator.getOrderByConditionFields();
 
 			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
+				sb.append(WHERE_AND);
 			}
 
 			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
 
 				if ((i + 1) < orderByConditionFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
+						sb.append(WHERE_GREATER_THAN);
 					}
 					else {
-						query.append(WHERE_LESSER_THAN);
+						sb.append(WHERE_LESSER_THAN);
 					}
 				}
 			}
 
-			query.append(ORDER_BY_CLAUSE);
+			sb.append(ORDER_BY_CLAUSE);
 
 			String[] orderByFields = orderByComparator.getOrderByFields();
 
 			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
 
 				if ((i + 1) < orderByFields.length) {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
 					}
 					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
 					}
 				}
 				else {
 					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
+						sb.append(ORDER_BY_ASC);
 					}
 					else {
-						query.append(ORDER_BY_DESC);
+						sb.append(ORDER_BY_DESC);
 					}
 				}
 			}
 		}
 		else {
-			query.append(LikeModelImpl.ORDER_BY_JPQL);
+			sb.append(LikeModelImpl.ORDER_BY_JPQL);
 		}
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
-		Query q = session.createQuery(sql);
+		Query query = session.createQuery(sql);
 
-		q.setFirstResult(0);
-		q.setMaxResults(2);
+		query.setFirstResult(0);
+		query.setMaxResults(2);
 
-		QueryPos qPos = QueryPos.getInstance(q);
+		QueryPos queryPos = QueryPos.getInstance(query);
 
-		qPos.add(entityId);
+		queryPos.add(entityId);
 
-		qPos.add(typeId);
+		queryPos.add(typeId);
 
-		qPos.add(isDislike);
+		queryPos.add(isDislike);
 
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(like)) {
 
-				qPos.add(orderByConditionValue);
+				queryPos.add(orderByConditionValue);
 			}
 		}
 
-		List<Like> list = q.list();
+		List<Like> list = query.list();
 
 		if (list.size() == 2) {
 			return list.get(1);
@@ -3051,43 +3043,41 @@ public class LikePersistenceImpl
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler sb = new StringBundler(4);
 
-			query.append(_SQL_COUNT_LIKE__WHERE);
+			sb.append(_SQL_COUNT_LIKE__WHERE);
 
-			query.append(
-				_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ENTITYID_2);
 
-			query.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_TYPEID_2);
 
-			query.append(
-				_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
+			sb.append(_FINDER_COLUMN_ENTITYIDANDTYPEIDANDISDISLIKE_ISDISLIKE_2);
 
-			String sql = query.toString();
+			String sql = sb.toString();
 
 			Session session = null;
 
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				QueryPos qPos = QueryPos.getInstance(q);
+				QueryPos queryPos = QueryPos.getInstance(query);
 
-				qPos.add(entityId);
+				queryPos.add(entityId);
 
-				qPos.add(typeId);
+				queryPos.add(typeId);
 
-				qPos.add(isDislike);
+				queryPos.add(isDislike);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(finderPath, finderArgs);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3209,6 +3199,17 @@ public class LikePersistenceImpl
 				like.getPrimaryKey());
 
 			clearUniqueFindersCache((LikeModelImpl)like, true);
+		}
+	}
+
+	public void clearCache(Set<Serializable> primaryKeys) {
+		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		for (Serializable primaryKey : primaryKeys) {
+			entityCache.removeResult(
+				LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class, primaryKey);
 		}
 	}
 
@@ -3351,11 +3352,11 @@ public class LikePersistenceImpl
 
 			return remove(like);
 		}
-		catch (NoSuchLikeException nsee) {
-			throw nsee;
+		catch (NoSuchLikeException noSuchEntityException) {
+			throw noSuchEntityException;
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3378,8 +3379,8 @@ public class LikePersistenceImpl
 				session.delete(like);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3428,8 +3429,8 @@ public class LikePersistenceImpl
 				like = (Like)session.merge(like);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3662,12 +3663,12 @@ public class LikePersistenceImpl
 						primaryKey, nullModel);
 				}
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				entityCache.removeResult(
 					LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
 					primaryKey);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3736,31 +3737,31 @@ public class LikePersistenceImpl
 			return map;
 		}
 
-		StringBundler query = new StringBundler(
+		StringBundler sb = new StringBundler(
 			uncachedPrimaryKeys.size() * 2 + 1);
 
-		query.append(_SQL_SELECT_LIKE__WHERE_PKS_IN);
+		sb.append(_SQL_SELECT_LIKE__WHERE_PKS_IN);
 
 		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			query.append((long)primaryKey);
+			sb.append((long)primaryKey);
 
-			query.append(",");
+			sb.append(",");
 		}
 
-		query.setIndex(query.index() - 1);
+		sb.setIndex(sb.index() - 1);
 
-		query.append(")");
+		sb.append(")");
 
-		String sql = query.toString();
+		String sql = sb.toString();
 
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			Query q = session.createQuery(sql);
+			Query query = session.createQuery(sql);
 
-			for (Like like : (List<Like>)q.list()) {
+			for (Like like : (List<Like>)query.list()) {
 				map.put(like.getPrimaryKeyObj(), like);
 
 				cacheResult(like);
@@ -3774,8 +3775,8 @@ public class LikePersistenceImpl
 					primaryKey, nullModel);
 			}
 		}
-		catch (Exception e) {
-			throw processException(e);
+		catch (Exception exception) {
+			throw processException(exception);
 		}
 		finally {
 			closeSession(session);
@@ -3798,7 +3799,7 @@ public class LikePersistenceImpl
 	 * Returns a range of all the likes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of likes
@@ -3814,7 +3815,7 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of likes
@@ -3833,64 +3834,62 @@ public class LikePersistenceImpl
 	 * Returns an ordered range of all the likes.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LikeModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of likes
 	 * @param end the upper bound of the range of likes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of likes
 	 */
 	@Override
 	public List<Like> findAll(
 		int start, int end, OrderByComparator<Like> orderByComparator,
-		boolean retrieveFromCache) {
+		boolean useFinderCache) {
 
-		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
 		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
 			(orderByComparator == null)) {
 
-			pagination = false;
-			finderPath = _finderPathWithoutPaginationFindAll;
-			finderArgs = FINDER_ARGS_EMPTY;
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindAll;
+				finderArgs = FINDER_ARGS_EMPTY;
+			}
 		}
-		else {
+		else if (useFinderCache) {
 			finderPath = _finderPathWithPaginationFindAll;
 			finderArgs = new Object[] {start, end, orderByComparator};
 		}
 
 		List<Like> list = null;
 
-		if (retrieveFromCache) {
+		if (useFinderCache) {
 			list = (List<Like>)finderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
 		if (list == null) {
-			StringBundler query = null;
+			StringBundler sb = null;
 			String sql = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(
+				sb = new StringBundler(
 					2 + (orderByComparator.getOrderByFields().length * 2));
 
-				query.append(_SQL_SELECT_LIKE_);
+				sb.append(_SQL_SELECT_LIKE_);
 
 				appendOrderByComparator(
-					query, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
 
-				sql = query.toString();
+				sql = sb.toString();
 			}
 			else {
 				sql = _SQL_SELECT_LIKE_;
 
-				if (pagination) {
-					sql = sql.concat(LikeModelImpl.ORDER_BY_JPQL);
-				}
+				sql = sql.concat(LikeModelImpl.ORDER_BY_JPQL);
 			}
 
 			Session session = null;
@@ -3898,29 +3897,23 @@ public class LikePersistenceImpl
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(sql);
+				Query query = session.createQuery(sql);
 
-				if (!pagination) {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end, false);
-
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
-				}
-				else {
-					list = (List<Like>)QueryUtil.list(
-						q, getDialect(), start, end);
-				}
+				list = (List<Like>)QueryUtil.list(
+					query, getDialect(), start, end);
 
 				cacheResult(list);
 
-				finderCache.putResult(finderPath, finderArgs, list);
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
 			}
-			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);
@@ -3957,18 +3950,18 @@ public class LikePersistenceImpl
 			try {
 				session = openSession();
 
-				Query q = session.createQuery(_SQL_COUNT_LIKE_);
+				Query query = session.createQuery(_SQL_COUNT_LIKE_);
 
-				count = (Long)q.uniqueResult();
+				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				finderCache.removeResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY);
 
-				throw processException(e);
+				throw processException(exception);
 			}
 			finally {
 				closeSession(session);

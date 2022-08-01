@@ -1,12 +1,30 @@
-
 window.setInterval(function(){
     Liferay.Service(
       '/council.deliberation/get-user-front',
       {
         officialId: officialConnectedId,
-        officialDeviceInfo: userDeviceInfo
+        officialDeviceInfo: userDeviceInfo,
+        councilSessionId: councilSessionId
       },
       function(obj) {
+        displayInfos(obj);
+      }
+    );
+}, 3000);
+
+function disabledAllInput() {
+    document.getElementById('pour').disabled= true;
+    document.getElementById('contre').disabled= true;
+    document.getElementById('abstention').disabled= true;
+    document.getElementById('pour1').disabled= true;
+    document.getElementById('contre1').disabled= true;
+    document.getElementById('abstention1').disabled= true;
+    document.getElementById('pour2').disabled= true;
+    document.getElementById('contre2').disabled= true;
+    document.getElementById('abstention2').disabled= true;
+}
+
+function displayInfos(obj) {
 
         // On a un message (d'erreur, pas de session, pas de délib)
         if(obj.message) {
@@ -124,8 +142,15 @@ window.setInterval(function(){
                     frontProcuOne.style.display="none";
                     frontProcuTwo.style.display="none";
 
+                    frontNombreVotes.textContent='';
+                    frontNombreVotes.style.display = "block";
+                    var nbVotesJSON = obj.totalVotes;
+                    var votesTotal = nbVotesJSON.nbTotalVotes;
+                    displayNbVotes(votesTotal, frontNombreVotes);
+
                     if(useSkypeView) {
                        frontVoteEnCours.style.display="block";
+
                     } else {
                         var procurationsJSON = obj.official.procurations;
                         var procurationOne = procurationsJSON[0];
@@ -137,7 +162,7 @@ window.setInterval(function(){
                                 document.getElementById('pour').checked= true;
                             } else if (officialVote == "Contre") {
                                 document.getElementById('contre').checked= true;
-                            }else if (officialVote == "Pour") {
+                            }else if (officialVote == "Abstention") {
                                 document.getElementById('abstention').checked= true;
                             }
 
@@ -147,7 +172,7 @@ window.setInterval(function(){
                                     document.getElementById('pour1').checked= true;
                                 } else if (procurationOneVote == "Contre") {
                                     document.getElementById('contre1').checked= true;
-                                }else if (procurationOneVote == "Pour") {
+                                }else if (procurationOneVote == "Abstention") {
                                     document.getElementById('abstention1').checked= true;
                                 }
                             }
@@ -158,7 +183,7 @@ window.setInterval(function(){
                                     document.getElementById('pour2').checked= true;
                                 } else if (procurationTwoVote == "Contre") {
                                     document.getElementById('contre2').checked= true;
-                                }else if (procurationTwoVote == "Pour") {
+                                }else if (procurationTwoVote == "Abstention") {
                                     document.getElementById('abstention2').checked= true;
                                 }
                             }
@@ -208,6 +233,7 @@ window.setInterval(function(){
                     frontVoteForm.style.display = "none";
                     frontConfirmationVote.style.display = "none";
                     frontErrorVoteMessage.style.display = "none";
+                    frontNombreVotes.style.display = "none";
 
                     var votesJSON = deliberationJSON.votes;
 
@@ -217,7 +243,7 @@ window.setInterval(function(){
 
                     frontResultatStatut.textContent = deliberationJSON.stage
 
-                    //CALCUL LALISTE DES VOTES
+                    // CALCUL LA LISTE DES VOTES
                     var listePour ='';
                     var listeContre ='';
                     var listeAbstention ='';
@@ -292,17 +318,35 @@ window.setInterval(function(){
             }
          }
       }
-    );
-}, 3000);
 
-function disabledAllInput() {
-    document.getElementById('pour').disabled= true;
-    document.getElementById('contre').disabled= true;
-    document.getElementById('abstention').disabled= true;
-    document.getElementById('pour1').disabled= true;
-    document.getElementById('contre1').disabled= true;
-    document.getElementById('abstention1').disabled= true;
-    document.getElementById('pour2').disabled= true;
-    document.getElementById('contre2').disabled= true;
-    document.getElementById('abstention2').disabled= true;
+/**
+ * Affiche le nombre de votes réalisés
+ */
+function displayNbVotes(nbVotes, element) {
+	    element.innerHTML +=
+			'<div id="nombre-votes">'
+			+ "Nombre de votes : "
+			+ nbVotes
+			+ '</div>';
 }
+/*
+//Loading page
+document.onreadystatechange=function () {
+          if (document.readyState=="complete"){
+               loadingFade();
+          }
+}
+function loadingFade() {
+     var opacity=1;
+     var loadingBackground=document.getElementById('loading_animation');
+     var time=setInterval(function () {
+          if (opacity<=0){
+               clearInterval(time);
+               //loadingPage.remove();
+               $('loading_animation').remove();
+          }
+
+          loadingBackground.style.opacity=opacity;
+          opacity-=0.4;
+     },100);
+}*/

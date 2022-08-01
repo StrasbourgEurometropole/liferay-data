@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,18 +26,16 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class CacheJsonSoap implements Serializable {
 
 	public static CacheJsonSoap toSoapModel(CacheJson model) {
 		CacheJsonSoap soapModel = new CacheJsonSoap();
 
-		soapModel.setUuid(model.getUuid());
 		soapModel.setEventId(model.getEventId());
 		soapModel.setJsonEvent(model.getJsonEvent());
 		soapModel.setCreateEvent(model.getCreateEvent());
 		soapModel.setModifiedEvent(model.getModifiedEvent());
-		soapModel.setIsActive(model.isIsActive());
+		soapModel.setIsApproved(model.isIsApproved());
 
 		return soapModel;
 	}
@@ -93,14 +89,6 @@ public class CacheJsonSoap implements Serializable {
 		setEventId(pk);
 	}
 
-	public String getUuid() {
-		return _uuid;
-	}
-
-	public void setUuid(String uuid) {
-		_uuid = uuid;
-	}
-
 	public long getEventId() {
 		return _eventId;
 	}
@@ -133,23 +121,22 @@ public class CacheJsonSoap implements Serializable {
 		_modifiedEvent = modifiedEvent;
 	}
 
-	public boolean getIsActive() {
-		return _isActive;
+	public boolean getIsApproved() {
+		return _isApproved;
 	}
 
-	public boolean isIsActive() {
-		return _isActive;
+	public boolean isIsApproved() {
+		return _isApproved;
 	}
 
-	public void setIsActive(boolean isActive) {
-		_isActive = isActive;
+	public void setIsApproved(boolean isApproved) {
+		_isApproved = isApproved;
 	}
 
-	private String _uuid;
 	private long _eventId;
 	private String _jsonEvent;
 	private Date _createEvent;
 	private Date _modifiedEvent;
-	private boolean _isActive;
+	private boolean _isApproved;
 
 }

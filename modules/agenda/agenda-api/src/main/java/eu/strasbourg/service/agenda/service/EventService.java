@@ -19,6 +19,7 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
@@ -27,8 +28,6 @@ import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
-
-import java.util.*;
 
 /**
  * Provides the remote service interface for Event. Methods of this
@@ -64,28 +63,26 @@ public interface EventService extends BaseService {
 	public JSONArray getCategories() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getCategory(long id) throws PortalException;
+	public JSONObject getCategory(long id);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEvent(long id) throws PortalException;
+	public JSONObject getEvent(long id);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEvents() throws PortalException;
+	public JSONObject getEvents();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEventsByCategory(long categoryId)
-		throws PortalException;
+	public JSONObject getEventsByCategory(String categoryId)
+		throws JSONException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEventsByDate(String date) throws PortalException;
+	public JSONObject getEventsByDate(String date) throws JSONException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEventsByLanguage(String language)
-		throws PortalException;
+	public JSONObject getEventsByLanguage(String language) throws JSONException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONObject getEventsByPlace(String placeSIGId)
-		throws PortalException;
+	public JSONObject getEventsByPlace(String placeSIGId) throws JSONException;
 
 	/**
 	 * Returns the OSGi service identifier.

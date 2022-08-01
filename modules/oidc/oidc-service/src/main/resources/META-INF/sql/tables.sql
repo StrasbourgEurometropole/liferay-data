@@ -38,5 +38,9 @@ create table publik_PublikUser (
 	banishDate DATE null,
 	banishDescription TEXT null,
 	imageURL VARCHAR(400) null,
-	pactDisplay BOOLEAN
+	pactDisplay BOOLEAN,
+	csmapJSON STRING null,
+	modifiedDateJSON DATE null,
+	topicsFCM VARCHAR(400) null,
+	lastUpdateTimeTopics LONG
 );

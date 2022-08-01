@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
  * @see Manifestation
  * @generated
  */
-@ProviderType
 public abstract class ManifestationBaseImpl
 	extends ManifestationModelImpl implements Manifestation {
 

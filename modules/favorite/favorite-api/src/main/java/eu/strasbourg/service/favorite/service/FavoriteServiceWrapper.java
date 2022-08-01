@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.favorite.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see FavoriteService
  * @generated
  */
-@ProviderType
 public class FavoriteServiceWrapper
 	implements FavoriteService, ServiceWrapper<FavoriteService> {
 

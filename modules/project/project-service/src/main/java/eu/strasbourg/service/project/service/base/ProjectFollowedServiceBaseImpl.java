@@ -58,7 +58,7 @@ import javax.sql.DataSource;
  */
 public abstract class ProjectFollowedServiceBaseImpl
 	extends BaseServiceImpl
-	implements ProjectFollowedService, IdentifiableOSGiService {
+	implements IdentifiableOSGiService, ProjectFollowedService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -1085,8 +1085,8 @@ public abstract class ProjectFollowedServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

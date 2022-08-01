@@ -46,6 +46,9 @@
 		<link href='//fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 	    <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 		<link href='//fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css' />
+
+		<!-- Correction probleme asset-detail -->
+		<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 	       
 		<!-- jQuery 1.9.1 -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
@@ -74,8 +77,11 @@
 		                    <img src="${images_folder}/../img/logo_strasbourg.png" alt="Strasbourg.eu" />
 		                </a>
 		                <ul>
-		                    <li class="contact">
+		                    <!-- <li class="contact">
 		                        <a href="${themeDisplay.pathFriendlyURLPublic}${themeDisplay.getLayout().getGroup().getFriendlyURL()}/pied-de-page/contact" title="Contact"><@liferay_ui.message key='contact' /></a>
+		                    </li> -->
+		                    <li class="contact">
+		                        <a href="https://lumen.oeuvre-notre-dame.eu/" target="_blank" title="LUMEN, le portail des collections de la Fondation de l'Oeuvre Notre-Dame (<@liferay_ui.message key='new-window' />)" alt="LUMEN, le portail des collections de la Fondation de l'Oeuvre Notre-Dame">LUMEN</a>
 		                    </li>
 		                </ul>
 		                <div class="clearfix"></div>

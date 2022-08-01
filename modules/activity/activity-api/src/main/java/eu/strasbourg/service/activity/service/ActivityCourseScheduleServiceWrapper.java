@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see ActivityCourseScheduleService
  * @generated
  */
-@ProviderType
 public class ActivityCourseScheduleServiceWrapper
 	implements ActivityCourseScheduleService,
 			   ServiceWrapper<ActivityCourseScheduleService> {

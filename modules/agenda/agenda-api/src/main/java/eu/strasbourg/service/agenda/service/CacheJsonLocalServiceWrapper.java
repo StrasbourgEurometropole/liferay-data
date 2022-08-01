@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see CacheJsonLocalService
  * @generated
  */
-@ProviderType
 public class CacheJsonLocalServiceWrapper
 	implements CacheJsonLocalService, ServiceWrapper<CacheJsonLocalService> {
 
@@ -37,6 +34,10 @@ public class CacheJsonLocalServiceWrapper
 
 	/**
 	 * Adds the cache json to the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was added
@@ -64,6 +65,10 @@ public class CacheJsonLocalServiceWrapper
 	/**
 	 * Deletes the cache json from the database. Also notifies the appropriate model listeners.
 	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
+	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was removed
 	 */
@@ -76,6 +81,10 @@ public class CacheJsonLocalServiceWrapper
 
 	/**
 	 * Deletes the cache json with the primary key from the database. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param eventId the primary key of the cache json
 	 * @return the cache json that was removed
@@ -122,7 +131,7 @@ public class CacheJsonLocalServiceWrapper
 	 * Performs a dynamic query on the database and returns a range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -142,7 +151,7 @@ public class CacheJsonLocalServiceWrapper
 	 * Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param dynamicQuery the dynamic query
@@ -205,34 +214,23 @@ public class CacheJsonLocalServiceWrapper
 	}
 
 	/**
-	 * Retourne les caches d'un lieu créé après une date et actif
+	 * Retourne la list  cache d'un event s'il est approuvé sinon envoi une erreur
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
-		getByCreatedDateAndIsActive(java.util.Date date) {
+		getAllIsApproved() {
 
-		return _cacheJsonLocalService.getByCreatedDateAndIsActive(date);
+		return _cacheJsonLocalService.getAllIsApproved();
 	}
 
 	/**
-	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 * Retourne le cache d'un event s'il est approuvé sinon null
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
-		getByCreatedDateAndModifiedDateAndIsActive(java.util.Date date) {
+	public eu.strasbourg.service.agenda.model.CacheJson
+		getByEventIdAndIsApproved(long eventId) {
 
-		return _cacheJsonLocalService.
-			getByCreatedDateAndModifiedDateAndIsActive(date);
-	}
-
-	/**
-	 * Retourne les caches d'un lieu modifié après une date et inactif
-	 */
-	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.CacheJson>
-		getByModifiedDateAndIsNotActive(java.util.Date date) {
-
-		return _cacheJsonLocalService.getByModifiedDateAndIsNotActive(date);
+		return _cacheJsonLocalService.getByEventIdAndIsApproved(eventId);
 	}
 
 	/**
@@ -254,7 +252,7 @@ public class CacheJsonLocalServiceWrapper
 	 * Returns a range of all the cache jsons.
 	 *
 	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code>), then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl</code>.
 	 * </p>
 	 *
 	 * @param start the lower bound of the range of cache jsons
@@ -295,6 +293,9 @@ public class CacheJsonLocalServiceWrapper
 		return _cacheJsonLocalService.getOSGiServiceIdentifier();
 	}
 
+	/**
+	 * @throws PortalException
+	 */
 	@Override
 	public com.liferay.portal.kernel.model.PersistedModel getPersistedModel(
 			java.io.Serializable primaryKeyObj)
@@ -305,6 +306,10 @@ public class CacheJsonLocalServiceWrapper
 
 	/**
 	 * Updates the cache json in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	 *
+	 * <p>
+	 * <strong>Important:</strong> Inspect CacheJsonLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
+	 * </p>
 	 *
 	 * @param cacheJson the cache json
 	 * @return the cache json that was updated

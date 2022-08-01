@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.tipi.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see TipiEntryService
  * @generated
  */
-@ProviderType
 public class TipiEntryServiceWrapper
-	implements TipiEntryService, ServiceWrapper<TipiEntryService> {
+	implements ServiceWrapper<TipiEntryService>, TipiEntryService {
 
 	public TipiEntryServiceWrapper(TipiEntryService tipiEntryService) {
 		_tipiEntryService = tipiEntryService;

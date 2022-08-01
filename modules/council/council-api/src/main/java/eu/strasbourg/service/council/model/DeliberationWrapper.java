@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Deliberation
  * @generated
  */
-@ProviderType
 public class DeliberationWrapper
 	implements Deliberation, ModelWrapper<Deliberation> {
 
@@ -76,6 +73,8 @@ public class DeliberationWrapper
 		attributes.put("stage", getStage());
 		attributes.put("countOfficialsVoting", getCountOfficialsVoting());
 		attributes.put("countOfficialsActive", getCountOfficialsActive());
+		attributes.put("beginningVoteDate", getBeginningVoteDate());
+		attributes.put("endVoteDate", getEndVoteDate());
 		attributes.put("councilSessionId", getCouncilSessionId());
 
 		return attributes;
@@ -187,6 +186,18 @@ public class DeliberationWrapper
 			setCountOfficialsActive(countOfficialsActive);
 		}
 
+		Date beginningVoteDate = (Date)attributes.get("beginningVoteDate");
+
+		if (beginningVoteDate != null) {
+			setBeginningVoteDate(beginningVoteDate);
+		}
+
+		Date endVoteDate = (Date)attributes.get("endVoteDate");
+
+		if (endVoteDate != null) {
+			setEndVoteDate(endVoteDate);
+		}
+
 		Long councilSessionId = (Long)attributes.get("councilSessionId");
 
 		if (councilSessionId != null) {
@@ -212,6 +223,16 @@ public class DeliberationWrapper
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
 		return _deliberation.getAssetEntry();
+	}
+
+	/**
+	 * Returns the beginning vote date of this deliberation.
+	 *
+	 * @return the beginning vote date of this deliberation
+	 */
+	@Override
+	public Date getBeginningVoteDate() {
+		return _deliberation.getBeginningVoteDate();
 	}
 
 	/**
@@ -289,6 +310,16 @@ public class DeliberationWrapper
 	@Override
 	public long getDeliberationId() {
 		return _deliberation.getDeliberationId();
+	}
+
+	/**
+	 * Returns the end vote date of this deliberation.
+	 *
+	 * @return the end vote date of this deliberation
+	 */
+	@Override
+	public Date getEndVoteDate() {
+		return _deliberation.getEndVoteDate();
 	}
 
 	@Override
@@ -591,6 +622,16 @@ public class DeliberationWrapper
 		_deliberation.persist();
 	}
 
+	/**
+	 * Sets the beginning vote date of this deliberation.
+	 *
+	 * @param beginningVoteDate the beginning vote date of this deliberation
+	 */
+	@Override
+	public void setBeginningVoteDate(Date beginningVoteDate) {
+		_deliberation.setBeginningVoteDate(beginningVoteDate);
+	}
+
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_deliberation.setCachedModel(cachedModel);
@@ -654,6 +695,16 @@ public class DeliberationWrapper
 	@Override
 	public void setDeliberationId(long deliberationId) {
 		_deliberation.setDeliberationId(deliberationId);
+	}
+
+	/**
+	 * Sets the end vote date of this deliberation.
+	 *
+	 * @param endVoteDate the end vote date of this deliberation
+	 */
+	@Override
+	public void setEndVoteDate(Date endVoteDate) {
+		_deliberation.setEndVoteDate(endVoteDate);
 	}
 
 	@Override
@@ -861,16 +912,16 @@ public class DeliberationWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof DeliberationWrapper)) {
+		if (!(object instanceof DeliberationWrapper)) {
 			return false;
 		}
 
-		DeliberationWrapper deliberationWrapper = (DeliberationWrapper)obj;
+		DeliberationWrapper deliberationWrapper = (DeliberationWrapper)object;
 
 		if (Objects.equals(_deliberation, deliberationWrapper._deliberation)) {
 			return true;

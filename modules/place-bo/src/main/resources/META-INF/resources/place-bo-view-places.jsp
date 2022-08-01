@@ -125,19 +125,6 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
-	
-	<%-- Import des données de LR 6 (désactivé)
-		<liferay-portlet:actionURL name="importLegacyData" varImpl="importLegacyURL">
-		</liferay-portlet:actionURL>
-		<aui:form action="${importLegacyURL}" name="import">
-			<c:if test="${themeDisplay.permissionChecker.isOmniadmin()}">
-				<p>
-					<aui:button id="importFromLR6" value="import-data-from-liferay-6" />
-				</p>
-			</c:if>
-		</aui:form>
-	--%>
-		
 </div>
 
 
@@ -175,13 +162,6 @@
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:actionURL>
 <aui:script>
-	$('#<portlet:namespace />importFromLR6').on('click', function() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-import-from-lr6" />')) {
-			var form = AUI.$(document.<portlet:namespace />import);	
-			submitForm(form, '${importLegacyURL}');
-		}
-	});
-	
 	function <portlet:namespace />deleteSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-places" />')) {
 			var form = AUI.$(document.<portlet:namespace />fm);

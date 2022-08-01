@@ -13,6 +13,11 @@
       <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
 </#if>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+  <#assign homeURL = "/web${layout.group.friendlyURL}" />
+<#else>
+  <#assign homeURL = "" />
+</#if>
 
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}" class="no-js">
 
@@ -41,8 +46,11 @@
     <link rel="icon" type="image/png" href="${images_folder}/favicon/favicon-16x16.png" sizes="16x16">
 
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="${css_folder}/swiper-bundle.min.css" media="screen" />
+	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+    <script type="text/javascript" src="${javascript_folder}/swiper-bundle.min.js" charset="utf-8"></script>
     <@liferay_util["include"] page=top_head_include />
 
     <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
@@ -121,18 +129,43 @@
             <img src="${images_folder}/pre-header/logo.png" alt="Strasbourg.eu" />
           </a>
           <ul>
-	      	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-				<#assign currURL = "/web${layout.group.friendlyURL}" />
-			<#else>
-				<#assign currURL = "" />
-			</#if>
-			<li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr${currURL}${layout.friendlyURL}" title="Français">FR</a></li>
-			<li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de${currURL}${layout.friendlyURL}" title="Deutsch">DE</a></li>
-			<li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en${currURL}${layout.friendlyURL}" title="English">EN</a></li>
-		  </ul>
+            <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+              <#assign currURL = "/web${layout.group.friendlyURL}" />
+            <#else>
+              <#assign currURL = "" />
+            </#if>
+            <li class="active"><a href="#" class="menu-search"><span class="icon-search"></span></a></li>
+            <li <#if locale.language == "fr"> class="active" </#if> ><a accesskey="1" href="/fr${currURL}${layout.friendlyURL}" title="Français">FR</a></li>
+            <li <#if locale.language == "de"> class="active" </#if> ><a accesskey="1" href="/de${currURL}${layout.friendlyURL}" title="Deutsch">DE</a></li>
+            <li <#if locale.language == "en"> class="active" </#if> ><a accesskey="1" href="/en${currURL}${layout.friendlyURL}" title="English">EN</a></li>
+          </ul>
           <div class="clearfix"></div> 
         </div> 
       </nav>
+      <div id="search-bar" class="mns-search-bar">
+          <div class="container">
+              <div class="row">
+                  <div class="content-close">
+                    <button type="button" id="search-close" tabindex="0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15.556" height="15.556" viewBox="0 0 15.556 15.556">
+                        <g id="Groupe_22" data-name="Groupe 22" transform="translate(-767.222 -44)">
+                          <g id="Groupe_2" data-name="Groupe 2" transform="translate(700 42)">
+                            <g id="Groupe_29" data-name="Groupe 29" transform="translate(7)">
+                              <rect id="Rectangle_9" data-name="Rectangle 9" width="20" height="2" transform="translate(60.222 16.142) rotate(-45)"></rect>
+                              <rect id="Rectangle_11" data-name="Rectangle 11" width="20" height="2" transform="translate(61.636 2) rotate(45)"></rect>
+                            </g>
+                          </g>
+                        </g>
+                      </svg>
+                    </button>
+                  </div>
+                  <form action="${homeURL}/recherche" method="get">
+                      <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
+                      <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                  </form>
+              </div>
+          </div>
+      </div>
       <!-- Header HP comprenant la video / menu principal + sous menu / la popup search / le titre -->
       <header class="page-header">
          <#if !isHome>
@@ -154,25 +187,6 @@
 	        </script>
         </#if>
         <#include "${full_templates_path}/navigation.ftl" />
-        
-        <div id="search-engine">
-          <div class="container">
-            <input placeholder="Votre recherche ici" class="search-input" name="keywords" value="" id="keywords" type="text">
-            <button type="submit" id="btn-search" name="searchbutton"><img src="${images_folder}/pictos/search-send.png" alt="Recherche"></button> 
-          </div>
-          <div class="content-close">
-            <button type="button" id="search-close" tabindex="0"><img src="${images_folder}/pictos/close.png" alt="Fermer la recherche"></button>
-          </div>
-        </div>
-        <#if isHome>
-          <!-- Contenu web header-title-sae -->
-          <@liferay_portlet["runtime"]
-            defaultPreferences="${freeMarkerPortletPreferences}"
-            portletProviderAction=portletProviderAction.VIEW
-            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-            instanceId="header-title-sae"
-            settingsScope="group" />
-        </#if>
       
         <#if !isHome>
           <div class="fil-ariane">

@@ -28,6 +28,10 @@
 		<column name="banishDescription" type="String" />
 		<column name="imageURL" type="String" />
 		<column name="pactDisplay" type="boolean" />
+		<column name="csmapJSON" type="String" />
+		<column name="modifiedDateJSON" type="Date" />
+		<column name="topicsFCM" type="String" />
+		<column name="lastUpdateTimeTopics" type="long" />
 		
 		<!-- Order -->
 		<order by="asc">

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.artwork.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,20 +33,19 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ArtworkCacheModel)) {
+		if (!(object instanceof ArtworkCacheModel)) {
 			return false;
 		}
 
-		ArtworkCacheModel artworkCacheModel = (ArtworkCacheModel)obj;
+		ArtworkCacheModel artworkCacheModel = (ArtworkCacheModel)object;
 
 		if (artworkId == artworkCacheModel.artworkId) {
 			return true;
@@ -285,7 +282,9 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		artworkId = objectInput.readLong();
@@ -306,8 +305,8 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
-		technicalInformation = objectInput.readUTF();
+		description = (String)objectInput.readObject();
+		technicalInformation = (String)objectInput.readObject();
 		noticeLink = objectInput.readUTF();
 		artistName = objectInput.readUTF();
 		creationYear = objectInput.readUTF();
@@ -371,17 +370,17 @@ public class ArtworkCacheModel implements CacheModel<Artwork>, Externalizable {
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		if (technicalInformation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(technicalInformation);
+			objectOutput.writeObject(technicalInformation);
 		}
 
 		if (noticeLink == null) {

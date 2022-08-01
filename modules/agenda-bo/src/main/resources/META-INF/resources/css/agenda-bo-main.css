@@ -54,7 +54,7 @@
 	display: none;
 }
 
-.event-period-conflict, .no-event-period {
+.no-event-period {
     margin-top: 40px;
     display: inline-block;
     padding: 5px 10px;

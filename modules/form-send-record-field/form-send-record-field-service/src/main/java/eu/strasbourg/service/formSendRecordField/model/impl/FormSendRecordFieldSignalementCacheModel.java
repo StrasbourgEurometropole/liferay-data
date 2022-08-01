@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,23 +33,22 @@ import java.util.Date;
  * @author Angélique Zunino
  * @generated
  */
-@ProviderType
 public class FormSendRecordFieldSignalementCacheModel
 	implements CacheModel<FormSendRecordFieldSignalement>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof FormSendRecordFieldSignalementCacheModel)) {
+		if (!(object instanceof FormSendRecordFieldSignalementCacheModel)) {
 			return false;
 		}
 
 		FormSendRecordFieldSignalementCacheModel
 			formSendRecordFieldSignalementCacheModel =
-				(FormSendRecordFieldSignalementCacheModel)obj;
+				(FormSendRecordFieldSignalementCacheModel)object;
 
 		if (signalementId ==
 				formSendRecordFieldSignalementCacheModel.signalementId) {

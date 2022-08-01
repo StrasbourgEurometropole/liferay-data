@@ -34,6 +34,7 @@
 		<column name="errorStackTrace" type="String" />
 		<column name="startDate" type="Date" />
 		<column name="finishDate" type="Date" />
+		<column name="gtfsFileHash" type="String" />
 		
 		<!-- Order -->
 		<order by="desc">
@@ -95,6 +96,9 @@
 		</finder>
 		<finder name="StopId" return-type="Arret">
 			<finder-column name="stopId" />
+		</finder>
+		<finder name="Code" return-type="Collection">
+			<finder-column name="code" />
 		</finder>
 		
 
@@ -183,6 +187,9 @@
 		</finder>
 		<finder name="RouteId" return-type="Ligne">
 			<finder-column name="routeId" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
 		</finder>
 		<finder name="ShortNameAndStatus" return-type="Collection">
 			<finder-column name="shortName" />
@@ -405,7 +412,7 @@
 		<column name="trip_headsign" type="String" />
 		<column name="direction_id" type="boolean" />
 		<column name="block_id" type="String" />
-		
+
 		<!-- Order -->
 		<order by="asc">
 			<order-column name="trip_id" />
@@ -420,6 +427,48 @@
 		</finder>
 		<finder name="TripId" return-type="Collection">
 			<finder-column name="trip_id" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheAlertJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="cacheId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonAlert" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="cacheId" return-type="Collection">
+			<finder-column name="cacheId" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheHoursJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="stopCode" primary="true" type="String" />
+		<column name="type" primary="true" type="int" />
+
+		<!-- Informations générales -->
+		<column name="jsonHour" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="StopCode" return-type="Collection">
+			<finder-column name="stopCode" />
+		</finder>
+		<finder name="Type" return-type="Collection">
+			<finder-column name="type" />
+		</finder>
+		<finder name="StopCodeAndType" return-type="CacheHoursJSON">
+			<finder-column name="stopCode" />
+			<finder-column name="type" />
 		</finder>
 
 	</entity>

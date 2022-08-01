@@ -1,16 +1,5 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -24,13 +13,20 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 @Component(
 	    immediate = true,
@@ -41,53 +37,48 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 	    service = MVCResourceCommand.class
 	)
 public class ContactInitiativeAuthorResourceCommand implements MVCResourceCommand {
-	
-	// Gestion et contexte de la requete
-    private String publikID;
-    private String message;
-    private PublikUser user;
-    private String subject;
-    private String mailMessage;
     
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 	@Override
-	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws PortletException {
+	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse) {
 		
 		boolean result = false;
-		this.message = "";
-		
-		try {
-			// Recuperation de l'utilsiteur Publik ayant lance la demande
-	        this.publikID = getPublikID(resourceRequest);
-			
-	        // Recuperation des informations du formulaire
-	        this.subject = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "subject"));
-	        this.mailMessage = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "message"));
-	        String lastname = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "lastname")); //Non utilisé pour le moment
-	        String firstname = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "firstname")); //Non utilisé pour le moment
-	        String mobile = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "mobile")); //Non utilisé pour le moment
-	        String email = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "email"));
-	        
-	        if(validate(resourceRequest)) {
-	        	
-	        	AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(ParamUtil.getLong(resourceRequest, "entryId"));
-	        	Initiative ini = InitiativeLocalServiceUtil.getInitiative(assetEntry.getClassPK());
-	        	String authorMail = ini.getAuthor().getEmail();
-	        	
-	        	// envoi du mail aux utilisateurs
-	        	result = MailHelper.sendMailWithPlainText(email, authorMail, this.subject, this.mailMessage);
-	        }
-        } catch (Exception e) {
-            _log.error(e);
-            this.message = "Message de l'erreur : Erreur technique";
-            result = false;
-        }
+
+		// Recuperation de l'utilsiteur Publik ayant lance la demande
+		PublikUser user = null;
+		String publikID = getPublikID(resourceRequest);
+		if (publikID != null && !publikID.isEmpty()) {
+			user = PublikUserLocalServiceUtil.getByPublikUserId(publikID);
+		}
+
+		// Recuperation des informations du formulaire
+		String subject = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "subject"));
+		String mailMessage = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "message"));
+		String email = HtmlUtil.stripHtml(ParamUtil.getString(resourceRequest, "email"));
+
+		String message = validate(publikID, user, subject, mailMessage);
+		if (message.equals("")) {
+			try {
+				AssetEntry assetEntry = AssetEntryLocalServiceUtil.getAssetEntry(ParamUtil.getLong(resourceRequest, "entryId"));
+				Initiative ini = InitiativeLocalServiceUtil.getInitiative(assetEntry.getClassPK());
+				String authorMail = ini.getAuthor().getEmail();
+
+				// envoi du mail aux utilisateurs
+				result = MailHelper.sendMailWithPlainText(email, authorMail, subject, mailMessage);
+			} catch (Exception e) {
+				_log.error(e);
+				message = "Message de l'erreur : Erreur technique";
+			}
+
+			if(message.equals("")) {
+				result = true;
+			}
+		}
 		
 		// Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-        jsonResponse.put("message", this.message);
+        jsonResponse.put("message", message);
         jsonResponse.put("result", result);
 		
         // Recuperation de l'élément d'écriture de la réponse
@@ -98,8 +89,10 @@ public class ContactInitiativeAuthorResourceCommand implements MVCResourceComman
 		} catch (IOException e) {
 			_log.error(e);
 		}
-        writer.print(jsonResponse.toString());
-        
+		if (writer != null) {
+			writer.print(jsonResponse.toString());
+		}
+
 		return result;
 	}
 	
@@ -107,37 +100,31 @@ public class ContactInitiativeAuthorResourceCommand implements MVCResourceComman
 	 * Validation des champs de la requete
 	 * @return Valide ou pas
 	 */
-	private boolean validate(PortletRequest request) {
+	private String validate(String publikID, PublikUser user, String subject, String mailMessage) {
         
         // utilisateur 
-        if (this.publikID == null || this.publikID.isEmpty()) {
-            this.message = "Utilisateur non reconnu";
-            return false;
+        if (publikID == null || publikID.isEmpty()) {
+			return "Utilisateur non reconnu";
         } else {
-        	this.user = PublikUserLocalServiceUtil.getByPublikUserId(this.publikID);
         	
-        	if (this.user.isBanned()) {
-        		this.message = "Vous ne pouvez envoyer un message à l'hautheur de l'initiative";
-        		return false;
-        	} else if (this.user.getPactSignature() == null) {
-        		this.message = "Vous devez signer le Pacte pour envoyer un message à l'hautheur de l'initiative";
-        		return false;
+        	if (user.isBanned()) {
+				return "Vous ne pouvez envoyer un message à l'hautheur de l'initiative";
+        	} else if (user.getPactSignature() == null) {
+				return "Vous devez signer le Pacte pour envoyer un message à l'hautheur de l'initiative";
         	}
         }
 
         // sujet du mail
-        if (Validator.isNull(this.subject)) {
-        	this.message = "Sujet non valide";
-            return false;
+        if (Validator.isNull(subject)) {
+			return "Sujet non valide";
         }
 
         // message du mail
-        if (Validator.isNull(this.mailMessage)) {
-        	this.message = "Message non valide";
-            return false;
+        if (Validator.isNull(mailMessage)) {
+			return "Message non valide";
         }
 
-        return true;
+        return "";
     }
 	
 	

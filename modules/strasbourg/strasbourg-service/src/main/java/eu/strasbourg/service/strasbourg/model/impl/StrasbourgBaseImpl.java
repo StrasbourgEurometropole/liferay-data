@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.strasbourg.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 import eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil;
  * @see Strasbourg
  * @generated
  */
-@ProviderType
 public abstract class StrasbourgBaseImpl
 	extends StrasbourgModelImpl implements Strasbourg {
 

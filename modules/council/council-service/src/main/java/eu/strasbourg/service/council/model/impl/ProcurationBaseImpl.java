@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.council.model.Procuration;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
  * @see Procuration
  * @generated
  */
-@ProviderType
 public abstract class ProcurationBaseImpl
 	extends ProcurationModelImpl implements Procuration {
 

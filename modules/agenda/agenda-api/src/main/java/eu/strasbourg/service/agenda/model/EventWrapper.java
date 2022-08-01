@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -37,7 +35,6 @@ import java.util.Objects;
  * @see Event
  * @generated
  */
-@ProviderType
 public class EventWrapper implements Event, ModelWrapper<Event> {
 
 	public EventWrapper(Event event) {
@@ -85,6 +82,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		attributes.put("placeZipCode", getPlaceZipCode());
 		attributes.put("placeCity", getPlaceCity());
 		attributes.put("placeCountry", getPlaceCountry());
+		attributes.put("mercatorX", getMercatorX());
+		attributes.put("mercatorY", getMercatorY());
 		attributes.put("access", getAccess());
 		attributes.put("accessForDisabled", getAccessForDisabled());
 		attributes.put("accessForBlind", getAccessForBlind());
@@ -285,6 +284,18 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 
 		if (placeCountry != null) {
 			setPlaceCountry(placeCountry);
+		}
+
+		String mercatorX = (String)attributes.get("mercatorX");
+
+		if (mercatorX != null) {
+			setMercatorX(mercatorX);
+		}
+
+		String mercatorY = (String)attributes.get("mercatorY");
+
+		if (mercatorY != null) {
+			setMercatorY(mercatorY);
 		}
 
 		String access = (String)attributes.get("access");
@@ -1344,7 +1355,9 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe X (longitude)
+	 * Returns the mercator x of this event.
+	 *
+	 * @return the mercator x of this event
 	 */
 	@Override
 	public String getMercatorX() {
@@ -1352,7 +1365,9 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
-	 * Retourne les coordonnees mercator en axe Y (latitude)
+	 * Returns the mercator y of this event.
+	 *
+	 * @return the mercator y of this event
 	 */
 	@Override
 	public String getMercatorY() {
@@ -1406,6 +1421,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public java.time.LocalDate getNextOpenDate() {
 		return _event.getNextOpenDate();
+	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle() {
+		return _event.getNormalizedTitle();
+	}
+
+	/**
+	 * Renvoie le titre de l'event pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(java.util.Locale locale) {
+		return _event.getNormalizedTitle(locale);
 	}
 
 	/**
@@ -3146,6 +3177,26 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Sets the mercator x of this event.
+	 *
+	 * @param mercatorX the mercator x of this event
+	 */
+	@Override
+	public void setMercatorX(String mercatorX) {
+		_event.setMercatorX(mercatorX);
+	}
+
+	/**
+	 * Sets the mercator y of this event.
+	 *
+	 * @param mercatorY the mercator y of this event
+	 */
+	@Override
+	public void setMercatorY(String mercatorY) {
+		_event.setMercatorY(mercatorY);
+	}
+
+	/**
 	 * Sets the modified date of this event.
 	 *
 	 * @param modifiedDate the modified date of this event
@@ -3918,16 +3969,16 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof EventWrapper)) {
+		if (!(object instanceof EventWrapper)) {
 			return false;
 		}
 
-		EventWrapper eventWrapper = (EventWrapper)obj;
+		EventWrapper eventWrapper = (EventWrapper)object;
 
 		if (Objects.equals(_event, eventWrapper._event)) {
 			return true;

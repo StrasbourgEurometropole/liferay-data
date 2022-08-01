@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
  * @see Activity
  * @generated
  */
-@ProviderType
 public abstract class ActivityBaseImpl
 	extends ActivityModelImpl implements Activity {
 

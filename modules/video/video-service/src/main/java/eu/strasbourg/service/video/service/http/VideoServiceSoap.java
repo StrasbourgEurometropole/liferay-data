@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.service.http;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
@@ -62,7 +60,6 @@ import java.rmi.RemoteException;
  * @see VideoServiceHttp
  * @generated
  */
-@ProviderType
 public class VideoServiceSoap {
 
 	public static String getVideo(long id) throws RemoteException {
@@ -72,10 +69,10 @@ public class VideoServiceSoap {
 
 			return returnValue.toString();
 		}
-		catch (Exception e) {
-			_log.error(e, e);
+		catch (Exception exception) {
+			_log.error(exception, exception);
 
-			throw new RemoteException(e.getMessage());
+			throw new RemoteException(exception.getMessage());
 		}
 	}
 

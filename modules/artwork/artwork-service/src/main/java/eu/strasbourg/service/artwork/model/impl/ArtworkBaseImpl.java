@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.artwork.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.artwork.model.Artwork;
 import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.artwork.service.ArtworkLocalServiceUtil;
  * @see Artwork
  * @generated
  */
-@ProviderType
 public abstract class ArtworkBaseImpl
 	extends ArtworkModelImpl implements Artwork {
 

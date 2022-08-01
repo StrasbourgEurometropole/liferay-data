@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.link.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
  * @see Link
  * @generated
  */
-@ProviderType
 public abstract class LinkBaseImpl extends LinkModelImpl implements Link {
 
 	/*

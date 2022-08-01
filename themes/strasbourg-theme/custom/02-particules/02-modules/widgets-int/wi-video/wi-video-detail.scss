@@ -1,0 +1,42 @@
+.seu-container{
+    .meta{
+        font: 400 1.8rem $main-font;
+        text-transform: none;
+        color: #2596be;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        &:before{
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-size: 16px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-label, $c_grey_txt) );
+            margin-right: 10px;  
+            transform: rotate(90deg);
+        }
+    }
+
+    .video-player {
+        position: relative;
+        padding-top: 56.25%;
+        margin-bottom: 20px;
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .description {
+        margin: 40px 0;
+    }
+}

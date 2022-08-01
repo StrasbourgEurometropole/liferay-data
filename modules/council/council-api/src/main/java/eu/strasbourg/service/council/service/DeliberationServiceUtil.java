@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -32,7 +30,6 @@ import org.osgi.util.tracker.ServiceTracker;
  * @see DeliberationService
  * @generated
  */
-@ProviderType
 public class DeliberationServiceUtil {
 
 	/*
@@ -51,9 +48,10 @@ public class DeliberationServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId, String officialDeviceInfo) {
+		long officialId, String officialDeviceInfo, long councilSessionId) {
 
-		return getService().getUserFront(officialId, officialDeviceInfo);
+		return getService().getUserFront(
+			officialId, officialDeviceInfo, councilSessionId);
 	}
 
 	public static DeliberationService getService() {

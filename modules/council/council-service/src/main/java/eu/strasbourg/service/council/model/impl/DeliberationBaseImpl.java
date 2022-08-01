@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
  * @see Deliberation
  * @generated
  */
-@ProviderType
 public abstract class DeliberationBaseImpl
 	extends DeliberationModelImpl implements Deliberation {
 

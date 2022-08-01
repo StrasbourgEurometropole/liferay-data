@@ -86,12 +86,13 @@
 				<%-- Colonne : Date de modification --%>
 				<fmt:formatDate value="${project.modifiedDate}"
 					var="formattedModifiedDate" type="date" pattern="dd/MM/yyyy HH:mm" />
-				<liferay-ui:search-container-column-text cssClass="content-column"
-					name="modified-date" truncate="true" orderable="true"
+				<liferay-ui:search-container-column-text
+					name="modified-date" orderable="true"
 					value="${formattedModifiedDate}" />
 				
 				<%-- Colonne : Createur --%>
-				<liferay-ui:search-container-column-text name="user">
+				<liferay-ui:search-container-column-text name="user"
+				    cssClass="content-column" truncate="true">
 					${project.statusByUserName}
 				</liferay-ui:search-container-column-text>
 

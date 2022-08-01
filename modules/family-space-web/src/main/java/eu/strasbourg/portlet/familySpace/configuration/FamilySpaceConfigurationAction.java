@@ -1,29 +1,22 @@
 package eu.strasbourg.portlet.familySpace.configuration;
 
-import java.util.Locale;
-import java.util.Map;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.portlet.ConfigurationAction;
+import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.module.configuration.ConfigurationException;
-import com.liferay.portal.kernel.portlet.ConfigurationAction;
-import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
-import com.liferay.portal.kernel.settings.LocalizedValuesMap;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.familySpace.configuration.FamilySpaceConfiguration",
@@ -56,10 +49,6 @@ public class FamilySpaceConfigurationAction
 			// URL lier un compte
 			String linkAccountURL = ParamUtil.getString(request, "linkAccountURL");
 			setPreference(request, "linkAccountURL", linkAccountURL);
-
-			// URL site espace famille
-			String familySpaceURL = ParamUtil.getString(request, "familySpaceURL");
-			setPreference(request, "familySpaceURL", familySpaceURL);
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -80,7 +69,6 @@ public class FamilySpaceConfigurationAction
 						FamilySpaceConfiguration.class);
 			request.setAttribute("addLunchURL", configuration.addLunchURL());
 			request.setAttribute("linkAccountURL", configuration.linkAccountURL());
-			request.setAttribute("familySpaceURL", configuration.familySpaceURL());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e);

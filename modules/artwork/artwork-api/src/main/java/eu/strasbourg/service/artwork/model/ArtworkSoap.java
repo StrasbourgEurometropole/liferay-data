@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.artwork.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class ArtworkSoap implements Serializable {
 
 	public static ArtworkSoap toSoapModel(Artwork model) {

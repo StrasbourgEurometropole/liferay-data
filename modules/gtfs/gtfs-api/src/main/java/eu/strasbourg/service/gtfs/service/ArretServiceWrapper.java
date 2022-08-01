@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see ArretService
  * @generated
  */
-@ProviderType
 public class ArretServiceWrapper
 	implements ArretService, ServiceWrapper<ArretService> {
 
@@ -43,6 +40,19 @@ public class ArretServiceWrapper
 		String stopCode) {
 
 		return _arretService.getArretRealTime(stopCode);
+	}
+
+	/**
+	 * Recuperer les donnees temps real de la CTS pour un arret
+	 *
+	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
+	 * @param type type de l'arret (0 -> tram, 3 -> bus)
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getArretRealTime(
+		String stopCode, int type, int timeOut) {
+
+		return _arretService.getArretRealTime(stopCode, type, timeOut);
 	}
 
 	/**

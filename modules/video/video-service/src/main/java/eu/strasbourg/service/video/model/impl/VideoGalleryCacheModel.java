@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.video.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author BenjaminBini
  * @generated
  */
-@ProviderType
 public class VideoGalleryCacheModel
 	implements CacheModel<VideoGallery>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof VideoGalleryCacheModel)) {
+		if (!(object instanceof VideoGalleryCacheModel)) {
 			return false;
 		}
 
 		VideoGalleryCacheModel videoGalleryCacheModel =
-			(VideoGalleryCacheModel)obj;
+			(VideoGalleryCacheModel)object;
 
 		if (galleryId == videoGalleryCacheModel.galleryId) {
 			return true;
@@ -197,7 +194,9 @@ public class VideoGalleryCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		galleryId = objectInput.readLong();
@@ -218,7 +217,7 @@ public class VideoGalleryCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
-		description = objectInput.readUTF();
+		description = (String)objectInput.readObject();
 		publicationDate = objectInput.readLong();
 
 		imageId = objectInput.readLong();
@@ -273,10 +272,10 @@ public class VideoGalleryCacheModel
 		}
 
 		if (description == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(description);
+			objectOutput.writeObject(description);
 		}
 
 		objectOutput.writeLong(publicationDate);

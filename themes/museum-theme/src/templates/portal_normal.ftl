@@ -8,6 +8,7 @@
 	<title>${the_title}</title>
 
 	<meta content="initial-scale=1.0, width=device-width" name="viewport" />
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
   	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 	<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
 

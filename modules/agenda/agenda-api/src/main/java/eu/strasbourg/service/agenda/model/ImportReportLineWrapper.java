@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,7 +33,6 @@ import java.util.Objects;
  * @see ImportReportLine
  * @generated
  */
-@ProviderType
 public class ImportReportLineWrapper
 	implements ImportReportLine, ModelWrapper<ImportReportLine> {
 
@@ -450,17 +447,17 @@ public class ImportReportLineWrapper
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ImportReportLineWrapper)) {
+		if (!(object instanceof ImportReportLineWrapper)) {
 			return false;
 		}
 
 		ImportReportLineWrapper importReportLineWrapper =
-			(ImportReportLineWrapper)obj;
+			(ImportReportLineWrapper)object;
 
 		if (Objects.equals(
 				_importReportLine, importReportLineWrapper._importReportLine)) {

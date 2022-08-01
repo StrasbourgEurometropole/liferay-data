@@ -14,8 +14,17 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException;
 import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.service.base.CacheJsonLocalServiceBaseImpl;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -42,28 +51,18 @@ public class CacheJsonLocalServiceImpl extends CacheJsonLocalServiceBaseImpl {
 	 */
 
 	/**
-	 * Retourne les caches d'un lieu créé après une date et actif
+	 * Retourne le cache d'un event s'il est approuvé sinon null
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndIsActive(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndIsActive(date, true);
+	public CacheJson getByEventIdAndIsApproved(long eventId) {
+		return this.cacheJsonPersistence.fetchByeventIdAndIsApproved(eventId, true);
 	}
 
-
 	/**
-	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
+	 * Retourne la list  cache d'un event s'il est approuvé sinon envoi une erreur
 	 */
 	@Override
-	public List<CacheJson> getByCreatedDateAndModifiedDateAndIsActive(Date date) {
-		return this.cacheJsonPersistence.findByCreatedDateAndModifiedDateAndIsActive(date, date, true);
-	}
-
-
-	/**
-	 * Retourne les caches d'un lieu modifié après une date et inactif
-	 */
-	@Override
-	public List<CacheJson> getByModifiedDateAndIsNotActive(Date date) {
-		return this.cacheJsonPersistence.findByModifiedDateAndIsActive(date, false);
+	public List<CacheJson> getAllIsApproved() {
+		return this.cacheJsonPersistence.findByisApproved(true);
 	}
 }

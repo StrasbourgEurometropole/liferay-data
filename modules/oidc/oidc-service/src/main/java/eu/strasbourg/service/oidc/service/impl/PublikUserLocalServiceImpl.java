@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.comment.model.Comment;
@@ -40,21 +41,24 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.oidc.service.base.PublikUserLocalServiceBaseImpl;
-import eu.strasbourg.service.project.model.ProjectFollowed;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
+import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
+import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
+import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -118,14 +122,19 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 */
 	@Override
 	public void updateUserInfoInDatabase(String internalId, String accessToken, String givenName,
-										  String familyName, String email, String photo) {
+										  String familyName, String email, String photo, String accordPlacit, String listingPlacit) {
 		if (internalId != null && internalId.length() > 0) {
 			PublikUser user = publikUserLocalService.getByPublikUserId(internalId);
 			if (user == null) {
 				user = publikUserLocalService.createPublikUser();
 				user.setPublikId(internalId);
+				if(accordPlacit != null && accordPlacit.equals("true"))
+					user.setPactSignature(new Date());
+				user.setPactDisplay(listingPlacit != null && listingPlacit.equals("true") ? true : false);
 			}
-			user.setAccessToken(accessToken);
+			if(Validator.isNotNull(accessToken)){
+				user.setAccessToken(accessToken);
+			}
 			user.setFirstName(givenName);
 			user.setLastName(familyName);
 			user.setEmail(email);
@@ -487,6 +496,17 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 				FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(formSendRecordFieldSignalement);
 			}
 		}
+	}
+
+	@Override
+	public List<PublikUser> getByPactSignatureAndPactDisplay() {
+		DynamicQuery dq = PublikUserLocalServiceUtil.dynamicQuery();
+		Criterion pactDisplay = RestrictionsFactoryUtil.eq("pactDisplay", true);
+		Criterion pactSignatureNotNull = RestrictionsFactoryUtil.isNotNull("pactSignature");
+		dq.add(pactDisplay);
+		dq.add(pactSignatureNotNull);
+		dq.addOrder(OrderFactoryUtil.asc("pactSignature"));
+		return PublikUserLocalServiceUtil.dynamicQuery(dq);
 	}
 
 }

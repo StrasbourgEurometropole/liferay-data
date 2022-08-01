@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,21 +33,20 @@ import java.util.Date;
  * @author Cedric Henry
  * @generated
  */
-@ProviderType
 public class StopTimeCacheModel
 	implements CacheModel<StopTime>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof StopTimeCacheModel)) {
+		if (!(object instanceof StopTimeCacheModel)) {
 			return false;
 		}
 
-		StopTimeCacheModel stopTimeCacheModel = (StopTimeCacheModel)obj;
+		StopTimeCacheModel stopTimeCacheModel = (StopTimeCacheModel)object;
 
 		if (id == stopTimeCacheModel.id) {
 			return true;

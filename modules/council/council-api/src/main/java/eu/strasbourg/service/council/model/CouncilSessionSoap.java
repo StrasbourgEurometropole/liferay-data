@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class CouncilSessionSoap implements Serializable {
 
 	public static CouncilSessionSoap toSoapModel(CouncilSession model) {
@@ -48,6 +45,7 @@ public class CouncilSessionSoap implements Serializable {
 		soapModel.setStatusDate(model.getStatusDate());
 		soapModel.setTitle(model.getTitle());
 		soapModel.setDate(model.getDate());
+		soapModel.setLastDelibProcessed(model.getLastDelibProcessed());
 		soapModel.setOfficialLeaderId(model.getOfficialLeaderId());
 		soapModel.setTypeId(model.getTypeId());
 
@@ -220,6 +218,14 @@ public class CouncilSessionSoap implements Serializable {
 		_date = date;
 	}
 
+	public long getLastDelibProcessed() {
+		return _lastDelibProcessed;
+	}
+
+	public void setLastDelibProcessed(long lastDelibProcessed) {
+		_lastDelibProcessed = lastDelibProcessed;
+	}
+
 	public long getOfficialLeaderId() {
 		return _officialLeaderId;
 	}
@@ -250,6 +256,7 @@ public class CouncilSessionSoap implements Serializable {
 	private Date _statusDate;
 	private String _title;
 	private Date _date;
+	private long _lastDelibProcessed;
 	private long _officialLeaderId;
 	private long _typeId;
 

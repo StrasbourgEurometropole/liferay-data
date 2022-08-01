@@ -1,0 +1,391 @@
+.form-builder-layout {
+    background-color: #F6F6F6;
+    input.ddm-field-text.form-control {
+        height: 50px;
+    }
+    label, .lfr-ddm-legend {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    // ajout mantis 5636
+    .btn:focus, .btn.focus, .form-control:focus {
+        border: none;
+        box-shadow: 0 0 0 0.2rem rgba(49, 69, 83, 0.25);
+    }
+
+    .input-group-inset:focus ~ .input-group-inset-item{
+        border: none;
+        box-shadow: 0.25rem 0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25), 0.25rem -0.15rem 0 0.05rem  rgba(49, 69, 83, 0.25);
+    }
+    // fin ajout mantis 5636
+}
+
+.lfr-ddm-form-pagination-controls button.btn.btn-primary.lfr-ddm-form-submit.pull-right {   
+    &:after{
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: 14px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+        vertical-align: middle;
+        margin-left: 20px;
+    }
+    &:hover, &:focus{
+        background-color: $core-color;
+        color: $second-color;
+        &:after{
+            background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+        }
+    }
+}
+
+// ajout mantis 5636
+.portlet-forms .lfr-ddm-form-page-description{
+    font-size: 1.8rem;
+}
+
+.form-builder-layout * {
+    font-size: 1.8rem;
+    color: $core-color;
+
+    .dropdown-menu *{
+        font-size: 1rem;
+
+        .weekdays{
+            margin-top: 5px;
+
+            .week{
+                font-size: 1.5rem;
+            }
+        }
+
+        .grid{
+            margin-top: 5px;
+
+            .rowgroup{
+                margin: 0;
+
+                .day{
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+
+    .custom-radio {
+        .custom-control-input:checked ~ .custom-control-label::before{
+            background-color: $core-color;
+        }
+    
+        .custom-control-input:focus ~ .custom-control-label:before{
+            box-shadow: none;
+        }
+
+        .custom-control-label {
+            &:before{
+                display: inline-block;
+                content: '';
+                height: 15px;
+                width: 15px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 50%;
+                border: solid 3px $core-color;
+                background-image: none !important;
+                background-color: transparent;
+            }
+            &:after{
+                content: none;
+            }
+            .custom-control-label-text {
+                padding-left: 3rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .custom-checkbox {
+        .custom-control-input:checked ~ .custom-control-label::before{
+            background-color: $second-color;
+            border: solid 3px $second-color;
+        }
+    
+        .custom-control-input:focus ~ .custom-control-label:before{
+            box-shadow: none;
+        }
+
+        .custom-control-label {
+            &:before{
+                display: inline-block;
+                content: '';
+                height: 15px;
+                width: 15px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 0;
+                border: solid 3px $core-color;
+                background-image: none !important;
+                background-color: transparent;
+            }
+            &:after{
+                content: none;
+            }
+            .custom-control-label-text {
+                padding-left: 3rem;
+                font-weight: 400;
+            }
+        }
+    }
+
+    .results-chosen {
+        svg{
+            display: none;
+        }
+
+        &:after{
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            content: '';
+            display: block;
+            height: 20px;
+            width: 20px;
+            background-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateY(-50%) rotate(90deg);
+            background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+        }
+    }
+
+    .input-group-item {
+        input{
+            height: 3.375rem;
+        }
+
+        svg{
+            display: none;
+        }
+
+        &:after{
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            content: '';
+            display: block;
+            height: 20px;
+            width: 20px;
+            background-size: 15px;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateY(-50%);
+            background-image: url( svg-bg-uri($svg-calendar, $core-color) );
+        }
+    }
+
+    .form-builder-grid-field {
+        &:before{
+            display: inline-block;
+            content: '';
+            height: 15px;
+            width: 15px;
+            position: absolute;
+            left: calc(50% - 0.75rem);
+            top: calc(50% - 0.75rem);
+            border-radius: 50%;
+            border: solid 3px $core-color;
+            background-image: none !important;
+            background-color: transparent;
+        }
+
+        &:checked::before{
+            background-color: $core-color;
+        }
+    }
+
+    .reference-mark .lexicon-icon {
+        font-size: 1rem;
+
+        *{
+            color: $error;
+        }
+    }
+}
+
+.dropdown-item{
+    font-size: 1.8rem;
+}
+
+.portlet-forms {
+    .ddm-form-basic-info {
+        h1.ddm-form-name {
+            font-family: $site-font;
+            color: #505050;
+            font-size: 3.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            line-height: 1.2;
+            word-break: break-word;
+            hyphens: auto;
+            margin-bottom: 10px;
+            margin-top: 50px;
+            z-index: 1;
+        }
+
+        .ddm-form-description{
+            margin-bottom: 30px;
+        }
+    }
+
+    .ddm-form-builder-app{
+        .ddm-form-pagination{
+
+            ol{
+                justify-content: space-between;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 0;
+                flex-wrap: nowrap;
+                align-items: normal;
+
+                &:before {
+                    content: '';
+                    background-color: $second-color;
+                    position: absolute;
+                    top: 35px;
+                    left: 30px;
+                    width: calc(100% - 60px);
+                    -webkit-transform: translateY(-50%);
+                    transform: translateY(-50%);
+                    height: 4px;
+                    z-index: 0;
+                }
+
+                li{
+                    padding: 0;
+                    flex-grow: 0;
+                    width: 70px;
+                    padding-bottom: 40px;
+                    z-index: 1;
+
+                    .multi-step-divider{
+                        display: none;
+                    }
+
+                    .multi-step-indicator{
+                        position: static;
+
+                        .multi-step-indicator-label{
+                            color: $core-color;
+                            font-size: 1.7rem;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            line-height: 1;
+                            max-width: 150px;
+
+                            @include RWD(mobile){
+                                max-width: none;
+                                bottom: 2.25rem;
+                                top: auto;
+                            }
+                        }
+
+                        .multi-step-icon{
+                            border-radius: 50%;
+                            width: 70px;
+                            height: 70px;
+                            color: #FFFFFF;
+                            font-family: $site-font;
+                            font-weight: 500;
+                            font-size: 3.0rem;
+                            margin-bottom: 10px;
+                            background-color: $core-color;
+                        }
+                    }
+
+                    &.active .multi-step-icon{
+                        background-color: $second-color;
+                        ;
+                    }
+                }
+            }
+        }
+
+        .ddm-layout-builder{
+            h2.lfr-ddm-form-page-title{
+                color: $core-color;
+                font-size: 1.7rem;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+        }
+
+        .lfr-ddm-form-pagination-controls{
+            .btn-primary, .btn-primary:not(:disabled):not(.disabled):active{
+                height: 50px;
+                font-size: 1.8rem;
+                display: inline-block;
+                background-color: $second-color;
+                color: $core-color;
+                font-family: $site-font;
+                border-radius: 0;
+                text-transform: uppercase;
+                font-size: 1.4rem;
+                padding: 0 20px;
+                text-decoration: none;
+                box-shadow: none;
+                border: none;
+
+                svg{
+                    display: none;
+                }
+
+                &.lfr-ddm-form-pagination-prev:before, &.lfr-ddm-form-pagination-next:after{
+                    content: '';
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-size: 14px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    vertical-align: middle;
+                    margin-left: 20px;
+
+                    @include RWD(mobile){
+                        margin-left: 0;
+                    }
+                }
+
+                &.lfr-ddm-form-pagination-prev:before{
+                    margin-right: 20px;
+                    margin-left: 0;
+                    transform: rotate(180deg);
+
+                    @include RWD(mobile){
+                        margin-right: 0;
+                    }
+                }
+
+                &:hover, &:focus{
+                    background-color: $core-color;
+                    color: $second-color;
+                    box-shadow: none;
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                    }
+                    &:after{
+                        background-image: url( svg-bg-uri($svg-arrow1, $second-color) );
+                    }
+                }
+            }
+        }
+    }
+}

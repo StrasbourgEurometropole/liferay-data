@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.scheduler.*;
+import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -45,7 +47,7 @@ public class ImportFoundObjectListener extends BaseMessageListener {
 		// Création du trigger "Tous les jours à 5h"
 		Trigger trigger = _triggerFactory.createTrigger(
 				listenerClass, listenerClass, fiveMinutesFromNow,
-				null, "0 0 5 * * ?");
+				null, "0 0 5 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(this.getClass().getName(), trigger);
 

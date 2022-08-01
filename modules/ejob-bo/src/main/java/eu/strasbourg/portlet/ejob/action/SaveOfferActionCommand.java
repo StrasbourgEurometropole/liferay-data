@@ -33,6 +33,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -153,10 +154,11 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             offer.setConditionsMap(conditions);
 
             // Champ : ejobFamille
-            long ejobFamille = ParamUtil.getLong(request, "ejobFamille");
-            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                    .fetchAssetCategory(ejobFamille))) {
-                categories.add(""+ejobFamille);
+            long[] categoryFamiliesIds = ParamUtil.getLongValues(request, "ejobFamille");
+            if (categoryFamiliesIds.length > 0) {
+                for (int i = 0; i < categoryFamiliesIds.length; i++) {
+                    categories.add(""+ categoryFamiliesIds[i]);
+                }
             }
 
             // Champ : limitDate
@@ -444,7 +446,8 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // famille
-        if (Validator.isNull(ParamUtil.getString(request, "ejobFamille"))) {
+        long[] categoryFamiliesIds = ParamUtil.getLongValues(request, "ejobFamille");
+        if (categoryFamiliesIds.length == 0) {
             SessionErrors.add(request, "famille-error");
             isValid = false;
         }

@@ -12,6 +12,7 @@ import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
 import eu.strasbourg.portlet.mediatheque.mapping.MediathequeMapping;
 import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
@@ -94,7 +95,7 @@ public class MediathequeDisplayContext {
 	}
 
 	public String getMediathequeURL() {
-		String mediathequeURL = configuration.mediathequeURL();
+		String mediathequeURL = StrasbourgPropsUtil.getMediathequeURL();
 		if (Validator.isNull(mediathequeURL)) {
 			mediathequeURL = "#";
 		}

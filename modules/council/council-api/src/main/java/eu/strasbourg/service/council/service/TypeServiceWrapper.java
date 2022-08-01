@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,9 +23,8 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see TypeService
  * @generated
  */
-@ProviderType
 public class TypeServiceWrapper
-	implements TypeService, ServiceWrapper<TypeService> {
+	implements ServiceWrapper<TypeService>, TypeService {
 
 	public TypeServiceWrapper(TypeService typeService) {
 		_typeService = typeService;

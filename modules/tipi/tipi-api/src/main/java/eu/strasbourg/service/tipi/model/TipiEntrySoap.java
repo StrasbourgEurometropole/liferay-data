@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.tipi.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.List;
  * @author Angelique Zunino Champougny
  * @generated
  */
-@ProviderType
 public class TipiEntrySoap implements Serializable {
 
 	public static TipiEntrySoap toSoapModel(TipiEntry model) {

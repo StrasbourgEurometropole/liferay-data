@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class ActivityCourseCacheModel
 	implements CacheModel<ActivityCourse>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof ActivityCourseCacheModel)) {
+		if (!(object instanceof ActivityCourseCacheModel)) {
 			return false;
 		}
 
 		ActivityCourseCacheModel activityCourseCacheModel =
-			(ActivityCourseCacheModel)obj;
+			(ActivityCourseCacheModel)object;
 
 		if (activityCourseId == activityCourseCacheModel.activityCourseId) {
 			return true;
@@ -230,7 +227,9 @@ public class ActivityCourseCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		uuid = objectInput.readUTF();
 
 		activityCourseId = objectInput.readLong();
@@ -250,9 +249,9 @@ public class ActivityCourseCacheModel
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
 		name = objectInput.readUTF();
-		presentation = objectInput.readUTF();
-		arrangements = objectInput.readUTF();
-		price = objectInput.readUTF();
+		presentation = (String)objectInput.readObject();
+		arrangements = (String)objectInput.readObject();
+		price = (String)objectInput.readObject();
 
 		activityId = objectInput.readLong();
 
@@ -312,24 +311,24 @@ public class ActivityCourseCacheModel
 		}
 
 		if (presentation == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(presentation);
+			objectOutput.writeObject(presentation);
 		}
 
 		if (arrangements == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(arrangements);
+			objectOutput.writeObject(arrangements);
 		}
 
 		if (price == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(price);
+			objectOutput.writeObject(price);
 		}
 
 		objectOutput.writeLong(activityId);

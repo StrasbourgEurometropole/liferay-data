@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
  * @see PublikUser
  * @generated
  */
-@ProviderType
 public abstract class PublikUserBaseImpl
 	extends PublikUserModelImpl implements PublikUser {
 

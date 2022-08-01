@@ -30,4 +30,100 @@
        }
     }
 
+    #delib-description {
+        font-size : 2.2rem;
+    }
+
+    .council {
+        font-size: 25px;
+        color: white;
+        background-color: #31455d;
+        border-radius: 5px;
+        padding: 10px 20px;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .returnButton {
+            font-size: 15px;
+            color: white;
+            background-color: #31455d;
+            border-radius: 5px;
+            text-decoration: none;
+            display: block;
+            max-width : 220px;
+            padding: 5px 10px;
+            margin-bottom: 20px;
+
+            &:hover {
+                background-color: #46cfc0;
+                color:#31455d;
+            }
+        }
+
+    a:hover { text-decoration: none; }
+
+    .seu-container {
+        .nbVotes {
+            margin-top: 20px;
+            font-size : 18px;
+        }
+    }
+
+    .loading-animation {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+        width: 95px;
+        height: 95px;
+        border: 15px solid #31455d;
+        border-top-color: transparent;
+        border-radius: 50%;
+        top: 50%;
+        left: 50%;
+        -webkit-animation: chargement 1s linear infinite;
+        animation: chargement 1s linear infinite;
+    }
+
+    .loading-animation:after{
+        content: none;
+    }
+
+    @media only screen and (max-width: 980px) {
+        .loading-small-animation {
+            top: 195px;
+            left: 40px;
+        }
+    }
+    @media only screen and (max-width: 767px) {
+        .loading-small-animation {
+            top: 163px;
+            left: 28px;
+        }
+    }
+
+    @-webkit-keyframes chargement {
+        0% {
+            -webkit-transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+            -webkit-transform: translate(-50%, -50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+
+    @keyframes chargement {
+        0% {
+            -webkit-transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+            -webkit-transform: translate(-50%, -50%) rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
 }

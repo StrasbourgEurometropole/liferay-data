@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.notification.service.UserNotificationStatusLocalSer
  * @see UserNotificationStatus
  * @generated
  */
-@ProviderType
 public abstract class UserNotificationStatusBaseImpl
 	extends UserNotificationStatusModelImpl implements UserNotificationStatus {
 

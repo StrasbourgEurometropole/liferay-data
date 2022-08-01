@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
  * @see Arret
  * @generated
  */
-@ProviderType
 public abstract class ArretBaseImpl extends ArretModelImpl implements Arret {
 
 	/*

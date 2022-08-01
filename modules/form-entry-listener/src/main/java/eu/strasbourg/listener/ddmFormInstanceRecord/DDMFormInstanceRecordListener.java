@@ -1,20 +1,25 @@
 package eu.strasbourg.listener.ddmFormInstanceRecord;
 
-import com.liferay.dynamic.data.mapping.model.*;
+import com.liferay.dynamic.data.mapping.model.DDMFormField;
+import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMContentLocalService;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.mail.kernel.service.MailService;
-import com.liferay.portal.kernel.template.*;
-import com.liferay.portal.kernel.util.*;
-import eu.strasbourg.utils.MailHelper;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.model.BaseModelListener;
-
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-
+import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.model.ModelListener;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.utils.MailHelper;
+import org.apache.commons.text.StringEscapeUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -22,7 +27,15 @@ import javax.mail.internet.InternetAddress;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author louis.politanski
@@ -72,11 +85,6 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				switch (this.fieldType)
 				{
 					case "select":
-						String value =  valueID.replace("\"","");
-						value = value.replace("[", "");
-						value = value.replace("]", "");
-						valuesIDs.add(value);
-						break;
 					case "checkbox_multiple":
 						String[] values = valueID.split(",", 0);
 						for (String str : values) {
@@ -112,7 +120,7 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 			if (form.getStatus() != 0)
 			{ return; }
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 
@@ -173,13 +181,18 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 						String valueLabel = "";
 						boolean firstConcat = true;
 						for (String valueId : currentFieldData.getValuesIDs()) {
-							String optionlLabel = fieldOptions.getOptionLabels(valueId).getString(locale);
-							if (firstConcat) {
-								valueLabel = optionlLabel;
-								firstConcat = false;
-							}
-							else {
-								valueLabel += ", " + optionlLabel;
+							// On vérifie qu'une case a été cochée
+							if(Validator.isNotNull(valueId)) {
+								// L'unescape permet de gérer les caractères spéciaux normalement non présents mais qui
+								// peuvent quand même être présent en unicode via un copier coller depuis un produit MS Office
+								String optionlLabel = fieldOptions.getOptionLabels(StringEscapeUtils.unescapeJava(valueId)).getString(locale);
+								if (firstConcat) {
+									valueLabel = optionlLabel;
+									firstConcat = false;
+								}
+								else {
+									valueLabel += ", " + optionlLabel;
+								}
 							}
 						}
 						currentFieldData.setValueLabel(valueLabel);
@@ -260,8 +273,8 @@ public class DDMFormInstanceRecordListener extends BaseModelListener<DDMFormInst
 				_log.error("Error sending mail to:"+userEmail);
 			}
 		}
-		catch (PortalException e) {
-			e.printStackTrace();
+		catch (Exception e) {
+			_log.error(e);
 		}
 		return;
 	}

@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -35,8 +33,7 @@ import java.util.Objects;
  * @see Route
  * @generated
  */
-@ProviderType
-public class RouteWrapper implements Route, ModelWrapper<Route> {
+public class RouteWrapper implements ModelWrapper<Route>, Route {
 
 	public RouteWrapper(Route route) {
 		_route = route;
@@ -431,16 +428,16 @@ public class RouteWrapper implements Route, ModelWrapper<Route> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof RouteWrapper)) {
+		if (!(object instanceof RouteWrapper)) {
 			return false;
 		}
 
-		RouteWrapper routeWrapper = (RouteWrapper)obj;
+		RouteWrapper routeWrapper = (RouteWrapper)object;
 
 		if (Objects.equals(_route, routeWrapper._route)) {
 			return true;

@@ -7,4 +7,7 @@ package eu.strasbourg.utils.constants;
  */
 public class GlobalConstants {
 	public static final String DEFAULT_PLACIT_USER_IMAGE_URL = "/o/plateforme-citoyenne-theme/images/medias/user_female_portrait.png";
+
+	public static final String TIMEZONE="Europe/Paris";
+
 }

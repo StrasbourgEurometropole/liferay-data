@@ -17,8 +17,6 @@ package eu.strasbourg.service.help.model.impl;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
  * The extended model base implementation for the HelpProposal service. Represents a row in the &quot;help_HelpProposal&quot; database table, with each column mapped to a property of this class.
  *
@@ -31,7 +29,6 @@ import org.osgi.annotation.versioning.ProviderType;
  * @see HelpProposal
  * @generated
  */
-@ProviderType
 public abstract class HelpProposalBaseImpl
 	extends HelpProposalModelImpl implements HelpProposal {
 

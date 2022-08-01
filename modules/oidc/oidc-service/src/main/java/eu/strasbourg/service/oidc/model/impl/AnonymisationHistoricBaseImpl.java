@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
 
@@ -31,7 +29,6 @@ import eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalServiceUtil;
  * @see AnonymisationHistoric
  * @generated
  */
-@ProviderType
 public abstract class AnonymisationHistoricBaseImpl
 	extends AnonymisationHistoricModelImpl implements AnonymisationHistoric {
 

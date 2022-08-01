@@ -49,7 +49,7 @@ import javax.sql.DataSource;
  * @generated
  */
 public abstract class VideoServiceBaseImpl
-	extends BaseServiceImpl implements VideoService, IdentifiableOSGiService {
+	extends BaseServiceImpl implements IdentifiableOSGiService, VideoService {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -569,8 +569,8 @@ public abstract class VideoServiceBaseImpl
 
 			sqlUpdate.update();
 		}
-		catch (Exception e) {
-			throw new SystemException(e);
+		catch (Exception exception) {
+			throw new SystemException(exception);
 		}
 	}
 

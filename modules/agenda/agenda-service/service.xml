@@ -44,6 +44,8 @@
         <column name="placeZipCode" type="String" />
         <column name="placeCity" type="String" />
         <column name="placeCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
 
 		<!-- Accès -->
 		<column name="access" type="String" localized="true" />
@@ -547,7 +549,6 @@
 		</finder>
 	</entity>
 
-
 	<entity local-service="true" name="Historic"
 			cache-enabled="true" remote-service="false" uuid="true">
 
@@ -564,7 +565,7 @@
 
 	</entity>
 
-	<entity local-service="true" name="CacheJson"
+	<entity local-service="true" name="CsmapCacheJson"
 			cache-enabled="true" remote-service="false" uuid="true">
 
 		<!-- PK fields -->
@@ -575,11 +576,12 @@
 		<column name="createEvent" type="Date" />
 		<column name="modifiedEvent" type="Date" />
 		<column name="isActive" type="boolean" />
+		<column name="regeneratedDate" type="Date" />
+		<column name="hasSchedules" type="boolean" />
 
 		<finder name="eventId" return-type="Collection">
 			<finder-column name="eventId" />
 		</finder>
-
 		<finder name="CreatedDateAndIsActive" return-type="Collection">
 			<finder-column comparator="&gt;=" name="createEvent" />
 			<finder-column name="isActive" />
@@ -589,9 +591,51 @@
 			<finder-column comparator="&gt;=" name="modifiedEvent" />
 			<finder-column name="isActive" />
 		</finder>
+		<finder name="CreatedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&lt;" name="createEvent" />
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
+		</finder>
 		<finder name="ModifiedDateAndIsActive" return-type="Collection">
 			<finder-column comparator="&gt;=" name="modifiedEvent" />
 			<finder-column name="isActive" />
+		</finder>
+		<finder name="RegeneratedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;=" name="regeneratedDate" />
+			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheJson"
+			cache-enabled="true" remote-service="false" uuid="false">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonEvent" type="String" />
+		<column name="createEvent" type="Date" />
+		<column name="modifiedEvent" type="Date" />
+		<column name="isApproved" type="boolean" />
+
+		<finder name="eventId" return-type="CacheJson">
+			<finder-column name="eventId" />
+		</finder>
+
+		<finder name="eventIdAndIsApproved" return-type="CacheJson">
+			<finder-column name="eventId" />
+			<finder-column name="isApproved" />
+		</finder>
+
+		<finder name="isApproved" return-type="Collection">
+			<finder-column name="isApproved" />
 		</finder>
 
 	</entity>

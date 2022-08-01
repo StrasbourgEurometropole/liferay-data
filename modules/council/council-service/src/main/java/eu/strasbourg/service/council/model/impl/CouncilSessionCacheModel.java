@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -35,22 +33,21 @@ import java.util.Date;
  * @author Brian Wing Shun Chan
  * @generated
  */
-@ProviderType
 public class CouncilSessionCacheModel
 	implements CacheModel<CouncilSession>, Externalizable {
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
 
-		if (!(obj instanceof CouncilSessionCacheModel)) {
+		if (!(object instanceof CouncilSessionCacheModel)) {
 			return false;
 		}
 
 		CouncilSessionCacheModel councilSessionCacheModel =
-			(CouncilSessionCacheModel)obj;
+			(CouncilSessionCacheModel)object;
 
 		if (councilSessionId == councilSessionCacheModel.councilSessionId) {
 			return true;
@@ -66,7 +63,7 @@ public class CouncilSessionCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,6 +93,8 @@ public class CouncilSessionCacheModel
 		sb.append(title);
 		sb.append(", date=");
 		sb.append(date);
+		sb.append(", lastDelibProcessed=");
+		sb.append(lastDelibProcessed);
 		sb.append(", officialLeaderId=");
 		sb.append(officialLeaderId);
 		sb.append(", typeId=");
@@ -173,6 +172,7 @@ public class CouncilSessionCacheModel
 			councilSessionImpl.setDate(new Date(date));
 		}
 
+		councilSessionImpl.setLastDelibProcessed(lastDelibProcessed);
 		councilSessionImpl.setOfficialLeaderId(officialLeaderId);
 		councilSessionImpl.setTypeId(typeId);
 
@@ -203,6 +203,8 @@ public class CouncilSessionCacheModel
 		statusDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		date = objectInput.readLong();
+
+		lastDelibProcessed = objectInput.readLong();
 
 		officialLeaderId = objectInput.readLong();
 
@@ -258,6 +260,8 @@ public class CouncilSessionCacheModel
 
 		objectOutput.writeLong(date);
 
+		objectOutput.writeLong(lastDelibProcessed);
+
 		objectOutput.writeLong(officialLeaderId);
 
 		objectOutput.writeLong(typeId);
@@ -277,6 +281,7 @@ public class CouncilSessionCacheModel
 	public long statusDate;
 	public String title;
 	public long date;
+	public long lastDelibProcessed;
 	public long officialLeaderId;
 	public long typeId;
 

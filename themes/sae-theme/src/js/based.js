@@ -137,17 +137,6 @@
 		}
 	}
 	
-	//Search engine
-	function toggleSearch(){
-		$('#search-engine').addClass('opened');
-		$('.search-input').focus();
-	}
-	
-	//Pour débogguer le focus
-	// setInterval(function() { 
-	//		 	console.log(document.activeElement);
-	// }, 2000); 
-	
 	$(document).ready(function() {
 	
 		//Appel function
@@ -218,18 +207,15 @@
 	  $('.owl-carousel .owl-item.cloned a').attr('tabindex', '-1');
 	  $('.owl-carousel.owl-gallery .item-gallery').attr('tabindex', '0');
 	
-	    // button search responsive
-		var btnSearch = $('#main-menu .item-search').html();
-		$('.nav-rwd').prepend(btnSearch);
-	
-		//Button search
-		$('button.search').on('click', function(){
-			toggleSearch();
-			$('#search-engine').slideToggle();
+		// Affichage de la Barre de recherche
+		$('.menu-search').click(function () {
+			$('.mns-search-bar').addClass('search-display');
+			$('#search').focus();
 		});
-		$('#search-close').on('click', function(){
-			toggleSearch();
-			$('#search-engine').slideToggle();
+
+		// Affichage du Masque quand la barre de recherche est ouverte
+		$('#search-close').click(function () {
+			$('#search-bar').removeClass('search-display');
 		});
 	
 		//Close popup gmap
@@ -242,8 +228,10 @@
 	
 			//Mettre du contenu dans le mmenu
 			var mainNav = $('.main-nav').html();
+			var mainNavNetwork = "<li class='network'><span><ul>" + $('.nav-social-network').html() + "</ul></span></li>";
 	
 			$('#mmenu .list-principal').append(mainNav);
+			$('#mmenu .list-principal').append(mainNavNetwork);
 	
 			//On créé le mmenu
 			$("#mmenu").mmenu({

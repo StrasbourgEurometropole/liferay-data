@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
 /**
@@ -25,7 +23,6 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  * @see DeliberationService
  * @generated
  */
-@ProviderType
 public class DeliberationServiceWrapper
 	implements DeliberationService, ServiceWrapper<DeliberationService> {
 
@@ -45,10 +42,10 @@ public class DeliberationServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getUserFront(
-		long officialId, String officialDeviceInfo) {
+		long officialId, String officialDeviceInfo, long councilSessionId) {
 
 		return _deliberationService.getUserFront(
-			officialId, officialDeviceInfo);
+			officialId, officialDeviceInfo, councilSessionId);
 	}
 
 	@Override
