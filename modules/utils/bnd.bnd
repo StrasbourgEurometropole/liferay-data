@@ -14,3 +14,4 @@ Export-Package: \
 	eu.strasbourg.utils.client.soap.beans, \
 	eu.strasbourg.utils.client.soap.tools
 -dsannotations: *
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
