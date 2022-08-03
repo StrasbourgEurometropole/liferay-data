@@ -23,13 +23,6 @@ RUN mkdir /data \
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
-# Installation de ClamAV
-RUN apk add --upgrade clamav-daemon \
-    && mkdir /run/clamav && chown clamav:clamav /run/clamav \
-    && freshclam \
-    && ln -s /usr/bin/clamdscan /usr/bin/clamscan \
-    && /usr/sbin/clamd -c /etc/clamav/clamd.conf
-
 # Installation des certificats
 COPY --chown=liferay:liferay $SOURCES_PATH/*.cer /tmp/certificates/
 RUN keytool -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -importcert -alias certigna-authority-2015-2025 \
