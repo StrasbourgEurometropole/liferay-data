@@ -413,4 +413,8 @@ public class StrasbourgPropsUtil {
 	public static String getOpenDataParking() {
 		return PropsUtil.get("eu.strasbourg.opendata.realtime.parking");
 	}
+	
+	public static String getOpenDataVelhops() {
+		return PropsUtil.get("eu.strasbourg.opendata.velhops");
+	}
 }
