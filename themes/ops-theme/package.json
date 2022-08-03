@@ -2,13 +2,14 @@
 	"devDependencies": {
 		"grunt-ftpush": "^0.3.3",
 		"gulp": "3.9.1",
+		"del": "^2.2.1",
 		"gulp-autoprefixer": "latest",
 		"gulp-concat": "latest",
 		"gulp-deploy-ftp": "^1.0.1",
 		"gulp-load-plugins": "latest",
 		"gulp-notify": "latest",
 		"gulp-rename": "latest",
-		"gulp-sass": "latest",
+		"gulp-sass": "^4.1.1",
 		"gulp-tinypng": "latest",
 		"gulp-uglify": "latest",
 		"gulp-util": "^3.0.8",
@@ -16,10 +17,10 @@
 		"php-include-html": "latest",
 		"pump": "latest",
 		"vinyl-ftp": "^0.6.0",
-		"compass-mixins": "0.12.10",
-		"liferay-frontend-common-css": "1.0.4",
-		"liferay-frontend-theme-styled": "4.0.21",
-		"liferay-frontend-theme-unstyled": "4.0.17"
+		"compass-mixins": "^0.12.10",
+		"liferay-frontend-common-css": "^1.0.4",
+		"liferay-frontend-theme-styled": "^4.0.21",
+		"liferay-frontend-theme-unstyled": "^4.0.17"
 	},
 	"keywords": [
 		"liferay-theme"
@@ -34,5 +35,8 @@
 	},
 	"main": "package.json",
 	"name": "ops-theme",
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"scripts": {
+		"buildCssJs": "gulp js && gulp css"
+	}
 }

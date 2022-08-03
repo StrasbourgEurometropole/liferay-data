@@ -35,15 +35,6 @@
 	transition: all 0.3s ease;
 }
 
-@mixin absolute() {
-	width: auto;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	text-align: center;
-	transform: translate(-50%, -50%);
-}
-
 @mixin font() {
 	font-family: 'icomoon' !important;
 	speak: none;
@@ -66,31 +57,8 @@
 	}
 }
 
-@mixin ellipsis($number:"",$lineheight:""){
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	@if $number != "" {
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: $number;
-	}
-	@if $lineheight != "" {
-		line-height: $lineheight;
-		max-height: $lineheight * $number;
-	}
-}
-
 // Mixin Breakpoints
 // ==========================================================================
-@mixin wide {
-	@media screen and (min-width: #{$breakpoint_wd}) {
-		@content;
-	}
-}
-
-@mixin desktop {
-	@content;
-}
 
 @mixin tablet_landscape {
 	@media screen and (max-width: #{$breakpoint_paysage}) {
@@ -147,16 +115,6 @@
 		right: 0;
 		bottom: 0;
 	}
-}
-
-@function calculateRem($size) {
-	$remSize: $size / 16px;
-	@return $remSize * 1rem;
-}
-
-@mixin font-size($size) {
-	font-size: $size;
-	font-size: calculateRem($size);
 }
 
 /* mixin for multiline */
