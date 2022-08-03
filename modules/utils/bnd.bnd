@@ -3,6 +3,8 @@ Bundle-SymbolicName: eu.strasbourg.utils
 Bundle-Version: 1.31.0
 Export-Package: \
 	eu.strasbourg.utils,\
+	eu.strasbourg.utils.api,\
+	eu.strasbourg.utils.bean,\
 	eu.strasbourg.utils.models,\
 	eu.strasbourg.utils.exception,\
 	eu.strasbourg.utils.parser,\
@@ -12,3 +14,4 @@ Export-Package: \
 	eu.strasbourg.utils.client.soap.beans, \
 	eu.strasbourg.utils.client.soap.tools
 -dsannotations: *
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning

@@ -41,7 +41,7 @@ public class InitiativeItemSelectorView  implements ItemSelectorView<InitiativeI
 		return _servletContext;
 	}
 
-	@Reference(target = "(osgi.web.symbolicname=initiative.web)", unbind = "-")
+	@Reference(target = "(osgi.web.symbolicname=project.web)", unbind = "-")
 	public void setServletContext(ServletContext servletContext) {
 		this._servletContext = servletContext;
 	}
