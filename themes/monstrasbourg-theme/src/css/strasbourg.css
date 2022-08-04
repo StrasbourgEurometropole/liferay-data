@@ -3286,7 +3286,7 @@ a {
 /*
  * 	Owl Carousel - Auto Height Plugin
  */
-/* line 5, custom/01-libs/owlCarousel/_autoheight.scss */
+/* line 5, custom/01-libs/owlCarousel/_autoHeight.scss */
 .owl-height {
   -webkit-transition: height 500ms ease-in-out;
   transition: height 500ms ease-in-out; }
