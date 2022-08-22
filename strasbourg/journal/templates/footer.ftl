@@ -58,6 +58,14 @@
                 <span class="seu-picto"></span>
                 <span class="seu-text">${newsletterLinkLabel.getData()}</span>
                 </a>
+                <a href="${offerLinkLabel.getChildren()[0].getFriendlyUrl()}" class="seu-offer" title="${offerLinkLabel.getData()}">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${offerLinkLabel.getData()}</span>
+                </a>
+                <a href="${strasAppLinkLabel.getChildren()[0].getData()}" class="seu-strasapp"  title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                <span class="seu-picto"></span>
+                <span class="seu-text">${strasAppLinkLabel.getData()}</span>
+                </a>
             </div>
         </div>
     </div>
@@ -86,7 +94,8 @@
             <#if subfooterLinkLabel.getSiblings()?has_content>
                 <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
                     <#if cur_subfooterLinkLabel.Lien2ga2.getData()?has_content>
-                        <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
+                    <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}
+                    </a>
                     <#else>
                         <#if cur_subfooterLinkLabel.activeTab?? && cur_subfooterLinkLabel.activeTab.getData()?? && cur_subfooterLinkLabel.activeTab.getData() == "true">
                             <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" class="seu-bottom-links"  title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>

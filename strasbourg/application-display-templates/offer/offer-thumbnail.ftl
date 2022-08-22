@@ -12,7 +12,7 @@
     <div class="seu-result-right">
         <a class="seu-result-content" href="${detailURL}">
             <h2 class="seu-result-title">${entry.getPost()}</h2>
-            <div class="seu-result-catcher">${entry.direction.getTitle(locale)}
+            <div class="seu-result-catcher"><#if entry.direction ??>${entry.direction.getTitle(locale)}</#if>
                 <#if entry.service??>
                   / ${entry.service.getTitle(locale)}
                 </#if>
@@ -29,14 +29,16 @@
                 </div>
             </#if>
         </a>
-        <div class="seu-result-infos">
-            <div class="seu-result-infos-top">
-                <@liferay_ui.message key="eu.offer-limit-date" />
+        <#if .now < entry.publicationEndDate?datetime>
+            <div class="seu-result-infos">
+                <div class="seu-result-infos-top">
+                    <@liferay_ui.message key="eu.offer-limit-date" />
+                </div>
+                <div class="seu-result-infos-bottom">
+                    ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
+                </div>
             </div>
-            <div class="seu-result-infos-bottom">
-                ${entry.getLimitDate()?datetime?string("dd/MM/yyyy")}
-            </div>
-        </div>
+        </#if>
     </div>
 
 </div>

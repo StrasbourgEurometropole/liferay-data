@@ -144,6 +144,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </div>
                             </#if>
                         </div>
+
+                        <div class="row pro-bloc pro-bloc-texte">
+                            <#if entry.summary?has_content>
+                                <h4>Résumé</h4>
+                                <p>${entry.summary}</p>
+                            </#if>
+                        </div>
+
                         <div class="row pro-bloc pro-bloc-texte">${entry.description}</div>
                         <#if entry.filesURLs?has_content>
                             <div class="pro-bloc-texte pro-bloc-telechargements">

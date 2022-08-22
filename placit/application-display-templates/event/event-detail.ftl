@@ -226,7 +226,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<#assign period = "" />
 							</#if>
 							
-							<a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+							<a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
@@ -280,7 +280,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     var eventMercatorX = ${eventPlaceMercatorX};
     var eventMercatorY = ${eventPlaceMercatorY};
     var eventJSON = ${eventJSON};
-    eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}';
+    eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}';
 
     $(document).ready(function() {
 

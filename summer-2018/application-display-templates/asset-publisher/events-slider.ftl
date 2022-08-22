@@ -5,14 +5,10 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+
 <div class="mns-section-agenda">
     <div class="container">
-        <div style="text-align: center;">
-            <div  class="mns-portlet-title">
-                <h1><@liferay_ui.message key="agenda" /></h1>
-            </div>
-        </div>
-        <div class="owl-carousel owl-theme col-xs-12" id="owl-agenda">
+        <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
             <#list entries as curEntry>
                 <#if (curEntry?index == 20)>
                     <#break>
@@ -20,7 +16,7 @@
                 <#assign event = curEntry.getAssetRenderer().getEvent() />
                 <div class="item">
                     <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                        <a href="${homeURL}event/-/entity/id/${event.eventId}">
+                        <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                             <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                             <figure>
                                 <img src='${event.getImageURL()}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />
@@ -41,7 +37,7 @@
             </#list>
         </div>
         <div class="col-xs-12 mns-center">
-            <span><a href="${homeURL}agenda" class="link align-center"><@liferay_ui.message key="eu.all-agenda" /></a></span>
-        </div>    
+            <span><a href="${agendaURL}" class="link"><@liferay_ui.message key="eu.all-summer-agenda" /></a></span>
+        </div>  
     </div>
 </div>

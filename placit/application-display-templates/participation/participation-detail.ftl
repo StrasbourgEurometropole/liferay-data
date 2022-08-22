@@ -8,7 +8,7 @@
 
 <#-- Recuperation du créateur de la participation -->
 <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
-<#assign user = UserLocalService.getUser(entry.getAssetEntry().userId) />
+<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
 
 <#-- Recuperation de l'URL de "base" du site -->
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
@@ -93,7 +93,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image de l'auteur"/>
                             </figure>
                             <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${user.getFullName()}</strong></p>
+                            <p><strong>${entry.getStatusByUserName()}</strong></p>
                         </div>
                     </div>
 
@@ -200,18 +200,17 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div class="pro-bloc-texte pro-bloc-telechargements">
                                 <h3>Documents à télécharger</h3>
                                 <div class="row">
-                                        <#list entry.filesURLs as fileURL>
-                                            <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
-                                            <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
-                                            <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                                            <div class="col-sm-6">
-                                                <a href="${fileURL}" download title="${title}">
-                                                    <span class="pro-filename">${title}</span>
-                                                    <span class="pro-poids">Poids ${size}</span>
-                                                </a>
-                                            </div>
-                                        </#list>
-
+                                    <#list entry.filesURLs as fileURL>
+                                        <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
+                                        <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+                                        <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
+                                        <div class="col-sm-6">
+                                            <a href="${fileURL}" download title="${title}">
+                                                <span class="pro-filename">${title}</span>
+                                                <span class="pro-poids">Poids ${size}</span>
+                                            </a>
+                                        </div>
+                                    </#list>
                                 </div>
                             </div>
                         </#if>
@@ -322,7 +321,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
 							<#assign isUserPartActive = event.isUserParticipates(userID)?then("active", "") />
 							
-							<a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+							<a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
@@ -425,7 +424,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
             var eventJSON = eventsJSON[i];
             // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
-            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id;
+            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
 
             marker = getEventMarker(eventJSON);
 

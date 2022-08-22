@@ -35,7 +35,7 @@
         <div class="container">
 
             <div>
-                <h2>Les projets citoyens</h2>
+                <h2><@liferay_ui.message key="eu.budgetParticipatif" /></h2>
                 <#if pageListing?? >
                     <div class="pro-wrapper">
                         <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>

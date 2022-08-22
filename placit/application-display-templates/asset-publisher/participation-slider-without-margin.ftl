@@ -35,7 +35,7 @@
                         <!-- Recuperation du status de la participation (terminee, bientot, etc.) -->
                         <#assign participationStatus = entry.getParticipationStatus() />
 						
-						<#assign user = UserLocalService.getUser(entry.userId) />
+						<#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
 						
                         <!-- Adaptation du message a afficher dans le 'span-pro-time' -->
                         <#if participationStatus == "soon_arrived">
