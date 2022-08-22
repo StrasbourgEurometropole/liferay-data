@@ -8,6 +8,7 @@
 </#if>
 
 <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
+<#assign uriHelperService = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />

@@ -6,6 +6,8 @@
 <#else>
   <#assign homeURL = "/" />
 </#if>
+    
+<#assign uriHelperService = serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService")/>
 
 <li class="grid-item">
     <div class="item-visu">

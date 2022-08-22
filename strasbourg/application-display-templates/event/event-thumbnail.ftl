@@ -30,10 +30,10 @@
 <li class="grid-item ${cssClass}">
     <div class="item-visu">
         <!-- <button class="item-favoris"></button> -->
-        <#if entry.imageURL?contains("strasbourg.eu")>     
-            <div class="item-background" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}"></div>
-        <#else>
+        <#if entry.imageURL?contains("http")>     
             <div class="item-background" data-background-src="${entry.imageURL}"></div>
+        <#else>
+            <div class="item-background" data-background-src="${uriHelperService.appendUriImagePreview(entry.imageURL)}"></div>
         </#if>
     </div>
     <div class="item-right">
