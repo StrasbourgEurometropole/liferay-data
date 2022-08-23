@@ -37,7 +37,7 @@
 	                <div class="form-group mns-textarea">
 	                    <label for="demande"><liferay-ui:message key="contact.request" /></label>
 	                    <textarea class="form-control" rows="3" id="demande" name="content" aria-label="<liferay-ui:message key='contact.your-message' />">${param.content}</textarea>
-	                    <span><liferay-ui:message key="contact.your-message" /></span>
+	                    <span><liferay-ui:message key="contact.required-fields" /></span>
 	                </div>
 	                <div class="checkbox">
 	                    <label>
