@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -119,7 +121,7 @@ public class PoiServiceImpl implements PoiService {
 			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
 					.collect(Collectors.toList());
 			if(!vocabularies.isEmpty())
-				System.out.println("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				_log.debug("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else{
 				// récupère les lieux des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
@@ -149,7 +151,7 @@ public class PoiServiceImpl implements PoiService {
 			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
 					.collect(Collectors.toList());
 			if(!vocabularies.isEmpty())
-				System.out.println("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				_log.debug("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else {
 				// récupère les évènements des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
@@ -180,7 +182,7 @@ public class PoiServiceImpl implements PoiService {
 			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
 					.collect(Collectors.toList());
 			if(!vocabularies.isEmpty())
-				System.out.println("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				_log.debug("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else {
 				// récupère les arrets des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
@@ -209,8 +211,7 @@ public class PoiServiceImpl implements PoiService {
 			geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId));
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime) / 1_000_000;
-			System.out.println("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
-			System.out.println();
+			_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -513,7 +514,7 @@ public class PoiServiceImpl implements PoiService {
 				tags, false, locale, -1, -1, "", false);
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime) / 1_000_000;
-		System.out.println("(" + classNames + ") GetPOIs : " + duration + "ms (" + hits.getLength() + " items)");
+		_log.debug("(" + classNames + ") GetPOIs : " + duration + "ms (" + hits.getLength() + " items)");
 
 		return hits;
 	}
@@ -568,4 +569,6 @@ public class PoiServiceImpl implements PoiService {
 	protected void setEventLocalService(EventLocalService eventLocalService) {
 		_eventLocalService = eventLocalService;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(PoiServiceImpl.class.getName());
 }
