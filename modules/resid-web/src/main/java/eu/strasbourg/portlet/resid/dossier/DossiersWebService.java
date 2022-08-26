@@ -1,6 +1,9 @@
 package eu.strasbourg.portlet.resid.dossier;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.PasserelleHelper;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.net.HttpURLConnection;
@@ -21,10 +24,12 @@ public class DossiersWebService {
 				dossiersResponse = new DossiersResponse(PasserelleHelper.readJson(httpConn));
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error("identifiantOpenId : " + identifiantOpenId + ", timeOut : " + timeOut, ex);
 		}
 
 		return dossiersResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(DossiersWebService.class.getName());
 
 }

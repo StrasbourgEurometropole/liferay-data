@@ -9,6 +9,9 @@ import java.util.Map;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.portlet.mediatheque.association.AssociationWebService;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -29,7 +32,7 @@ public class DissociateWebService {
 				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : sub -> " + sub);
 		}
 		DissociateResponse dissociateResponse = null;
 		try {
@@ -38,10 +41,12 @@ public class DissociateWebService {
 			JSONObject jsonResponse = PasserelleHelper.readJsonFromURL(url);
 			dissociateResponse = new DissociateResponse(jsonResponse);
 		} catch (IOException | JSONException ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + StrasbourgPropsUtil.getMediathequeDestroy() + "?" + postData);
 		}
 
 		return dissociateResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(DissociateWebService.class.getName());
 
 }

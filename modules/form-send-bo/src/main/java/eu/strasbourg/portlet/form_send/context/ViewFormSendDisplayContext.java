@@ -116,7 +116,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage(), e);
                 }
             }
         }
@@ -177,7 +177,7 @@ public class ViewFormSendDisplayContext extends ViewListBaseDisplayContext<DDMFo
                         }
                     }
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage(), e);
                 }
             }
 

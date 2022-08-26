@@ -9,6 +9,8 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -99,7 +101,7 @@ public class Exporter {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return os;
@@ -135,7 +137,7 @@ public class Exporter {
             os.write(b);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return os;
@@ -726,4 +728,6 @@ public class Exporter {
 
         return filename;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(Exporter.class.getName());
 }

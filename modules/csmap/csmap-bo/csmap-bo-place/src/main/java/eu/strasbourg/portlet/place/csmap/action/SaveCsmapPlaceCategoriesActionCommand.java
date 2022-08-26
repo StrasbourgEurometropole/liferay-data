@@ -5,6 +5,8 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -65,7 +67,7 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
                     }
                 }
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + placeTypesId);
             }
         }
         placeCategories.setCategoriesIds(placeTypes.toString());
@@ -101,8 +103,10 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
             if (Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         return null;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

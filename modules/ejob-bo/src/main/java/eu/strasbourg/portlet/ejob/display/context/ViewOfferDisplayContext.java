@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.ejob.display.context;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -77,7 +79,7 @@ public class ViewOfferDisplayContext
 			Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
 			return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -92,7 +94,7 @@ public class ViewOfferDisplayContext
 					|| UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return false;
 	}
@@ -134,5 +136,7 @@ public class ViewOfferDisplayContext
 				return "publishDate_sortable";
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

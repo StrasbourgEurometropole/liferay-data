@@ -11,6 +11,8 @@ import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -73,7 +75,7 @@ public class InterestViewerDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(InterestViewerConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 
@@ -210,8 +212,7 @@ public class InterestViewerDisplayContext {
 			}
 
 		} catch (PortalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage());
 		}
 
 		// récupère les catégoriesId des évènements des centres d'intérêt
@@ -276,7 +277,7 @@ public class InterestViewerDisplayContext {
 					try {
 						entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
 					} catch (PortalException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + entryRel);
 					}
 				}
 			}
@@ -473,4 +474,6 @@ public class InterestViewerDisplayContext {
 	public boolean isFolded() {
 		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(InterestViewerDisplayContext.class.getName());
 }

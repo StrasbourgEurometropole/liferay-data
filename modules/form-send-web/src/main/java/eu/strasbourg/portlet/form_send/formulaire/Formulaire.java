@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.form_send.formulaire;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Formulaire {
             try {
                 fieldListe.add(new Champ(JSONFactoryUtil.createJSONObject(json.toString())));
             } catch (JSONException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + json);
             }
         }
         this.fields = fieldListe;
@@ -62,7 +64,7 @@ public class Formulaire {
             try {
                 fieldListe.add(new Champ(JSONFactoryUtil.createJSONObject(json.toString())));
             } catch (JSONException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + json);
             }
         }
     }
@@ -75,5 +77,7 @@ public class Formulaire {
 
         return null;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

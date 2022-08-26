@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
@@ -90,7 +92,7 @@ public class BorrowerResponse {
 			reservationsSorted.addAll(reservations.stream().filter(b -> Validator.isNull(b.getRequestDate()))
 					.collect(Collectors.toList()));
 		} catch (DocumentException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + xml);
 		}
 	}
 
@@ -200,4 +202,6 @@ public class BorrowerResponse {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(BorrowerResponse.class.getName());
 }

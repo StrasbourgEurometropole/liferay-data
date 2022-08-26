@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -54,7 +56,7 @@ public class GraveyardDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(GraveyardConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		this.request = request;
 		this.response = response;
@@ -177,7 +179,7 @@ public class GraveyardDisplayContext {
 				this.setGraveyard(graveyardResponse);
 			}
 		} catch (ParseException e1) {
-			e1.printStackTrace();
+			_log.error(e1.getMessage(), e1);
 		}
 		request.setAttribute("error", error);
 		request.setAttribute("name", HtmlUtil.escape(name));
@@ -289,4 +291,6 @@ public class GraveyardDisplayContext {
 	}
 
 	public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

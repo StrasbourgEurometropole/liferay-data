@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.notif.display.context;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
@@ -158,7 +160,7 @@ public class EditNotificationDisplayContext {
                     || UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
                 return true;
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return false;
     }
@@ -168,7 +170,7 @@ public class EditNotificationDisplayContext {
             Role  responsableNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.RESPONSABLE_NOTIFICATION);
             return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), responsableNotification.getRoleId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return false;
     }
@@ -181,7 +183,7 @@ public class EditNotificationDisplayContext {
             Role contributorNotification = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.CONTRIBUTEUR_NOTIFICATION);
             return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), contributorNotification.getRoleId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return false;
     }
@@ -205,4 +207,6 @@ public class EditNotificationDisplayContext {
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.NOTIF_BO,
                 StrasbourgPortletKeys.NOTIF_BO, actionId);
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

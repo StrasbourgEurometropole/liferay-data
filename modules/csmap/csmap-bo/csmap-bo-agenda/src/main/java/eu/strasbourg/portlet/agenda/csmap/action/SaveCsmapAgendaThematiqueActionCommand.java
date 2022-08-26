@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.agenda.csmap.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -154,7 +156,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
 
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return true;
@@ -199,7 +201,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             if(Validator.isNotNull(theme))
                 return String.valueOf(theme.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_THEME);
         }
         return null;
     }
@@ -210,7 +212,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_TYPE);
         }
         return null;
     }
@@ -221,9 +223,11 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.TERRITORY);
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(SaveCsmapAgendaThematiqueActionCommand.class.getName());
 }
 
