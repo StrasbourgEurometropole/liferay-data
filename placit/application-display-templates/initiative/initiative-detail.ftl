@@ -89,7 +89,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<figure>
 								<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
 							</figure>
-							<p>Initiative publiée le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+							<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
 					</div>
@@ -174,7 +174,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 								<!-- Les personnes ayant pris part à l'initiative -->
 								<div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'initiative.</strong></p>
+									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'atelier.</strong></p>
 									<p>Cette aide peut prendre plusieurs formes : </p>
 									<ul>
 										<li>Du temps</li>
@@ -182,7 +182,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 										<li>Un lieu</li>
 										<li>Une expertise</li>
 									</ul>
-									<p>N'hésitez pas à proposer la votre si cette initiative fait echos.</p>
+									<p>N'hésitez pas à proposer le votre si cet atelier fait echos.</p>
 									
 									<div class="row pro-wrapper-people">
 
@@ -293,9 +293,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <h2>D’autres initiatives</h2>
+                    <h2>D’autres ateliers</h2>
                     <div class="pro-wrapper">
-                        <a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
+                        <a href="${homeURL}initiatives" class="pro-btn">Tous les ateliers</a>
                     </div>
                 </div>
 
@@ -312,12 +312,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<div class="wrapper-card-initiative">
 									<#if imageURL?has_content >
 											<figure role="group">
-												<img src="${imageURL}" width="40" height="40" alt="Image de l'initiative"/>
+												<img src="${imageURL}" width="40" height="40" alt="Image de l'atelier"/>
 											</figure>
 									</#if>
 									<div>
 										<div class="pro-header-initiative">										
-											<p>Initiative publiée par :</p>
+											<p>Atelier publié par :</p>
 											<p><strong>${suggestion.getAuthorLabel()}</strong></p>								
 										</div>
 										<div class="pro-content-initiative">
@@ -335,7 +335,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 									<div class="pro-avis">
 										<span>${suggestion.getNbHelps()}</span>
 									</div>
-									<p>Citoyens soutiennent cette initiative</p>
+									<p>Citoyens-nes soutiennent cet atelier</p>
 								</div>
 							</div>						
 						</#list>
