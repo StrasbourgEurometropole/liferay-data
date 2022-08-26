@@ -287,7 +287,7 @@ function createInitiativeThumbnail(initiative) {
 		        '<div class="wrapper-card-initiative">' +
 		        	(initiative.imageURL != "" ? 
 	                    '<figure role="group" class="fit-cover">' +
-	                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image initiative"/>' +
+	                        '<img src="' + initiative.imageURL + '" width="240" height="250" alt="Image atelier"/>' +
 	                    '</figure>'
 	                    :
 	                    ''
@@ -297,7 +297,7 @@ function createInitiativeThumbnail(initiative) {
 		                    '<figure role="group">' +
 		                        '<img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/>' +
 		                    '</figure>' +
-		                    '<p>Initiative publiée par :</p>' +
+		                    '<p>Atelier publié par :</p>' +
 		                    '<p><strong>' + initiative.author + '</strong></p>' +
 		                '</div>' +
 		                '<div class="pro-content-initiative">' +
@@ -310,7 +310,7 @@ function createInitiativeThumbnail(initiative) {
 		            '<div class="pro-avis">' +
 		                '<span>' + initiative.nbHelps + '</span>' +
 		            '</div>' +
-		            '<p>Citoyens soutiennent cette initiative</p>' +
+		            '<p>Citoyens-nes soutiennent cet atelier</p>' +
 		        '</div>' +
 		    '</div>' +
 		'</div>';

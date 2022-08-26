@@ -486,7 +486,7 @@
 								<div class="wrapper-card-initiative">
 									<c:if test="${initiative.getImageURL() != ''}">
 										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
 	                                	</figure>
                                 	</c:if>
 									<div>
@@ -537,7 +537,7 @@
 								<div class="wrapper-card-initiative">
 									<c:if test="${initiative.getImageURL() != ''}">
 										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
 	                                	</figure>
                                 	</c:if>
 									<div>
@@ -596,7 +596,7 @@
 							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
 								<c:if test="${budget.getImageURL() != ''}">
 									<figure role="group" class="fit-cover">
-                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image atelier"/>
                                 	</figure>
                                	</c:if>
 								<div class="pro-header-budget">
@@ -666,7 +666,7 @@
 							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
 								<c:if test="${budget.getImageURL() != ''}">
 									<figure role="group" class="fit-cover">
-                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image atelier"/>
                                 	</figure>
                                	</c:if>
 								<div class="pro-header-budget">
