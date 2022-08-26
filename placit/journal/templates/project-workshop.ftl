@@ -66,7 +66,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div id="breadcrumb">
             <span>
                 <span><a href="${homeURL}accueil">Accueil</a>
-                    <a href="${homeURL}actualites">Toutes les actualités</a>
+                    <a href="${homeURL}liste-ateliers-de-projet">Tous les ateliers de projet</a>
                     <span class="breadcrumb_last">${title.getData()}</span>
                 </span>
             </span>
