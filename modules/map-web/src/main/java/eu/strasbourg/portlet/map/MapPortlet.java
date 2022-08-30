@@ -274,7 +274,7 @@ public class MapPortlet extends MVCPortlet {
                                                     AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
                                             district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
                                         } catch (PortalException e) {
-                                            e.printStackTrace();
+                                            _log.error(e.getMessage() + " : "+ VocabularyNames.TERRITORY);
                                         }
                                     }
                                 }
@@ -662,7 +662,7 @@ public class MapPortlet extends MVCPortlet {
                 portletConfigInOlderFormat.put("configId", "widget");
                 userConfig.put(portletConfigInOlderFormat);
             } catch (JSONException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : "+ userConfigString);
             }
 
         }

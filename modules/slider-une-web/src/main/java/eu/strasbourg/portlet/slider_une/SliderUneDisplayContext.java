@@ -5,6 +5,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -40,7 +42,7 @@ public class SliderUneDisplayContext {
             this.configuration = themeDisplay.getPortletDisplay()
                     .getPortletInstanceConfiguration(SliderUneConfiguration.class);
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -114,7 +116,7 @@ public class SliderUneDisplayContext {
                 value = node.getText();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage(), ex);
         }
         return value;
     }
@@ -150,4 +152,6 @@ public class SliderUneDisplayContext {
         else
             return false;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

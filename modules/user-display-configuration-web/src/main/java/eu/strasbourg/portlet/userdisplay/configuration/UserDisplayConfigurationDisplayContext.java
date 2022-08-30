@@ -47,7 +47,7 @@ public class UserDisplayConfigurationDisplayContext {
                 portletIds = layoutTypePortlet.getPortletIds();
 
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.info(e.getMessage() + " : " + themeDisplay.getScopeGroupId());
                 portletIds = new ArrayList();
             }
         }
@@ -92,7 +92,7 @@ public class UserDisplayConfigurationDisplayContext {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage() + " : " + configurationString);
         }
         return displayStatus;
     }
