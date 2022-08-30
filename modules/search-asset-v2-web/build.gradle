@@ -32,7 +32,7 @@ dependencies {
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
-	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
 	compile project (':modules:utils')
 	compile project (':modules:edition:edition-api')

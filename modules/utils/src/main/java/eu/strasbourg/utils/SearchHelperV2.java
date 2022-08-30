@@ -4,12 +4,17 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.search.aggregation.Aggregations;
+import com.liferay.portal.search.aggregation.bucket.FiltersAggregation;
 import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.groupby.GroupByRequestFactory;
+import com.liferay.portal.search.groupby.GroupByResponse;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.query.BooleanQuery;
 import com.liferay.portal.search.query.FunctionScoreQuery;
@@ -153,8 +158,7 @@ public class SearchHelperV2{
 			RandomScoreFunction randomScoreFunction = scoreFunctions.random();
 			randomScoreFunction.setSeed(seed);
 			randomScoreFunction.setField("entryClassPK");
-			FunctionScoreQuery functionScoreQuery =
-					queries.functionScore(query);
+			FunctionScoreQuery functionScoreQuery = queries.functionScore(query);
 			functionScoreQuery.addFilterQueryScoreFunctionHolder(query, randomScoreFunction);
 			query = functionScoreQuery;
 		}else{
@@ -171,8 +175,33 @@ public class SearchHelperV2{
 		}
 
 		SearchRequest searchRequest = searchRequestBuilder.query(query).build();
-
 		SearchResponse searchResponse = searcher.search(searchRequest);
+
+		/*
+		Tentative d'exploitation du GroupBy
+
+		List<GroupByResponse> buckets = searchResponse.getGroupByResponses();
+		Le problème c'est que le groupByRequests prend harbitrairement 10 catégories pour former des "bucket" de 3 documents
+		en dehors de la query principale.
+		Inexploitable en l'état.
+
+		if(buckets.size() >= 1){
+			GroupByResponse gbr = buckets.get(0);
+			Map<String, Hits> hits = gbr.getHitsMap();
+
+			for (String key : hits.keySet()) {
+				if(key.equals("11043552") || key.equals("11043559")) {
+					Hits groupHits = hits.get(key);
+					Document[] docs = groupHits.getDocs();
+
+					_log.info(key + " " + groupHits.getLength());
+				}
+			}
+		}
+
+		//To debug query
+		String queryString = searchResponse.getRequestString();*/
+
 		// Recherche
 		SearchHits searchHits = searchResponse.getSearchHits();
 		_log.info("Recherche front-end : " + searchHits.getSearchTime() * 1000 + "ms");
