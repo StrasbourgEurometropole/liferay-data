@@ -38,7 +38,6 @@
         							<#elseif tag.getName() == "eurométropole"><@liferay.language key="eu.actes.eurometropole" /> -
         							</#if>
         						</#list>	
-                                ${file.getExtension()?upper_case} -
                                 <#assign dlFileEntry = dLFileEntryLocalService.fetchDLFileEntry(file.getFileEntryId()) />
                                 <#assign fileVersionId = dlFileEntry.getLatestFileVersion(true).getFileVersionId() />
                                 <#assign ddmFormValuesMap = dlFileEntry.getDDMFormValuesMap(fileVersionId) />
