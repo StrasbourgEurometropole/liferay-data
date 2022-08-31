@@ -73,7 +73,7 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + this.councilSessionId);
         }
 
         return false;
@@ -90,5 +90,7 @@ public class ExportCouncilSessionResultsResourceCommand implements MVCResourceCo
     protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
         this.councilSessionLocalService = councilSessionLocalService;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

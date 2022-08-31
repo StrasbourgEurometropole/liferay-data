@@ -139,7 +139,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			}
 			include("/" + template + ".jsp", renderRequest, renderResponse);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 

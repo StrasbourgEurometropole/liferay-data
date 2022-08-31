@@ -677,7 +677,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			try {
 				event = getEvent(result.getEventId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + result);
 			}
 			return event;
 		}).collect(Collectors.toList());

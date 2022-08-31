@@ -363,7 +363,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 							long occupation = MairieStateSOAPClient.getWaitingTime(place.getRTExternalId());
 							rtOccupation = occupation;
 						} catch (Exception ex) {
-							//ex.printStackTrace();
 							log.error("Can not update real time data for 'mairie'");
 							rtOccupation = -1;
 						}

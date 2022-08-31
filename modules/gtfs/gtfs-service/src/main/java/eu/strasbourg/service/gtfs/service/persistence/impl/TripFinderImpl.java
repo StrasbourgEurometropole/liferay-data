@@ -5,6 +5,8 @@ import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.gtfs.model.Trip;
 import eu.strasbourg.service.gtfs.model.impl.TripImpl;
@@ -35,14 +37,14 @@ public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 	        try {
 	            throw new SystemException(e);
 	        } catch (SystemException se) {
-	            se.printStackTrace();
+				_log.error(se.getMessage(), se);
 	        }
 	    } finally {
 	        closeSession(session);
 	    }
 
 	    return null;
-	    
+
 	}
 
 
@@ -51,5 +53,7 @@ public class TripFinderImpl extends TripFinderBaseImpl implements TripFinder {
 	private CustomSQL customSQL;
 
 	public static final String FIND_TRIP_AVAILABLE = TripFinder.class.getName() + ".findTripAvailable";
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

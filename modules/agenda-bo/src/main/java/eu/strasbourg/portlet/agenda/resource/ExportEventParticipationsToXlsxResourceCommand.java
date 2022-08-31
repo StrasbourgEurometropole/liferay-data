@@ -6,6 +6,8 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -29,8 +31,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class ExportEventParticipationsToXlsxResourceCommand implements MVCResourceCommand {
 
 	@Override
-	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-			throws PortletException {
+	public boolean serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse){
 		
 		resourceResponse.setContentType("application/force-download");
 		resourceResponse.setProperty("content-disposition", "attachment; filename=EventParticipations.xlsx");
@@ -40,7 +41,7 @@ public class ExportEventParticipationsToXlsxResourceCommand implements MVCResour
 			_eventParticipationsXlsExporter.exportEventParticipations(resourceResponse.getPortletOutputStream(), eventId);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return true;
@@ -52,5 +53,7 @@ public class ExportEventParticipationsToXlsxResourceCommand implements MVCResour
 	}
 	
 	private EventParticipationsXlsxExporter _eventParticipationsXlsExporter;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

@@ -17,6 +17,8 @@ package eu.strasbourg.service.ejob.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -99,7 +101,7 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 						alert.getGroupId(), Alert.class.getName(),
 						alert.getAlertId(), categoryIds, null);
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage(), e);
 			}
 
 			return success("favorite added");
@@ -115,4 +117,6 @@ public class AlertServiceImpl extends AlertServiceBaseImpl {
 	private JSONObject error(String message) {
 		return JSONFactoryUtil.createJSONObject().put("error", message);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

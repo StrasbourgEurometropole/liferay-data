@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -158,11 +160,13 @@ public class ViewReportingDisplayContext extends ViewListBaseDisplayContext<Form
                                 response = json.getJSONObject("value").getString(Locale.FRANCE.toString()).replaceAll("(\r\n|\n)", "<br />");
                         }
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage(), e);
                     }
                 }
             }
         }
         return response;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

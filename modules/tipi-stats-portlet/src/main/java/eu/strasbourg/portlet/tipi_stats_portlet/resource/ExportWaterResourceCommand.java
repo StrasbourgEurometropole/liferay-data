@@ -8,6 +8,8 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.PortletResponseUtil;
@@ -68,8 +70,10 @@ public class ExportWaterResourceCommand implements MVCResourceCommand {
 					fileName, bytes, contentType);
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 		return false;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
