@@ -149,7 +149,7 @@
                                 var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
                                 frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
-                                if (feature.properties[info_to_display]["label"] == "available-spots"){
+                                if (feature.properties[info_to_display]["label"] == "available-spots" || feature.properties[info_to_display]["label"] == "eu.place.available-velhop"){
                                     frequentation += feature.properties[info_to_display]["frequentation"];
                                 }
                                 frequentation += '</div>';

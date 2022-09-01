@@ -10,7 +10,7 @@
     "gulp-load-plugins": "latest",
     "gulp-notify": "latest",
     "gulp-rename": "latest",
-    "gulp-sass": "latest",
+    "gulp-sass": "^4.1.1",
     "gulp-tinypng": "latest",
     "gulp-uglify": "latest",
     "gulp-util": "^3.0.8",

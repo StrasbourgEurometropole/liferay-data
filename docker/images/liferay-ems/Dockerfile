@@ -1,5 +1,5 @@
 # Image sur laquelle se base les opérations suivantes (@see https://hub.docker.com/r/liferay/dxp)
-FROM liferay/dxp:7.2.10-dxp-10
+FROM liferay/dxp:7.2.10-dxp-19
 
 # Chemin vers les éléments "constants" ajoutés à l'image (scripts, fichiers d'install ou autres)
 ENV SOURCES_PATH=./sources
@@ -22,13 +22,6 @@ RUN mkdir /data \
 # Copie du script permettant d'attendre les autres services avant démarrage du serveur
 COPY --chown=liferay:liferay $SOURCES_PATH/wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
-
-# Installation de ClamAV
-RUN apk add --upgrade clamav-daemon \
-    && mkdir /run/clamav && chown clamav:clamav /run/clamav \
-    && freshclam \
-    && ln -s /usr/bin/clamdscan /usr/bin/clamscan \
-    && /usr/sbin/clamd -c /etc/clamav/clamd.conf
 
 # Installation des certificats
 COPY --chown=liferay:liferay $SOURCES_PATH/*.cer /tmp/certificates/

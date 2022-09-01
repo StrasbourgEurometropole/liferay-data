@@ -36,7 +36,7 @@ public class HelpRequestItemSelectorView  implements ItemSelectorView<HelpReques
         return _servletContext;
     }
 
-    @Reference(target = "(osgi.web.symbolicname=helpRequest.web)", unbind = "-")
+    @Reference(target = "(osgi.web.symbolicname=eu.strasbourg.portlet.help.web)", unbind = "-")
     public void setServletContext(ServletContext servletContext) {
         this._servletContext = servletContext;
     }

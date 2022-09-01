@@ -20,8 +20,6 @@
 @import "libs/selectric-custom";
 @import "libs/_fontawesome";
 @import "libs/icomoon";
-@import "libs/pikaday";
-@import "libs/leaflet-custom";
 @import "libs/simplebar";
 @import "libs/squireUI";
 
@@ -31,8 +29,6 @@
 @import "layouts/cards";
 @import "layouts/pagination";
 @import "layouts/social-share";
-@import "layouts/commentaires";
-@import "layouts/aside";
 @import "layouts/modal";
 @import "layouts/facette";
 
@@ -46,10 +42,7 @@
 
 // Style Pages du site
 // ==========================================================================
-@import "pages/page-search";
 @import "pages/page-detail-help";
-@import "pages/page-404";
-@import "pages/page-registre";
 @import "pages/page-detail";
 
 
@@ -57,27 +50,12 @@
 // Style des blocs modulables
 // ==========================================================================
 @import "blocs/bloc";
-@import "blocs/bloc-texte";
-@import "blocs/bloc-image";
-@import "blocs/bloc-iframe";
-@import "blocs/bloc-form";
-@import "blocs/bloc-colonne";
 @import "blocs/bloc-actu";
-@import "blocs/bloc-video";
+@import "blocs/bloc-texte";
+@import "blocs/bloc-form";
+@import "blocs/bloc-listing";
 @import "blocs/bloc-text-img";
 @import "blocs/bloc-slider";
-@import "blocs/bloc-large";
-@import "blocs/bloc-select";
-@import "blocs/bloc-listing";
-@import "blocs/bloc-parallax";
-@import "blocs/bloc-telechargements";
-@import "blocs/bloc-prefooter";
-@import "blocs/bloc-detail-video";
-@import "blocs/bloc-widget";
-@import "blocs/bloc-pub";
-@import "blocs/bloc-accordion";
-@import "blocs/bloc-dashboard";
-@import "blocs/bloc-photo-profil";
 
 // Style override
 // ==========================================================================
