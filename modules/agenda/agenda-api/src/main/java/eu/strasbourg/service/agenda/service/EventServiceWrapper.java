@@ -38,9 +38,7 @@ public class EventServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getCategory(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getCategory(long id) {
 		return _eventService.getCategory(id);
 	}
 
@@ -50,16 +48,14 @@ public class EventServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONObject getEvents()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public com.liferay.portal.kernel.json.JSONObject getEvents() {
 		return _eventService.getEvents();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByCategory(
 			String categoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return _eventService.getEventsByCategory(categoryId);
 	}
@@ -67,7 +63,7 @@ public class EventServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByDate(
 			String date)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return _eventService.getEventsByDate(date);
 	}
@@ -75,7 +71,7 @@ public class EventServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByLanguage(
 			String language)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return _eventService.getEventsByLanguage(language);
 	}
@@ -83,7 +79,7 @@ public class EventServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 			String placeSIGId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws com.liferay.portal.kernel.json.JSONException {
 
 		return _eventService.getEventsByPlace(placeSIGId);
 	}

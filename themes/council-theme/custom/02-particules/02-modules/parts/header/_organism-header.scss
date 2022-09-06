@@ -10,12 +10,7 @@
     @include RWD(tablet){
         position: fixed;
     }
-    &.seu-mmenu{
-        height: 100%;
-    }
-    .seu-scrolled-search-engine{
-        @extend %molecule-header-search;
-    }
+
     // Nav top
     .seu-nav-top{
         height: 35px;
@@ -32,9 +27,6 @@
             @include RWD(tablet){
                 padding: 0;
             }
-        }
-        .seu-menu-triggerBox{
-            @extend %molecule-menu-rwd;
         }
         .seu-scrolled-logo{
             display: none;
@@ -104,25 +96,6 @@
                     display: none;
                 }
             }
-            .notif-amount{
-                background-color: $third-color;
-                position: absolute;
-                top: -7px;
-                right: -7px;
-                width: auto;
-                padding: 0 3px;
-                height: 18px;
-                color: #fff;
-                border-radius: 50%;
-                font-size: 1.1rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-family: $main-font;
-                font-weight: 700;
-                font-size: 1.1rem;
-                color: $core-color;
-            }
             .seu-arrow{
                 content: '';
                 @include RWD(mobile) {
@@ -153,135 +126,12 @@
                 .seu-arrow{
                     transform:  translateY(3px) rotate(90deg);
                 }
-                @include RWD(not-mobile) {
-                  #account-menu {
-                    display: none !important;
-                  }
-                }
-                @include RWD(mobile) {
-                  #account-menu {
-                    display: block;
-                  }
-                }
             }
 
             &.seu-nav-account{
                 background-color: $third-color;
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-account, #505050) );
-                }
-                .portlet-journal-content {
-                    display: inline-block;
-                    height: 100%;
-                    vertical-align: top;
-                    ul {
-                        display: flex
-                    }
-                    section.portlet {
-                        display: inline-block;
-                        vertical-align: middle;
-                    }
-                    &:before {
-                        height: 100%;
-                        content: "";
-                        display: inline-block;
-                        vertical-align: middle;
-                  }
-                }
-            }
-            &.seu-nav-contact{
-                .seu-picto{
-                    background-image: url( svg-bg-uri($svg-mail, #505050) );
-                }
-            }
-            @include RWD(mobile){
-              #inline-account-menu {
-                display: none;
-              }
-            }
-            #inline-account-menu {
-              height: 23px;
-              margin-left: 20px;
-              .logout {
-                margin-left: 30px;
-              }
-              li:last-child {
-                max-width: 40px;
-              }
-            }
-            #inline-account-menu .account-link {
-                &:before{
-                    content: '';
-                    display: inline-block;
-                    width: 23px;
-                    height: 23px;
-                    background-size: contain;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    margin-right: 15px;
-                }
-                &.dashboard:before{
-                    background-image: url( svg-bg-uri($svg-dashboard, #505050) );
-                }
-                &.account:before{
-                    background-image: url( svg-bg-uri($svg-account, #505050) );
-                }
-                &.notification:before{
-                    background-image: url( svg-bg-uri($svg-notification, #505050) );
-                }
-                &.logout:before{
-                    background-image: url( svg-bg-uri($svg-close, #505050) );
-                }
-            }
-            #account-menu{
-                position: absolute;
-                top: 23px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 100%;
-                min-width: 250px;
-                background-color: #FFFFFF;
-                padding: 15px 15px 25px 15px;
-                border-bottom-left-radius: 7px;
-                border-bottom-right-radius: 7px;
-                display: none;
-
-                .account-link{
-                    display: flex;
-                    align-items: center;
-                    font-size: 1.5rem;
-                    color: #505050;
-                    font-weight: 400;
-                    font-family: $main-font;
-                    letter-spacing: 0.03em;
-                    &:before{
-                        content: '';
-                        display: inline-block;
-                        width: 23px;
-                        height: 23px;
-                        background-size: contain;
-                        background-position: center;
-                        background-repeat: no-repeat;
-                        margin-right: 15px;
-                    }
-                    &.dashboard:before{
-                        background-image: url( svg-bg-uri($svg-dashboard, #505050) );
-                    }
-                    &.account:before{
-                        background-image: url( svg-bg-uri($svg-account, #505050) );
-                    }
-                    &.notification:before{
-                        background-image: url( svg-bg-uri($svg-notification, #505050) );
-                    }
-                    &.logout:before{
-                        background-image: url( svg-bg-uri($svg-close, #505050) );
-                    }
-                }
-                li + li{
-                    margin-top: 20px;
-                    &:first-child{
-                        margin-top: 0;
-                    }
                 }
             }
         }
@@ -294,11 +144,6 @@
                         background-image: url( svg-bg-uri($svg-account, #ffffff) );                    
                     }
                 }
-                &.seu-nav-contact{
-                    .seu-picto{
-                        background-image: url( svg-bg-uri($svg-mail, #ffffff) );
-                    }
-                }
                 .seu-text{
                     color: #FFFFFF;
                     &:after{
@@ -308,129 +153,8 @@
                 .seu-arrow{
                     background-image: url( svg-bg-uri($svg-arrow1, #ffffff) );
                 }
-                #account-menu{
-                    background-color: #333333;
-                    .account-link{
-                        color: #FFFFFF;
-                        &.dashboard:before{
-                            background-image: url( svg-bg-uri($svg-dashboard, #ffffff) );
-                        }
-                        &.account:before{
-                            background-image: url( svg-bg-uri($svg-account, #ffffff) );
-                        }
-                        &.notification:before{
-                            background-image: url( svg-bg-uri($svg-notification, #ffffff) );
-                        }
-                        &.logout:before{
-                            background-image: url( svg-bg-uri($svg-close, #ffffff) );
-                        }
-                    }
-                }
 
             }
-        }
-        #seu-search-trigger{
-            display: none;
-            background-color: $core-color;
-            content: '';
-            width: 55px;
-            height: 100%;
-            background-size: 15px;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-image: url( svg-bg-uri($svg-loupe, #FFFFFF) );
-            outline: none !important;
-
-            @include RWD(tablet){
-                display: block;
-            }
-
-            @include RWD(mobile){
-                width: 45px;
-            }
-        }
-        .seu-lang-list{
-            display: flex;
-            height: 100%;
-
-            @include RWD(tablet){
-                display: block;
-            }
-            &:hover{
-                @include RWD(desktop){
-                    .seu-lang{
-                        display: flex;
-                    }                    
-                }
-            }
-            &.seu-open{
-                @include RWD(tablet){
-                    .seu-lang{
-                        display: flex;
-                    }
-                }
-            }
-        }
-        .seu-lang{
-            width: 55px;
-            height: 100%;
-            font-family: $montserrat;
-            font-size: 1.4rem;
-            font-weight: 400;
-            color: #7e7e7e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-transform: uppercase;
-            background-color: #FFFFFF;
-            transition: all, 0.5s;
-            @include RWD(tablet){
-                display: none;
-            }
-
-            @include RWD(mobile){
-                width: 45px;
-            }
-            &.actif{
-                background-color: #31455D;
-                color: #FFFFFF;
-                pointer-events: none;
-                display: flex;
-            }
-            &:hover, &:focus{
-                &:not(.actif){
-                    background-color: #7e7e7e;
-                    color: #FFFFFF;
-                    text-decoration: none;
-                }
-            }
-        }
-    }
-    // Nav bottom
-    .seu-nav-bottom{
-        height: 60px;
-        background: $core-color; 
-        z-index: 1;
-        position: absolute;
-        top: calc(100vh - 60px);
-        // transform: translateY(-100%);
-        transition: transform 0s;
-        width: 100%; 
-        // border-bottom: solid 1px #dcdcdc;
-        box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.05);
-        @include RWD(tablet){
-            display: none;
-        }
-
-        .seu-container{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 100%;
-            @include RWD(tablet){
-                padding: 20px;
-            }
-            @extend %molecule-main-menu;
         }
     }
 
@@ -451,15 +175,6 @@
             .seu-scrolled-logo{
                 display: block;
             }
-            #seu-search-trigger{
-                display: block;
-            }
-        }
-        .seu-nav-bottom{
-            transition: transform 0.3s;
-            position: relative;
-            top: -45px !important;
-            transform: translateY(45px);
         }
     }
 } 

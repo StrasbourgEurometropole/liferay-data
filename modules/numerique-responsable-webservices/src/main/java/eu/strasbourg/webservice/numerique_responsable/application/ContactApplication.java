@@ -15,9 +15,9 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
@@ -44,18 +44,18 @@ public class ContactApplication extends Application {
 
     private final Log log = LogFactoryUtil.getLog(this.getClass().getName());
 
-    @GET
+    @POST
     @Produces("application/json")
-    @Path("/send-mail/{toAddress}/{firstName}/{lastName}/{mail}/{phone}/{reason}/{description}/{token}")
+    @Path("/send-mail")
     public Response sendMail(
-            @PathParam("toAddress") String toAddress,
-            @PathParam("firstName") String firstName,
-            @PathParam("lastName") String lastName,
-            @PathParam("mail") String mail,
-            @PathParam("phone") String phone,
-            @PathParam("reason") String reason,
-            @PathParam("description") String description,
-            @PathParam("token") String token) {
+            @FormParam("toAddress") String toAddress,
+            @FormParam("firstName") String firstName,
+            @FormParam("lastName") String lastName,
+            @FormParam("mail") String mail,
+            @FormParam("phone") String phone,
+            @FormParam("reason") String reason,
+            @FormParam("description") String description,
+            @FormParam("token") String token) {
 
         // On vérifie que les attributs sont renseignés
         boolean hasError = false;

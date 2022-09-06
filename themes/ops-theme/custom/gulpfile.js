@@ -8,10 +8,6 @@ var phpFiles = ["./../*.php"];
 var source = './';
 var destination = './';
 
-var autoprefixer_options = {
-    browsers: ['> 1%','last 4 versions','ios > 7','android > 4','chrome > 18','ff > 10','opera > 1','safari > 5', 'ie > 7']
-};
-
 gulp.task('css', function () {
     return gulp.src('./scss/style.scss')
         .pipe(plugins.sass({outputStyle: 'compressed'}))
@@ -19,7 +15,7 @@ gulp.task('css', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer(autoprefixer_options))
+        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./dist/'));
 });
 
@@ -75,7 +71,7 @@ gulp.task('toprod', function () {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer(autoprefixer_options))
+        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./dist/'));
 
     return true;

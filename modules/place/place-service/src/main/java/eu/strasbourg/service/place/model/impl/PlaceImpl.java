@@ -704,6 +704,16 @@ public class PlaceImpl extends PlaceBaseImpl {
     }
 
     /**
+     * Retourne true si le lieu est une station vélhop
+     *
+     * @return
+     */
+    @Override
+    public boolean isVelhopStation() {
+        return this.getRTType().equals("5");
+    }
+
+    /**
      * Retourne le temps réel (en gérant automatiquement le fait que ce soit une
      * piscine,une mairie ou un parking)
      *
@@ -853,6 +863,13 @@ public class PlaceImpl extends PlaceBaseImpl {
                 }
                 state.setOccupationLabel(newOccupation);
                 state.setOccupation("" + occupation);
+                break;
+            case "5":
+                state = OccupationState.NOT_AVAILABLE;
+                if (Validator.isNotNull(this.getRTAvailable())) {
+                    state = OccupationState.OPEN;
+                    state.setAvailable("" + this.getRTAvailable());
+                }
                 break;
         }
         return state;
@@ -1530,6 +1547,10 @@ public class PlaceImpl extends PlaceBaseImpl {
                 title = "occupation-real";
                 frequentation = occupation.getAvailable();
                 label = "available-spots";
+            } else if(this.isVelhopStation()){
+                title = "live-disponibility";
+                frequentation = occupation.getAvailable();
+                label = "eu.place.available-velhop";
             }
             JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
             amountProperty.put("title", title);
