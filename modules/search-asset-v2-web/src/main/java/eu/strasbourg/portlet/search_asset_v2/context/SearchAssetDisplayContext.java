@@ -496,7 +496,7 @@ public class SearchAssetDisplayContext {
 		// Filtre sur les dates
 		LocalDate fromDate = LocalDate.of(2017,1, 1);
 		LocalDate toDate = LocalDate.now().minusDays(1);
-		if(getConfigurationData().getUtilsAssetTypeList().size() > 1 || !getConfigurationData().getUtilsAssetTypeList().get(0).getClassName().equals("eu.strasbourg.service.ejob.model.Offer")
+		if(getConfigurationData().getUtilsAssetTypeList().size() == 0 || getConfigurationData().getUtilsAssetTypeList().size() > 1 || !getConfigurationData().getUtilsAssetTypeList().get(0).getClassName().equals("eu.strasbourg.service.ejob.model.Offer")
 				|| !getConfigurationData().getFilterField().equals("endDate_Number_sortable")){
 			fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
 			toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
