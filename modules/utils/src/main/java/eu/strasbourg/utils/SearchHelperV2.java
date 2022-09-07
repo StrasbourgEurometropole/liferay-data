@@ -72,8 +72,8 @@ public class SearchHelperV2{
 	 *            int random pour le tri aléatoire
 	 * @param sortingFieldsAndTypes
 	 *            Map contenant les champs et les types des tri
-	 * @param categoriesIdsForGroupBy
-	 *            Catégories du vocabulaire sur lequel on veut le regroupement
+//	 * @param categoriesIdsForGroupBy
+//	 *            Catégories du vocabulaire sur lequel on veut le regroupement
 	 * @param keywords
 	 *            Mots clés de recherche (utilisé dans la query)
 	 * @param fromDate
@@ -99,12 +99,12 @@ public class SearchHelperV2{
 	 */
 	public SearchHits  getGlobalSearchHitsV2(SearchContext searchContext, List<AssetType> assetTypes, Boolean isDisplayField,
 											 String filterField, int seed, Map<String, String> sortingFieldsAndTypes,
-											 long[] categoriesIdsForGroupBy, String keywords, LocalDate fromDate,
+											 /*long[] categoriesIdsForGroupBy, */String keywords, LocalDate fromDate,
 											 LocalDate toDate, List<Long[]> categoriesIds, String idSIGPlace,
 											 List<String> classNamesSelected, Locale locale, int start, int end) {
 
 		// Query
-		Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, categoriesIdsForGroupBy,
+		Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, /*categoriesIdsForGroupBy,*/
 				keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesSelected, locale);
 
 		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
@@ -140,17 +140,17 @@ public class SearchHelperV2{
 		searchRequestBuilder.size(end - start);
 
 		// Regroupement
-		if(categoriesIdsForGroupBy[0] != 0){
-			GroupByRequest groupByRequest;
-			if(categoriesIdsForGroupBy[0] > 0){
-				// tri sur les catégories
-				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ASSET_CATEGORY_IDS);
-			}else{
-				// tri par type d'asset
-				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ENTRY_CLASS_NAME);
-			}
-			searchRequestBuilder = searchRequestBuilder.groupByRequests(groupByRequest);
-		}
+//		if(categoriesIdsForGroupBy[0] != 0){
+//			GroupByRequest groupByRequest;
+//			if(categoriesIdsForGroupBy[0] > 0){
+//				// regroupement sur les catégories
+//				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ASSET_CATEGORY_IDS);
+//			}else{
+//				// regroupement par type d'asset
+//				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ENTRY_CLASS_NAME);
+//			}
+//			searchRequestBuilder = searchRequestBuilder.groupByRequests(groupByRequest);
+//		}
 
 		// Tri
 		if (Validator.isNotNull(seed) && seed > 0) {
@@ -212,7 +212,7 @@ public class SearchHelperV2{
 	 * Retourne la requête à exécuter correspondant aux paramètres pour le searchAssetV2
 	 */
 	private Query getGlobalSearchV2Query(List<AssetType> assetTypes,
-										 Boolean isDisplayField, String filterField, long[] categoriesIdsForGroupBy,
+										 Boolean isDisplayField, String filterField, /*long[] categoriesIdsForGroupBy,*/
 										 String keywords, LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds,
 										 String placeSigId, List<String> filterClassNames, Locale locale) {
 		// Construction de la requète
@@ -477,14 +477,14 @@ public class SearchHelperV2{
 
 		// Regroupement
 		// On fait un "ou" entre les catégories
-		if (categoriesIdsForGroupBy[0] > 0) {
-			BooleanQuery vocabularyQuery = queries.booleanQuery();
-			for (long categoryId : categoriesIdsForGroupBy) {
-				TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
-				vocabularyQuery.addShouldQueryClauses(categoryQuery);
-			}
-			query.addMustQueryClauses(vocabularyQuery);
-		}
+//		if (categoriesIdsForGroupBy[0] > 0) {
+//			BooleanQuery vocabularyQuery = queries.booleanQuery();
+//			for (long categoryId : categoriesIdsForGroupBy) {
+//				TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+//				vocabularyQuery.addShouldQueryClauses(categoryQuery);
+//			}
+//			query.addMustQueryClauses(vocabularyQuery);
+//		}
 
 		// Dates
 		if (isDisplayField) {

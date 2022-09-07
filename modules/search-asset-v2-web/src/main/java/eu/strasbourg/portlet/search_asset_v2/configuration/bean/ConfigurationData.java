@@ -43,7 +43,7 @@ public class ConfigurationData {
     private String firstSortingType;
     private String secondSortingField;
     private String secondSortingType;
-    private long groupBy;
+//    private long groupBy;
     private boolean hideResultsBeforeSearch;
     private long delta;
     private String searchForm;
@@ -150,7 +150,7 @@ public class ConfigurationData {
         this.secondSortingType = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE);
 
         // Groupement
-        this.groupBy = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_GROUP_BY);
+//        this.groupBy = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_GROUP_BY);
 
         // Affichage
         this.hideResultsBeforeSearch = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH);
@@ -263,7 +263,7 @@ public class ConfigurationData {
         this.secondSortingType = this.configuration.secondSortingType();
 
         // Groupement
-        this.groupBy = this.configuration.groupBy();
+//        this.groupBy = this.configuration.groupBy();
 
         // Affichage
         this.hideResultsBeforeSearch = this.configuration.hideResultsBeforeSearch();
@@ -311,7 +311,7 @@ public class ConfigurationData {
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_SECOND_SORTING_TYPE, secondSortingType);
 
             // -- GROUPEMENT --
-            configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, String.valueOf(groupBy));
+//            configAction.setPreference(this.request, ConfigurationConstants.PARAM_GROUP_BY, String.valueOf(groupBy));
 
             // -- AFFICHAGE --
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH,
@@ -433,9 +433,9 @@ public class ConfigurationData {
         return secondSortingType;
     }
 
-    public long getGroupBy() {
-        return groupBy;
-    }
+//    public long getGroupBy() {
+//        return groupBy;
+//    }
 
     public boolean isHideResultsBeforeSearch() {
         return hideResultsBeforeSearch;

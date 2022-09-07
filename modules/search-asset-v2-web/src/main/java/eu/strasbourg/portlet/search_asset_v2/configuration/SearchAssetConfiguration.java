@@ -55,8 +55,8 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "secondSortingType", required = false, deflt = "asc")
 	public String secondSortingType();
 
-	@Meta.AD(name = "groupBy", required = false)
-	public long groupBy();
+//	@Meta.AD(name = "groupBy", required = false)
+//	public long groupBy();
 
 	@Meta.AD(name = "hideResultsBeforeSearch", required = false)
 	public boolean hideResultsBeforeSearch();

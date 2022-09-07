@@ -224,13 +224,14 @@
                 </aui:fieldset>
 
                 <!-- GROUPE : Groupement -->
-                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.group">
+                <%-- <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.group">
 
                     <!-- CHAMP : Champ sur lequel effectuer le groupement -->
                     <aui:input name="groupBySelectedId" value="${dc.configurationData.groupBy}" type="hidden" />
                     <select class="form-control" name="<portlet:namespace />groupBy" id="<portlet:namespace />groupBy"></select>
 
                 </aui:fieldset>
+                --%>
 
                 <!-- GROUPE : Affichage -->
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.display">

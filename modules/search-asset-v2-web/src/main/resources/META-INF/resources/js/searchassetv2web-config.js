@@ -3,7 +3,7 @@ var scopesChoicesJson = JSON.parse('{}');
 var prefiltersChoicesJson = JSON.parse('{}');
 var allGroupIds = [];
 var vocabulariesChoicesJson = JSON.parse('{}');
-var groupByChoices = JSON.parse('{}');
+//var groupByChoices = JSON.parse('{}');
 
 $( document ).ready(function() {
     // initialise les types d'asset
@@ -22,7 +22,7 @@ $( document ).ready(function() {
     });
 
     // initialise le selecteur de groupement
-    initializeGroupBy($(namespaceAUI + "groupBy"));
+//    initializeGroupBy($(namespaceAUI + "groupBy"));
 });
 
 // Initialise le bloc de type de contenu
@@ -220,25 +220,25 @@ function initializeVocabulary(elt){
 }
 
 // Creation du choices du sélecteur de groupBy
-function initializeGroupBy(elt){
-    Liferay.Service('/strasbourg.strasbourg/get-vocabularies-by-group-ids',
-        {
-            groupIds: allGroupIds
-        },
-        function(json) {
-            choice = initializeChoices(elt);
-            choice.setChoices([{label: '', choices: [
-                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
-                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
-            ]}], "value", "label", true);
-            choice.setChoices(json, "value", "label", false);
-            groupBySelected = $(namespaceAUI + 'groupBySelectedId');
-            if(groupBySelected.length > 0 && $(groupBySelected).val().length > 0)
-                choice.setChoiceByValue($(groupBySelected).val());
-            groupByChoices = choice;
-        }
-    );
-}
+//function initializeGroupBy(elt){
+//    Liferay.Service('/strasbourg.strasbourg/get-vocabularies-by-group-ids',
+//        {
+//            groupIds: allGroupIds
+//        },
+//        function(json) {
+//            choice = initializeChoices(elt);
+//            choice.setChoices([{label: '', choices: [
+//                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
+//                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
+//            ]}], "value", "label", true);
+//            choice.setChoices(json, "value", "label", false);
+//            groupBySelected = $(namespaceAUI + 'groupBySelectedId');
+//            if(groupBySelected.length > 0 && $(groupBySelected).val().length > 0)
+//                choice.setChoiceByValue($(groupBySelected).val());
+//            groupByChoices = choice;
+//        }
+//    );
+//}
 
 
 // Mise a jour du bloc de type de contenu lors de la selection d'un type de contenu
@@ -533,20 +533,20 @@ function updateVocabularyAndGroupBy() {
             });
 
             // MaJ du regroupement
-            itemId = groupByChoices.getValue(true);
-            groupByChoices.removeActiveItems();
-            groupByChoices.setChoices([{label: '', choices: [
-                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
-                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
-            ]}], "value", "label", true);
-            groupByChoices.setChoices(jsonVocabularies, "value", "label", false);
-            if(itemId != undefined && itemId != "")
-                groupByChoices.setChoiceByValue(itemId);
-
-            // si le vocabulaire n'existe plus, on sélectionne 'Ne pas grouper'
-            if($(namespaceAUI + "groupBy").val() == "" || $(namespaceAUI + "groupBy").val() == null){
-                groupByChoices.setChoiceByValue("0");
-            }
+//            itemId = groupByChoices.getValue(true);
+//            groupByChoices.removeActiveItems();
+//            groupByChoices.setChoices([{label: '', choices: [
+//                  { value: '0', label: Liferay.Language.get("eu.search.asset.web.configuration.none")},
+//                  { value: '-1', label: Liferay.Language.get("eu.search.asset.web.configuration.content.type")}
+//            ]}], "value", "label", true);
+//            groupByChoices.setChoices(jsonVocabularies, "value", "label", false);
+//            if(itemId != undefined && itemId != "")
+//                groupByChoices.setChoiceByValue(itemId);
+//
+//            // si le vocabulaire n'existe plus, on sélectionne 'Ne pas grouper'
+//            if($(namespaceAUI + "groupBy").val() == "" || $(namespaceAUI + "groupBy").val() == null){
+//                groupByChoices.setChoiceByValue("0");
+//            }
         }
     );
 }

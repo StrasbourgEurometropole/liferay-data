@@ -30,7 +30,7 @@ public class ConfigurationConstants {
     public static final String PARAM_SECOND_SORTING_FIELD = "secondSortingField";
     public static final String PARAM_SECOND_SORTING_TYPE = "secondSortingType";
 
-    public static final String PARAM_GROUP_BY = "groupBy";
+//    public static final String PARAM_GROUP_BY = "groupBy";
 
     public static final String PARAM_HIDE_RESULTS_BEFORE_SEARCH = "hideResultsBeforeSearch";
     public static final String PARAM_DELTA = "delta";

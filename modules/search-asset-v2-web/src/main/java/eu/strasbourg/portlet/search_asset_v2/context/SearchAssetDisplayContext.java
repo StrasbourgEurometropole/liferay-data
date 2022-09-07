@@ -185,20 +185,20 @@ public class SearchAssetDisplayContext {
 	/**
 	 * Retourne les categories du vocabulaire sur lequel on regroupe les résultats (par tri)
 	 */
-	public long[] getCategoriesIdsForGroupBy() throws ConfigurationException {
-		long[] categoriesIdsForGroupBy = {0};
-		if(getConfigurationData().getGroupBy() > 0) {
-			// On récupère le vocabulaire
-			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(getConfigurationData().getGroupBy());
-			if (Validator.isNotNull(vocabulary)) {
-				// On récupère les catégories
-				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
-			}
-		}else{
-			categoriesIdsForGroupBy[0] = getConfigurationData().getGroupBy();
-		}
-		return categoriesIdsForGroupBy;
-	}
+//	public long[] getCategoriesIdsForGroupBy() throws ConfigurationException {
+//		long[] categoriesIdsForGroupBy = {0};
+//		if(getConfigurationData().getGroupBy() > 0) {
+//			// On récupère le vocabulaire
+//			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(getConfigurationData().getGroupBy());
+//			if (Validator.isNotNull(vocabulary)) {
+//				// On récupère les catégories
+//				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
+//			}
+//		}else{
+//			categoriesIdsForGroupBy[0] = getConfigurationData().getGroupBy();
+//		}
+//		return categoriesIdsForGroupBy;
+//	}
 
 	/**
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
@@ -515,7 +515,7 @@ public class SearchAssetDisplayContext {
 		this._searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				this.getSortFieldsAndTypes(), getCategoriesIdsForGroupBy(), keywords, fromDate,
+				this.getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
 				getSearchContainer().getStart(), getSearchContainer().getEnd());
 
@@ -842,7 +842,7 @@ public class SearchAssetDisplayContext {
 		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				getSortFieldsAndTypes(), getCategoriesIdsForGroupBy(), keywords, fromDate, toDate, categoriesIds,
+				getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate, toDate, categoriesIds,
 				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);
 
 		StringBuilder ids = new StringBuilder();

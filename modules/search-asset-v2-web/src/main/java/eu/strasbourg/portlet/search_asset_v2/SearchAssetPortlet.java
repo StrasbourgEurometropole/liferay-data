@@ -633,7 +633,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 				configurationData.getUtilsAssetTypeList(),
 				configurationData.isDisplayDateField(), configurationData.getFilterField(),
 				getSeed(configurationData, sortFieldAndType, keywords, seed),
-				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), getCategoriesIdsForGroupBy(configurationData), keywords, fromDate,
+				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), /*getCategoriesIdsForGroupBy(configurationData),*/ keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, getClassNames(configurationData), themeDisplay.getLocale(),
 				-1, -1);
 
@@ -943,20 +943,20 @@ public class SearchAssetPortlet extends MVCPortlet {
 	/**
 	 * Retourne les categories du vocabulaire sur lequel on regroupe les résultats (par tri)
 	 */
-	public long[] getCategoriesIdsForGroupBy(ConfigurationData configurationData) {
-		long[] categoriesIdsForGroupBy = {0};
-		if(configurationData.getGroupBy() > 0) {
-			// On récupère le vocabulaire
-			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(configurationData.getGroupBy());
-			if (Validator.isNotNull(vocabulary)) {
-				// On récupère les catégories
-				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
-			}
-		}else{
-			categoriesIdsForGroupBy[0] = configurationData.getGroupBy();
-		}
-		return categoriesIdsForGroupBy;
-	}
+//	public long[] getCategoriesIdsForGroupBy(ConfigurationData configurationData) {
+//		long[] categoriesIdsForGroupBy = {0};
+//		if(configurationData.getGroupBy() > 0) {
+//			// On récupère le vocabulaire
+//			AssetVocabulary vocabulary = AssetVocabularyLocalServiceUtil.fetchAssetVocabulary(configurationData.getGroupBy());
+//			if (Validator.isNotNull(vocabulary)) {
+//				// On récupère les catégories
+//				categoriesIdsForGroupBy = vocabulary.getCategories().stream().mapToLong(c -> c.getCategoryId()).toArray();
+//			}
+//		}else{
+//			categoriesIdsForGroupBy[0] = configurationData.getGroupBy();
+//		}
+//		return categoriesIdsForGroupBy;
+//	}
 
 	/**
 	 * Récupère la liste des class names sur lesquels faire la recherche
