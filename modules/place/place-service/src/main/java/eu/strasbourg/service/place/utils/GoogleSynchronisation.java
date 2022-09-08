@@ -1,6 +1,7 @@
 package eu.strasbourg.service.place.utils;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -21,6 +22,7 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.Pair;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -30,7 +32,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GoogleSynchronisation {
@@ -84,16 +91,24 @@ public class GoogleSynchronisation {
             JSONObject json = null;
             try {
                 json = getJSONAccesToken();
-                String error = json.getString("error");
-                if (Validator.isNotNull(error)) {
-                    message = json.getString("error_description");
-                    resultat = "ERREUR";
-                }else {
-                    String accessToken = json.getString("access_token");
-                    this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
-                    for (Place place : places) {
-                        // on récupère les horaires de la semaine du lieu
-                        Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
+            } catch (IOException | JSONException e) {
+                message = e.getMessage();
+                resultat = "ERREUR";
+            }
+            String error = null;
+            if (json != null) {
+                error = json.getString("error");
+            }
+            if (Validator.isNotNull(error)) {
+                message = json.getString("error_description");
+                resultat = "ERREUR";
+            }else {
+                String accessToken = json.getString("access_token");
+                this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
+                for (Place place : places) {
+                    try{
+                    // on récupère les horaires de la semaine du lieu
+                    Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
@@ -126,11 +141,11 @@ public class GoogleSynchronisation {
                         }else{
                             this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas d'horaires");
                         }
+                    } catch (Exception e) {
+                        this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
+                        this.googleMyBusinessHistoric.addNewOperation(e.getMessage());
                     }
                 }
-            } catch (Exception e) {
-                message = e.getMessage();
-                resultat = "ERREUR";
             }
         }
 
@@ -152,7 +167,7 @@ public class GoogleSynchronisation {
         }
     }
 
-    public JSONObject getJSONAccesToken() throws Exception{
+    public JSONObject getJSONAccesToken() throws IOException, JSONException {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         //récupère le refreshToken (className = "" , classPK = 0, type = 98)
         Ticket ticket = TicketLocalServiceUtil.getTickets(-1, -1).stream()
