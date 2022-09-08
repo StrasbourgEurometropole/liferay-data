@@ -8,7 +8,7 @@
         <aui:input name="numAssetType${param.index}" value="${param.index}" type="hidden" />
 
         <aui:select id="classname_${param.index}" name="classname_${param.index}" label="" onChange="updateBloc(${param.index})" inlineField="true" >
-            <aui:option>
+            <aui:option value="some-content" >
                 <liferay-ui:message key="select-asset-type"/>
             </aui:option>
             <c:forEach var="assetClassName" varStatus="assetStatus"
