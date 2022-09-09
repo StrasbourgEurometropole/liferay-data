@@ -311,7 +311,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                 // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                        													"Initiatives");
+                        													"Photo Ateliers");
                 // Dossier d'upload de l'entite
                 DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                                 									folderparent.getFolderId(),
