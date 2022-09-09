@@ -2,7 +2,7 @@
 /* Slider */
 .slick-loading .slick-list
 {
-    background: #fff url('./images/ajax-loader.gif') center center no-repeat;
+    background: #fff url('../images/ajax-loader.gif') center center no-repeat;
 }
 
 /* Icons */
@@ -12,7 +12,7 @@
     font-weight: normal;
     font-style: normal;
 
-    src: url('./fonts/slick.woff') format('woff');
+    src: url('../fonts/slick.woff') format('woff');
 }
 /* Arrows */
 .slick-prev,
