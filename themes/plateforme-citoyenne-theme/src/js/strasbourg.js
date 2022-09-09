@@ -25466,7 +25466,7 @@ function getInitiativeMarker(initiative, mercators) {
                 '<div class="wrapper-card-initiative"><div> ' +
                 '<div class="pro-header-initiative">' + 
                     '<figure role="group"><img src="' + initiative.authorImageURL + '" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-                    '<p>Initiative publiée par :</p><p><strong>' + initiative.author + '</strong></p>' +
+                    '<p>Atelier publié par :</p><p><strong>' + initiative.author + '</strong></p>' +
                 '</div> ' +
                 '<div class="pro-content-initiative">' +
                     '<h3>' + initiative.title + '</h3>' +
@@ -26058,7 +26058,7 @@ function createInitiative(initiative){
             '<div class="wrapper-card-initiative">' +
                 (initiative.imageURL != "" ? 
                     '<figure role="group" class="fit-cover">' +
-                        '<img src="' + initiative.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Image initiative"/>' +
+                        '<img src="' + initiative.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Image atelier"/>' +
                     '</figure>'
                     :
                     ''
@@ -26068,7 +26068,7 @@ function createInitiative(initiative){
                         '<figure role="group">' +
                             '<img src="' + initiative.authorImageURL + '?imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil auteur"/>' +
                         '</figure>' +
-                        '<p>Initiative publiée par :</p>' +
+                        '<p>Atelier publiée par :</p>' +
                         '<p><strong>' + initiative.author + '</strong></p>' +
                     '</div>' +
                     '<div class="pro-content-initiative">' +
@@ -26601,7 +26601,7 @@ function callbackCarteInteractive(macarte) {
 
     contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-initiative"><a href="detail-initiative.php"><div class="wrapper-card-initiative"><div> ' +
         '<div class="pro-header-initiative"><figure role="group"><img src="assets/images/medias/comm-mathilde.jpg" width="40" height="40" alt="Arrière plan page standard"/></figure> ' +
-        '<p>Initiative publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
+        '<p>Atelier publiée par :</p><p><strong>Sylvie M.</strong></p></div> ' +
         '<div class="pro-content-initiative">' +
         '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
         '</div></div>' +
