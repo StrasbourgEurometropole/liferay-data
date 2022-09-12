@@ -321,7 +321,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 											<p><strong>${suggestion.getAuthorLabel()}</strong></p>								
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
+											<a href="${homeURL}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
 												<h3>${suggestion.title}</h3>
 											</a>
 
@@ -350,7 +350,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var initiativeJSON = ${initiativeJSON};
-    initiativeJSON.link = '${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}';
+    initiativeJSON.link = '${homeURL}detail-atelier/-/entity/id/${entry.initiativeId}';
 
     // Variable pointeur
     var initiativeMarkers = []
