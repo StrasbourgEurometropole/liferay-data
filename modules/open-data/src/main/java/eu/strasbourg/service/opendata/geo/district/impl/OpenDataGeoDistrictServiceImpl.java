@@ -79,7 +79,7 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
                 territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
                 district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, sigId);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + VocabularyNames.TERRITORY);
             }
         }
 
@@ -134,5 +134,7 @@ public class OpenDataGeoDistrictServiceImpl implements OpenDataGeoDistrictServic
     public void setOpenDataGeoAddressService(OpenDataGeoAddressService openDataGeoAddressService) {
         this.openDataGeoAddressService = openDataGeoAddressService;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

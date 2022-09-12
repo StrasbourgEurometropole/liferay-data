@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -167,7 +169,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			stream.flush();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 	}
@@ -231,5 +233,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			emptyFieldRun.setText("/");
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

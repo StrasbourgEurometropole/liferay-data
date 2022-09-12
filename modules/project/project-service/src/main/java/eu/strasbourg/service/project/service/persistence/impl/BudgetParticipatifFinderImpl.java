@@ -12,6 +12,8 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
@@ -49,7 +51,7 @@ public class BudgetParticipatifFinderImpl extends BudgetParticipatifFinderBaseIm
 	            throw new SystemException(e);
 	        }
 	        catch (SystemException se) {
-	            se.printStackTrace();
+				_log.error(se.getMessage(), e);
 	        }
 	    }
 	    finally {
@@ -62,5 +64,7 @@ public class BudgetParticipatifFinderImpl extends BudgetParticipatifFinderBaseIm
 	    desired list of entity objects in the try block
 	    */
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

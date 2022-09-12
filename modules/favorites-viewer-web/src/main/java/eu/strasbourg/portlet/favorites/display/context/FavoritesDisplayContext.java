@@ -63,7 +63,7 @@ public class FavoritesDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(FavoritesConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 
@@ -331,4 +331,6 @@ public class FavoritesDisplayContext {
 	public Map<String, String[]> getLigneColors() {
 		return LigneLocalServiceUtil.getLigneColorsFreemarker();
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -368,7 +368,7 @@ public class PetitionImpl extends PetitionBaseImpl {
 					suggestions.add(petition);
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return suggestions;

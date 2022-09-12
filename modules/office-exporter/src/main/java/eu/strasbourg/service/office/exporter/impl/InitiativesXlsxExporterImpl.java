@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -101,7 +103,7 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
             workbook.close();
             stream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
     }
@@ -138,5 +140,7 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
             result = String.valueOf(Math.toIntExact(param));
         return result;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

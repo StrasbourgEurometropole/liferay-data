@@ -372,7 +372,7 @@ public class PortletHelper {
 						if(ipToTest >= ipFrom && ipToTest <= ipTo)
 							return true;
 					} catch (UnknownHostException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage(), e);
 					}
 				}else{
 					if(ip.trim().equals(ipUtil))

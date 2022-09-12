@@ -304,7 +304,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 					removeImportHistoric(importHistoric.getImportHistoricId());
 					nbSuppressions++;
 				} catch (PortalException e) {
-					e.printStackTrace();
+					_log.error(e.getMessage() + " : " + importHistoric.getImportHistoricId());
 				}
 			}
 		}
@@ -368,5 +368,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 		}
 		return this.importHistoricPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

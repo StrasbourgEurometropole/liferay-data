@@ -1,6 +1,8 @@
 package eu.strasbourg.webservice.csmap.service;
 
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
@@ -30,8 +32,10 @@ public class WSSettings {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage(), ex);
         }
         return result;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(WSSettings.class.getName());
 }

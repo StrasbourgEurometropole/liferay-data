@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -111,7 +113,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 			workbook.close();
 			stream.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 	}
@@ -122,5 +124,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 	}
 	
 	private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

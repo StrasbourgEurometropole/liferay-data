@@ -43,6 +43,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -281,8 +282,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
 			// envoi du mail aux utilisateurs
             MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
-			_log.error(e);
-			e.printStackTrace();
+            _log.error(e.getMessage(), e);
 		}
     }
 	

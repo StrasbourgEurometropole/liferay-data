@@ -1,5 +1,8 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -170,7 +173,7 @@ public class DateHelper {
 		try {
 			result = sdf.parse(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + date);
 		}
 
 		return result;
@@ -217,7 +220,7 @@ public class DateHelper {
 	/**
 	 * Fournit une chaine représentant une date
 	 * 
-	 * @param dateTime
+	 * @param value
 	 * @return
 	 */
 	public static Date getShortDateFormatFromString(String value) {
@@ -250,5 +253,7 @@ public class DateHelper {
 				Instant.ofEpochMilli(unixTimestamp * 1000), ZoneId.systemDefault());
 		return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(DateHelper.class.getName());
 
 }

@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 public class GraveyardResponse {
 
@@ -33,7 +35,7 @@ public class GraveyardResponse {
 					defunts.add(new DefuntDTO(JSONFactoryUtil.createJSONObject(defunt.toString())));
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage(), e);
 			}
 		}
     }
@@ -96,4 +98,6 @@ public class GraveyardResponse {
 	public void setDefunts(List<DefuntDTO> defunts) {
 		this.defunts = defunts;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

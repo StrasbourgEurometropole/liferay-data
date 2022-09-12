@@ -10,6 +10,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -212,7 +214,8 @@ public class PoiServiceImpl implements PoiService {
 			System.out.println("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
 			System.out.println();
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : places -> " + places + ", events -> " + events +
+					", arrets -> " + arrets + ", groupId " + groupId + ", localeId -> " + localeId);
 		}
 		return geoJson;
 	}
@@ -568,4 +571,6 @@ public class PoiServiceImpl implements PoiService {
 	protected void setEventLocalService(EventLocalService eventLocalService) {
 		_eventLocalService = eventLocalService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

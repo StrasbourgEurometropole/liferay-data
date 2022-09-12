@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.notif.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -8,6 +10,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.model.ServiceNotif;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.OrganizationNames;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -43,7 +46,7 @@ public class EditServiceDisplayContext {
                 Organization parentOrganization = OrganizationLocalServiceUtil.getOrganization(themeDisplay.getCompanyId(), OrganizationNames.SERVICES_NOTIFICATION);
                 this.organizations = parentOrganization.getSuborganizations();
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
         return organizations;
@@ -82,4 +85,6 @@ public class EditServiceDisplayContext {
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.NOTIF_BO,
                 StrasbourgPortletKeys.NOTIF_BO, actionId);
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

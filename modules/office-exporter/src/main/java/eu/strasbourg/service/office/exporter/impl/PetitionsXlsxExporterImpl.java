@@ -1,6 +1,8 @@
 package eu.strasbourg.service.office.exporter.impl;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -142,7 +144,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
             workbook.close();
             stream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -178,5 +180,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
             result = String.valueOf(param);
         return result;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class Family {
                 persons.add(new Person(JSONFactoryUtil.createJSONObject(person.toString())));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + json);
         }
     }
 
@@ -44,5 +46,7 @@ public class Family {
     public void setPersons(List<Person> persons) {
         this.persons = persons;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

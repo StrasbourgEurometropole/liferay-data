@@ -15,6 +15,8 @@
 package eu.strasbourg.service.project.model.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -128,8 +130,10 @@ public class InitiativeHelpImpl extends InitiativeHelpBaseImpl {
 		try {
 			return InitiativeLocalServiceUtil.getInitiative(this.getInitiativeId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + this.getInitiativeId());
 			return null;
 		}
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
