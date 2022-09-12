@@ -500,7 +500,7 @@
 											</p>
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><strong><c:out value="${initiative.title}" escapeXml='true'/></strong></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
@@ -551,7 +551,7 @@
 											</p>
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
