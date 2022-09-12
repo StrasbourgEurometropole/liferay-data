@@ -92,7 +92,7 @@ public class GoogleSynchronisation {
             try {
                 json = getJSONAccesToken();
             } catch (IOException | JSONException e) {
-                message = e.getMessage();
+                message = e.getStackTrace().toString();
                 resultat = "ERREUR";
             }
             String error = null;
@@ -107,8 +107,8 @@ public class GoogleSynchronisation {
                 this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
                 for (Place place : places) {
                     try{
-                    // on récupère les horaires de la semaine du lieu
-                    Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
+                        // on récupère les horaires de la semaine du lieu
+                        Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
