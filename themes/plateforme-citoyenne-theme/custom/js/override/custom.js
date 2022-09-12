@@ -1218,7 +1218,7 @@ function createInitiative(initiative){
                                 (initiative.projectName != "" ? '<span>' + initiative.projectName + '</span>' : '') +
                             '</div>' +
                         '</div>' +
-                        '<a href="' + homeURL + 'detail-initiative/-/entity/id/' + initiative.id + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
+                        '<a href="' + homeURL + 'detail-atelier/-/entity/id/' + initiative.id + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
                         '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                     '</div>' +
                 '</div>' +
