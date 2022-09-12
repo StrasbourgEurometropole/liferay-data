@@ -70,7 +70,7 @@
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.popular" /></h4>
 	                <c:forEach var="initiativeAside" items="${initiativesMostLiked}">
-	                   	<a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+	                   	<a href="${dc.getHomeURL()}detail-atelier/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
                             <div class="pro-meta">
                             	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
                             	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
@@ -103,7 +103,7 @@
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.commented" /></h4>
 	                <c:forEach var="initiativeAside" items="${initiativesMostCommented}">
-	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+	                    <a href="${dc.getHomeURL()}detail-atelier/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
                             <div class="pro-meta">
                             	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
                             	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
@@ -136,7 +136,7 @@
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.iscrush" /></h4>
 	                <c:forEach var="initiativeAside" items="${initiativesMostHelped}">
-	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+	                    <a href="${dc.getHomeURL()}detail-atelier/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
                             <div class="pro-meta">
                             	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
                             	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>

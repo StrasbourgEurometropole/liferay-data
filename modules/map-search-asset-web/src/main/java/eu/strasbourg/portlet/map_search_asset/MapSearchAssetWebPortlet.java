@@ -74,7 +74,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	private static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	private static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	private static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
-	private static final String DETAIL_INITIATIVE_URL = "detail-inititative/-/entity/id/";
+	private static final String DETAIL_INITIATIVE_URL = "detail-atelier/-/entity/id/";
 	private static final String DETAIL_EVENT_URL = "detail-evenement/-/entity/id/";
 	
 	// Constantes des objets / attributs JSON
