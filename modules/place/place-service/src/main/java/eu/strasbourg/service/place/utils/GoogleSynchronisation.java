@@ -122,21 +122,7 @@ public class GoogleSynchronisation {
                                 this.googleMyBusinessHistoric.addNewOperation("lieu " + place.getAliasCurrentValue() + " synchronis&eacute;");
                             }else {
                                 this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
-                                this.googleMyBusinessHistoric.addNewOperation(jsonResult.getJSONObject("error").getString("message"));
-                                JSONArray details = jsonResult.getJSONObject("error").getJSONArray("details");
-                                JSONArray errorDetails = JSONFactoryUtil.createJSONArray();
-                                for (Object detail : details) {
-                                    JSONObject detailJson = JSONFactoryUtil.createJSONObject(detail.toString());
-                                    if(detailJson.getJSONArray("errorDetails").length() > 0)
-                                        errorDetails = detailJson.getJSONArray("errorDetails");
-                                }
-                                if(errorDetails.length() > 0) {
-                                    this.googleMyBusinessHistoric.addNewOperation("D&eacute;tail de l'erreur :");
-                                    for (Object errorDetail : errorDetails) {
-                                        JSONObject errorDetailJson = JSONFactoryUtil.createJSONObject(errorDetail.toString());
-                                        this.googleMyBusinessHistoric.addNewOperation(errorDetailJson.getString("message"));
-                                    }
-                                }
+                                this.googleMyBusinessHistoric.addNewOperation(jsonResult.toString());
                             }
                         }else{
                             this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas d'horaires");
