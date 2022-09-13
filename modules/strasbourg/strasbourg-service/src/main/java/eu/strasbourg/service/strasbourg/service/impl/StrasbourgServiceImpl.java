@@ -28,7 +28,6 @@ import com.liferay.document.library.kernel.model.DLVersionNumberIncrease;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-import com.liferay.document.library.kernel.service.DLFileEntryMetadataLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileVersionLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
@@ -36,10 +35,7 @@ import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
 import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
-import com.liferay.dynamic.data.mapping.kernel.StorageEngineManagerUtil;
 import com.liferay.dynamic.data.mapping.kernel.Value;
-import com.liferay.dynamic.data.mapping.storage.Field;
-import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
@@ -85,8 +81,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -387,7 +382,11 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		// Tout est ok, on peut enregistrer
 		// transforme le fichier base 64 en fichier
 		byte[] decoder = Base64.decode(fileContent);
-		File document = new File(System.getProperty("java.io.tmpdir") + fileName);
+
+		// On normalise le nom du fichier suite à des erreurs de Path UNIX sur les serveurs lorsque que le nom du document comporte des accents
+		String documentNameNormalized = Normalizer.normalize(documentName, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+
+		File document = new File(System.getProperty("java.io.tmpdir") + "/" + documentNameNormalized);
 		FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(document);
