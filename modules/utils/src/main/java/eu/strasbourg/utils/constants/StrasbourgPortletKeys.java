@@ -38,14 +38,11 @@ public class StrasbourgPortletKeys {
 	
 	public static final String ENTITY_DETAIL_WEB = "eu_strasbourg_portlet_entity_detail_EntityDetailPortlet";
 	
-	public static final String FORMASSEMBLY_WEB = "eu_strasbourg_portlet_formassembly_FormAssemblyPortlet";
-	
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
 	
 	public static final String PLACE_SCHEDULE_WEB = "eu_strasbourg_portlet_place_schedule_PlaceSchedulePortlet";
 	
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
-	public static final String EXPERIMENTAL_SEARCH_WEB = "eu_strasbourg_portlet_search_ExperimentalSearchPortlet";
 	
 	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
 	
