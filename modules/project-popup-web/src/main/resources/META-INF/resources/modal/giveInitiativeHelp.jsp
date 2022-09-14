@@ -339,7 +339,7 @@
                                     	$('a[data-target="#modalRemoveInitiativeHelp"]').toggleClass("active")
                                     													.text("Proposer mon aide")
                                     													.attr("data-target", "#modalGiveInitiativeHelp")
-                                    													.attr("title", "Ouverture d'une pop-in pour contacter le porteur");
+                                    													.attr("title", "Ouverture d'une pop-in pour contacter le/la porteur-teuse ");
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
