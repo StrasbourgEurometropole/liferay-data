@@ -604,7 +604,7 @@ function getInitiativeMarker(initiative, mercators) {
                 '</div> ' +
                 '<div class="pro-content-initiative">' +
                     '<h3>' + initiative.title + '</h3>' +
-                    '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
+                    '<span class="pro-time">Publié le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                 '</div> ' + 
                 '</div></div>' +
                 '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes soutiennent cet atelier</p>' +
@@ -1018,7 +1018,7 @@ function createProjectWorkshop(projectWorkshop){
                 '</span>' +
             '</div>' +
             '<div class="content">' +
-                '<span class="publication">Publiée le ' + projectWorkshop.modifiedDate + '</span>' +
+                '<span class="publication">Publié le ' + projectWorkshop.modifiedDate + '</span>' +
                 '<h3>' + projectWorkshop.title + '</h3>' +
                 '<p>' + projectWorkshop.chapo + (projectWorkshop.chapo.length > 100 ? '...' : '') + '</p>' +
                 '<span class="link">Découvrir le projet</span>' +
@@ -1219,7 +1219,7 @@ function createInitiative(initiative){
                             '</div>' +
                         '</div>' +
                         '<a href="' + homeURL + 'detail-atelier/-/entity/id/' + initiative.id + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
-                        '<span class="pro-time">Publiée le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
+                        '<span class="pro-time">Publié le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                     '</div>' +
                 '</div>' +
             '</div>' +

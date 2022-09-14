@@ -302,7 +302,7 @@ function createInitiativeThumbnail(initiative) {
 		                '</div>' +
 		                '<div class="pro-content-initiative">' +
 		                    '<a href="' + initiative.link + '" title="lien de la page"><h3>' + initiative.title + '</h3></a>' +
-		                    '<span class="pro-time">Publiée le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
+		                    '<span class="pro-time">Publié le <time datetime="' + initiative.createDate + '">' + initiative.createDate + '</time></span>' +
 		                '</div>' +
 		            '</div>' +
 		        '</div>' +
