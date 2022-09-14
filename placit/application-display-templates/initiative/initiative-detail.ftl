@@ -178,7 +178,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 									<p>Cette aide peut prendre plusieurs formes : </p>
 									<ul>
 										<li>Du temps</li>
-										<li>De l'argent</li>
 										<li>Un lieu</li>
 										<li>Une expertise</li>
 									</ul>
