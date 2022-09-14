@@ -289,15 +289,17 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         JSONObject result = JSONFactoryUtil.createJSONObject();
         JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
 
-        List<Long> eventIds = events.stream().map(Event::getEventId).collect(Collectors.toList());
-        DynamicQuery dq = CacheJsonLocalServiceUtil.dynamicQuery();
-        Criterion cacheEventIds = RestrictionsFactoryUtil.in("eventId", eventIds);
-        Criterion isApproved = RestrictionsFactoryUtil.eq("isApproved", true);
-        dq.add(RestrictionsFactoryUtil.and(cacheEventIds, isApproved));
-        List<CacheJson> cachesJson = CacheJsonLocalServiceUtil.dynamicQuery(dq);
+        if(events.size() > 0) {
+            List<Long> eventIds = events.stream().map(Event::getEventId).collect(Collectors.toList());
+            DynamicQuery dq = CacheJsonLocalServiceUtil.dynamicQuery();
+            Criterion cacheEventIds = RestrictionsFactoryUtil.in("eventId", eventIds);
+            Criterion isApproved = RestrictionsFactoryUtil.eq("isApproved", true);
+            dq.add(RestrictionsFactoryUtil.and(cacheEventIds, isApproved));
+            List<CacheJson> cachesJson = CacheJsonLocalServiceUtil.dynamicQuery(dq);
 
-        for (CacheJson cache : cachesJson) {
-            jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
+            for (CacheJson cache : cachesJson) {
+                jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
+            }
         }
         result.put("events", jsonEvents);
 
