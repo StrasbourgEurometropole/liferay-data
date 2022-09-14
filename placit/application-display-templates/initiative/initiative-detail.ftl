@@ -252,12 +252,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor"
-								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
+								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
+								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le/la porteur-teuse </a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
+								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
+								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
