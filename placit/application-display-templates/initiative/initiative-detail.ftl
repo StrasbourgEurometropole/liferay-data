@@ -98,7 +98,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<span>
 						<span>
 							<a href="${homeURL}">Accueil</a>
-						<a href="${homeURL}initiatives">Initiatives</a>
+						<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
 						<span class="breadcrumb_last">${entry.title}</span>
 						</span>
 					</span>
@@ -294,7 +294,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>D’autres ateliers</h2>
                     <div class="pro-wrapper">
-                        <a href="${homeURL}initiatives" class="pro-btn">Tous les ateliers</a>
+                        <a href="${homeURL}ateliers-quartier" class="pro-btn">Tous les ateliers</a>
                     </div>
                 </div>
 

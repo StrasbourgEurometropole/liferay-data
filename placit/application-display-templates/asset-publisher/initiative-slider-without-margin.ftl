@@ -20,8 +20,8 @@
 
         <div class="container">
             <div>
-                <h2>Les initiatives (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}initiatives" class="pro-btn" title="Lien vers la page du Listing des ateliers">Voir tous les ateliers</a>
+                <h2>Les ateliers de quartier (${entries?size})</h2>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}ateliers-quartier" class="pro-btn" title="Lien vers la page du Listing des ateliers">Voir tous les ateliers</a>
             </div>
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
