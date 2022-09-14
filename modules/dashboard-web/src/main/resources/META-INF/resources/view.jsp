@@ -476,7 +476,7 @@
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.signed.mine" />
 						(${initiativeFiledsCount})</h2>
-					<a href="${homeURL}initiatives" class="pro-btn"
+					<a href="${homeURL}ateliers-quartier" class="pro-btn"
 						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
 							key="dashboard.thumbnail.initiative.main" /></a>
 
@@ -527,7 +527,7 @@
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.filed.mine" />
 						(${initiativeAidesCount})</h2>
-					<a href="${homeURL}initiatives" class="pro-btn"
+					<a href="${homeURL}ateliers-quartier" class="pro-btn"
 						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
 							key="dashboard.thumbnail.initiative.main" /></a>
 
