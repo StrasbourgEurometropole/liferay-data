@@ -71,6 +71,14 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByClassNameAndGroupIds(long[] groupIds, String className) {
+
+		return _strasbourgService.getCategoriesByClassNameAndGroupIds(
+			groupIds, className);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
@@ -139,8 +147,38 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getStructuresByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getStructuresByGroupIds(groupIds);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+		getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className) {
+
+		return _strasbourgService.getTagsAndCategoriesByGroupIdsAndClassName(
+			groupIds, className);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getTagsByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return _strasbourgService.getTraffic();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getVocabulariesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getVocabulariesByGroupIds(groupIds);
 	}
 
 	@Override

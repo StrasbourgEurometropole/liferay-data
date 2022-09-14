@@ -333,6 +333,91 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	public static String getStructuresByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getStructuresByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.
+					getTagsAndCategoriesByGroupIdsAndClassName(
+						groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getTagsByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getTagsByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getCategoriesByClassNameAndGroupIds(
+			long[] groupIds, String className)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getCategoriesByClassNameAndGroupIds(
+					groupIds, className);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static String getVocabulariesByGroupIds(long[] groupIds)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONArray returnValue =
+				StrasbourgServiceUtil.getVocabulariesByGroupIds(groupIds);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		StrasbourgServiceSoap.class);
 
