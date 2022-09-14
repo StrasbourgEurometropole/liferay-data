@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="pro-content-initiative">
                                         <a href="${homeURL}detail-atelier/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
-                                        <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
+                                        <span class="pro-time">Publié le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
                                     </div>
                                 </div>
                             </div>

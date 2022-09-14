@@ -326,7 +326,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 											</a>
 
 											<span class="pro-time">
-												Publiée le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
+												Publié le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
 											</span>    
 										</div>
 									</div>
