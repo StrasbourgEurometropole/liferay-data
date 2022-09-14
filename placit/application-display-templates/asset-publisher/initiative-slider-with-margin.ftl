@@ -22,7 +22,7 @@
 		
             <div class="col-lg-10 col-lg-offset-1">
                 <h2>Les ateliers de quartier (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}ateliers" class="pro-btn" title="Lien vers la page du Listing des ateliers">Voir tous les ateliers</a>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}ateliers-quartier" class="pro-btn" title="Lien vers la page du Listing des ateliers">Voir tous les ateliers</a>
             </div>
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
