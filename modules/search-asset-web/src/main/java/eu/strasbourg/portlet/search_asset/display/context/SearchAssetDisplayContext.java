@@ -101,6 +101,10 @@ public class SearchAssetDisplayContext {
 		iteratorURL.setParameter("className", this.getFilterClassNames());
 
 		iteratorURL.setParameter("keywords", String.valueOf(this.getKeywords()));
+
+		// Lieu (pour la recherche agenda)
+		iteratorURL.setParameter("idSIGPlace", String.valueOf(this.getIdSIGPlace()));
+
 		if (this._configuration.dateField()) {
 			iteratorURL.setParameter("fromDay", String.valueOf(this.getFromDay()));
 			iteratorURL.setParameter("fromMonth", String.valueOf(this.getFromMonthIndex()));
@@ -243,6 +247,8 @@ public class SearchAssetDisplayContext {
 		
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		if(Validator.isNull(idSIGPlace))
+			idSIGPlace = ParamUtil.getString(this._request, "idSIGPlace");
 
 		// Recherche les procédures/démarches ?
 		boolean searchProcedure = this._configuration.searchDemarche();
@@ -1005,6 +1011,8 @@ public class SearchAssetDisplayContext {
 	public String getIdSIGPlace() {
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		if(Validator.isNull(idSIGPlace))
+			idSIGPlace = ParamUtil.getString(this._request, "idSIGPlace");
 		
 		return idSIGPlace;
 	}

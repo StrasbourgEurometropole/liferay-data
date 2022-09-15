@@ -70,7 +70,7 @@
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.popular" /></h4>
 	                <c:forEach var="initiativeAside" items="${initiativesMostLiked}">
-	                   	<a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+	                   	<a href="${dc.getHomeURL()}detail-atelier/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
                             <div class="pro-meta">
                             	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
                             	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
@@ -103,7 +103,7 @@
 	            <div class="pro-widget-participation">
 	                <h4><liferay-ui:message key="eu.most.commented" /></h4>
 	                <c:forEach var="initiativeAside" items="${initiativesMostCommented}">
-	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
+	                    <a href="${dc.getHomeURL()}detail-atelier/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
                             <div class="pro-meta">
                             	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
                             	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
@@ -131,40 +131,6 @@
                         </a>
 	                </c:forEach>
 	            </div>
-	            
-	            <!-- Bloc : Les plus recents coups de coeur du conseil -->
-	            <div class="pro-widget-participation">
-	                <h4><liferay-ui:message key="eu.most.iscrush" /></h4>
-	                <c:forEach var="initiativeAside" items="${initiativesMostHelped}">
-	                    <a href="${dc.getHomeURL()}detail-initiative/-/entity/id/${initiativeAside.initiativeId}" title="Lien vers Titre de l'initiative">
-                            <div class="pro-meta">
-                            	<c:set var="initiativeDistricts" value="${initiativeAside.getDistrictLabel(locale)}"/>
-                            	<c:set var="initiativeThematics" value="${initiativeAside.getThematicsLabel(locale)}"/>
-                            	<c:set var="initiativeProject" value="${initiativeAside.getProjectName()}"/>
-                            	
-                            	<c:if test = "${not empty initiativeDistricts}">
-                                	<span>${initiativeDistricts}</span>
-                                </c:if>
-                                <c:if test = "${not empty initiativeThematics}">
-                                	<span>${initiativeThematics}</span>
-                                </c:if>
-                                <c:if test = "${not empty initiativeProject}">
-                                	<span>${initiativeProject}</span>
-                                </c:if>
-                            </div>
-                            <h3>${initiativeAside.title}</h3>
-
-                            <div class="pro-meta-footer">
-                                <span class="pro-citoyen-initiative"><strong>${initiativeAside.getNbHelps()} <liferay-ui:message key="eu.support.initiative" /></span>
-                            	<div class="pro-avis">
-                                    <span class="pro-like"><span class="icon-ico-like"></span> ${initiativeAside.getNbLikes()}</span>
-                                    <span class="pro-dislike"><span class="icon-ico-like"></span> ${initiativeAside.getNbDislikes()}</span>
-                                </div>
-                            </div>
-                        </a>
-	                </c:forEach>
-	            </div>
-	               
 	    	</div>
 	        
 	    </div>

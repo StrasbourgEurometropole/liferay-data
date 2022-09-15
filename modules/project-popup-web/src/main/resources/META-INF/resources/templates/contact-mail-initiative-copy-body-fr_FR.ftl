@@ -10,13 +10,13 @@ name="_MailOriginal"><span style='font-size:11.0pt;font-family:"Calibri Light",s
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
 "Calibri Light",sans-serif;color:black'>Vous venez de soumettre </span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
-"Calibri Light",sans-serif;color:#1F497D'>votre initiative citoyenne</span></span><span
+"Calibri Light",sans-serif;color:#1F497D'>votre atelier de quartier</span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
 "Calibri Light",sans-serif;color:black'>. &nbsp;</span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:10.5pt;font-family:
 "Calibri Light",sans-serif;color:black'>Si vous souhaitez vous faire
-accompagner dans la rédaction de votre projet vous pouvez contacter le service
-de la Mission participation citoyenne : </span></span><a
+accompagner dans la rédaction de votre projet vous pouvez contacter la Direction
+participation citoyenne : </span></span><a
 href="mailto:participer@strasbourg.eu"><span style='mso-bookmark:_MailOriginal'><span
 style='font-size:10.5pt;font-family:"Calibri Light",sans-serif'>participer@strasbourg.eu</span></span><span
 style='mso-bookmark:_MailOriginal'></span></a><span style='mso-bookmark:_MailOriginal'><span

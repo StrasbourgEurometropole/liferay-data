@@ -34,10 +34,6 @@
                             <label for="<portlet:namespace />helpType1"><liferay-ui:message key="modal.give.initiative.help.type.time"/></label>
                         </div>
                         <div class="checkbox-inline">
-                            <input type="checkbox" id="<portlet:namespace />helpType2" value="2">
-                            <label for="<portlet:namespace />helpType2" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.money"/></label>
-                        </div>
-                        <div class="checkbox-inline">
                             <input type="checkbox" id="<portlet:namespace />helpType3" value="3">
                             <label for="<portlet:namespace />helpType3" class="checkbox-inline"><liferay-ui:message key="modal.give.initiative.help.type.place"/></label>
                         </div>
@@ -343,7 +339,7 @@
                                     	$('a[data-target="#modalRemoveInitiativeHelp"]').toggleClass("active")
                                     													.text("Proposer mon aide")
                                     													.attr("data-target", "#modalGiveInitiativeHelp")
-                                    													.attr("title", "Ouverture d'une pop-in pour contacter le porteur");
+                                    													.attr("title", "Ouverture d'une pop-in pour contacter le/la porteur-teuse ");
                                     }
                                     
                                     $("#<portlet:namespace />modalConfirm").modal('show');
@@ -380,7 +376,6 @@
     	// Champs entite
         $("#<portlet:namespace />initiativeHelpMessage").val("");
         $("#<portlet:namespace />helpType1").prop('checked', true);
-        $("#<portlet:namespace />helpType2").prop('checked', false);
         $("#<portlet:namespace />helpType3").prop('checked', false);
         $("#<portlet:namespace />helpType4").prop('checked', false);
         

@@ -311,7 +311,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                 // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-                        													"Initiatives");
+                        													"Photo ATQ");
                 // Dossier d'upload de l'entite
                 DLFolder folder = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                                 									folderparent.getFolderId(),
@@ -345,7 +345,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         UploadRequest uploadRequest = PortalUtil.getUploadPortletRequest(request);
         String fileName = uploadRequest.getFileName(PHOTO);
         if (fileName != null && !fileName.isEmpty()) {
-            String type = fileName.substring(fileName.lastIndexOf("."));
+            String type = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
             result = type.equals(".jpg") || type.equals(".jpeg") || type.equals(".png");
         }
         return result;
