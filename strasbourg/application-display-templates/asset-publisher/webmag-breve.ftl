@@ -1,5 +1,6 @@
 <!-- Webmag - Brève -->
 <#setting locale = locale />
+<#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
 <div class="smag-container smag-hp-breves__container" style="margin-top: 50px;">
     <section class="smag-hp-breves" data-scroll-animation>
@@ -22,25 +23,31 @@
                 <!-- Slider -->
                 <ul class="slider-breves-main__slider unstyled">
                     <#list entries as curEntry>
-                        <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
-                        <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
-                        <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
-                        <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
-                        <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-                        <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
-                        <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
-                        <#if (curEntry?index % 3 == 0)> 
-                            <li class="slider-breves-main__slider-item">
-                        </#if>
-                        <a href="${viewURL}" class="slider-breves-main__slide unstyled" >
-                            <div class="slider-breves-main__slide-icon" style="background-image: url(${image});"></div>
-                            <div class="slider-breves-main__slide-text">
-                                <div class="slider-breves-main__slide-title" data-dot="2">${title}</div>
-                                <div class="slider-breves-main__slide-description" data-dot="2">${chapo}</div>
-                            </div>
-                        </a>
-                        <#if (curEntry?index % 3 == 2)>
-                            </li>
+                        <#if curEntry.getAssetRenderer()??>
+                            <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
+                            <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
+                            <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
+                            <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
+                            <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+                            <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+                            <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
+                            <#assign imageURL ="" />
+                            <#if image?has_content>
+                                <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                            </#if>
+                            <#if (curEntry?index % 3 == 0)> 
+                                <li class="slider-breves-main__slider-item">
+                            </#if>
+                            <a href="${viewURL}" class="slider-breves-main__slide unstyled" >
+                                <div class="slider-breves-main__slide-icon" style="background-image: url(${imageURL});"></div>
+                                <div class="slider-breves-main__slide-text">
+                                    <div class="slider-breves-main__slide-title" data-dot="2">${title}</div>
+                                    <div class="slider-breves-main__slide-description" data-dot="2">${chapo}</div>
+                                </div>
+                            </a>
+                            <#if (curEntry?index % 3 == 2)>
+                                </li>
+                            </#if>
                         </#if>
                     </#list>
                     <#if (entries?size % 3 != 0)> 
