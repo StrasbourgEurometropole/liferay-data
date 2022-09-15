@@ -3,7 +3,7 @@
     "deployPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/deploy",
     "themeName": "plateforme-citoyenne-theme",
     "appServerPathTheme": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip/webapps/plateforme-citoyenne-theme",
-    "deployed": false,
+    "deployed": true,
     "appServerPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip"
   }
 }
