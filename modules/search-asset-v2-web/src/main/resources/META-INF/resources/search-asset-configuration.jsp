@@ -5,7 +5,7 @@
 
 <liferay-portlet:actionURL portletConfiguration="true" varImpl="configurationActionURL" />
 
-<liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
+<liferay-ui:error key="wrong-friendly-url" message="eu.search.asset.web.configuration.wrong-friendly-url" />
 
 <aui:form action="${configurationActionURL}" method="post" name="fmConfig">
 
@@ -19,7 +19,7 @@
                 <!-- GROUPE : Type d'asset -->
                 <aui:fieldset collapsed="false" collapsible="true" label="asset-type">
 
-                    <liferay-ui:message key="asset-types-explanations" />
+                    <liferay-ui:message key="eu.search.asset.web.configuration.asset-types-explanations" />
 
                     <div id="asset-types-content">
                         <c:set var="assetTypeList" value="${dc.configurationData.assetTypeDataList}"/>
@@ -47,9 +47,9 @@
                 </aui:fieldset>
 
                 <!-- GROUPE : Criteres de recherche -->
-                <aui:fieldset collapsed="true" collapsible="true" label="search-criterias">
+                <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.search-criterias">
 
-                    <liferay-ui:message key="vocabularies-explanations" />
+                    <liferay-ui:message key="eu.search.asset.web.configuration.vocabularies-explanations" />
 
                     <div  id="vocabularies-content">
                         <c:set var="vocabularyControlTypesMap" value="${dc.configurationData.vocabulariesControlTypesMap}"/>
@@ -68,20 +68,20 @@
 
                     <!-- CHAMP : Affichage du filtre par date -->
                     <div>
-                        <liferay-ui:message key="date-explanations" />
-                        <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="date-field" inlineField="true" />
+                        <liferay-ui:message key="eu.search.asset.web.configuration.date-explanations" />
+                        <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="eu.search.asset.web.configuration.date-field" inlineField="true" />
                     </div>
 
                     <!-- CHAMP : Affichage ddes boutons de dates -->
                     <div>
-                        <liferay-ui:message key="dates-buttons-explanations" />
-                        <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="show-dates-buttons-field" inlineField="true" />
+                        <liferay-ui:message key="eu.search.asset.web.configuration.dates-buttons-explanations" />
+                        <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="eu.search.asset.web.configuration.show-dates-buttons-field" inlineField="true" />
                     </div>
 
                     <!-- CHAMP : Affichage du selecteur de tri -->
                     <div>
-                        <liferay-ui:message key="date-sorting-explanations" />
-                        <aui:input type="checkbox" name="displaySorting" value="${dc.configurationData.isDisplaySorting()}" label="date-sorting-field" inlineField="true" />
+                        <liferay-ui:message key="eu.search.asset.web.configuration.date-sorting-explanations" />
+                        <aui:input type="checkbox" name="displaySorting" value="${dc.configurationData.isDisplaySorting()}" label="eu.search.asset.web.configuration.date-sorting-field" inlineField="true" />
                     </div>
 
                 </aui:fieldset>
@@ -101,15 +101,15 @@
                 <aui:fieldset collapsed="true" collapsible="true" label="eu.search.asset.web.configuration.filters">
 
                     <!-- CHAMP : Colonne sur laquelle filtrer par défaut -->
-                    <aui:select name="filterField">
-                        <aui:option label="modification-date" value="modified_sortable" selected="${dc.configurationData.filterField eq 'modified_sortable'}"/>
-                        <aui:option label="publication-date" value="publishDate_sortable" selected="${dc.configurationData.filterField eq 'publishDate_sortable'}"/>
-                        <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.filterField eq 'dates_Number_sortable'}"/>
-                        <aui:option label="due-date" value="endDate_Number_sortable" selected="${dc.configurationData.filterField eq 'endDate_Number_sortable'}"/>
+                    <aui:select name="filterField" label="eu.search.asset.web.configuration.filter-field">
+                        <aui:option label="eu.search.asset.web.configuration.filter.modification-date" value="modified_sortable" selected="${dc.configurationData.filterField eq 'modified_sortable'}"/>
+                        <aui:option label="eu.search.asset.web.configuration.filter.publication-date" value="publishDate_sortable" selected="${dc.configurationData.filterField eq 'publishDate_sortable'}"/>
+                        <aui:option label="eu.search.asset.web.configuration.filter.entity-date" value="dates_Number_sortable" selected="${dc.configurationData.filterField eq 'dates_Number_sortable'}"/>
+                        <aui:option label="eu.search.asset.web.configuration.filter.due-date" value="endDate_Number_sortable" selected="${dc.configurationData.filterField eq 'endDate_Number_sortable'}"/>
                     </aui:select>
 
                     <!-- CHAMP : Filtre par date par defaut -->
-                    <aui:input type="number" name="defaultFilterDateRange" min="-1000" max="+1000" cssClass="date-range" value="${dc.configurationData.defaultFilterDateRange}" label="default-date-range" inlineField="true"/>
+                    <aui:input type="number" name="defaultFilterDateRange" min="-1000" max="+1000" cssClass="date-range" value="${dc.configurationData.defaultFilterDateRange}" label="eu.search.asset.web.configuration.default-date-range" inlineField="true"/>
 
                 </aui:fieldset>
 
@@ -118,7 +118,7 @@
 
                     <!-- CHAMP : Tri aléatoire -->
                     <div>
-                        <aui:input type="checkbox" name="randomSort" value="${dc.configurationData.isRandomSort()}" label="random-sort" />
+                        <aui:input type="checkbox" name="randomSort" value="${dc.configurationData.isRandomSort()}" label="eu.search.asset.web.configuration.random-sort" />
                     </div>
 
                     <aui:row id="ordering">
@@ -131,12 +131,12 @@
                     			<aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.firstSortingField eq 'modified_sortable'}" />
                     			<aui:option label="publish-date" value="publishDate_sortable" selected="${dc.configurationData.firstSortingField eq 'publishDate_sortable'}" />
                     			<aui:option label="expiration-date" value="expirationDate" selected="${dc.configurationData.firstSortingField eq 'expirationDate'}" />
-                                <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'dates_Number_sortable'}"/>
-                                <aui:option label="start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
-                                <aui:option label="end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
-                                <aui:option label="city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_city_Number_sortable'}" />
-                                <aui:option label="ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_ems_Number_sortable'}"/>
-                                <aui:option label="order-priority" value="priority_sortable" selected="${dc.configurationData.firstSortingField eq 'priority_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.filter.entity-date" value="dates_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'dates_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_city_Number_sortable'}" />
+                                <aui:option label="eu.search.asset.web.configuration.sort.ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'order_ems_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.order-priority" value="priority_sortable" selected="${dc.configurationData.firstSortingField eq 'priority_sortable'}"/>
                     		</aui:select>
 
                             <!-- CHAMP : Tri type 1 -->
@@ -172,12 +172,12 @@
                     			<aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.secondSortingField eq 'modified_sortable'}" />
                     			<aui:option label="publish-date" value="publishDate_sortable" selected="${dc.configurationData.secondSortingField eq 'publishDate_sortable'}" />
                     			<aui:option label="expiration-date" value="expirationDate" selected="${dc.configurationData.secondSortingField eq 'expirationDate'}" />
-                                <aui:option label="entity-date" value="dates_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'dates_Number_sortable'}"/>
-                                <aui:option label="start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
-                                <aui:option label="end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
-                                <aui:option label="city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_city_Number_sortable'}" />
-                                <aui:option label="ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_ems_Number_sortable'}"/>
-                                <aui:option label="order-priority" value="priority_sortable" selected="${dc.configurationData.secondSortingField eq 'priority_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.entity-date" value="dates_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'dates_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_city_Number_sortable'}" />
+                                <aui:option label="eu.search.asset.web.configuration.sort.ems-order-property" value="order_ems_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_ems_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.sort.order-priority" value="priority_sortable" selected="${dc.configurationData.secondSortingField eq 'priority_sortable'}"/>
                     		</aui:select>
 
                             <!-- CHAMP : Tri type 2 -->
@@ -249,75 +249,75 @@
                     <aui:input type="number" name="delta" label="eu.search.asset.web.configuration.delta" value="${dc.configurationData.delta}" />
 
                     <!-- CHAMP : Formulaire de recherche -->
-                    <aui:select name="searchForm">
+                    <aui:select name="searchForm" label="eu.search.asset.web.configuration.search-form">
                         <aui:option value="museum" selected="${dc.configurationData.searchForm eq 'museum'}">
-                            <liferay-ui:message key="museum" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum" />
                         </aui:option>
                         <aui:option value="official" selected="${dc.configurationData.searchForm eq 'official'}">
-                            <liferay-ui:message key="official" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.official" />
                         </aui:option>
                         <aui:option value="videos" selected="${dc.configurationData.searchForm eq 'videos'}">
-                            <liferay-ui:message key="videos" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.videos" />
                         </aui:option>
                         <aui:option value="summer-christmas-general" selected="${dc.configurationData.searchForm eq 'summer-christmas-general'}">
-                            <liferay-ui:message key="summer-christmas-general" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-general" />
                         </aui:option>
                         <aui:option value="summer-christmas-agenda" selected="${dc.configurationData.searchForm eq 'summer-christmas-agenda'}">
-                            <liferay-ui:message key="summer-christmas-agenda" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-agenda" />
                         </aui:option>
                         <aui:option value="christmas-experience" selected="${dc.configurationData.searchForm eq 'christmas-experience'}">
-                            <liferay-ui:message key="christmas-experience" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.christmas-experience" />
                         </aui:option>
                         <aui:option value="bib-sae-agenda" selected="${dc.configurationData.searchForm eq 'bib-sae-agenda'}">
-                            <liferay-ui:message key="bib-sae-agenda" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.bib-sae-agenda" />
                         </aui:option>
                         <aui:option value="strasbourg-agenda" selected="${dc.configurationData.searchForm eq 'strasbourg-agenda'}">
-                            <liferay-ui:message key="strasbourg-agenda" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-agenda" />
                         </aui:option>
                         <aui:option value="strasbourg-generic" selected="${dc.configurationData.searchForm eq 'strasbourg-generic'}">
-                            <liferay-ui:message key="strasbourg-generic" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-generic" />
                         </aui:option>
                         <aui:option value="strasbourg-offer" selected="${dc.configurationData.searchForm eq 'strasbourg-offer'}">
-                            <liferay-ui:message key="strasbourg-offer" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-offer" />
                         </aui:option>
                         <aui:option value="placit-projects" selected="${dc.configurationData.searchForm eq 'placit-projects'}">
-                            <liferay-ui:message key="placit-projects" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-projects" />
                         </aui:option>
                         <aui:option value="placit-participations" selected="${dc.configurationData.searchForm eq 'placit-participations'}">
-                            <liferay-ui:message key="placit-participations" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-participations" />
                         </aui:option>
                         <aui:option value="placit-agenda" selected="${dc.configurationData.searchForm eq 'placit-agenda'}">
-                            <liferay-ui:message key="placit-agenda" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-agenda" />
                         </aui:option>
                         <aui:option value="placit-news" selected="${dc.configurationData.searchForm eq 'placit-news'}">
-                            <liferay-ui:message key="placit-news" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-news" />
                         </aui:option>
                         <aui:option value="placit-videos" selected="${dc.configurationData.searchForm eq 'placit-videos'}">
-                            <liferay-ui:message key="placit-videos" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-videos" />
                         </aui:option>
                         <aui:option value="placit-petitions" selected="${dc.configurationData.searchForm eq 'placit-petitions'}">
-                            <liferay-ui:message key="placit-petitions" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-petitions" />
                         </aui:option>
                         <aui:option value="placit-budgetParticipatif" selected="${dc.configurationData.searchForm eq 'placit-budgetParticipatif'}">
-                            <liferay-ui:message key="placit-budgetParticipatif" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-budgetParticipatif" />
                         </aui:option>
                         <aui:option value="placit-initiatives" selected="${dc.configurationData.searchForm eq 'placit-initiatives'}">
-                            <liferay-ui:message key="placit-initiatives" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-initiatives" />
                         </aui:option>
                         <aui:option value="placit-project-workshop" selected="${dc.configurationData.searchForm eq 'placit-project-workshop'}">
-                            <liferay-ui:message key="placit-project-workshop" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-project-workshop" />
                         </aui:option>
                         <aui:option value="ops-agenda" selected="${dc.configurationData.searchForm eq 'ops-agenda'}">
-                            <liferay-ui:message key="ops-agenda" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.ops-agenda" />
                         </aui:option>
                         <aui:option value="ops-general" selected="${dc.configurationData.searchForm eq 'ops-general'}">
-                            <liferay-ui:message key="ops-general" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.ops-general" />
                         </aui:option>
                         <aui:option value="ops-news" selected="${dc.configurationData.searchForm eq 'ops-news'}">
-                            <liferay-ui:message key="ops-news" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.ops-news" />
                         </aui:option>
                         <aui:option value="help" selected="${dc.configurationData.searchForm eq 'help'}">
-                            <liferay-ui:message key="aide" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.aide" />
                         </aui:option>
                     </aui:select>
 
@@ -328,15 +328,15 @@
 
                     <!-- CHAMP : Bouton exporter -->
                     <aui:input type="checkbox" name="displayExport" value="${dc.configurationData.isDisplayExport()}"
-                        label="display-export" inlineField="true" />
+                        label="eu.search.asset.web.configuration.display-export" inlineField="true" />
 
                     <!-- CHAMP : Type d'export -->
-                    <aui:select name="exportType" showEmptyOption="true">
+                    <aui:select name="exportType" showEmptyOption="true" label="eu.search.asset.web.configuration.export-type">
                         <aui:option value="city" selected="${dc.configurationData.exportType eq 'city'}">
-                            <liferay-ui:message key="city" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.type-export.city" />
                         </aui:option>
                         <aui:option value="ems" selected="${dc.configurationData.exportType eq 'ems'}">
-                            <liferay-ui:message key="ems" />
+                            <liferay-ui:message key="eu.search.asset.web.configuration.type-export.ems" />
                         </aui:option>
                     </aui:select>
 
