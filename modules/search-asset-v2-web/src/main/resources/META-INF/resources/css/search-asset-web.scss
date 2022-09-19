@@ -15,4 +15,8 @@
   .help-pagination .selectric > span.label {
     border-style: none;
   }
+
+  #today.active, #tomorrow.active, #week-end.active{
+    border: solid;
+  }
 }

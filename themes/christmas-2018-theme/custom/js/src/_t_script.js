@@ -18,10 +18,6 @@ $(function () {
     FastClick.attach(document.body);
 });
 
-// Controle Date Picker (Pikaday)
-var picker_start = new Pikaday({field: document.getElementById('datepicker-start')});
-var picker_end = new Pikaday({field: document.getElementById('datepicker-end')});
-
 // Page Marché - Ouverture / Fermeture du volet
 $('.mns-volet-map').click(function () {
     $('#mns-wrapper-volet').toggleClass('expand');

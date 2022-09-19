@@ -17,6 +17,7 @@ public class ConfigurationConstants {
     public static final String PARAM_VOCABULARIES_IDS = "vocabularyIds";
     public static final String PARAM_VOCABULARIES_CONTROL_TYPE_IDS = "vocabularyControlType";
     public static final String PARAM_DISPLAY_DATE_FIELD = "displayDateField";
+    public static final String PARAM_DISPLAY_DATES_BUTTONS = "displayDatesButtons";
     public static final String PARAM_DISPLAY_SORTING = "displaySorting";
 
     public static final String PARAM_BOOST_TAGS_NAMES = "boostTagsNames";

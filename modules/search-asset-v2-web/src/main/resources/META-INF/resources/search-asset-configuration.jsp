@@ -72,6 +72,12 @@
                         <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="date-field" inlineField="true" />
                     </div>
 
+                    <!-- CHAMP : Affichage ddes boutons de dates -->
+                    <div>
+                        <liferay-ui:message key="dates-buttons-explanations" />
+                        <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="show-dates-buttons-field" inlineField="true" />
+                    </div>
+
                     <!-- CHAMP : Affichage du selecteur de tri -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />

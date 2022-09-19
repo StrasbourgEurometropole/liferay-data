@@ -3,11 +3,11 @@
 <div class="seu-filter-line">
     <div class="widget">
         <div class="title">
-            <label for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
+            <label for="<portlet:namespace />fromDate"><liferay-ui:message key="eu.event.from-date" /></label>
         </div>
         <div class="content">
-            <input name="from" data-type="date" type="text" id="date-start" placeholder="JJ/MM/AAAA" 
-            	value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">
+            <input name="from" data-type="date" type="text" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
+            	value="${dc.fromDay}/${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}/${dc.fromYear}">
             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
             <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
             <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
@@ -15,11 +15,11 @@
     </div>
     <div class="widget">
         <div class="title">
-            <label for="date-end"><liferay-ui:message key="eu.event.to" /></label>
+            <label for="<portlet:namespace />toDate"><liferay-ui:message key="eu.event.to" /></label>
         </div>
         <div class="content">
-            <input name="to" data-type="date" type="text" id="date-end" placeholder="JJ/MM/AAAA" 
-            	value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">
+            <input name="to" data-type="date" type="text" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
+            	value="${dc.toDay}/${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}/${dc.toYear}">
             <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
             <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
             <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
@@ -49,7 +49,36 @@
 	<c:set var="displayBlockIfAdvancedSearch" value="style=\"display: block;\"" />
 	<c:set var="openIfAdvancedSearch" value="opened" />
 </c:if>
-<div class="seu-btn-line advanced">
+<div class="seu-btn-line advanced" style="justify-content: space-between;">
+
+    <c:if test="${dc.displayDatesButtons}">
+        <div style="display: flex; justify-content: space-between; width: calc(50% - 10px);">
+            <div class="widget">
+                <button id="today" type="button" class="seu-btn-square seu-filled seu-second">
+                    <span class="seu-flexbox">
+                        <span class="seu-btn-text"><liferay-ui:message key="today" /></span>
+                        <span class="seu-btn-arrow"></span>
+                    </span>
+                </button>
+            </div>
+            <div class="widget">
+                <button id="tomorrow" type="button" class="seu-btn-square seu-filled seu-second">
+                    <span class="seu-flexbox">
+                        <span class="seu-btn-text"><liferay-ui:message key="tomorrow" /></span>
+                        <span class="seu-btn-arrow"></span>
+                    </span>
+                </button>
+            </div>
+            <div class="widget">
+                <button id="week-end" type="button" class="seu-btn-square seu-filled seu-second">
+                    <span class="seu-flexbox">
+                        <span class="seu-btn-text"><liferay-ui:message key="eu.this-week-end" /></span>
+                        <span class="seu-btn-arrow"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </c:if>
     <button type="button" class="seu-btn-square seu-filled seu-second seu-trigger-advanced-search ${openIfAdvancedSearch}">
         <span class="seu-flexbox">
             <span class="seu-btn-text"><liferay-ui:message key="advanced-search" /></span>
@@ -149,10 +178,11 @@
 </div>
 
 <liferay-util:html-bottom>
-<aui:script>
-	var idSIGPlace = '${dc.idSIGPlace}' ;
-</aui:script>
+    <aui:script>
+        var idSIGPlace = '${dc.idSIGPlace}' ;
+    </aui:script>
 	
+	<script src="/o/searchassetv2web/js/bloc-date.js"></script>
 	<script src="/o/searchassetv2web/js/strasbourg-agenda.js"></script>
 </liferay-util:html-bottom>
 

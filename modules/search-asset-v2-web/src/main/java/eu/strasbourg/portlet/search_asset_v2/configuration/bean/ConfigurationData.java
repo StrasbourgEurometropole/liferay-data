@@ -34,6 +34,7 @@ public class ConfigurationData {
     private List<ConfigurationAssetData> assetTypeDataList;
     private LinkedHashMap<String, String> vocabulariesControlTypes;
     private boolean displayDateField;
+    private boolean displayDatesButtons;
     private boolean displaySorting;
     private String boostTagsNames;
     private String filterField;
@@ -133,6 +134,7 @@ public class ConfigurationData {
             }
         }
         this.displayDateField = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD);
+        this.displayDatesButtons = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATES_BUTTONS);
         this.displaySorting = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING);
 
         // Boost
@@ -246,6 +248,7 @@ public class ConfigurationData {
             this.log.error(e);
         }
         this.displayDateField = this.configuration.displayDateField();
+        this.displayDatesButtons = this.configuration.displayDatesButtons();
         this.displaySorting = this.configuration.displaySorting();
 
         // Boost
@@ -290,6 +293,8 @@ public class ConfigurationData {
                     vocabulariesControlTypesJSON);
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD,
                     String.valueOf(displayDateField));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_DATES_BUTTONS,
+                    String.valueOf(displayDatesButtons));
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING,
                     String.valueOf(displaySorting));
 
@@ -395,6 +400,10 @@ public class ConfigurationData {
 
     public boolean isDisplayDateField() {
         return displayDateField;
+    }
+
+    public boolean isDisplayDatesButtons() {
+        return displayDatesButtons;
     }
 
     public boolean isDisplaySorting() {

@@ -28,6 +28,9 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "displayDateField", required = false, deflt = "false")
 	public boolean displayDateField();
 
+	@Meta.AD(name = "displayDatesButtons", required = false, deflt = "false")
+	public boolean displayDatesButtons();
+
 	@Meta.AD(name = "displaySorting", required = false, deflt = "false")
 	public boolean displaySorting();
 

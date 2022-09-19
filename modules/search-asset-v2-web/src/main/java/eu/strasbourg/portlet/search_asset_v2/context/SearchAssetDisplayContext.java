@@ -613,6 +613,13 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
+	 * Retourne true si les boutons dates doivent être affichés
+	 */
+	public boolean isDisplayDatesButtons() throws ConfigurationException {
+		return getConfigurationData().isDisplayDatesButtons();
+	}
+
+	/**
 	 * On récupère les préférences de catégories et on les envoie à la JSP C'est
 	 * une liste d'AssetVocabulary, qui correspond aux vocabulaires pour
 	 * lesquels on souhaite afficher une liste déroulante dans le moteur de
