@@ -368,7 +368,7 @@ public class StartImportTerritoriesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu",
+			MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu",
 					mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);

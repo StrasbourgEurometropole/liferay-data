@@ -463,7 +463,7 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 		String mailAddresses = StrasbourgPropsUtil.getPlaceImportMails();
 
 		try {
-			MailHelper.sendMailWithHTML("no-reply@no-reply-strasbourg.eu", mailAddresses, titre, corps);
+			MailHelper.sendMailWithHTML("no-reply@no-reply.strasbourg.eu", mailAddresses, titre, corps);
 		} catch (Exception e) {
 			_log.error(e);
 		}
