@@ -20,6 +20,11 @@ public class StrasbourgPropsUtilImpl  implements StrasbourgPropsUtilService {
 	}
 
 	@Override
+	public String getEJobURLOfferStageCollegeApply() {
+		return StrasbourgPropsUtil.getEJobURLOfferStageCollegeApply();
+	}
+
+	@Override
 	public String getEJobURLApply() {
 		return StrasbourgPropsUtil.getEJobURLApply();
 	}
