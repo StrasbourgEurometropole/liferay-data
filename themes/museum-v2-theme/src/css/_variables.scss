@@ -1,0 +1,63 @@
+// BREAKPOINTS
+$breakpoint: 1600px;
+$breakpoint_tablet_landscape: 1024px;
+$breakpoint_tablet_portrait: 991px;
+$breakpoint_mobile: 767px;
+$breakpoint_mobile_small: 360px;
+// BREAKPOINTS
+
+//COLORS
+$color_main: #c42147;
+$color_txt: #2d2d2d;
+$color_second: #333;	
+$color_third: #f2f2f2;
+//COLORS
+
+// FONTS 
+@font-face {
+  font-family: proximanova-light;
+  src: url("../fonts/proximanova/proximanova-light.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: proximanova-regular;
+  src: url("../fonts/proximanova/proximanova-regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: proximanova-bold;
+  src: url("../fonts/proximanova/proximanova-bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+$proximaNova: "proximanova-regular", sans-serif;
+$proximaNovaLight: "proximanova-light", sans-serif;
+$proximaNovaBold: "proximanova-bold", sans-serif;
+$times: 'Times', serif;
+
+$size_h1: 4.375rem;
+$size_h2: 4rem;
+$size_h3: 2.25rem;
+$size_h4: 1.375rem;
+$size_p: 1rem;	
+
+$size_h1-mobile: 2.5rem;
+$size_h2-mobile: 1.875rem;
+$size_h3-mobile: 1.625rem;
+$size_h4-mobile: 1rem;
+$size_p-mobile: 0.8125rem;
+// FONTS 
+
+// MARGES
+$margin-h2: 10px;
+$margin-h3: 10px;
+$margin-h4: 20px;
+$margin-h5: 20px;
+
+$margin-h2-mobile: 20px;
+$margin-h3-mobile: 20px;
+$margin-h4-mobile: 15px;
+$margin-h5-mobile: 10px;
+// MARGES

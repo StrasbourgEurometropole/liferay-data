@@ -1,0 +1,39 @@
+{
+	"name": "museum-v2-theme",
+	"version": "1.0.0",
+	"main": "package.json",
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"fontAwesome": true,
+		"templateLanguage": "ftl",
+		"screenshot": "",
+		"rubySass": true,
+		"version": "7.2"
+	},
+	"devDependencies": {
+		"compass-mixins": "0.12.10",
+		"gulp": "4.0.2",
+		"liferay-font-awesome": "3.5.2",
+		"liferay-frontend-common-css": "1.0.4",
+		"liferay-frontend-theme-styled": "4.0.42",
+		"liferay-frontend-theme-unstyled": "4.0.46",
+		"liferay-theme-tasks": "^11.4.0"
+	},
+	"scripts": {
+		"init": "gulp init",
+		"build": "gulp build",
+		"deploy": "gulp deploy",
+		"extend": "gulp extend",
+		"kickstart": "gulp kickstart",
+		"status": "gulp status",
+		"upgrade": "gulp upgrade",
+		"watch": "gulp watch"
+	},
+	"dependencies": {
+		"del": "^7.0.0",
+		"gulp-ruby-sass": "^4.0.0"
+	}
+}
