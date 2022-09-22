@@ -16,7 +16,11 @@
     border-style: none;
   }
 
-  #today.active, #tomorrow.active, #week-end.active{
-    border: solid;
+  #today.active .seu-btn-text, #tomorrow.active .seu-btn-text, #week-end.active .seu-btn-text{
+    color: white;
+  }
+
+  #today.active:before, #tomorrow.active:before, #week-end.active:before{
+    height: 100%;
   }
 }
