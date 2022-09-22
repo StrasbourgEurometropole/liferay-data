@@ -2,20 +2,15 @@
 
 <p class=MsoNormal><o:p>&nbsp;</o:p></p>
 
-<p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:12.0pt'><a
-name="_MailOriginal"><span style='font-size:11.0pt;font-family:"Calibri Light",sans-serif'>Bravo,
-</span><o:p></o:p></a></p>
-
 <p class=MsoNormal style='mso-margin-top-alt:auto;margin-bottom:12.0pt'><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
-"Calibri Light",sans-serif;color:black'>Vous venez de soumettre </span></span><span
+"Calibri Light",sans-serif;color:black'>Bravo ! Vous venez de soumettre </span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
-"Calibri Light",sans-serif;color:#1F497D'>votre atelier de quartier</span></span><span
+"Calibri Light",sans-serif;color:#1F497D'>votre projet d’atelier de quartier</span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:11.0pt;font-family:
 "Calibri Light",sans-serif;color:black'>. &nbsp;</span></span><span
 style='mso-bookmark:_MailOriginal'><span style='font-size:10.5pt;font-family:
-"Calibri Light",sans-serif;color:black'>Si vous souhaitez vous faire
-accompagner dans la rédaction de votre projet vous pouvez contacter la Direction
+"Calibri Light",sans-serif;color:black'>Si vous souhaitez obtenir plus d’information vous pouvez contacter la Direction
 participation citoyenne : </span></span><a
 href="mailto:participer@strasbourg.eu"><span style='mso-bookmark:_MailOriginal'><span
 style='font-size:10.5pt;font-family:"Calibri Light",sans-serif'>participer@strasbourg.eu</span></span><span
@@ -94,8 +89,7 @@ mso-fareast-font-family:"Times New Roman";color:black'>Votre projet<o:p></o:p></
 
 
 <p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><span style="color:black"><o:p>&nbsp;</o:p></span></p>
-<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Vous recevez ce courriel car vous avez soumis un atelier de quartier sur la plateforme
- participer.strasbourg.eu.<o:p></o:p></span></i></p>
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Vous recevez ce courrier car vous avez soumis un projet d’atelier de quartier sur la plateforme participer.strasbourg.eu<o:p></o:p></span></i></p>
 <div style="background:yellow">
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Conformément au Règlement (UE) 2016/679 du 27 avril 2016 (Règlement Général sur la Protection des Données ou RGPD) et à la Loi n°78-17 du 6 janvier 1978 modifiée (Loi Informatique
  et Libertés), vous disposez d’un droit d’accès, de rectification, d’effacement, de portabilité et de limitation des traitements. Le traitement de vos données personnelles repose sur votre consentement. Vous pouvez le retirer à tout moment.<o:p></o:p></span></i></p>
