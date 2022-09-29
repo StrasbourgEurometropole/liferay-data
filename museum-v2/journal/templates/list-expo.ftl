@@ -6,7 +6,7 @@
         <div class="info">
             <p class="title">${title.getData()}</p>
             <h2 class="big-title">${bigTitle.getData()}</h2>
+            <a href="${button.link.getFriendlyUrl()}" title="${button.getData()}">${button.getData()}</a>
         </div>
-        <a href="${button.link.getFriendlyUrl()}" title="${button.getData()}">${button.getData()}</a>
     </div>
 </div>
