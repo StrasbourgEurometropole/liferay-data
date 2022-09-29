@@ -1,0 +1,73 @@
+#list-expo{
+    background: $color_txt;
+
+    .content{
+
+        @include RWD(tablet_portrait){
+            display: flex;
+            flex-direction: row-reverse;
+            max-width: 1250px;
+            margin-left: auto;
+        }
+
+        picture{
+
+            @include RWD(tablet_portrait){
+                width: 66%;
+            }
+
+            img{
+                margin-top: 20px;
+
+                @include RWD(tablet_portrait){
+                    min-width: 1050px;
+                    margin: 80px 0;
+                    width: 100%;
+                }
+            }
+        }
+
+        .info{
+            padding: 25px 40px 45px;
+            font-style: italic;
+
+            @include RWD(tablet_portrait){
+                padding: 0;
+                margin: auto;
+            }
+
+            .title{
+                @include ft($proximaNova, 1.05rem, 400, white, 2.125rem);
+            }
+
+            h2{
+                @include ft($times, 1.875rem, 400, white, 1.25rem);
+
+                @include RWD(tablet_portrait){
+                    font-size: 3.75rem;
+                    line-height: 4.25rem;
+                }
+            }
+
+            a{
+                @include positionAbsolute(2, translate(-50%, 50%), (left: 50%));        
+                display: block;
+                width: 215px;
+                padding: 15px 30px;
+                background: $color_main;
+                border: 1px solid $color_main;
+                text-align: center;
+                @include ft($proximaNova, 0.75rem, 400, white, 0.875rem);
+                text-transform: uppercase;
+                transition : background, 0.2s, ease-out;
+
+                @include RWD(tablet_portrait){
+                    position: relative;
+                    left: 0;
+                    transform: none;
+                    margin-top: 30px;
+                }
+            }
+        }
+    }
+}

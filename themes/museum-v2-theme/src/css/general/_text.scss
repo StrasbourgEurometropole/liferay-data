@@ -1,0 +1,115 @@
+@charset "UTF-8";
+
+#mns-global{
+
+	a,
+	a:hover,
+	a:active,
+	a:focus,
+	input,
+	input:hover,
+	input:active,
+	input:focus
+	{
+		outline: none;
+	}
+
+	h1,
+	span.h1
+	{
+		position: relative;
+		display: block;
+		margin: 0 0 40px;
+		@include ft($f_nr,$d_h1,400,$c_main,5.25rem);
+
+		strong, a, u, i, em
+		{
+			font-family: $f_nr;
+		}
+
+		@include mobile{
+			font-size: $s_h1;
+			line-height: 3rem;
+		}
+	}
+
+	h2,
+	span.h2
+	{
+		position: relative;
+		display: block;
+		margin: 35px 0 30px 0;
+		@include ft($f_nr,$d_h2,400,$c_main,4.8125rem);
+
+		strong, a, u, i, em
+		{
+			font-family: $f_nr;
+		}
+
+		@include mobile{
+			font-size: $s_h2;
+			line-height: 2rem;
+		}
+	}				
+
+	h3,
+	span.h3
+	{
+		position: relative;
+		display: block;
+		margin: 25px 0 30px 0;
+		@include ft($f_nr,$d_h3,400,$c_main,2.6875rem);
+
+		strong, a, u, i, em
+		{
+			font-family: $f_nr;
+		}
+
+		@include mobile{
+			font-size: $s_h3;
+			line-height: 2rem;
+		}
+	}				
+
+	h4,
+	span.h4
+	{
+		position: relative;
+		display: block;
+		margin: 0 0 10px 0;
+		@include ft($f_ms,$d_h4,700,$c_grey,52px);
+
+		strong, a, u, i, em
+		{
+			font-family: $f_ms;
+		}
+	}
+
+	p, 
+	span.p
+	{
+		position: relative;
+		display: block;
+		margin: 0 0 20px 0;
+		@include ft($f_ms,$d_p,400,$c_txt,1.625rem);
+
+		&.intercalaire
+		{
+			display: none;
+		}
+
+		strong, a, u, i, em
+		{
+			font-family: $f_ms;
+		}
+
+		a
+		{
+			color: $c_grey;
+		}
+
+		@include mobile{
+			font-size: $s_p;
+		}
+	}
+}

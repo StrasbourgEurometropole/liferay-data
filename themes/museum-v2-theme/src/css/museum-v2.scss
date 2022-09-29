@@ -1,0 +1,48 @@
+// Config (global vars for the project)
+@import 'config/_variables';
+@import 'config/_svg';
+
+//Builders (no css generated)
+@import 'builders/_fonts';
+@import 'builders/_mixins';
+@import 'builders/_quark-animation-hoverBar';
+@import 'builders/_svg-factory';
+
+// General (global CSS)
+@import 'general/_pre-header';
+@import 'general/_footer';
+
+// Blocs (home)
+@import 'blocs/_list-expo';
+
+@import '_tarteaucitron';
+
+
+
+#global{
+    .signed-in & {
+        padding-top: 54px;
+    }
+
+	.hidden{
+		display: none;
+	}
+
+    .portlet-journal-content .portlet{
+        margin-bottom: 0;
+
+        .portlet-header{
+            display: none;
+        }
+    }     
+}
+
+@include RWD(extra_large){
+    body .container {
+        max-width: 1240px;
+    }
+}
+
+.margin-bottom{
+    margin-bottom: 60px;
+}

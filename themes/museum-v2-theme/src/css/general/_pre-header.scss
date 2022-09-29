@@ -1,0 +1,166 @@
+.header-top {
+    display: none;
+
+    @include RWD(mobile_landscape){
+        display: block;
+        background: $color_txt;
+        height: 40px;
+    }
+
+    .header-top-inner{
+        padding: 0 20px;
+
+        @include RWD(tablet_landscape){
+            max-width: none;
+        }
+
+        @include RWD(tablet_landscape){
+            max-width: 960px;
+        }
+
+        @include RWD(desktop){
+            max-width: 1140px;
+        }
+
+        @include RWD(extra_large){
+            max-width: 1240px;
+        }
+
+        .strasbourg-eu-logo {
+            display: inline-block;
+
+            img {
+                width: 128px;
+                margin: 10px 0 6px 0;
+            }
+        }
+
+        .portlet-journal-content {
+            margin-top: -1px;
+            float: right;
+
+            .accessibility-menu {
+                margin: -1px -18px 0 0;
+                list-style: none;
+                padding: 0;
+                
+                .accessibility, .contact, .language-menu ul li.active {
+                    display: none;
+
+                    @include RWD(tablet_landscape){
+                        display: block;
+
+                        .accessibility:hover,
+                        .contact:hover {
+                            background: rgba(255, 255, 255, 0.07);
+                        }
+                    }
+                }
+                
+                > li {
+                    float: left;
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                li.access-item {
+                    border-left: 1px solid #5e5e5e;
+                
+                    a {
+                        display: table-cell;
+                        vertical-align: middle;
+                        padding: 10px 13px 8px 13px;
+                        height: 40px;
+                        @include ft($proximaNova, 0.875rem, 400, white, 1.25rem);
+                    }
+
+                    .language-menu {
+                        position: relative;
+
+                        @include RWD(tablet_landscape){
+                            padding: 0 10px;
+                        }
+
+                        .active-language {
+                            padding-bottom: 10px;
+
+                            @include RWD(tablet_landscape){
+                                display: none;
+                            }
+                            
+                        }
+
+                        &.open ul {
+                            display: block;
+                            z-index: 100;
+                        }
+
+                        ul {
+                            display: none;
+                            @include positionAbsolute(1, "", (top: 40px, right: 0));
+                            background: $color_txt;
+                            border-top: 1px solid #5e5e5e;
+                            width: 100%;
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                            vertical-align: top;
+
+                            @include RWD(tablet_landscape){
+                                display: block;
+                                position: static;
+                                border-top: 0;
+                            }
+                
+                            > li {
+                                float: left;
+                                position: relative;
+                                margin: 0;
+                                padding: 0;
+                            }
+                        
+                            li {
+                                float: none;
+                                width: 100%;
+                                text-align: center;
+
+                                @include RWD(tablet_landscape){
+                                    float: left;
+                                    width: auto;
+                                }
+
+                                a {
+                                    display: block;
+                                    width: 100%;
+                                    height: auto;
+                                    padding: 5px 5px 4px 5px;
+                                    color: #999999;
+        
+                                    @include RWD(tablet_landscape){
+                                        display: table-cell;
+                                        vertical-align: middle;
+                                        padding: 10px 5px 8px 5px;
+                                        height: 39px;
+                                    }
+
+                                    &:hover {
+                                        color: white;
+                                    }
+                                }
+
+                                &.active a {
+                                    color: white;
+                                }
+                            }
+                        }
+
+                        a:hover{
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
