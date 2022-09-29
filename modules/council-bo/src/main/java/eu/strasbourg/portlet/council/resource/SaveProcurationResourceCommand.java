@@ -173,8 +173,8 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
         if (beneficiary != null) {
             String beneficiaryName = beneficiary.getFullName();
 
-            if (nbProcurations >= 2) {
-                this.error.put("error", "Erreur : Le b\u00E9n\u00E9ficiare " + beneficiaryName + " a d\u00E9j\u00E0 deux procurations à son nom");
+            if (nbProcurations >= 1) {
+                this.error.put("error", "Erreur : Le b\u00E9n\u00E9ficiare " + beneficiaryName + " a d\u00E9j\u00E0 une procuration \u00e0 son nom");
                 return false;
             }
             // Check si le bénéficiare est absent
@@ -198,7 +198,7 @@ public class SaveProcurationResourceCommand implements MVCResourceCommand {
         List<Procuration> openedProcurationsForOfficial = listProcurationsForOfficial.stream().filter(p -> p.getEndHour() == null).collect(Collectors.toList());
         int nbProcurationsOfficial = openedProcurationsForOfficial.size();
         if (nbProcurationsOfficial != 0) {
-            this.warn.put("warn", "Warning : L'\u00E9lu " + absentOfficialName + " est b\u00E9n\u00E9ficiare d'une ou plusieurs procurations");
+            this.warn.put("warn", "Warning : L'\u00E9lu " + absentOfficialName + " est b\u00E9n\u00E9ficiare d'une procuration");
         }
 
         // Vérification de la longueur du champ
