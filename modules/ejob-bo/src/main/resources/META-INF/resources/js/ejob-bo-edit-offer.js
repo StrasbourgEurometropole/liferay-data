@@ -53,12 +53,13 @@ Array.prototype.forEach.call(gradeRangeFields.getElementsByClassName("lfr-form-r
         element.querySelectorAll('[id^=' + namespace + 'ejobGradeMax]')[0].parentNode.style.display = "block";
     }
 });
+var niveauEtude = document.getElementById(namespace + "ejobNiveauEtude");
 var avantages = document.getElementById('avantages');
 var ejobContact = document.getElementById(namespace + "ejobContact");
 // gestion de l'affichage des champs en fonction du type de recrutement
 function initialise(){
     var typeRecrutementsValue = typeRecrutements.children[typeRecrutements.selectedIndex].text;
-    if(typeRecrutementsValue == "Stage" || typeRecrutementsValue == "Apprentissage"){
+    if(typeRecrutementsValue == "Stage" || typeRecrutementsValue == "Stage collège" || typeRecrutementsValue == "Apprentissage"){
         document.getElementById(namespace + "jobCreationDescription").value = "";
         jobCreationDescription.parentNode.style.display="none";
         document.getElementById(namespace + "startDate2").value = "";
@@ -67,7 +68,7 @@ function initialise(){
         ejobMotif.parentNode.style.display="none";
         document.getElementById(namespace + "permanentDescription").value = Liferay.Language.get('eu.offer-job-permanent-description-value');
         permanentDescription.parentNode.style.display="none";
-        if(typeRecrutementsValue == "Stage"){
+        if(typeRecrutementsValue == "Stage" || typeRecrutementsValue == "Stage collège"){
             // réinitialise en temps complet par défaut
             fullTime[0].checked = "true";
             document.getElementById(namespace + "fullTimeDescription").value = "";
@@ -77,6 +78,11 @@ function initialise(){
         if(gradeRangeAutoFields != null)
             gradeRangeAutoFields.reset();
         gradeRangeFields.style.display="none";
+        if(typeRecrutementsValue == "Stage collège"){
+            niveauEtude.parentNode.style.display = "none";
+        }else{
+            niveauEtude.parentNode.style.display = "block";
+        }
         if(CKEDITOR.instances[namespace + "avantagesEditor"] != undefined)
             CKEDITOR.instances[namespace + "avantagesEditor"].setData("");
         avantages.style.display="none";
@@ -102,6 +108,7 @@ function initialise(){
         }else{
             gradeRangeFields.style.display="block";
         }
+        niveauEtude.parentNode.style.display = "block";
         avantages.style.display="block";
         ejobContact.parentNode.style.display="block";
     }
@@ -117,16 +124,17 @@ submitButton.onclick = function(event){
 
     var typeRecrutementsValue = typeRecrutements.children[typeRecrutements.selectedIndex].text;
     var isStage = typeRecrutementsValue === "Stage";
+    var isStageCollege = typeRecrutementsValue === "Stage collège";
     var isApprentissage = typeRecrutementsValue === "Apprentissage";
     var isVacataire = typeRecrutementsValue === "Vacataire";
-    if (!isStage && !isApprentissage && !isVacataire) {
+    if (!isStage && !isStageCollege && !isApprentissage && !isVacataire) {
         setFiliereConditionalValidators(event);
     }
-    // Validation des champos obligatoires conditionnels
+    // Validation des champs obligatoires conditionnels
     AUI().use('liferay-form',function() {
         var rules = Liferay.Form.get(namespace + 'fm').formValidator
                 .get('rules');
-        if (isStage) {
+        if (isStage || isStageCollege) {
             rules[namespace + 'fullTimeDescription'].required = false;
         } else {
             var fullTimeDescription = document.getElementById(namespace + "fullTimeDescription");
@@ -134,6 +142,16 @@ submitButton.onclick = function(event){
                 rules[namespace + 'fullTimeDescription'].required = true;
             } else {
                 rules[namespace + 'fullTimeDescription'].required = false;
+            }
+        }
+        if (isStageCollege) {
+            rules[namespace + 'ejobNiveauEtude'].required = false;
+        } else {
+            var ejobNiveauEtude = document.getElementById(namespace + "ejobNiveauEtude");
+            if (ejobNiveauEtude.value == "") {
+                rules[namespace + 'ejobNiveauEtude'].required = true;
+            } else {
+                rules[namespace + 'ejobNiveauEtude'].required = false;
             }
         }
     });

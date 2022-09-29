@@ -11,5 +11,7 @@ public interface StrasbourgPropsUtilService {
 
     public String getEJobURLOfferApply() ;
 
+    public String getEJobURLOfferStageCollegeApply() ;
+
     public String getEJobURLApply() ;
 }

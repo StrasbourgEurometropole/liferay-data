@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -127,10 +128,12 @@ public class SaveOfferActionCommand implements MVCActionCommand {
             }
 
             // Champ : ejobNiveauEtude
-            long ejobNiveauEtude = ParamUtil.getLong(request, "ejobNiveauEtude");
-            if (Validator.isNotNull(AssetCategoryLocalServiceUtil
-                    .fetchAssetCategory(ejobNiveauEtude))) {
-                categories.add(""+ejobNiveauEtude);
+            if(!StringHelper.compareIgnoringAccentuation(this.typeRecrutementString,"Stage college")) {
+                long ejobNiveauEtude = ParamUtil.getLong(request, "ejobNiveauEtude");
+                if (Validator.isNotNull(AssetCategoryLocalServiceUtil
+                        .fetchAssetCategory(ejobNiveauEtude))) {
+                    categories.add("" + ejobNiveauEtude);
+                }
             }
 
             // Champ : introduction
@@ -217,7 +220,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 categories.add(Long.toString(typePublication));
             }
 
-            if(!this.typeRecrutementString.equals("Stage")){
+            if(!this.typeRecrutementString.equals("Stage") && !StringHelper.compareIgnoringAccentuation(this.typeRecrutementString,"Stage college")){
                 // Champ : isFullTime
                 boolean isFullTime = ParamUtil.getBoolean(request,
                         "isFullTime");
@@ -422,7 +425,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // niveau d'étude
-        if (Validator.isNull(ParamUtil.getLong(request, "ejobNiveauEtude"))) {
+        if (!StringHelper.compareIgnoringAccentuation(this.typeRecrutementString.toLowerCase(),"stage college") && Validator.isNull(ParamUtil.getLong(request, "ejobNiveauEtude"))) {
             SessionErrors.add(request, "etude-error");
             isValid = false;
         }
@@ -486,7 +489,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
         }
 
         // si offre différente de stage
-        if(!this.typeRecrutementString.equals("Stage")) {
+        if(!this.typeRecrutementString.equals("Stage") && !StringHelper.compareIgnoringAccentuation(this.typeRecrutementString,"Stage college")) {
             // si temps complet
             if (Validator.isNull(ParamUtil.getBoolean(request, "isFullTime"))) {
                 SessionErrors.add(request, "full-time-error");
@@ -499,7 +502,7 @@ public class SaveOfferActionCommand implements MVCActionCommand {
                 isValid = false;
             }
 
-            // si offre différente de stage, d'apprentissage et de vacataire
+            // si offre différente de stage, stage collège, apprentissage et de vacataire
             if(!this.typeRecrutementString.equals("Apprentissage") && !this.typeRecrutementString.equals("Vacataire")) {
                 String indexes = ParamUtil.getString(request, "offerGradeRangeIndexes");
                 for (String index: indexes.split(",")) {
