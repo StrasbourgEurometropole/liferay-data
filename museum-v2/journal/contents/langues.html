@@ -1,0 +1,43 @@
+<ul class="accessibility-menu" role="nav">
+	<li class="access-item accessibility"><a href="http://www.musees.strasbourg.eu/personnes-en-situation-de-handicap" target="_self">Accessibilité </a></li>
+	<li class="access-item contact"><a href="https://www.musees.strasbourg.eu/contact-musees-de-strasbourg" id="Contact" name="Contact" target="_self"><span class="contact-text">Contact</span> </a></li>
+	<li class="access-item language">
+	<div class="language-menu"><a class="active-language" href="#dropdown">FR</a>
+	<ul role="nav">
+		<li class="fr_FR"><a href="https://www.musees.strasbourg.eu/">FR</a></li>
+		<li class="zh_CN"><a href="https://int.musees.strasbourg.eu/zh">CN</a></li>
+		<li class="de_DE"><a href="https://de.musees.strasbourg.eu">DE</a></li>
+		<li class="en_US"><a href="https://en.musees.strasbourg.eu">EN</a></li>
+		<li class="es_ES"><a href="https://int.musees.strasbourg.eu/es">ES</a></li>
+		<li class="it_IT"><a href="https://int.musees.strasbourg.eu/it">IT</a></li>
+		<li class="ja_JP"><a href="https://int.musees.strasbourg.eu/ja">JP</a></li>
+		<li class="nl_NL"><a href="https://int.musees.strasbourg.eu/nl">NL</a></li>
+		<li class="ru_RU"><a href="https://int.musees.strasbourg.eu/ru">RU</a></li>
+		<li class="lsf"><a href="https://int.musees.strasbourg.eu/lsf"><img alt="Langue des Signes Française" class="lsf-gris" src="/o/museum-theme/images/lsf/logo-officiel-lsf-gris-small.png" title="Langue des Signes Française" /> <img alt="Langue des Signes Française" class="lsf-blanc" src="/o/museum-theme/images/lsf/logo-officiel-lsf-blanc-small.png" title="Langue des Signes Française" /> </a></li>
+	</ul>
+	</div>
+	</li>
+</ul>
+<script>
+var currentLanguageId = Liferay.ThemeDisplay.getLanguageId();
+$('.' + currentLanguageId).addClass('active');
+</script>
+<style type="text/css">.portlet-journal-content .journal-content-article .lsf img{
+    max-height: 20px;
+}
+.lsf-blanc{
+    display: none;
+}
+.lsf.active .lsf-blanc{
+    display: block;
+}
+.lsf.active .lsf-gris{
+    display: none;
+}
+.lsf:hover .lsf-blanc, .lsf:active .lsf-blanc{
+    display: block;
+}
+.lsf:hover .lsf-gris, .lsf:active .lsf-gris{
+    display: none;
+}
+</style>
