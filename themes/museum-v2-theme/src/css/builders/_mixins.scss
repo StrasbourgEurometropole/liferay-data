@@ -5,32 +5,31 @@
             @content;
         }
     }
+    // >= 576
     @if $media == mobile_landscape {
         @media only screen and (min-width: #{$breakpoint_mobile_landscape}) {
             @content;
         }
     }    
+    // >= 768
     @if $media == tablet_portrait {
         @media screen and (min-width: #{$breakpoint_tablet_portrait}) {
             @content;
         }
     }
+    // >= 992
     @if $media == tablet_landscape {
         @media only screen and (min-width: #{$breakpoint_tablet_landscape}) {
             @content;
         }
     }
-    @if $media == not-tablet_landscape {
-        @media only screen and (max-width: #{$breakpoint_tablet_landscape - 0.01}) {
-            @content;
-        }
-    }
+    // >= 1200
     @if $media == desktop {
         @media only screen and (min-width: #{$breakpoint_desktop}) {
             @content;
         }
     }
-
+    // >= 1250
     @if $media == extra_large {
         @media only screen and (min-width: #{$breakpoint_extra_large}) {
             @content;
@@ -39,7 +38,7 @@
 }
 
 
-@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:""){
+@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:"", $style:""){
 	@if $family != "" {
 		font-family: $family;
 	}
@@ -54,6 +53,9 @@
 	}
 	@if $lineheight != "" {
 		line-height: $lineheight;
+	}
+	@if $style != "" {
+		font-style: $style;
 	}
 }
 

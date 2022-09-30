@@ -18,9 +18,12 @@
 		
 		<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 		<link type="text/css" rel="stylesheet" href="${css_folder}/museum-v2.css" media="screen" />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+
     	
 		<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 		<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 		<@liferay_util["include"] page=top_head_include />
 	</head>

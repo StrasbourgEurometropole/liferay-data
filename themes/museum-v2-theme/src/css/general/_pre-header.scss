@@ -1,7 +1,7 @@
 .header-top {
     display: none;
 
-    @include RWD(mobile_landscape){
+    @include RWD(tablet_portrait){
         display: block;
         background: $color_txt;
         height: 40px;
@@ -9,22 +9,6 @@
 
     .header-top-inner{
         padding: 0 20px;
-
-        @include RWD(tablet_landscape){
-            max-width: none;
-        }
-
-        @include RWD(tablet_landscape){
-            max-width: 960px;
-        }
-
-        @include RWD(desktop){
-            max-width: 1140px;
-        }
-
-        @include RWD(extra_large){
-            max-width: 1240px;
-        }
 
         .strasbourg-eu-logo {
             display: inline-block;
@@ -72,7 +56,7 @@
                         vertical-align: middle;
                         padding: 10px 13px 8px 13px;
                         height: 40px;
-                        @include ft($proximaNova, 0.875rem, 400, white, 1.25rem);
+                        @include ft($proximaNova, 0.875rem, 400, white, 1.25rem, "");
                     }
 
                     .language-menu {

@@ -13,6 +13,7 @@
 @import 'general/_footer';
 
 // Blocs (home)
+@import 'blocs/_bref';
 @import 'blocs/_list-expo';
 
 @import '_tarteaucitron';
@@ -28,13 +29,15 @@
 		display: none;
 	}
 
-    .portlet-journal-content .portlet{
-        margin-bottom: 0;
+    .portlet-journal-content, .portlet-asset-publisher{ 
+        .portlet{
+            margin-bottom: 0;
 
-        .portlet-header{
-            display: none;
+            .portlet-header{
+                display: none;
+            }
         }
-    }     
+    }   
 }
 
 @include RWD(extra_large){
@@ -44,5 +47,9 @@
 }
 
 .margin-bottom{
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+
+    @include RWD(tablet_portrait){
+        margin-bottom: 60px;
+    }
 }
