@@ -45,8 +45,8 @@
 			<header class="header-top">
 				<div class="header-top-inner container">
 					<div class="strasbourg-eu-logo">
-						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank">
-							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" alt="">
+						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu" title="strasbourg.eu">
+							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" alt="strasbourg.eu" title="strasbourg.eu">
 						</a>
 					</div>
 					<@liferay_portlet["runtime"]

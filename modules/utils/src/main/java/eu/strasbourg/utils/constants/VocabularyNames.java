@@ -19,6 +19,7 @@ public class VocabularyNames {
 	public static final String EDITION_TYPE = "type des editions";
 	public static final String EDITION_SOURCE = "source des editions";
 	public static final String MUSEUM = "musees";
+	public static final String ACTIVITY_TYPE_MUSEUM = "type d'activite";
 	public static final String ACTIVITY_TYPE = "type des activites";
 	public static final String ACTIVITY_COURSE_PUBLIC = "public de cours";
 	public static final String ACTIVITY_SERVICE = "service gestionnaire des activites";

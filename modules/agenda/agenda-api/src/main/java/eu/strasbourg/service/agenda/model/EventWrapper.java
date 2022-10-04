@@ -716,6 +716,24 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	/**
+	 * Retourne le type d'activité de l'événement
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getActivityType() {
+
+		return _event.getActivityType();
+	}
+
+	/**
+	 * Retourne le label du type d'activité de l'événement
+	 */
+	@Override
+	public String getActivityTypeLabel(java.util.Locale locale) {
+		return _event.getActivityTypeLabel(locale);
+	}
+
+	/**
 	 * Retourne les commentaires de l'entité
 	 */
 	@Override
@@ -1392,6 +1410,24 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	@Override
 	public Date getModifiedDateSource() {
 		return _event.getModifiedDateSource();
+	}
+
+	/**
+	 * Retourne les musées de l'événement
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getMuseums() {
+
+		return _event.getMuseums();
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'événement
+	 */
+	@Override
+	public String getMuseumsLabel(java.util.Locale locale) {
+		return _event.getMuseumsLabel(locale);
 	}
 
 	/**

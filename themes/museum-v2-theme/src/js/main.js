@@ -7,7 +7,7 @@
     });
 })(jQuery);
 
-// caroussel "En bref"
+// slider "En bref"
 const swiperBref = new Swiper('#bref .swiper', {
     // Optional parameters
     slidesPerView: 1,
@@ -35,3 +35,26 @@ const swiperBref = new Swiper('#bref .swiper', {
       }
     }
   });
+
+  // slider events
+  const swiperEvents = new Swiper('#events .swiper', {
+      // Optional parameters
+      slidesPerView: "auto",
+      spaceBetween: 30,
+      loop: false,
+    
+      // Navigation arrows
+      navigation: {
+        nextEl: '#events .swiper-button-next',
+        prevEl: '#events .swiper-button-prev',
+      },
+  
+      // Responsive breakpoints
+      breakpoints: {
+        // when window width is >= 640px
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 10,
+        }
+      }
+    });

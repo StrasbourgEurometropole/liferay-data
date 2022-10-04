@@ -14,6 +14,7 @@
 
 // Blocs (home)
 @import 'blocs/_bref';
+@import 'blocs/_list-events';
 @import 'blocs/_list-expo';
 
 @import '_tarteaucitron';
@@ -37,7 +38,136 @@
                 display: none;
             }
         }
-    }   
+    }  
+
+    a.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s, ease-out;
+
+            &:hover{
+                background: white;
+                color: $color_main;
+                text-decoration: none;
+            }
+        }
+    } 
+
+    button.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+
+        @include RWD(tablet_portrait){
+            border: none;
+            background: none;
+            width: 290px;
+            @include ft($proximaNova, 1rem, 400, $color_txt, 1.25rem, "");
+            outline: none;
+            z-index: 10;
+            padding: 0;
+            line-height: 60px;
+
+            span{
+                display: block;
+                position: relative;
+            }
+
+            .points{
+                &:before, &:after{
+                    content:'';
+                    position: absolute;
+                    width: 1px;
+                    height: 0;
+                    border: 5px solid $color_main;
+                    transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
+                }
+    
+                &:before{
+                    bottom:0;
+                    right: calc(50% - 2.5px);
+                    border-right: none;
+                    border-top: none;
+                }
+
+                &:after{
+                    top:0;
+                    left: calc(50% - 2.5px);
+                    border-left: none;
+                    border-bottom: none;
+                }
+
+            }
+            
+            .trait:before{
+                content:'';
+                position: absolute;
+                width: 1px;
+                opacity: 0;
+                bottom:0;
+                right: 0%;
+            }
+            
+            .background{
+                &:before{
+                    content:'';
+                    position: absolute;
+                    top: 0;
+                    left: -5px;
+                    width: 0;
+                    height: calc(100% - 5px);
+                    margin: 0 5px 5px;
+                    background-color: $color_main;
+                }
+                
+                span{
+                    color: black;
+                }
+            }
+
+            &:hover{
+                .points:before, .points:after{
+                    width: calc(50% + 2.5px);
+                    height: calc(100% - 5px);
+                    transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+                }
+
+                .trait:before{
+                    opacity: 1;
+                    border-bottom: 5px solid $color_main;
+                    width: calc(50%);
+                    transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
+                }
+
+                .background{
+                    &:before{
+                        width: calc(100% - 5px);
+                        transition: width 0.3s ease-out 0.3s;
+                    }
+
+                    span{
+                        color: white;
+                        transition: color 0.3s ease-out 0.3s;
+                    }
+                }
+            }
+        }
+    } 
 }
 
 @include RWD(extra_large){

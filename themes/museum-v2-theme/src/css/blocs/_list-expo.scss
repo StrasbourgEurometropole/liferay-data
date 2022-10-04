@@ -13,13 +13,13 @@
 
             @include RWD(tablet_portrait){
                 width: 66%;
+                max-width: 1050px;
             }
 
             img{
                 margin-top: 20px;
 
                 @include RWD(tablet_portrait){
-                    max-width: 1050px;
                     margin: 80px 0;
                     width: 100%;
                 }
@@ -68,17 +68,8 @@
                 }
             }
 
-            a{
-                @include positionAbsolute(2, translate(-50%, 50%), (left: 50%));        
-                display: block;
-                width: 215px;
-                padding: 15px 30px;
-                background: $color_main;
-                border: 1px solid $color_main;
-                text-align: center;
-                @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
-                text-transform: uppercase;
-                transition : background, 0.2s, ease-out;
+            a.button1{
+                @include positionAbsolute(2, translate(-50%, 50%), (left: 50%)); 
 
                 @include RWD(tablet_portrait){
                     position: relative;
