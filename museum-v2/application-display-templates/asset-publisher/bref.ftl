@@ -21,20 +21,22 @@
                                 <#assign date = docXml.valueOf("//dynamic-element[@name='date']/dynamic-content/text()") />
                                 <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
-                                <div class="swiper-slide bloc-bref">
-                        	        <p class="title">
-                        	            ${title}
-                        	        </p>
-                        	        <p class="chapo">
-                        	            ${chapo}
-                        	        </p>
-                        	        <p class="date">
-                        	            ${date?date("yyyy-MM-dd")?string("dd/MM/yyyy")}
-                        	        </p>
-                        	        <div class="paginate">
-                        	            <span class="first"></span>
-                        	            <span class="second"></span>
-                        	        </div>
+                                <div class="swiper-slide">
+                                    <div class="bref-thumbnail">
+                                        <p class="title">
+                                            ${title}
+                                        </p>
+                                        <p class="chapo">
+                                            ${chapo}
+                                        </p>
+                                        <p class="date">
+                                            ${date?date("yyyy-MM-dd")?string("dd/MM/yyyy")}
+                                        </p>
+                                        <div class="paginate">
+                                            <span class="first"></span>
+                                            <span class="second"></span>
+                                        </div>
+                    	            </div>
                     	        </div>
                             </#if>
                     	</#list>
