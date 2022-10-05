@@ -1,17 +1,29 @@
 #events{
-
     .content{
+        @include RWD(tablet_portrait){
+            padding: 0;
+        }
 
         h2{
             @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
             text-align: center;
             margin-bottom: 5px;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+            }
         }
 
         h3{
             @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
             text-align: center;
             margin-bottom: 15px;
+
+            @include RWD(tablet_portrait){
+                font-size: 2.25rem;
+                line-height: 3.25rem;
+            }
         }
 
         .slider{
@@ -20,6 +32,7 @@
             margin-bottom: 30px;
 
             .swiper{
+                position: static;
 
                 @include RWD(tablet_portrait){
                     padding-bottom: 15px;
@@ -42,13 +55,11 @@
 
                             &:hover{
                                 .info:after{ 
-                                    bottom: 20px; 
-                                    right: 20px;
+                                    transform: translate(-35px, -35px);
                                     background: white;
                                     background-image: url( svg-bg-uri($svg-plus, $color_main) );
                                     background-position: center;
                                     background-repeat: no-repeat;
-                                    transition : all, 0.2s, ease-out;
                                 }
                             }
                         }
@@ -60,6 +71,11 @@
                             @include positionAbsolute("", "", (top: 30px, left: -15px));
                             text-transform: uppercase;
                             max-width: 80%;
+                            
+                            @include RWD(tablet_portrait){
+                                font-size: 0.95rem;
+                                line-height: 1.1rem;
+                            }
                         }
 
                         .info{
@@ -89,7 +105,7 @@
                                     background-color: $color_main;
                                     bottom: -15px;
                                     right: -15px;
-                                    transition : all, 5s, ease-out;
+                                    transition: all 1s ease;
                                 }
                             }
 
@@ -97,11 +113,21 @@
                                 @include ft($proximaNova, 0.95rem, 700, white, 1.125rem, "");
                                 margin-bottom: 20px;
                                 text-transform: uppercase;
+                            
+                                @include RWD(tablet_portrait){
+                                    font-size: 1.05rem;
+                                    line-height: 1.25rem;
+                                }
                             }
         
                             .dates{
                                 @include ft($proximaNova, 0.875rem, 400, white, 1.05rem, "");
                                 margin-bottom: 20px;
+                            
+                                @include RWD(tablet_portrait){
+                                    font-size: 1rem;
+                                    line-height: 1.25rem;
+                                }
                             }
         
                             .museums{
@@ -111,6 +137,8 @@
 
                                 @include RWD(tablet_portrait){
                                     width: auto;
+                                    font-size: 1rem;
+                                    line-height: 1.25rem;
                                 }
 
                                 span{
@@ -121,6 +149,16 @@
                                 }
                             }
                         }
+                    }
+                }
+
+                .swipper-buttons {
+                    display: none;
+
+                    @include RWD(tablet_portrait){
+                        display: block;
+                        width: 93px;
+                        @include positionAbsolute("", "", (bottom: -50px, right: 33px));
                     }
                 }
             }

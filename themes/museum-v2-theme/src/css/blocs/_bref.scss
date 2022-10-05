@@ -18,6 +18,8 @@
 
             @include RWD(tablet_portrait){
                 margin: auto;
+                font-size: 3.75rem;
+                line-height: 4.25rem;
             }
         }
 
@@ -50,17 +52,32 @@
                         .title{
                             @include ft($proximaNova, 0.875rem, 700, $color_txt, 1rem, "");
                             margin-bottom: 10px;
+
+                            @include RWD(tablet_portrait){
+                                font-size: 1.15rem;
+                                line-height: 1.4rem;
+                            }
                         }
                 
                         .chapo{
                             @include ft($proximaNova, 0.875rem, 400, $color_txt, 1rem, "");
                             margin-bottom: 10px;
+
+                            @include RWD(tablet_portrait){
+                                font-size: 0.95rem;
+                                line-height: 1.25rem;
+                            }
                         }
                 
                         .date{
                             @include ft($proximaNova, 0.875rem, 400, $color_txt, 1rem, "");
                             margin-bottom: 0;
                             margin-top: auto;
+
+                            @include RWD(tablet_portrait){
+                                font-size: 1.05rem;
+                                line-height: 1.25rem;
+                            }
                         }
 
                         .paginate{
@@ -128,34 +145,11 @@
                         }
                     }
                 }
-
-                .swiper-button-next, .swiper-button-prev { 
-                    height: 37px;
-                    width: 37px;
-                    background-color: $color_main;
-                    border-radius: 50%;
-                    color: white;
-
+                
+                .swiper-button-next, .swiper-button-prev {             
                     @include RWD(tablet_portrait){
                         display: none;
                     }
-
-                    &.swiper-button-disabled{
-                        display: none;
-                    }
-
-                    &:after{
-                        font-size: 0.875rem;
-                        font-weight: 700;
-                    }
-                }
-
-                .swiper-button-prev { 
-                    left: -18px;
-                }
-
-                .swiper-button-next{ 
-                    right: -18px;
                 }
             }
         }

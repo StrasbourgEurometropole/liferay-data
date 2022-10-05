@@ -16,6 +16,7 @@
 @import 'blocs/_bref';
 @import 'blocs/_list-events';
 @import 'blocs/_list-expo';
+@import 'blocs/_list-news';
 
 @import '_tarteaucitron';
 
@@ -40,6 +41,7 @@
         }
     }  
 
+    // bouton rouge
     a.button1{      
         display: block;
         width: 215px;
@@ -54,6 +56,8 @@
         @include RWD(tablet_portrait){
             width: 260px;
             transition : all, 0.2s, ease-out;
+            font-size: 0.95rem;
+            line-height: 1.1rem;
 
             &:hover{
                 background: white;
@@ -63,6 +67,7 @@
         }
     } 
 
+    // bouton blanc avec animation sur le border
     button.button1{      
         display: block;
         width: 215px;
@@ -77,11 +82,10 @@
             border: none;
             background: none;
             width: 290px;
-            @include ft($proximaNova, 1rem, 400, $color_txt, 1.25rem, "");
+            @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
             outline: none;
             z-index: 10;
             padding: 0;
-            line-height: 60px;
 
             span{
                 display: block;
@@ -168,6 +172,30 @@
             }
         }
     } 
+
+    // boutons sliders
+    .swiper-button-next, .swiper-button-prev { 
+        height: 37px;
+        width: 37px;
+        background-color: $color_main;
+        border-radius: 50%;
+        color: white;
+
+        &.swiper-button-disabled{
+            display: none;
+        }
+
+        &:after{
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+    }
+    .swiper-button-prev { 
+        left: -18px;
+    }
+    .swiper-button-next{ 
+        right: -18px;
+    }
 }
 
 @include RWD(extra_large){
