@@ -40,10 +40,10 @@
                     	</#list>
                     </div>
                     
-                    <#if entries?size gt 4>
+                    <div class="swipper-buttons">
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
-                    </#if>
+                    </div>
                 </div>
             </div>
             
