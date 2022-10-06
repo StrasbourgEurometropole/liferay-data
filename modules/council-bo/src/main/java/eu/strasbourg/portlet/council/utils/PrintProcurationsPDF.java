@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -283,7 +284,8 @@ public class PrintProcurationsPDF {
 
             String fileName = "";
             if (Validator.isNotNull(council)) {
-                fileName += council.getTypeCouncil().getTitle();
+                // Supprime les accents qui posent souci sur la création de fichier
+                fileName += Normalizer.normalize(council.getTypeCouncil().getTitle(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");;
             }
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
             fileName += " " + sdf.format(council.getDate()) + "_procurations_history_" +

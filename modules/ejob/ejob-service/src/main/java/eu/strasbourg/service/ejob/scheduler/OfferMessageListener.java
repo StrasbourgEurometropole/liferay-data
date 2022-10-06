@@ -23,6 +23,7 @@ import eu.strasbourg.service.ejob.service.AlertLocalService;
 import eu.strasbourg.service.ejob.service.OfferLocalService;
 import eu.strasbourg.service.office.exporter.api.OffersCsvExporter;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.GlobalConstants;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -85,11 +86,11 @@ public class OfferMessageListener
 		List<Offer> offersNotExported = _offerLocalService.findOffersNotExported();
 
 		// on ne prend que les offres validées
-		// on ne prend pas les stages ni les apprentissages
+		// on ne prend pas les stages, les stage collège ni les apprentissages
 		// on ne prend que les offres dont la date du jour est comprise  entre le début et la fin de la date de publication
 		offersNotExported = offersNotExported.stream()
 				.filter(o -> o.getStatus() == WorkflowConstants.STATUS_APPROVED)
-				.filter(o -> !o.getTypeRecrutement().getName().equals("Stage") && !o.getTypeRecrutement().getName().equals("Apprentissage"))
+				.filter(o -> !o.getTypeRecrutement().getName().equals("Stage") && !StringHelper.compareIgnoringAccentuation(o.getTypeRecrutement().getName().toLowerCase(), "stage college") && !o.getTypeRecrutement().getName().equals("Apprentissage"))
 				.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
 				.collect(Collectors.toList());
 		log.info("NB d'offre à exporter : " + offersNotExported.size());
