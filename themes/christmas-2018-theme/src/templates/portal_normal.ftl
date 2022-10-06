@@ -11,7 +11,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,minimal-ui">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2, user-scalable=yes,minimal-ui">
     <meta name="author" content="Agence Thuria">
     <title>${the_title}</title>
 
@@ -192,7 +192,7 @@
     
     <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
     <div class="social-share">
-        <input class="toggle-input" id="toggle-input" type="checkbox" /> 
+        <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Partagez sur les réseaux sociaux"/> 
         <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
           <span>Réseaux sociaux</span>
         </label>
