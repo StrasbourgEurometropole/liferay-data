@@ -60,8 +60,10 @@
                                                     </#list>
                                                     <span>
                                                         ${curEntry.categories?first.getTitle(locale)}
-                                                        <#if nbMusees gt 1>
+                                                        <#if nbMusees gt 2>
                                                             <@liferay_ui["message"] key="eu.museum.and-x" arguments="${nbMusees - 1}"/>
+                                                        <#elseif nbMusees gt 1>
+                                                            <@liferay_ui["message"] key="eu.museum.and"/>
                                                         </#if>
                                                     </span>
                                                     <ul class="list-museums">
@@ -70,7 +72,7 @@
                                                 </#if>
                                             </div>
                                             <p class="title">
-                                                ${title}
+                                                <span>${title}</span>
                                             </p>
                                         </div>
                     	            </a>

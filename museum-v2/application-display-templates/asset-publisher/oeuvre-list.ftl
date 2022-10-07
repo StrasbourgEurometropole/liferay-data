@@ -8,8 +8,11 @@
 
 <section id="oeuvre">
     <div  class="content container">
-        <h2><@liferay_ui.message key="eu.museum.collection" /></h2>
-        <p><@liferay_ui.message key="eu.museum.collection.description" /></p>
+        <div class="infos">
+            <h2><@liferay_ui.message key="eu.museum.collection" /></h2>
+            <p><@liferay_ui.message key="eu.museum.collection.description" /></p>
+            <a href="" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
+        </div>
         <#if entries?has_content>
             <div class="list">
         	    <#list entries as curEntry>
@@ -53,6 +56,5 @@
                 </#list>
             </div>
         </#if>
-        <a href="" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
     </div>
 </section>

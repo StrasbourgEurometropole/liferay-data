@@ -65,8 +65,7 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "link-to-page",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
             "name": "link",
@@ -74,7 +73,7 @@
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-link-to-page"
+            "type": "text"
         }
     ]
 }
