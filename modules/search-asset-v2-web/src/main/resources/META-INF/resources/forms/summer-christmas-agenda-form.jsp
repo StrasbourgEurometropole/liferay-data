@@ -18,10 +18,20 @@
 	
 	<!-- Champ date -->
 	<c:if test="${dc.dateField}">
+
 		<div class="row form-group date-selection">
 			<div class="mns-label-top">
 				<label><liferay-ui:message key="eu.dates" /></label>
 			</div>
+
+            <c:if test="${dc.displayDatesButtons}">
+                <div class="buttons">
+                    <a id="today" class="mns-btn"><liferay-ui:message key="today" /></a>
+                    <a id="tomorrow" class="mns-btn"><liferay-ui:message key="tomorrow" /></a>
+                    <a id="week-end" class="mns-btn"><liferay-ui:message key="eu.this-week-end" /></a>
+                </div>
+            </c:if>
+
 			<span class="mns-ico-date">
                 <input name="from" data-type="date" type="text" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
                     value="${dc.fromDay}/${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}/${dc.fromYear}">
@@ -40,14 +50,6 @@
                 <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
 			</span>
 		</div>
-
-        <c:if test="${dc.displayDatesButtons}">
-            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; align-items: center;">
-                <input type="button" id="today" value="<liferay-ui:message key="today" />">
-                <input type="button" id="tomorrow" value="<liferay-ui:message key="tomorrow" />">
-                <input type="button" id="week-end" value="<liferay-ui:message key="eu.this-week-end" />">
-            </div>
-        </c:if>
 	</c:if>
 	
 	<!-- Vocabulaires -->
@@ -87,3 +89,29 @@
 <liferay-util:html-bottom>
 	<script src="/o/searchassetv2web/js/bloc-date.js"></script>
 </liferay-util:html-bottom>
+
+
+<style>
+    .mns-p-list-agenda .mns-z-filtres-search .buttons{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+
+    .mns-p-list-agenda .mns-z-filtres-search .buttons .mns-btn{
+        border: solid 1px #baa56f;
+        text-align: center;
+    }
+
+    .mns-p-list-agenda .mns-z-filtres-search .buttons .mns-btn.active{
+        background: #baa56f;
+        color: white;
+    }
+
+    @media only screen and (max-width: 767px){
+        .mns-p-list-agenda .mns-z-filtres-search .buttons .msn-btn{
+            width: 100%;
+        }
+    }
+</style>

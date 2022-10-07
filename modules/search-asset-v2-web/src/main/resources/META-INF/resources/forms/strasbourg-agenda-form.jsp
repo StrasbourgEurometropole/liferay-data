@@ -1,8 +1,11 @@
 <%@ include file="/search-asset-init.jsp"%>
 <div class="seu-filter-block">
-    <div class="title">
-        <label><liferay-ui:message key="eu.event.by-date" /></label>
-    </div>
+
+    <c:if test="${dc.displayDatesButtons}">
+        <div class="title">
+            <label><liferay-ui:message key="eu.event.by-date" /></label>
+        </div>
+    </c:if>
     <div class="seu-filter-line seu-filter-line-date">
         <c:if test="${dc.displayDatesButtons}">
             <div class="seu-filter-line">
@@ -203,6 +206,15 @@
         color: #31455d;
         font-weight: 600;
         margin-right: 10px;
+        align-self: center;
+    }
+
+    #today.active .seu-btn-text, #tomorrow.active .seu-btn-text, #week-end.active .seu-btn-text{
+        color: white;
+    }
+
+    #today.active:before, #tomorrow.active:before, #week-end.active:before{
+        height: 100%;
     }
 
     @media only screen and (min-width: 768px){
@@ -232,15 +244,22 @@
         .seu-view-filters .seu-filter-line-date .seu-filter-line:only-child{
             padding-left: 0;
             border: none;
-            flex-grow: 0;
+            justify-content: flex-start;
+            width: 100%;
+            margin-right: 0;
+        }
+
+        .seu-view-filters .seu-filter-line-date .seu-filter-line:only-child .type-date{
+            display: block;
+            width: calc(25% - 15px);
+        }
+
+        .seu-view-filters .seu-filter-line-date .seu-filter-line:only-child .type-date:after{
+            top: calc(100% - 25px);
         }
 
         .seu-view-filters .seu-filter-line-date .seu-filter-line .button{
             width: auto;
-        }
-
-        .seu-view-filters .seu-filter-line-date .seu-filter-line .button button{
-            padding: 15px 0;
         }
 
         .seu-view-filters .seu-filter-line-date .seu-filter-line .type-date{
@@ -264,15 +283,22 @@
         .seu-view-filters .advanced .seu-filter-line .widget{
             width: calc(100% / 3 - 15px);
         }
+
+        .seu-view-filters .advanced .seu-btn-square{
+            height: 50px;
+            align-self: flex-end;
+        }
     }
 
     @media only screen and (max-width: 767px){
         .seu-view-filters .seu-filter-line-date .seu-filter-line:first-child{
             margin-bottom: 20px;
+            justify-content: space-around;
         }
 
         .seu-view-filters .seu-filter-line-date .seu-filter-line .button{
             text-align: center;
+            width: auto !important;
         }
 
         .seu-view-filters .advanced .seu-filter-line:first-child{

@@ -15,12 +15,4 @@
   .help-pagination .selectric > span.label {
     border-style: none;
   }
-
-  #today.active .seu-btn-text, #tomorrow.active .seu-btn-text, #week-end.active .seu-btn-text{
-    color: white;
-  }
-
-  #today.active:before, #tomorrow.active:before, #week-end.active:before{
-    height: 100%;
-  }
 }
