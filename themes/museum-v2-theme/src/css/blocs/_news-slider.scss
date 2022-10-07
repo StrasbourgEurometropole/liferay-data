@@ -167,7 +167,6 @@
         
                             .museums{
                                 @include ft($proximaNova, 0.875rem, 400, white, 1.25rem, "");
-                                width: calc(100% - 35px);
                                 position: relative;
                                 margin-bottom: 10px;
 
@@ -206,10 +205,18 @@
                                 @include ft($proximaNova, 0.8rem, 700, white, 0.95rem, "");
                                 text-transform: uppercase;
                                 margin-bottom: 0;
+                                width: calc(100% - 35px);
 
                                 @include RWD(tablet_portrait){
                                     font-size: 1rem;
                                     line-height: 1.25rem;
+                                }
+
+                                span{
+                                    overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 3;
+                                    -webkit-box-orient: vertical;
                                 }
                             }
                         }

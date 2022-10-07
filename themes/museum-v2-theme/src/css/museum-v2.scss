@@ -13,10 +13,11 @@
 @import 'general/_footer';
 
 // Blocs (home)
-@import 'blocs/_bref';
-@import 'blocs/_list-events';
-@import 'blocs/_list-expo';
-@import 'blocs/_list-news';
+@import 'blocs/_en-bref-slider';
+@import 'blocs/_event-slider';
+@import 'blocs/_expo';
+@import 'blocs/_news-slider';
+@import 'blocs/_oeuvre-list';
 
 @import '_tarteaucitron';
 
@@ -31,7 +32,7 @@
 		display: none;
 	}
 
-    .portlet-journal-content, .portlet-asset-publisher{ 
+    *{ 
         .portlet{
             margin-bottom: 0;
 

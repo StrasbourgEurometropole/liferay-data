@@ -95,31 +95,32 @@
                                     width: 12px;
                                     height: 12px;
                                     opacity: 1;
+                                    box-shadow: 0px 3px 5px 1px #{$color_second}9;
                                 }
                             }
                         }
+                    }
 
-                        &:first-child{
-                            .paginate {                     
-                                .first{
-                                    background: $color_main;
-                                }
-        
-                                .second{
-                                    background: $color_third;
-                                }
+                    &:first-child{
+                        .paginate {                     
+                            .first{
+                                background: $color_main;
+                            }
+    
+                            .second{
+                                background: $color_third;
                             }
                         }
-        
-                        &:last-child{
-                            .paginate {                     
-                                .first{
-                                    background: $color_third;
-                                }
-        
-                                .second{
-                                    background: $color_main;
-                                }
+                    }
+    
+                    &:last-child{
+                        .paginate {                     
+                            .first{
+                                background: $color_third;
+                            }
+    
+                            .second{
+                                background: $color_main;
                             }
                         }
                     }

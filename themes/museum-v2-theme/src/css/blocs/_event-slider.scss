@@ -118,6 +118,13 @@
                                     font-size: 1.05rem;
                                     line-height: 1.25rem;
                                 }
+
+                                span{
+                                    overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 3;
+                                    -webkit-box-orient: vertical;
+                                }
                             }
         
                             .dates{
