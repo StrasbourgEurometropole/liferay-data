@@ -285,4 +285,14 @@ public class JSONHelper {
         }
     }
 
+
+    public static long[] convertJSONArraytoLongArray (JSONArray jsonArray) {
+        long[] results = new long[jsonArray.length()];
+
+        for (int i = 0 ; i < jsonArray.length() ; i++)
+            results[i] = jsonArray.getLong(i);
+
+        return results;
+    }
+
 }
