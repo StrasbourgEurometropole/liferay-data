@@ -74,4 +74,9 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 		return FileEntryHelper.getPictoForVocabulary(nomRepertoireVocabulaire, nomRepertoire);
 	}
 
+	@Override
+	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire) throws PortalException {
+		return FileEntryHelper.getRandomFileURLByGroupIdAndFolderName(groupId, nomRepertoire);
+	}
+
 }

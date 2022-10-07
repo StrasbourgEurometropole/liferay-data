@@ -1,0 +1,20 @@
+#global{
+    .header{
+        background: no-repeat center center /cover;
+        height: 200px;
+
+        @include RWD(tablet_portrait){
+            height: 800px;
+        }
+
+        h1{
+            @include ft($times, 1.625rem, 400, white, 1.875rem, italic);
+            @include positionAbsolute(1, translate(-50%, -50%), (top: 50%, left: 50%));
+
+            @include RWD(tablet_portrait){
+                font-size: 4.75rem;
+                line-height: 5.4375rem;
+            }
+        }
+    }
+}
