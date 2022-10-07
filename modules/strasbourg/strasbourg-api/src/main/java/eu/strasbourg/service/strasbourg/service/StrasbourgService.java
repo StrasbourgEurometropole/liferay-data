@@ -92,20 +92,20 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCategoriesPois(
-			String categories, String vocabulariesEmptyIds, String prefilters,
-			String tags, long groupId, String typeContenu, boolean dateField,
-			String fromDate, String toDate, String localeId, long globalGroupId);
+		String categories, String vocabulariesEmptyIds, String prefilters,
+		String tags, long groupId, String typeContenu, boolean dateField,
+		String fromDate, String toDate, String localeId, long globalGroupId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(
-			String address, String zipCode, String city);
+		String address, String zipCode, String city);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCopyright(long groupId, String uuid, String language);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFavoritesPois(
-			long groupId, String typeContenu, String localeId);
+		long groupId, String typeContenu, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFileDetails(
