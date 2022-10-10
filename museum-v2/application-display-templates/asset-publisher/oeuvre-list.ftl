@@ -14,7 +14,7 @@
             <a href="" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
         </div>
         <#if entries?has_content>
-            <div class="list">
+            <div id="listCollections" class="list">
         	    <#list entries as curEntry>
                     <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                         <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
