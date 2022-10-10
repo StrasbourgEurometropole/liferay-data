@@ -9,20 +9,19 @@
 @import 'builders/_svg-factory';
 
 // General (global CSS)
-@import 'general/_pre-header';
-@import 'general/_header';
 @import 'general/_footer';
+@import 'general/_pre-header';
 
 // Blocs (home)
 @import 'blocs/_en-bref-slider';
 @import 'blocs/_event-slider';
 @import 'blocs/_expo';
+@import 'blocs/_header';
 @import 'blocs/_news-slider';
 @import 'blocs/_oeuvre-list';
+@import 'blocs/_rubric';
 
 @import '_tarteaucitron';
-
-
 
 #global{
     .signed-in & {
