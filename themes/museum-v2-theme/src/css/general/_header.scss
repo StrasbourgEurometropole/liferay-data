@@ -16,5 +16,21 @@
                 line-height: 5.4375rem;
             }
         }
+        
+        .menu{
+           display: none;
+
+           @include RWD(tablet_portrait){
+                display: block;
+                @include positionAbsolute("", translateX(-50%), (bottom: 0, left: 50%));
+
+                .quicklinks{
+                    display: flex;
+                    gap: 40px;
+                    background: white;
+                    padding: 80px 165px;
+                }
+           } 
+        }
     }
 }
