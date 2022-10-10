@@ -35,7 +35,6 @@
 			seu-not-front
 		</#if>
 	">
-		<script src="/o/museum-v2-theme/js/vendors/jquery.magnific-popup.min.js"></script>
 
 		<@liferay_ui["quick-access"] contentId="#main-content" />
 		<@liferay_util["include"] page=body_top_include />
@@ -82,8 +81,7 @@
 		<script>
 			window.homeURL = '${homeURL}';
 		</script>
-		<script src="/o/museum-v2-theme/js/vendors/owl.carousel.min.js"></script>
-		<script src="/o/museum-v2-theme/js/vendors/jquery.dotdotdot.min.js"></script>
+		<script src="/o/museum-v2-theme/js/vendors/masonry.pkgd.min.js"></script>
 
 		<@liferay_util["include"] page=body_bottom_include />
 		<@liferay_util["include"] page=bottom_include />

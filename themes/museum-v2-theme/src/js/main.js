@@ -74,22 +74,38 @@ const enableSwiperNews = function() {
   });
 };
 
+// liste collections
+let listCollectionsMasonry;
+const enableListCollectionsMasonry = function() {
+  listCollectionsMasonry = new Masonry('#listCollections', {
+    itemSelector: '.oeuvre-thumbnail',
+    gutter: 40,
+    percentPosition: true
+  });
+};
+
+
 // vérifie si on est en mode smartphone/tablette portrait ou desktop/tablette paysage
 const breakpointTabletLandscape = window.matchMedia( '(min-width:992px)' );
 const tabletLandscapeOrDesktopChecker = function() {
-  // Si on est en mode DESKTOP ou tablette paysage
   if ( breakpointTabletLandscape.matches === true ) {
-    //Si le slider existe, on le tue
-    if ( swiperNews !== undefined ) swiperNews.destroy( true, true );
-    // or/and do nothing
+    // On est en mode DESKTOP ou tablette paysage
+    enableListCollectionsMasonry();
+
+    if ( swiperNews !== undefined )
+      swiperNews.destroy( true, true );
     return;
-  // Si on est en mode mobile ou tablette portrait
   } else {
-    return enableSwiperNews();
+    // On est en mode mobile ou tablette portrait
+    if (listCollectionsMasonry !== undefined)
+      listCollectionsMasonry.destroy();
+      
+    enableSwiperNews();
+    return;
   }
 };
 
 // keep an eye on viewport size changes
 breakpointTabletLandscape.addListener(tabletLandscapeOrDesktopChecker);
 // kickstart
-tabletLandscapeOrDesktopChecker();
+window.onload = tabletLandscapeOrDesktopChecker();
