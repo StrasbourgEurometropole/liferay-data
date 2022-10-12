@@ -10,16 +10,19 @@
 
 // General (global CSS)
 @import 'general/_footer';
+@import 'general/_header';
 @import 'general/_pre-header';
 
-// Blocs (home)
-@import 'blocs/_en-bref-slider';
-@import 'blocs/_event-slider';
-@import 'blocs/_expo';
-@import 'blocs/_header';
-@import 'blocs/_news-slider';
-@import 'blocs/_oeuvre-list';
-@import 'blocs/_rubric';
+// Blocs
+@import 'blocs/_breadcrumbs';
+
+// sections
+@import 'sections/_en-bref-slider';
+@import 'sections/_event-slider';
+@import 'sections/_expo';
+@import 'sections/_news-slider';
+@import 'sections/_oeuvre-list';
+@import 'sections/_rubric';
 
 @import '_tarteaucitron';
 
@@ -38,6 +41,10 @@
 
             .portlet-header{
                 display: none;
+            }
+
+            .portlet-content{
+                border: none;
             }
         }
     }  

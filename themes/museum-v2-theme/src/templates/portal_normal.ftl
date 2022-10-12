@@ -41,7 +41,7 @@
 		<@liferay.control_menu />
 
 		<div id="global">
-			<header class="header-top">
+			<header id="header-top">
 				<div class="header-top-inner container">
 					<div class="strasbourg-eu-logo">
 						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu" title="strasbourg.eu">
@@ -56,7 +56,7 @@
 				</div>
 			</header>
 
-			<main>
+			<main id="main">
 				<#if selectable>
 					<@liferay_util["include"] page=content_include />
 				<#else>
@@ -68,7 +68,7 @@
 				</#if>
 			</main>
 
-			<footer>
+			<footer id="footer">
 				<@liferay_portlet["runtime"]
 				portletProviderAction=portletProviderAction.VIEW
 				portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"

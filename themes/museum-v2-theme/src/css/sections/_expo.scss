@@ -55,16 +55,17 @@
                 margin-left: calc(50% - 605px);
             }
 
-            .title{
-                @include ft($proximaNova, 1.05rem, 400, white, 1.25rem, "");
-            }
-
             h2{
-                @include ft($times, 1.875rem, 400, white, 1.25rem, italic);
+                @include ft($times, 1.875rem, 400, white, 2.25rem, italic);
 
                 @include RWD(tablet_portrait){
                     font-size: 3.75rem;
                     line-height: 4.25rem;
+                }
+
+                span{
+                    @include ft($proximaNova, 1.05rem, 400, white, 1.25rem, "");
+                    display: block;
                 }
             }
 

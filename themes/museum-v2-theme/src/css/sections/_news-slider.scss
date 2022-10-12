@@ -35,25 +35,24 @@
         h2{
             @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
             text-align: center;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
 
             @include RWD(tablet_portrait){
                 font-size: 3.75rem;
                 line-height: 4.25rem;
                 text-align: start;
-            }
-        }
-
-        h3{
-            @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
-            text-align: center;
-            margin-bottom: 15px;
-
-            @include RWD(tablet_portrait){
-                font-size: 2.25rem;
-                line-height: 3.25rem;
-                text-align: start;
                 margin-bottom: 35px;
+            }
+
+            span{
+                @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
+                display: block;
+    
+                @include RWD(tablet_portrait){
+                    font-size: 2.25rem;
+                    line-height: 3.25rem;
+                    margin-bottom: 35px;
+                }
             }
         }
 
