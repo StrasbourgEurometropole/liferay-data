@@ -5,11 +5,11 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
 <section id="events" class="margin-bottom">
     <div  class="content container">
-        <h2><@liferay_ui.message key="eu.museum.moment" /></h2>
-        <h3><@liferay_ui.message key="eu.museum.museums" /></h3>
+        ${portletHelper.getPortletTitle('event', renderRequest)}
         <#if entries?has_content>
             <div class="slider">
                 <div class="swiper">

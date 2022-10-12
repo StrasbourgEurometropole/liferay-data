@@ -8,7 +8,6 @@
 
 <section id="rubric" class="margin-bottom">
     <div  class="content container">
-        <h1>${layout.getName(locale)}</h1>
         <#if entries?has_content>
             <div class="list">
                 <#list entries as currentPage>

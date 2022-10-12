@@ -1,5 +1,6 @@
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
+<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
 <section id="news" class="margin-bottom">
     <div  class="content container">
@@ -16,8 +17,7 @@
             </span>
         </button>
         
-        <h2><@liferay_ui.message key="eu.museum.news" /></h2>
-        <h3><@liferay_ui.message key="eu.museum.news-museums" /></h3>
+        ${portletHelper.getPortletTitle('news', renderRequest)}
 
         <#if entries?has_content>
             <div class="slider">
