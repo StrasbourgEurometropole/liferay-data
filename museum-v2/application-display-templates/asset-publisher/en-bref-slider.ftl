@@ -30,7 +30,9 @@
                                             ${chapo}
                                         </p>
                                         <p class="date">
-                                            ${date?date("yyyy-MM-dd")?string("dd/MM/yyyy")}
+                                            <#if date?has_content>
+                                                ${date?date("yyyy-MM-dd")?string("dd/MM/yyyy")}
+                                            </#if>
                                         </p>
                                         <div class="paginate">
                                             <span class="first"></span>

@@ -17,7 +17,7 @@
             </span>
         </button>
         
-        ${portletHelper.getPortletTitle('eu.museum.news', renderRequest)}
+        <h2>${portletHelper.getPortletTitle('eu.museum.news', renderRequest)}</h2>
 
         <#if entries?has_content>
             <div class="slider">

@@ -9,7 +9,7 @@
 
 <section id="events" class="margin-bottom">
     <div  class="content container">
-        ${portletHelper.getPortletTitle('eu.museum.moment', renderRequest)}
+        <h2>${portletHelper.getPortletTitle('eu.museum.moment', renderRequest)}</h2>
         <#if entries?has_content>
             <div class="slider">
                 <div class="swiper">
