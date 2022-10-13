@@ -26,9 +26,11 @@
 
             <c:if test="${dc.displayDatesButtons}">
                 <div class="buttons">
-                    <a id="today" class="mns-btn"><liferay-ui:message key="today" /></a>
-                    <a id="tomorrow" class="mns-btn"><liferay-ui:message key="tomorrow" /></a>
-                    <a id="week-end" class="mns-btn"><liferay-ui:message key="eu.this-week-end" /></a>
+                    <c:set var="dateSelected" value="${dc.dateSelected}" />
+                    <input type="hidden" name="<portlet:namespace />dateSelected" value="" />" />
+                    <a id="today" class="mns-btn ${dateSelected == 'today' ? 'active' : ''}"><liferay-ui:message key="today" /></a>
+                    <a id="tomorrow" class="mns-btn ${dateSelected == 'tomorrow' ? 'active' : ''}"><liferay-ui:message key="tomorrow" /></a>
+                    <a id="week-end" class="mns-btn ${dateSelected == 'week-end' ? 'active' : ''}"><liferay-ui:message key="eu.this-week-end" /></a>
                 </div>
             </c:if>
 

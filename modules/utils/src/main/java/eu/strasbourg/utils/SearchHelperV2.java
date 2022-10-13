@@ -510,7 +510,7 @@ public class SearchHelperV2{
 
 		// Si le id SIG du lieu est renseigné on rajoute la condition à la requête
 		if(Validator.isNotNull(placeSigId)) {
-			TermQuery placeQuery = queries.term("idSIGPlace", placeSigId);
+			MatchQuery placeQuery = queries.match("idSIGPlace", placeSigId);
 			query.addMustQueryClauses(placeQuery);
 		}
 
