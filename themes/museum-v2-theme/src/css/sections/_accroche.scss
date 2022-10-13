@@ -1,0 +1,16 @@
+#accroche{
+    .content{
+
+        h2{
+            @include ft($times, 1.125rem, 400, $color_main, 21px, italic);
+            margin-bottom: 20px;
+        }
+
+        .description{
+            @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+            padding: 0 20px;
+            margin-bottom: 20px;
+
+        }
+    }
+}

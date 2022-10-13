@@ -38,6 +38,7 @@ const swiperEvents = new Swiper('#events .swiper', {
   // Optional parameters
   slidesPerView: "auto",
   spaceBetween: 30,
+  centeredSlides: true,
   loop: false,
 
   // Navigation arrows
@@ -52,6 +53,7 @@ const swiperEvents = new Swiper('#events .swiper', {
     768: {
       slidesPerView: 4,
       spaceBetween: 10,
+      centeredSlides: false,
     }
   }
 });
@@ -84,6 +86,27 @@ const enableListCollectionsMasonry = function() {
   });
 };
 
+// slider entete des musées
+let swiperHeaderMuseum;
+const enableSwiperHEaderMuseum = function() {
+  swiperHeaderMuseum = new Swiper('#headerMuseum .swiper', {
+    // Optional parameters
+    slidesPerView: 1,
+    loop: true,
+    autoplay: {
+      delay: 4000,
+      disableOnInteraction: true
+    },
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '#headerMuseum .swiper-button-next',
+      prevEl: '#headerMuseum .swiper-button-prev',
+    },
+
+  });
+};
+
 
 // vérifie si on est en mode smartphone/tablette portrait ou desktop/tablette paysage
 const breakpointTabletLandscape = window.matchMedia( '(min-width:992px)' );
@@ -94,6 +117,8 @@ const tabletLandscapeOrDesktopChecker = function() {
 
     if ( swiperNews !== undefined )
       swiperNews.destroy( true, true );
+
+      enableSwiperHEaderMuseum();
     return;
   } else {
     // On est en mode mobile ou tablette portrait
@@ -101,6 +126,9 @@ const tabletLandscapeOrDesktopChecker = function() {
       listCollectionsMasonry.destroy();
       
     enableSwiperNews();
+
+    if ( swiperHeaderMuseum !== undefined )
+      swiperHeaderMuseum.destroy( true, true );
     return;
   }
 };

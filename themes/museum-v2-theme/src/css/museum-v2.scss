@@ -1,14 +1,14 @@
-// Config (global vars for the project)
+// Config
 @import 'config/_variables';
 @import 'config/_svg';
 
-//Builders (no css generated)
+//Builders
 @import 'builders/_fonts';
 @import 'builders/_mixins';
 @import 'builders/_quark-animation-hoverBar';
 @import 'builders/_svg-factory';
 
-// General (global CSS)
+// General
 @import 'general/_footer';
 @import 'general/_header';
 @import 'general/_pre-header';
@@ -17,9 +17,13 @@
 @import 'blocs/_breadcrumbs';
 
 // sections
+@import 'sections/_accroche';
 @import 'sections/_en-bref-slider';
 @import 'sections/_event-slider';
-@import 'sections/_expo';
+@import 'sections/_expo-list';
+@import 'sections/_expos';
+@import 'sections/_header-museum';
+@import 'sections/_info';
 @import 'sections/_news-slider';
 @import 'sections/_oeuvre-list';
 @import 'sections/_rubric';

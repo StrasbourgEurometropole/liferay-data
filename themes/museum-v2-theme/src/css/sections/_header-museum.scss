@@ -1,0 +1,49 @@
+#headerMuseum{
+    h1{
+        @include ft($proximaNova, 24px, 700, white, 1.875rem, "");
+        text-transform: uppercase;
+        @include positionAbsolute(2, translate(-50%, -50%), (top: 50%, left: 50%));
+    }
+
+    .slider{
+        .swiper{
+            .swiper-slide{
+                height: 200px;
+
+                .image{ 
+                    display: inline-block;   
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    height: 100%;
+                    width: 100%; 
+                }
+
+                .copyright{
+                    @include positionAbsolute("", "", (bottom: 10px, right: 20px));
+                    background: rgba(0, 0, 0, 0.7);
+                    border-radius: 60px;
+                    @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
+                    text-transform: uppercase;
+                    height: 21px;
+                    width: 21px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    &:before{
+                        content:'C';
+                    }
+
+                    span{
+                        display: none;
+                    }
+                }
+            }
+
+            .swipper-buttons {
+                display: none;
+            }
+        }
+    }
+}

@@ -77,11 +77,11 @@
 			</footer>
 		</div>
 
-		<script type="text/javascript" src="/o/museum-v2-theme/js/tarteaucitron.custom.js"></script>
+		<script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
 		<script>
 			window.homeURL = '${homeURL}';
 		</script>
-		<script src="/o/museum-v2-theme/js/vendors/masonry.pkgd.min.js"></script>
+		<script src="${javascript_folder}/vendors/masonry.pkgd.min.js"></script>
 
 		<@liferay_util["include"] page=body_bottom_include />
 		<@liferay_util["include"] page=bottom_include />
