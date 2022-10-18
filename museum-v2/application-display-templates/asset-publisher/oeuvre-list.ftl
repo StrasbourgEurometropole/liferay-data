@@ -16,6 +16,7 @@
         </div>
         <#if entries?has_content>
             <div id="listCollections" class="list">
+                <div class="gutter-sizer"></div>
         	    <#list entries as curEntry>
                     <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                         <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />

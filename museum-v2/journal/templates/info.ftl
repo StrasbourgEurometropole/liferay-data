@@ -22,9 +22,19 @@
             <#list directLinks as link>
                 <#assign curEntry = assetEntryLocalService.getEntry(link.getEntryId2()) />
                 <#assign place = curEntry.assetRenderer.place />
-                <a href="${homeURL}lieu/-/entity/id/${place.placeId}/${place.getNormalizedAlias(locale)}" class="button1" aria-label="<@liferay_ui.message key="eu.museum.info.all-info" />" title="<@liferay_ui.message key="eu.museum.info.all-info" />"><@liferay_ui.message key="eu.museum.info.all-info" /></a>
+                <button onClick="location.href='${homeURL}lieu/-/entity/id/${place.placeId}/${place.getNormalizedAlias(locale)}'" class="button1" aria-label="<@liferay_ui.message key="eu.museum.info.all-info" />" title='<@liferay_ui.message key="eu.museum.info.all-info" />'>
+                    <span class="points">
+                        <span class="trait">
+                            <span class="background">
+                                <span>
+                                    <@liferay_ui.message key="eu.museum.info.all-info" />
+                                </span>
+                            </span>
+                        </span>
+                    </span>
+                </button>
             </#list>
         </#if>
-        <p class="description">${description.getData()}</p>
+        <div class="description">${description.getData()}</div>
     </div>
 </section>
