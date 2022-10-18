@@ -36,6 +36,7 @@ create table council_Deliberation (
 	stage VARCHAR(75) null,
 	countOfficialsVoting INTEGER,
 	countOfficialsActive INTEGER,
+	quorum INTEGER,
 	beginningVoteDate DATE null,
 	endVoteDate DATE null,
 	councilSessionId LONG

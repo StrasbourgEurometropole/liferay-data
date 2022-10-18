@@ -130,7 +130,7 @@
                             </div>
                             <div class="wrapper-row">
                                 <label><liferay-ui:message key="quorum"/></label>
-                                <span>${dc.quorum}</span>
+                                <span>${dc.deliberation.quorum}</span>
                             </div>
                         </div>
                     </div>
