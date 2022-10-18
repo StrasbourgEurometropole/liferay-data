@@ -43,7 +43,7 @@
                 }
             }
     
-            a.button1{
+            .button1{
                 margin: auto;
                 @include positionAbsolute(1, translate(-50%, 50%), (bottom: 0, left: 50%));
     
@@ -61,15 +61,23 @@
             display: inline-block;
             padding-bottom: 50px;
             position: relative;
+            width: 100%;
 
             @include RWD(tablet_portrait){
                 padding-top: 20px;
-                width: 100%;
+            }
 
-                &:after {
-                    content: '';
-                    display: block;
-                    clear: both;
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .gutter-sizer{
+                width: 20px;
+
+                @include RWD(tablet_portrait){
+                    width: 40px;
                 }
             }
 
@@ -80,15 +88,7 @@
                 margin-bottom: 15px;
                 float: left;
 
-                &:nth-child(2n){
-                    float: right;
-    
-                    @include RWD(tablet_portrait){
-                        float: left;
-                    }
-                }
-
-                &:nth-child(2){
+                &:nth-child(3){
                     margin-top:30px;
     
                     @include RWD(tablet_portrait){
@@ -142,6 +142,53 @@
     
                     .museums{
                         @include ft($proximaNova, 0.875rem, 400, white, 1.05rem, "");
+                    }
+                }
+            }
+        }
+    }
+        
+    @include RWD(tablet_portrait){
+        &.detail-museum{
+            background: transparent;
+
+            &:before {
+                content: '';
+                width: 100vw;
+                background: #2d2d2d;
+                @include positionAbsolute(-1, '', '');
+                height: 350px;
+            }
+    
+            .content{
+                flex-direction: column;
+        
+                .infos{   
+                    width: 100%;
+        
+                    h2{
+                        text-align: center;
+                        margin-bottom: 70px;
+                    }
+
+                    .button1{
+                        position: absolute;
+                        line-height: 60px;
+                        transform: translate(-50%, 0);
+                    }
+                }
+        
+                .list{    
+                    @include RWD(tablet_portrait){
+                        padding-top: 20px;
+                    }
+        
+                    .gutter-sizer{
+                        width: 95px;
+                    }
+
+                    .oeuvre-thumbnail{
+                        width: calc(calc(100% - 190px) / 3);
                     }
                 }
             }

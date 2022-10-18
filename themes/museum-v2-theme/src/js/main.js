@@ -79,22 +79,23 @@ const enableSwiperNews = function() {
 // liste collections
 let listCollectionsMasonry;
 const enableListCollectionsMasonry = function() {
-  listCollectionsMasonry = new Masonry('#listCollections', {
-    itemSelector: '.oeuvre-thumbnail',
-    gutter: 40,
-    percentPosition: true
-  });
+  if($('#listCollections').length > 0 )
+    listCollectionsMasonry = new Masonry('#listCollections', {
+      itemSelector: '.oeuvre-thumbnail',
+      gutter: '.gutter-sizer',
+      percentPosition: true
+    });
 };
 
 // slider entete des musées
 let swiperHeaderMuseum;
-const enableSwiperHEaderMuseum = function() {
+const enableSwiperHeaderMuseum = function() {
   swiperHeaderMuseum = new Swiper('#headerMuseum .swiper', {
     // Optional parameters
     slidesPerView: 1,
     loop: true,
     autoplay: {
-      delay: 4000,
+      delay: 10000,
       disableOnInteraction: true
     },
 
@@ -107,30 +108,41 @@ const enableSwiperHEaderMuseum = function() {
   });
 };
 
+$(".swiper-button-pause").click(function(){
+  if ( swiperHeaderMuseum !== undefined ){
+    swiperHeaderMuseum.autoplay.stop();
+    $(".swiper-button-pause").css("display", "none");
+    $(".swiper-button-play").css("display", "inline-block");
+  }
+});
+
+$(".swiper-button-play").click(function(){
+  if ( swiperHeaderMuseum !== undefined ){
+    swiperHeaderMuseum.autoplay.start();
+    $(".swiper-button-pause").css("display", "inline-block");
+    $(".swiper-button-play").css("display", "none");
+  }
+});
+
 
 // vérifie si on est en mode smartphone/tablette portrait ou desktop/tablette paysage
 const breakpointTabletLandscape = window.matchMedia( '(min-width:992px)' );
 const tabletLandscapeOrDesktopChecker = function() {
   if ( breakpointTabletLandscape.matches === true ) {
     // On est en mode DESKTOP ou tablette paysage
-    enableListCollectionsMasonry();
-
     if ( swiperNews !== undefined )
       swiperNews.destroy( true, true );
 
-      enableSwiperHEaderMuseum();
-    return;
+      enableSwiperHeaderMuseum();
   } else {
-    // On est en mode mobile ou tablette portrait
-    if (listCollectionsMasonry !== undefined)
-      listCollectionsMasonry.destroy();
-      
+    // On est en mode mobile ou tablette portrait      
     enableSwiperNews();
 
     if ( swiperHeaderMuseum !== undefined )
       swiperHeaderMuseum.destroy( true, true );
-    return;
   }
+  enableListCollectionsMasonry();
+  return;
 };
 
 // keep an eye on viewport size changes

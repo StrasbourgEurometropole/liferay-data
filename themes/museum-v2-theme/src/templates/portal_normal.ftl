@@ -28,7 +28,7 @@
 		<@liferay_util["include"] page=top_head_include />
 	</head>
 
-	<body class="${css_class}
+	<body onLoad="enableListCollectionsMasonry();" class="${css_class}
 		<#if isHome>
 			seu-front
 		<#else>

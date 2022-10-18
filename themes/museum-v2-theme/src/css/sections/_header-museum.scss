@@ -1,8 +1,18 @@
+@keyframes scale {
+	0% {transform: scale(1)  }
+    100% { transform: scale(2) }
+}
+
 #headerMuseum{
     h1{
         @include ft($proximaNova, 24px, 700, white, 1.875rem, "");
         text-transform: uppercase;
         @include positionAbsolute(2, translate(-50%, -50%), (top: 50%, left: 50%));
+
+        @include RWD(tablet_portrait){
+            font-size: 44px;
+            line-height: 54px;
+        }
     }
 
     .slider{
@@ -10,39 +20,109 @@
             .swiper-slide{
                 height: 200px;
 
-                .image{ 
-                    display: inline-block;   
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    height: 100%;
-                    width: 100%; 
+                @include RWD(tablet_portrait){
+                    height: calc(100vh - 40px);
                 }
 
-                .copyright{
-                    @include positionAbsolute("", "", (bottom: 10px, right: 20px));
-                    background: rgba(0, 0, 0, 0.7);
-                    border-radius: 60px;
-                    @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
-                    text-transform: uppercase;
-                    height: 21px;
-                    width: 21px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+                .info{
+                    overflow: hidden;
+                    height: 100%;
+                    width: 100%; 
 
-                    &:before{
-                        content:'C';
+                    .image{ 
+                        display: inline-block;   
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        height: 100%;
+                        width: 100%; 
+
+                        @include RWD(tablet_portrait){
+                            animation: scale 10s infinite;
+                        }
                     }
 
-                    span{
-                        display: none;
+                    .copyright{
+                        @include positionAbsolute("", "", (bottom: 10px, right: 20px));
+                        background: rgba(0, 0, 0, 0.7);
+                        border-radius: 60px;
+                        @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
+                        text-transform: uppercase;
+                        height: 21px;
+                        width: 21px;
+                        overflow: hidden;
+                        transition: width 1s ease;
+    
+                        &:active, &:focus{
+                            width: auto;
+                        }
+    
+                        @include RWD(tablet_portrait){
+                            bottom: 30px;
+                            right: 25px;
+    
+                            &:hover{
+                                width: auto;
+                            }
+                        }
+    
+                        :first-child(){
+                            min-width: 21px;
+                            line-height: 21px;
+                            display: inline-block;
+                            text-align: center;
+                        }
+    
+                        :nth-child(2){
+                            font-size: 0.75rem;
+                            padding-right: 10px;
+                        }
                     }
                 }
             }
 
             .swipper-buttons {
                 display: none;
+
+                @include RWD(tablet_portrait){
+                    @include positionAbsolute(1, "", (bottom: 70px, right: 20px));
+                    display: inline-block;
+
+                    .swiper-button-prev, .swiper-button-play, .swiper-button-pause, .swiper-button-next{ 
+                        background-color: white;
+                        color: #313841;
+                        display: inline-block;
+                        position: relative;
+                        left: 0;
+
+                        &:after{
+                            @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
+                        }
+                    }
+
+                    .swiper-button-play{
+                        display: none;
+                        height: 37px;
+                        width: 37px;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        &:after{
+                            content: 'play';
+                        }
+                    }
+
+                    .swiper-button-pause{
+                        height: 37px;
+                        width: 37px;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        &:after{
+                            content: 'pause';
+                        }
+                    }
+                }
             }
         }
     }
