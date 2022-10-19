@@ -312,6 +312,9 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 							if (!period.getDefaultPeriod()) {
 								period.setStartDate(startDatePeriod);
 								period.setEndDate(endDatePeriod);
+							}else{
+								period.setStartDate(null);
+								period.setEndDate(null);
 							}
 							period.setAlwaysOpen(alwaysOpen);
 							period.setPlaceId(place.getPlaceId());
