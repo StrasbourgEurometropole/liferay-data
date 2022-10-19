@@ -156,7 +156,7 @@
                 </#if>
                 <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
-                <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
+                <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="Search"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                 <#if homeURL != "/">
                     <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
@@ -192,7 +192,7 @@
     
     <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
     <div class="social-share">
-        <input class="toggle-input" id="toggle-input" type="checkbox" /> 
+        <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Partagez sur les réseaux sociaux"/> 
         <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
           <span>Réseaux sociaux</span>
         </label>
