@@ -66,6 +66,7 @@ public class ResetDeliberationActionCommand extends BaseMVCActionCommand {
         //Vide les données lié au quorum
         deliberation.setCountOfficialsVoting(0);
         deliberation.setCountOfficialsActive(0);
+        deliberation.setQuorum(0);
 
         // Set de la date de début et de fin de vote
         deliberation.setBeginningVoteDate(null);

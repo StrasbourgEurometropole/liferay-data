@@ -40,6 +40,7 @@
 		<field name="stage" type="String" />
 		<field name="countOfficialsVoting" type="int" />
 		<field name="countOfficialsActive" type="int" />
+		<field name="quorum" type="int" />
 		<field name="beginningVoteDate" type="Date" />
 		<field name="endVoteDate" type="Date" />
 		<field name="councilSessionId" type="long" />

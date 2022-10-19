@@ -364,6 +364,20 @@ public interface DeliberationModel
 	public void setCountOfficialsActive(int countOfficialsActive);
 
 	/**
+	 * Returns the quorum of this deliberation.
+	 *
+	 * @return the quorum of this deliberation
+	 */
+	public int getQuorum();
+
+	/**
+	 * Sets the quorum of this deliberation.
+	 *
+	 * @param quorum the quorum of this deliberation
+	 */
+	public void setQuorum(int quorum);
+
+	/**
 	 * Returns the beginning vote date of this deliberation.
 	 *
 	 * @return the beginning vote date of this deliberation
