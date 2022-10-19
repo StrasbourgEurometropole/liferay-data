@@ -1,6 +1,6 @@
 @keyframes scale {
-	0% {transform: scale(1)  }
-    100% { transform: scale(2) }
+	0% {transform: scale(1)}
+    100% { transform: scale(1.5)}
 }
 
 #headerMuseum{
@@ -22,6 +22,10 @@
 
                 @include RWD(tablet_portrait){
                     height: calc(100vh - 40px);
+                    
+                    &.swiper-slide-active .info .image{
+                        animation: scale 20s;
+                    }
                 }
 
                 .info{
@@ -36,10 +40,6 @@
                         background-size: cover;
                         height: 100%;
                         width: 100%; 
-
-                        @include RWD(tablet_portrait){
-                            animation: scale 10s infinite;
-                        }
                     }
 
                     .copyright{
@@ -52,6 +52,9 @@
                         width: 21px;
                         overflow: hidden;
                         transition: width 1s ease;
+                        display: flex;
+                        flex-wrap: nowrap;
+                        align-items: center;
     
                         &:active, &:focus{
                             width: auto;
@@ -67,15 +70,15 @@
                         }
     
                         :first-child(){
-                            min-width: 21px;
-                            line-height: 21px;
-                            display: inline-block;
+                            min-width: 20px;
+                            line-height: 20px;
                             text-align: center;
+                            font-size: 1rem;
                         }
     
                         :nth-child(2){
                             font-size: 0.75rem;
-                            padding-right: 10px;
+                            padding: 0 10px;
                         }
                     }
                 }

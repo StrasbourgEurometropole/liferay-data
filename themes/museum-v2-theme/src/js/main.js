@@ -93,6 +93,7 @@ const enableSwiperHeaderMuseum = function() {
   swiperHeaderMuseum = new Swiper('#headerMuseum .swiper', {
     // Optional parameters
     slidesPerView: 1,
+    effect: "fade",
     loop: true,
     autoplay: {
       delay: 10000,
