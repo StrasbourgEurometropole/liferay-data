@@ -8,9 +8,11 @@
     </c:if>
     <div class="seu-filter-line seu-filter-line-date">
         <c:if test="${dc.displayDatesButtons}">
+            <c:set var="dateSelected" value="${dc.dateSelected}" />
+            <input type="hidden" name="<portlet:namespace />dateSelected" value="" />
             <div class="seu-filter-line">
                 <div class="widget button">
-                    <button id="today" type="button" class="seu-btn-square seu-bordered seu-core">
+                    <button id="today" type="button" class="seu-btn-square seu-bordered seu-core ${dateSelected == 'today' ? 'active' : ''}">
                         <span class="seu-flexbox">
                             <span class="seu-btn-text" style="margin-right: 0"><liferay-ui:message key="today" /></span>
                         </span>
@@ -18,7 +20,7 @@
                 </div>
 
                 <div class="widget button">
-                    <button id="tomorrow" type="button" class="seu-btn-square seu-bordered seu-core">
+                    <button id="tomorrow" type="button" class="seu-btn-square seu-bordered seu-core ${dateSelected == 'tomorrow' ? 'active' : ''}">
                         <span class="seu-flexbox">
                             <span class="seu-btn-text" style="margin-right: 0"><liferay-ui:message key="tomorrow" /></span>
                         </span>
@@ -26,7 +28,7 @@
                 </div>
 
                 <div class="widget button">
-                    <button id="week-end" type="button" class="seu-btn-square seu-bordered seu-core">
+                    <button id="week-end" type="button" class="seu-btn-square seu-bordered seu-core ${dateSelected == 'week-end' ? 'active' : ''}">
                         <span class="seu-flexbox">
                             <span class="seu-btn-text" style="margin-right: 0"><liferay-ui:message key="eu.this-week-end" /></span>
                         </span>
@@ -270,18 +272,18 @@
             margin-left: 20px;
         }
 
-        .seu-view-filters .advanced{
+        .seu-view-filters .seu-btn-line.advanced{
             justify-content: space-between;
         }
 
         .seu-view-filters .advanced .seu-filter-line:first-child{
-            margin-right: 40px;
+            width: 75%;
             justify-content: space-between;
-            flex-grow: 0.8;
+            flex-grow: 0;
         }
 
         .seu-view-filters .advanced .seu-filter-line .widget{
-            width: calc(100% / 3 - 15px);
+            width: calc(calc(100% - 45px) / 3);
         }
 
         .seu-view-filters .advanced .seu-btn-square{

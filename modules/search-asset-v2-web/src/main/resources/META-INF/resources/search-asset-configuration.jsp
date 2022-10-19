@@ -172,7 +172,7 @@
                     			<aui:option label="modified-date" value="modified_sortable" selected="${dc.configurationData.secondSortingField eq 'modified_sortable'}" />
                     			<aui:option label="publish-date" value="publishDate_sortable" selected="${dc.configurationData.secondSortingField eq 'publishDate_sortable'}" />
                     			<aui:option label="expiration-date" value="expirationDate" selected="${dc.configurationData.secondSortingField eq 'expirationDate'}" />
-                                <aui:option label="eu.search.asset.web.configuration.sort.entity-date" value="dates_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'dates_Number_sortable'}"/>
+                                <aui:option label="eu.search.asset.web.configuration.filter.entity-date" value="dates_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'dates_Number_sortable'}"/>
                                 <aui:option label="eu.search.asset.web.configuration.sort.start-date" value="startDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'startDate_Number_sortable'}"/>
                                 <aui:option label="eu.search.asset.web.configuration.sort.end-date" value="endDate_Number_sortable" selected="${dc.configurationData.firstSortingField eq 'endDate_Number_sortable'}"/>
                                 <aui:option label="eu.search.asset.web.configuration.sort.city-order-property" value="order_city_Number_sortable" selected="${dc.configurationData.secondSortingField eq 'order_city_Number_sortable'}" />

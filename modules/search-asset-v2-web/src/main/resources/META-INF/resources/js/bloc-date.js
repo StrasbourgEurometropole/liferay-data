@@ -21,6 +21,12 @@ $(document).ready(function(){
 
             // activation du bouton aujourd'hui
             $(this).addClass("active");
+
+            // garde le bouton selectionné
+            $($('input[name="'+namespace+'dateSelected"]')[0]).val("today");
+
+            // lance la recherche
+            $('#'+namespace+'fm').submit();
         });
     }
 
@@ -45,6 +51,12 @@ $(document).ready(function(){
 
             // activation du bouton demain
             $(this).addClass("active");
+
+            // garde le bouton selectionné
+            $($('input[name="'+namespace+'dateSelected"]')[0]).val("tomorrow");
+
+            // lance la recherche
+            $('#'+namespace+'fm').submit();
         });
     }
 
@@ -71,6 +83,12 @@ $(document).ready(function(){
 
             // activation du bouton week-end
             $(this).addClass("active");
+
+            // garde le bouton selectionné
+            $($('input[name="'+namespace+'dateSelected"]')[0]).val("week-end");
+
+            // lance la recherche
+            $('#'+namespace+'fm').submit();
         });
     }
 
