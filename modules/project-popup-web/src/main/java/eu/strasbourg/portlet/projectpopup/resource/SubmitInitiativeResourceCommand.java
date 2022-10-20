@@ -42,6 +42,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.apache.commons.lang3.ArrayUtils;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
@@ -123,7 +124,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
         // Recuperation des informations du formulaire
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, TITLE));
         String description = HtmlUtil.stripHtml(ParamUtil.getString(request, DESCRIPTION));
-        long districtId = ParamUtil.getLong(request, DISTRICT);
+        long[] districtId = ParamUtil.getLongValues(request, DISTRICT);
         long thematicId = ParamUtil.getLong(request, THEMATIC);
         long projectId = ParamUtil.getLong(request, PROJECT);
         String place = HtmlUtil.stripHtml(ParamUtil.getString(request, PLACE));
@@ -157,14 +158,8 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
             }
 
             List<Long> identifiants = new ArrayList<>();
-            if (districtId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
-            } else {
-                identifiants.add(districtId);
+            if (districtId.length >= 0) {
+                identifiants.addAll(java.util.Arrays.asList(ArrayUtils.toObject(districtId)));
             }
             if (projectId != 0) {
                 identifiants.add(projectId);

@@ -47,8 +47,7 @@
                     	<%-- Champ : Description --%>
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.submit.initiative.information.territoire"/></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected><liferay-ui:message key="modal.submit.initiative.information.territoire.town"/></option>
+                            <select multiple id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
@@ -273,7 +272,7 @@
 
 <script type="text/javascript">
 	
-	// Variables tempons des informations utilisateur et contexte namespace
+	// Variables tampons des informations utilisateur et contexte namespace
 	var namespaceInitiative = "<portlet:namespace />";
 	var saved_address = "${userConnected.get('address')}";
 	var saved_zipCode = "${userConnected.get('zipcode')}";
@@ -358,10 +357,16 @@
         $("#<portlet:namespace />place").val("");
         $("#<portlet:namespace />project option[value='0']").prop('selected', true);
         $("#<portlet:namespace />project").selectric();
-        $("#<portlet:namespace />district option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />district").selectric();
-        $("#<portlet:namespace />thematic option[value='0']").prop('selected', true);
-        $("#<portlet:namespace />thematic").selectric();
+        $("#<portlet:namespace />quartier option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />quartier").selectric({
+                                                                  multiple: {
+                                                                        separator: ', ',
+                                                                        keepMenuOpen: true,
+                                                                        maxLabelEntries: false
+                                                                 }
+                                                              });
+        $("#<portlet:namespace />theme option[value='0']").prop('selected', true);
+        $("#<portlet:namespace />theme").selectric();
         
      	// Champs informations utilisateur
         $("#<portlet:namespace />address").val(saved_address);

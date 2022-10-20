@@ -73,6 +73,7 @@ public class DeliberationWrapper
 		attributes.put("stage", getStage());
 		attributes.put("countOfficialsVoting", getCountOfficialsVoting());
 		attributes.put("countOfficialsActive", getCountOfficialsActive());
+		attributes.put("quorum", getQuorum());
 		attributes.put("beginningVoteDate", getBeginningVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
 		attributes.put("councilSessionId", getCouncilSessionId());
@@ -184,6 +185,12 @@ public class DeliberationWrapper
 
 		if (countOfficialsActive != null) {
 			setCountOfficialsActive(countOfficialsActive);
+		}
+
+		Integer quorum = (Integer)attributes.get("quorum");
+
+		if (quorum != null) {
+			setQuorum(quorum);
 		}
 
 		Date beginningVoteDate = (Date)attributes.get("beginningVoteDate");
@@ -370,6 +377,16 @@ public class DeliberationWrapper
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return _deliberation.getPrimaryKeyObj();
+	}
+
+	/**
+	 * Returns the quorum of this deliberation.
+	 *
+	 * @return the quorum of this deliberation
+	 */
+	@Override
+	public int getQuorum() {
+		return _deliberation.getQuorum();
 	}
 
 	/**
@@ -772,6 +789,16 @@ public class DeliberationWrapper
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
 		_deliberation.setPrimaryKeyObj(primaryKeyObj);
+	}
+
+	/**
+	 * Sets the quorum of this deliberation.
+	 *
+	 * @param quorum the quorum of this deliberation
+	 */
+	@Override
+	public void setQuorum(int quorum) {
+		_deliberation.setQuorum(quorum);
 	}
 
 	/**

@@ -63,7 +63,7 @@ public class DeliberationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,6 +99,8 @@ public class DeliberationCacheModel
 		sb.append(countOfficialsVoting);
 		sb.append(", countOfficialsActive=");
 		sb.append(countOfficialsActive);
+		sb.append(", quorum=");
+		sb.append(quorum);
 		sb.append(", beginningVoteDate=");
 		sb.append(beginningVoteDate);
 		sb.append(", endVoteDate=");
@@ -182,6 +184,7 @@ public class DeliberationCacheModel
 
 		deliberationImpl.setCountOfficialsVoting(countOfficialsVoting);
 		deliberationImpl.setCountOfficialsActive(countOfficialsActive);
+		deliberationImpl.setQuorum(quorum);
 
 		if (beginningVoteDate == Long.MIN_VALUE) {
 			deliberationImpl.setBeginningVoteDate(null);
@@ -232,6 +235,8 @@ public class DeliberationCacheModel
 		countOfficialsVoting = objectInput.readInt();
 
 		countOfficialsActive = objectInput.readInt();
+
+		quorum = objectInput.readInt();
 		beginningVoteDate = objectInput.readLong();
 		endVoteDate = objectInput.readLong();
 
@@ -297,6 +302,8 @@ public class DeliberationCacheModel
 		objectOutput.writeInt(countOfficialsVoting);
 
 		objectOutput.writeInt(countOfficialsActive);
+
+		objectOutput.writeInt(quorum);
 		objectOutput.writeLong(beginningVoteDate);
 		objectOutput.writeLong(endVoteDate);
 
@@ -320,6 +327,7 @@ public class DeliberationCacheModel
 	public String stage;
 	public int countOfficialsVoting;
 	public int countOfficialsActive;
+	public int quorum;
 	public long beginningVoteDate;
 	public long endVoteDate;
 	public long councilSessionId;

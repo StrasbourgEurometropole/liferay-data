@@ -1,0 +1,148 @@
+%atom-datepicker{
+    padding: 0; 
+    font-family: $f_hx !important;
+    border: none;
+    background-color: #f7f7f7; 
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+    z-index: 10 !important;
+
+    %datepicker-arrow{
+        width: 20px;
+        height: 20px;
+        position: static;
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all, 0.5s;
+        span{
+            display: none;
+        }
+
+        &:hover, &:focus{
+            opacity: 1;
+        }
+    }
+    .ui-datepicker-next{
+        border-left-color: #000 !important;
+        border: 10px solid transparent; 
+        margin-left: 10px;
+        order: 3; 
+
+        span{
+            display: none;
+        }
+    }    
+    .ui-datepicker-prev{
+        border-right-color: #000 !important;
+        border: 10px solid transparent;
+        margin-right: 10px;
+        order: 0;
+
+        span{
+            display: none;
+        }
+    }    
+    .ui-datepicker-header{
+        background-color: $c_main;
+        padding: 5px 0;
+        order: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:before, &:after{
+            display: none;
+        }
+
+        .ui-datepicker-title{
+            line-height: 1;
+            margin: 0;
+            display: flex;
+        }
+        .ui-datepicker-month{
+            font-size: 20px;
+            font-size: 1.5rem;
+            color: #FFFFFF; 
+            font-weight: 300;
+            display: block;
+            text-transform: uppercase;
+        }
+        .ui-datepicker-year{
+            font-size: 20px;
+            font-size: 1.5rem;
+            color: #FFFFFF; 
+            font-weight: 300;
+        }
+    }
+    select{
+        // background: none;
+        background-color: $c_main;
+        border: solid 1px #FFFFFF;
+        border-radius: 0px;
+        background: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA2Mi43IDQ5IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2Mi43IDQ5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cG9seWdvbiBzdHlsZT0iZmlsbDogI0ZGRkZGRjsiIHBvaW50cz0iMTMuNiwyMy40IDQ4LjgsMjMuNCAzMS4yLDM5ICIvPg0KPC9zdmc+DQo=) no-repeat 95% 50%;
+        background-size: 15px;
+        -moz-appearance: none; 
+        -webkit-appearance: none; 
+        appearance: none;
+        padding: 5px;
+        padding-right: 20px;
+
+        option{
+            background-color: $c_main;
+        }
+
+        & + select{
+            margin-left: 20px;
+        }
+    }
+    table{
+        width: 80%;
+        margin: 10px auto;
+        th, td{
+            padding: 6px;
+        }
+        th{
+            font-size: 9px;
+            color: $c_dark;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        td{
+            font-size: 12px;
+            font-size: 1.2rem;
+            text-align: center;
+            a{
+                color: #555555;
+                text-align: center;
+                transition: all, 0.5s;
+
+                &:hover, &:focus{
+                    opacity: 0.5;
+                }
+            }
+
+            &.ui-datepicker-today{
+                a{
+                    color: #FFFFFF; 
+                }
+                position: relative;
+
+                &:before{
+                    content: '';
+                    display: block;
+                    border-radius: 5000px;
+                    background-color: $c_main;
+                    height: 22px;
+                    width: 22px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%); 
+                    z-index: -1;
+                }
+            }
+        }
+    }
+}

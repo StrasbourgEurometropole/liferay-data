@@ -84,7 +84,7 @@ public class DeliberationModelImpl
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"title", Types.VARCHAR}, {"order_", Types.INTEGER},
 		{"stage", Types.VARCHAR}, {"countOfficialsVoting", Types.INTEGER},
-		{"countOfficialsActive", Types.INTEGER},
+		{"countOfficialsActive", Types.INTEGER}, {"quorum", Types.INTEGER},
 		{"beginningVoteDate", Types.TIMESTAMP},
 		{"endVoteDate", Types.TIMESTAMP}, {"councilSessionId", Types.BIGINT}
 	};
@@ -110,13 +110,14 @@ public class DeliberationModelImpl
 		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("countOfficialsVoting", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("countOfficialsActive", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("quorum", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("beginningVoteDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endVoteDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("councilSessionId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(500) null,order_ INTEGER,stage VARCHAR(75) null,countOfficialsVoting INTEGER,countOfficialsActive INTEGER,beginningVoteDate DATE null,endVoteDate DATE null,councilSessionId LONG)";
+		"create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(500) null,order_ INTEGER,stage VARCHAR(75) null,countOfficialsVoting INTEGER,countOfficialsActive INTEGER,quorum INTEGER,beginningVoteDate DATE null,endVoteDate DATE null,councilSessionId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Deliberation";
@@ -188,6 +189,7 @@ public class DeliberationModelImpl
 		model.setStage(soapModel.getStage());
 		model.setCountOfficialsVoting(soapModel.getCountOfficialsVoting());
 		model.setCountOfficialsActive(soapModel.getCountOfficialsActive());
+		model.setQuorum(soapModel.getQuorum());
 		model.setBeginningVoteDate(soapModel.getBeginningVoteDate());
 		model.setEndVoteDate(soapModel.getEndVoteDate());
 		model.setCouncilSessionId(soapModel.getCouncilSessionId());
@@ -727,6 +729,28 @@ public class DeliberationModelImpl
 
 			});
 		attributeGetterFunctions.put(
+			"quorum",
+			new Function<Deliberation, Object>() {
+
+				@Override
+				public Object apply(Deliberation deliberation) {
+					return deliberation.getQuorum();
+				}
+
+			});
+		attributeSetterBiConsumers.put(
+			"quorum",
+			new BiConsumer<Deliberation, Object>() {
+
+				@Override
+				public void accept(
+					Deliberation deliberation, Object quorumObject) {
+
+					deliberation.setQuorum((Integer)quorumObject);
+				}
+
+			});
+		attributeGetterFunctions.put(
 			"beginningVoteDate",
 			new Function<Deliberation, Object>() {
 
@@ -1089,6 +1113,17 @@ public class DeliberationModelImpl
 
 	@JSON
 	@Override
+	public int getQuorum() {
+		return _quorum;
+	}
+
+	@Override
+	public void setQuorum(int quorum) {
+		_quorum = quorum;
+	}
+
+	@JSON
+	@Override
 	public Date getBeginningVoteDate() {
 		return _beginningVoteDate;
 	}
@@ -1271,6 +1306,7 @@ public class DeliberationModelImpl
 		deliberationImpl.setStage(getStage());
 		deliberationImpl.setCountOfficialsVoting(getCountOfficialsVoting());
 		deliberationImpl.setCountOfficialsActive(getCountOfficialsActive());
+		deliberationImpl.setQuorum(getQuorum());
 		deliberationImpl.setBeginningVoteDate(getBeginningVoteDate());
 		deliberationImpl.setEndVoteDate(getEndVoteDate());
 		deliberationImpl.setCouncilSessionId(getCouncilSessionId());
@@ -1445,6 +1481,8 @@ public class DeliberationModelImpl
 
 		deliberationCacheModel.countOfficialsActive = getCountOfficialsActive();
 
+		deliberationCacheModel.quorum = getQuorum();
+
 		Date beginningVoteDate = getBeginningVoteDate();
 
 		if (beginningVoteDate != null) {
@@ -1562,6 +1600,7 @@ public class DeliberationModelImpl
 	private String _stage;
 	private int _countOfficialsVoting;
 	private int _countOfficialsActive;
+	private int _quorum;
 	private Date _beginningVoteDate;
 	private Date _endVoteDate;
 	private long _councilSessionId;
