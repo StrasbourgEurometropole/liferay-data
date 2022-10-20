@@ -172,9 +172,8 @@
                     }
 
                     .button1{
-                        position: absolute;
+                        @include positionAbsolute('', translate(-50%, 0), '');
                         line-height: 60px;
-                        transform: translate(-50%, 0);
                     }
                 }
         
