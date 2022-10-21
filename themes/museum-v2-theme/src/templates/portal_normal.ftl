@@ -17,18 +17,19 @@
 		<meta content="initial-scale=1.0, width=device-width" name="viewport" />
 		
 		<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
+		<link rel="stylesheet" href="${css_folder}/builders/swiper.min.css" />
 		<link type="text/css" rel="stylesheet" href="${css_folder}/museum-v2.css" media="screen" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 
     	
 		<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
 		<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+		<script src="${javascript_folder}/vendors/swiper.min.js"></script>
+		<script src="${javascript_folder}/vendors/masonry.pkgd.min.js"></script>
 
 		<@liferay_util["include"] page=top_head_include />
 	</head>
 
-	<body onLoad="enableListCollectionsMasonry();" class="${css_class}
+	<body class="${css_class}
 		<#if isHome>
 			seu-front
 		<#else>
@@ -81,7 +82,6 @@
 		<script>
 			window.homeURL = '${homeURL}';
 		</script>
-		<script src="${javascript_folder}/vendors/masonry.pkgd.min.js"></script>
 
 		<@liferay_util["include"] page=body_bottom_include />
 		<@liferay_util["include"] page=bottom_include />

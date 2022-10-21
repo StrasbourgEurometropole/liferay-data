@@ -3,6 +3,22 @@
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
 <div class="search-asset-portlet-page">
+
+    <h2 class="search-asset-result-count">
+        <c:if test="${not dc.hideResultsBeforeSearch or dc.userSearch or param.paginate}">
+            ${dc.searchContainer.total }
+            <c:choose>
+                <c:when test="${dc.searchContainer.total le 1}">
+                    <liferay-ui:message
+                        key="result" />
+                </c:when>
+                <c:otherwise>
+                    <liferay-ui:message
+                        key="results" />
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+    </h2>
 	<div class="search-asset-form">
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />

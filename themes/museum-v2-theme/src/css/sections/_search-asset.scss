@@ -1,0 +1,54 @@
+.search-asset-portlet {
+    .search-asset-portlet-page {
+
+        h2{
+            @include ft($times, 37px, 400, $color_txt, 43px, italic);
+            text-transform: uppercase;
+            margin: 10px 0 20px 0;
+            text-align: right;
+        }
+
+        .search-asset-form {
+            margin: 0 20px;
+
+            .search-asset-fields{
+                border-bottom: 1px solid #D8DAE4;
+
+                .asset-type-selection, .vocabulary-selection, .date-selection{
+                    margin-bottom: 25px;
+
+                    legend{
+                        @include ft($times, 1.375rem, 400, $color_main, 25px, italic);
+                        padding: 10px 30px 10px 10px;
+                        margin: auto;
+                        border-top: 1px solid #D8DAE4;
+                        margin-bottom: 15px;
+                    }
+                }
+
+                .date-selection{
+                    .date-selection-control{
+                        display: flex;
+                        justify-content: space-between;
+
+                        .lfr-input-date .date-selector{
+                            @include ft($proximaNova, 15px, 400, $color_txt, 21px, italic);
+                            border-radius: 0;
+                            outline: none;
+                            height: 38px;
+                            padding: 10px 10px 10px 8px;
+                        }
+
+                        .input-checkbox-wrapper{
+                            display: none;
+                        }
+
+                        label{
+                            margin: auto 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
