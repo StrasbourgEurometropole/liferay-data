@@ -16,7 +16,7 @@
                     <div class="swiper-wrapper">
                 	    <#list entries as curEntry>
                             <#assign event = curEntry.getAssetRenderer().getEvent() />
-                            <#assign detailURL = homeURL + "evenement-des-musees-de-strasbourg/-/entity/id/" + event.eventId />
+                            <#assign detailURL = homeURL + "evenement/-/entity/id/" + event.eventId + "/" + event.getNormalizedTitle(locale) />
                             <div class="swiper-slide">
                                 <a href="${detailURL}" aria-label="${event.getTitle(locale)}" title="${event.getTitle(locale)}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
                                     <#if event.getActivityTypeLabel(locale)?has_content>
@@ -47,7 +47,7 @@
                 </div>
             </div>
             
-            <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-events" />" title='<@liferay_ui.message key="eu.museum.all-events" />'>
+            <button id="btn-all-events" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-events" />" title='<@liferay_ui.message key="eu.museum.all-events" />'>
                 <span class="points">
                     <span class="trait">
                         <span class="background">
@@ -61,3 +61,9 @@
         </#if>
     </div>
 </section>
+
+<script>
+    $("#btn-all-events").click(function(){
+      location.href='http://' + window.location.host + '${homeURL}agenda-des-musees'
+    });
+</script>
