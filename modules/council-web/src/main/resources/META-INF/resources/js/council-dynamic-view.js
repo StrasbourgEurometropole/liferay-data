@@ -1,16 +1,20 @@
-window.setInterval(function(){
-    Liferay.Service(
-      '/council.deliberation/get-user-front',
-      {
-        officialId: officialConnectedId,
-        officialDeviceInfo: userDeviceInfo,
-        councilSessionId: councilSessionId
-      },
-      function(obj) {
-        displayInfos(obj);
-      }
-    );
-}, 3000);
+(function loopIteration() {
+    setTimeout(() => {
+        Liferay.Service(
+            '/council.deliberation/get-user-front',
+            {
+                officialId: officialConnectedId,
+                officialDeviceInfo: userDeviceInfo,
+                councilSessionId: councilSessionId
+            },
+            function(obj) {
+                displayInfos(obj);
+            }
+        );
+
+        loopIteration();
+    }, 3000);
+})();
 
 function disabledAllInput() {
     document.getElementById('pour').disabled= true;

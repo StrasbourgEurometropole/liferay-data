@@ -476,7 +476,7 @@
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.signed.mine" />
 						(${initiativeFiledsCount})</h2>
-					<a href="${homeURL}initiatives" class="pro-btn"
+					<a href="${homeURL}ateliers-quartier" class="pro-btn"
 						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
 							key="dashboard.thumbnail.initiative.main" /></a>
 
@@ -486,7 +486,7 @@
 								<div class="wrapper-card-initiative">
 									<c:if test="${initiative.getImageURL() != ''}">
 										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
 	                                	</figure>
                                 	</c:if>
 									<div>
@@ -500,7 +500,7 @@
 											</p>
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><strong><c:out value="${initiative.title}" escapeXml='true'/></strong></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
@@ -527,7 +527,7 @@
 				<div class="container">
 					<h2><liferay-ui:message key="dashboard.thumbnail.initiative.filed.mine" />
 						(${initiativeAidesCount})</h2>
-					<a href="${homeURL}initiatives" class="pro-btn"
+					<a href="${homeURL}ateliers-quartier" class="pro-btn"
 						title="<liferay-ui:message key='dashboard.thumbnail.initiative.main.alt'/>"><liferay-ui:message
 							key="dashboard.thumbnail.initiative.main" /></a>
 
@@ -537,7 +537,7 @@
 								<div class="wrapper-card-initiative">
 									<c:if test="${initiative.getImageURL() != ''}">
 										<figure role="group" class="fit-cover">
-	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+	                                    	<img src="${initiative.getImageURL()}" width="155" height="200" alt="Image atelier"/>
 	                                	</figure>
                                 	</c:if>
 									<div>
@@ -551,7 +551,7 @@
 											</p>
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${initiative.initiativeId}" 
+											<a href="${homeURL}detail-atelier/-/entity/id/${initiative.initiativeId}"
 											title="<liferay-ui:message key='dashboard.thumbnail.link'/>"><h3><c:out value="${initiative.title}" escapeXml='true'/></h3>
 											</a> <span class="pro-time"><liferay-ui:message key="dashboard.thumbnail.initiative.publish.date" /> <time
 											datetime="${initiative.getPublicationDateFr()}">${initiative.getPublicationDateFr()}</time></span>
@@ -596,7 +596,7 @@
 							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
 								<c:if test="${budget.getImageURL() != ''}">
 									<figure role="group" class="fit-cover">
-                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image atelier"/>
                                 	</figure>
                                	</c:if>
 								<div class="pro-header-budget">
@@ -666,7 +666,7 @@
 							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
 								<c:if test="${budget.getImageURL() != ''}">
 									<figure role="group" class="fit-cover">
-                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image initiative"/>
+                                    	<img src="${budget.getImageURL()}" width="155" height="200" alt="Image atelier"/>
                                 	</figure>
                                	</c:if>
 								<div class="pro-header-budget">

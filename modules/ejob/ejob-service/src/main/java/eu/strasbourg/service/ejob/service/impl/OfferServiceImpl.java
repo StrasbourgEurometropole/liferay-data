@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.ejob.service.base.OfferServiceBaseImpl;
 import eu.strasbourg.utils.PortletHelper;
+import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import java.io.ByteArrayOutputStream;
@@ -134,7 +135,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					paragraph.add("\n");
 				}
 
-				if (!offer.getOfferCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (!offer.getOfferCategories().isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage") && !StringHelper.compareIgnoringAccentuation(offer.getTypeRecrutement().getTitle(locale),"Stage college")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-filiere-categorie") + " : ").setFont(fontBold).setFontSize(12f));
 					String categories = "";
 					for (AssetCategory category : offer.getOfferCategories()) {
@@ -148,13 +149,13 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 
 				paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-type-recrutement") + " : ").setFont(fontBold).setFontSize(12f));
 				paragraph.add(offer.getTypeRecrutement().getTitle(locale));
-				if (Validator.isNotNull(offer.getPermanentDescription(locale)) && offer.getTypeRecrutement().getTitle(locale) != "Stage") {
+				if (Validator.isNotNull(offer.getPermanentDescription(locale)) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage") && StringHelper.compareIgnoringAccentuation(offer.getTypeRecrutement().getTitle(locale),"Stage college")) {
 					paragraph.add("\n");
 					paragraph.add(offer.getPermanentDescription(locale));
 				}
 				paragraph.add("\n");
 
-				if (!offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (!offer.getTypeRecrutement().getTitle(locale).equals("Stage") && !StringHelper.compareIgnoringAccentuation(offer.getTypeRecrutement().getTitle(locale),"Stage college")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-is-full-time") + " : ").setFont(fontBold).setFontSize(12f));
 					if (offer.getIsFullTime())
 						paragraph.add(LanguageUtil.get(locale, "eu.offer-full-time-true"));
@@ -165,7 +166,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 				}
 
 				List<List> gradeRanges = offer.getGradeRanges();
-				if (Validator.isNotNull(gradeRanges) && !gradeRanges.isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (Validator.isNotNull(gradeRanges) && !gradeRanges.isEmpty() && !offer.getTypeRecrutement().getTitle(locale).equals("Stage") && !StringHelper.compareIgnoringAccentuation(offer.getTypeRecrutement().getTitle(locale),"Stage college")) {
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-grade") + " : ").setFont(fontBold).setFontSize(12f));
 					String grades = "";
 					for (List<AssetCategory> gradeRange : gradeRanges) {
@@ -230,7 +231,7 @@ public class OfferServiceImpl extends OfferServiceBaseImpl {
 					document.add((IBlockElement) element);
 				}
 
-				if (Validator.isNotNull(offer.getAvantages(locale)) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage")) {
+				if (Validator.isNotNull(offer.getAvantages(locale)) && !offer.getTypeRecrutement().getTitle(locale).equals("Stage") && !StringHelper.compareIgnoringAccentuation(offer.getTypeRecrutement().getTitle(locale),"Stage college")) {
 					paragraph = new Paragraph().setMarginBottom(-10f);
 					paragraph.add(new Text(LanguageUtil.get(locale, "eu.offer-avantages") + " : ").setFont(fontBold).setFontSize(12f));
 					document.add(paragraph);

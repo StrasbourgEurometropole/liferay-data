@@ -327,6 +327,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.ejob.publik.url.offer.apply");
 	}
 
+	public static String getEJobURLOfferStageCollegeApply() {
+		return PropsUtil.get("eu.strasbourg.ejob.publik.url.offer.stage.college.apply");
+	}
+
 	public static String getEJobURLApply() {
 		return PropsUtil.get("eu.strasbourg.ejob.publik.url.apply");
 	}

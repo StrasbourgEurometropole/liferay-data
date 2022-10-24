@@ -98,5 +98,5 @@ public class Constants {
 	public static final String DETAIL_PARTICIPATION_URL = "detail-participation/-/entity/id/";
 	public static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	public static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
-	public static final String DETAIL_INITIATIVE_URL = "detail-initiative/-/entity/id/";
+	public static final String DETAIL_INITIATIVE_URL = "detail-atelier/-/entity/id/";
 }

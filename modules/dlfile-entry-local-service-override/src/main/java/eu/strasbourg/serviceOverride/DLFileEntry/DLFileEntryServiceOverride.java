@@ -1,6 +1,7 @@
 package eu.strasbourg.serviceOverride.DLFileEntry;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLVersionNumberIncrease;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceWrapper;
 
@@ -19,6 +20,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -52,13 +54,83 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
                                     long fileEntryTypeId, Map<String, DDMFormValues> ddmFormValuesMap,
                                     File file, InputStream is, long size, ServiceContext serviceContext)
             throws PortalException {
+        DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
+        Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry,sourceFileName, mimeType, title, file, is, size));
+        sourceFileName = (String) map.get("sourceFileName");
+        mimeType = (String) map.get("mimeType");
+        title = (String) map.get("title");
+        file = (File) map.get("file");
+        is = (InputStream) map.get("is");
+        size = (long) map.get("size");
+        return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
+                changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+    }
 
-        // Verification de la cle de config de Portal-ext
-        String enabledKey = StrasbourgPropsUtil.getDocLibResizeAndCompressEnabled();
-        if (enabledKey == null || !(enabledKey.equals("true"))) {
-            return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
-                    changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+    @Override
+    public DLFileEntry updateFileEntry(
+            long userId, long fileEntryId, String sourceFileName, String mimeType, String title, String description,
+            String changeLog, DLVersionNumberIncrease dlVersionNumberIncrease, long fileEntryTypeId,
+            java.util.Map<String, DDMFormValues> ddmFormValuesMap, java.io.File file, java.io.InputStream is,
+            long size, com.liferay.portal.kernel.service.ServiceContext serviceContext)
+            throws PortalException {
+        DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryTypeId);
+        Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry, sourceFileName,
+                mimeType, title,
+                file, is, size));
+        sourceFileName = (String) map.get("sourceFileName");
+        mimeType = (String) map.get("mimeType");
+        title = (String) map.get("title");
+        file = (File) map.get("file");
+        is = (InputStream) map.get("is");
+        size = (long) map.get("size");
+        return super.updateFileEntry(
+                userId, fileEntryId, sourceFileName, mimeType, title, description,
+                changeLog, dlVersionNumberIncrease, fileEntryTypeId,
+                ddmFormValuesMap, file, is, size, serviceContext);
+    }
+
+    private RenderedImage readImage(boolean imageInFile, InputStream is, File file) throws IOException {
+        RenderedImage image;
+        if (!imageInFile) {
+            image = ImageIO.read(is);
+        } else {
+            image = ImageIO.read(file);
         }
+        return image;
+    }
+
+    private InputStream saveImage(boolean imageInFile, ByteArrayOutputStream baos, File file) throws IOException {
+        if (imageInFile) {
+            Path path = Paths.get(file.getPath());
+            Files.write(path, baos.toByteArray());
+            return null;
+        } else {
+            return new ByteArrayInputStream(baos.toByteArray());
+        }
+    }
+
+    private ByteArrayOutputStream compressImage(RenderedImage image, float quality) throws IOException {
+        // Configuration des parametres de compression
+        ImageWriter jpgWriter = ImageIO.getImageWritersByMIMEType("image/jpeg").next();
+        ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        jpgWriteParam.setCompressionQuality(quality);
+        // Configuration de l'output de compression
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        jpgWriter.setOutput(new MemoryCacheImageOutputStream(baos));
+        IIOImage outputImage = new IIOImage(image, null, null);
+        // Compression
+        jpgWriter.write(null, outputImage, jpgWriteParam);
+        baos.flush();
+        jpgWriter.dispose();
+        return baos;
+    }
+
+    private Map<String, Object> overrideDLFileEntry(DLFileEntry entry , String sourceFileName,
+                                                    String mimeType, String title,
+                                                    File file, InputStream is, long size){
+
+        Map<String, Object> map = new HashMap<>();
 
         // On verifie ou se trouve le document d'entree
         InputStream copiedIs = null;
@@ -81,11 +153,14 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
             is = new ByteArrayInputStream(baos.toByteArray());
             copiedIs = new ByteArrayInputStream(baos.toByteArray());
         } else {
-            return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
-                    changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+            map.put("sourceFileName",sourceFileName);
+            map.put("mimeType",mimeType);
+            map.put("title",title);
+            map.put("file",file);
+            map.put("is",is);
+            map.put("size",size);
+            return map;
         }
-        // Si title deja dans la lib, return
-        DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
         // Lecture de l'image
         RenderedImage image;
         try {
@@ -170,46 +245,13 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         } catch (Exception e) {
             _log.error(e);
         }
-
-        return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
-                changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
-    }
-
-    private RenderedImage readImage(boolean imageInFile, InputStream is, File file) throws IOException {
-        RenderedImage image;
-        if (!imageInFile) {
-            image = ImageIO.read(is);
-        } else {
-            image = ImageIO.read(file);
-        }
-        return image;
-    }
-
-    private InputStream saveImage(boolean imageInFile, ByteArrayOutputStream baos, File file) throws IOException {
-        if (imageInFile) {
-            Path path = Paths.get(file.getPath());
-            Files.write(path, baos.toByteArray());
-            return null;
-        } else {
-            return new ByteArrayInputStream(baos.toByteArray());
-        }
-    }
-
-    private ByteArrayOutputStream compressImage(RenderedImage image, float quality) throws IOException {
-        // Configuration des parametres de compression
-        ImageWriter jpgWriter = ImageIO.getImageWritersByMIMEType("image/jpeg").next();
-        ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
-        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        jpgWriteParam.setCompressionQuality(quality);
-        // Configuration de l'output de compression
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        jpgWriter.setOutput(new MemoryCacheImageOutputStream(baos));
-        IIOImage outputImage = new IIOImage(image, null, null);
-        // Compression
-        jpgWriter.write(null, outputImage, jpgWriteParam);
-        baos.flush();
-        jpgWriter.dispose();
-        return baos;
+        map.put("sourceFileName",sourceFileName);
+        map.put("mimeType",mimeType);
+        map.put("title",title);
+        map.put("file",file);
+        map.put("is",is);
+        map.put("size",size);
+        return map;
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
