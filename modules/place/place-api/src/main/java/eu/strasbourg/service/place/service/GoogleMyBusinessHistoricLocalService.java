@@ -92,7 +92,7 @@ public interface GoogleMyBusinessHistoricLocalService
 		long googleMyBusinessHistoricId);
 
 	/**
-	 * Crée une entree google mybusiness vide avec une PK, non ajouté à la base de donnée
+	 * Crée une entrée googleMyBusiness vide avec une PK, non ajouté à la base de donnée
 	 */
 	public GoogleMyBusinessHistoric createGoogleMyBusinessHistoric(
 			ServiceContext sc)

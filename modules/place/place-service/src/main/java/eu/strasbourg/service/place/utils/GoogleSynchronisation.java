@@ -20,6 +20,7 @@ import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.Pair;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -92,7 +93,7 @@ public class GoogleSynchronisation {
             try {
                 json = getJSONAccesToken();
             } catch (IOException | JSONException e) {
-                message = e.getStackTrace().toString();
+                message = ExceptionUtils.getStackTrace(e);
                 resultat = "ERREUR";
             }
             String error = null;
@@ -112,7 +113,8 @@ public class GoogleSynchronisation {
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
-
+                            String test = null;
+                            test.substring(0,1);
                             // transforme le schedule en json
                             JSONObject jsonSchedules = toJson(schedules);
                             // Synchronise à google map
@@ -130,6 +132,14 @@ public class GoogleSynchronisation {
                     } catch (Exception e) {
                         this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
                         this.googleMyBusinessHistoric.addNewOperation(e.getMessage());
+                        // Récupère les messages d'erreurs déjà existant avant de rajouter celui du lieu
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(this.googleMyBusinessHistoric.getErrorStackTrace());
+                        sb.append("<br><br>");
+                        sb.append(place.getAliasCurrentValue());
+                        sb.append("<br>");
+                        sb.append(ExceptionUtils.getStackTrace(e));
+                        this.googleMyBusinessHistoric.setErrorStackTrace(sb.toString());
                     }
                 }
             }
