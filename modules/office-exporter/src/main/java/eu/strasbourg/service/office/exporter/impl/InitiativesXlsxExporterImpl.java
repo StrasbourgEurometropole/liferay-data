@@ -1,6 +1,16 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import eu.strasbourg.service.office.exporter.api.InitiativesXlsxExporter;
+import eu.strasbourg.service.project.model.Initiative;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,19 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-
-import eu.strasbourg.service.office.exporter.api.InitiativesXlsxExporter;
-import eu.strasbourg.service.project.model.Initiative;
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
 @Component(
         immediate = true,
