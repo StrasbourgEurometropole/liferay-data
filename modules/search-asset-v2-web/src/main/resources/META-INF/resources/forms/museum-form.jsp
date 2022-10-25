@@ -8,6 +8,9 @@
 				<liferay-ui:message key="eu.dates" />
 			</legend>
 			<div class="date-selection-control">
+                <label>
+                    <liferay-ui:message key="search-asset-from" />
+                </label>
                 <span class="mns-ico-date">
                     <liferay-ui:input-date name="fromDate" nullable="true"
                         cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonthIndex}"

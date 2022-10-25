@@ -26,10 +26,12 @@
             @include RWD(tablet_portrait){
                 display: block;
                 @include positionAbsolute("", translateX(-50%), (bottom: 0, left: 50%));
+                width: 100%;
 
                 .quicklinks{
                     display: flex;
-                    gap: 40px;
+                    flex-wrap: wrap;
+                    gap: 10px 40px;
                     background: white;
                     padding: 80px 165px;
                 }
@@ -39,6 +41,10 @@
 
     &:not(.home){
         margin-top: 40px;
+
+        @include RWD(tablet_portrait){
+            margin-top: 0;
+        }
 
         h1{
             @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");

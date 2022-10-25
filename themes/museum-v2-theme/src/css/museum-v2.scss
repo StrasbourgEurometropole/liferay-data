@@ -6,6 +6,7 @@
 @import 'builders/_fonts';
 @import 'builders/_mixins';
 @import 'builders/_quark-animation-hoverBar';
+@import 'builders/_select2';
 @import 'builders/_svg-factory';
 
 // General
@@ -15,6 +16,7 @@
 
 // Blocs
 @import 'blocs/_breadcrumbs';
+@import 'blocs/_event';
 
 // sections
 @import 'sections/_accroche';
@@ -34,13 +36,14 @@
 @import '_tarteaucitron';
 
 #global{
-    .signed-in & {
+
+    .signed-in {
         padding-top: 54px;
     }
 
-	.hidden{
-		display: none;
-	}
+    .hidden{
+        display: none;
+    }
 
     *{ 
         .portlet{
@@ -55,192 +58,211 @@
             }
         }
     }  
+}
 
-    // bouton rouge
-    a.button1{      
-        display: block;
-        width: 215px;
-        padding: 15px;
-        background: $color_main;
-        border: 1px solid $color_main;
-        text-align: center;
-        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
-        text-transform: uppercase;
+// bouton rouge
+a.button1{      
+    display: block;
+    width: 215px;
+    padding: 15px;
+    background: $color_main;
+    border: 1px solid $color_main;
+    text-align: center;
+    @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+    text-transform: uppercase;
 
-        
-        @include RWD(tablet_portrait){
-            width: 260px;
-            transition : all, 0.2s, ease-out;
-            font-size: 0.95rem;
-            line-height: 1.1rem;
-
-            &:hover{
-                background: white;
-                color: $color_main;
-                text-decoration: none;
-            }
-        }
-    } 
-
-    // bouton gris
-    a.button2{      
-        display: block;
-        width: 215px;
-        padding: 15px;
-        background: white;
-        border: 1px solid white;
-        text-align: center;
-        @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
-        box-shadow: 0px 15px 27px rgba(0, 0, 0, 0.25);
-
-        
-        @include RWD(tablet_portrait){
-            width: 260px;
-            transition : all, 0.2s, ease-out;
-            font-size: 0.95rem;
-            line-height: 1.1rem;
-
-            &:hover{
-                color: $color_main;
-                text-decoration: none;
-            }
-        }
-    } 
-
-    // bouton blanc avec animation sur le border
-    button.button1{      
-        display: block;
-        width: 215px;
-        padding: 15px;
-        background: $color_main;
-        border: 1px solid $color_main;
-        text-align: center;
-        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
-        text-transform: uppercase;
-
-        @include RWD(tablet_portrait){
-            border: none;
-            background: none;
-            width: 290px;
-            @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
-            outline: none;
-            z-index: 10;
-            padding: 0;
-
-            span{
-                display: block;
-                position: relative;
-            }
-
-            .points{
-                &:before, &:after{
-                    content:'';
-                    position: absolute;
-                    width: 1px;
-                    height: 0;
-                    border: 5px solid $color_main;
-                    transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
-                }
     
-                &:before{
-                    bottom:0;
-                    right: calc(50% - 2.5px);
-                    border-right: none;
-                    border-top: none;
-                }
+    @include RWD(tablet_portrait){
+        width: 260px;
+        transition : all, 0.2s, ease-out;
+        font-size: 0.95rem;
+        line-height: 1.1rem;
 
-                &:after{
-                    top:0;
-                    left: calc(50% - 2.5px);
-                    border-left: none;
-                    border-bottom: none;
-                }
+        &:hover{
+            background: white;
+            color: $color_main;
+            text-decoration: none;
+        }
+    }
 
-            }
-            
-            .trait:before{
+    &:active, &:focus, &:hover{
+        outline: none;
+    }
+} 
+
+// bouton gris
+a.button2{      
+    display: block;
+    width: 215px;
+    padding: 15px;
+    background: white;
+    border: 1px solid white;
+    text-align: center;
+    @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+    box-shadow: 0px 15px 27px rgba(0, 0, 0, 0.25);
+
+    
+    @include RWD(tablet_portrait){
+        width: 260px;
+        transition : all, 0.2s, ease-out;
+        font-size: 0.95rem;
+        line-height: 1.1rem;
+
+        &:hover{
+            color: $color_main;
+            text-decoration: none;
+        }
+    }
+
+    &:active, &:focus, &:hover{
+        outline: none;
+    }
+} 
+
+// bouton blanc avec animation sur le border
+button.button1{      
+    display: block;
+    width: 215px;
+    padding: 15px;
+    background: $color_main;
+    border: 1px solid $color_main;
+    text-align: center;
+    @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+    text-transform: uppercase;
+
+    @include RWD(tablet_portrait){
+        border: none;
+        background: none;
+        width: 290px;
+        @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
+        z-index: 10;
+        padding: 0;
+
+        span{
+            display: block;
+            position: relative;
+        }
+
+        .points{
+            &:before, &:after{
                 content:'';
                 position: absolute;
                 width: 1px;
-                opacity: 0;
+                height: 0;
+                border: 5px solid $color_main;
+                transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
+            }
+
+            &:before{
                 bottom:0;
-                right: 0%;
+                right: calc(50% - 2.5px);
+                border-right: none;
+                border-top: none;
+            }
+
+            &:after{
+                top:0;
+                left: calc(50% - 2.5px);
+                border-left: none;
+                border-bottom: none;
+            }
+
+        }
+        
+        .trait:before{
+            content:'';
+            position: absolute;
+            width: 1px;
+            opacity: 0;
+            bottom:0;
+            right: 0%;
+        }
+        
+        .background{
+            &:before{
+                content:'';
+                position: absolute;
+                top: 0;
+                left: -5px;
+                width: 0;
+                height: calc(100% - 5px);
+                margin: 0 5px 5px;
+                background-color: $color_main;
             }
             
+            span{
+                color: black;
+            }
+        }
+
+        &:hover{
+            .points:before, .points:after{
+                width: calc(50% + 2.5px);
+                height: calc(100% - 5px);
+                transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+            }
+
+            .trait:before{
+                opacity: 1;
+                border-bottom: 5px solid $color_main;
+                width: calc(50%);
+                transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
+            }
+
             .background{
                 &:before{
-                    content:'';
-                    position: absolute;
-                    top: 0;
-                    left: -5px;
-                    width: 0;
-                    height: calc(100% - 5px);
-                    margin: 0 5px 5px;
-                    background-color: $color_main;
+                    width: calc(100% - 5px);
+                    transition: width 0.3s ease-out 0.3s;
                 }
-                
+
                 span{
-                    color: black;
-                }
-            }
-
-            &:hover{
-                .points:before, .points:after{
-                    width: calc(50% + 2.5px);
-                    height: calc(100% - 5px);
-                    transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
-                }
-
-                .trait:before{
-                    opacity: 1;
-                    border-bottom: 5px solid $color_main;
-                    width: calc(50%);
-                    transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
-                }
-
-                .background{
-                    &:before{
-                        width: calc(100% - 5px);
-                        transition: width 0.3s ease-out 0.3s;
-                    }
-
-                    span{
-                        color: white;
-                        transition: color 0.3s ease-out 0.3s;
-                    }
+                    color: white;
+                    transition: color 0.3s ease-out 0.3s;
                 }
             }
         }
-    } 
-
-    // boutons sliders
-    .swiper-button-next, .swiper-button-prev { 
-        height: 37px;
-        width: 37px;
-        background-color: $color_main;
-        border-radius: 50%;
-        color: white;
-
-        &.swiper-button-disabled{
-            display: none;
-        }
-
-        &:after{
-            font-size: 0.875rem;
-            font-weight: 700;
-        }
     }
-    .swiper-button-prev { 
-        left: -18px;
+
+    &:active, &:focus, &:hover{
+        outline: none;
     }
-    .swiper-button-next{ 
-        right: -18px;
+} 
+
+// boutons sliders
+.swiper-button-next, .swiper-button-prev { 
+    height: 37px;
+    width: 37px;
+    background-color: $color_main;
+    border-radius: 50%;
+    color: white;
+
+    &.swiper-button-disabled{
+        display: none;
     }
+
+    &:after{
+        font-size: 0.875rem;
+        font-weight: 700;
+    }
+}
+.swiper-button-prev { 
+    left: -18px;
+}
+.swiper-button-next{ 
+    right: -18px;
 }
 
 @include RWD(extra_large){
     body .container {
         max-width: 1240px;
+    }
+}
+
+.margin-top{
+    margin-top: 25px;
+
+    @include RWD(tablet_portrait){
+        margin-top: 40px;
     }
 }
 

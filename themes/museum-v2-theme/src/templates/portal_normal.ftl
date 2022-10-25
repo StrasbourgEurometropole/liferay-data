@@ -79,6 +79,7 @@
 		</div>
 
 		<script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
+		<script src="${javascript_folder}/vendors/select2.min.js"></script>
 		<script>
 			window.homeURL = '${homeURL}';
 		</script>

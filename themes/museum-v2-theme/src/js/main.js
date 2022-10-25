@@ -116,7 +116,6 @@
       });
     }
   };
-
   $(".swiper-button-pause").click(function(){
     if ( swiperHeaderMuseum !== undefined ){
       swiperHeaderMuseum.autoplay.stop();
@@ -133,6 +132,33 @@
     }
   });
 
+  // Selecteurs
+  $('select').each(function(index, element){
+    //var placeholder = $(element).find('option[disabled]').text();
+    var placeholder = "";
+    $(element).select2({
+      placeholder: placeholder,
+      closeOnSelect: false
+    });
+  });
+
+  // Cases à cocher et boutons radio
+  function setCheckedClass(checkbox) {
+      if ($(checkbox).is(':checked')) {
+          var name = $(checkbox).attr('name');
+          $('.radio [name=' + name + ']').parent('label').removeClass('checked');
+          $(checkbox).parent('label').addClass('checked');
+      } else {
+          $(checkbox).parent('label').removeClass('checked');
+      }
+  }
+  $('input[type=checkbox], input[type=radio]').on('change', function() {
+      setCheckedClass(this);
+  });
+  $('input[type=checkbox], input[type=radio]').each(function() {
+      setCheckedClass(this);
+  });
+
   // vérifie si on est en mode smartphone/tablette portrait ou desktop/tablette paysage
   const breakpointTabletLandscape = window.matchMedia( '(min-width:992px)' );
   const tabletLandscapeOrDesktopChecker = function() {
@@ -141,7 +167,7 @@
       if ( swiperNews !== undefined )
         swiperNews.destroy( true, true );
 
-        enableSwiperHeaderMuseum();
+      enableSwiperHeaderMuseum();
     } else {
       // On est en mode mobile ou tablette portrait      
       enableSwiperNews();
