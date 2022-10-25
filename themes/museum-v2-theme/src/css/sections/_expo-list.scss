@@ -1,0 +1,91 @@
+#expo-list{
+
+    .content{   
+
+        .list{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            &:not(:first-child()){
+                display: none;
+            }
+
+            @include RWD(tablet_portrait){
+                gap: 40px;
+            }
+
+            .expo-thumbnail{
+                background: $color_third;
+                height: auto;
+                padding: 0;
+                box-shadow: none;
+                width: 100%;
+
+                &:before{
+                    content: none;
+                }
+
+                @include RWD(tablet_portrait){
+                    width: calc(calc(100% - 40px) / 2);
+                }
+
+                .info{
+                    text-align: start;
+                    padding: 80px 10px 80px 30px;
+                    margin: 0;
+                }
+
+                .title{
+                    flex-grow: 1;
+                }
+
+                .museums{
+                    order: 1;
+                    margin-bottom: 0;
+                    color: black;
+                    font-weight: 400;
+                    line-height: 1.1875rem;;
+                }
+
+                .dates{
+                    margin-bottom: 30px;
+                }
+            }
+        }
+
+        .btn-more{
+            @include ft($proximaNova, 1rem, 700, black, 1.1875rem, "");
+            text-align: center;
+            margin: -20px auto 35px;
+
+
+            button{
+                background-color: $color-main;
+                border-radius: 0;
+                margin: 10px auto;
+                width: 36px;
+                height: 36px;
+                display: block;
+                position: relative;
+
+                &:after{
+                    content: '';
+                    top: 50%;
+                    left: 50%;
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                    background-image: url( svg-bg-uri($svg-plus, white) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+        }
+
+        .button1{
+            display: none;
+        }
+    }
+}

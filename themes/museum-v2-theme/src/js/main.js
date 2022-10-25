@@ -104,12 +104,13 @@
   // liste collections
   let listCollectionsMasonry;
   const enableListCollectionsMasonry = function() {
-    if($('#listCollections').length )
+    if($('#listCollections').length ){
       listCollectionsMasonry = new Masonry('#listCollections', {
         itemSelector: '.oeuvre-thumbnail',
         gutter: '.gutter-sizer',
         percentPosition: true
       });
+    }
   };
 
   // slider entete des musées

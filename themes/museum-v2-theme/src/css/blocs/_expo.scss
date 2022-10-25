@@ -1,0 +1,85 @@
+.expo-thumbnail{
+    display: flex;
+    padding: 10px 0;
+    box-shadow: 1px 3px 5px 0px #{$color_second}9;
+    margin-bottom: 20px;
+    position: relative;
+    height: calc(100% - 20px);
+
+    &:hover{
+        text-decoration: none;
+    }
+
+    &:before{
+        content: '';
+        @include positionAbsolute('', '', (top: 70px, left: calc(45% - 10px)));
+        width: 20px;
+        height: 3px;
+        background-color: $color_main;
+
+        @include RWD(tablet_portrait){
+            top: 120px;
+            left: calc(45% - 15px);
+            width: 30px;
+            height: 9px;
+        }
+
+    }
+
+    img{
+        display: block;
+        width: 45%;
+        height: fit-content;
+    }
+
+    .info{
+        text-align: center;
+        padding: 10px;
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        @include RWD(tablet_portrait){
+            margin: auto;
+        }
+
+        .title{
+            @include ft($proximaNova, 0.875rem, 700, black, 1.0625rem, "");
+            margin-bottom: 30px;
+
+            @include RWD(tablet_portrait){
+                font-size: 1.4375rem;
+                line-height: 1.75rem;
+            }
+        }
+
+        .museums{
+            @include ft($proximaNova, 0.75rem, 700, $color_main, 0.875rem, "");
+            margin-bottom: 15px;
+
+            @include RWD(tablet_portrait){
+                font-size: 1rem;
+                line-height: 1.25rem;
+                margin-bottom: 30px;
+            }
+        }
+
+        .dates{
+            @include ft($proximaNova, 0.75rem, 400, black, 0.875rem, "");
+            margin-bottom: 20px;
+
+            @include RWD(tablet_portrait){
+                font-size: 1rem;
+                line-height: 1.1875rem;
+                margin-bottom: 55px;
+            }
+        }
+
+        .button1{
+            font-weight: 700;
+            width: 130px;
+            text-transform: none;
+        }
+    }
+}
