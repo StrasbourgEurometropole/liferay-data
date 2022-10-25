@@ -26,8 +26,10 @@
                                 </#if>
                                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                                 <#assign dates = docXml.valueOf("//dynamic-element[@name='dates']/dynamic-content/text()") />
+                                <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
+                                <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                                 <div class="swiper-slide">
-                                    <a href="" aria-label="${title}" title="${title}" class="expo-thumbnail">
+                                    <a href="${viewURL}" aria-label="${title}" title="${title}" class="expo-thumbnail">
                                         <img src="${imageURL}" alt="${title}" title="${title}" />
                                         <div class="info">
                                             <div class="title">

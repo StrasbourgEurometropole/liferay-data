@@ -1,11 +1,16 @@
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+<#else>
+    <#assign homeURL = "/" />
+</#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
 <section id="news" class="margin-bottom">
-    <div  class="content container">
+    <div class="content container">
             
-        <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title='<@liferay_ui.message key="eu.museum.all-news" />'>
+        <button class="button1" id="btn-all-news" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title='<@liferay_ui.message key="eu.museum.all-news" />'>
             <span class="points">
                 <span class="trait">
                     <span class="background">
@@ -86,7 +91,13 @@
                 
             </div>
             
-            <a href="" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
+            <a href="${homeURL}actualites-des-musees" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
         </#if>
     </div>
 </section>
+
+<script>
+    $("#btn-all-news").click(function(){
+      location.href='http://' + window.location.host + '${homeURL}actualites-des-musees'
+    });
+</script>

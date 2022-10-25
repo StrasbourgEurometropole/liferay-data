@@ -1,22 +1,14 @@
 <#setting locale = locale />
-<#setting datetime_format="iso">
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
 </#if>
-<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<section id="oeuvre">
+<section id="expo-list">
     <div  class="content container">
-        <div class="infos">
-            <h2>${portletHelper.getPortletTitle('eu.museum.collection', renderRequest)}</h2>
-            <p><@liferay_ui.message key="eu.museum.collection.description" /></p>
-            <a href="${homeURL}collections-des-musees" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
-        </div>
         <#if entries?has_content>
-            <div id="listCollections" class="list">
-                <div class="gutter-sizer"></div>
+            <div class="list">
         	    <#list entries as curEntry>
                     <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                         <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
@@ -27,8 +19,8 @@
                             <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
-                        <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                        <a href="${link}" aria-label="${title}" title="${title}" class="oeuvre-thumbnail">
+                        <#assign dates = docXml.valueOf("//dynamic-element[@name='dates']/dynamic-content/text()") />
+                        <a href="" aria-label="${title}" title="${title}" class="expo-thumbnail">
                             <img src="${imageURL}" alt="${title}" title="${title}" />
                             <div class="info">
                                 <div class="title">
@@ -52,11 +44,41 @@
                                         </span>
                                     </#if>
                                 </div>
+                                <div class="dates">
+                                    <span>${dates}</span>
+                                </div>
+
+                                <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.know-more" />" title='<@liferay_ui.message key="eu.museum.know-more" />'>
+                                    <span class="points">
+                                        <span class="trait">
+                                            <span class="background">
+                                                <span>
+                                                    <@liferay_ui.message key="eu.museum.know-more" />
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </button>
                             </div>
                         </a>
+                        <#if curEntry?counter % 8 == 0>
+                                <div class="btn-more">
+                                    <@liferay_ui.message key="eu.museum.more-expo" />
+                                    <button class="btn" data-list="list-${curEntry?counter}"></button>
+                                </div>
+                            </div>
+                            <div class="list list-${curEntry?counter}">
+                        </#if>
                     </#if>
                 </#list>
             </div>
         </#if>
     </div>
 </section>
+
+<script>
+    $('.btn-more').click(function(element){
+        $(this).hide();
+        $("." + $(this).children('.btn').attr("data-list")).css('display', "flex");
+    });
+</script>
