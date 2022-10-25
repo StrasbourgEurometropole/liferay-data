@@ -1,6 +1,6 @@
 <#setting locale = locale />
 
-<section id="headerMuseum" class="margin-bottom">
+<section id="headerMuseum">
     <h1>${layout.getName(locale)}</h1>
     <div class="slider">
         <div class="swiper">

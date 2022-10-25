@@ -1,5 +1,5 @@
 <#setting locale = locale />
-<div class="quicklinks">
+<div class="quicklinks content container">
     <#if linkLabel.getSiblings()?has_content>
         <#list linkLabel.getSiblings() as cur_linkLabel>
             <#if cur_linkLabel.linkURL.getFriendlyUrl()?has_content>
