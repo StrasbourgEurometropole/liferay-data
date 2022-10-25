@@ -82,6 +82,25 @@
     }
   }
 
+  // slider expos
+  let swiperExpos;
+  const enableSwiperExpos = function() {
+    if($('#expo .swiper').length){
+      swiperNews = new Swiper('#expo .swiper', {
+        // Optional parameters
+        slidesPerView: 2,
+        spaceBetween: 70,
+        loop: false,
+
+        // Navigation arrows
+        navigation: {
+          nextEl: '#expo .swiper-button-next',
+          prevEl: '#expo .swiper-button-prev',
+        },
+      });
+    }
+  }
+
   // liste collections
   let listCollectionsMasonry;
   const enableListCollectionsMasonry = function() {
@@ -166,11 +185,16 @@
       // On est en mode DESKTOP ou tablette paysage
       if ( swiperNews !== undefined )
         swiperNews.destroy( true, true );
+        
+      enableSwiperExpos();
 
       enableSwiperHeaderMuseum();
     } else {
       // On est en mode mobile ou tablette portrait      
       enableSwiperNews();
+      
+      if ( swiperExpos !== undefined )
+        swiperExpos.destroy( true, true );
 
       if ( swiperHeaderMuseum !== undefined )
         swiperHeaderMuseum.destroy( true, true );
