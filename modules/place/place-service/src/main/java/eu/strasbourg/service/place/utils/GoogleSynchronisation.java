@@ -1,6 +1,7 @@
 package eu.strasbourg.service.place.utils;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -19,8 +20,10 @@ import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.models.Pair;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -30,7 +33,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class GoogleSynchronisation {
@@ -84,20 +92,29 @@ public class GoogleSynchronisation {
             JSONObject json = null;
             try {
                 json = getJSONAccesToken();
-                String error = json.getString("error");
-                if (Validator.isNotNull(error)) {
-                    message = json.getString("error_description");
-                    resultat = "ERREUR";
-                }else {
-                    String accessToken = json.getString("access_token");
-                    this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
-                    for (Place place : places) {
+            } catch (IOException | JSONException e) {
+                message = ExceptionUtils.getStackTrace(e);
+                resultat = "ERREUR";
+            }
+            String error = null;
+            if (json != null) {
+                error = json.getString("error");
+            }
+            if (Validator.isNotNull(error)) {
+                message = json.getString("error_description");
+                resultat = "ERREUR";
+            }else {
+                String accessToken = json.getString("access_token");
+                this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
+                for (Place place : places) {
+                    try{
                         // on récupère les horaires de la semaine du lieu
                         Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
-
+                            String test = null;
+                            test.substring(0,1);
                             // transforme le schedule en json
                             JSONObject jsonSchedules = toJson(schedules);
                             // Synchronise à google map
@@ -107,30 +124,24 @@ public class GoogleSynchronisation {
                                 this.googleMyBusinessHistoric.addNewOperation("lieu " + place.getAliasCurrentValue() + " synchronis&eacute;");
                             }else {
                                 this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
-                                this.googleMyBusinessHistoric.addNewOperation(jsonResult.getJSONObject("error").getString("message"));
-                                JSONArray details = jsonResult.getJSONObject("error").getJSONArray("details");
-                                JSONArray errorDetails = JSONFactoryUtil.createJSONArray();
-                                for (Object detail : details) {
-                                    JSONObject detailJson = JSONFactoryUtil.createJSONObject(detail.toString());
-                                    if(detailJson.getJSONArray("errorDetails").length() > 0)
-                                        errorDetails = detailJson.getJSONArray("errorDetails");
-                                }
-                                if(errorDetails.length() > 0) {
-                                    this.googleMyBusinessHistoric.addNewOperation("D&eacute;tail de l'erreur :");
-                                    for (Object errorDetail : errorDetails) {
-                                        JSONObject errorDetailJson = JSONFactoryUtil.createJSONObject(errorDetail.toString());
-                                        this.googleMyBusinessHistoric.addNewOperation(errorDetailJson.getString("message"));
-                                    }
-                                }
+                                this.googleMyBusinessHistoric.addNewOperation(jsonResult.toString());
                             }
                         }else{
                             this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas d'horaires");
                         }
+                    } catch (Exception e) {
+                        this.googleMyBusinessHistoric.addNewOperation("le lieu " + place.getAliasCurrentValue() + " n'a pas pu &ecirc;tre synchronis&eacute; pour la raison suivante :");
+                        this.googleMyBusinessHistoric.addNewOperation(e.getMessage());
+                        // Récupère les messages d'erreurs déjà existant avant de rajouter celui du lieu
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(this.googleMyBusinessHistoric.getErrorStackTrace());
+                        sb.append("<br><br>");
+                        sb.append(place.getAliasCurrentValue());
+                        sb.append("<br>");
+                        sb.append(ExceptionUtils.getStackTrace(e));
+                        this.googleMyBusinessHistoric.setErrorStackTrace(sb.toString());
                     }
                 }
-            } catch (Exception e) {
-                message = e.getMessage();
-                resultat = "ERREUR";
             }
         }
 
@@ -148,11 +159,17 @@ public class GoogleSynchronisation {
             this.googleMyBusinessHistoric.addNewOperation("Synchronisation effectu&eacute;e en  " + processTime + " secondes.");
 
             // Succes de l'anonymisation
-            this.googleMyBusinessHistoric.setResult(1);
+            // Si on a pas eu de résulat = ERREUR mais qu'on a quand meme une stacktrace c'est qu'au moins un lieu n'a pas réussi à se synchroniser
+            // On enregistre alors un résultat de 2 "Succès avec erreur"
+            if(Validator.isNotNull(this.googleMyBusinessHistoric.getErrorStackTrace())) {
+                this.googleMyBusinessHistoric.setResult(2);
+            } else {
+                this.googleMyBusinessHistoric.setResult(1);
+            }
         }
     }
 
-    public JSONObject getJSONAccesToken() throws Exception{
+    public JSONObject getJSONAccesToken() throws IOException, JSONException {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         //récupère le refreshToken (className = "" , classPK = 0, type = 98)
         Ticket ticket = TicketLocalServiceUtil.getTickets(-1, -1).stream()
@@ -254,12 +271,12 @@ public class GoogleSynchronisation {
                         jsonCloseTime.put("hours", 24);
                         jsonCloseTime.put("minutes", 0);
                         jsonPeriod.put("closeTime", jsonCloseTime);
-                        jsonPeriod.put("isClosed", false);
+                        jsonPeriod.put("closed", false);
                         jsonSpecialHourPeriods.put(jsonPeriod);
                     }else if (isClosed) {
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("startDate", jsonDate);
-                        jsonPeriod.put("isClosed", true);
+                        jsonPeriod.put("closed", true);
                         jsonSpecialHourPeriods.put(jsonPeriod);
                     }else {
                         for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
@@ -279,7 +296,7 @@ public class GoogleSynchronisation {
                             jsonCloseTime.put("hours", time[0]);
                             jsonCloseTime.put("minutes", time[1]);
                             jsonPeriod.put("closeTime", jsonCloseTime);
-                            jsonPeriod.put("isClosed", false);
+                            jsonPeriod.put("closed", false);
                             jsonSpecialHourPeriods.put(jsonPeriod);
                         }
                     }

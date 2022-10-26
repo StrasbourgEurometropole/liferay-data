@@ -71,7 +71,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	}
 
 	/**
-	 * Crée une entree google mybusiness vide avec une PK, non ajouté à la base de donnée
+	 * Crée une entrée googleMyBusiness vide avec une PK, non ajouté à la base de donnée
 	 */
 	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
 			createGoogleMyBusinessHistoric(

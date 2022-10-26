@@ -72,7 +72,7 @@ public class GoogleMyBusinessHistoricLocalServiceImpl
 	public final static Log log = LogFactoryUtil.getLog(GoogleMyBusinessHistoricLocalServiceImpl.class);
 
 	/**
-	 * Crée une entree google mybusiness vide avec une PK, non ajouté à la base de donnée
+	 * Crée une entrée googleMyBusiness vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
 	public GoogleMyBusinessHistoric createGoogleMyBusinessHistoric(ServiceContext sc) throws PortalException {

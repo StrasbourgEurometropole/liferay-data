@@ -85,7 +85,13 @@ public class GoogleMyBusinessHistoricImpl
 	 */
 	@Override
 	public String getResultLabel() {
-		return this.getResult() == 1 ? "Succ&egrave;s" : "Echec";
+		if(getResult() == 0) {
+			return "Echec";
+		} else if (getResult() == 2) {
+			return "Succ&egrave;s avec erreur";
+		} else {
+			return "Succ&egrave;s";
+		}
 	}
 
 	/**
