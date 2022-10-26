@@ -159,7 +159,13 @@ public class GoogleSynchronisation {
             this.googleMyBusinessHistoric.addNewOperation("Synchronisation effectu&eacute;e en  " + processTime + " secondes.");
 
             // Succes de l'anonymisation
-            this.googleMyBusinessHistoric.setResult(1);
+            // Si on a pas eu de résulat = ERREUR mais qu'on a quand meme une stacktrace c'est qu'au moins un lieu n'a pas réussi à se synchroniser
+            // On enregistre alors un résultat de 2 "Succès avec erreur"
+            if(Validator.isNotNull(this.googleMyBusinessHistoric.getErrorStackTrace())) {
+                this.googleMyBusinessHistoric.setResult(2);
+            } else {
+                this.googleMyBusinessHistoric.setResult(1);
+            }
         }
     }
 

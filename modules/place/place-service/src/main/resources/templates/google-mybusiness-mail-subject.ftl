@@ -1,5 +1,7 @@
 <#if googleMyBusinessHistoric.result == 1>
 	<#assign result = 'Succès' />
+<#elseif googleMyBusinessHistoric.result == 2>
+	<#assign result = 'Succès avec erreur' />
 <#else>
 	<#assign result = 'Erreur' />
 </#if>
