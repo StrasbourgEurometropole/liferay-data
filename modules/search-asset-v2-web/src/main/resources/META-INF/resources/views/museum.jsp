@@ -4,7 +4,7 @@
 
 <div class="search-asset-portlet-page container">
 	<div class="search-asset-form">
-		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
+		<aui:form action="${searchActionURL}" method="get" name="fm">
 		 	<liferay-portlet:renderURLParams varImpl="searchActionURL" />
 			<liferay-util:include page="/forms/${dc.searchForm}-form.jsp" servletContext="<%=application %>" />
 		</aui:form>

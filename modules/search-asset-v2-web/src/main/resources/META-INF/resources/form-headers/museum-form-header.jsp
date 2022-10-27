@@ -26,6 +26,12 @@
 	            $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
 	            $('.search-asset-form form').submit();
 	        });
+	        $('#keywords-deported-form').on('submit', function(e){
+	            e.preventDefault();
+	            var keywords = $('#keywords-deported-form input[type=text]').val();
+	            $('.search-asset-form input[type=hidden][name$=keywords]').val(keywords);
+	            $('.search-asset-form form').submit();
+            });
 	    });
 	})(jQuery);
 </script>

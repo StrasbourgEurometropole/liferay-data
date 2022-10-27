@@ -29,7 +29,7 @@
     img{
         display: block;
         width: 45%;
-        height: fit-content;
+        object-fit: cover;
     }
 
     .info{
