@@ -16,7 +16,7 @@ dependencies {
 
 	compileOnly group: "jstl", name: "jstl"
 
-	compileInclude 'org.apache.commons:commons-text:1.4'
+	compileInclude group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 	

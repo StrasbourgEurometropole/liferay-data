@@ -16,8 +16,11 @@ package eu.strasbourg.service.strasbourg.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileEntryMetadata;
 import com.liferay.document.library.kernel.model.DLFileEntryType;
@@ -36,6 +39,8 @@ import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
 import com.liferay.dynamic.data.mapping.kernel.LocalizedValue;
 import com.liferay.dynamic.data.mapping.kernel.Value;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalArticleDisplay;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
@@ -47,9 +52,11 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -85,6 +92,7 @@ import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -316,8 +324,6 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 		return result;
 	}
-
-
 
 	/**
 	 * Envoie <code>error</code> si le document n'a pas été envoyé.
@@ -611,6 +617,197 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}else{
 			return error("Document does not exist after retrieving the Outputstream");
 		}
+	}
+
+	@Override
+	public JSONArray getStructuresByGroupIds(long[] groupIds) {
+		JSONArray structuresJson = JSONFactoryUtil.createJSONArray();
+
+		if(groupIds.length > 0) {
+			// récupère le classNameId des contenu web
+			long classNameId = ClassNameLocalServiceUtil.getClassNameId(JournalArticle.class.getName());
+
+			// récupère les structures du group
+			List<com.liferay.dynamic.data.mapping.model.DDMStructure> structures = DDMStructureLocalServiceUtil.getStructures(groupIds, classNameId);
+			for (com.liferay.dynamic.data.mapping.model.DDMStructure structure : structures) {
+				Group group = GroupLocalServiceUtil.fetchGroup(structure.getGroupId());
+				JSONObject structureJson = JSONFactoryUtil.createJSONObject();
+				structureJson.put("id", structure.getStructureId());
+				structureJson.put("value", structure.getNameCurrentValue() + " (" + group.getNameCurrentValue() + ")");
+				structuresJson.put(structureJson);
+			}
+		}
+		return structuresJson;
+	}
+
+	@Override
+	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(long[] groupIds,
+																String className) {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		json.put("tags", getTagsByGroupIds(groupIds));
+		json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className));
+		return json;
+	}
+
+	@Override
+	public JSONArray getTagsByGroupIds(long[] groupIds) {
+		JSONArray tagsJson = JSONFactoryUtil.createJSONArray();
+		Boolean hasGlobalScope = false;
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long globalScopeId = -1;
+		try {
+			globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		// récupère les groups
+		for (long groupId : groupIds) {
+			if(groupId == globalScopeId)
+				hasGlobalScope = true;
+
+			tagsJson.put(getTagsByGroupId(groupId));
+		}
+
+		// on ajoute le group global s'il n'y est pas déjà
+		if(!hasGlobalScope){
+			tagsJson.put(getTagsByGroupId(globalScopeId));
+		}
+		return tagsJson;
+	}
+
+	private JSONObject getTagsByGroupId(long groupId) {
+		// récupère le groupe
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+		groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+		JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les tags du group
+		List<AssetTag> tags = AssetTagLocalServiceUtil.getGroupTags(groupId);
+		for (AssetTag tag : tags) {
+			JSONObject tagJson = JSONFactoryUtil.createJSONObject();
+			tagJson.put("value", tag.getTagId());
+			tagJson.put("label", "<strong>" + tag.getName() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+			JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+			customPropertiesJson.put("random", group.getNameCurrentValue() + " " + tag.getName());
+			tagJson.put("customProperties", customPropertiesJson);
+			choicesJson.put(tagJson);
+		}
+		groupJson.put("choices", choicesJson);
+		return groupJson;
+	}
+
+	@Override
+	public JSONArray getCategoriesByClassNameAndGroupIds(long[] groupIds,
+														 String className) {
+		JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
+
+		// on ajoute le groupe global aux groupes
+		long companyId = PortalUtil.getDefaultCompanyId();
+		try {
+			long globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+			groupIds = Arrays.copyOf(groupIds, groupIds.length + 1);
+			System.arraycopy(new long[] {globalScopeId}, 0, groupIds, groupIds.length - 1, 1);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		if(Validator.isNotNull(className)) {
+			if(className.equals("searchJournalArticle")) className = JournalArticle.class.getName();
+
+			// récupère les vocabulaires d'un className et des groupIds
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className);
+			for (AssetVocabulary vocabulary : vocabularies) {
+				// récupère le groupe de la catégorie
+				Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());
+
+				JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+				vocabularyJson.put("label", "<font style='color: #00bcd4;'><strong>" + vocabulary.getName() + "</strong> (" + group.getNameCurrentValue() + ")</font>");
+				// récupère les catégories d'un vocabulaire
+				JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+				List<AssetCategory> categories = vocabulary.getCategories();
+				for (AssetCategory category : categories) {
+					JSONObject categoryJson = JSONFactoryUtil.createJSONObject();
+					categoryJson.put("value", category.getCategoryId());
+					String label = "";
+					// récupères les ancêtres s'il y en a
+					String ancestors = "";
+					try {
+						List<AssetCategory> ancestorList = category.getAncestors();
+						for (AssetCategory ancestor : ancestorList) {
+							label += " - ";
+							ancestors = ancestor.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors;
+						}
+					} catch (PortalException e) {
+						log.error(e);
+					}
+					label += "<strong>" + category.getName() + "</strong>";
+					label += "<i> (" + group.getNameCurrentValue() + " : " + vocabulary.getName() + (ancestors.length() > 0 ? " > " : "") + ancestors + ")</i>";
+					categoryJson.put("label", label);
+					JSONObject customPropertiesJson = JSONFactoryUtil.createJSONObject();
+					customPropertiesJson.put("random", group.getNameCurrentValue() + " " + vocabulary.getName() + " " + ancestors.replaceAll(" > ", " ") + (ancestors.length() > 0 ? " " : "") + category.getName());
+					categoryJson.put("customProperties", customPropertiesJson);
+					choicesJson.put(categoryJson);
+				}
+				vocabularyJson.put("choices", choicesJson);
+				categoriesJson.put(vocabularyJson);
+			}
+		}
+		return categoriesJson;
+	}
+
+	@Override
+	public JSONArray getVocabulariesByGroupIds(long[] groupIds) {
+		JSONArray vocabulariesJson = JSONFactoryUtil.createJSONArray();
+		Boolean hasGlobalScope = false;
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long globalScopeId = -1;
+		try {
+			globalScopeId = CompanyLocalServiceUtil.getCompany(companyId).getGroupId();
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		// récupère les groups
+		for (long groupId : groupIds) {
+			if(groupId == globalScopeId)
+				hasGlobalScope = true;
+
+			vocabulariesJson.put(getVocabulariesByGroupId(groupId));
+		}
+
+		// on ajoute le group global s'il n'y est pas déjà
+		if(!hasGlobalScope){
+			vocabulariesJson.put(getVocabulariesByGroupId(globalScopeId));
+		}
+		return vocabulariesJson;
+	}
+
+	private JSONObject getVocabulariesByGroupId(long groupId) {
+		// récupère le groupe
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		JSONObject groupJson = JSONFactoryUtil.createJSONObject();
+		groupJson.put("label", "<font style='color: #00bcd4;'><strong>" + group.getNameCurrentValue() + "</strong></font>");
+		JSONArray choicesJson = JSONFactoryUtil.createJSONArray();
+
+		// récupère les vocabulaires du group
+		try {
+			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupVocabularies(groupId);
+			for (AssetVocabulary vocabulary : vocabularies) {
+				JSONObject vocabularyJson = JSONFactoryUtil.createJSONObject();
+				vocabularyJson.put("value", vocabulary.getVocabularyId());
+				vocabularyJson.put("label", "<strong>" + vocabulary.getTitleCurrentValue() + "</strong><i> (" + group.getNameCurrentValue() + ")</i>");
+				choicesJson.put(vocabularyJson);
+			}
+			groupJson.put("choices", choicesJson);
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
+		return groupJson;
 	}
 
 	private boolean isAuthorized() {

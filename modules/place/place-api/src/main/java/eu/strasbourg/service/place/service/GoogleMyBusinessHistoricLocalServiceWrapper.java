@@ -70,7 +70,7 @@ public class GoogleMyBusinessHistoricLocalServiceWrapper
 	}
 
 	/**
-	 * Crée une entree google mybusiness vide avec une PK, non ajouté à la base de donnée
+	 * Crée une entrée googleMyBusiness vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override
 	public eu.strasbourg.service.place.model.GoogleMyBusinessHistoric

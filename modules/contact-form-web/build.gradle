@@ -12,7 +12,7 @@ dependencies {
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 
-	compileInclude 'org.apache.commons:commons-text:1.4'
+	compileInclude group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
 
 	compile project (':modules:utils')
 }

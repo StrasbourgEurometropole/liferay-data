@@ -87,6 +87,10 @@ public interface StrasbourgService extends BaseService {
 	public String getArticleHTMLContent(long groupId, String articleId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getCategoriesByClassNameAndGroupIds(
+		long[] groupIds, String className);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
@@ -124,7 +128,20 @@ public interface StrasbourgService extends BaseService {
 		long parentCategoryId, String localeId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getStructuresByGroupIds(long[] groupIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(
+		long[] groupIds, String className);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getTagsByGroupIds(long[] groupIds);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTraffic();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONArray getVocabulariesByGroupIds(long[] groupIds);
 
 	public void hidePortlet(String portletId);
 

@@ -59,7 +59,7 @@ public class SynchronisePlaceToGMB extends BaseMessageListener {
     @Override
     protected void doReceive(Message message) throws Exception {
         log.info("Start synchronise");
-        //on vérifi qu'on a le droit de faire la synchronisation
+        //on vérifie qu'on a le droit de faire la synchronisation
         if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
             // Creation du contexte de la requete pour effectuer les actions dans Global
             ServiceContext sc = new ServiceContext();

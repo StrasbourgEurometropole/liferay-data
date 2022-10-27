@@ -17,6 +17,7 @@ dependencies {
 	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.12.0"
 
 	compile project(':modules:utils')
 	compile project(':modules:open-data')
