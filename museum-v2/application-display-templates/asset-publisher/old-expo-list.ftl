@@ -18,17 +18,19 @@
         	<#list entries as curEntry>
                 <#assign folder = dlFolderLocalService.fetchFolder(curEntry.classPK) />
                 <#if folder.parentFolderId == expositionFolder.folderId>
-        	        <div class="folder">
-                        <button class="btn minus" data-list="files-${curEntry?counter}"></button>
-                        ${folder.name}
-                    </div>
-                    <#assign files = dlFileEntryLocalService.getFileEntries(groupId, folder.folderId) />
-        	        <div class="files files-${curEntry?counter}">
-                    	<#list files as file>
-                            <#assign documentURL = fileEntryHelper.getFileEntryURL(file.fileEntryId) />
-                	        <a href="${documentURL}" title="${file.title}" class="file">${file.title}</a>
-                    	</#list>
-                	</div>
+        	        <#assign files = dlFileEntryLocalService.getFileEntries(groupId, folder.folderId) />
+        	        <#if files?has_content>
+                        <div class="folder">
+                            <button class="btn minus" data-list="files-${curEntry?counter}"></button>
+                            ${folder.name}
+                        </div>
+                        <div class="files files-${curEntry?counter}">
+                            <#list files as file>
+                                <#assign documentURL = fileEntryHelper.getFileEntryURL(file.fileEntryId) />
+                                <a href="${documentURL}" target="_blank" aria-label="${file.title} (<@liferay_ui.message key="eu.new-window" />)" title="${file.title} (<@liferay_ui.message key="eu.new-window" />)" class="file">${file.title}</a>
+                            </#list>
+                        </div>
+                    </#if>
                 </#if>
         	</#list>
         </#if>
