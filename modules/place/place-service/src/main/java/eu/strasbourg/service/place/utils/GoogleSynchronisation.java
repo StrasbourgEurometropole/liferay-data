@@ -113,8 +113,6 @@ public class GoogleSynchronisation {
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
-                            String test = null;
-                            test.substring(0,1);
                             // transforme le schedule en json
                             JSONObject jsonSchedules = toJson(schedules);
                             // Synchronise à google map
