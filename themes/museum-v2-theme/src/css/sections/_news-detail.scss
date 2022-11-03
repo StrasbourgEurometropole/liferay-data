@@ -1,0 +1,161 @@
+#news-detail{
+
+    .content{ 
+
+        .news-title{
+            @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 44px;
+                line-height: 53px;
+                margin-bottom: 60px;
+            }
+        } 
+
+        .news-dates{
+            @include ft($times, 12px, 400, black, 14px, italic);
+            text-align: center;
+            margin-bottom: 15px;
+
+            date{
+                display: block;
+            }
+    
+            @include RWD(tablet_portrait){
+                font-size: 15px;
+                line-height: 17px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .news-museums{
+            @include ft($proximaNova, 12px, 400, black, 14px, "");
+            text-align: center;
+            margin-bottom: 15px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 15px;
+                line-height: 18px;
+                margin-bottom: 30px;
+            }
+        }
+
+        .news-types{
+            @include ft($proximaNova, 12px, 700, $color_main, 15px, "");
+            text-align: center;
+            margin-bottom: 30px;
+
+            span{
+                color: black;
+            }
+    
+            @include RWD(tablet_portrait){
+                font-size: 15px;
+                line-height: 18px;
+            }
+        }
+
+        .image-with-copyright-on-hover{
+            margin-bottom: 30px;
+            position: relative;
+
+            .copyright{
+                @include positionAbsolute("", "", (bottom: 8px, right: 8px));
+                background: rgba(0, 0, 0, 0.7);
+                border-radius: 60px;
+                @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
+                text-transform: uppercase;
+                height: 21px;
+                width: 21px;
+                overflow: hidden;
+                transition: width 1s ease;
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+
+                &:active, &:focus{
+                    width: auto;
+                }
+    
+                @include RWD(tablet_portrait){
+                    bottom: 20px;
+                    right: 20px;
+
+                    &:hover{
+                        width: auto;
+                    }
+                }
+
+                :first-child(){
+                    min-width: 20px;
+                    line-height: normal;
+                    text-align: center;
+                    font-size: 1rem;
+                }
+
+                :nth-child(2){
+                    font-size: 0.75rem;
+                    padding: 0 10px;
+                }
+            }
+        }
+
+        .news-chapo{
+            @include ft($proximaNova, 14px, 700, $color_main, 17px, "");
+            margin-bottom: 30px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 20px;
+                line-height: 24px;
+            }
+        }
+
+        .news-content{
+            @include ft($proximaNova, 12px, 400, black, 17px, "");
+    
+            @include RWD(tablet_portrait){
+                font-size: 15px;
+                line-height: 21px;
+            }
+
+            h2{
+                font-size: 25px;
+                line-height: 30;
+                color: $color_main;
+                font-weight: 400;
+    
+                @include RWD(tablet_portrait){
+                    font-size: 45px;
+                    line-height: 53px;
+                }
+            }
+
+            h3{
+                font-size: 15px;
+                line-height: 21;
+                font-weight: 400;
+    
+                @include RWD(tablet_portrait){
+                    font-size: 30px;
+                    line-height: 35px;
+                }
+            }
+
+            ul{
+                padding-left: 30px;
+            }
+
+            a:not(.button1){
+                color: $color_main;
+                text-decoration: underline;
+
+                &:hover{
+                    color: $color_txt;
+                }
+            }
+        }
+    }
+}
