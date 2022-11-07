@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.io.File;
+
 /**
  * Provides the remote service interface for Strasbourg. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -74,7 +76,7 @@ public interface StrasbourgService extends BaseService {
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public JSONObject addDocument(
-		String fileContent, String fileName, String commissionName,
+		File fileContent, String fileName, String commissionName,
 		String publicationDate, String publicationDateFin, String documentType,
 		String documentName);
 

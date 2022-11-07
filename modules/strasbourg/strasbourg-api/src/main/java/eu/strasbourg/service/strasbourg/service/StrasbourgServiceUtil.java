@@ -53,7 +53,7 @@ public class StrasbourgServiceUtil {
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
-		String fileContent, String fileName, String commissionName,
+		java.io.File fileContent, String fileName, String commissionName,
 		String publicationDate, String publicationDateFin, String documentType,
 		String documentName) {
 

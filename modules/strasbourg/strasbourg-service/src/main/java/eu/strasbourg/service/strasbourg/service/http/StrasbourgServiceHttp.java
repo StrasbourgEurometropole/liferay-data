@@ -532,7 +532,7 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
-		HttpPrincipal httpPrincipal, String fileContent, String fileName,
+		HttpPrincipal httpPrincipal, java.io.File fileContent, String fileName,
 		String commissionName, String publicationDate,
 		String publicationDateFin, String documentType, String documentName) {
 
@@ -774,8 +774,8 @@ public class StrasbourgServiceHttp {
 	private static final Class<?>[] _getPracticeCategoriesParameterTypes17 =
 		new Class[] {long.class, String.class};
 	private static final Class<?>[] _addDocumentParameterTypes18 = new Class[] {
-		String.class, String.class, String.class, String.class, String.class,
-		String.class, String.class
+		java.io.File.class, String.class, String.class, String.class,
+		String.class, String.class, String.class
 	};
 	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes19 =
 		new Class[] {long[].class};

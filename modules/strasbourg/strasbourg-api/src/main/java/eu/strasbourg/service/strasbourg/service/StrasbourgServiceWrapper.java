@@ -46,7 +46,7 @@ public class StrasbourgServiceWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject addDocument(
-		String fileContent, String fileName, String commissionName,
+		java.io.File fileContent, String fileName, String commissionName,
 		String publicationDate, String publicationDateFin, String documentType,
 		String documentName) {
 

@@ -88,6 +88,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -340,7 +341,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	@Override
-	public JSONObject addDocument(String fileContent, String fileName, String commissionName,
+	public JSONObject addDocument(File fileContent, String fileName, String commissionName,
 								  String publicationDate, String publicationDateFin, String documentType, String documentName) {
 		if (!isAuthorized()) {
 			return error("Not authorized");
@@ -385,32 +386,16 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 			return error("documentName is empty");
 		}
 
-		// Tout est ok, on peut enregistrer
-		// transforme le fichier base 64 en fichier
-		byte[] decoder = Base64.decode(fileContent);
-
 		// On normalise le nom du fichier suite à des erreurs de Path UNIX sur les serveurs lorsque que le nom du document comporte des accents
 		String documentNameNormalized = Normalizer.normalize(documentName, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 
-		File document = new File(System.getProperty("java.io.tmpdir") + "/" + documentNameNormalized);
-		FileOutputStream fos;
+		File document = fileContent;
+		byte[] decoder = new byte[0];
 		try {
-			fos = new FileOutputStream(document);
-		} catch (FileNotFoundException e) {
-			log.error(e);
-			return error("Error while creating the document");
-		}
-		try {
-			fos.write(decoder);
+			decoder = Files.readAllBytes(document.toPath());
 		} catch (IOException e) {
 			log.error(e);
-			return error("Error while writing the document");
-		}
-		try {
-			fos.close();
-		} catch (IOException e) {
-			log.error(e);
-			return error("Error while closing the document");
+			return error("Error reading the document");
 		}
 
 		if (document.exists()) {
