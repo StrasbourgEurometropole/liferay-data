@@ -152,6 +152,20 @@
     }
   });
 
+  // Onglets contacts
+  (function($) {
+      $(document).ready(function() {
+          $('.tab').on('click', function(e) {  
+              $('.tab').removeClass('active');
+              $(this).addClass('active');
+  
+              var entryId = $(this).data('entry-id');
+              $('.content').removeClass('active');
+              $('.content[data-entry-id=' + entryId + ']').addClass('active');
+          });
+      });
+  })(jQuery);
+
   // Selecteurs
   $('select').each(function(index, element){
     //var placeholder = $(element).find('option[disabled]').text();

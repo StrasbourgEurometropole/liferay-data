@@ -16,7 +16,7 @@
         } 
 
         .news-dates{
-            @include ft($times, 12px, 400, black, 14px, italic);
+            @include ft($times, 0.75rem, 400, black, 0.875rem, italic);
             text-align: center;
             margin-bottom: 15px;
 
@@ -25,26 +25,26 @@
             }
     
             @include RWD(tablet_portrait){
-                font-size: 15px;
-                line-height: 17px;
+                font-size: 0.9375rem;
+                line-height: 1.0625rem;
                 margin-bottom: 20px;
             }
         }
 
         .news-museums{
-            @include ft($proximaNova, 12px, 400, black, 14px, "");
+            @include ft($proximaNova, 0.75rem, 400, black, 0.875rem, "");
             text-align: center;
             margin-bottom: 15px;
     
             @include RWD(tablet_portrait){
-                font-size: 15px;
-                line-height: 18px;
+                font-size: 0.9375rem;
+                line-height: 1.125rem;
                 margin-bottom: 30px;
             }
         }
 
         .news-types{
-            @include ft($proximaNova, 12px, 700, $color_main, 15px, "");
+            @include ft($proximaNova, 0.75rem, 700, $color_main, 0.9375rem, "");
             text-align: center;
             margin-bottom: 30px;
 
@@ -53,8 +53,8 @@
             }
     
             @include RWD(tablet_portrait){
-                font-size: 15px;
-                line-height: 18px;
+                font-size: 0.9375rem;
+                line-height: 1.125rem;
             }
         }
 
@@ -104,26 +104,26 @@
         }
 
         .news-chapo{
-            @include ft($proximaNova, 14px, 700, $color_main, 17px, "");
+            @include ft($proximaNova, 0.875rem, 700, $color_main, 1.0625rem, "");
             margin-bottom: 30px;
     
             @include RWD(tablet_portrait){
-                font-size: 20px;
+                font-size: 1.25rem;
                 line-height: 24px;
             }
         }
 
         .news-content{
-            @include ft($proximaNova, 12px, 400, black, 17px, "");
+            @include ft($proximaNova, 0.75rem, 400, black, 1.0625rem, "");
     
             @include RWD(tablet_portrait){
-                font-size: 15px;
+                font-size: 0.9375rem;
                 line-height: 21px;
             }
 
             h2{
                 font-size: 25px;
-                line-height: 30;
+                line-height: 1.875rem;
                 color: $color_main;
                 font-weight: 400;
     
@@ -134,12 +134,12 @@
             }
 
             h3{
-                font-size: 15px;
+                font-size: 0.9375rem;
                 line-height: 21;
                 font-weight: 400;
     
                 @include RWD(tablet_portrait){
-                    font-size: 30px;
+                    font-size: 1.875rem;
                     line-height: 35px;
                 }
             }
