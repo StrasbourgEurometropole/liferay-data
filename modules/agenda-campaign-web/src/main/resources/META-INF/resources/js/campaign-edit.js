@@ -171,6 +171,12 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
 		// On reset l'URL à sa valeur initiale
 		autoFields.url = previousURL;
+
+		// Réinitialise la période en cours
+		$(this).text("Sélectionner");
+		// Set des champs input cachés
+		$('.startDate', $(this).parent()).val("");
+		$('.endDate', $(this).parent()).val("");
     };
 
 	// On active le composant
