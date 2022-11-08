@@ -443,10 +443,10 @@
                 <h2><@liferay_ui.message key='eu.museum.social-wall' /></h2>
                 <div class="list">
                     <#if entry.getFacebookURL(locale)?has_content>
-                        <a href="${entry.getFacebookURL(locale)}" aria-label="${entry.getFacebookLabel(locale)}" title="${entry.getFacebookLabel(locale)}" class="facebook" />
+                        <a href="${entry.getFacebookURL(locale)}" aria-label="${entry.getFacebookLabel(locale)}" title="${entry.getFacebookLabel(locale)}" class="facebook" ></a>
                     </#if>
                     <#if entry.getInstagramURL(locale)?has_content>
-                        <a href="${entry.getInstagramURL(locale)}" aria-label="${entry.getInstagramLabel(locale)}" title="${entry.getInstagramLabel(locale)}" class="instagram" />
+                        <a href="${entry.getInstagramURL(locale)}" aria-label="${entry.getInstagramLabel(locale)}" title="${entry.getInstagramLabel(locale)}" class="instagram" ></a>
                     </#if>
                 </div>
             </#if>

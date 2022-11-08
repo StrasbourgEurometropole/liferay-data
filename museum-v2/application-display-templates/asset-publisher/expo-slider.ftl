@@ -82,7 +82,7 @@
                 </div>
             </div>
             
-            <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-expo" />" title='<@liferay_ui.message key="eu.museum.all-expo" />'>
+            <button id="btn-all-expos" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-expo" />" title='<@liferay_ui.message key="eu.museum.all-expo" />'>
                 <span class="points">
                     <span class="trait">
                         <span class="background">
@@ -96,3 +96,9 @@
         </#if>
     </div>
 </section>
+
+<script>
+    $("#btn-all-expos").click(function(){
+      location.href='http://' + window.location.host + '${homeURL}expositions-des-musees'
+    });
+</script>

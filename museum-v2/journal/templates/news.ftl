@@ -6,7 +6,7 @@
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
 <section id="news-detail">
-    <div class="content container">
+    <div class="content col-md-6">
         <h1 class="news-title">
             ${title.getData()}
         </h1>

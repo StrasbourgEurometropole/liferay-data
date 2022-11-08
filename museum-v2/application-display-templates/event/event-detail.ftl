@@ -1,6 +1,6 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<section id="event-detail">
+<section id="event-detail" class="margin-top margin-bottom">
     <div  class="content container">
       <div class="event-header">
 
@@ -131,7 +131,7 @@
             <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" />
             <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" />
             <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" />
-            <p class="error-message all-fields-required-message" >
+            <p class="error-message all-fields-required-message" style="display:none;">
               <@liferay_ui.message key="eu.all-fields-required" />
             </p>
             <p class="error-message invalid-mail-message" style="display:none;">

@@ -14,10 +14,10 @@
                 <h2>${portletHelper.getPortletTitle('eu.museum.social-wall', renderRequest)}</h2>
                 <div class="list">
                     <#if place.getFacebookURL(locale)?has_content>
-                        <a href="${place.getFacebookURL(locale)}" aria-label="${place.getFacebookLabel(locale)}" title="${place.getFacebookLabel(locale)}" class="facebook" />
+                        <a href="${place.getFacebookURL(locale)}" aria-label="${place.getFacebookLabel(locale)}" title="${place.getFacebookLabel(locale)}" class="facebook" ></a>
                     </#if>
                     <#if place.getInstagramURL(locale)?has_content>
-                        <a href="${place.getInstagramURL(locale)}" aria-label="${place.getInstagramLabel(locale)}" title="${place.getInstagramLabel(locale)}" class="instagram" />
+                        <a href="${place.getInstagramURL(locale)}" aria-label="${place.getInstagramLabel(locale)}" title="${place.getInstagramLabel(locale)}" class="instagram" ></a>
                     </#if>
                 </div>
             </#if>
