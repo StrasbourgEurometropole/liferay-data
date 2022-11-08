@@ -1,6 +1,7 @@
 #news-detail{
 
     .content{ 
+        margin: auto;
 
         .news-title{
             @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
@@ -61,6 +62,19 @@
         .image-with-copyright-on-hover{
             margin-bottom: 30px;
             position: relative;
+    
+            @include RWD(tablet_portrait){
+                &:before {
+                    content: '';
+                    width: 400px;
+                    height: 400px;
+                    background: #F2F2F2;
+                    position: absolute;
+                    right: -220px;
+                    bottom: -200px;
+                    z-index: -1;
+                }
+            }
 
             .copyright{
                 @include positionAbsolute("", "", (bottom: 8px, right: 8px));

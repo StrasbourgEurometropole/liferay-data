@@ -57,6 +57,13 @@
 
             .portlet-content{
                 border: none;
+
+                .portlet-body .asset-full-content.clearfix.mb-5.default-asset-publisher.show-asset-title{
+
+                    .align-items-center.d-flex.mb-2, .asset-anchor.lfr-asset-anchor, .autofit-row.mb-4.metadata-author{
+                        display: none;
+                    }
+                }
             }
         }
     }  
