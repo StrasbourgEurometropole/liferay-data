@@ -35,6 +35,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -108,13 +109,13 @@ public class GoogleSynchronisation {
                 this.googleMyBusinessHistoric.addNewOperation("Access_token : " + accessToken);
                 for (Place place : places) {
                     try{
-                        // on récupère les horaires de la semaine du lieu
+                        // on récupère les horaires de la semaine en cours du lieu
                         Map<String, List<PlaceSchedule>> schedules = place.getFollowingWeekSchedules(new Date(), Locale.FRANCE);
                         if (schedules != null) {
                             // récupère le locationId du lieu
                             String locationId = place.getLocationId();
                             // transforme le schedule en json
-                            JSONObject jsonSchedules = toJson(schedules);
+                            JSONObject jsonSchedules = toJson(place, schedules);
                             // Synchronise à google map
                             JSONObject jsonResult = getSynchronisationResult(locationId, accessToken, jsonSchedules);
                             if(Validator.isNull(jsonResult.get("error"))) {
@@ -204,7 +205,7 @@ public class GoogleSynchronisation {
         return jsonResponse;
     }
 
-    public JSONObject toJson(Map<String, List<PlaceSchedule>> schedules) throws Exception{
+    public JSONObject toJson(Place place, Map<String, List<PlaceSchedule>> schedules) throws Exception{
         JSONObject jsonLocation = JSONFactoryUtil.createJSONObject();
 
         JSONObject jsonBusinessHours = JSONFactoryUtil.createJSONObject();
@@ -220,41 +221,13 @@ public class GoogleSynchronisation {
                 Date date = formatter2.parse(schedule.getKey());
                 LocalDate dateLocale = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-                // récupère les horaires
-                List<Pair<LocalTime, LocalTime>> openingTimes = new ArrayList<>();
-                // vérifie si le lieu est ouvert 24h/24 ou s'il est fermé
-                Boolean isAlwaysOpen = false;
-                Boolean isClosed = false;
-                if(placeSchedule.isAlwaysOpen()){
-                    isAlwaysOpen = true;
-                }else if(placeSchedule.isClosed()){
-                    isClosed = true;
-                }else {
-                    openingTimes = placeSchedule.getOpeningTimes();
-                }
-
-                // vérifi si c'est un jour férié
-                Boolean isPublicHoliday = false;
-                for (PublicHoliday publicHoliday : PublicHolidayLocalServiceUtil.getPublicHolidaies(-1,-1)) {
-                    if (publicHoliday.getDate() != null) {
-                        LocalDate publicHolidayDate = publicHoliday.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        if (publicHoliday.isRecurrent()) {
-                            publicHolidayDate.withYear(dateLocale.getYear());
-                        }
-                        if (publicHolidayDate.compareTo(dateLocale) == 0) {
-                            isPublicHoliday = true;
-                            break;
-                        }
-                    }
-                }
-
-                if(isPublicHoliday){
+                if(placeSchedule.isPublicHoliday() || placeSchedule.isException()){
                     JSONObject jsonDate = JSONFactoryUtil.createJSONObject();
                     jsonDate.put("year", dateLocale.getYear());
                     jsonDate.put("month", dateLocale.getMonth().getValue());
                     jsonDate.put("day", dateLocale.getDayOfMonth());
 
-                    if(isAlwaysOpen){
+                    if(placeSchedule.isAlwaysOpen()){
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("startDate", jsonDate);
                         JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
@@ -271,13 +244,13 @@ public class GoogleSynchronisation {
                         jsonPeriod.put("closeTime", jsonCloseTime);
                         jsonPeriod.put("closed", false);
                         jsonSpecialHourPeriods.put(jsonPeriod);
-                    }else if (isClosed) {
+                    }else if (placeSchedule.isClosed()) {
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("startDate", jsonDate);
                         jsonPeriod.put("closed", true);
                         jsonSpecialHourPeriods.put(jsonPeriod);
                     }else {
-                        for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+                        for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
                             JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                             jsonPeriod.put("startDate", jsonDate);
                             String[] time = openingTime.getFirst().toString().split(":");
@@ -298,10 +271,16 @@ public class GoogleSynchronisation {
                             jsonSpecialHourPeriods.put(jsonPeriod);
                         }
                     }
+
+                    // dans tous les cas il faut renseigner l'horaire par défaut
+                    // récupération des horaires habituels
+                    GregorianCalendar jourSemaine = GregorianCalendar.from(dateLocale.atStartOfDay(ZoneId.systemDefault()));
+                    placeSchedule = place.getRegularPlaceSchedule(jourSemaine, Locale.FRANCE);
                 }
-                // dans tous les cas il faut renseigner l'horaire par défaut
+
+                // récupère les horaires réguliers
                 String day = dateLocale.getDayOfWeek().name();
-                if(isAlwaysOpen){
+                if (placeSchedule.isAlwaysOpen()) {
                     JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                     jsonPeriod.put("openDay", day);
                     JSONObject jsonOpenTime = JSONFactoryUtil.createJSONObject();
@@ -318,8 +297,8 @@ public class GoogleSynchronisation {
                     jsonCloseTime.put("minutes", 0);
                     jsonPeriod.put("closeTime", jsonCloseTime);
                     jsonPeriods.put(jsonPeriod);
-                }else {
-                    for (Pair<LocalTime, LocalTime> openingTime : openingTimes) {
+                } else {
+                    for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("openDay", day);
                         String[] time = openingTime.getFirst().toString().split(":");
@@ -340,6 +319,7 @@ public class GoogleSynchronisation {
                         jsonPeriods.put(jsonPeriod);
                     }
                 }
+
             }
         }
 

@@ -2248,6 +2248,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	}
 
 	/**
+	 * Retourne les horaires habituels d'ouverture du jour
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.PlaceSchedule
+		getRegularPlaceSchedule(
+			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+
+		return _place.getRegularPlaceSchedule(jourSemaine, locale);
+	}
+
+	/**
 	 * Returns the rgf93x of this place.
 	 *
 	 * @return the rgf93x of this place
