@@ -298,6 +298,40 @@ public class StrasbourgServiceSoap {
 		}
 	}
 
+	/**
+	 * @deprecated Remplacé par addActes qui gèrent l'envoi de fichier via multipart/form-data
+	 Envoie <code>error</code> si le document n'a pas été envoyé.
+	 Returns <code>succes</code> un document de commission.
+	 * @param fileContent le fichier en base 64
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de document (Strasbourg, Eurométropole)
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	public static String addDocument(
+			String fileContent, String fileName, String commissionName,
+			String publicationDate, String publicationDateFin,
+			String documentType, String documentName)
+		throws RemoteException {
+
+		try {
+			com.liferay.portal.kernel.json.JSONObject returnValue =
+				StrasbourgServiceUtil.addDocument(
+					fileContent, fileName, commissionName, publicationDate,
+					publicationDateFin, documentType, documentName);
+
+			return returnValue.toString();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static String getStructuresByGroupIds(long[] groupIds)
 		throws RemoteException {
 
