@@ -531,6 +531,42 @@ public class StrasbourgServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject addActe(
+		HttpPrincipal httpPrincipal, java.io.File fileContent, String fileName,
+		String commissionName, String publicationDate,
+		String publicationDateFin, String documentType, String documentName) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "addActe",
+				_addActeParameterTypes18);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, fileContent, fileName, commissionName,
+				publicationDate, publicationDateFin, documentType,
+				documentName);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
 		HttpPrincipal httpPrincipal, String fileContent, String fileName,
 		String commissionName, String publicationDate,
@@ -539,7 +575,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "addDocument",
-				_addDocumentParameterTypes18);
+				_addDocumentParameterTypes19);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, fileContent, fileName, commissionName,
@@ -573,7 +609,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getStructuresByGroupIds",
-				_getStructuresByGroupIdsParameterTypes19);
+				_getStructuresByGroupIdsParameterTypes20);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -607,7 +643,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getTagsAndCategoriesByGroupIdsAndClassName",
-				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes20);
+				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -639,7 +675,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getTagsByGroupIds",
-				_getTagsByGroupIdsParameterTypes21);
+				_getTagsByGroupIdsParameterTypes22);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -673,7 +709,7 @@ public class StrasbourgServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class,
 				"getCategoriesByClassNameAndGroupIds",
-				_getCategoriesByClassNameAndGroupIdsParameterTypes23);
+				_getCategoriesByClassNameAndGroupIdsParameterTypes24);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds, className);
@@ -706,7 +742,7 @@ public class StrasbourgServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
-				_getVocabulariesByGroupIdsParameterTypes24);
+				_getVocabulariesByGroupIdsParameterTypes25);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -773,22 +809,26 @@ public class StrasbourgServiceHttp {
 	};
 	private static final Class<?>[] _getPracticeCategoriesParameterTypes17 =
 		new Class[] {long.class, String.class};
-	private static final Class<?>[] _addDocumentParameterTypes18 = new Class[] {
+	private static final Class<?>[] _addActeParameterTypes18 = new Class[] {
+		java.io.File.class, String.class, String.class, String.class,
+		String.class, String.class, String.class
+	};
+	private static final Class<?>[] _addDocumentParameterTypes19 = new Class[] {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class, String.class
 	};
-	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes19 =
+	private static final Class<?>[] _getStructuresByGroupIdsParameterTypes20 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes20 =
+		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes21 =
 			new Class[] {long[].class, String.class};
-	private static final Class<?>[] _getTagsByGroupIdsParameterTypes21 =
+	private static final Class<?>[] _getTagsByGroupIdsParameterTypes22 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
-		_getCategoriesByClassNameAndGroupIdsParameterTypes23 = new Class[] {
+		_getCategoriesByClassNameAndGroupIdsParameterTypes24 = new Class[] {
 			long[].class, String.class
 		};
-	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes24 =
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes25 =
 		new Class[] {long[].class};
 
 }
