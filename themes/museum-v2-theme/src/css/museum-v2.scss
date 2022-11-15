@@ -16,13 +16,20 @@
 
 // Blocs
 @import 'blocs/_breadcrumbs';
+@import 'blocs/_bref';
+@import 'blocs/_edition';
 @import 'blocs/_event';
 @import 'blocs/_expo';
+@import 'blocs/_news';
+@import 'blocs/_oeuvre';
+@import 'blocs/_read-too';
+@import 'blocs/_useful-documents';
 
 // sections
 @import 'sections/_accroche';
 @import 'sections/_contact';
 @import 'sections/_edition-detail';
+@import 'sections/_edition-list';
 @import 'sections/_en-bref-slider';
 @import 'sections/_event-detail';
 @import 'sections/_event-slider';
@@ -286,4 +293,12 @@ button.button1{
     @include RWD(tablet_portrait){
         margin-bottom: 60px;
     }
+}
+
+p{
+    @include ft($proximaNova, 0.9375rem, 400, black, 21px, "");
+}
+
+.chapo{
+    @include ft($proximaNova, 1.25rem, 700, $color_main, 24px, "");
 }

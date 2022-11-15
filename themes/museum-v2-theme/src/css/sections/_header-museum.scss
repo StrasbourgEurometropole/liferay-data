@@ -111,7 +111,14 @@
                         cursor: pointer;
 
                         &:after{
-                            content: 'play';
+                            content: '';
+                            width: 20px;
+                            height: 20px;
+                            background-image: url( svg-bg-uri($svg-play, #313841) );
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            display: inline-block;
                         }
                     }
 
@@ -122,7 +129,14 @@
                         cursor: pointer;
 
                         &:after{
-                            content: 'pause';
+                            content: '';
+                            width: 20px;
+                            height: 15px;
+                            background-image: url( svg-bg-uri($svg-pause, #313841) );
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            display: inline-block;
                         }
                     }
                 }

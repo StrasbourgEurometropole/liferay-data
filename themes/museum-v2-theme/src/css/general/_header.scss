@@ -44,7 +44,9 @@
         margin-top: 40px;
 
         @include RWD(tablet_portrait){
-            margin-top: 0;
+            &:not(.editions){
+                margin-top: 0;
+            }
         }
 
         h1{
@@ -59,8 +61,37 @@
         }
 
         .chapo{
+            @include ft($times, 25px, 400, $color_txt, 1.75rem, italic);
             margin-top: 25px;
             text-align: center;
+        }
+
+        &.editions{
+            position: relative;
+
+            .page-header-image{
+                width: 66%;
+
+                img{
+                    width: 100%;
+                }
+            }
+
+            .info{
+                @include positionAbsolute("", translateY(-50%), (top: 50%, right: 0));
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+                padding: 60px 55px 45px;
+                background-color: white;
+                width: 520px;
+
+                h1{
+                    margin-bottom: 80px;
+                }
+
+                .chapo{
+                    font-size: 20px;
+                }
+            }
         }
     }
 }
