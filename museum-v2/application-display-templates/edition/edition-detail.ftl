@@ -40,7 +40,7 @@
       </#if>
 
       <div class="image-with-copyright-on-hover">
-        <img src="${entry.getImageURL()}" class="lightbox">
+        <img src="${entry.getImageURL()}" alt="${entry.getTitle(locale)}" title="${entry.getTitle(locale)}" class="lightbox">
         <#if entry.getImageCopyright(locale)?has_content>
           <div class="copyright"><span>C</span><span>${entry.getImageCopyright(locale)}</span></div>
         </#if>
