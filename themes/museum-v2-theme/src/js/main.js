@@ -152,6 +152,18 @@
     }
   });
 
+  // liste rubriques
+  let listRubricsMasonry;
+  const enableListRubricsMasonry = function() {
+    if($('#listRubrics').length ){
+      listRubricsMasonry = new Masonry('#listRubrics', {
+        itemSelector: '.rubric-thumbnail',
+        gutter: '.gutter-sizer',
+        percentPosition: true
+      });
+    }
+  };
+
   // Onglets contacts
   (function($) {
       $(document).ready(function() {
@@ -204,6 +216,8 @@
       enableSwiperExpos();
 
       enableSwiperHeaderMuseum();
+
+      enableListRubricsMasonry();
     } else {
       // On est en mode mobile ou tablette portrait      
       enableSwiperNews();
@@ -213,6 +227,9 @@
 
       if ( swiperHeaderMuseum !== undefined )
         swiperHeaderMuseum.destroy( true, true );
+
+      if ( listRubricsMasonry !== undefined )
+        listRubricsMasonry.destroy();
     }
     enableListCollectionsMasonry();
     return;
