@@ -370,6 +370,13 @@ public interface Place extends PersistedModel, PlaceModel {
 			java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
+	 * Retourne les horaires habituels d'ouverture du jour
+	 */
+	public eu.strasbourg.service.place.model.PlaceSchedule
+		getRegularPlaceSchedule(
+			java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
+
+	/**
 	 * Retourne les horaires des exceptions d'ouverture à partir du lundi de la
 	 * semaine en cours
 	 *
