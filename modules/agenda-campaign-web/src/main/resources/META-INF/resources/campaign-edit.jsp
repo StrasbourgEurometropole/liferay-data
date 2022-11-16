@@ -431,16 +431,7 @@
 			
 			<!-- Dates et horaires -->
 			<aui:fieldset collapsed="true" collapsible="false"
-				label="dates-and-times">				
-				
-				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /> <span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
-				</div>
-				
-				<div class="add-dates-section">
-					<aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
-				</div>
-				
+				label="dates-and-times">
 				<div class="change-times-section">
 					<div class="event-periods-title">
 						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
@@ -452,20 +443,22 @@
 				</div>
 				
 				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
+					<p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
 				</div>
 
 				<div class="event-no-period" style="display: none">
                     <liferay-ui:message key="event-no-period" />
                 </div>
 				<div id="date-fields">
-					<div class="lfr-form-row lfr-form-row-inline">
-						<div class="row-fields">
-							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="0" />
-							</liferay-util:include>
-						</div>
-					</div>
+					<c:if test="${empty dc.campaignEvent || fn:length(dc.campaignEvent.periods) == 0}">
+                        <div class="lfr-form-row lfr-form-row-inline">
+                            <div class="row-fields">
+                                <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="0" />
+                                </liferay-util:include>
+                            </div>
+                        </div>
+                    </c:if>
 						
 					<c:forEach items="${dc.campaignEvent.periods}" var="period" varStatus="status">
 						<div class="lfr-form-row lfr-form-row-inline">
@@ -473,7 +466,7 @@
 								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
 								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
 								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
 									<liferay-util:param name="endDate" value="${formattedEndDate}" />
 									<liferay-util:param name="timeDetail" value="${period.timeDetail}" />
