@@ -297,7 +297,8 @@ public class GoogleSynchronisation {
                     jsonCloseTime.put("minutes", 0);
                     jsonPeriod.put("closeTime", jsonCloseTime);
                     jsonPeriods.put(jsonPeriod);
-                } else {
+                } // Dans le cas où le lieu n'est pas fermé, il a des horaires d'ouverture
+                else if (!placeSchedule.isClosed()) {
                     for (Pair<LocalTime, LocalTime> openingTime : placeSchedule.getOpeningTimes()) {
                         JSONObject jsonPeriod = JSONFactoryUtil.createJSONObject();
                         jsonPeriod.put("openDay", day);
