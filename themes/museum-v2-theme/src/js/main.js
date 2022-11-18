@@ -38,7 +38,7 @@
 
   // slider events
   if($('#events .swiper').length){
-    const swiperEvents = new Swiper('#events .swiper', {
+    const swiperPlaceEvents = new Swiper('#events .swiper', {
       // Optional parameters
       slidesPerView: "auto",
       spaceBetween: 30,
@@ -56,6 +56,33 @@
         // when window width is >= 640px
         768: {
           slidesPerView: 4,
+          spaceBetween: 10,
+          centeredSlides: false,
+        }
+      }
+    });
+  }
+
+  // slider placeEvents
+  if($('#place-events .swiper').length){
+    const swiperEvents = new Swiper('#place-events .swiper', {
+      // Optional parameters
+      slidesPerView: "auto",
+      spaceBetween: 30,
+      centeredSlides: true,
+      loop: false,
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '#place-events .swiper-button-next',
+        prevEl: '#place-events .swiper-button-prev',
+      },
+
+      // Responsive breakpoints
+      breakpoints: {
+        // when window width is >= 640px
+        768: {
+          slidesPerView: 2,
           spaceBetween: 10,
           centeredSlides: false,
         }
@@ -218,6 +245,7 @@
       enableSwiperHeaderMuseum();
 
       enableListRubricsMasonry();
+      
     } else {
       // On est en mode mobile ou tablette portrait      
       enableSwiperNews();

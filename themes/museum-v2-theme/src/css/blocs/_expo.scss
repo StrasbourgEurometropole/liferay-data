@@ -1,10 +1,11 @@
-.expo-thumbnail{
+#global .expo-thumbnail{
     display: flex;
     padding: 10px 0;
     box-shadow: 1px 3px 5px 0px #{$color_second}9;
     margin-bottom: 20px;
     position: relative;
     height: calc(100% - 20px);
+    text-decoration: none;
 
     &:hover{
         text-decoration: none;

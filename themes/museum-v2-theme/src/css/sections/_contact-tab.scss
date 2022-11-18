@@ -1,8 +1,7 @@
-#contact{
+#global #contact-tab{
     
     @include RWD(tablet_portrait){
-        margin-left: 20px;
-        margin-right: 20px;
+        padding: 30px 45px 15px;
     }
 
     .tabs{
@@ -75,15 +74,6 @@
                     @include RWD(tablet_portrait){
                         font-size: 0.9375rem;
                         line-height: 21px;
-                    }
-                }
-
-                a{
-                    color: $color_main;
-                    text-decoration: underline;
-
-                    &:hover{
-                        color: $color_txt;
                     }
                 }
 

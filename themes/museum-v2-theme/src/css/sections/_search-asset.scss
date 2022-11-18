@@ -1,4 +1,4 @@
-.search-asset-portlet {
+#global .search-asset-portlet {
     .search-asset-portlet-page {
         display: grid;
         grid-template-areas:
@@ -6,6 +6,7 @@
             "search"
             "keywords"
             "results";
+            margin-bottom: 30px;
         
         @include RWD(tablet_portrait){
             grid-template-columns: 300px auto;

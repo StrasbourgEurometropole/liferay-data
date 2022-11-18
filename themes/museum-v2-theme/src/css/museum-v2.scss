@@ -17,17 +17,19 @@
 // Blocs
 @import 'blocs/_breadcrumbs';
 @import 'blocs/_bref';
+@import 'blocs/_contact';
 @import 'blocs/_edition';
 @import 'blocs/_event';
 @import 'blocs/_expo';
 @import 'blocs/_news';
 @import 'blocs/_oeuvre';
-@import 'blocs/_read-too';
+@import 'blocs/_paginate';
 @import 'blocs/_useful-documents';
+@import 'blocs/_useful-links';
 
 // sections
 @import 'sections/_accroche';
-@import 'sections/_contact';
+@import 'sections/_contact-tab';
 @import 'sections/_edition-detail';
 @import 'sections/_edition-list';
 @import 'sections/_en-bref-slider';
@@ -50,6 +52,12 @@
 @import '_tarteaucitron';
 
 #global{
+    @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+
+    @include RWD(tablet_portrait){
+        font-size: 0.9375rem;
+        line-height: 21px;
+    }
 
     .signed-in & {
         padding-top: 54px;
@@ -74,231 +82,302 @@
                 }
             }
         }
-    }  
-}
+    } 
 
-// bouton rouge
-a.button1{      
-    display: block;
-    width: 215px;
-    padding: 15px;
-    background: $color_main;
-    border: 1px solid $color_main;
-    text-align: center;
-    @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
-    text-transform: uppercase;
-
+    .hidden{
+        display: none;
+    }
     
-    @include RWD(tablet_portrait){
-        width: 260px;
-        transition : all, 0.2s, ease-out;
-        font-size: 0.95rem;
-        line-height: 1.1rem;
-
-        &:hover{
-            background: white;
-            color: $color_main;
-            text-decoration: none;
-        }
-    }
-
-    &:active, &:focus, &:hover{
-        outline: none;
-    }
-} 
-
-// bouton gris
-a.button2{      
-    display: block;
-    width: 215px;
-    padding: 15px;
-    background: white;
-    border: 1px solid white;
-    text-align: center;
-    @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
-    box-shadow: 0px 15px 27px rgba(0, 0, 0, 0.25);
-
+    .margin-top{
+        margin-top: 25px;
     
-    @include RWD(tablet_portrait){
-        width: 260px;
-        transition : all, 0.2s, ease-out;
-        font-size: 0.95rem;
-        line-height: 1.1rem;
+        @include RWD(tablet_portrait){
+            margin-top: 40px;
+        }
+    }
+    
+    .margin-bottom{
+        margin-bottom: 40px;
+    
+        @include RWD(tablet_portrait){
+            margin-bottom: 60px;
+        }
+    } 
 
+    // lien
+    a{
+        color: $color_main;
+        text-decoration: underline;
+    
         &:hover{
-            color: $color_main;
-            text-decoration: none;
+            color: $color_txt;
         }
     }
-
-    &:active, &:focus, &:hover{
-        outline: none;
+    
+    .chapo{
+        @include ft($proximaNova, 1.25rem, 700, $color_main, 24px, "");
     }
-} 
-
-// bouton blanc avec animation sur le border
-button.button1{      
-    display: block;
-    width: 215px;
-    padding: 15px;
-    background: $color_main;
-    border: 1px solid $color_main;
-    text-align: center;
-    @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
-    text-transform: uppercase;
-
-    @include RWD(tablet_portrait){
-        border: none;
-        background: none;
-        width: 290px;
-        @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
-        z-index: 10;
-        padding: 0;
-
-        span{
-            display: block;
-            position: relative;
+    
+    h2{
+        @include ft($proximaNova, 25px, 400, $color_main, 1.875rem, "");
+    
+        @include RWD(tablet_portrait){
+            font-size: 45px;
+            line-height: 53px;
         }
-
-        .points{
-            &:before, &:after{
+    }
+    
+    h3{
+        @include ft($proximaNova, 0.9375rem, 400, $color_main, 21px, "");
+    
+        @include RWD(tablet_portrait){
+            font-size: 1.875rem;
+            line-height: 35px;
+        }
+    }
+    
+    // bouton rouge
+    a.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+        text-decoration: none;
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s, ease-out;
+            font-size: 0.95rem;
+            line-height: 1.1rem;
+    
+            &:hover{
+                background: white;
+                color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // bouton gris
+    a.button2{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: white;
+        border: 1px solid white;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+        box-shadow: 0px 15px 27px rgba(0, 0, 0, 0.25);
+        text-decoration: none;
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s, ease-out;
+            font-size: 0.95rem;
+            line-height: 1.1rem;
+    
+            &:hover{
+                color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // bouton blanc avec animation sur le border
+    button.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+    
+        @include RWD(tablet_portrait){
+            border: none;
+            background: none;
+            width: 290px;
+            @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
+            z-index: 10;
+            padding: 0;
+    
+            span{
+                display: block;
+                position: relative;
+            }
+    
+            .points{
+                &:before, &:after{
+                    content:'';
+                    position: absolute;
+                    width: 1px;
+                    height: 0;
+                    border: 5px solid $color_main;
+                    transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
+                }
+    
+                &:before{
+                    bottom:0;
+                    right: calc(50% - 2.5px);
+                    border-right: none;
+                    border-top: none;
+                }
+    
+                &:after{
+                    top:0;
+                    left: calc(50% - 2.5px);
+                    border-left: none;
+                    border-bottom: none;
+                }
+    
+            }
+            
+            .trait:before{
                 content:'';
                 position: absolute;
                 width: 1px;
-                height: 0;
-                border: 5px solid $color_main;
-                transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
-            }
-
-            &:before{
+                opacity: 0;
                 bottom:0;
-                right: calc(50% - 2.5px);
-                border-right: none;
-                border-top: none;
-            }
-
-            &:after{
-                top:0;
-                left: calc(50% - 2.5px);
-                border-left: none;
-                border-bottom: none;
-            }
-
-        }
-        
-        .trait:before{
-            content:'';
-            position: absolute;
-            width: 1px;
-            opacity: 0;
-            bottom:0;
-            right: 0%;
-        }
-        
-        .background{
-            &:before{
-                content:'';
-                position: absolute;
-                top: 0;
-                left: -5px;
-                width: 0;
-                height: calc(100% - 5px);
-                margin: 0 5px 5px;
-                background-color: $color_main;
+                right: 0%;
             }
             
-            span{
-                color: black;
-            }
-        }
-
-        &:hover{
-            .points:before, .points:after{
-                width: calc(50% + 2.5px);
-                height: calc(100% - 5px);
-                transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
-            }
-
-            .trait:before{
-                opacity: 1;
-                border-bottom: 5px solid $color_main;
-                width: calc(50%);
-                transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
-            }
-
             .background{
                 &:before{
-                    width: calc(100% - 5px);
-                    transition: width 0.3s ease-out 0.3s;
+                    content:'';
+                    position: absolute;
+                    top: 0;
+                    left: -5px;
+                    width: 0;
+                    height: calc(100% - 5px);
+                    margin: 0 5px 5px;
+                    background-color: $color_main;
                 }
-
+                
                 span{
-                    color: white;
-                    transition: color 0.3s ease-out 0.3s;
+                    color: black;
+                }
+            }
+    
+            &:hover{
+                .points:before, .points:after{
+                    width: calc(50% + 2.5px);
+                    height: calc(100% - 5px);
+                    transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+                }
+    
+                .trait:before{
+                    opacity: 1;
+                    border-bottom: 5px solid $color_main;
+                    width: calc(50%);
+                    transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
+                }
+    
+                .background{
+                    &:before{
+                        width: calc(100% - 5px);
+                        transition: width 0.3s ease-out 0.3s;
+                    }
+    
+                    span{
+                        color: white;
+                        transition: color 0.3s ease-out 0.3s;
+                    }
                 }
             }
         }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // boutons sliders
+    .swiper-button-next, .swiper-button-prev { 
+        height: 37px;
+        width: 37px;
+        background-color: $color_main;
+        border-radius: 50%;
+        color: white;
+    
+        &.swiper-button-disabled{
+            display: none;
+        }
+    
+        &:after{
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
     }
-
-    &:active, &:focus, &:hover{
-        outline: none;
+    .swiper-button-prev { 
+        left: -18px;
     }
-} 
-
-// boutons sliders
-.swiper-button-next, .swiper-button-prev { 
-    height: 37px;
-    width: 37px;
-    background-color: $color_main;
-    border-radius: 50%;
-    color: white;
-
-    &.swiper-button-disabled{
-        display: none;
+    .swiper-button-next{ 
+        right: -18px;
     }
+    
+    // copyright des images
+    .image-with-copyright-on-hover{
+        position: relative;
 
-    &:after{
-        font-size: 0.875rem;
-        font-weight: 700;
+        .copyright{
+            @include positionAbsolute("", "", (bottom: 8px, right: 8px));
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 60px;
+            @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
+            text-transform: uppercase;
+            height: 21px;
+            width: 21px;
+            overflow: hidden;
+            transition: width 1s ease;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+    
+            &:active, &:focus{
+                width: auto;
+            }
+    
+            @include RWD(tablet_portrait){
+                bottom: 20px;
+                right: 20px;
+    
+                &:hover{
+                    width: auto;
+                }
+            }
+    
+            :first-child(){
+                min-width: 20px;
+                line-height: normal;
+                text-align: center;
+                font-size: 1rem;
+            }
+    
+            :nth-child(2){
+                font-size: 0.75rem;
+                padding: 0 10px;
+            }
+        }
     }
-}
-.swiper-button-prev { 
-    left: -18px;
-}
-.swiper-button-next{ 
-    right: -18px;
 }
 
 @include RWD(extra_large){
     body .container {
         max-width: 1240px;
     }
-}
-
-.hidden{
-    display: none;
-}
-
-.margin-top{
-    margin-top: 25px;
-
-    @include RWD(tablet_portrait){
-        margin-top: 40px;
-    }
-}
-
-.margin-bottom{
-    margin-bottom: 40px;
-
-    @include RWD(tablet_portrait){
-        margin-bottom: 60px;
-    }
-}
-
-p{
-    @include ft($proximaNova, 0.9375rem, 400, black, 21px, "");
-}
-
-.chapo{
-    @include ft($proximaNova, 1.25rem, 700, $color_main, 24px, "");
 }

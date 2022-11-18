@@ -1,4 +1,4 @@
-#news-detail{
+#global #news-detail{
 
     .content{ 
         margin: auto;
@@ -61,7 +61,6 @@
 
         .image-with-copyright-on-hover{
             margin-bottom: 30px;
-            position: relative;
     
             @include RWD(tablet_portrait){
                 &:before {
@@ -73,46 +72,6 @@
                     right: -220px;
                     bottom: -200px;
                     z-index: -1;
-                }
-            }
-
-            .copyright{
-                @include positionAbsolute("", "", (bottom: 8px, right: 8px));
-                background: rgba(0, 0, 0, 0.7);
-                border-radius: 60px;
-                @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
-                text-transform: uppercase;
-                height: 21px;
-                width: 21px;
-                overflow: hidden;
-                transition: width 1s ease;
-                display: flex;
-                flex-wrap: nowrap;
-                align-items: center;
-
-                &:active, &:focus{
-                    width: auto;
-                }
-    
-                @include RWD(tablet_portrait){
-                    bottom: 20px;
-                    right: 20px;
-
-                    &:hover{
-                        width: auto;
-                    }
-                }
-
-                :first-child(){
-                    min-width: 20px;
-                    line-height: normal;
-                    text-align: center;
-                    font-size: 1rem;
-                }
-
-                :nth-child(2){
-                    font-size: 0.75rem;
-                    padding: 0 10px;
                 }
             }
         }
@@ -135,40 +94,8 @@
                 line-height: 21px;
             }
 
-            h2{
-                font-size: 25px;
-                line-height: 1.875rem;
-                color: $color_main;
-                font-weight: 400;
-    
-                @include RWD(tablet_portrait){
-                    font-size: 45px;
-                    line-height: 53px;
-                }
-            }
-
-            h3{
-                font-size: 0.9375rem;
-                line-height: 21;
-                font-weight: 400;
-    
-                @include RWD(tablet_portrait){
-                    font-size: 1.875rem;
-                    line-height: 35px;
-                }
-            }
-
             ul{
                 padding-left: 30px;
-            }
-
-            a:not(.button1){
-                color: $color_main;
-                text-decoration: underline;
-
-                &:hover{
-                    color: $color_txt;
-                }
             }
         }
     }

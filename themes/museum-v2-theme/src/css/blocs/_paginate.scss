@@ -1,0 +1,25 @@
+#global .taglib-page-iterator{
+    margin-top: 50px;
+
+    .lfr-pagination{
+
+        .lfr-pagination-config{
+            display: none;
+        }
+
+        .lfr-pagination-buttons{
+
+            a{
+                border: solid $color_main 1px;
+                border-radius: 0;
+                text-decoration: none;
+                color: $color_second;
+
+                &:hover{
+                    background-color: $color_main;
+                    color: white;
+                }
+            }
+        }
+    }
+}

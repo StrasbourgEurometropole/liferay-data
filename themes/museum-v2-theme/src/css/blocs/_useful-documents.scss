@@ -1,0 +1,51 @@
+#global .useful-documents{
+    background: $color_third;
+    padding: 40px 50px;
+    margin-bottom: 20px;
+
+    .title{
+        @include ft($times, 25px, 400, $color_main, 21px, italic);
+        margin-bottom: 25px;
+        display: block;
+
+        @include RWD(tablet_portrait){
+            font-size: 25px;
+            line-height: 21px;
+        }
+    }
+
+    ul{
+        padding: 0;
+
+        li{
+            list-style: none;
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 15px;
+
+            a{
+                @include ft($proximaNova, 0.9375rem, 700, $color_txt, 21px, "");
+                text-decoration: none;
+        
+                @include RWD(tablet_portrait){
+                    font-size: 0.9375rem;
+                    line-height: 21px;
+                }
+
+                &:after{
+                    content: '';
+                    width: 12px;
+                    height: 13px;
+                    background-image: url( svg-bg-uri($svg-download, $color_main) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                    position: absolute;
+                    top: 5px;
+                    right: 0;
+                }
+            }
+        }
+    }
+}

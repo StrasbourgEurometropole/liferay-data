@@ -1,4 +1,4 @@
-#expo-list{
+#global #expo-list{
 
     .content{   
 
@@ -62,8 +62,11 @@
             text-align: center;
             margin: 0 auto 35px;
 
-            &:not(:first-child()){
-                margin-top: -20px;
+
+            @include RWD(tablet_portrait){
+                &:not(:first-child()){
+                    margin-top: -20px;
+                }
             }
 
 

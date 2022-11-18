@@ -1,4 +1,4 @@
-#edition-detail{
+#global #edition-detail{
 
     .content{
         display: flex;
@@ -151,15 +151,6 @@
     
                 @include RWD(tablet_portrait){
                     margin-bottom: 0;
-                }
-            }
-
-            a:not(.button1){
-                color: $color_main;
-                text-decoration: underline;
-
-                &:hover{
-                    color: $color_txt;
                 }
             }
         }

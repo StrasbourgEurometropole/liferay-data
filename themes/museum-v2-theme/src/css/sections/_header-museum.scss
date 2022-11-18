@@ -3,7 +3,7 @@
     100% { transform: scale(1.5)}
 }
 
-#headerMuseum{
+#global #headerMuseum{
     h1{
         @include ft($proximaNova, 24px, 700, white, 1.875rem, "");
         text-transform: uppercase;

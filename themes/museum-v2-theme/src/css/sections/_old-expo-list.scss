@@ -1,4 +1,4 @@
-#old-expo{
+#global #old-expo{
 
     .content{ 
 
@@ -35,8 +35,12 @@
                 border-radius: 0;
                 width: 36px;
                 height: 36px;
-                margin-right: 60px;
+                margin-right: 20px;
                 position: relative;
+
+                @include RWD(tablet_portrait){
+                    margin-right: 60px;
+                }
 
                 &:after{
                     content: '';
@@ -68,9 +72,15 @@
 
             .file{
                 background: $color_third;
-                padding: 50px;
+                padding: 20px;
+                width: 100%;
                 @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.125rem, "");
                 text-transform: uppercase;
+
+                @include RWD(tablet_portrait){
+                    padding: 50px;
+                    width: auto;
+                }
 
                 &:after{
                     content: '';

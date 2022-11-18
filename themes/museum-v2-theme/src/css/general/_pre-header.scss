@@ -58,6 +58,7 @@
                             padding: 10px 13px 8px 13px;
                             height: 40px;
                             @include ft($proximaNova, 0.875rem, 400, white, 1.25rem, "");
+                            text-decoration: none;
                         }
 
                         .language-menu {

@@ -75,24 +75,5 @@
 		</div>
 	</c:forEach>
 
-	<!-- Type d'assets -->
-	<c:if test="${fn:length(dc.classNames) gt 1}">
-		<div class="asset-type-selection">
-			<legend>
-				<liferay-ui:message key="eu.search.asset.web.to-show" />
-			</legend>
-			<div class="asset-type-selection-control">
-				<c:forEach items="${dc.classNames}" var="className"
-					varStatus="classNameStatus">
-					<aui:input type="checkbox" label="${className}"
-						name="className"
-						id="className_${classNameStatus.index}"
-						value="${className}"
-						checked="${fn:contains(dc.filterClassNamesString, className)}" />
-				</c:forEach>
-			</div>
-		</div>
-	</c:if>
-
 	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
 </div>
