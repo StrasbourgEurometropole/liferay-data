@@ -76,17 +76,7 @@
 				<div class="no-event-period" style="display: none; margin-top: 0">
                     <liferay-ui:message key="no-event-period" />
                 </div>
-				
-				<div class="change-times-section">
-					<div class="event-periods-title">
-						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
-					</div>
-					<div class="time-detail-generator-wrapper">
-						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
-					</div>
-					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
-				</div>
-				
+
 				<div class="event-periods-title">
 					<p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"></span></p>
 				</div>
@@ -117,6 +107,16 @@
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
+
+                <div class="change-times-section">
+                    <div class="event-periods-title">
+                        <p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
+                    </div>
+                    <div class="time-detail-generator-wrapper">
+                        <aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+                    </div>
+                    <aui:button id="changeTimes" name="changeTimes" value="update-times" />
+                </div>
 				
 			</aui:fieldset>
 			
