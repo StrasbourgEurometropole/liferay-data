@@ -432,23 +432,15 @@
 			<!-- Dates et horaires -->
 			<aui:fieldset collapsed="true" collapsible="false"
 				label="dates-and-times">
-				<div class="change-times-section">
-					<div class="event-periods-title">
-						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
-					</div>
-					<div class="time-detail-generator-wrapper">
-						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
-					</div>
-					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
-				</div>
-				
-				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
-				</div>
 
-				<div class="event-no-period" style="display: none">
+                <div class="event-periods-title">
+                    <p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"><span class="hide-accessible">Required</span></span></p>
+                </div>
+
+                <div class="event-no-period" style="display: none">
                     <liferay-ui:message key="event-no-period" />
                 </div>
+
 				<div id="date-fields">
 					<c:if test="${empty dc.campaignEvent || fn:length(dc.campaignEvent.periods) == 0}">
                         <div class="lfr-form-row lfr-form-row-inline">
@@ -475,6 +467,16 @@
 						</div>
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
+				</div>
+
+				<div class="change-times-section">
+					<div class="event-periods-title">
+						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
+					</div>
+					<div class="time-detail-generator-wrapper">
+						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+					</div>
+					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
 				</div>
 				
 			</aui:fieldset>
