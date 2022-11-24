@@ -44,41 +44,15 @@
 
                     .copyright{
                         @include positionAbsolute("", "", (bottom: 10px, right: 20px));
-                        background: rgba(0, 0, 0, 0.7);
-                        border-radius: 60px;
-                        @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
-                        text-transform: uppercase;
-                        height: 21px;
-                        width: 21px;
-                        overflow: hidden;
-                        transition: width 1s ease;
-                        display: flex;
-                        flex-wrap: nowrap;
-                        align-items: center;
-    
-                        &:active, &:focus{
-                            width: auto;
-                        }
-    
+                        
                         @include RWD(tablet_portrait){
                             bottom: 30px;
                             right: 25px;
     
-                            &:hover{
-                                width: auto;
-                            }
                         }
     
                         :first-child(){
-                            min-width: 20px;
                             line-height: 20px;
-                            text-align: center;
-                            font-size: 1rem;
-                        }
-    
-                        :nth-child(2){
-                            font-size: 0.75rem;
-                            padding: 0 10px;
                         }
                     }
                 }

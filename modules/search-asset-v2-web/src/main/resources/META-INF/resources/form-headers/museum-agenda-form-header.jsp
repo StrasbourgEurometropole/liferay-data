@@ -9,7 +9,7 @@
 			<div class="keywords-selection-control">
                 <input type="text" name="<portlet:namespace />deported-keywords" id="<portlet:namespace />deported-keywords" value="${dc.keywords}" placeholder='<liferay-ui:message key="eu.search.asset.web.keyword" />''/>
             </div>
-            <a href="#" id="submit" class="button1" aria-label="<liferay-ui:message key="search" />" title="<liferay-ui:message key="search" />"><liferay-ui:message key="search" /></a>
+            <a id="submit" class="button1" aria-label="<liferay-ui:message key="search" />" title="<liferay-ui:message key="search" />"><liferay-ui:message key="search" /></a>
         </div>
     </div>
 </form>

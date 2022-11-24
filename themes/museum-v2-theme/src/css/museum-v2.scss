@@ -8,6 +8,7 @@
 @import 'builders/_quark-animation-hoverBar';
 @import 'builders/_select2';
 @import 'builders/_svg-factory';
+@import 'builders/_atom-datepicker';
 
 // General
 @import 'general/_footer';
@@ -29,6 +30,7 @@
 
 // sections
 @import 'sections/_accroche';
+@import 'sections/_big-news';
 @import 'sections/_contact-tab';
 @import 'sections/_edition-detail';
 @import 'sections/_edition-list';
@@ -134,6 +136,11 @@
             font-size: 1.875rem;
             line-height: 35px;
         }
+    }
+
+    input{
+        box-shadow: none;
+        outline: none;
     }
     
     // bouton rouge
@@ -372,6 +379,13 @@
                 font-size: 0.75rem;
                 padding: 0 10px;
             }
+        }
+    }
+
+    // affichage entête + 2 colonnes
+    .container-layout{
+        .col-md-8{
+            margin-bottom: 20px;
         }
     }
 }

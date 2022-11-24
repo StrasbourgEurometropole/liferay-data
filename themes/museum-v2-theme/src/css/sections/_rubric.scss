@@ -133,6 +133,7 @@
 
                             a{
                                 @include ft($proximaNova, 1rem, 400, black, 21px, "");
+                                text-decoration: none;
 
                                 &:after{
                                     content: '';

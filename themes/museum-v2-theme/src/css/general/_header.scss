@@ -44,9 +44,7 @@
         margin-top: 40px;
 
         @include RWD(tablet_portrait){
-            &:not(.editions){
-                margin-top: 0;
-            }
+            margin-top: 0;
         }
 
         h1{
@@ -65,32 +63,44 @@
             margin-top: 25px;
             text-align: center;
         }
+    }
 
-        &.editions{
-            position: relative;
+    &.editions{
+        position: relative;
+        margin-top: 40px;
 
-            .page-header-image{
+        .page-header-image{
+
+            @include RWD(tablet_portrait){
                 width: 66%;
+            }
 
-                img{
-                    width: 100%;
+            img{
+                width: 100%;
+            }
+        }
+
+        .info{
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            padding: 40px 35px 25px;
+            background-color: white;
+
+            @include RWD(tablet_portrait){
+                @include positionAbsolute("", translateY(-50%), (top: 50%, right: 0));
+                padding: 60px 55px 45px;
+                width: 520px;
+            }
+
+            h1{
+                margin-bottom: 40px;
+
+                @include RWD(tablet_portrait){
+                    margin-bottom: 80px;
                 }
             }
 
-            .info{
-                @include positionAbsolute("", translateY(-50%), (top: 50%, right: 0));
-                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-                padding: 60px 55px 45px;
-                background-color: white;
-                width: 520px;
-
-                h1{
-                    margin-bottom: 80px;
-                }
-
-                .chapo{
-                    font-size: 20px;
-                }
+            .chapo{
+                font-size: 20px;
             }
         }
     }

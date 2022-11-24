@@ -25,7 +25,7 @@
 		<script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
 		<script src="${javascript_folder}/vendors/swiper.min.js"></script>
 		<script src="${javascript_folder}/vendors/masonry.pkgd.min.js"></script>
-
+		
 		<@liferay_util["include"] page=top_head_include />
 	</head>
 
@@ -80,6 +80,8 @@
 
 		<script type="text/javascript" src="${javascript_folder}/tarteaucitron.custom.js"></script>
 		<script src="${javascript_folder}/vendors/select2.min.js"></script>
+		<script src="${javascript_folder}/vendors/jquery-ui.min.js"></script>
+		<script src="${javascript_folder}/vendors/jquery-ui-datepicker-fr.js"></script>
 		<script>
 			window.homeURL = '${homeURL}';
 		</script>

@@ -2,6 +2,10 @@
     #footer{
         background-color: #3a3a3a;
 
+        a{
+            text-decoration: none;
+        }
+
         .container{
             display: block;
             flex-wrap: wrap;

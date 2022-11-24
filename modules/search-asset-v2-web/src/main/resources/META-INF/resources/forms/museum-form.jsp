@@ -1,47 +1,23 @@
 <%@ include file="/search-asset-init.jsp"%>
 <div class="search-asset-fields">
 
-	<!-- Champ date -->
-	<c:if test="${dc.dateField}">
-		<div class="date-selection">
-			<legend>
-				<liferay-ui:message key="eu.dates" />
-			</legend>
-			<div class="date-selection-control">
-                <label>
-                    <liferay-ui:message key="search-asset-from" />
-                </label>
-                <span class="mns-ico-date">
-                    <liferay-ui:input-date name="fromDate" nullable="true"
-                        cssClass="date-selector" dayParam="fromDay" dayValue="${dc.fromDay}" monthParam="fromMonth" monthValue="${dc.fromMonthIndex}"
-                        yearParam="fromYear" yearValue="${dc.fromYear}" />
-                </span>
-                <label>
-                    <liferay-ui:message key="search-asset-to" />
-                </label>
-                <span class="mns-ico-date">
-                    <liferay-ui:input-date name="toDate" nullable="true"
-                        cssClass="date-selector" dayParam="toDay" dayValue="${dc.toDay}" monthParam="toMonth" monthValue="${dc.toMonthIndex}"
-                        yearParam="toYear" yearValue="${dc.toYear}" />
-                </span>
-			</div>
-		</div>
-	</c:if>
+<portlet:resourceURL id="entrySelectionMuseum" var="selectionURL">
+</portlet:resourceURL>
 
-	<!-- Vocabulaires -->
-	<aui:input type="hidden" name="vocabulariesCount"
-		value="${fn:length(dc.vocabularies)}" />
+	<!-- Vocabulaire -->
+    <aui:input type="hidden" name="vocabulariesCount" value="${fn:length(dc.vocabularies)}" />
 	<c:forEach items="${dc.vocabularies}" var="vocabulary"
 		varStatus="vocStatus">
 		<div class="vocabulary-selection">
-			<legend>${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</legend>
-			<div class="vocabulary-selection-control">
+            <legend>
+                ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
+            </legend>
+	        <div class="vocabulary-selection-control">
 				<!-- Dropdown -->
 				<c:if test="${dc.vocabulariesControlTypes[vocStatus.index] eq 'list'}">
-                    <select class="" id="type" name="<portlet:namespace />vocabulary_${vocStatus.index}">
+                    <select id="vocabulary_${vocStatus.index}" multiple="multiple" name="<portlet:namespace />vocabulary_${vocStatus.index}">
                         <option value="" disabled><liferay-ui:message key="eu.search.asset.web.select" /></option>
-                        <option value="-1">&nbsp;</option>
-                        <c:forEach items="${dc.getDropdownRootCategories(vocabulary)}" var="category">
+                        <c:forEach items="${dc.getSortedCategories(vocabulary)}" var="category">
                             <c:set var="category" value="${category}" scope="request"/>
                             <c:set var="dc" value="${dc}" scope="request"/>
                             <c:set var="level" value="0" scope="request" />
@@ -71,9 +47,41 @@
 							label="${category.getTitle(locale)}" />
 					</c:forEach>
 				</c:if>
-			</div>
-		</div>
-	</c:forEach>
+	        </div>
+	    </div>
+    </c:forEach>
 
-	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
+	<!-- Champ date -->
+	<c:if test="${dc.dateField}">
+        <div class="date-selection">
+            <legend><liferay-ui:message key="eu.event.from-date" /></legend>
+            <input class="date" name="from" data-type="date" type="text" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
+                value="${dc.fromDay}/${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}/${dc.fromYear}">
+            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
+            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
+            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
+        </div>
+	    <div class="date-selection">
+            <legend><liferay-ui:message key="eu.event.to" /></legend>
+	        <div class="date-selection-control">
+                <input class="date" name="to" data-type="date" type="text" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
+                    value="${dc.toDay}/${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}/${dc.toYear}">
+                <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
+                <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
+                <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
+	        </div>
+	    </div>
+	</c:if>
 </div>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+        var selectionURL = '${selectionURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/searchassetv2web/js/museum.js"></script>
+
+</liferay-util:html-bottom>

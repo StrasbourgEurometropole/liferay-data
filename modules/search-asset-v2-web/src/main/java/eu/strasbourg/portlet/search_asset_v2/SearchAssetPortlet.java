@@ -2,7 +2,6 @@ package eu.strasbourg.portlet.search_asset_v2;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -291,7 +290,25 @@ public class SearchAssetPortlet extends MVCPortlet {
 			if (resourceID != null && resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
 
 				// Recherche
-				List<AssetEntry> entries = searchEntries(resourceRequest, themeDisplay, configurationData);
+				SearchHits searchHits = searchEntries(resourceRequest, themeDisplay, configurationData);
+
+				List<AssetEntry> entries = new ArrayList<>();
+				if (searchHits != null) {
+					int i = 0;
+					for (SearchHit searchHit : searchHits.getSearchHits()) {
+						com.liferay.portal.search.document.Document document = searchHit.getDocument();
+						i++;
+						if (i <= 10)
+							_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore());
+
+						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+								document.getString(Field.ENTRY_CLASS_NAME),
+								document.getLong(Field.ENTRY_CLASS_PK));
+						if (entry != null) {
+							entries.add(entry);
+						}
+					}
+				}
 
 				// Récupération du json des entités
 				JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
@@ -408,12 +425,23 @@ public class SearchAssetPortlet extends MVCPortlet {
 								imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
 							}
 							json.put("thumbnail", imageURL);
+							String image = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "image", Locale.FRANCE);
+							if(!image.isEmpty()){
+								imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
+							}
+							json.put("image", imageURL);
 							AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
 							List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
 							List<AssetCategory> districtCategories = AssetVocabularyHelper.getDistrictCategories(listVocabulary);
 							List<AssetCategory> cityCategories = AssetVocabularyHelper.getCityCategories(listVocabulary);
 							String districts = AssetVocabularyHelper.getDistrictTitle(Locale.FRANCE, districtCategories, cityCategories);
 							json.put("jsonVocabulariesTitle", districts);
+							List<AssetCategory> listMuseum = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "musees");
+							JSONArray museums = JSONFactoryUtil.createJSONArray();
+							for (AssetCategory museum : listMuseum) {
+								museums.put(museum.getTitle(Locale.FRANCE));
+							}
+							json.put("jsonMuseumsTitle", museums);
 							SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 							json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
 							String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
@@ -424,6 +452,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 					}
 				}
 				jsonResponse.put("entries", jsonEntries);
+				jsonResponse.put("total", searchHits.getTotalHits());
 
 				// Recuperation de l'élément d'écriture de la réponse
 				PrintWriter writer = resourceResponse.getWriter();
@@ -442,7 +471,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 	/**
 	 * Effectue concrètement la recherche
 	 */
-	private List<AssetEntry> searchEntries(ResourceRequest request, ThemeDisplay themeDisplay,
+	private SearchHits searchEntries(ResourceRequest request, ThemeDisplay themeDisplay,
 										   ConfigurationData configurationData) throws ConfigurationException {
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
 
@@ -467,7 +496,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 		long[] districts = new long[]{};
 		long[] thematics = new long[]{};
 		long[] types = new long[]{};
+		String selectedAllCategories = null;
 		String sortFieldAndType = null;
+		int start= -1;
+		int end = -1;
 
 		String resourceID = request.getResourceID();
 		if (resourceID.equals("entrySelectionVideo")) {
@@ -603,6 +635,19 @@ public class SearchAssetPortlet extends MVCPortlet {
 			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 
+		if (resourceID.equals("entrySelectionMuseum")) {
+			startDay = ParamUtil.getInteger(request, "selectedStartDay");
+			startMonth = ParamUtil.getString(request, "selectedStartMonth");
+			startYear = ParamUtil.getInteger(request, "selectedStartYear");
+			endDay = ParamUtil.getInteger(request, "selectedEndDay");
+			endMonth = ParamUtil.getString(request, "selectedEndMonth");
+			endYear = ParamUtil.getInteger(request, "selectedEndYear");
+//			states = ParamUtil.getLongValues(request, "selectedStates");
+			selectedAllCategories = ParamUtil.getString(request, "selectedAllCategories");
+			start = ParamUtil.getInteger(request, "start");
+			end = ParamUtil.getInteger(request, "end");
+		}
+
 		// Filtre sur les dates
 		LocalDate fromDate = LocalDate.of(getFromYear(configurationData, startYear), getFromMonthValue(configurationData, startMonth),
 				getFromDay(configurationData, startDay));
@@ -610,8 +655,24 @@ public class SearchAssetPortlet extends MVCPortlet {
 				getToDay(configurationData, endDay));
 
 		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds(states, statuts, bpStatus, initiativeStatus, projects,
-				districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations);
+		List<Long[]> categoriesIds = new ArrayList<>();
+		if(Validator.isNull(selectedAllCategories)) {
+			categoriesIds = this.getFilterCategoriesIds(states, statuts, bpStatus, initiativeStatus, projects,
+					districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations);
+		}else {
+			for (String selectedCategoriesByVocabulary : selectedAllCategories.split("--")) {
+				categoriesIds = new ArrayList<>();
+				String[] categoryIdsString = selectedCategoriesByVocabulary.split(",");
+				Long[] categoryIds = new Long[categoryIdsString.length];
+				for (int i = 0; i < categoryIdsString.length; i++) {
+					categoryIds[i] = Long.valueOf(categoryIdsString[i]);
+				}
+				if (categoryIds.length > 0) {
+					categoriesIds.add(categoryIds);
+				}
+			}
+			;
+		}
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
@@ -635,27 +696,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 				getSeed(configurationData, sortFieldAndType, keywords, seed),
 				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), /*getCategoriesIdsForGroupBy(configurationData),*/ keywords, fromDate,
 				toDate, categoriesIds, idSIGPlace, getClassNames(configurationData), themeDisplay.getLocale(),
-				-1, -1);
+				start, end);
 
-		List<AssetEntry> results = new ArrayList<>();
-		if (searchHits != null) {
-			int i = 0;
-			for (SearchHit searchHit : searchHits.getSearchHits()) {
-				com.liferay.portal.search.document.Document document = searchHit.getDocument();
-				i++;
-				if (i <= 10)
-					_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore());
-
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						document.getString(Field.ENTRY_CLASS_NAME),
-						document.getLong(Field.ENTRY_CLASS_PK));
-				if (entry != null) {
-					results.add(entry);
-				}
-			}
-		}
-
-		return results;
+		return searchHits;
 	}
 
 	/**

@@ -5,9 +5,7 @@
         @include RWD(tablet_portrait){
             padding-right: 0;
             position: relative;
-        }
-
-        @include RWD(tablet_portrait){
+            
             &:before{
                 content: '';
                 display: block;
