@@ -1,5 +1,8 @@
 <!-- Détail événement -->
 <#setting locale = locale />
+<#assign classNameService = serviceLocator.findService("com.liferay.portal.kernel.service.ClassNameService") />
+<#assign templateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.TemplateHelperService") />
+
 <section id="event-detail" class="margin-top margin-bottom">
     <div  class="content container">
       <div class="event-header">
@@ -162,6 +165,7 @@
               </label>
               <input type="text" class="last-name"
                 name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"
+                id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"
                 value="${renderRequest.getAttribute("lastName")!""}">  
             </div>
             <div>
@@ -170,6 +174,7 @@
               </label>
               <input type="text" class="first-name"
                 name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"
+                id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"
                 value="${renderRequest.getAttribute("firstName")!""}">  
             </div>
             <div>
@@ -178,13 +183,14 @@
               </label>
               <input type="text" class="email"
                 name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"
+                id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"
                 value="${renderRequest.getAttribute("email")!""}">  
             </div>
             <div>
               <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message">
                 <@liferay_ui.message key="message" /> *
               </label>
-              <textarea name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" class="message">${renderRequest.getAttribute("message")!""}</textarea>  
+              <textarea name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"  id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" class="message">${renderRequest.getAttribute("message")!""}</textarea>  
             </div>
             <div>
               <label class="notif" for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
@@ -218,18 +224,26 @@
     <#assign museums += "${category.getCategoryId()}" />
 </#list>
 <#assign museumsArray = museums?split(",") />
+<#assign anyAssetType = classNameService.fetchClassName(entry.getModelClassName()).getClassNameId() />
+
+<#assign template = templateHelperService.getDDMTemplateByGroupeIdAndName(groupId, "slider event") />
+<#assign templateKey = template.getTemplateKey() />
+<#assign displayStyle = "ddmTemplate_" + templateKey />
+
 <#assign defaultPreferencesValues = freeMarkerPortletPreferences.getPreferences({
     "portletSetupPortletDecoratorId": "barebone",
     "scopeIds" : ["Group_default","Group_20160"],
-    "anyAssetType": "30501",
+    "anyAssetType": anyAssetType?string,
     "queryName0": "assetCategories",
     "queryContains0": "true",
     "queryAndOperator0": "false",
     "queryValues0": museums?split(","),
-    "displayStyle": "ddmTemplate_325550801"
+    "portletSetupUseCustomTitle": "true",
+    "portletSetupTitle_fr_FR": "",
+    "displayStyle": displayStyle
 }) />
 <@liferay_portlet["runtime"]
-    instanceId="eventsForCategs${museums?replace(',', '_')}"
+    instanceId="eventsForCategs-${museums?replace(',', '_')}"
     defaultPreferences="${defaultPreferencesValues}"
     portletProviderAction=portletProviderAction.VIEW
     portletProviderClassName="com.liferay.asset.kernel.model.AssetEntry"
