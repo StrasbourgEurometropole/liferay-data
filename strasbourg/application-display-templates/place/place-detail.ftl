@@ -89,52 +89,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
                                             <#assign hasException = false />
                                             <#list daySchedulesMap?keys as day>
-                                                <li>
-                                                    <span>${day}</span>
-                                                    <span>
-                                                        <#list daySchedulesMap[day] as schedule>
-                                                            <div>
-                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                    <#assign hasException = true />
-                                                                    <#assign hasAnyException = true />
-                                                                <#else>
-                                                                    <#assign hasException = false />
-                                                                </#if>
-                                                                <#if schedule.isClosed()>
-                                                                    <#if hasException><span class="exception"></#if>
-                                                                    <@liferay_ui.message key="eu.closed" />
-                                                                    <#if hasException></span></#if>
-                                                                <#elseif schedule.isAlwaysOpen()>
-                                                                    <#if hasException><span class="exception"></#if>
-                                                                    <@liferay_ui.message key="always-open" />
-                                                                    <#if hasException></span></#if>
-                                                                <#else>
-                                                                    <#list schedule.openingTimes as openingTime>
-                                                                        <div>
-                                                                            <#if hasException><span class="exception"></#if>
-                                                                            ${openingTime.first} - ${openingTime.second}
-                                                                            <#if hasException></span></#if>
-                                                                        </div>
-                                                                        <#if schedule.comments[openingTime?index]?has_content>
-                                                                            <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
-                                                                        </#if>
-                                                                    </#list>
-                                                                </#if>
-                                                            </div>
-                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                </span>
-                                                            </#if>
-                                                        </#list>
-                                                    </span>
-                                                </li>
-                                            </#list>
-                                        </ul>
-                                        <!-- Jours suivants pour les sous-lieux -->
-                                        <#list entry.publishedSubPlaces as subPlace>
-                                            <div class="tab-title">${subPlace.getName(locale)}</div>
-                                            <ul class="schedule-list">
-                                                <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
-                                                <#list daySchedulesMap?keys as day>
+                                                <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
                                                     <li>
                                                         <span>${day}</span>
                                                         <span>
@@ -167,9 +123,59 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                                         </#list>
                                                                     </#if>
                                                                 </div>
+                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                    </span>
+                                                                </#if>
                                                             </#list>
                                                         </span>
                                                     </li>
+                                                </#if>
+                                            </#list>
+                                        </ul>
+                                        <!-- Jours suivants pour les sous-lieux -->
+                                        <#list entry.publishedSubPlaces as subPlace>
+                                            <div class="tab-title">${subPlace.getName(locale)}</div>
+                                            <ul class="schedule-list">
+                                                <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
+                                                <#list daySchedulesMap?keys as day>
+                                                    <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                    <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
+                                                        <li>
+                                                            <span>${day}</span>
+                                                            <span>
+                                                                <#list daySchedulesMap[day] as schedule>
+                                                                    <div>
+                                                                        <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                            <#assign hasException = true />
+                                                                            <#assign hasAnyException = true />
+                                                                        <#else>
+                                                                            <#assign hasException = false />
+                                                                        </#if>
+                                                                        <#if schedule.isClosed()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="eu.closed" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#elseif schedule.isAlwaysOpen()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="always-open" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#else>
+                                                                            <#list schedule.openingTimes as openingTime>
+                                                                                <div>
+                                                                                    <#if hasException><span class="exception"></#if>
+                                                                                    ${openingTime.first} - ${openingTime.second}
+                                                                                    <#if hasException></span></#if>
+                                                                                </div>
+                                                                                <#if schedule.comments[openingTime?index]?has_content>
+                                                                                    <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
+                                                                                </#if>
+                                                                            </#list>
+                                                                        </#if>
+                                                                    </div>
+                                                                </#list>
+                                                            </span>
+                                                        </li>
+                                                    </#if>
                                                 </#list>
                                             </ul>
                                         </#list>
