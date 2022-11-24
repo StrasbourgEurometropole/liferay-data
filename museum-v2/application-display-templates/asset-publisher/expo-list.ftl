@@ -1,8 +1,8 @@
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
-    <#assign homeURL = "/" />
+    <#assign homeURL = "" />
 </#if>
 
 <section id="expo-list">
@@ -20,11 +20,22 @@
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign dates = docXml.valueOf("//dynamic-element[@name='dates']/dynamic-content/text()") />
-                        <a href="" aria-label="${title}" title="${title}" class="expo-thumbnail">
+                        <#assign viewUrl = "" />
+                        <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
+                        <#if link?has_content>
+                            <#assign linkArray = link?split("@") />
+                            <#assign layoutLocalService = serviceLocator.findService('com.liferay.portal.kernel.service.LayoutLocalService') />
+                            <#assign pageLayout = layoutLocalService.getLayout(linkArray[2]?number, false, linkArray[0]?number) />
+                            <#assign viewUrl = pageLayout.getFriendlyURL() />
+                        </#if>
+                        <a href="${homeURL}${viewUrl}" aria-label="${title}" title="${title}" class="expo-thumbnail">
                             <img src="${imageURL}" alt="${title}" title="${title}" />
                             <div class="info">
                                 <div class="title">
                                     <span>${title}</span>
+                                </div>
+                                <div class="dates">
+                                    <span>${dates}</span>
                                 </div>
                                 <div class="museums">
                                     <#if curEntry.categories?first?has_content>
@@ -44,27 +55,12 @@
                                         </span>
                                     </#if>
                                 </div>
-                                <div class="dates">
-                                    <span>${dates}</span>
-                                </div>
-
-                                <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.know-more" />" title='<@liferay_ui.message key="eu.museum.know-more" />'>
-                                    <span class="points">
-                                        <span class="trait">
-                                            <span class="background">
-                                                <span>
-                                                    <@liferay_ui.message key="eu.museum.know-more" />
-                                                </span>
-                                            </span>
-                                        </span>
-                                    </span>
-                                </button>
                             </div>
                         </a>
                         <#if curEntry?counter % 8 == 0>
                                 <div class="btn-more">
                                     <@liferay_ui.message key="eu.museum.more-expo" />
-                                    <button class="btn" data-list="list-${curEntry?counter}"></button>
+                                    <button class="btn" data-list="list-${curEntry?counter}" aria-label="<@liferay_ui.message key="eu.museum.more-expo" />"></button>
                                 </div>
                             </div>
                             <div class="list list-${curEntry?counter}">

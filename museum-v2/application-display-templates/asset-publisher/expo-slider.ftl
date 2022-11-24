@@ -1,10 +1,9 @@
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
+    <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
-    <#assign homeURL = "/" />
+    <#assign homeURL = "" />
 </#if>
-
 <section id="expo" class="margin-bottom">
     <div  class="content container">
         <h2>
@@ -26,10 +25,16 @@
                                 </#if>
                                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                                 <#assign dates = docXml.valueOf("//dynamic-element[@name='dates']/dynamic-content/text()") />
-                                <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
-                                <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
+                                <#assign viewUrl = "" />
+                                <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
+                                <#if link?has_content>
+                                    <#assign linkArray = link?split("@") />
+                                    <#assign layoutLocalService = serviceLocator.findService('com.liferay.portal.kernel.service.LayoutLocalService') />
+                                    <#assign pageLayout = layoutLocalService.getLayout(linkArray[2]?number, false, linkArray[0]?number) />
+                                    <#assign viewUrl = pageLayout.getFriendlyURL() />
+                                </#if>
                                 <div class="swiper-slide">
-                                    <a href="${viewURL}" aria-label="${title}" title="${title}" class="expo-thumbnail">
+                                    <a href="${homeURL}${viewUrl}" aria-label="${title}" title="${title}" class="expo-thumbnail">
                                         <img src="${imageURL}" alt="${title}" title="${title}" />
                                         <div class="info">
                                             <div class="title">
@@ -99,6 +104,6 @@
 
 <script>
     $("#btn-all-expos").click(function(){
-      location.href='http://' + window.location.host + '${homeURL}expositions-des-musees'
+      location.href='http://' + window.location.host + '${homeURL}/expositions-des-musees'
     });
 </script>

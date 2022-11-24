@@ -21,7 +21,7 @@
         	        <#assign files = dlFileEntryLocalService.getFileEntries(groupId, folder.folderId) />
         	        <#if files?has_content>
                         <div class="folder">
-                            <button class="btn minus" data-list="files-${curEntry?counter}"></button>
+                            <button class="btn minus" data-list="files-${curEntry?counter}" aria-label="<@liferay_ui.message key="hide" />"></button>
                             ${folder.name}
                         </div>
                         <div class="files files-${curEntry?counter}">
@@ -42,10 +42,12 @@
         if($(this).attr("class") == "btn minus"){
             $(this).removeClass("minus");
             $(this).addClass("plus");
+            $(this).attr("aria-label", Liferay.Language.get("show"));
             $("." + $(this).attr("data-list")).css('display', "none");
         }else{
             $(this).removeClass("plus");
             $(this).addClass("minus");
+            $(this).attr("aria-label", Liferay.Language.get("hide"));
             $("." + $(this).attr("data-list")).css('display', "flex");
         }
     });

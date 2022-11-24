@@ -26,10 +26,10 @@
             </#if>
         </div>
         <div class="news-types">
-            <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
-            <#if newsTypes?has_content>
-                <#list newsTypes as category>
-                    <span>#</span>${category.getTitle(locale)}
+            <#assign newsThematics = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "thematique") />
+            <#if newsThematics?has_content>
+                <#list newsThematics as category>
+                    ${category.getTitle(locale)}
                     <#sep><span>/&nbsp;</span></#sep>
                 </#list>
             </#if>

@@ -32,16 +32,7 @@
                         <@liferay_ui.message key="phone" /> ${entry.phone}
                     </div>
                 </#if>
-    
-                <!--
-                <#if entry.mail?has_content>
-                    <div class="place-links">
-                        <#if entry.mail?has_content>
-                            <a href="#contact-form-section"><@liferay_ui.message key="contact" /></a> 
-                        </#if>
-                    </div>
-                </#if>
-                -->
+
             </div>
     
             <div class="place-info">
@@ -69,7 +60,6 @@
                         </div>
                     </#if>
     
-                    <!--
                     <#if entry.getCharacteristics(locale)?has_content >
                         <div class="place-info-section">
                             <h2>
@@ -78,7 +68,6 @@
                             ${entry.getCharacteristics(locale)}
                         </div>
                     </#if>
-                    -->
     
                     <#if entry.getServiceAndActivities(locale)?has_content >
                         <div class="place-info-section">
@@ -169,141 +158,61 @@
                     -->
     
                     <!-- Widget Bloc Agenda -->
-                    <!--
                     <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
                     <#if entry.displayEvents>
                         <#assign events = placeEvents />
                         <#if events?has_content>
-                            <div class="agenda-collections-carousel">
-                                <h2 class="agenda-carousel-title">
+                            <div id="place-events" class="place-info-section">
+                                <h2>
                                     <@liferay_ui.message key="eu.agenda-and-exposition" />
                                 </h2>
-                                <div class="owl-carousel">
-                                    <#list events as event>
-                                        <div class="item"> 
-                                            <div class="item-image">
-                                                <a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">
-                                                    <img src="${event.imageURL}" >
-                                                </a>
-                                            </div>
-                                            <div class="item-info">
-                                                <div class="item-date">
-                                                    <date>${event.getEventScheduleDisplay(locale)}</date>
+                                
+                                <div class="slider">
+                                    <div class="swiper">
+                                        <div class="swiper-wrapper">
+                                    	    <#list events as event>
+                                                <#assign detailURL = homeURL + "evenement/-/entity/id/" + event.eventId + "/" + event.getNormalizedTitle(locale) />
+                                                <div class="swiper-slide">
+                                                    <a href="${detailURL}" aria-label="${event.getTitle(locale)}" title="${event.getTitle(locale)}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
+                                                        <#if event.getActivityTypeLabel(locale)?has_content>
+                                                            <div class="visit">
+                                                                <span>${event.getActivityTypeLabel(locale)}</span>
+                                                            </div>
+                                                        </#if>
+                                                        <div class="info">
+                                                            <div class="title">
+                                                                <span>${event.getTitle(locale)}</span>
+                                                            </div>
+                                                            <div class="dates">
+                                                                <span>${event.getEventScheduleDisplay(locale)}</span>
+                                                            </div>
+                                                            <div class="museums">
+                                                                <span>${event.getMuseumsLabel(locale)}</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
                                                 </div>
-                                                <div class="item-title">
-                                                    <h3><a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">${event.getTitle(locale)}</a></h3>
-                                                    <h4 style="margin-bottom: 25px"><a href="/web${layout.group.friendlyURL}/evenement-des-musees-de-strasbourg/-/entity/id/${event.eventId}">${event.getSubtitle(locale)}</a></h4>
-                                                </div>
-                                            </div>
+                                        	</#list>
                                         </div>
-                                    </#list>
+                                        
+                                        <div class="swipper-buttons">
+                                            <div class="swiper-button-prev"></div>
+                                            <div class="swiper-button-next"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </#if>
                     </#if>
-                    -->
-    
-                    <!--
-                    <#if entry.mail?has_content>
-                        <div class="place-info-section" id="contact-form-section">
-                            <@liferay_portlet.actionURL var="contactURL" name="contact">
-                                <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-                                <@liferay_portlet.param name="to" value="${entry.mail}" />
-                                <@liferay_portlet.param name="subject" value="Formulaire de contact - Lieu - ${entry.getAlias(locale)}" />
-                            </@liferay_portlet.actionURL>
-                            <h2>
-                                <@liferay_ui.message key="contact" />
-                            </h2>
-                            <@liferay_ui.success key="mail-success" message="eu.mail-success" />
-                            <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" />
-                            <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" />
-                            <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" />
-                            <p class="error-message all-fields-required-message" style="display:none;">
-                                <@liferay_ui.message key="eu.all-fields-required" />
-                            </p>
-                            <p class="error-message invalid-mail-message" style="display:none;">
-                                <@liferay_ui.message key="eu.invalid-mail" />
-                            </p>
-                            <p class="error-message recaptcha-error-message" style="display:none;">
-                                <@liferay_ui.message key="eu.recaptcha-error" />
-                            </p>
-    
-                            <#if renderRequest.getAttribute("mailSent")?has_content && renderRequest.getAttribute("mailSent")>
-                                <p class="mail-success">
-                                    <@liferay_ui.message key="eu.mail-success" />
-                                </p>
-                            </#if>
-                            <form action="${contactURL}" name="contactForm" method="post" class="contact-form">
-                                <div>
-                                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName">
-                                        <@liferay_ui.message key="firstname" /> *
-                                    </label>
-                                    <input type="text" class="first-name"
-                                    name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"
-                                    value="${renderRequest.getAttribute("firstName")!""}">  
-                                </div>
-                                <div>
-                                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName">
-                                        <@liferay_ui.message key="lastname" /> *
-                                    </label>
-                                    <input type="text" class="last-name"
-                                    name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"
-                                    value="${renderRequest.getAttribute("lastName")!""}">  
-                                </div>
-                                <div>
-                                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email">
-                                        <@liferay_ui.message key="email" /> *
-                                    </label>
-                                    <input type="text" class="email"
-                                    name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"
-                                    value="${renderRequest.getAttribute("email")!""}">  
-                                </div>
-                                <div>
-                                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message">
-                                        <@liferay_ui.message key="message" /> *
-                                    </label>
-                                    <textarea name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message" class="message">${renderRequest.getAttribute("message")!""}</textarea>  
-                                </div>
-                                <div class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
-                                <div>
-                                    <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail">
-                                        <input type="checkbox" class="notification-email" 
-                                        name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>
-                                        &nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
-                                    </label>
-                                </div>
-                                <p>
-                                    <input type="submit" value="<@liferay_ui.message key="send" />">
-                                </p>
-                                <p>
-                                    * :  <@liferay_ui.message key="eu.required-field" />
-                                </p>
-                            </form>
-                            <p class="privacy-policy">
-                                <label><@liferay_ui.message key="eu.privacy-policy" /></label>
-                                <@liferay_portlet["runtime"]
-                                defaultPreferences="${freeMarkerPortletPreferences}"
-                                portletProviderAction=portletProviderAction.VIEW
-                                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                                settingsScope="group"
-                                instanceId="entityDetail" />
-                            </p>
-                        </div>
-                    </#if>
-                    -->
                 </div>
                 <div class="place-40">
     
                     <#if entry.getImageURL()?has_content>
                         <div class="image-with-copyright-on-hover">
                             <img src="${entry.getImageURL()}" alt="${entry.getAlias(locale)}" title="${entry.getAlias(locale)}">
-                            <!--
                             <#if entry.getImageCopyright(locale)?has_content>
-                                <div class="image-copyright">
-                                    ${entry.getImageCopyright(locale)}
-                                </div>
+                                <div class="copyright"><span>C</span><span>${entry.getImageCopyright(locale)}</span></div>
                             </#if>
-                            -->
                         </div>
                     </#if>
 
@@ -337,9 +246,6 @@
     	                                        <div class="schedule-time">
     	                                            <#assign liste = horaires[jour] />
     	                                            <#list liste as placeSchedule >
-    	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
-    	                                                    <span style="color:#B22222;">                              
-    	                                                </#if>
     	                                                <#if placeSchedule.isClosed() >
     	                                                    <@liferay_ui.message key="closed" />
     	                                                <#else>
@@ -356,7 +262,7 @@
     	                                                    </#if> 
     	                                                </#if> 
     	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
-    	                                                    *</span>                              
+    	                                                    *                              
     	                                                </#if>
     													<!-- stock les descriptions pour les ouvertures et fermetures exceptionnelle  -->
     	                                                <#if placeSchedule.isException() || placeSchedule.isPublicHoliday() >
@@ -391,18 +297,16 @@
                             <#if types?has_content>
                                 <a href="${homeURL}tous-les-horaires" class="button2" aria-label="<@liferay_ui.message key="eu.all-times" />" title="<@liferay_ui.message key="eu.all-times" />"><@liferay_ui.message key="eu.all-times" /></a>
                             </#if>
+                        </div>
     
-                            <!--
+    	                <div class="place-info-section2">
     	                    <#if scheduleExceptions?has_content >  
     	                        <strong  style="color:#B22222;">
     	                        	*<@liferay_ui.message key="eu.exceptional-closings-openings" />
     	                        </strong>
     	                        ${scheduleExceptions}
     	                    </#if>
-                            -->
-                        </div>
-    
-    	                <div class="place-info-section2">
+    	                    
     	                    <#if entry.getExceptionalSchedule(locale)?has_content >
     	                        <h2><@liferay_ui.message key="eu.exceptional-schedule" /></h2>
     	                        <div>
@@ -443,10 +347,10 @@
                 <h2><@liferay_ui.message key='eu.museum.social-wall' /></h2>
                 <div class="list">
                     <#if entry.getFacebookURL(locale)?has_content>
-                        <a href="${entry.getFacebookURL(locale)}" aria-label="${entry.getFacebookLabel(locale)}" title="${entry.getFacebookLabel(locale)}" class="facebook" ></a>
+                        <a href="${entry.getFacebookURL(locale)}" target="_blank" aria-label="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="facebook" ></a>
                     </#if>
                     <#if entry.getInstagramURL(locale)?has_content>
-                        <a href="${entry.getInstagramURL(locale)}" aria-label="${entry.getInstagramLabel(locale)}" title="${entry.getInstagramLabel(locale)}" class="instagram" ></a>
+                        <a href="${entry.getInstagramURL(locale)}" target="_blank" aria-label="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="instagram" ></a>
                     </#if>
                 </div>
             </#if>

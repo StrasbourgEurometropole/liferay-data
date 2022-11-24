@@ -12,7 +12,7 @@
         <div class="infos">
             <h2>${portletHelper.getPortletTitle('eu.museum.collection', renderRequest)}</h2>
             <p><@liferay_ui.message key="eu.museum.collection.description" /></p>
-            <a href="${homeURL}collections-des-musees" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
+            <a href="https://musees-strasbourg.skin-web.org/" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
         </div>
         <#if entries?has_content>
             <div id="listCollections" class="list">

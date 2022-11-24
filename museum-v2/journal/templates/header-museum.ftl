@@ -8,7 +8,7 @@
                 <#list image.getSiblings() as cur_image>
 		            <#if (cur_image.getData())?? && cur_image.getData() != "">
                         <div class="swiper-slide">
-			                <div class="info">
+			                <div class="info image-with-copyright-on-hover">
     			                <div class="image" style="background-image:url(${cur_image.getData()})" >
                                 </div>
 			                    <div class="copyright"><span>C</span><span>${cur_image.getAttribute("alt")}</span></div>
