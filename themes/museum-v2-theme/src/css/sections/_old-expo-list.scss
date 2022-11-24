@@ -27,7 +27,7 @@
         }  
 
         .folder{   
-            @include ft($proximaNova, 1.875rem, 400, black, 35px, "");
+            @include ft($proximaNova, 1.875rem, 400, black, 2.1875rem, "");
             margin-bottom: 30px;
     
             button{
