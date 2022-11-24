@@ -157,7 +157,7 @@ public class ConfigurationData {
         // Affichage
         this.hideResultsBeforeSearch = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_HIDE_RESULTS_BEFORE_SEARCH);
         this.delta = ParamUtil.getLong(this.request, ConfigurationConstants.PARAM_DELTA);
-        this.searchForm = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SEARCH_FORM, "museum");
+        this.searchForm = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_SEARCH_FORM, "museum-actu");
 
         // Export
         this.displayExport = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_EXPORT);

@@ -584,7 +584,7 @@ public class SearchAssetDisplayContext {
 	/* utiles pour les jsp */
 	/* ******************* */
 	public String getSearchForm() throws ConfigurationException {
-		return Validator.isNotNull(getConfigurationData().getSearchForm()) ? getConfigurationData().getSearchForm() : "museum";
+		return Validator.isNotNull(getConfigurationData().getSearchForm()) ? getConfigurationData().getSearchForm() : "museum-actu";
 	}
 
 	/**

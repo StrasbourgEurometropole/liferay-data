@@ -56,7 +56,7 @@
         <div class="date-selection">
             <legend><liferay-ui:message key="eu.event.from-date" /></legend>
             <input class="date" name="from" data-type="date" type="text" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
-                value="${dc.fromDay}/${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}/${dc.fromYear}">
+                value="${dc.fromDay}/${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}/${dc.fromYear}"aria-label="<liferay-ui:message key="eu.event.from-date" />">
             <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
             <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
             <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
@@ -65,7 +65,7 @@
             <legend><liferay-ui:message key="eu.event.to" /></legend>
 	        <div class="date-selection-control">
                 <input class="date" name="to" data-type="date" type="text" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
-                    value="${dc.toDay}/${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}/${dc.toYear}">
+                    value="${dc.toDay}/${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}/${dc.toYear}" aria-label="<liferay-ui:message key="eu.event.to" />">
                 <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
                 <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
                 <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
@@ -82,6 +82,6 @@
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetv2web/js/museum.js"></script>
+	<script src="/o/searchassetv2web/js/museum-actu.js"></script>
 
 </liferay-util:html-bottom>

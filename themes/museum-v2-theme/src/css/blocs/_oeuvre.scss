@@ -1,6 +1,7 @@
 #global .oeuvre-thumbnail{
     position: relative; 
     min-height: 120px;
+    display: block;
 
     @include RWD(tablet_portrait){
 

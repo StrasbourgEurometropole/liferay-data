@@ -250,11 +250,11 @@
 
                     <!-- CHAMP : Formulaire de recherche -->
                     <aui:select name="searchForm" label="eu.search.asset.web.configuration.search-form">
-                        <aui:option value="museum" selected="${dc.configurationData.searchForm eq 'museum'}">
-                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum" />
+                        <aui:option value="museum-actu" selected="${dc.configurationData.searchForm eq 'museum-actu'}">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum-actu" />
                         </aui:option>
-                        <aui:option value="museum-agenda" selected="${dc.configurationData.searchForm eq 'museum-agenda'}">
-                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum-agenda" />
+                        <aui:option value="museum-generic" selected="${dc.configurationData.searchForm eq 'museum-generic'}">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum-generic" />
                         </aui:option>
                         <aui:option value="official" selected="${dc.configurationData.searchForm eq 'official'}">
                             <liferay-ui:message key="eu.search.asset.web.configuration.template.official" />

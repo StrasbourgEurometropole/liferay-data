@@ -1,17 +1,61 @@
 #global #edition-detail{
 
     .content{
-        display: flex;
-        flex-direction: column;
-        gap: 30px;   
-
-        .edition-header{
     
-            @include RWD(tablet_portrait){
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 30px 40px;
+        @include RWD(tablet_portrait){
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .image-with-copyright-on-hover{
+            width: fit-content;
+            height: fit-content;
+            margin: 0 auto 30px;
+
+            img{
+                filter: drop-shadow(0px 12px 29px rgba(0, 0, 0, 0.25));
+                max-width: 100%;
             }
+        }
+
+        .edition-info{
+            @include ft($proximaNova, 0.875rem, 400, $color_txt, 1.25rem, "");
+
+            .edition-title{
+                @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
+                text-align: center;
+                text-transform: uppercase;
+                margin-bottom: 15px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                    font-size: 44px;
+                    line-height: 53px;
+                }
+            }
+
+            .edition-subtitle{
+                @include ft($proximaNova, 1.125rem, 400, $color_txt, 27px, "");
+                text-align: center;
+                margin-bottom: 20px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                    font-size: 21px;
+                }
+            }
+
+            .edition-date{
+                @include ft($proximaNova, 1rem, 400, $color_txt, 24px, "");
+                text-align: center;
+                margin-bottom: 10px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                }
+            }
+
 
             .edition-type{
                 @include ft($proximaNova, 12px, 700, white, 21px, "");
@@ -30,32 +74,6 @@
                 }
             }
 
-            .edition-title{
-                @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
-                text-align: center;
-                text-transform: uppercase;
-                margin-bottom: 15px;
-    
-                @include RWD(tablet_portrait){
-                    text-align: left;
-                    font-size: 44px;
-                    line-height: 53px;
-                    margin-bottom: 45px;
-                }
-            }
-
-            .edition-date{
-                @include ft($proximaNova, 15px, 400, black, 21px, "");
-                text-align: center;
-                margin-bottom: 10px;
-    
-                @include RWD(tablet_portrait){
-                    text-align: left;
-                    font-size: 1.375rem;
-                    margin-bottom: 0;
-                }
-            }
-
             .edition-source{
                 @include ft($proximaNova, 13px, 400, black, 15px, "");
                 text-align: center;
@@ -69,81 +87,12 @@
                 }
             }
 
-            .image-with-copyright-on-hover{
-                width: fit-content;
-                margin: 0 auto 30px;
-                position: relative;
-    
-                @include RWD(tablet_portrait){
-                    grid-row: 1 / 6;
-                    grid-column: 1;
-                    margin: auto;
-                }
+            .edition-meta{
+                color: $color_second;
+                border-left: 3px solid $color_main;
+                padding: 10px 15px;
+                margin: 30px 0;
 
-                img{
-                    filter: drop-shadow(0px 12px 29px rgba(0, 0, 0, 0.25));
-                    max-width: 100%;
-                }
-
-                .copyright{
-                    @include positionAbsolute("", "", (bottom: 8px, right: 8px));
-                    background: rgba(0, 0, 0, 0.7);
-                    border-radius: 60px;
-                    @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
-                    text-transform: uppercase;
-                    height: 21px;
-                    width: 21px;
-                    overflow: hidden;
-                    transition: width 1s ease;
-                    display: flex;
-                    flex-wrap: nowrap;
-                    align-items: center;
-    
-                    &:active, &:focus{
-                        width: auto;
-                    }
-    
-                    @include RWD(tablet_portrait){
-                        bottom: 20px;
-                        right: 20px;
-    
-                        &:hover{
-                            width: auto;
-                        }
-                    }
-    
-                    :first-child(){
-                        min-width: 20px;
-                        line-height: normal;
-                        text-align: center;
-                        font-size: 1rem;
-                    }
-    
-                    :nth-child(2){
-                        font-size: 0.75rem;
-                        padding: 0 10px;
-                    }
-                }
-            }
-        }
-
-        h2{
-            @include ft($times, 25px, 400, $color_main, 21px, italic);
-            margin-bottom: 20px;
-        }
-
-        .edition-info{
-            @include ft($proximaNova, 12px, 400, black, 14px, "");
-    
-            @include RWD(tablet_portrait){
-                font-size: 0.9375rem;
-                line-height: 21px;
-
-                &:not(.edition-description){
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 50px 40px;
-                }
             }
 
             > div{
