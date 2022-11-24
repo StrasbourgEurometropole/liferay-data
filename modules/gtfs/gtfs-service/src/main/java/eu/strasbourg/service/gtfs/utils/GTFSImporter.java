@@ -516,16 +516,23 @@ public class GTFSImporter {
 
 			}
 
-			// Supprimer les arrets non parcourus
+			// Supprimer (dépublier) les arrets non parcourus
 			Timestamp timestamp4 = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");
+			// On supprime de la liste les arrets deja depublies
+			List<Arret> arretsToCheckStatus = new ArrayList<>(arretsToUnpublish.values());
+			for (Arret arret : arretsToCheckStatus) {
+				if (arret.isDraft()) {
+					arretsToUnpublish.remove(arret.getStopId());
+				}
+			}
 			ArretLocalServiceUtil.unpublishArrets(
 					new ArrayList<>(arretsToUnpublish.values()),
 					this.importHistoric,
 					this.sc
 			);
 
-			// Supprimer les lignes non parcourues
+			// Supprimer (dépublier) les lignes non parcourues
 			Timestamp timestamp5 = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
 			// On supprime de la liste les lignes deja depubliees

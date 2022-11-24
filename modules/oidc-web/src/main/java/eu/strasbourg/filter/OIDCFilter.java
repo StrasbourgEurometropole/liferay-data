@@ -88,7 +88,7 @@ public class OIDCFilter extends BaseFilter {
         if (isAlreadyLoggedIn) {
             // S'il souhaite se déconnecter, on le déconnecte
             if (wantsToLogout) {
-                LOG.info("Logout because of request parameter");
+                LOG.debug("Logout because of request parameter");
                 logout(request, response);
                 redirectToIdPLogout(request, response);
                 return;
@@ -97,7 +97,7 @@ public class OIDCFilter extends BaseFilter {
             String jwtFromCookies = this.getCookieValue(request, "jwt_" + StrasbourgPropsUtil.getEnvironment());
             // S'il est vide, on force la déconnexion
             if (jwtFromCookies == null || jwtFromCookies.equals("")) {
-                LOG.info("Logout because no JWT");
+                LOG.debug("Logout because no JWT");
                 logout(request, response);
                 redirectToIdPLogout(request, response);
                 return;
@@ -105,7 +105,7 @@ public class OIDCFilter extends BaseFilter {
                 boolean isJwtValid = JWTUtils.checkJWT(jwtFromCookies, StrasbourgPropsUtil.getInternalSecret(),
                         StrasbourgPropsUtil.getInternalIssuer());
                 if (!isJwtValid) { // S'il n'est plus valide, on force également la déconnexion
-                    LOG.info("Logout because of invalid JWT");
+                    LOG.debug("Logout because of invalid JWT");
                     logout(request, response);
                 } else {
                     // On vérifie aussi le jwt enregistré en session
@@ -118,7 +118,7 @@ public class OIDCFilter extends BaseFilter {
                     if (!internalIdFromCookie.equals("") && !internalIdFromCookie.equals(internalIdFromSession)) {
                         isAlreadyLoggedIn = false;
                         request.getSession().invalidate();
-                        LOG.info("SESSION INVALIDATION - id from cookie: " + internalIdFromCookie + " - id from session: " + internalIdFromSession);
+                        LOG.debug("SESSION INVALIDATION - id from cookie: " + internalIdFromCookie + " - id from session: " + internalIdFromSession);
                     }
                 }
             }
@@ -139,26 +139,26 @@ public class OIDCFilter extends BaseFilter {
             if (code.length() > 0) {
                 // On récupère alors le JWT et l'access token via une requête
                 // vers le provider
-                LOG.info("Code received, requesting tokens");
+                LOG.debug("Code received, requesting tokens");
                 JSONObject json = sendTokenRequest(request, code);
                 if (json == null) {
-                    LOG.info("Token empty");
+                    LOG.debug("Token empty");
                     super.processFilter(request, response, filterChain);
                     return;
                 }
                 // On récupère l'access token
                 accessToken = json.getString("access_token");
-                LOG.info("Got access token");
+                LOG.debug("Got access token");
 
                 // Ainsi que l'id token sous la forme d'un jwt
                 String jwt = json.getString("id_token");
-                LOG.info("Got JWT");
+                LOG.debug("Got JWT");
 
                 // On vérifie sa validité
                 boolean isJwtValid = JWTUtils.checkJWT(jwt, StrasbourgPropsUtil.getPublikClientSecret(),
                         StrasbourgPropsUtil.getPublikIssuer());
                 if (isJwtValid) {
-                    LOG.info("Valid JWT");
+                    LOG.debug("Valid JWT");
 
                     // Le jwt est valide, on extrait les données
                     givenName = JWTUtils.getJWTClaim(jwt, "given_name", StrasbourgPropsUtil.getPublikClientSecret(),
@@ -174,8 +174,8 @@ public class OIDCFilter extends BaseFilter {
                             StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
                     String listingPlacit = JWTUtils.getJWTClaim(jwt, "accord_placit_listing",
                             StrasbourgPropsUtil.getPublikClientSecret(), StrasbourgPropsUtil.getPublikIssuer());
-                    LOG.info(accordPlacit);
-                    LOG.info(listingPlacit);
+                    LOG.debug(accordPlacit);
+                    LOG.debug(listingPlacit);
 
                     // Recuperation des donnees inherantes a la plateforme participative
                     PublikUser user = PublikUserLocalServiceUtil.getByPublikUserId(internalId);
@@ -239,7 +239,7 @@ public class OIDCFilter extends BaseFilter {
         // vers la page correspondante
         String redirectURL = ParamUtil.getString(request, "state");
         if (Validator.isUrl(redirectURL, true)) {
-            LOG.info("State parameter : redirect to " + redirectURL);
+            LOG.debug("State parameter : redirect to " + redirectURL);
             response.sendRedirect(redirectURL);
             return;
         }

@@ -787,87 +787,6 @@
 					}
 				}
 
-				/* Contenu contact */
-				.portlet-boundary_eu_strasbourg_portlet_formassembly_FormAssemblyPortlet_{
-
-					a{
-						border: none;
-					}
-
-					.portlet{
-						width: 100%;
-						padding: 0px 10px 0px 0px;
-
-						.portlet-content{
-							padding: 0px;
-							background-color: rgba(0,0,0,0);
-							border: none;
-
-							.portlet-title-text{
-								display: none;
-							}
-
-							.wFormContainer{
-								width: auto;
-								font-size: 14px;
-
-								.preField {
-									padding: 5px 10px 4px 0px;
-								}
-
-								input[type='text'], input[type='password'], input[type='file'], textarea, select {
-									box-sizing: border-box;
-									width: 305px;
-									padding: 5px;
-									border: 2px solid #e6eaef !important;
-									background-image: none;
-								}
-
-								a{
-									margin:0px;
-									padding: 0px;
-									color: #2d2d2d;
-									text-decoration: underline;
-									font-size: 14px;
-									display: inline;
-									float: none;
-									font-weight: normal;
-								}
-
-								p{
-									line-height: 150%;
-								}
-
-								.captcha{
-
-									legend{
-										font-size: 16px;
-										font-weight: bold;
-										line-height: 150%;
-										margin: 0px;
-										border-bottom: none;
-										width:auto;
-									}
-
-									label{
-										min-width: 80px;
-									}
-								}
-
-								.primaryAction{
-									padding: 8px 20px;
-									border: none;
-									line-height: normal;
-								}
-
-								.supportInfo {
-									display: none;
-								}
-							}
-						}
-					}
-				}
-
 				/* Contenu actualité */
 				.lfr-pagination-config{
 					.lfr-icon-menu-text{
@@ -1765,15 +1684,6 @@
 							}
 						}
 					} 
-
-					/* Contenu contact */
-					.portlet-boundary_eu_strasbourg_portlet_formassembly_FormAssemblyPortlet_ .portlet .portlet-content .wFormContainer .inputWrapper{
-						width: 100%;
-
-						input[type='text'], input[type='password'], input[type='file'], textarea, select {
-							width: 100%;
-						}
-					}
 
 					/* Contenu actualité */
 					.portlet-boundary_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_:not(.all-news) .portlet .portlet-content{

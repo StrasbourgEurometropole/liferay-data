@@ -47,7 +47,8 @@ public class StartSynchronizedActionCommand implements MVCActionCommand {
             throws PortletException {
         try {
             //on vérifi qu'on a le droit de faire la synchronisation
-            if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
+            Boolean isAutorized = Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated());
+            if(isAutorized) {
                 // Changement du groupId du contexte de la requête pour effectuer les actions dans Global
                 ServiceContext sc = ServiceContextFactory.getInstance(request);
                 sc.setScopeGroupId(((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY)).getCompanyGroupId());
