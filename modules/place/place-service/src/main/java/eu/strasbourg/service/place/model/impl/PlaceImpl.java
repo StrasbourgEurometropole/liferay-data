@@ -1018,7 +1018,9 @@ public class PlaceImpl extends PlaceBaseImpl {
         // s'il n'y a pas d'exception, on récupère les horaires de la
         // période concernée
         if (listHoraires.isEmpty()) {
-            listHoraires.add(getRegularPlaceSchedule(jourSemaine, locale));
+            PlaceSchedule regularSchedules = getRegularPlaceSchedule(jourSemaine, locale);
+            if(Validator.isNotNull(regularSchedules))
+                listHoraires.add(regularSchedules);
         }
         return listHoraires;
     }
