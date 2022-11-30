@@ -13,6 +13,7 @@
 // General
 @import 'general/_footer';
 @import 'general/_header';
+@import 'general/_menu-smartphone';
 @import 'general/_pre-header';
 
 // Blocs
@@ -55,6 +56,7 @@
 
 #global{
     @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+    overflow-x: hidden;
 
     @include RWD(tablet_portrait){
         font-size: 0.9375rem;
@@ -203,6 +205,35 @@
             outline: none;
         }
     } 
+    
+    // bouton blanc encadrer
+    a.button3{    
+        border: solid $color_main 1px;
+        border-radius: 0;
+        text-decoration: none;
+        background: white;
+        display: block;
+        width: 215px;
+        padding: 15px;
+        text-align: center;
+        @include ft($proximaNova, 0.9375rem, 400, $color_second, 21px, "");
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s, ease-out;
+    
+            &:hover{
+                color: white;
+                background-color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    }
     
     // bouton blanc avec animation sur le border
     button.button1{      

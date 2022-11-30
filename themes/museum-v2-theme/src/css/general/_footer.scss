@@ -203,9 +203,23 @@
                     .bottom-links{
                         margin-bottom: 15px;
                         @include ft($montserrat, 0.875rem, 700, white, 1.375rem, "");
-                        display: flex;
-                        align-items: center; 
-                        justify-content: center;
+                        display: block;
+                        position: relative;
+                        width: fit-content;
+
+                        &:before{
+                            @extend %animation-hoverBar-in;
+                            background-color: #b4b4b4;
+                            height: 2px;
+                        }
+    
+                        &:hover, &:focus{
+                            text-decoration: none;
+    
+                            &:before{
+                                @extend %animation-hoverBar-out;
+                            }
+                        }
 
                         @include RWD(tablet_portrait){
                             justify-content: normal;

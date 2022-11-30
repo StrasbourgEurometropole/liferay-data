@@ -103,20 +103,26 @@
                     height: auto;
                     background-color: $color_main;
 
-                    img{
-                        width: 100%;
-                    }
-
-                    .info{
-                        &.noImage{
-                            position: relative;
-                            height: auto;
-                            padding: 30px 65px;
+                    a{
+                        &:hover, &:focus{
+                            text-decoration: none;
                         }
 
-                        &:after{
-                            content: '';
-                            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+                        img{
+                            width: 100%;
+                        }
+    
+                        .info{
+                            &.noImage{
+                                position: relative;
+                                height: auto;
+                                padding: 30px 65px;
+                            }
+    
+                            &:after{
+                                content: '';
+                                filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+                            }
                         }
                     }
 
@@ -145,6 +151,10 @@
                                     background-repeat: no-repeat;
                                     background-size: contain;
                                     display: inline-block;
+                                }
+
+                                &:hover, &:focus{
+                                    text-decoration: underline;
                                 }
                             }
                         }

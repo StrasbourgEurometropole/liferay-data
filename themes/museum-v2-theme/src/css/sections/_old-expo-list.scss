@@ -27,8 +27,10 @@
         }  
 
         .folder{   
-            @include ft($proximaNova, 1.875rem, 400, black, 2.1875rem, "");
+            @include ft($proximaNova, 1.875rem, 400, black, 1.875rem, "");
             margin-bottom: 30px;
+            display: flex;
+            align-items: center;
     
             button{
                 background-color: $color-main;
@@ -76,6 +78,11 @@
                 width: 100%;
                 @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.125rem, "");
                 text-transform: uppercase;
+                text-decoration: none;
+
+                &:hover, &:focus{
+                    text-decoration: underline;
+                }
 
                 @include RWD(tablet_portrait){
                     padding: 50px;

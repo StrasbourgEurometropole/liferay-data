@@ -56,35 +56,11 @@
                 }
             }
 
-
-            .edition-type{
-                @include ft($proximaNova, 12px, 700, white, 21px, "");
-                background: $color_main;
-                padding: 10px;
-                text-transform: uppercase;
-                text-align: center;
-                margin: 30px auto 20px;
-                min-width: 150px;
-                display: block;
-                width: fit-content;
-    
-                @include RWD(tablet_portrait){
-                    margin: 20px 0 10px;
-                    font-size: 0.9375rem;
+            .edition-description{
+                iframe{
+                    max-width: 100%;
                 }
-            }
 
-            .edition-source{
-                @include ft($proximaNova, 13px, 400, black, 15px, "");
-                text-align: center;
-                margin-bottom: 20px;
-    
-                @include RWD(tablet_portrait){
-                    text-align: left;
-                    font-size: 0.9375rem;
-                    line-height: 21px;
-                    margin-bottom: 0;
-                }
             }
 
             .edition-meta{

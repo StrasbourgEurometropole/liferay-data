@@ -35,8 +35,12 @@
 
                 .info{
                     text-align: start;
-                    padding: 80px 10px 80px 30px;
+                    padding: 40px 10px 40px 30px;
                     margin: 0;
+
+                    @include RWD(tablet_portrait){
+                        padding: 80px 10px 80px 30px;
+                    }
                 }
 
                 .title{

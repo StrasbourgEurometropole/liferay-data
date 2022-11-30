@@ -56,6 +56,30 @@
 						settingsScope="group" />
 				</div>
 			</header>
+			<section id="menu-smartphone">
+				<div id="more">
+					<div class="closed"></div>
+					<div class="title">
+						<@liferay_ui.message key="eu.museum.choice-language" />
+					</div>
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="langue-smartphone"
+						settingsScope="group" />
+					<div class="title"><@liferay_ui.message key="eu.museum.acces" /></div>
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="acces-smartphone"
+						settingsScope="group" />
+				</div>
+				<@liferay_portlet["runtime"]
+					portletProviderAction=portletProviderAction.VIEW
+					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+					instanceId="menu-smartphone"
+					settingsScope="group" />
+			</section>
 
 			<main id="main">
 				<#if selectable>

@@ -1,0 +1,101 @@
+#menu-smartphone{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 11;
+    width: 100%;
+
+    #more{
+        background: white;
+        display: flex;
+        flex-direction: column;
+
+        .closed{
+            width: calc(calc(100% - 130px) / 5);
+            aspect-ratio: 1/1;
+            background-color: $color_third;
+
+            &:before{
+                content: '';
+                width: 20px;
+                height: 20px;
+                background-image: url( svg-bg-uri($svg-closed, $color_second) );
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+            }
+        }
+
+        .title{
+            @include ft($proximaNova, 0.9375rem, 400, $color_txt, 21px, "");
+            margin-bottom: 15px;
+        }
+
+        .accessibility-menu{
+            padding: 0;
+
+            .access-item{
+
+                &.accessibility, &.contact{
+                    display: none;
+                }
+
+                &.language{
+
+                    .language-menu{
+
+                        ul{
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                            padding: 0 45px;
+                            list-style: none;
+
+                            li{
+                                width: calc(calc(100% - 40px) / 5);
+                                aspect-ratio : 1 / 1;
+                                background: $color_main;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                a{
+                                    @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
+                                }
+                            }
+                        }
+                    }
+                }
+            } 
+        }
+    }
+
+    .menu-mobile.content{
+        background: $color_main;
+        display: flex;
+        justify-content: space-around;
+        gap: 5px;
+        padding: 10px 15px;
+        width: 100%;
+
+        a{ 
+            color: white;
+            @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: auto;
+            justify-content: space-between;
+            text-decoration: none;
+
+            &:hover{
+                color: white;
+            }
+        }
+    }
+
+    @include RWD(tablet_portrait){
+        display: none;
+    }
+}

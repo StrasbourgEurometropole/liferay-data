@@ -11,51 +11,64 @@
             justify-content: space-between;
         }
 
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+
+            &.desktop{
+                display: none;
+            }
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+                text-align: start;
+                margin-bottom: 80px;
+
+                &.desktop{
+                    display: block;
+                }
+
+                &.mobile{
+                    display: none;
+                }
+            }
+
+            span{
+                @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
+                display: block;
+                text-transform: none;
+    
+                @include RWD(tablet_portrait){
+                    font-size: 2.25rem;
+                    line-height: 3.25rem;
+                    margin-bottom: 35px;
+                }
+            }
+        }
+
         .info{
             position: relative;
     
             @include RWD(tablet_portrait){
                 width: calc(40% - 20px);
                 padding: 80px 10px 60px 0;
-            }
 
-            &:before{
-                content: '';
-                @include positionAbsolute(-1, "", (bottom: 0, left: -160px));
-                width: 320px;
-                height: 320px;
-                background: #F2F2F2;
-            }
-
-            h2{
-                @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
-                text-align: center;
-                margin-bottom: 40px;
-                text-transform: uppercase;
-    
-                @include RWD(tablet_portrait){
-                    font-size: 3.75rem;
-                    line-height: 4.25rem;
-                    text-align: start;
-                    margin-bottom: 80px;
-                }
-    
-                span{
-                    @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
-                    display: block;
-                    text-transform: none;
-        
-                    @include RWD(tablet_portrait){
-                        font-size: 2.25rem;
-                        line-height: 3.25rem;
-                        margin-bottom: 35px;
-                    }
+                &:before{
+                    content: '';
+                    @include positionAbsolute(-1, "", (bottom: 0, left: -160px));
+                    width: 320px;
+                    height: 320px;
+                    background: #F2F2F2;
                 }
             }
 
             .title{
                 @include ft($proximaNova, 1.4375rem, 700, $color_txt, 1.75rem, "");
                 margin-bottom: 20px;
+                text-transform: uppercase;
             }
     
             .date{
