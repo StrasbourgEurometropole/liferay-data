@@ -25,26 +25,6 @@
                     ${entry.getDiffusionDateMonth()} /
                 </#if> ${entry.getDiffusionDateYear()}
             </div>
-            
-            <#if entry.getTypes()?has_content>
-                <div class="edition-types">
-                <#list entry.getTypes() as type>
-                    <div class="edition-type">
-                        ${type.getTitle(locale)}
-                    </div>
-                </#list>
-                </div>
-            </#if>
-    
-            <#if entry.getSources()?has_content>
-                <div class="edition-sources">
-                    <#list entry.getSources() as source>
-                        <div class="edition-source">
-                            ${source.getTitle(locale)}
-                        </div>
-                    </#list>
-                </div>
-            </#if>
     
             <#if entry.getPublishedEditionGalleries()?has_content>
                 <div class="edition-galleries">
@@ -115,14 +95,6 @@
                     </#if>
                 </div>
             </div>
-            
-            <#if entry.getFileDownloadURL(locale)?has_content>
-                <div class="edition-download">
-                    <a href="${entry.getFileDownloadURL(locale)}" download>
-                        <@liferay_ui["message"] key="eu.edition.download" /> - ${entry.getFileType(locale)?upper_case} - ${entry.getFileSize(locale)}
-                    </a>
-                </div>
-            </#if>
             
             <#if entry.getURL(locale)?has_content>
                 <div class="edition-url">

@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Label lien"
+                "fr_FR": "Langue"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -18,15 +18,38 @@
                 "fr_FR": ""
             },
             "dataType": "string",
-            "indexType": "",
+            "indexType": "keyword",
             "localizable": true,
-            "name": "linkLabel",
+            "name": "language",
             "readOnly": false,
             "repeatable": true,
             "required": false,
             "showLabel": true,
             "type": "text",
             "nestedFields": [
+                {
+                    "label": {
+                        "fr_FR": "Label"
+                    },
+                    "predefinedValue": {
+                        "fr_FR": ""
+                    },
+                    "style": {
+                        "fr_FR": ""
+                    },
+                    "tip": {
+                        "fr_FR": ""
+                    },
+                    "dataType": "string",
+                    "indexType": "keyword",
+                    "localizable": true,
+                    "name": "label",
+                    "readOnly": false,
+                    "repeatable": false,
+                    "required": false,
+                    "showLabel": true,
+                    "type": "text"
+                },
                 {
                     "label": {
                         "fr_FR": "SVG"
@@ -43,7 +66,7 @@
                     "dataType": "string",
                     "indexType": "keyword",
                     "localizable": true,
-                    "name": "SVG",
+                    "name": "svg",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
@@ -63,64 +86,15 @@
                     "tip": {
                         "fr_FR": ""
                     },
-                    "dataType": "link-to-page",
-                    "fieldNamespace": "ddm",
-                    "indexType": "",
-                    "localizable": true,
-                    "name": "linkURL",
-                    "readOnly": false,
-                    "repeatable": false,
-                    "required": false,
-                    "showLabel": true,
-                    "type": "ddm-link-to-page"
-                },
-                {
-                    "label": {
-                        "fr_FR": "Lien externe"
-                    },
-                    "predefinedValue": {
-                        "fr_FR": ""
-                    },
-                    "style": {
-                        "fr_FR": ""
-                    },
-                    "tip": {
-                        "fr_FR": ""
-                    },
                     "dataType": "string",
                     "indexType": "keyword",
                     "localizable": true,
-                    "name": "externalLink",
+                    "name": "link",
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
                     "showLabel": true,
-                    "type": "text",
-                    "nestedFields": [
-                        {
-                            "label": {
-                                "fr_FR": "Ouverture onglet actif"
-                            },
-                            "predefinedValue": {
-                                "fr_FR": false
-                            },
-                            "style": {
-                                "fr_FR": ""
-                            },
-                            "tip": {
-                                "fr_FR": ""
-                            },
-                            "dataType": "boolean",
-                            "indexType": "keyword",
-                            "localizable": true,
-                            "name": "activeTab",
-                            "readOnly": false,
-                            "repeatable": false,
-                            "required": false,
-                            "showLabel": true,
-                            "type": "checkbox"
-                        }
-                    ]
+                    "type": "text"
                 }
             ]
         }
