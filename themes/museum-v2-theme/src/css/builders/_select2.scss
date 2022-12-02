@@ -76,10 +76,8 @@
     border-radius: 4px;
     box-sizing: border-box;
     display: block;
-    position: absolute;
-    left: -100000px;
+    @include positionAbsolute(1051, "", (left: -100000px));
     width: 100%;
-    z-index: 1051;
 }
   
 .select2-results {

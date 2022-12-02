@@ -13,6 +13,7 @@
 // General
 @import 'general/_footer';
 @import 'general/_header';
+@import 'general/_header-top';
 @import 'general/_menu-smartphone';
 @import 'general/_pre-header';
 
@@ -160,7 +161,7 @@
         
         @include RWD(tablet_portrait){
             width: 260px;
-            transition : all, 0.2s, ease-out;
+            transition : all, 0.2s ease-out;
             font-size: 0.95rem;
             line-height: 1.1rem;
     
@@ -191,7 +192,7 @@
         
         @include RWD(tablet_portrait){
             width: 260px;
-            transition : all, 0.2s, ease-out;
+            transition : all, 0.2s ease-out;
             font-size: 0.95rem;
             line-height: 1.1rem;
     
@@ -221,7 +222,7 @@
         
         @include RWD(tablet_portrait){
             width: 260px;
-            transition : all, 0.2s, ease-out;
+            transition : all, 0.2s ease-out;
     
             &:hover{
                 color: white;
@@ -287,19 +288,15 @@
             
             .trait:before{
                 content:'';
-                position: absolute;
+                @include positionAbsolute("", "", (bottom: 0, right: 0%));
                 width: 1px;
                 opacity: 0;
-                bottom:0;
-                right: 0%;
             }
             
             .background{
                 &:before{
                     content:'';
-                    position: absolute;
-                    top: 0;
-                    left: -5px;
+                    @include positionAbsolute("", "", (top: 0, left: -5px));
                     width: 0;
                     height: calc(100% - 5px);
                     margin: 0 5px 5px;

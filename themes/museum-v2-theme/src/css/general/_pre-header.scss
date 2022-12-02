@@ -1,5 +1,5 @@
 #global{
-    #header-top {
+    #pre-header {
         display: none;
 
         @include RWD(tablet_portrait){
@@ -8,7 +8,7 @@
             height: 40px;
         }
 
-        .header-top-inner{
+        .pre-header-inner{
             padding: 0 20px;
 
             .strasbourg-eu-logo {
@@ -29,17 +29,8 @@
                     list-style: none;
                     padding: 0;
                     
-                    .accessibility, .contact, .language-menu ul li.active {
-                        display: none;
-
-                        @include RWD(tablet_landscape){
-                            display: block;
-
-                            .accessibility:hover,
-                            .contact:hover {
-                                background: rgba(255, 255, 255, 0.07);
-                            }
-                        }
+                    .access-item:not(.language):hover {
+                        background: rgba(255, 255, 255, 0.07);
                     }
                     
                     > li {

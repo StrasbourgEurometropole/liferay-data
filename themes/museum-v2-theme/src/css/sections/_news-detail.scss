@@ -68,10 +68,7 @@
                     width: 400px;
                     height: 400px;
                     background: #F2F2F2;
-                    position: absolute;
-                    right: -220px;
-                    bottom: -200px;
-                    z-index: -1;
+                    @include positionAbsolute(-1, "", (bottom: -200px, right: -220px));
                 }
             }
         }

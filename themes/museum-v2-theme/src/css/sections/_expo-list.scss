@@ -85,10 +85,7 @@
 
                 &:after{
                     content: '';
-                    top: 50%;
-                    left: 50%;
-                    position: absolute;
-                    transform: translate(-50%, -50%);
+                    @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
                     background-image: url( svg-bg-uri($svg-plus, white) );
                     background-position: center;
                     background-repeat: no-repeat;

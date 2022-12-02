@@ -9,16 +9,34 @@
         background: white;
         display: flex;
         flex-direction: column;
+        padding-top: 20px;
+        max-height: calc(100vh - 110px);
+        overflow-y: scroll;
+        transition : max-height 0.5s ease;
 
-        .closed{
+        &.hidden{
+            max-height: 0;
+            padding: 0;
+
+            #closed{
+                opacity: 0;
+            }
+        }
+
+        #closed{
             width: calc(calc(100% - 130px) / 5);
             aspect-ratio: 1/1;
             background-color: $color_third;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            @include positionAbsolute("", "", (top: 0, right: 0));
+            transition : opacity 0.5s ease;
 
             &:before{
                 content: '';
-                width: 20px;
-                height: 20px;
+                width: 30px;
+                height: 30px;
                 background-image: url( svg-bg-uri($svg-closed, $color_second) );
                 background-position: center;
                 background-repeat: no-repeat;
@@ -30,51 +48,45 @@
         .title{
             @include ft($proximaNova, 0.9375rem, 400, $color_txt, 21px, "");
             margin-bottom: 15px;
+            text-align: center;
         }
 
-        .accessibility-menu{
-            padding: 0;
+        ul{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 45px;
+            list-style: none;
+            width: 100%;
 
-            .access-item{
+            li{
+                width: calc(calc(100% - 40px) / 5);
+                aspect-ratio : 1 / 1;
+                background: $color_main;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
 
-                &.accessibility, &.contact{
-                    display: none;
+                a{
+                    @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
+                    text-decoration: none;
                 }
+            }
 
-                &.language{
-
-                    .language-menu{
-
-                        ul{
-                            display: flex;
-                            flex-wrap: wrap;
-                            gap: 10px;
-                            padding: 0 45px;
-                            list-style: none;
-
-                            li{
-                                width: calc(calc(100% - 40px) / 5);
-                                aspect-ratio : 1 / 1;
-                                background: $color_main;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                a{
-                                    @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
-                                }
-                            }
-                        }
-                    }
+            &.access-by-public{
+                li{
+                    width: 100%;
+                    aspect-ratio: auto;
                 }
-            } 
+            }
         }
     }
 
     .menu-mobile.content{
         background: $color_main;
-        display: flex;
-        justify-content: space-around;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
         gap: 5px;
         padding: 10px 15px;
         width: 100%;
@@ -85,13 +97,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: auto;
             justify-content: space-between;
             text-decoration: none;
+            height: 40px;
+            z-index: 1;
 
             &:hover{
                 color: white;
             }
+        }
+
+        .menu{
+            display: flex;
+            justify-content: space-around;
+            gap: 5px;
+            width: 100%;
         }
     }
 

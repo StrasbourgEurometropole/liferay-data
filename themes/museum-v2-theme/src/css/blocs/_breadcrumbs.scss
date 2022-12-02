@@ -9,6 +9,7 @@
 
     .content{
         @include ft($proximaNova, 0.8125rem, 400, $color_txt, 0.9375rem, "");
+        padding: 0 20px;
 
         >:not(:last-child()){
             &:after {

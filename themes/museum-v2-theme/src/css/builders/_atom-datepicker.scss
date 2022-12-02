@@ -117,11 +117,7 @@
                     background-color: $color_txt;
                     height: 22px;
                     width: 22px;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%); 
-                    z-index: -1;
+                    @include positionAbsolute(-1, translate(-50%, -50%), (top: 50%, left: 50%));
                 }
             }
         }

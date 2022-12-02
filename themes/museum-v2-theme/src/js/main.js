@@ -1,10 +1,4 @@
 (function($) {
-  // Dropdown langues
-  $('.language-menu > a').on('click', function(e) {
-    e.preventDefault();
-    $('.language-menu').toggleClass('open');
-  });
-
   // slider "En bref"
   if($('#bref .swiper').length){
     const swiperBref = new Swiper('#bref .swiper', {
@@ -288,5 +282,44 @@
   // kickstart
   $(window).on("load",function(){
     tabletLandscapeOrDesktopChecker()
+  });
+
+  // Gestion affichage recherche mobile
+  $("#header-top #search-mobile").on("click",function(e){
+    e.preventDefault();
+    if($("#header-top #search-mobile").attr("class") == "closed"){
+      $("#header-top #main-search-form").addClass('hidden');
+      $("#header-top #search-mobile").removeClass('closed');
+      $("#header-top #search-mobile").addClass('search');
+    }else{
+      $("#header-top #main-search-form").removeClass('hidden');
+      $("#header-top #search-mobile").removeClass('search');
+      $("#header-top #search-mobile").addClass('closed');
+    }
+  });
+
+  // Gestion affichage accès par public
+  $("#header-top #access-by-public").on("click",function(e){
+    e.preventDefault();
+    if($("#header-top #access-by-public").attr("class") == "access-by-public-menu-title show-acces"){
+      $("#header-top #acces").removeClass('hidden');
+      $("#header-top #access-by-public").removeClass('show-acces');
+      $("#header-top #access-by-public").addClass('hide-acces');
+    }else{
+      $("#header-top #acces").addClass('hidden');
+      $("#header-top #access-by-public").removeClass('hide-acces');
+      $("#header-top #access-by-public").addClass('show-acces');
+    }
+  });
+
+  // Gestion affichage menu mobile
+  $("#menu-smartphone #see-more").on("click",function(e){
+    e.preventDefault();
+    $("#menu-smartphone #more").removeClass('hidden');
+  });
+
+  $("#menu-smartphone #closed").on("click",function(e){
+      e.preventDefault();
+      $("#menu-smartphone #more").addClass('hidden');
   });
 })(jQuery);

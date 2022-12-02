@@ -45,9 +45,7 @@
 
         @include RWD(tablet_portrait){
             display: block;
-            position: absolute;
-            bottom: 18px;
-            right: 32px;
+            @include positionAbsolute("", "", (bottom: 18px, right: 32px));
 
             .first, .second{
                 display: inline-block;

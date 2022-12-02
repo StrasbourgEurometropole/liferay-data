@@ -42,8 +42,8 @@
 		<@liferay.control_menu />
 
 		<div id="global">
-			<header id="header-top">
-				<div class="header-top-inner container">
+			<header id="pre-header">
+				<div class="pre-header-inner container">
 					<div class="strasbourg-eu-logo">
 						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu" title="strasbourg.eu">
 							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" alt="strasbourg.eu" title="strasbourg.eu">
@@ -52,33 +52,60 @@
 					<@liferay_portlet["runtime"]
 						portletProviderAction=portletProviderAction.VIEW
 						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-						instanceId="langue"
+						instanceId="menu-preheader"
 						settingsScope="group" />
 				</div>
 			</header>
-			<section id="menu-smartphone">
-				<div id="more">
-					<div class="closed"></div>
-					<div class="title">
-						<@liferay_ui.message key="eu.museum.choice-language" />
-					</div>
+			<section id="header-top">
+				<div id="acces"  class="hidden">
 					<@liferay_portlet["runtime"]
 						portletProviderAction=portletProviderAction.VIEW
 						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-						instanceId="langue-smartphone"
+						instanceId="acces"
+						settingsScope="group" />
+				</div>
+				<div class="header-top-inner container">
+					<a class="title" href="${homeURL}">Musées de la ville de Strasbourg</a>
+					<span id="access-by-public" class="access-by-public-menu-title show-acces"><@liferay_ui.message key="eu.museum.acces" /></span>
+					<div id="search-mobile" class="search"></div>
+					<form method="get" id="main-search-form" action="${homeURL}/recherche" class="hidden">
+						<input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
+						<input type="search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher" value="" >
+						<input class="search" type="submit" id="search" value="GO">
+					</form>
+				</div>
+			</section>
+
+			<section id="menu-smartphone">
+				<div id="more" class="hidden">
+					<div id="closed"></div>
+					<div class="title"><@liferay_ui.message key="eu.museum.choice-language" /></div>
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="langues"
 						settingsScope="group" />
 					<div class="title"><@liferay_ui.message key="eu.museum.acces" /></div>
 					<@liferay_portlet["runtime"]
 						portletProviderAction=portletProviderAction.VIEW
 						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-						instanceId="acces-smartphone"
+						instanceId="acces"
 						settingsScope="group" />
 				</div>
-				<@liferay_portlet["runtime"]
-					portletProviderAction=portletProviderAction.VIEW
-					portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-					instanceId="menu-smartphone"
-					settingsScope="group" />
+				<div class="menu-mobile content">
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="menu-smartphone"
+						settingsScope="group" />
+					<a id="see-more" href="" class="more"  aria-label="<@liferay_ui.message key="eu.museum.more" />" title="<@liferay_ui.message key="eu.museum.more" />">
+						<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" stroke="white" stroke-width="1.2" stroke-linecap="round">
+							<line x1="8.2" y1="0.6" x2="8.2" y2="15.4" />
+							<line x1="15.4" y1="7.80001" x2="0.6" y2="7.80001"/>
+						</svg>
+						<@liferay_ui.message key="eu.museum.more" />
+					</a> 
+				</div>
 			</section>
 
 			<main id="main">
