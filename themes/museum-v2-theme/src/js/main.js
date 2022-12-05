@@ -304,11 +304,27 @@
     if($("#header-top #access-by-public").attr("class") == "access-by-public-menu-title show-acces"){
       $("#header-top #acces").removeClass('hidden');
       $("#header-top #access-by-public").removeClass('show-acces');
-      $("#header-top #access-by-public").addClass('hide-acces');
     }else{
       $("#header-top #acces").addClass('hidden');
-      $("#header-top #access-by-public").removeClass('hide-acces');
       $("#header-top #access-by-public").addClass('show-acces');
+    }
+  });
+
+  // Gestion affichage menu desktop
+  $("#menu-desktop #burger").on("click",function(e){
+    e.preventDefault();
+    if($("#menu-desktop #burger").attr("class") == "show-nav"){
+      $("#menu-desktop #burger").removeClass('show-nav');
+      $("#menu-desktop").removeClass('open');
+      $("#menu-desktop #burger .title").text(Liferay.Language.get("eu.museum.menu"));
+      $("#menu-desktop #nav").addClass('hidden');
+      $("body").removeClass('no-scroll');
+    }else{
+      $("#menu-desktop #burger").addClass('show-nav');
+      $("#menu-desktop").addClass('open');
+      $("#menu-desktop #burger .title").text(Liferay.Language.get("eu.museum.closed"));
+      $("#menu-desktop #nav").removeClass('hidden');
+      $("body").addClass('no-scroll');
     }
   });
 
@@ -317,7 +333,6 @@
     e.preventDefault();
     $("#menu-smartphone #more").removeClass('hidden');
   });
-
   $("#menu-smartphone #closed").on("click",function(e){
       e.preventDefault();
       $("#menu-smartphone #more").addClass('hidden');

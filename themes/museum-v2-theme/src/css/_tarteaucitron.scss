@@ -8,7 +8,7 @@ $f_c_btn: $f_hx;
 
 // Colors
 $c_grey: #F2F2F2;  // fond
-$c_main: #4C28D4;  // bouton accepter
+$c_main: $color_main;  // bouton accepter
 $c_dark: #000000;  // bouton accepter:hover
 $c_white: #FFFFFF;  // bouton refuser
 $c_lightgrey: #7E7E7E;  // bouton refuser:hover
@@ -26,6 +26,7 @@ div#tarteaucitronRoot, .tac_activate {
     /* Conteneur Bandeau cookies */
     #tarteaucitronAlertBig {
         background: $c_grey;
+        box-sizing: border-box;
     }
 
     .tarteaucitronH1 {

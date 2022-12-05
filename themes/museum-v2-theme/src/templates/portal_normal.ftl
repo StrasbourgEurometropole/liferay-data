@@ -31,9 +31,9 @@
 
 	<body class="${css_class}
 		<#if isHome>
-			seu-front
+			front
 		<#else>
-			seu-not-front
+			not-front
 		</#if>
 	">
 
@@ -56,6 +56,7 @@
 						settingsScope="group" />
 				</div>
 			</header>
+
 			<section id="header-top">
 				<div id="acces"  class="hidden">
 					<@liferay_portlet["runtime"]
@@ -73,6 +74,34 @@
 						<input type="search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher" value="" >
 						<input class="search" type="submit" id="search" value="GO">
 					</form>
+				</div>
+			</section>
+
+			<section id="menu-desktop">
+				<div class="container">	
+      				<div id="burger">
+						<div class="burger-inner">
+							<span></span>
+						</div>
+						<div class="title">
+							<@liferay_ui.message key="eu.museum.menu" />
+						</div>
+					</div>
+				</div>
+				<div id="nav" class="hidden">
+					<div class="nav-quicklink">
+						<@liferay_portlet["runtime"]
+							portletProviderAction=portletProviderAction.VIEW
+							portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+							instanceId="quicklink"
+							settingsScope="group" />
+					</div>
+					<div class="nav-thumbnails">
+						<@liferay_portlet["runtime"]
+							portletProviderAction=portletProviderAction.VIEW
+							portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+							instanceId="navigation" />
+					</div>
 				</div>
 			</section>
 

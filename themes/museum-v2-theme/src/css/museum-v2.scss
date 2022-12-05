@@ -14,6 +14,7 @@
 @import 'general/_footer';
 @import 'general/_header';
 @import 'general/_header-top';
+@import 'general/_menu-desktop';
 @import 'general/_menu-smartphone';
 @import 'general/_pre-header';
 
@@ -55,6 +56,10 @@
 
 @import '_tarteaucitron';
 
+.no-scroll{
+    overflow: hidden;
+}
+
 #global{
     @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
     overflow-x: hidden;
@@ -92,7 +97,7 @@
     .hidden{
         display: none;
     }
-    
+
     .margin-top{
         margin-top: 25px;
     
