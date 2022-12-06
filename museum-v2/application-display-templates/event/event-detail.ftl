@@ -7,9 +7,11 @@
     <div  class="content container">
       <div class="event-header">
 
-        <div class="event-type" >
-          ${entry.getActivityTypeLabel(locale)}
-        </div>
+        <#if entry.getActivityTypeLabel(locale)?has_content >
+            <div class="event-type" >
+              ${entry.getActivityTypeLabel(locale)}
+            </div>
+        </#if>
         
         <h1 class="event-title">
           ${entry.getTitle(locale)}

@@ -28,7 +28,8 @@
             <div class="slider">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-                	    <#list entries as curEntry>
+                        <#assign listEntries = (entries?size gt 3)?then(entries?sequence[0..2], entries) />
+                        <#list listEntries as curEntry> 
                             <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />

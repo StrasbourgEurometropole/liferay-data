@@ -3,7 +3,7 @@
         <@liferay_ui["message"] key="contact" />
     </span>
     <div class="infos">
-        <div class="contact-name">
+        <div class="name">
             ${title.getData()}
         </div>
         <#if phone.getData()?has_content>

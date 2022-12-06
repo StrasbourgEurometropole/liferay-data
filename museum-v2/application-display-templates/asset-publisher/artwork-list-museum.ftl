@@ -12,7 +12,7 @@
         <div class="infos">
             <h2>${portletHelper.getPortletTitle('eu.museum.collection', renderRequest)}</h2>
             
-            <button class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title='<@liferay_ui.message key="eu.museum.all-collection" />'>
+            <button id="btn-all-collection" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" /> (<@liferay_ui.message key="eu.new-window" />)" title='<@liferay_ui.message key="eu.museum.all-collection" /> (<@liferay_ui.message key="eu.new-window" />)'>
                 <span class="points">
                     <span class="trait">
                         <span class="background">
@@ -38,7 +38,7 @@
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                        <a href="${link}" aria-label="${title}" title="${title}" class="oeuvre-thumbnail">
+                        <a href="${link}" target="_blank" aria-label="${title} (<@liferay_ui.message key="eu.new-window" />)" title="${title} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
                             <img src="${imageURL}" alt="${title}" title="${title}" />
                             <div class="info">
                                 <div class="title">
@@ -70,3 +70,9 @@
         </#if>
     </div>
 </section>
+
+<script>
+    $("#btn-all-collection").click(function(){
+      window.open('https://musees-strasbourg.skin-web.org/', '_blank').focus();
+    });
+</script>

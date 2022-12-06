@@ -15,7 +15,7 @@
         	    <#list entries as curEntry>
                     <#assign edition = curEntry.getAssetRenderer().getEdition() />
                     <#assign detailURL = homeURL + "detail-edition/-/entity/id/" + edition.editionId />
-                    <a href="${detailURL}" aria-label="${edition.getTitle(locale)}" title="${edition.getTitle(locale)}" class="edition-thumbnail">
+                    <a href="${detailURL}" aria-label="${edition.getTitle(locale)}" title="${edition.getTitle(locale)}" class="edition-thumbnail-list">
                         <img src="${edition.getImageURL()}" alt="${edition.getTitle(locale)}" title="${edition.getTitle(locale)}" />
                         <div class="info">
                             <div class="title">

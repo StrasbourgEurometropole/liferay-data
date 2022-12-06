@@ -48,6 +48,7 @@
             "readOnly": false,
             "repeatable": false,
             "required": false,
+            "requiredDescription": true,
             "showLabel": true,
             "type": "ddm-image"
         },

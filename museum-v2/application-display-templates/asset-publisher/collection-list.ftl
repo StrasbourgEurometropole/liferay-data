@@ -12,7 +12,7 @@
         <div class="infos">
             <h2>${portletHelper.getPortletTitle('eu.museum.collection', renderRequest)}</h2>
             <p><@liferay_ui.message key="eu.museum.collection.description" /></p>
-            <a href="https://musees-strasbourg.skin-web.org/" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" />" title="<@liferay_ui.message key="eu.museum.all-collection" />"><@liferay_ui.message key="eu.museum.all-collection" /></a>
+            <a href="https://musees-strasbourg.skin-web.org/" target="_blank" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-collection" /> (<@liferay_ui.message key="eu.new-window" />)" title="<@liferay_ui.message key="eu.museum.all-collection" /> (<@liferay_ui.message key="eu.new-window" />)"><@liferay_ui.message key="eu.museum.all-collection" /></a>
         </div>
         <#if entries?has_content>
             <div id="listCollections" class="list">
@@ -28,7 +28,7 @@
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                        <a href="${link}" aria-label="${title}" title="${title}" class="oeuvre-thumbnail">
+                        <a href="${link}" target="_blank" aria-label="${title} (<@liferay_ui.message key="eu.new-window" />)" title="${title} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
                             <img src="${imageURL}" alt="${title}" title="${title}" />
                             <div class="info">
                                 <div class="title">

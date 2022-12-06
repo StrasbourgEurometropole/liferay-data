@@ -5,7 +5,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<section id="header" class="margin-bottom">
+<section id="header" class="margin-top margin-bottom">
     <h1>${layout.getTitle(locale)}</h1>
     <#if page.expandoBridge.getAttribute('introduction')?has_content>
         <#assign introductionAttribute = page.expandoBridge.getAttribute('introduction') />
@@ -16,6 +16,6 @@
         </#list>
     </#if>
     <#if introduction?has_content>
-        <p>${introduction}</p>
+        <div class="chapo">${introduction}</div>
     </#if>
 </section>

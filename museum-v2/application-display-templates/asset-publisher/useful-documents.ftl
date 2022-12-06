@@ -1,7 +1,7 @@
 <!-- Documents utiles -->
 <#setting locale = locale />
 <div class="useful-documents">
-    <h3><@liferay_ui.message key="eu.museum.useful-documents" /></h3>
+    <span class="title"><@liferay_ui.message key="eu.museum.useful-documents" /></span>
     <#if entries?has_content>
         <#assign FileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
         <ul>
@@ -13,7 +13,7 @@
                     ${file.getTitle()}
                 </div>
                 <div class="file-type-and-size">
-                    ${file.getExtension()?upper_case} — ${FileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)}
+                    ${file.getExtension()?upper_case} - ${FileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)}
                 </div>
             </a>
         </li>

@@ -60,15 +60,6 @@
                         </div>
                     </#if>
     
-                    <#if entry.getCharacteristics(locale)?has_content >
-                        <div class="place-info-section">
-                            <h2>
-                                <@liferay_ui.message key="eu.confort-and-equipment" />
-                            </h2>
-                            ${entry.getCharacteristics(locale)}
-                        </div>
-                    </#if>
-    
                     <#if entry.getServiceAndActivities(locale)?has_content >
                         <div class="place-info-section">
                             <h2>
@@ -118,44 +109,6 @@
                             ${entry.getAccessForDisabled(locale)}
                         </div>
                     </#if>
-    
-                    <!-- Widget Bloc Contenus associés -->
-                    <!--
-                    <#assign contenus = entry.getRandomContents() />
-                    <#if contenus?has_content>
-                        <div class="items-carousel places-carousel">
-                            <h2 class="items-carousel-title">
-                                <@liferay_ui.message key="associated-content" />   
-                            </h2>
-                            <div class="owl-carousel">
-                                <#list contenus as contenu>
-                                    <div class="item"> 
-                                        <div class="item-image">
-                                            <#assign class = contenu.getClassNameId() />  
-                                            <#if class == 20015>  
-                                                <#assign image = contenu.getAssetRenderer().getAssetObject() />
-                                                <#assign imageURL = entry.getImageURL(image.getFileEntryId()) />
-                                                <#assign imageTitle = entry.getImageCopyright(image.getFileEntryId(), locale) />
-                                                <img src="${imageURL}" >
-                                                <div class="item-title">
-                                                    <h3>${imageTitle}</h3>
-                                                </div>
-                                            <#else>  
-                                                <#assign video = contenu.getAssetRenderer().getAssetObject() /> 
-                                                <a href="/web${layout.group.friendlyURL}/detail-video/-/entity/id/${video.videoId}" target="_blank">
-                                                    <img src="${video.imageURL}" >
-                                                </a>
-                                                <div class="item-title">
-                                                    <h3><a href="/web${layout.group.friendlyURL}/detail-video/-/entity/id/${video.videoId}" target="_blank">${video.getTitle(locale)}</a></h3>
-                                                </div>
-                                            </#if>  
-                                        </div>
-                                    </div>   
-                                </#list>
-                            </div>
-                        </div>
-                    </#if>
-                    -->
     
                     <!-- Widget Bloc Agenda -->
                     <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
@@ -315,23 +268,6 @@
     	                    </#if>
     	                </div>
                     </#if>
-
-                    <!--
-                    <#if entry.getDocumentURLs()?has_content >
-                        <div class="place-info-section">
-                            <h2>
-                                <@liferay_ui.message key="eu.useful-documents" />
-                            </h2>
-                            <ul>
-                                <#assign documents = entry.getDocuments() />
-                                <#list documents?keys as title>
-                                    <li class="document"><a href="${documents[title]}" >${title}</a></li>
-                                </#list>
-                            </ul>
-    
-                        </div>
-                    </#if>
-                    -->
                 </div>
             </div>
 
