@@ -1,6 +1,6 @@
-<!-- Onglet contact -->
+<!-- Onglet -->
 <#setting locale = locale />
-<section id="contact-tab" class="container margin-top margin-bottom">
+<section id="tab" class="container margin-top margin-bottom">
   <div class="tabs">
     <#if entries?has_content>
       <#assign x = 0>
@@ -26,7 +26,7 @@
           <div class="title">
             ${title}
           </div>
-          <div class="contacts">
+          <div class="description">
             ${content}
           </div>
         </div>
