@@ -5,9 +5,11 @@
     background-position: center;
     position: relative;
     box-shadow: 0px 1px 10px 0px #{$color_second}9;
+    width: 100%;
 
     @include RWD(tablet_portrait){
         margin-right: 15px;
+        width: calc(calc(100% - 65px) / 3);
 
         &:hover{
             .info:after{ 

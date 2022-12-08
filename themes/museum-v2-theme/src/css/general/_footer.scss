@@ -1,6 +1,11 @@
 #global{
     #footer{
         background-color: #3a3a3a;
+        margin-bottom: 35px;
+
+        @include RWD(tablet_portrait){
+            margin-bottom: 0;
+        }
 
         a{
             text-decoration: none;

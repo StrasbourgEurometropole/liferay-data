@@ -36,6 +36,7 @@ public class ConfigurationData {
     private boolean displayDateField;
     private boolean displayDatesButtons;
     private boolean displaySorting;
+    private boolean displayAssetType;
     private String boostTagsNames;
     private String filterField;
     private long defaultFilterDateRange;
@@ -136,6 +137,7 @@ public class ConfigurationData {
         this.displayDateField = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATE_FIELD);
         this.displayDatesButtons = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_DATES_BUTTONS);
         this.displaySorting = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING);
+        this.displayAssetType = ParamUtil.getBoolean(this.request, ConfigurationConstants.PARAM_DISPLAY_ASSET_TYPE);
 
         // Boost
         this.boostTagsNames = ParamUtil.getString(this.request, ConfigurationConstants.PARAM_BOOST_TAGS_NAMES);
@@ -250,6 +252,7 @@ public class ConfigurationData {
         this.displayDateField = this.configuration.displayDateField();
         this.displayDatesButtons = this.configuration.displayDatesButtons();
         this.displaySorting = this.configuration.displaySorting();
+        this.displayAssetType = this.configuration.displayAssetType();
 
         // Boost
         this.boostTagsNames = this.configuration.boostTagsNames();
@@ -297,6 +300,8 @@ public class ConfigurationData {
                     String.valueOf(displayDatesButtons));
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_SORTING,
                     String.valueOf(displaySorting));
+            configAction.setPreference(this.request, ConfigurationConstants.PARAM_DISPLAY_ASSET_TYPE,
+                    String.valueOf(displayAssetType));
 
             // -- MISE EN AVANT --
             configAction.setPreference(this.request, ConfigurationConstants.PARAM_BOOST_TAGS_NAMES, boostTagsNames);
@@ -408,6 +413,10 @@ public class ConfigurationData {
 
     public boolean isDisplaySorting() {
         return displaySorting;
+    }
+
+    public boolean isDisplayAssetType() {
+        return displayAssetType;
     }
 
     public String getBoostTagsNames() {

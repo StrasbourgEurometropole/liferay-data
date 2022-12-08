@@ -72,6 +72,27 @@
 	        </div>
 	    </div>
 	</c:if>
+
+	<!-- Type d'asset -->
+	<c:if test="${dc.displayAssetType}">
+        <c:if test="${fn:length(dc.classNamesOrStructures) gt 1}">
+            <div class="asset-type-selection">
+                <legend>
+                    <liferay-ui:message key="show" />
+                </legend>
+                <div class="asset-type-selection-control open">
+                    <c:forEach items="${dc.classNamesOrStructures}" var="classNameOrStructure"
+                        varStatus="classNameOrStructureStatus">
+                        <aui:input type="checkbox" label="${classNameOrStructure[1]}"
+                            name="classNamesOrStructures"
+                            id="classNamesOrStructures_${classNameOrStructureStatus.index}"
+                            value="${classNameOrStructure[0]}"
+                            checked="${fn:contains(dc.filterClassNamesOrStructuresString, classNameOrStructure[0])}" />
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
+	</c:if>
 </div>
 
 <liferay-util:html-top>

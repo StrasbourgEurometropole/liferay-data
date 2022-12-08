@@ -1,3 +1,11 @@
+#global .search-asset-thumbnail .event-thumbnail{
+    width: 100%;
+        
+    @include RWD(tablet_portrait){
+        width: calc(calc(100% - 110px) / 3);
+    }
+}
+
 #global .event-thumbnail{
     display: block;
     height: 410px;

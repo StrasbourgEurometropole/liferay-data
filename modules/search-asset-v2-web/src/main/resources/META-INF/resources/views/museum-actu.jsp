@@ -21,10 +21,10 @@
                             modelVar="entry" keyProperty="entryId" rowIdProperty="entryId">
                             <c:choose>
                                 <c:when test="${dc.isEntryFeatured(entry)}">
-                                    <div class="featured search-asset-result">
+                                    <div class="search-asset-thumbnail featured search-asset-result">
                                 </c:when>
                                 <c:otherwise>
-                                    <div>
+                                    <div class="search-asset-thumbnail">
                                 </c:otherwise>
                             </c:choose>
 
@@ -66,4 +66,5 @@
             </aui:form>
         </div>
     </div>
+
 </main>

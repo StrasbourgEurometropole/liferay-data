@@ -28,13 +28,13 @@
 @import 'blocs/_news';
 @import 'blocs/_oeuvre';
 @import 'blocs/_paginate';
+@import 'blocs/_thumbnail';
 @import 'blocs/_useful-documents';
 @import 'blocs/_useful-links';
 
 // sections
 @import 'sections/_accroche';
 @import 'sections/_big-news';
-@import 'sections/_contact-tab';
 @import 'sections/_edition-detail';
 @import 'sections/_edition-list';
 @import 'sections/_en-bref-slider';
@@ -53,6 +53,7 @@
 @import 'sections/_rubric';
 @import 'sections/_search-asset';
 @import 'sections/_social-wall';
+@import 'sections/_tab';
 
 @import '_tarteaucitron';
 
@@ -66,7 +67,7 @@
 
     @include RWD(tablet_portrait){
         font-size: 0.9375rem;
-        line-height: 21px;
+        line-height: 1.3125rem;
     }
 
     .signed-in & {
@@ -125,20 +126,20 @@
     }
     
     .chapo{
-        @include ft($proximaNova, 1.25rem, 700, $color_main, 24px, "");
+        @include ft($proximaNova, 1.25rem, 700, $color_main, 1.5rem, "");
     }
     
     h2{
-        @include ft($proximaNova, 25px, 400, $color_main, 1.875rem, "");
+        @include ft($proximaNova, 1.5625rem, 400, $color_main, 1.875rem, "");
     
         @include RWD(tablet_portrait){
-            font-size: 45px;
-            line-height: 53px;
+            font-size: 2.8125rem;
+            line-height: 3,3125rem;
         }
     }
     
     h3{
-        @include ft($proximaNova, 0.9375rem, 400, $color_main, 21px, "");
+        @include ft($proximaNova, 0.9375rem, 400, $color_main, 1.3125rem, "");
     
         @include RWD(tablet_portrait){
             font-size: 1.875rem;
@@ -222,7 +223,7 @@
         width: 215px;
         padding: 15px;
         text-align: center;
-        @include ft($proximaNova, 0.9375rem, 400, $color_second, 21px, "");
+        @include ft($proximaNova, 0.9375rem, 400, $color_second, 1.3125rem, "");
     
         
         @include RWD(tablet_portrait){
@@ -256,7 +257,7 @@
             border: none;
             background: none;
             width: 290px;
-            @include ft($proximaNova, 1rem, 400, $color_txt, 60px, "");
+            @include ft($proximaNova, 1rem, 400, $color_txt, 3.75rem, "");
             z-index: 10;
             padding: 0;
     
