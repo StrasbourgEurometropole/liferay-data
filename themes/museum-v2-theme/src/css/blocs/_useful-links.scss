@@ -4,13 +4,8 @@
     margin-bottom: 20px;
 
     .useful-links-title{
-        @include ft($times, 25px, 400, $color_main, 21px, italic);
+        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
         margin-bottom: 25px;
-
-        @include RWD(tablet_portrait){
-            font-size: 25px;
-            line-height: 21px;
-        }
     }
 
     ul{
@@ -21,14 +16,14 @@
             margin-bottom: 10px;
 
             a{
-                @include ft($proximaNova, 0.9375rem, 700, $color_txt, 12px, "");
+                @include ft($proximaNova, 0.9375rem, 700, $color_txt, 0.75rem, "");
                 text-decoration: none;
                 display: flex;
                 justify-content: space-between;
         
                 @include RWD(tablet_portrait){
                     font-size: 0.9375rem;
-                    line-height: 21px;
+                    line-height: 1.3125rem;
                 }
 
                 &:after{

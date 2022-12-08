@@ -23,31 +23,31 @@
             @include ft($proximaNova, 0.875rem, 400, $color_txt, 1.25rem, "");
 
             .edition-title{
-                @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
+                @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
                 text-align: center;
                 text-transform: uppercase;
                 margin-bottom: 15px;
     
                 @include RWD(tablet_portrait){
                     text-align: left;
-                    font-size: 44px;
-                    line-height: 53px;
+                    font-size: 2.75rem;
+                    line-height: 3,3125rem;
                 }
             }
 
             .edition-subtitle{
-                @include ft($proximaNova, 1.125rem, 400, $color_txt, 27px, "");
+                @include ft($proximaNova, 1.125rem, 400, $color_txt, 1.6875rem, "");
                 text-align: center;
                 margin-bottom: 20px;
     
                 @include RWD(tablet_portrait){
                     text-align: left;
-                    font-size: 21px;
+                    font-size: 1.3125rem;
                 }
             }
 
             .edition-date{
-                @include ft($proximaNova, 1rem, 400, $color_txt, 24px, "");
+                @include ft($proximaNova, 1rem, 400, $color_txt, 1.5rem, "");
                 text-align: center;
                 margin-bottom: 10px;
     

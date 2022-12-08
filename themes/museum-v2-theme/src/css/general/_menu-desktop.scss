@@ -189,7 +189,7 @@
                             }
                     
                             .title{
-                                @include ft($proximaNova, 1.25rem, 700, white, 24px, "");
+                                @include ft($proximaNova, 1.25rem, 700, white, 1.5rem, "");
                                 display: flex;
                                 flex-direction: column;
                                 justify-content: center;

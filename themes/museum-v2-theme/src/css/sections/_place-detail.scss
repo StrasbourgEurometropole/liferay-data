@@ -10,14 +10,14 @@
             }
 
             h1{
-                @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
+                @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
                 margin: 40px 0 15px;
                 text-transform: uppercase;
 
                 @include RWD(tablet_portrait){
                     margin-bottom: 20px;
-                    font-size: 44px;
-                    line-height: 53px;
+                    font-size: 2.75rem;
+                    line-height: 3,3125rem;
                 }
             }
 
@@ -27,8 +27,8 @@
 
                 @include RWD(tablet_portrait){
                     margin-bottom: 15px;
-                    font-size: 25px;
-                    line-height: 21px;
+                    font-size: 1.5625rem;
+                    line-height: 1.3125rem;
                 }
             }
 
@@ -37,7 +37,7 @@
 
                 @include RWD(tablet_portrait){
                     font-size: 0.9375rem;
-                    line-height: 21px;
+                    line-height: 1.3125rem;
                 }
             }
         }
@@ -59,13 +59,8 @@
                     margin-bottom: 15px;
 
                     h2{
-                        @include ft($times, 25px, 400, $color_main, 21px, italic);
+                        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
                         margin-bottom: 20px;
-
-                        @include RWD(tablet_portrait){
-                            font-size: 25px;
-                            line-height: 21px;
-                        }
                     }
 
                     .access-for-disabled-icons{
@@ -131,7 +126,7 @@
                     position: relative;
 
                     h2{
-                        @include ft($times, 25px, 400, white, 21px, italic);
+                        @include ft($times, 1.5625rem, 400, white, 1.3125rem, italic);
                         margin-bottom: 20px;
 
                         @include RWD(tablet_portrait){
@@ -144,7 +139,7 @@
 
                         @include RWD(tablet_portrait){
                             font-size: 0.9375rem;
-                            line-height: 21px;
+                            line-height: 1.3125rem;
                         }
 
                         ul{
@@ -176,7 +171,7 @@
                     padding: 45px 30px 30px;
 
                     h2{
-                        @include ft($times, 25px, 400, $color_main, 21px, italic);
+                        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
                         margin-bottom: 20px;
                     }
 
@@ -185,7 +180,7 @@
 
                         @include RWD(tablet_portrait){
                             font-size: 0.9375rem;
-                            line-height: 21px;
+                            line-height: 1.3125rem;
                         }
                     }
                 }

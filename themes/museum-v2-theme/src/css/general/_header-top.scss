@@ -22,8 +22,8 @@
                 padding-left: 15px;
 
                 @include RWD(tablet_portrait){
-                    font-size: 24px;
-                    line-height: 29px;
+                    font-size: 1.5rem;
+                    line-height: 1.8125rem;
                     padding-left: 0;
                 }
             }
@@ -113,7 +113,7 @@
                 input[type=search] {
                     border: none;
                     height: 50px;
-                    @include ft($times,  1.25rem, 400, #8E8E8E, 21px, italic);
+                    @include ft($times,  1.25rem, 400, #8E8E8E, 1.3125rem, italic);
                     width: calc(100% - 50px);
                     padding: 10px;
                     -webkit-appearance: none;
@@ -195,7 +195,7 @@
                     padding: 10px;
     
                     a{
-                        @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
+                        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
                         text-decoration: none;
                     }
                 }

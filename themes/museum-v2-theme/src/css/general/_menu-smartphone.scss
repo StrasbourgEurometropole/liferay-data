@@ -46,7 +46,7 @@
         }
 
         .title{
-            @include ft($proximaNova, 0.9375rem, 400, $color_txt, 21px, "");
+            @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.3125rem, "");
             margin-bottom: 15px;
             text-align: center;
         }
@@ -69,7 +69,7 @@
                 padding: 10px;
 
                 a{
-                    @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
+                    @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
                     text-decoration: none;
                 }
             }

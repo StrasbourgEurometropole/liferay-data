@@ -18,23 +18,27 @@
 	</c:if>
 </h1>
 <div class="search-asset-fields">
-	<!-- Type d'assets -->
-	<c:if test="${fn:length(dc.classNames) gt 1}">
-		<div class="asset-type-selection">
-			<legend>
-				<liferay-ui:message key="show" />
-			</legend>
-			<div class="asset-type-selection-control open">
-				<c:forEach items="${dc.classNames}" var="className"
-					varStatus="classNameStatus">
-					<aui:input type="checkbox" label="${className}"
-						name="className"
-						id="className_${classNameStatus.index}"
-						value="${className}"
-						checked="${fn:contains(dc.filterClassNamesString, className)}" />
-				</c:forEach>
-			</div>
-		</div>
+
+	<!-- Type d'asset -->
+	<c:if test="${dc.displayAssetType}">
+        <c:set var="classNamesOrStructures" value="${dc.classNamesOrStructures}" />
+        <c:if test="${fn:length(classNamesOrStructures) gt 1}">
+            <div class="asset-type-selection">
+                <legend>
+                    <liferay-ui:message key="show" />
+                </legend>
+                <div class="asset-type-selection-control open">
+                    <c:forEach items="${classNamesOrStructures}" var="classNameOrStructure"
+                        varStatus="classNameOrStructureStatus">
+                        <aui:input type="checkbox" label="${classNameOrStructure[1]}"
+                            name="classNamesOrStructures"
+                            id="classNamesOrStructures_${classNameOrStructureStatus.index}"
+                            value="${classNameOrStructure[0]}"
+                            checked="${fn:contains(dc.filterClassNamesOrStructuresString, classNameOrStructure[0])}" />
+                    </c:forEach>
+                </div>
+            </div>
+        </c:if>
 	</c:if>
 
 	<!-- Vocabulaires -->

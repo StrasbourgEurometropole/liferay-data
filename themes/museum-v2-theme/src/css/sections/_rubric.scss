@@ -69,7 +69,7 @@
 
                         @include RWD(tablet_portrait){
                             font-size: 1.25rem;
-                            line-height: 24px;
+                            line-height: 1.5rem;
                         }
                     }
                 }
@@ -138,7 +138,7 @@
                             list-style: none;
 
                             a{
-                                @include ft($proximaNova, 1rem, 400, black, 21px, "");
+                                @include ft($proximaNova, 1rem, 400, black, 1.3125rem, "");
                                 text-decoration: none;
 
                                 &:after{

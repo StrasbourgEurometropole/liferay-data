@@ -127,7 +127,7 @@
 
                     .button1{
                         @include positionAbsolute('', translate(-50%, 0), '');
-                        line-height: 60px;
+                        line-height: 3.75rem;
                     }
                 }
         

@@ -1,6 +1,6 @@
 #ui-datepicker-div{
     padding: 0; 
-    @include ft($proximaNova, 1 rem, 400, $color_second, 24px, "");
+    @include ft($proximaNova, 1 rem, 400, $color_second, 1.5rem, "");
     border: none;
     background-color: $color_third; 
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
@@ -52,12 +52,12 @@
             display: flex;
         }
         .ui-datepicker-month{
-            @include ft($proximaNova, 1.25 rem, 300, white, 24px, "");
+            @include ft($proximaNova, 1.25 rem, 300, white, 1.5rem, "");
             display: block;
             text-transform: uppercase;
         }
         .ui-datepicker-year{
-            @include ft($proximaNova, 1.25 rem, 300, white, 24px, "");
+            @include ft($proximaNova, 1.25 rem, 300, white, 1.5rem, "");
         }
     }
     select{
@@ -87,7 +87,7 @@
             padding: 6px;
         }
         th{
-            @include ft($proximaNova, 1 rem, 600, $color_txt, 24px, "");
+            @include ft($proximaNova, 1 rem, 600, $color_txt, 1.5rem, "");
             text-transform: uppercase;
             text-align: center;
         }

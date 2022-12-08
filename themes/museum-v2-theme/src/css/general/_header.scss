@@ -48,18 +48,18 @@
         }
 
         h1{
-            @include ft($proximaNova, 24px, 700, $color_txt, 29px, "");
+            @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
             text-align: center;
             text-transform: uppercase;
 
             @include RWD(tablet_portrait){
-                font-size: 44px;
-                line-height: 54px;
+                font-size: 2.75rem;
+                line-height: 3.375rem;
             }
         }
 
         .chapo{
-            @include ft($times, 25px, 400, $color_txt, 1.75rem, italic);
+            @include ft($times, 1.5625rem, 400, $color_txt, 1.75rem, italic);
             margin-top: 25px;
             text-align: center;
         }
@@ -100,7 +100,7 @@
             }
 
             .chapo{
-                font-size: 20px;
+                font-size: 1.25rem;
             }
         }
     }

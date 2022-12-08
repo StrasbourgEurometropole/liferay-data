@@ -4,23 +4,13 @@
     margin-bottom: 20px;
 
     .title{
-        @include ft($times, 25px, 400, white, 21px, italic);
+        @include ft($times, 1.5625rem, 400, white, 1.3125rem, italic);
         margin-bottom: 25px;
         display: block;
-
-        @include RWD(tablet_portrait){
-            font-size: 25px;
-            line-height: 21px;
-        }
     }
 
     .infos{
-        @include ft($proximaNova, 0.9375rem, 400, white, 21px, "");
-
-        @include RWD(tablet_portrait){
-            font-size: 0.9375rem;
-            line-height: 21px;
-        }
+        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
 
         .name{
             margin-bottom: 20px;

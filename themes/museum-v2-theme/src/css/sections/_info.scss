@@ -25,7 +25,7 @@
 
             @include RWD(tablet_portrait){
                 display: block;
-                @include ft($proximaNova, 2.1875rem, 700, $color_txt, 42px, "");
+                @include ft($proximaNova, 2.1875rem, 700, $color_txt, 2.625rem, "");
                 margin-bottom: 30px;
             }
         }
