@@ -837,6 +837,24 @@ public class EditionWrapper implements Edition, ModelWrapper<Edition> {
 	}
 
 	/**
+	 * Retourne les musées de l'édition
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getMuseums() {
+
+		return _edition.getMuseums();
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'édition
+	 */
+	@Override
+	public String getMuseumsLabel(java.util.Locale locale) {
+		return _edition.getMuseumsLabel(locale);
+	}
+
+	/**
 	 * Returns the page number of this edition.
 	 *
 	 * @return the page number of this edition

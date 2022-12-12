@@ -1,0 +1,66 @@
+#global #tab{
+    
+    @include RWD(tablet_portrait){
+        padding: 30px 45px 15px;
+    }
+
+    .tabs{
+        display: none;
+    
+        @include RWD(tablet_portrait){
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+
+            .tab {
+                display: inline-block;
+                padding: 15px 0;
+                background: $color_third;
+                width: 290px;
+                @include ft($proximaNova, 0.9375rem, 400, $color_second, 1.3125rem, "");
+                text-align: center;
+                text-transform: uppercase;
+                cursor: pointer;
+
+                &.active {
+                    background-color: $color_main;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .contents {
+        background: $color_third;
+
+        .content{
+            padding: 20px;
+            display: block;
+            @include ft($proximaNova, 0.75rem, 400, black, 0.9375rem, "");
+            background: $color_third;
+    
+            @include RWD(tablet_portrait){
+                display: none;
+
+                &.active {
+                    display: block;
+                    font-size: 0.9375rem;
+                    line-height: 1.3125rem;
+                }
+            }
+
+            .title {
+                background-color: $color_main;
+                padding: 15px 0;
+                margin-bottom: 30px;
+                text-transform: uppercase;
+                @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                text-align: center;
+    
+                @include RWD(tablet_portrait){
+                    display: none;
+                }
+            }
+        }
+    }
+}

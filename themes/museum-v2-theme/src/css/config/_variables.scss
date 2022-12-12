@@ -1,0 +1,31 @@
+// BREAKPOINTS
+$breakpoint_extra_large: 1250px;
+$breakpoint_desktop: 1200px;
+$breakpoint_tablet_landscape: 992px;
+$breakpoint_tablet_portrait: 768px;
+$breakpoint_mobile_landscape: 576px;
+$breakpoint_mobile_portrait: 0px;
+// BREAKPOINTS
+
+//COLORS
+$color_main: #c42147;
+$color_txt: #2d2d2d;
+$color_second: #333;	
+$color_third: #f2f2f2;
+//COLORS
+
+// FONTS 
+$proximaNova: "Proximanova", sans-serif;
+$times: 'Times', serif;
+$montserrat: 'MontSerrat', arial;
+$opensans: 'OpenSans', arial;
+// FONTS
+
+// VIARIABILISATION POUR MODULES
+:root{
+    // placeScheduleWeb
+    --color_main : #c42147;
+    --color_txt : #2d2d2d;
+    --font-main : "Proximanova", sans-serif;
+}
+// VIARIABILISATION POUR MODULES

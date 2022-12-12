@@ -187,7 +187,7 @@
 							    </c:if>
 								<c:if test="${parking}">
 										<c:set var="occupationState" value="${place.getRealTime('2')}" />
-										<td rowspan="${place.getSubPlaces().size() + 1}" class="occupation-state" >
+										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
 			                                    ${occupationState.available}
 			                                </div>

@@ -72,7 +72,7 @@
                         <aui:input type="checkbox" name="displayDateField" value="${dc.configurationData.isDisplayDateField()}" label="eu.search.asset.web.configuration.date-field" inlineField="true" />
                     </div>
 
-                    <!-- CHAMP : Affichage ddes boutons de dates -->
+                    <!-- CHAMP : Affichage des boutons de dates -->
                     <div>
                         <liferay-ui:message key="eu.search.asset.web.configuration.dates-buttons-explanations" />
                         <aui:input type="checkbox" name="displayDatesButtons" value="${dc.configurationData.isDisplayDatesButtons()}" label="eu.search.asset.web.configuration.show-dates-buttons-field" inlineField="true" />
@@ -82,6 +82,12 @@
                     <div>
                         <liferay-ui:message key="eu.search.asset.web.configuration.date-sorting-explanations" />
                         <aui:input type="checkbox" name="displaySorting" value="${dc.configurationData.isDisplaySorting()}" label="eu.search.asset.web.configuration.date-sorting-field" inlineField="true" />
+                    </div>
+
+                    <!-- CHAMP : Affichage des types d'asset -->
+                    <div>
+                        <liferay-ui:message key="eu.search.asset.web.configuration.asset-type-explanations" />
+                        <aui:input type="checkbox" name="displayAssetType" value="${dc.configurationData.isDisplayAssetType()}" label="eu.search.asset.web.configuration.asset-type-field" inlineField="true" />
                     </div>
 
                 </aui:fieldset>
@@ -250,8 +256,11 @@
 
                     <!-- CHAMP : Formulaire de recherche -->
                     <aui:select name="searchForm" label="eu.search.asset.web.configuration.search-form">
-                        <aui:option value="museum" selected="${dc.configurationData.searchForm eq 'museum'}">
-                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum" />
+                        <aui:option value="museum-actu" selected="${dc.configurationData.searchForm eq 'museum-actu'}">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum-actu" />
+                        </aui:option>
+                        <aui:option value="museum-generic" selected="${dc.configurationData.searchForm eq 'museum-generic'}">
+                            <liferay-ui:message key="eu.search.asset.web.configuration.template.museum-generic" />
                         </aui:option>
                         <aui:option value="official" selected="${dc.configurationData.searchForm eq 'official'}">
                             <liferay-ui:message key="eu.search.asset.web.configuration.template.official" />

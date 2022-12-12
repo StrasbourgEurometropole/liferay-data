@@ -86,8 +86,8 @@ public class SearchHelperV2{
 	 *            chaque tableau, et UN entre chaque liste (utilisé dans la query)
 	 * @param idSIGPlace
 	 * 			  L'id SIG du lieu (utilisé dans la query)
-	 * @param classNamesSelected
-	 *            Liste des classNames sélectionnés par l'utilisateur (utilisé dans la query)
+	 * @param classNamesOrStructuresSelected
+	 *            Liste des classNames ou Structures sélectionnés par l'utilisateur (utilisé dans la query)
 	 * @param locale
 	 *            Locale utile pour la recherche de mots clé (utilisé dans la query)
 	 * @param start
@@ -101,11 +101,11 @@ public class SearchHelperV2{
 											 String filterField, int seed, Map<String, String> sortingFieldsAndTypes,
 											 /*long[] categoriesIdsForGroupBy, */String keywords, LocalDate fromDate,
 											 LocalDate toDate, List<Long[]> categoriesIds, String idSIGPlace,
-											 List<String> classNamesSelected, Locale locale, int start, int end) {
+											 List<String> classNamesOrStructuresSelected, Locale locale, int start, int end) {
 
 		// Query
 		Query query = getGlobalSearchV2Query(assetTypes, isDisplayField, filterField, /*categoriesIdsForGroupBy,*/
-				keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesSelected, locale);
+				keywords, fromDate, toDate, categoriesIds, idSIGPlace, classNamesOrStructuresSelected, locale);
 
 		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
 
@@ -214,19 +214,19 @@ public class SearchHelperV2{
 	private Query getGlobalSearchV2Query(List<AssetType> assetTypes,
 										 Boolean isDisplayField, String filterField, /*long[] categoriesIdsForGroupBy,*/
 										 String keywords, LocalDate fromDate, LocalDate toDate, List<Long[]> categoriesIds,
-										 String placeSigId, List<String> filterClassNames, Locale locale) {
+										 String placeSigId, List<String> classNamesOrStructuresSelected, Locale locale) {
 		// Construction de la requète
 		BooleanQuery superQuery = queries.booleanQuery();
 		BooleanQuery query = queries.booleanQuery();
 
 		//Asset type
 		BooleanQuery assetTypesQuery = queries.booleanQuery();
-		if(filterClassNames.size() > 0) {
+		if(classNamesOrStructuresSelected.size() > 0) {
 			for (AssetType assetType : assetTypes) {
 				if (Validator.isNotNull(assetType)) {
 					if (Validator.isNotNull(assetType.getClassName())) {
-						// on vérifie si le className est sélectionné par l'utilisateur
-						if (filterClassNames.contains(assetType.getClassName())) {
+						// on vérifie si le className ou la structure est sélectionné(e) par l'utilisateur
+						if (classNamesOrStructuresSelected.contains(assetType.getClassName()) || classNamesOrStructuresSelected.contains(""+assetType.getStructureID())) {
 							BooleanQuery assetTypeQuery = queries.booleanQuery();
 							// ClassNames
 							if (assetType.getClassName().equals("searchJournalArticle")) {

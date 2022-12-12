@@ -1,0 +1,36 @@
+#global #accroche{
+    .content{
+
+        @include RWD(tablet_portrait){
+            position: relative;
+        }
+
+        h2{
+            @include ft($times, 1.125rem, 400, $color_main, 1.3125rem, italic);
+            margin-bottom: 20px;
+
+            @include RWD(tablet_portrait){
+                font-size: 1.9375rem;
+                line-height: 2.25rem;
+                padding: 100px 200px 100px 130px;
+                background-color: $color_third;
+                width: 75%;
+                margin-bottom: 0;
+            }
+        }
+
+        .description{
+            @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+            margin-bottom: 20px;
+
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.3125rem;
+                @include positionAbsolute("", translateY(-50%), (top: 50%, right: 0));
+                width: 40%;
+                margin-bottom: 0;
+            }
+
+        }
+    }
+}

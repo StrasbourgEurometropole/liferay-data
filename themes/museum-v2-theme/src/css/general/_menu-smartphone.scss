@@ -1,0 +1,121 @@
+#menu-smartphone{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 11;
+    width: 100%;
+
+    #more{
+        background: white;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+        max-height: calc(100vh - 110px);
+        overflow-y: scroll;
+        transition : max-height 0.5s ease;
+
+        &.hidden{
+            max-height: 0;
+            padding: 0;
+
+            #closed{
+                opacity: 0;
+            }
+        }
+
+        #closed{
+            width: calc(calc(100% - 130px) / 5);
+            aspect-ratio: 1/1;
+            background-color: $color_third;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            @include positionAbsolute("", "", (top: 0, right: 0));
+            transition : opacity 0.5s ease;
+
+            &:before{
+                content: '';
+                width: 30px;
+                height: 30px;
+                background-image: url( svg-bg-uri($svg-closed, $color_second) );
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+            }
+        }
+
+        .title{
+            @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.3125rem, "");
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        ul{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 45px;
+            list-style: none;
+            width: 100%;
+
+            li{
+                width: calc(calc(100% - 40px) / 5);
+                aspect-ratio : 1 / 1;
+                background: $color_main;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+
+                a{
+                    @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                    text-decoration: none;
+                }
+            }
+
+            &.access-by-public{
+                li{
+                    width: 100%;
+                    aspect-ratio: auto;
+                }
+            }
+        }
+    }
+
+    .menu-mobile.content{
+        background: $color_main;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 5px;
+        padding: 10px 15px;
+        width: 100%;
+
+        a{ 
+            color: white;
+            @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            height: 40px;
+            z-index: 1;
+
+            &:hover{
+                color: white;
+            }
+        }
+
+        .menu{
+            display: flex;
+            justify-content: space-around;
+            gap: 5px;
+            width: 100%;
+        }
+    }
+
+    @include RWD(tablet_portrait){
+        display: none;
+    }
+}

@@ -1,6 +1,5 @@
 package eu.strasbourg.utils;
 
-import eu.strasbourg.utils.api.AssetVocabularyHelperService;
 import eu.strasbourg.utils.api.UriHelperService;
 import org.osgi.service.component.annotations.Component;
 

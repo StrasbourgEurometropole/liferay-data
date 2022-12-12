@@ -34,6 +34,9 @@ public interface SearchAssetConfiguration {
 	@Meta.AD(name = "displaySorting", required = false, deflt = "false")
 	public boolean displaySorting();
 
+	@Meta.AD(name = "displayAssetType", required = false, deflt = "false")
+	public boolean displayAssetType();
+
 	@Meta.AD(name = "boostTagsNames", required = false)
 	public String boostTagsNames();
 

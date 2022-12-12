@@ -141,6 +141,17 @@ public interface Edition extends EditionModel, PersistedModel {
 	public String getTypesLabels(java.util.Locale locale);
 
 	/**
+	 * Retourne les musées de l'édition
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getMuseums();
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'édition
+	 */
+	public String getMuseumsLabel(java.util.Locale locale);
+
+	/**
 	 * Retourne la version JSON de l'édition
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();

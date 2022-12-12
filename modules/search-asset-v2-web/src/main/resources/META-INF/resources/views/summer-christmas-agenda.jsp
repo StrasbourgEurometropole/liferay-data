@@ -10,7 +10,6 @@
 		</aui:form>
 	</div>
 	<div class="search-asset-search-container">
-		<liferay-util:include page="/form-headers/${dc.searchForm}-form-header.jsp" servletContext="<%=application %>" />
 		<aui:form method="post" name="fm">
 			<aui:input type="hidden" name="selectionIds" />
 			<liferay-ui:search-container id="entriesSearchContainer"

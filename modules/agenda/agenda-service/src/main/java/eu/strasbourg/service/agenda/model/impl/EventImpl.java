@@ -605,6 +605,51 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
+	 * Retourne les musées de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getMuseums() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.MUSEUM);
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'événement
+	 */
+	@Override
+	public String getMuseumsLabel(Locale locale) {
+		String museums = "";
+		for (AssetCategory eventMuseum : this.getMuseums()) {
+			if (museums.length() > 0) {
+				museums += ", ";
+			}
+			museums += eventMuseum.getTitle(locale);
+		}
+		return museums;
+	}
+
+	/**
+	 * Retourne le type d'activité de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getActivityType() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.ACTIVITY_TYPE_MUSEUM);
+	}
+
+	/**
+	 * Retourne le label du type d'activité de l'événement
+	 */
+	@Override
+	public String getActivityTypeLabel(Locale locale) {
+		String type = "";
+		List<AssetCategory> types = getActivityType();
+		if(types.size() > 0)
+			type = types.get(0).getTitle(locale);
+		return type;
+	}
+
+	/**
 	 * Retourne les territoires de l'événement
 	 */
 	@Override

@@ -1,0 +1,67 @@
+#global #social-wall{
+    .content{
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            margin-bottom: 30px;
+            text-align: center;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.3125rem;
+                margin-bottom: 60px;
+            }
+        }
+
+        .list{
+            display: flex;
+            gap:15px;
+            justify-content: center;
+            margin: auto;
+            width: 79px;
+
+            @include RWD(tablet_portrait){
+                gap: 25px;
+                width: 113px;
+            }
+
+            a{
+                height: 32px;
+                width: 32px;
+                background-size: 18px;
+                background-repeat: no-repeat;
+                background-position: center;
+
+                @include RWD(tablet_portrait){
+                    height: 44px;
+                    width: 44px; 
+                    background-size: 26px;
+                }
+
+                &.facebook{
+                    background-color: $color_main;
+                    border: solid $color_main 3px;
+                    background-image: url( svg-bg-uri($svg-facebook, white) );
+                }
+    
+                &.instagram{
+                    background-color: $color_second;
+                    border: solid $color_second 3px;
+                    background-image: url( svg-bg-uri($svg-instagram, white) );
+                }
+
+                &:hover{
+                    &.facebook{
+                        background-color: white;
+                        background-image: url( svg-bg-uri($svg-facebook, $color_main) );
+                    }
+        
+                    &.instagram{
+                        background-color: white;
+                        background-image: url( svg-bg-uri($svg-instagram, $color_second) );
+                    }
+                }
+            }
+        }
+    }
+}

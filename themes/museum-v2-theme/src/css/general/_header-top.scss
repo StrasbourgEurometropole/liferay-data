@@ -1,0 +1,205 @@
+#global{
+    #header-top {
+        background: $color_second;
+
+        .header-top-inner{
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+                
+            @include RWD(tablet_portrait){
+                padding: 30px 130px 30px 20px
+            }
+
+            .title{
+                @include ft($proximaNova, 0.875rem, 700, white, 1.0625rem, "");
+                text-transform: uppercase;
+                color: #FFFFFF;
+                text-decoration: none;
+                padding-left: 15px;
+
+                @include RWD(tablet_portrait){
+                    font-size: 1.5rem;
+                    line-height: 1.8125rem;
+                    padding-left: 0;
+                }
+            }
+
+            .access-by-public-menu-title{
+                display: none;
+
+                @include RWD(tablet_portrait){
+                    @include ft($proximaNova,  0.9375rem, 400, white, 1.125rem, "");
+                    display: block;
+                    margin-top: 20px;
+                    z-index: 1;
+                    cursor: pointer;
+
+                    &:after{
+                        content: '';
+                        width: 20px;
+                        height: 20px;
+                        background-image: url( svg-bg-uri($svg-chevron, white) );
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: contain;
+                        display: block;
+                        margin: auto;
+                        transition : transform 1s;
+                        transform: rotate(-90deg);
+                    }
+
+                    &.show-acces:after{
+                        transform: rotate(90deg);
+                    }
+                }
+            }
+
+            #search-mobile {
+                background-color: $color_main;
+                text-indent: -9999px;
+                width: 50px;
+                height: 50px;
+                outline: none;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 21px;
+                border: none;
+
+                &.search{
+                    background-image: url( svg-bg-uri($svg-search, white) );
+                }
+
+                &.closed{
+                    background-image: url( svg-bg-uri($svg-closed, white) );
+                    background-size: 30px;
+                }
+                
+                @include RWD(tablet_portrait){
+                    display: none;
+                }
+            }
+            
+            form{
+                width: 100%;
+                transition : max-height 0.5s ease;
+                overflow-y: hidden;
+                @include positionAbsolute("", "", (top: 50px));
+                filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+                z-index: 1;
+                max-height: 50px;
+                display: block;
+                
+                @include RWD(tablet_portrait){
+                    width: auto;
+                    position: relative;
+                    display: block;
+                    max-height: none !important;
+                    top: auto;
+                    overflow: visible;
+                }
+
+                &.hidden{
+                    max-height: 0;
+                }
+
+                .btn-search-cancel{
+                    display: none;
+                }
+
+                input[type=search] {
+                    border: none;
+                    height: 50px;
+                    @include ft($times,  1.25rem, 400, #8E8E8E, 1.3125rem, italic);
+                    width: calc(100% - 50px);
+                    padding: 10px;
+                    -webkit-appearance: none;
+                    background: white;
+                    box-shadow: none;
+
+                    &::placeholder{
+                        color: #8E8E8E;
+                    }
+
+                    @include RWD(tablet_portrait){
+                        @include ft($proximaNova,  1rem, 400, white, 1.1875rem, "");
+                        border-bottom: 2px solid white;
+                        height: 30px;
+                        background-color: transparent;
+                        width: 180px;
+                        margin-right: 10px;
+
+                        &::placeholder{
+                            color: white;
+                        }
+                    }
+                }
+
+                input[type=submit] {
+                    text-indent: -9999px;
+                    width: 50px;
+                    height: 50px;
+                    outline: none;
+                    background-image: url( svg-bg-uri($svg-search, $color_main) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 21px 21px;
+                    background-color: white;
+                    border: none;
+                    @include positionAbsolute("", "", (bottom: 0, right: 0));
+                    
+                    @include RWD(tablet_portrait){
+                        background-image: url( svg-bg-uri($svg-search, white) );
+                        border-bottom: 2px solid white;
+                        background-color: transparent;
+                        background-size: 17px;
+                        height: 45px;
+                        background-position-x: right;
+                        margin: 0;
+                        padding: 0;
+                        overflow: hidden;
+                        display: inline-block;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        #acces{
+            transition : max-height 1s;
+            max-height: 200px;
+            overflow-y: hidden;
+            display: block;
+            background: white;
+
+            &.hidden{
+                max-height: 0;
+            }
+
+            .access-by-public{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                list-style: none;
+                padding: 0 100px 0;
+                margin: 10px auto;
+
+                li{
+                    background: $color_main;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 10px;
+    
+                    a{
+                        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+}
