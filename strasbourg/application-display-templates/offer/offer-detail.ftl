@@ -174,16 +174,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     
     <script>
         document.getElementById("candidater").onclick = function(e){
-            // on vérifie que l'utilisateur est connecté
-            if(window.publikInternalId != undefined){
-                if("${entry.typeRecrutement.getTitle(locale)}" != "Stage collège")
+            // on vérifie si c'est une offre de stage de collège
+            if("${entry.typeRecrutement.getTitle(locale)}" == "Stage collège")
+                window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferStageCollegeApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
+            else{
+                // on vérifie que l'utilisateur est connecté
+                if(window.publikInternalId != undefined){
                     window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
-                else
-                    window.location = "${StrasbourgPropsUtil.getPublikApiBase()}${StrasbourgPropsUtil.getEJobURLOfferStageCollegeApply()}?refposte=${entry.publicationId}&libposte=${entry.getPost(locale)?js_string}";
-            }else{
-                window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
-                    window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
-                },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
+                }else{
+                    window.createPopin(Liferay.Language.get('log-in-to-apply'),function() {
+                        window.location = window.location + ((window.location.href.indexOf("?") > -1)? '&' : '?') + 'auth=publik';
+                    },undefined,Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'));
+                }
             }
         };
     </script>
