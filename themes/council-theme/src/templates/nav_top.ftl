@@ -23,6 +23,12 @@
               <span class="${prefix}-arrow" style="display: none;"></span>
             </span>
           </button>
+          
+          <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+              <span class="flexbox">
+                  <span class="picto"></span>
+              </span>  
+          </a>
       <#else>
         <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
           <span class="${prefix}-flexbox">
