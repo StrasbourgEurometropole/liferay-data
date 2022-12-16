@@ -75,7 +75,7 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	}
 
 	@Override
-	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire) throws PortalException {
+	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire) {
 		return FileEntryHelper.getRandomFileURLByGroupIdAndFolderName(groupId, nomRepertoire);
 	}
 

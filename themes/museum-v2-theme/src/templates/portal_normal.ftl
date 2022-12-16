@@ -3,7 +3,7 @@
 <#include init />
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-	<#assign homeURL = "/web${layout.group.friendlyURL}" />
+	<#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
 	<#assign homeURL = "/" />
 </#if>
@@ -69,7 +69,7 @@
 					<a class="title" href="${homeURL}">Musées de la ville de Strasbourg</a>
 					<span id="access-by-public" class="access-by-public-menu-title show-acces"><@liferay_ui.message key="eu.museum.acces" /></span>
 					<div id="search-mobile" class="search"></div>
-					<form method="get" id="main-search-form" action="${homeURL}/recherche" class="hidden">
+					<form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
 						<input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
 						<input type="search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="Rechercher" value="" >
 						<input class="search" type="submit" id="search" value="GO">
