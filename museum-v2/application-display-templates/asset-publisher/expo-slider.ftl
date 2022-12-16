@@ -104,6 +104,6 @@
 
 <script>
     $("#btn-all-expos").click(function(){
-      location.href='http://' + window.location.host + '${homeURL}/expositions-des-musees'
+      location.href= '${themeDisplay.getPortalURL()}${homeURL}/exposition'
     });
 </script>

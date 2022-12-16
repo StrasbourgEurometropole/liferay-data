@@ -99,6 +99,6 @@
 
 <script>
     $("#btn-all-news").click(function(){
-      location.href='http://' + window.location.host + '${homeURL}actualites-des-musees'
+      location.href= '${themeDisplay.getPortalURL()}${homeURL}actualite'
     });
 </script>

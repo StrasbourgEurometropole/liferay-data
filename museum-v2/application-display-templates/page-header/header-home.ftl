@@ -6,7 +6,7 @@
 </#if>
 
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-<#assign imageURL = fileEntryHelper.getRandomFileURLByGroupIdAndFolderName(groupId, "Header images") />
+<#assign imageURL = fileEntryHelper.getRandomFileURLByGroupIdAndFolderName(groupId, "Header images (technique)") />
 
 <section id="header" class="home margin-bottom">
     <h1>
