@@ -78,7 +78,7 @@
                     </div>
                 </li>
                 <li class="hidden-sm hidden-xs menu-accueil">
-                    <a href="${homeURL}/" aria-label="Strasbourg<@liferay_ui.message key='christmas-capital' />">
+                    <a href="${homeURL}/" aria-label="Strasbourg <@liferay_ui.message key='christmas-capital' />">
                         <span class="icon-ico-home"></span>
                     </a>
                 </li>
