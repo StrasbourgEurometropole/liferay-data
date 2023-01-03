@@ -133,19 +133,6 @@
                 .seu-picto{
                     background-image: url( svg-bg-uri($svg-account, #505050) );
                 }
-
-                .nav-logout{      
-                    content: '';
-                    display: inline-block;
-                    width: 20px;
-                    height: 20px;
-                    background-size: 20px;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    margin-right: 15px;
-                    background-image: url( svg-bg-uri($svg-close, #505050) );
-                }
-
             }
         }
         // Theme dark
