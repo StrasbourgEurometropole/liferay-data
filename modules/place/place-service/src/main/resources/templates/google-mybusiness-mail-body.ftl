@@ -10,6 +10,10 @@
 		<i style="margin-left:30px">${googleMyBusinessHistoric.errorStackTrace}</i>
 
 		<p>Voici les opérations qui ont été effectuées avant d'être annulées :</p>
+	<#elseif googleMyBusinessHistoric.result == 2>
+		<p>La synchronisation lancée à ${googleMyBusinessHistoric.startDate?time} s'est terminé avec des erreurs à ${googleMyBusinessHistoric.finishDate?time}</p>
+
+		<p>Voici les opérations qui ont été effectuées :</p>
 	<#else>
 		<p>La synchronisation lancée à ${googleMyBusinessHistoric.startDate?time} a été effectuée avec succès en se terminant à ${googleMyBusinessHistoric.finishDate?time}</p>
 

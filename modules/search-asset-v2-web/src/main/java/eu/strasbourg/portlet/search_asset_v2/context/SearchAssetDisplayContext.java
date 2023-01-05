@@ -282,6 +282,13 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
+	 * Retourne le bouton sélectionné (si on est passé par un bouton)
+	 */
+	public String getDateSelected() {
+		return ParamUtil.getString(this._request, "dateSelected");
+	}
+
+	/**
 	 * Retourne la jour du mois de la date de début de la recherche. Soit depuis
 	 * les paramètres de la requête soit le réglage par défaut via la
 	 * configuration (date du jour, ou si la période de recherche par défaut par

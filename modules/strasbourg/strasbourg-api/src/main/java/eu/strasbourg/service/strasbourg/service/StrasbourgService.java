@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.io.File;
+
 /**
  * Provides the remote service interface for Strasbourg. Methods of this
  * service are expected to have security checks based on the propagated JAAS
@@ -64,6 +66,24 @@ public interface StrasbourgService extends BaseService {
 	 *
 	 * Returns <code>succes</code> un document de commission.
 	 *
+	 * @param fileContent le fichier
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de document (Strasbourg, Eurométropole)
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	public JSONObject addActe(
+		File fileContent, String fileName, String commissionName,
+		String publicationDate, String publicationDateFin, String documentType,
+		String documentName);
+
+	/**
+	 * @deprecated Remplacé par addActes qui gèrent l'envoi de fichier via multipart/form-data
+	 Envoie <code>error</code> si le document n'a pas été envoyé.
+	 Returns <code>succes</code> un document de commission.
 	 * @param fileContent le fichier en base 64
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission

@@ -88,6 +88,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.text.Normalizer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -326,6 +327,285 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	/**
+	 * Envoie <code>error</code> si le document n'a pas été envoyé.
+	 *
+	 * Returns <code>succes</code> un document de commission.
+	 *
+	 * @param  fileContent le fichier
+	 * @param  fileName le nom du fichier
+	 * @param  commissionName le nom de la commission
+	 * @param  publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param  publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param  documentType Le type de document (Strasbourg, Eurométropole)
+	 * @param  documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	@Override
+	public JSONObject addActe(File fileContent, String fileName, String commissionName,
+								  String publicationDate, String publicationDateFin, String documentType, String documentName) {
+		if (!isAuthorized()) {
+			return error("Not authorized");
+		}
+
+		// Validation
+		if (Validator.isNull(fileContent)) {
+			return error("fileContent is empty");
+		}
+		if (Validator.isNull(fileName)) {
+			return error("fileName is empty");
+		}
+		if (Validator.isNull(publicationDate)) {
+			return error("publicationDate is empty");
+		}
+		LocalDateTime publicationLocalDate;
+		try {
+			publicationLocalDate = LocalDateTime.parse(publicationDate);
+		} catch (DateTimeParseException e) {
+			return error("Wrong date format for publicationDate");
+		}
+		if (Validator.isNull(publicationDateFin)) {
+			return error("publicationDateFin is empty");
+		}
+		LocalDateTime endPublicationLocalDate;
+		try {
+			endPublicationLocalDate = LocalDateTime.parse(publicationDateFin);
+		} catch (DateTimeParseException e) {
+			return error("Wrong date format for publicationDateFin");
+		}
+		if (!LocalDateTime.now().isBefore(endPublicationLocalDate)) {
+			return error("Document expired");
+		}
+		if (Validator.isNull(documentType)) {
+			return error("documentType is empty");
+		}
+		if(!documentType.equals("Strasbourg") && !documentType.equals(LanguageUtil.get(Locale.FRANCE, "eu.eurometropole"))){
+			return error("documentType is incorrect : must be Strasbourg or " +
+					LanguageUtil.get(Locale.FRANCE, "eu.eurometropole"));
+		}
+		if (Validator.isNull(documentName)) {
+			return error("documentName is empty");
+		}
+
+		// On normalise le nom du fichier suite à des erreurs de Path UNIX sur les serveurs lorsque que le nom du document comporte des accents
+		String documentNameNormalized = Normalizer.normalize(documentName, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+
+		File document = fileContent;
+		byte[] decoder = new byte[0];
+		try {
+			decoder = Files.readAllBytes(document.toPath());
+		} catch (IOException e) {
+			log.error(e);
+			return error("Error reading the document");
+		}
+
+		if (document.exists()) {
+			long groupId = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(),
+					"/strasbourg.eu").getGroupId();
+
+			// Dossier Article-Rubrique
+			DLFolder folderArtRub;
+			try {
+				folderArtRub = DLFolderLocalServiceUtil.getFolder(groupId,
+						DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,"Article-Rubrique");
+			} catch (PortalException e) {
+				log.error(e);
+				return error("Error finding 'Article-Rubrique' folder");
+			}
+
+			// Dossier Ville et Eurométropole
+			DLFolder folderVilleEuro;
+			try {
+				folderVilleEuro = DLFolderLocalServiceUtil.getFolder(groupId,
+						folderArtRub.getFolderId(),
+						LanguageUtil.get(Locale.FRANCE, "eu.rep-ville-euro"));
+			} catch (PortalException e) {
+				log.error(e);
+				return error("Error finding 'Ville et Eurométropole' folder");
+			}
+
+			ServiceContext sc = new ServiceContext();
+			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+			long userId;
+			try {
+				userId = getUserId();
+			} catch (PrincipalException e) {
+				log.error(e);
+				return error("Error finding userId");
+			}
+
+			// Dossier Actes réglementaires et normatifs
+			Folder folderActe;
+			long repositoryId = DLFolderConstants.getDataRepositoryId(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+			try {
+				folderActe = DLAppServiceUtil.getFolder(repositoryId,
+						folderVilleEuro.getFolderId(),
+						LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"));
+			}catch(PortalException e) {
+				try {
+					folderActe = DLAppLocalServiceUtil.addFolder(
+							userId, repositoryId,
+							folderVilleEuro.getFolderId(), LanguageUtil.get(Locale.FRANCE, "eu.rep-commission"),
+							"", sc);
+				} catch (PortalException ex) {
+					log.error(ex);
+					return error("Error creating 'Actes réglementaires et normatifs' folder");
+				}
+			}
+
+			// Dossier Strasbourg ou Eurométropole
+			Folder folder;
+			try {
+				folder = DLAppServiceUtil.getFolder(repositoryId,
+						folderActe.getFolderId(),
+						documentType);
+			}catch(PortalException e) {
+				try {
+					folder = DLAppLocalServiceUtil.addFolder(
+							userId, repositoryId,
+							folderActe.getFolderId(),documentType,
+							"", sc);
+				} catch (PortalException ex) {
+					log.error(e);
+					return error("Error creating '" + documentType + "' folder");
+				}
+			}
+
+			// Enregistrement du fichier
+			FileEntry fileEntry;
+			try {
+				fileEntry = DLAppServiceUtil.getFileEntry(groupId,
+						folder.getFolderId(),
+						fileName);
+				if(Validator.isNotNull(fileEntry))
+					return error("Document already exist");
+			}catch(PortalException e) {
+				AssetCategory commissionCateg = null;
+				if(Validator.isNotNull(commissionName)) {
+					// récupération de la catégorie de la commission (création si elle n'existe pas)
+					AssetVocabulary commissionVocabulary = AssetVocabularyHelper
+							.getVocabulary("Commission des actes reglementaires et normatifs", groupId);
+					if (Validator.isNotNull(commissionVocabulary)) {
+						Optional<AssetCategory> commissionCategOptional = commissionVocabulary.getCategories().stream()
+								.filter(c -> StringHelper.compareIgnoringAccentuation(c.getTitle(Locale.FRANCE), commissionName)).findFirst();
+						if (commissionCategOptional.isPresent()) {
+							commissionCateg = commissionCategOptional.get();
+						} else {
+							try {
+								commissionCateg = AssetCategoryLocalServiceUtil.addCategory(userId, groupId,
+										commissionName, commissionVocabulary.getVocabularyId(), sc);
+							} catch (PortalException e2) {
+								log.error(e2);
+								return error("Error adding the commision category");
+							}
+						}
+					}
+				}
+
+				// changement du type de document
+				Optional<DLFileEntryType> fileTypeOptional = DLFileEntryTypeLocalServiceUtil.getDLFileEntryTypes(-1, -1).stream()
+						.filter(t -> t.getGroupId() == groupId && t.getName(Locale.FRANCE).equals(LanguageUtil.get(Locale.FRANCE, "eu.rep-commission")))
+						.findFirst();
+				if(fileTypeOptional.isPresent()){
+					DLFileEntryType fileType = fileTypeOptional.get();
+
+					if(Validator.isNotNull(commissionName)) {
+						//lier à la catégorie de la commission
+						assert commissionCateg != null;
+						sc.setAssetCategoryIds(new long[]{commissionCateg.getCategoryId()});
+					}
+
+					//lier au tag Strasbourg ou Eurométropole
+					sc.setAssetTagNames(new String[]{documentType});
+
+
+					Map<String, DDMFormValues> ddmFormValuesMap = new HashMap<>();
+					List<DDMStructure> ddmStructures = fileType.getDDMStructures();
+					// Définition des locales disponibles pour DDMFormValues (obligatoire)
+					Set<Locale> availableLocales = new HashSet<>();
+					availableLocales.add(Locale.FRANCE);
+					Map fieldsmap = new HashMap<>();
+					for(DDMStructure ddmStructure : ddmStructures) {
+
+						if(ddmStructure.getClassName().equals(DLFileEntryMetadata.class.getName())) {
+
+							// Récupération de DDMFormValues
+							DDMFormValues ddmFormValues =  new DDMFormValues(ddmStructure.getDDMForm());
+							ddmFormValues.setAvailableLocales(availableLocales);
+							ddmFormValues.setDefaultLocale(Locale.FRANCE);
+
+							// Création de la métadonnées "Date de publication"
+							DDMFormFieldValue publicationDateFormFieldValue = new DDMFormFieldValue();
+							publicationDateFormFieldValue.setName("publicationDate");
+							Value publicationDateValue = new LocalizedValue();
+							publicationDateValue.addString(Locale.FRANCE, publicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							publicationDateFormFieldValue.setValue(publicationDateValue);
+
+							// Création de la métadonnées "Date de fin de publication"
+							DDMFormFieldValue endPublicationDateFormFieldValue = new DDMFormFieldValue();
+							endPublicationDateFormFieldValue.setName("endPublicationDate");
+							Value endPublicationDateValue = new LocalizedValue();
+							endPublicationDateValue.addString(Locale.FRANCE, endPublicationLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+							endPublicationDateFormFieldValue.setValue(endPublicationDateValue);
+
+							// AJout des métadonnée aux DDMFormValues récupérées
+							ddmFormValues.addDDMFormFieldValue(publicationDateFormFieldValue);
+							ddmFormValues.addDDMFormFieldValue(endPublicationDateFormFieldValue);
+							ddmFormValuesMap.put(ddmStructure.getStructureKey(), ddmFormValues);
+						}
+					}
+
+					// AJout du type de document dans le service Context (pris en compte alors dans le addFileEntry)
+					sc.setAttribute("fileEntryTypeId", fileType.getFileEntryTypeId());
+					sc.setUserId(userId);
+					try {
+						fileEntry = DLAppLocalServiceUtil.addFileEntry(
+								userId, folder.getRepositoryId(),
+								folder.getFolderId(), fileName,
+								MimeTypesUtil.getContentType(document),
+								fileName, documentName,
+								"", decoder, sc);
+					} catch (PortalException ex) {
+						log.error(e);
+						return error("Error adding the document");
+					}
+
+					DLFileEntry dlFileEntry = null;
+					try {
+						//Réenregistrement du DLFileEntry pour mettre à jour les métadonnées
+						dlFileEntry = DLFileEntryLocalServiceUtil.updateFileEntry(userId, fileEntry.getFileEntryId(), fileName,
+								MimeTypesUtil.getContentType(document), fileName,
+								StringPool.BLANK, StringPool.BLANK,DLVersionNumberIncrease.NONE, fileType.getFileEntryTypeId(), ddmFormValuesMap, document,
+								null, document.length(), sc);
+
+					} catch (Exception ex) {
+						log.error(ex);
+						return error("Error updating metadata for the document");
+					}
+
+					// mise en brouillon si pas encore publié
+					if(LocalDateTime.now().isBefore(publicationLocalDate)) {
+						try {
+							DLFileVersion version = dlFileEntry.getFileVersion();
+							version.setStatus(WorkflowConstants.STATUS_DRAFT);
+							DLFileVersionLocalServiceUtil.updateDLFileVersion(version);
+						} catch (PortalException ex) {
+							log.error(ex);
+							return error("Error updating document status");
+						}
+					}
+				}else{
+					return error("Error finding the type of document (Liferay)");
+				}
+
+			}
+			return success();
+		}else{
+			return error("Document does not exist after retrieving the Outputstream");
+		}
+	}
+
+	/**
+	 * @deprecated Remplacé par addActes qui gèrent l'envoi de fichier via multipart/form-data
 	 * Envoie <code>error</code> si le document n'a pas été envoyé.
 	 *
 	 * Returns <code>succes</code> un document de commission.
@@ -619,6 +899,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 	}
 
+
 	@Override
 	public JSONArray getStructuresByGroupIds(long[] groupIds) {
 		JSONArray structuresJson = JSONFactoryUtil.createJSONArray();
@@ -757,6 +1038,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 		}
 		return categoriesJson;
 	}
+
 
 	@Override
 	public JSONArray getVocabulariesByGroupIds(long[] groupIds) {

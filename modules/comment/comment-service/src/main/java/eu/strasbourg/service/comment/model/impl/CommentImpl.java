@@ -142,9 +142,11 @@ public class CommentImpl extends CommentBaseImpl {
 	//Le nom de l'utilisateur formaté : Vincent L.
 	@Override
 	public String getPublikUserName() {
-		return StringUtil.upperCaseFirstLetter(getPublikUser().getFirstName())
+		PublikUser publikUser = getPublikUser();
+		return StringUtil.upperCaseFirstLetter(publikUser.getFirstName())
 				+ " "
-				+  StringUtil.toUpperCase(StringUtil.shorten(getPublikUser().getLastName(), 2, "."));
+				//Si nom de famille n'est pas null, on récupère la première lettre et un "."
+				+  StringUtil.toUpperCase(publikUser.getLastName()== null ? null:publikUser.getLastName().substring(0,1) +".");
 	}
 
 	/**

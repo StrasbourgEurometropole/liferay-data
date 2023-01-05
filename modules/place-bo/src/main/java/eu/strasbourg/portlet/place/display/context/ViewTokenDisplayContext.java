@@ -108,7 +108,7 @@ public class ViewTokenDisplayContext {
         if (Validator.isNull(error)) {
             String accessToken = json.getString("access_token");
 
-            String url = StrasbourgPropsUtil.getGMBListUrl() + "?readMask=name,title";
+            String url = StrasbourgPropsUtil.getGMBListUrl() + "?readMask=name,title&pageSize=100";
             URL u = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
             conn.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());

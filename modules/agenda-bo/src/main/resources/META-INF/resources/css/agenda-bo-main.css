@@ -50,10 +50,6 @@
     padding-top: 1px;
 }
 
-.lfr-form-row:nth-child(2) {
-	display: none;
-}
-
 .no-event-period {
     margin-top: 40px;
     display: inline-block;

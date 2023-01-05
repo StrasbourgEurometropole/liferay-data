@@ -299,10 +299,9 @@ public class StrasbourgServiceSoap {
 	}
 
 	/**
-	 * Envoie <code>error</code> si le document n'a pas été envoyé.
-	 *
-	 * Returns <code>succes</code> un document de commission.
-	 *
+	 * @deprecated Remplacé par addActes qui gèrent l'envoi de fichier via multipart/form-data
+	 Envoie <code>error</code> si le document n'a pas été envoyé.
+	 Returns <code>succes</code> un document de commission.
 	 * @param fileContent le fichier en base 64
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission

@@ -1018,34 +1018,45 @@ public class PlaceImpl extends PlaceBaseImpl {
         // s'il n'y a pas d'exception, on récupère les horaires de la
         // période concernée
         if (listHoraires.isEmpty()) {
-            Period defaultPeriod = null;
-            for (Period period : this.getPeriods()) {
-                // Soit la période en cours
-                if (period.getStartDate() != null && period.getEndDate() != null
-                        && period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
-                        && period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
-                    int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-                            : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-                    List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
-                            .collect(Collectors.toList());
-                    listHoraires.add(PlaceSchedule.fromSlots(slots, period.getAlwaysOpen()));
-                    return listHoraires;
-                }
-                // On met au cas où la période par défaut de côté
-                if (period.getDefaultPeriod()) {
-                    defaultPeriod = period;
-                }
-            }
-            // S'il n'y a aucune période en cours, la période par défaut
-            if (defaultPeriod != null) {
-                int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
-                        : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
-                List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
-                        .collect(Collectors.toList());
-                listHoraires.add(PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen()));
-            }
+            PlaceSchedule regularSchedules = getRegularPlaceSchedule(jourSemaine, locale);
+            if(Validator.isNotNull(regularSchedules))
+                listHoraires.add(regularSchedules);
         }
         return listHoraires;
+    }
+
+    /**
+     * Retourne les horaires habituels d'ouverture du jour
+     */
+    @Override
+    public PlaceSchedule getRegularPlaceSchedule(GregorianCalendar jourSemaine, Locale locale) {
+        Period defaultPeriod = null;
+        for (Period period : this.getPeriods()) {
+            // Soit la période en cours
+            if (period.getStartDate() != null && period.getEndDate() != null
+                    && period.getStartDate().compareTo(jourSemaine.getTime()) <= 0
+                    && period.getEndDate().compareTo(jourSemaine.getTime()) >= 0) {
+                int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+                        : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
+                List<Slot> slots = period.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
+                        .collect(Collectors.toList());
+                return PlaceSchedule.fromSlots(slots, period.getAlwaysOpen());
+            }
+            // On met au cas où la période par défaut de côté
+            if (period.getDefaultPeriod()) {
+                defaultPeriod = period;
+            }
+        }
+        // S'il n'y a aucune période en cours, la période par défaut
+        if (defaultPeriod != null) {
+            int dayOfWeek = (jourSemaine.get(Calendar.DAY_OF_WEEK) == 1 ? 6
+                    : jourSemaine.get(Calendar.DAY_OF_WEEK) - 2);
+            List<Slot> slots = defaultPeriod.getSlots().stream().filter(s -> s.getDayOfWeek() == dayOfWeek)
+                    .collect(Collectors.toList());
+            return PlaceSchedule.fromSlots(slots, defaultPeriod.getAlwaysOpen());
+        }
+
+        return null;
     }
 
     /**
