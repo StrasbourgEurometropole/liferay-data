@@ -184,6 +184,7 @@
                         a{
                             width: 100%;
                             margin-bottom: 20px;
+                            cursor: pointer;
 
                             &.active{
                                 color: $color_main;
@@ -337,6 +338,7 @@
                                 border: solid 1px #a6a6a6;
                                 height: 45px;
                                 width: 100%;
+                                padding: 10px;
                             }
                         }
 
