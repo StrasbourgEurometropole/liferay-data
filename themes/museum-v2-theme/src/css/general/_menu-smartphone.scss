@@ -51,13 +51,26 @@
             text-align: center;
         }
 
-        ul{
+        .languages, .access-by-public{
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             padding: 0 45px;
             list-style: none;
             width: 100%;
+            margin-bottom: 1rem;
+
+            a{
+                width: 100%;
+                text-transform: none;
+                justify-content: center;
+                align-items: center;
+                display: flex;
+                @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                text-decoration: none;
+                padding: 10px;
+                border: none;
+            }
 
             li{
                 width: calc(calc(100% - 40px) / 5);
@@ -66,12 +79,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 10px;
-
-                a{
-                    @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
-                    text-decoration: none;
-                }
             }
 
             &.access-by-public{

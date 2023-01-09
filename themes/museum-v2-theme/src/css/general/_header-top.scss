@@ -187,17 +187,12 @@
                 padding: 0 100px 0;
                 margin: 10px auto;
 
-                li{
-                    background: $color_main;
-                    display: flex;
+                a{
+                    width: auto;
+                    text-transform: none;
                     justify-content: center;
                     align-items: center;
-                    padding: 10px;
-    
-                    a{
-                        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
-                        text-decoration: none;
-                    }
+                    display: flex;
                 }
             }
         }
