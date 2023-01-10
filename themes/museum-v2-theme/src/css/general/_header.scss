@@ -12,6 +12,7 @@
             text-transform: uppercase;
             width: calc(100% - 50px);
             @include positionAbsolute(1, translate(-50%, -50%), (top: 50%, left: 50%));
+            text-shadow: 4px 4px 14px #000000;
             
             @include RWD(tablet_portrait){
                 font-size: 4.75rem;
