@@ -21,6 +21,8 @@
             margin-bottom: 20px;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
 
             a{
                 color: white;
@@ -36,13 +38,15 @@
                 background-repeat: no-repeat;
                 background-size: contain;
                 display: inline-block;
-                margin-right: 15px;
+                margin-right: 10px;
             }
         }
 
         .mail{
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
 
             a{
                 color: white;
@@ -57,7 +61,7 @@
                 background-repeat: no-repeat;
                 background-size: contain;
                 display: inline-block;
-                margin-right: 15px;
+                margin-right: 10px;
             }
         }
     }

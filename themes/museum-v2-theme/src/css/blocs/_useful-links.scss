@@ -14,12 +14,12 @@
         li{
             list-style: none;
             margin-bottom: 10px;
+            padding-right: 15px;
+            position: relative;
 
             a{
                 @include ft($proximaNova, 0.9375rem, 700, $color_txt, 0.75rem, "");
                 text-decoration: none;
-                display: flex;
-                justify-content: space-between;
         
                 @include RWD(tablet_portrait){
                     font-size: 0.9375rem;
@@ -30,12 +30,14 @@
                     content: '';
                     width: 12px;
                     height: 13px;
-                    margin-left: 25px;
                     background-image: url( svg-bg-uri($svg-arrow, $color_main) );
                     background-position: center;
                     background-repeat: no-repeat;
                     background-size: contain;
                     display: inline-block;
+                    position: absolute;
+                    top: 5px;
+                    right: 0;
                 }
             }
         }
