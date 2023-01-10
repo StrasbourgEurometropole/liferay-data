@@ -19,7 +19,7 @@
   <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
     
-<a href="${detailURLFilter}" aria-label="${entry.getTitle(locale)}" title="${entry.getTitle(locale)}" class="thumbnail-general">
+<a href="${detailURLFilter}" aria-label="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}" class="thumbnail-general">
     <div class="title">
       ${entry.getTitle(locale)}
       <div class="type"><@liferay_ui["message"] key="eu.museum.type.event"/></div>

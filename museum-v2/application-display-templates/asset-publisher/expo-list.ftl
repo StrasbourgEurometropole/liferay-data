@@ -28,8 +28,8 @@
                             <#assign pageLayout = layoutLocalService.getLayout(linkArray[2]?number, false, linkArray[0]?number) />
                             <#assign viewUrl = pageLayout.getFriendlyURL() />
                         </#if>
-                        <a href="${homeURL}${viewUrl}" aria-label="${title}" title="${title}" class="expo-thumbnail">
-                            <img src="${imageURL}" alt="${title}" title="${title}" />
+                        <a href="${homeURL}${viewUrl}" aria-label="${title?html}" title="${title?html}" class="expo-thumbnail">
+                            <img src="${imageURL}" alt="${title?html}" title="${title?html}" />
                             <div class="info">
                                 <div class="title">
                                     <span>${title}</span>

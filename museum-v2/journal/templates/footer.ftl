@@ -17,11 +17,11 @@
         <div class="title">${addressLine1.getData()}</div>
         <div class="address">${addressLine2.getData()}</div>
         <div class="buttons">
-            <a href="tel:${phoneNumber.phoneLink.getData()}" class="tel" aria-label="${phoneNumber.getData()}" title="${phoneNumber.getData()}">
+            <a href="tel:${phoneNumber.phoneLink.getData()}" class="tel" aria-label="${phoneNumber.getData()?html}" title="${phoneNumber.getData()?html}">
                 <span class="picto"></span>
                 <span class="text">${phoneNumber.getData()}</span>
             </a>
-            <a href="${contact.contactLink.getData()}" class="contact" aria-label="${contact.getData()}" title="${contact.getData()}">
+            <a href="${contact.contactLink.getData()}" class="contact" aria-label="${contact.getData()?html}" title="${contact.getData()?html}">
                 <span class="picto"></span>
                 <span class="text">${contact.getData()}</span>
             </a>
@@ -33,7 +33,7 @@
             <div class="social-list">
                 <#if socialNetwork.getSiblings()?has_content>
                     <#list socialNetwork.getSiblings() as cur_socialNetwork>
-                        <a href="${cur_socialNetwork.socialNetworkURL.getData()}" class="social" aria-label="${cur_socialNetwork.getData()} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_socialNetwork.getData()} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
+                        <a href="${cur_socialNetwork.socialNetworkURL.getData()}" class="social" aria-label="${cur_socialNetwork.getData()?html} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_socialNetwork.getData()?html} (<@liferay_ui.message key="eu.new-window" />)" target="_blank">
                             ${cur_socialNetwork.svgTag.getData()}
                         </a>
                     </#list>
@@ -44,13 +44,13 @@
             <#if link.getSiblings()?has_content>
                 <#list link.getSiblings() as cur_link>
                     <#if cur_link.linkURL.getData()?has_content>
-                        <a href="${cur_link.linkURL.getFriendlyUrl()}" class="bottom-links"  aria-label="${cur_link.getData()}" title="${cur_link.getData()}">${cur_link.getData()}
+                        <a href="${cur_link.linkURL.getFriendlyUrl()}" class="bottom-links"  aria-label="${cur_link.getData()?html}" title="${cur_link.getData()?html}">${cur_link.getData()}
                         </a>
                     <#else>
                         <#if cur_link.extLink.activeTab?? && cur_link.extLink.activeTab.getData()?? && cur_link.extLink.activeTab.getData() == "true">
-                            <a href="${cur_link.extLink.getData()}" class="bottom-links"  aria-label="${cur_link.getData()}" title="${cur_link.getData()}">${cur_link.getData()}</a>
+                            <a href="${cur_link.extLink.getData()}" class="bottom-links"  aria-label="${cur_link.getData()?html}" title="${cur_link.getData()?html}">${cur_link.getData()}</a>
                         <#else>
-                            <a href="${cur_link.extLink.getData()}" target="_blank" class="bottom-links"  aria-label="${cur_link.getData()} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_link.getData()} (<@liferay_ui.message key="eu.new-window" />)">${cur_link.getData()}</a>
+                            <a href="${cur_link.extLink.getData()}" target="_blank" class="bottom-links"  aria-label="${cur_link.getData()?html} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_link.getData()?html} (<@liferay_ui.message key="eu.new-window" />)">${cur_link.getData()}</a>
                         </#if>
                     </#if>
                 </#list>
@@ -84,13 +84,13 @@
         <#if subfooterLinkLabel.getSiblings()?has_content>
             <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
                 <#if cur_subfooterLinkLabel.subfooterLinkURL.getData()?has_content>
-                    <a href="${cur_subfooterLinkLabel.subfooterLinkURL.getFriendlyUrl()}" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()}" title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}
+                    <a href="${cur_subfooterLinkLabel.subfooterLinkURL.getFriendlyUrl()}" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()?html}" title="${cur_subfooterLinkLabel.getData()?html}">${cur_subfooterLinkLabel.getData()}
                     </a>
                 <#else>
                     <#if cur_subfooterLinkLabel.subfooterExtLink.subfooterActiveTab?? && cur_subfooterLinkLabel.subfooterExtLink.subfooterActiveTab.getData()?? && cur_subfooterLinkLabel.subfooterExtLink.subfooterActiveTab.getData() == "true">
-                        <a href="${cur_subfooterLinkLabel.subfooterExtLink.getData()}" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()}" title="${cur_subfooterLinkLabel.getData()}">${cur_subfooterLinkLabel.getData()}</a>
+                        <a href="${cur_subfooterLinkLabel.subfooterExtLink.getData()}" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()?html}" title="${cur_subfooterLinkLabel.getData()?html}">${cur_subfooterLinkLabel.getData()}</a>
                     <#else>
-                        <a href="${cur_subfooterLinkLabel.subfooterExtLink.getData()}" target="_blank" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_subfooterLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)">${cur_subfooterLinkLabel.getData()}</a>
+                        <a href="${cur_subfooterLinkLabel.subfooterExtLink.getData()}" target="_blank" class="bottom-links"  aria-label="${cur_subfooterLinkLabel.getData()?html} (<@liferay_ui.message key="eu.new-window" />)" title="${cur_subfooterLinkLabel.getData()?html} (<@liferay_ui.message key="eu.new-window" />)">${cur_subfooterLinkLabel.getData()}</a>
                     </#if>
                 </#if>
             </#list>

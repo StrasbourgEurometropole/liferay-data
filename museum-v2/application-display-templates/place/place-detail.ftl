@@ -126,7 +126,7 @@
                                     	    <#list events as event>
                                                 <#assign detailURL = homeURL + "evenement/-/entity/id/" + event.eventId + "/" + event.getNormalizedTitle(locale) />
                                                 <div class="swiper-slide">
-                                                    <a href="${detailURL}" aria-label="${event.getTitle(locale)}" title="${event.getTitle(locale)}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
+                                                    <a href="${detailURL}" aria-label="${event.getTitle(locale)?html}" title="${event.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
                                                         <#if event.getActivityTypeLabel(locale)?has_content>
                                                             <div class="visit">
                                                                 <span>${event.getActivityTypeLabel(locale)}</span>
@@ -162,7 +162,7 @@
     
                     <#if entry.getImageURL()?has_content>
                         <div class="image-with-copyright-on-hover">
-                            <img src="${entry.getImageURL()}" alt="${entry.getAlias(locale)}" title="${entry.getAlias(locale)}">
+                            <img src="${entry.getImageURL()}" alt="${entry.getAlias(locale)?html}" title="${entry.getAlias(locale)?html}">
                             <#if entry.getImageCopyright(locale)?has_content>
                                 <div class="copyright"><span>C</span><span>${entry.getImageCopyright(locale)}</span></div>
                             </#if>
@@ -283,10 +283,10 @@
                 <h2><@liferay_ui.message key='eu.museum.social-wall' /></h2>
                 <div class="list">
                     <#if entry.getFacebookURL(locale)?has_content>
-                        <a href="${entry.getFacebookURL(locale)}" target="_blank" aria-label="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="facebook" ></a>
+                        <a href="${entry.getFacebookURL(locale)}" target="_blank" aria-label="${entry.getFacebookLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getFacebookLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" class="facebook" ></a>
                     </#if>
                     <#if entry.getInstagramURL(locale)?has_content>
-                        <a href="${entry.getInstagramURL(locale)}" target="_blank" aria-label="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="instagram" ></a>
+                        <a href="${entry.getInstagramURL(locale)}" target="_blank" aria-label="${entry.getInstagramLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" title="${entry.getInstagramLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" class="instagram" ></a>
                     </#if>
                 </div>
             </#if>

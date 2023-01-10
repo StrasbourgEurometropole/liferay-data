@@ -41,9 +41,9 @@
                                 </#list>
                             </#if>
                         </div>
-                        <a href="${viewURL}" aria-label="${title}" title="${title}" class="button1" ><@liferay_ui["message"] key="eu.museum.read" /></a>
+                        <a href="${viewURL}" aria-label="${title?html}" title="${title?html}" class="button1" ><@liferay_ui["message"] key="eu.museum.read" /></a>
                     </div>
-                    <img src="${imageURL}" alt="${title}" title="${title}" />
+                    <img src="${imageURL}" alt="${title?html}" title="${title?html}" />
                     <h2 class="mobile">${portletHelper.getPortletTitle('eu.museum.big-news', renderRequest)}</h2>
                 </#if>
         	</#list>

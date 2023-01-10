@@ -34,8 +34,8 @@
                                     <#assign viewUrl = pageLayout.getFriendlyURL() />
                                 </#if>
                                 <div class="swiper-slide">
-                                    <a href="${homeURL}${viewUrl}" aria-label="${title}" title="${title}" class="expo-thumbnail">
-                                        <img src="${imageURL}" alt="${title}" title="${title}" />
+                                    <a href="${homeURL}${viewUrl}" aria-label="${title?html}" title="${title?html}" class="expo-thumbnail">
+                                        <img src="${imageURL}" alt="${title?html}" title="${title?html}" />
                                         <div class="info">
                                             <div class="title">
                                                 <span>${title}</span>

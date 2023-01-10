@@ -27,7 +27,7 @@
                         <div class="files files-${curEntry?counter}">
                             <#list files as file>
                                 <#assign documentURL = fileEntryHelper.getFileEntryURL(file.fileEntryId) />
-                                <a href="${documentURL}" target="_blank" aria-label="${file.title} (<@liferay_ui.message key="eu.new-window" />)" title="${file.title} (<@liferay_ui.message key="eu.new-window" />)" class="file">${file.title}</a>
+                                <a href="${documentURL}" target="_blank" aria-label="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" title="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" class="file">${file.title}</a>
                             </#list>
                         </div>
                     </#if>

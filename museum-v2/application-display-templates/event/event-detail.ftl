@@ -31,7 +31,7 @@
         </div>
 
         <div class="image-with-copyright-on-hover">
-          <img src="${entry.getImageURL()}" class="lightbox" alt="${entry.getTitle(locale)}" title="${entry.getTitle(locale)}">
+          <img src="${entry.getImageURL()}" class="lightbox" alt="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}">
           <#if entry.getImageCopyright(locale)?has_content>
             <div class="copyright"><span>C</span><span>${entry.getImageCopyright(locale)}</span></div>
           </#if>

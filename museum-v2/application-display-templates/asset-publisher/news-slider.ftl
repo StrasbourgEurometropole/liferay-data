@@ -45,7 +45,7 @@
                                 <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                                 <div class="swiper-slide">
-                                    <a href="${viewURL}" aria-label="${title}" title="${title}" class="news-thumbnail" style="background-image: url(${imageURL})">
+                                    <a href="${viewURL}" aria-label="${title?html}" title="${title?html}" class="news-thumbnail" style="background-image: url(${imageURL})">
                                         <div class="info">
                                             <div class="date">
                                                 <date><@liferay_ui["message"] key="eu.published-on" /> ${publishDate?date}</date>

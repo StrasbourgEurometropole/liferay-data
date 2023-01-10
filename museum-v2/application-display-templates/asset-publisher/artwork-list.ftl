@@ -28,8 +28,8 @@
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                        <a href="${link}" target="_blank" aria-label="${title} (<@liferay_ui.message key="eu.new-window" />)" title="${title} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
-                            <img src="${imageURL}" alt="${title}" title="${title}" />
+                        <a href="${link}" target="_blank" aria-label="${title?html} (<@liferay_ui.message key="eu.new-window" />)" title="${title?html} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
+                            <img src="${imageURL}" alt="${title?html}" title="${title?html}" />
                             <div class="info">
                                 <div class="title">
                                     <span>${title}</span>
