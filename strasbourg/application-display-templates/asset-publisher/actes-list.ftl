@@ -9,7 +9,8 @@
 </#if>
         
 <#assign dLFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService")>
-    <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+<#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
+<#assign assetTagService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetTagService") />
 
 <main class="seu-container" style="margin-bottom: 50px">
     <div class="rte"> 
@@ -32,6 +33,11 @@
                         <div class="seu-media-text"> 
                             <div class="seu-media-title">${description}</div> 
                             <p>
+                                <#list curEntry.getTags() as tag >
+        							<#if tag.getName() == "strasbourg"><@liferay.language key="eu.actes.strasbourg" /> -
+        							<#elseif tag.getName() == "eurométropole"><@liferay.language key="eu.actes.eurometropole" /> -
+        							</#if>
+        						</#list>	
                                 <#assign dlFileEntry = dLFileEntryLocalService.fetchDLFileEntry(file.getFileEntryId()) />
                                 <#assign fileVersionId = dlFileEntry.getLatestFileVersion(true).getFileVersionId() />
                                 <#assign ddmFormValuesMap = dlFileEntry.getDDMFormValuesMap(fileVersionId) />

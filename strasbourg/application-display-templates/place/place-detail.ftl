@@ -89,52 +89,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#assign daySchedulesMap = entry.getFollowingWeekSchedules(.now, locale) />
                                             <#assign hasException = false />
                                             <#list daySchedulesMap?keys as day>
-                                                <li>
-                                                    <span>${day}</span>
-                                                    <span>
-                                                        <#list daySchedulesMap[day] as schedule>
-                                                            <div>
-                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                    <#assign hasException = true />
-                                                                    <#assign hasAnyException = true />
-                                                                <#else>
-                                                                    <#assign hasException = false />
-                                                                </#if>
-                                                                <#if schedule.isClosed()>
-                                                                    <#if hasException><span class="exception"></#if>
-                                                                    <@liferay_ui.message key="eu.closed" />
-                                                                    <#if hasException></span></#if>
-                                                                <#elseif schedule.isAlwaysOpen()>
-                                                                    <#if hasException><span class="exception"></#if>
-                                                                    <@liferay_ui.message key="always-open" />
-                                                                    <#if hasException></span></#if>
-                                                                <#else>
-                                                                    <#list schedule.openingTimes as openingTime>
-                                                                        <div>
-                                                                            <#if hasException><span class="exception"></#if>
-                                                                            ${openingTime.first} - ${openingTime.second}
-                                                                            <#if hasException></span></#if>
-                                                                        </div>
-                                                                        <#if schedule.comments[openingTime?index]?has_content>
-                                                                            <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
-                                                                        </#if>
-                                                                    </#list>
-                                                                </#if>
-                                                            </div>
-                                                            <#if schedule.isException() || schedule.isPublicHoliday()>
-                                                                </span>
-                                                            </#if>
-                                                        </#list>
-                                                    </span>
-                                                </li>
-                                            </#list>
-                                        </ul>
-                                        <!-- Jours suivants pour les sous-lieux -->
-                                        <#list entry.publishedSubPlaces as subPlace>
-                                            <div class="tab-title">${subPlace.getName(locale)}</div>
-                                            <ul class="schedule-list">
-                                                <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
-                                                <#list daySchedulesMap?keys as day>
+                                                <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
                                                     <li>
                                                         <span>${day}</span>
                                                         <span>
@@ -167,9 +123,59 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                                         </#list>
                                                                     </#if>
                                                                 </div>
+                                                                <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                    </span>
+                                                                </#if>
                                                             </#list>
                                                         </span>
                                                     </li>
+                                                </#if>
+                                            </#list>
+                                        </ul>
+                                        <!-- Jours suivants pour les sous-lieux -->
+                                        <#list entry.publishedSubPlaces as subPlace>
+                                            <div class="tab-title">${subPlace.getName(locale)}</div>
+                                            <ul class="schedule-list">
+                                                <#assign daySchedulesMap = subPlace.getFollowingWeekSchedules(.now, locale) />
+                                                <#list daySchedulesMap?keys as day>
+                                                    <!-- Correctif car suite à une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                                    <#if daySchedulesMap[day]?size != 1 || (daySchedulesMap[day]?size == 1 && daySchedulesMap[day][0]?? && daySchedulesMap[day][0]?has_content)>
+                                                        <li>
+                                                            <span>${day}</span>
+                                                            <span>
+                                                                <#list daySchedulesMap[day] as schedule>
+                                                                    <div>
+                                                                        <#if schedule.isException() || schedule.isPublicHoliday()>
+                                                                            <#assign hasException = true />
+                                                                            <#assign hasAnyException = true />
+                                                                        <#else>
+                                                                            <#assign hasException = false />
+                                                                        </#if>
+                                                                        <#if schedule.isClosed()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="eu.closed" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#elseif schedule.isAlwaysOpen()>
+                                                                            <#if hasException><span class="exception"></#if>
+                                                                            <@liferay_ui.message key="always-open" />
+                                                                            <#if hasException></span></#if>
+                                                                        <#else>
+                                                                            <#list schedule.openingTimes as openingTime>
+                                                                                <div>
+                                                                                    <#if hasException><span class="exception"></#if>
+                                                                                    ${openingTime.first} - ${openingTime.second}
+                                                                                    <#if hasException></span></#if>
+                                                                                </div>
+                                                                                <#if schedule.comments[openingTime?index]?has_content>
+                                                                                    <div style="margin-top: -10px;<#if hasException>color: #F44336;</#if>">(${schedule.comments[openingTime?index]})</div>
+                                                                                </#if>
+                                                                            </#list>
+                                                                        </#if>
+                                                                    </div>
+                                                                </#list>
+                                                            </span>
+                                                        </li>
+                                                    </#if>
                                                 </#list>
                                             </ul>
                                         </#list>
@@ -830,16 +836,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#assign isIceRink = entry.isIceRink() />
                                 <#assign isMairie = entry.isMairie() />
                                 <#assign isParking = entry.isParking() />
+                                <#assign isVelhopStation = entry.isVelhopStation() />
                                 <#if isSwimmingPool || isIceRink >
                                     <h3><@liferay_ui.message key="live-frequentation" /></h3>
-                                <#else>
-                                    <#if isMairie>
-                                        <h3><@liferay_ui.message key="estimated-time" /></h3>
-                                    <#else>
-                                        <#if isParking>
-                                            <h3><@liferay_ui.message key="live-occupation" /></h3>
-                                        </#if>
-                                    </#if>
+                                <#elseif isMairie>
+                                    <h3><@liferay_ui.message key="estimated-time" /></h3>
+                                <#elseif isParking>
+                                    <h3><@liferay_ui.message key="live-occupation" /></h3>
+                                <#elseif isVelhopStation>
+                                    <h3><@liferay_ui.message key="live-disponibility" /></h3>
                                 </#if>
                             </div>
                             <div class="flex-right">
@@ -847,10 +852,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <div class="crowded-amount ${occupationState.cssClass}" <#if isMairie> style="font-size: 1.5rem"</#if>>
                                     <#if isSwimmingPool || isIceRink || isMairie>
                                         ${occupationState.occupationLabel}
-                                    <#else>
-                                        <#if isParking>
-                                            ${occupationState.available}
-                                        </#if>
+                                    <#elseif isParking || isVelhopStation>
+                                        ${occupationState.available}
                                     </#if>
                                 </div>
                             </div>
@@ -858,10 +861,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="crowded-caption">
                             <#if isSwimmingPool || isIceRink || isMairie>
                                 <@liferay_ui.message key="${occupationState.label}" />
-                            <#else>
-                                <#if isParking>
-                                    <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
-                                </#if>
+                            <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.available-spots" /> ${occupationState.available}
+                            <#elseif isVelhopStation>
+                                <@liferay_ui.message key="eu.place.available-velhop" /> ${occupationState.available}
                             </#if>
                         </div>
                         <!-- ajout post covid : affichage capacité totale -->
@@ -873,18 +876,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div class="crowded-fyi">    
                             <#if isSwimmingPool>
                                 <@liferay_ui.message key="live-occupation-explanation" />
-                            <#else>
-                                <#if isMairie>
-                                    <@liferay_ui.message key="estimated-time-explanation" />
-                                <#else>
-                                    <#if isParking>
-                                        <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
-                                    <#else>
-                                        <#if isIceRink>
-                                            <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
-                                        </#if>
-                                    </#if>
-                                </#if>
+                            <#elseif isMairie>
+                                <@liferay_ui.message key="estimated-time-explanation" />
+                            <#elseif isParking>
+                                <@liferay_ui.message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                            <#elseif isIceRink>
+                                <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
                             </#if>
                         </div>
                     </#if>

@@ -89,7 +89,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<figure>
 								<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
 							</figure>
-							<p>Initiative publiée le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+							<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
 							<p><strong>${entry.getAuthorLabel()}</strong></p>
 						</div>
 					</div>
@@ -98,7 +98,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<span>
 						<span>
 							<a href="${homeURL}">Accueil</a>
-						<a href="${homeURL}initiatives">Initiatives</a>
+						<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
 						<span class="breadcrumb_last">${entry.title}</span>
 						</span>
 					</span>
@@ -143,7 +143,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<!-- Nav tabs -->
 							<ul class="nav nav-tabs" role="tablist">
 								<li role="presentation"><a href="#description" class="active" aria-controls="description" role="tab" data-toggle="tab" title="Onglet de description">Description</a></li>
-								<li role="presentation"><a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet des aides">Ils aident</a></li>
+								<li role="presentation"><a href="#lieux" aria-controls="lieux" role="tab" data-toggle="tab" title="Onglet des aides">Ils/Elles aident</a></li>
 							</ul>
 
 							<!-- Tab panes -->
@@ -174,15 +174,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 								<!-- Les personnes ayant pris part à l'initiative -->
 								<div role="tabpanel" class="tab-pane fade pro-bloc-texte" id="lieux">
-									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'initiative.</strong></p>
+									<p><strong>Liste des citoyens-nes ayant proposé une aide au porteur de l'atelier.</strong></p>
 									<p>Cette aide peut prendre plusieurs formes : </p>
 									<ul>
 										<li>Du temps</li>
-										<li>De l'argent</li>
 										<li>Un lieu</li>
 										<li>Une expertise</li>
 									</ul>
-									<p>N'hésitez pas à proposer la votre si cette initiative fait echos.</p>
+									<p>N'hésitez pas à proposer le votre si cet atelier fait echos.</p>
 									
 									<div class="row pro-wrapper-people">
 
@@ -253,12 +252,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor"
-								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le porteur</a>
+								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
+								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le/la porteur-teuse </a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
+								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le porteur" id="buttonContactInitiativeAuthor">Contacter le porteur</a>
+								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
@@ -293,9 +292,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
             <div class="container">
                 <div class="col-lg-10 col-lg-offset-1">
-                    <h2>D’autres initiatives</h2>
+                    <h2>D’autres ateliers</h2>
                     <div class="pro-wrapper">
-                        <a href="${homeURL}initiatives" class="pro-btn">Toutes les initiatives</a>
+                        <a href="${homeURL}ateliers-quartier" class="pro-btn">Tous les ateliers</a>
                     </div>
                 </div>
 
@@ -312,21 +311,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<div class="wrapper-card-initiative">
 									<#if imageURL?has_content >
 											<figure role="group">
-												<img src="${imageURL}" width="40" height="40" alt="Image de l'initiative"/>
+												<img src="${imageURL}" width="40" height="40" alt="Image de l'atelier"/>
 											</figure>
 									</#if>
 									<div>
 										<div class="pro-header-initiative">										
-											<p>Initiative publiée par :</p>
+											<p>Atelier publié par :</p>
 											<p><strong>${suggestion.getAuthorLabel()}</strong></p>								
 										</div>
 										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-initiative/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
+											<a href="${homeURL}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
 												<h3>${suggestion.title}</h3>
 											</a>
 
 											<span class="pro-time">
-												Publiée le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
+												Publié le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
 											</span>    
 										</div>
 									</div>
@@ -335,7 +334,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 									<div class="pro-avis">
 										<span>${suggestion.getNbHelps()}</span>
 									</div>
-									<p>Citoyens soutiennent cette initiative</p>
+									<p>Citoyens-nes soutiennent cet atelier</p>
 								</div>
 							</div>						
 						</#list>
@@ -350,7 +349,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var initiativeJSON = ${initiativeJSON};
-    initiativeJSON.link = '${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}';
+    initiativeJSON.link = '${homeURL}detail-atelier/-/entity/id/${entry.initiativeId}';
 
     // Variable pointeur
     var initiativeMarkers = []

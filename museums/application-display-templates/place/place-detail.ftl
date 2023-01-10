@@ -54,6 +54,10 @@
 
         <div class="place-info">
             <div class="place-60">
+                <!-- <div class="google-map" data-zoom="13">
+                    <div class="marker" data-lat="${entry.mercatorY}" data-lng="${entry.mercatorX}" data-icon="img/design/gmap-markers.png">
+                    </div>
+                </div> -->
 
                 <#if entry.getAccess(locale)?has_content >
                     <div class="place-info-section">
@@ -61,6 +65,15 @@
                             <@liferay_ui.message key="access" />
                         </h4>
                         ${entry.getAccess(locale)}
+                    </div>
+                </#if>
+
+                <#if entry.getCharacteristics(locale)?has_content >
+                    <div class="place-info-section">
+                        <h4>
+                            <@liferay_ui.message key="eu.confort-and-equipment" />
+                        </h4>
+                        ${entry.getCharacteristics(locale)}
                     </div>
                 </#if>
 
@@ -111,7 +124,43 @@
                         ${entry.getAccessForDisabled(locale)}
                     </div>
                 </#if>
-                
+
+                <!-- Widget Bloc Contenus associés -->
+                <#assign contenus = entry.getRandomContents() />
+                <#if contenus?has_content>
+                    <div class="items-carousel places-carousel">
+                        <h4 class="items-carousel-title">
+                            <@liferay_ui.message key="associated-content" />   
+                        </h4>
+                        <div class="owl-carousel">
+                            <#list contenus as contenu>
+                                <div class="item"> 
+                                    <div class="item-image">
+                                        <#assign class = contenu.getClassNameId() />  
+                                        <#if class == 20015>  
+                                            <#assign image = contenu.getAssetRenderer().getAssetObject() />
+                                            <#assign imageURL = entry.getImageURL(image.getFileEntryId()) />
+                                            <#assign imageTitle = entry.getImageCopyright(image.getFileEntryId(), locale) />
+                                            <img src="${imageURL}" >
+                                            <div class="item-title">
+                                                <h4>${imageTitle}</h4>
+                                            </div>
+                                        <#else>  
+                                            <#assign video = contenu.getAssetRenderer().getAssetObject() /> 
+                                            <a href="/web${layout.group.friendlyURL}/detail-video/-/entity/id/${video.videoId}" target="_blank">
+                                                <img src="${video.imageURL}" >
+                                            </a>
+                                            <div class="item-title">
+                                                <h4><a href="/web${layout.group.friendlyURL}/detail-video/-/entity/id/${video.videoId}" target="_blank">${video.getTitle(locale)}</a></h4>
+                                            </div>
+                                        </#if>  
+                                    </div>
+                                </div>   
+                            </#list>
+                        </div>
+                    </div>
+                </#if>
+
                 <!-- Widget Bloc Agenda -->
                 <#assign placeEvents = EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.getSIGid()) />
                 <#if entry.displayEvents>

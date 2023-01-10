@@ -20,8 +20,8 @@
 
         <div class="container">
             <div>
-                <h2>Les initiatives (${entries?size})</h2>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}initiatives" class="pro-btn" title="Lien vers la page du Listing des initiatives">Voir toutes les initiatives</a>
+                <h2>Les ateliers de quartier (${entries?size})</h2>
+                <a href="${themeDisplay.getPortalURL()}${homeURL}ateliers-quartier" class="pro-btn" title="Lien vers la page du Listing des ateliers">Voir tous les ateliers</a>
             </div>
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -36,7 +36,7 @@
                             <div class="wrapper-card-initiative">
 								<#if entry.getImageURL()?has_content>
 									<figure role="group" class="fit-cover">
-										<img src="${entry.getImageURL()}?imagePreview=1" loading="lazy" width="155" height="200" alt="Image initiative"/>
+										<img src="${entry.getImageURL()}?imagePreview=1" loading="lazy" width="155" height="200" alt="Image atelier"/>
 									</figure>
 								</#if>
                                 <div>
@@ -44,12 +44,12 @@
                                         <figure role="group">
 											<img src="${entry.getAuthorImageURL()}?imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil">
 										</figure>
-                                        <p>Initiative publiée par :</p>
+                                        <p>Atelier publié par :</p>
                                         <p><strong>${entry.getAuthorLabel()?html}</strong></p>
                                     </div>
                                     <div class="pro-content-initiative">
-                                        <a href="${homeURL}detail-initiative/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
-                                        <span class="pro-time">Publiée le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
+                                        <a href="${homeURL}detail-atelier/-/entity/id/${entry.initiativeId}" title="lien de la page"><h3>${entry.title?html}</h3></a>
+                                        <span class="pro-time">Publié le <time datetime="${entry.getPublicationDateFr()}">${entry.getPublicationDateFr()}</time></span>
                                     </div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                 <div class="pro-avis">
                                     <span>${entry.getNbHelps()}</span>
                                 </div>
-                                <p>Citoyens soutiennent cette initiative</p>
+                                <p>Citoyens-nes soutiennent cet atelier</p>
                             </div>
                         </div>
 
