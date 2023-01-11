@@ -21,7 +21,7 @@
         	        <#assign files = dlFileEntryLocalService.getFileEntries(groupId, folder.folderId) />
         	        <#if files?has_content>
                         <div class="folder">
-                            <button class="btn minus" data-list="files-${curEntry?counter}" aria-label="<@liferay_ui.message key="hide" />"></button>
+                            <button class="btn plus" data-list="files-${curEntry?counter}" aria-label="<@liferay_ui.message key="show" />"></button>
                             ${folder.name}
                         </div>
                         <div class="files files-${curEntry?counter}">
