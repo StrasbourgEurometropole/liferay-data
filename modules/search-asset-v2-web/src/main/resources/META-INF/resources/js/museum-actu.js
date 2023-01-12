@@ -22,12 +22,12 @@ $(".date-selection .date").change(function(){
  */
 function getSelectedEntries(start, end) {
 
-    var selectedStartDay ;
-    var selectedStartMonth ;
-    var selectedStartYear;
-    var selectedEndDay;
-    var selectedEndMonth ;
-    var selectedEndYear;
+    var selectedStartDay = "";
+    var selectedStartMonth = "";
+    var selectedStartYear = "";
+    var selectedEndDay = "";
+    var selectedEndMonth = "";
+    var selectedEndYear = "";
 	if($('.date-selection').length > 0){
 	    var selectedStartDate = $('#' + porletNamespace + 'fromDate').val();
         var [selectedStartDay, selectedStartMonth, selectedStartYear] = selectedStartDate.split('/');
