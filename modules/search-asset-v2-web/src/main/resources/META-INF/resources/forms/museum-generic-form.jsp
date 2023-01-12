@@ -110,8 +110,17 @@
         </c:if>
 	</c:if>
 
-	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
+    <div class="keywords-selection">
+        <legend>
+            <liferay-ui:message key="keywords" />
+        </legend>
+        <div class="keywords-selection-control">
+            <input type="text" name="keywords" id="keywords" value="${dc.keywords}" placeholder='<liferay-ui:message key="eu.search.asset.web.keyword" />''/>
+        </div>
+    </div>
 </div>
+
+<a href="javascript:$('.search-asset-form form').submit()" id="submit" class="button1" aria-label="<liferay-ui:message key="search" />" title="<liferay-ui:message key="search" />"><liferay-ui:message key="search" /></a>
 
 <liferay-util:html-bottom>
 	<script src="/o/searchassetv2web/js/bloc-date.js"></script>

@@ -7,25 +7,20 @@
                 grid-template-areas:
                     "count"
                     "search"
-                    "keywords"
                     "results";
                 margin-bottom: 30px;
         
                 @include RWD(tablet_portrait){
-                    grid-template-columns: 300px auto;
+                    grid-template-columns: 250px auto;
+                    grid-template-rows: auto 1fr;
                     grid-template-areas:
                         "search count"
-                        "search keywords"
                         "search results";
                     gap: 15px 35px;
                 }
                 
                 @include RWD(tablet_landscape){
-                    grid-template-columns: 300px 140px auto;
-                    grid-template-rows: auto 1fr;
-                    grid-template-areas:
-                        "search count   keywords"
-                        "search results results";
+                    grid-template-columns: 300px auto;
                     gap: 35px;
                 }
 
@@ -33,16 +28,7 @@
     
                     &:first-child(){
                         grid-area: search;
-                    }
-    
-                    &:nth-child(2){
-                        grid-area: keywords;
-                        align-self: center;
-                
-                        @include RWD(tablet_portrait){
-                            margin-right: 15px;
-                        }
-                    }  
+                    } 
 
                     .search-asset-fields{
     
@@ -339,16 +325,14 @@
                                 width: 100%;
                             }
                         }
-
-                        .button1{
-                            width: auto;
-
-                            @include RWD(tablet_portrait){
-                                padding: 12px;
-                            }
-                        }
                     }
                 }
+            }
+
+            .button1{
+                margin: auto;
+                margin-bottom: 30px;
+                max-width: 100%;
             }
 
             h2{
@@ -361,10 +345,10 @@
                     font-size: 2.3125rem;
                     line-height: 2.6875rem;
                     margin-top: 36px;
+                    text-align: left;
                 }
             
                 @include RWD(tablet_landscape){
-                    text-align: center;
                     margin-top: 0;
                 }
             }
