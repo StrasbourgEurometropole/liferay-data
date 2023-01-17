@@ -31,6 +31,7 @@
                     background-repeat: no-repeat;
                     background-size: contain;
                     display: inline-block;
+                    flex-shrink: 0;
                     @include positionAbsolute("", "", (top: 5px, right: 0));
                 }
             }
