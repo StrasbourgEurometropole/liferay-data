@@ -50,3 +50,11 @@
         </div>
     </div>
 </section>
+<style>
+.search-asset-portlet, .page-header {
+    display: none !important;
+}
+section#header {
+    display: none !important;
+}
+</style>
