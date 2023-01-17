@@ -10,17 +10,7 @@
 
 <section id="header" class="home margin-bottom">
     <h1>
-        <#if page.expandoBridge.getAttribute('introduction')?has_content>
-            <#assign introductionAttribute = page.expandoBridge.getAttribute('introduction') />
-            <#list introductionAttribute?keys as key> 
-                <#if key == locale>
-                    <#assign introduction = introductionAttribute?values[key_index] />
-                </#if>
-            </#list>
-        </#if>
-        <#if introduction?has_content>
-            ${introduction}
-        </#if>
+        ${page.getDescription(locale)}
     </h1>
     <div class="menu">
         <@liferay_portlet["runtime"]

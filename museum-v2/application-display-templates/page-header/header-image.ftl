@@ -11,16 +11,8 @@
     </div>
     <div class="info">
         <h1>${layout.getTitle(locale)}</h1>
-        <#if page.expandoBridge.getAttribute('introduction')?has_content>
-            <#assign introductionAttribute = page.expandoBridge.getAttribute('introduction') />
-            <#list introductionAttribute?keys as key> 
-                <#if key == locale>
-                    <#assign introduction = introductionAttribute?values[key_index] />
-                </#if>
-            </#list>
-        </#if>
-        <#if introduction?has_content>
-            <div class="chapo">${introduction}</div>
+        <#if page.getDescription(locale)?has_content>
+            <div class="chapo">${page.getDescription(locale)}</div>
         </#if>
     </div>
 </section>
