@@ -26260,7 +26260,8 @@ function scrollToAnchor(anchorId) {
 // Service custom : Vidéos créacast
 (tarteaucitron.job = tarteaucitron.job || []).push('iframevideoscreacast');
 
-  
+// Service custom : genially
+(tarteaucitron.job = tarteaucitron.job || []).push('genially');
 if($('.pro-page-pacte').length > 0 || $('.pro-page-budget-participatif').length > 0){
 
     var footer = $('footer').offset().top;

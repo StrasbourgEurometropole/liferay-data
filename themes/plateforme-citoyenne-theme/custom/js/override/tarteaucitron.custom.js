@@ -16,4 +16,5 @@
 // Service custom : Vidéos créacast
 (tarteaucitron.job = tarteaucitron.job || []).push('iframevideoscreacast');
 
-  
+// Service custom : genially
+(tarteaucitron.job = tarteaucitron.job || []).push('genially');

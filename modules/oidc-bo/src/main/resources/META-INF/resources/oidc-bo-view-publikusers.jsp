@@ -111,5 +111,14 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx" copyCurrentRenderParameters="false">
+    </liferay-portlet:resourceURL>
+   	<form method="POST" action="${exportXlsxURL}">
+   		<aui:button-row>
+   			<aui:button cssClass="btn-lg" type="submit"
+   				value="extract-signing-pact" />
+   		</aui:button-row>
+   	</form>
 </div>
 

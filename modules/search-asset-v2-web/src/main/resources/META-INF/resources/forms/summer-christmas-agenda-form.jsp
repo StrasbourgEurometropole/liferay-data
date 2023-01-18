@@ -11,7 +11,7 @@
 				<label><liferay-ui:message key="keywords" /></label>
 			</div>
         <div class="content">
-            <input type="text" id="name" name="<portlet:namespace />keywords" 
+            <input type="text" id="name" name="<portlet:namespace />keywords"
                 placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}">
         </div>
     </div>
@@ -27,7 +27,7 @@
             <c:if test="${dc.displayDatesButtons}">
                 <div class="buttons">
                     <c:set var="dateSelected" value="${dc.dateSelected}" />
-                    <input type="hidden" name="<portlet:namespace />dateSelected" value="" />" />
+                    <input type="hidden" name="<portlet:namespace />dateSelected" value="" />
                     <a id="today" class="mns-btn ${dateSelected == 'today' ? 'active' : ''}"><liferay-ui:message key="today" /></a>
                     <a id="tomorrow" class="mns-btn ${dateSelected == 'tomorrow' ? 'active' : ''}"><liferay-ui:message key="tomorrow" /></a>
                     <a id="week-end" class="mns-btn ${dateSelected == 'week-end' ? 'active' : ''}"><liferay-ui:message key="eu.this-week-end" /></a>
@@ -79,9 +79,7 @@
 			</div>
 		</div>
 	</c:forEach>
-	
-	<aui:input type="hidden" name="keywords" id="keywords" value="${dc.keywords}" />
-		
+
 	<div class="mns-submit">
 		<span></span>
 		<input type="submit" id="submit" value="<liferay-ui:message key="refresh-search" />">
