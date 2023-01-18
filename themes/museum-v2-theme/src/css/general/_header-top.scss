@@ -189,21 +189,25 @@
 
                 li{
                     background: $color_main;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 10px;
+                    @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+
+                    &:hover {
+                        background: white;
+                        color: $color_main;
+                        text-decoration: none;
+                        border: 1px solid $color_main;
+                    }
     
                     a{
-                        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                        width: 100%;
+                        height: 100%;
+                        padding: 10px;
                         text-decoration: none;
                         text-align: center;
-
-                        &:hover {
-                            background: white;
-                            color: $color_main;
-                            text-decoration: none;
-                        }
+                        color: inherit;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;                        
                     }
                 }
             }
