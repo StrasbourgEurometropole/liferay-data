@@ -528,12 +528,8 @@ public class SearchAssetDisplayContext {
 
 		List<AssetEntry> results = new ArrayList<>();
 		if (this._searchHits != null) {
-			int i = 0;
 			for (SearchHit searchHit : this._searchHits.getSearchHits()) {
 				com.liferay.portal.search.document.Document document = searchHit.getDocument();
-				i++;
-				if (i <= 10)
-					_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore());
 
 				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(document.getString(Field.ENTRY_CLASS_NAME),
 						document.getLong(Field.ENTRY_CLASS_PK));
@@ -1028,7 +1024,6 @@ public class SearchAssetDisplayContext {
 	private SearchAssetConfiguration _configuration;
 	private ConfigurationData _configurationData;
 
-
 	private List<String> _classNames;
 
 	private SearchContainer<AssetEntry> _searchContainer;
@@ -1041,7 +1036,6 @@ public class SearchAssetDisplayContext {
 	private Map<String, String> _templatesMap;
 	private SearchHits _searchHits;
 	private int _entriesCount;
-
 
 	private static SearchHelperV2 getSearchHelperV2() {
 		return _serviceTrackerSearcher.getService();
