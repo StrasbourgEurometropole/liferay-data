@@ -8,10 +8,12 @@
 				<liferay-ui:message key="eu.dates" />
 			</legend>
             <c:if test="${dc.displayDatesButtons}">
+                <c:set var="dateSelected" value="${dc.dateSelected}" />
+                <input type="hidden" name="<portlet:namespace />dateSelected" value="" />
                 <div class="filter-line">
-                    <a id="today" class="button1" aria-label="<liferay-ui:message key="today" />" title="<liferay-ui:message key="today" />"><liferay-ui:message key="today" /></a>
-                    <a id="tomorrow" class="button1" aria-label="<liferay-ui:message key="tomorrow" />" title="<liferay-ui:message key="tomorrow" />"><liferay-ui:message key="tomorrow" /></a>
-                    <a id="week-end" class="button1" aria-label="<liferay-ui:message key="eu.this-week-end" />" title="<liferay-ui:message key="eu.this-week-end" />"><liferay-ui:message key="eu.this-week-end" /></a>
+                    <a id="today" class="button1 ${dateSelected == 'today' ? 'active' : ''}" aria-label="<liferay-ui:message key="today" />" title="<liferay-ui:message key="today" />" ><liferay-ui:message key="today" /></a>
+                    <a id="tomorrow" class="button1 ${dateSelected == 'tomorrow' ? 'active' : ''}" aria-label="<liferay-ui:message key="tomorrow" />" title="<liferay-ui:message key="tomorrow" />" ><liferay-ui:message key="tomorrow" /></a>
+                    <a id="week-end" class="button1 ${dateSelected == 'week-end' ? 'active' : ''}" aria-label="<liferay-ui:message key="eu.this-week-end" />" title="<liferay-ui:message key="eu.this-week-end" />" ><liferay-ui:message key="eu.this-week-end" /></a>
                 </div>
             </c:if>
 			<div class="date-selection-control">
