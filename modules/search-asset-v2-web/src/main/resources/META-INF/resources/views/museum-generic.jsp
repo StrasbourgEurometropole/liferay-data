@@ -10,10 +10,6 @@
 		</aui:form>
 	</div>
 
-	<div class="search-asset-form">
-        <liferay-util:include page="/form-headers/${dc.searchForm}-form-header.jsp" servletContext="<%=application %>" />
-	</div>
-
     <h2 class="search-asset-result-count">
         <c:if test="${not dc.hideResultsBeforeSearch or dc.userSearch or param.paginate}">
             ${dc.searchContainer.total }
