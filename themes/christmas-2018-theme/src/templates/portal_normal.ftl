@@ -156,7 +156,7 @@
                 </#if>
                 <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
-                <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="Search"><span class="icon-search"></span></a>
+                <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="<@liferay_ui.message key='to-research' />"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                 <#if homeURL != "/">
                     <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
