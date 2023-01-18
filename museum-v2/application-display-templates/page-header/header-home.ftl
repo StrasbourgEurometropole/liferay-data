@@ -10,7 +10,7 @@
 
 <section id="header" class="home margin-bottom">
     <h1>
-        ${page.getDescription(locale)}
+        ${page.getTitle(locale)}
     </h1>
     <div class="menu">
         <@liferay_portlet["runtime"]
