@@ -7,7 +7,7 @@
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <#assign dlFolderLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFolderLocalService") />
-<#assign expositionFolder = dlFolderLocalService.getFolder(groupId , 0, "Expositions") />
+<#assign expositionFolder = dlFolderLocalService.getFolder(groupId , 0, "Anciennes expositions (technique)") />
 <#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 

@@ -64,6 +64,6 @@
 
 <script>
     $("#btn-all-events").click(function(){
-      location.href='http://' + window.location.host + '${homeURL}agenda-des-musees'
+      location.href='${themeDisplay.getPortalURL()}${homeURL}agenda'
     });
 </script>

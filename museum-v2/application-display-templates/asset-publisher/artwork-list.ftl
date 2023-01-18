@@ -25,11 +25,13 @@
                         <#assign imageURL ="" />
                         <#if image?has_content>
                             <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                            <#assign imageJSON = image?eval />
+                            <#assign alt = imageJSON.alt />
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
                         <a href="${link}" target="_blank" aria-label="${title} (<@liferay_ui.message key="eu.new-window" />)" title="${title} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
-                            <img src="${imageURL}" alt="${title}" title="${title}" />
+                            <img src="${imageURL}" alt="${alt}" title="${alt}" />
                             <div class="info">
                                 <div class="title">
                                     <span>${title}</span>
