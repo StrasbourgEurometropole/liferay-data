@@ -25,7 +25,7 @@
                         <#assign imageURL ="" />
                         <#if image?has_content>
                             <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
-                            <#assign imageJSON = image?eval />
+                            <#assign imageJSON = image?replace("\\u2019","'")?eval />
                             <#assign alt = imageJSON.alt />
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
