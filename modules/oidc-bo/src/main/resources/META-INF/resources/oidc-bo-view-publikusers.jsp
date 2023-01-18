@@ -117,7 +117,7 @@
    	<form method="POST" action="${exportXlsxURL}">
    		<aui:button-row>
    			<aui:button cssClass="btn-lg" type="submit"
-   				value="export-xlsx" />
+   				value="extract-signing-pact" />
    		</aui:button-row>
    	</form>
 </div>

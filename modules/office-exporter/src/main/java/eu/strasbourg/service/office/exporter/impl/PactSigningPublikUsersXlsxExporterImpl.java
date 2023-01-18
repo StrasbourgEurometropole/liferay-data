@@ -4,10 +4,9 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.office.exporter.api.PublikUsersXlsxExporter;
+import eu.strasbourg.service.office.exporter.api.PactSigningPublikUsersXlsxExporter;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalService;
-import eu.strasbourg.service.project.model.Petition;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -17,9 +16,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -28,9 +25,9 @@ import java.util.stream.Collectors;
  */
 @Component(
         immediate = true,
-        service = PublikUsersXlsxExporter.class
+        service = PactSigningPublikUsersXlsxExporter.class
 )
-public class PublikUsersXlsxExporterImpl implements PublikUsersXlsxExporter {
+public class PactSigningPublikUsersXlsxExporterImpl implements PactSigningPublikUsersXlsxExporter {
 
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
@@ -38,7 +35,7 @@ public class PublikUsersXlsxExporterImpl implements PublikUsersXlsxExporter {
     private PublikUserLocalService publikUserLocalService;
 
     @Reference(unbind = "-")
-    public void setPetitionLocalService(PublikUserLocalService publikUserLocalService) {
+    public void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
         this.publikUserLocalService = publikUserLocalService;
     }
 
