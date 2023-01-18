@@ -198,6 +198,12 @@
                         @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
                         text-decoration: none;
                         text-align: center;
+
+                        &:hover {
+                            background: white;
+                            color: $color_main;
+                            text-decoration: none;
+                        }
                     }
                 }
             }
