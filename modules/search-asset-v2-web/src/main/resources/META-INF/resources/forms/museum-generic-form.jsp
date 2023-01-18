@@ -117,7 +117,7 @@
             <liferay-ui:message key="keywords" />
         </legend>
         <div class="keywords-selection-control">
-            <input type="text" name="keywords" id="keywords" value="${dc.keywords}" placeholder='<liferay-ui:message key="eu.search.asset.web.keyword" />''/>
+            <input type="text" name="<portlet:namespace />keywords" id="<portlet:namespace />keywords" value="${dc.keywords}" placeholder='<liferay-ui:message key="eu.search.asset.web.keyword" />' />
         </div>
     </div>
 </div>
