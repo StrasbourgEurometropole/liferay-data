@@ -17,3 +17,8 @@
       </#list>
     </#if>
 </div>
+
+<script>
+    var currentPage = location.pathname;
+    $('.menu-mobile .menu [href="' + location.pathname + '"]').addClass('active');
+</script>
