@@ -1,4 +1,4 @@
-<ul class="languages" role="navigation">
+<ul role="navigation">
 	<#if language.getSiblings()?has_content>
     	<#list language.getSiblings() as cur_language>
     	    <li class="${cur_language.label.getData()}">
