@@ -23,4 +23,7 @@ public interface PlaceScheduleConfiguration {
 	@Meta.AD(name="template", deflt = "", required = false)
 	public String template();
 
+	@Meta.AD(name = "hideAffluence", required = false)
+	public boolean hideAffluence();
+
 }

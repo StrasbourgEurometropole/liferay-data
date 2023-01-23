@@ -54,6 +54,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
 
 			String template = configuration.template();
+
+			// vérifi s'il faut masquer l'affluence
+			Boolean hideAffluence = configuration.hideAffluence();
+			request.setAttribute("showAffluence", !hideAffluence);
 			
 			// récupère le texte de la configuration
 			String text = "";
