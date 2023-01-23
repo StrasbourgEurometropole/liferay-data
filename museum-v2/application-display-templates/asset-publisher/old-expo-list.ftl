@@ -7,7 +7,6 @@
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <#assign dlFolderLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFolderLocalService") />
-<#assign expositionFolder = dlFolderLocalService.getFolder(groupId , 0, "Anciennes expositions (technique)") />
 <#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
@@ -17,21 +16,22 @@
         <#if entries?has_content>
         	<#list entries as curEntry>
                 <#assign folder = dlFolderLocalService.fetchFolder(curEntry.classPK) />
-                <#if folder.parentFolderId == expositionFolder.folderId>
-        	        <#assign files = dlFileEntryLocalService.getFileEntries(groupId, folder.folderId) />
-        	        <#if files?has_content>
-                        <div class="folder">
-                            <button class="btn plus" data-list="files-${curEntry?counter}" aria-label="<@liferay_ui.message key="show" />"></button>
-                            ${folder.name}
-                        </div>
-                        <div class="files files-${curEntry?counter}">
-                            <#list files as file>
-                                <#assign documentURL = fileEntryHelper.getFileEntryURL(file.fileEntryId) />
-                                <a href="${documentURL}" target="_blank" aria-label="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" title="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" class="file">${file.title}</a>
-                            </#list>
-                        </div>
-                    </#if>
-                </#if>
+    	        <#assign subFolders = dlFolderLocalService.getFolders(groupId, folder.folderId) />
+                	<#list subFolders?sort_by("name")?reverse as subFolder>
+            	        <#assign files = dlFileEntryLocalService.getFileEntries(groupId, subFolder.folderId) />
+            	        <#if files?has_content>
+                            <div class="folder">
+                                <button class="btn plus" data-list="files-${subFolder?counter}" aria-label="<@liferay_ui.message key="show" />"></button>
+                                ${subFolder.name}
+                            </div>
+                            <div class="files files-${subFolder?counter}">
+                                <#list files as file>
+                                    <#assign documentURL = fileEntryHelper.getFileEntryURL(file.fileEntryId) />
+                                    <a href="${documentURL}" target="_blank" aria-label="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" title="${file.title?html} (<@liferay_ui.message key="eu.new-window" />)" class="file">${file.title}</a>
+                                </#list>
+                            </div>
+                        </#if>
+                	</#list>
         	</#list>
         </#if>
     </div>
