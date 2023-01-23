@@ -92,7 +92,7 @@
                 
             </div>
             
-            <a href="${homeURL}actualites-des-musees" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
+            <a href="${homeURL}actualite" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
         </#if>
     </div>
 </section>
