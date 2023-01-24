@@ -200,7 +200,17 @@
   })(jQuery);
 
   // Selecteurs
-  $('select').each(function(index, element){
+  // simples
+  $('select:not([multiple])').each(function(index, element){
+    //var placeholder = $(element).find('option[disabled]').text();
+    var placeholder = "";
+    $(element).select2({
+      placeholder: placeholder,
+      closeOnSelect: true
+    });
+  });
+  // multiples
+  $('select[multiple]').each(function(index, element){
     //var placeholder = $(element).find('option[disabled]').text();
     var placeholder = "";
     $(element).select2({
