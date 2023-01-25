@@ -46,7 +46,7 @@
 				<div class="pre-header-inner container">
 					<div class="strasbourg-eu-logo">
 						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu" title="strasbourg.eu">
-							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" alt="strasbourg.eu" title="strasbourg.eu">
+							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" title="strasbourg.eu">
 						</a>
 					</div>
 					<@liferay_portlet["runtime"]
@@ -71,7 +71,8 @@
 					<div id="search-mobile" class="search"></div>
 					<form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
 						<input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
-						<input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="Rechercher" value="" >
+						<label for="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" style="display: none;"><@liferay_ui.message key="eu.museum.search" /></label>
+						<input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key="eu.museum.search" />" value="" >
 						<input class="search" type="submit" id="search" value="GO">
 					</form>
 				</div>
