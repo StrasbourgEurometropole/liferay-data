@@ -1,14 +1,13 @@
 #global #breadcrumbs{
-    display: none;
+    margin-left: 10px;
+    margin-top: 20px;
 
     @include RWD(tablet_portrait){
-        display: block;
-        margin-left: 10px;
         margin-top: 30px;
     }
 
     .content{
-        @include ft($proximaNova, 0.8125rem, 400, $color_txt, 0.9375rem, "");
+        @include ft($proximaNova, 0.8125rem, 400, $color_txt, 1.25rem, "");
         padding: 0 20px;
 
         >:not(:last-child()){
