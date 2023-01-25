@@ -68,6 +68,7 @@
     
                             @include RWD(tablet_portrait){
                                 width: calc(25% - 10px);
+                                flex-grow: 1;
                             }
     
                             legend{
