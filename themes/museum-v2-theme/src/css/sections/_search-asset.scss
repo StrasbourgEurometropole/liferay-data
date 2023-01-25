@@ -117,8 +117,8 @@
     
                     .search-asset-results{ 
                         margin-bottom: 40px;
-
-                        > a{
+ 
+                        a{
                             width: 100%;
                 
                             @include RWD(tablet_landscape){
