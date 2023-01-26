@@ -17,7 +17,7 @@
                 </div>
             </c:if>
 			<div class="date-selection-control">
-                <label>
+                <label for="<portlet:namespace />fromDate">
                     <liferay-ui:message key="search-asset-from" />
                 </label>
                 <span class="mns-ico-date">
@@ -27,7 +27,7 @@
                     <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
                     <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
                 </span>
-                <label>
+                <label for="<portlet:namespace />toDate">
                     <liferay-ui:message key="search-asset-to" />
                 </label>
                 <span class="mns-ico-date">
@@ -48,7 +48,7 @@
 		varStatus="vocStatus">
 		<div class="vocabulary-selection">
 			<legend>
-			    ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
+			    <label for="vocabulary_${vocStatus.index}">${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
             </legend>
 			<div class="vocabulary-selection-control">
 				<!-- Dropdown -->

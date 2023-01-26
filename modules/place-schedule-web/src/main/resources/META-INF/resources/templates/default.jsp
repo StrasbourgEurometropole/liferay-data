@@ -40,7 +40,7 @@
                 <aui:form action="${changeDataURL}" method="post" name="fm" id="place-schedule-form">
                     <div class="place-schedule-fields">
                         <div class="place-selection">
-                            <legend><liferay-ui:message key="eu.place" /></legend>
+                            <legend><label for="place2"><liferay-ui:message key="eu.place" /></label></legend>
                             <div class="place-selection-control">
                                 <select id="place2" name="<portlet:namespace />placeId">
                                     <option value="" ></option>

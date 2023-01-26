@@ -41,6 +41,12 @@
     text-transform: capitalize; 
 }
 
+#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend label{
+    cursor: default;
+    margin-bottom: 0;
+    display: block;
+}
+
 #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection {
     padding: 0 40px 0 0; 
 }
