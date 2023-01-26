@@ -10,8 +10,6 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -260,13 +258,6 @@ public class SearchAssetDisplayContext {
 				getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (this._hits != null) {
-			int i = 0;
-			for (float s : this._hits.getScores()) {
-				_log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-				i++;
-				if (i > 10)
-					break;
-			}
 
 			for (Document document : this._hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
@@ -1016,9 +1007,6 @@ public class SearchAssetDisplayContext {
 		
 		return idSIGPlace;
 	}
-	
-
-	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;

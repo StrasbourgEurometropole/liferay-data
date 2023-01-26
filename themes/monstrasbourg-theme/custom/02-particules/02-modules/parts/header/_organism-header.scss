@@ -146,8 +146,6 @@
                     }
                 }
                 @include RWD(mobile){
-                    margin-right: 10px;
-                    display: none;
                     .picto{
                         margin-right: 0;
                     }
@@ -159,7 +157,6 @@
             display: flex;
             height: 100%;
             @include RWD(mobile){
-                justify-content: space-between;
                 width: 100%;
                 flex-shrink: 0;
             }

@@ -1,9 +1,9 @@
 /** Récupération des éléments à gérer */
-var frontUnconnectedNumber = document.getElementById("unconnected-number");
+var frontUnconnectedNumber = document.querySelector("a #unconnected-number");
 var frontListUnconnected = document.getElementById("unconnected-list");
-var frontAbsentsNumber = document.getElementById("absents-number");
+var frontAbsentsNumber = document.querySelector("a #absents-number");
 var frontListAbsents = document.getElementById("absents-list");
-var frontConnectedNumber = document.getElementById("connected-number");
+var frontConnectedNumber = document.querySelector("a #connected-number");
 var frontListConnected = document.getElementById("connected-list");
 var frontCouncilSessionTitle = document.getElementById("councilTitle");
 
