@@ -32,7 +32,7 @@
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
     <#assign newsMuseums = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "musees") />
     
-    <a href="${detailURLFilter}" aria-label="${title}" title="${title}" class="news-thumbnail" style="background-image: url(${imageURL})">
+    <a href="${detailURLFilter}" aria-label="${title?html}" title="${title?html}" class="news-thumbnail" style="background-image: url(${imageURL})">
         <div class="info">
             <div class="date">
                 <date><@liferay_ui["message"] key="eu.published-on" /> ${publishDate?date}</date>

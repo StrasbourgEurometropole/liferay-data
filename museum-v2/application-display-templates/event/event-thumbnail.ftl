@@ -20,7 +20,7 @@
   <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
 
-<a href="${detailURLFilter}" aria-label="${entry.getTitle(locale)}" title="${entry.getTitle(locale)}" class="event-thumbnail" style="background-image: url(${entry.getImageURL()})">
+<a href="${detailURLFilter}" aria-label="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${entry.getImageURL()})">
     <#if entry.getActivityTypeLabel(locale)?has_content>
         <div class="visit">
             <span>${entry.getActivityTypeLabel(locale)}</span>

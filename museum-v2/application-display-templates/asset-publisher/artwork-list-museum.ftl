@@ -6,6 +6,7 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+<#assign jsonFactoryUtil = serviceLocator.findService("com.liferay.portal.kernel.json.JSONFactoryUtil") />
 
 <section id="oeuvre" class="detail-museum margin-bottom">
     <div  class="content container">
@@ -33,18 +34,21 @@
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
                         <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
                         <#assign imageURL ="" />
+                        <#assign imageDescription = "">
                         <#if image?has_content>
                             <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
-                            <#assign imageJSON = image?replace("\\u2019","'")?eval />
-                            <#assign alt = imageJSON.alt />
+                            <#assign imageDescription = jsonFactoryUtil.createJSONObject(image).alt>
                         </#if>
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                         <#assign link = docXml.valueOf("//dynamic-element[@name='link']/dynamic-content/text()") />
-                        <a href="${link}" target="_blank" aria-label="${title} (<@liferay_ui.message key="eu.new-window" />)" title="${title} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
-                            <img src="${imageURL}" alt="${alt}" title="${alt}" />
+                        <a href="${link}" target="_blank" aria-label="${title?html} (<@liferay_ui.message key="eu.new-window" />)" title="${title?html} (<@liferay_ui.message key="eu.new-window" />)" class="oeuvre-thumbnail">
+                            <img src="${imageURL}" alt="${imageDescription?html}" title="${imageDescription?html}" />
                             <div class="info">
                                 <div class="title">
                                     <span>${title}</span>
+                                </div>
+                                <div class="description">
+                                    ${imageDescription}
                                 </div>
                                 <div class="museums">
                                     <#if curEntry.categories?first?has_content>

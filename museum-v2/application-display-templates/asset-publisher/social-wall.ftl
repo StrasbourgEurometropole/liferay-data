@@ -14,10 +14,10 @@
                 <h2>${portletHelper.getPortletTitle('eu.museum.social-wall', renderRequest)}</h2>
                 <div class="list">
                     <#if place.getFacebookURL(locale)?has_content>
-                        <a href="${place.getFacebookURL(locale)}" target="_blank" aria-label="${place.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${place.getFacebookLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="facebook" ></a>
+                        <a href="${place.getFacebookURL(locale)}" target="_blank" aria-label="${place.getFacebookLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" title="${place.getFacebookLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" class="facebook" ></a>
                     </#if>
                     <#if place.getInstagramURL(locale)?has_content>
-                        <a href="${place.getInstagramURL(locale)}" target="_blank" aria-label="${place.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" title="${place.getInstagramLabel(locale)} (<@liferay_ui.message key="eu.new-window" />)" class="instagram" ></a>
+                        <a href="${place.getInstagramURL(locale)}" target="_blank" aria-label="${place.getInstagramLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" title="${place.getInstagramLabel(locale)?html} (<@liferay_ui.message key="eu.new-window" />)" class="instagram" ></a>
                     </#if>
                 </div>
             </#if>

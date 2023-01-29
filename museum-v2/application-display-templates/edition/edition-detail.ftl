@@ -4,7 +4,7 @@
     <div  class="content container">
     
         <div class="image-with-copyright-on-hover">
-            <img src="${entry.getImageURL()}" class="lightbox" alt="${entry.getTitle(locale)}" title="${entry.getTitle(locale)}">
+            <img src="${entry.getImageURL()}" class="lightbox" alt="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}">
             <#if entry.getImageCopyright(locale)?has_content>
                 <div class="copyright"><span>C</span><span>${entry.getImageCopyright(locale)}</span></div>
             </#if>
@@ -98,7 +98,7 @@
             
             <#if entry.getURL(locale)?has_content>
                 <div class="edition-url">
-                    <a href="${entry.getURL(locale)}" title="<@liferay_ui["message"] key="eu.new-window" />" target="_blank">
+                    <a href="${entry.getURL(locale)}" aria-label="<@liferay_ui["message"] key="eu.edition.interactive-version-link" /> (<@liferay_ui["message"] key="eu.new-window" />)" title="<@liferay_ui["message"] key="eu.edition.interactive-version-link" /> (<@liferay_ui["message"] key="eu.new-window" />)" target="_blank">
                         <@liferay_ui["message"] key="eu.edition.interactive-version-link" />
                     </a>
                 </div>

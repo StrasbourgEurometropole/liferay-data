@@ -14,12 +14,12 @@
                 <#list entries as currentPage>
                     <#if !currentPage.hidden>
                         <div class="rubric-thumbnail">
-                            <a href="${homeURL}${currentPage.friendlyURL}" aria-label="${currentPage.getName(locale)}" title="${currentPage.getName(locale)}">
+                            <a href="${homeURL}${currentPage.friendlyURL}" aria-label="${currentPage.getName(locale)?html}" title="${currentPage.getName(locale)?html}">
                                 <div style="position: relative">
                                     <#assign hasImage = currentPage.expandoBridge.getAttribute('image')?has_content />
                                     <#if hasImage>
                                         <#assign backgroundImage = currentPage.expandoBridge.getAttribute('image') />
-                                        <img aria-label="${currentPage.getName(locale)}" alt="${currentPage.getName(locale)}" title="${currentPage.getName(locale)}" src="${backgroundImage}">
+                                        <img aria-label="${currentPage.getName(locale)?html}" alt="${currentPage.getName(locale)?html}" title="${currentPage.getName(locale)?html}" src="${backgroundImage}">
                                         <div class="info">
                                     <#else>
                                         <div class="info noImage">

@@ -23,7 +23,7 @@
     <#assign ddmStructureLocalService = serviceLocator.findService("com.liferay.dynamic.data.mapping.service.DDMStructureLocalService") />
     <#assign structure = ddmStructureLocalService.getStructure(groupId, classNameId, entry.DDMStructureKey) />
     
-    <a href="${detailURLFilter}" aria-label="${title}" title="${title}" class="thumbnail-general">
+    <a href="${detailURLFilter}" aria-label="${title?html}" title="${title?html}" class="thumbnail-general">
         <div class="title">
             ${title}
             <div class="type">${structure.getName(locale)}</div>

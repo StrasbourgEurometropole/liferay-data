@@ -18,7 +18,7 @@
                             <#assign event = curEntry.getAssetRenderer().getEvent() />
                             <#assign detailURL = homeURL + "evenement/-/entity/id/" + event.eventId + "/" + event.getNormalizedTitle(locale) />
                             <div class="swiper-slide">
-                                <a href="${detailURL}" aria-label="${event.getTitle(locale)}" title="${event.getTitle(locale)}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
+                                <a href="${detailURL}" aria-label="${event.getTitle(locale)?html}" title="${event.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${event.getImageURL()})">
                                     <#if event.getActivityTypeLabel(locale)?has_content>
                                         <div class="visit">
                                             <span>${event.getActivityTypeLabel(locale)}</span>

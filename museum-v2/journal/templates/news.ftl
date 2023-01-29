@@ -36,7 +36,7 @@
         </div>
         <#if (image.getData())?? && image.getData() != "">
             <div class="image-with-copyright-on-hover">
-                <img alt="${image.getAttribute("alt")}" data-fileentryid="${image.getAttribute("fileEntryId")}" src="${image.getData()}" />
+                <img alt="${image.getAttribute("alt")?html}" title="${image.getAttribute("alt")?html}" data-fileentryid="${image.getAttribute("fileEntryId")}" src="${image.getData()}" />
                 <#if image.getAttribute("alt")?has_content>
                     <div class="copyright"><span>C</span><span>${image.getAttribute("alt")}</span></div>
                 </#if>

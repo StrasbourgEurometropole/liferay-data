@@ -18,7 +18,7 @@
                 <#assign curEntry = assetEntryLocalService.getEntry(link.getEntryId2()) />
                 <#assign place = curEntry.assetRenderer.place />
                 <#if label.getData()?has_content && label.link?has_content>
-                    <button id="btn-info" class="button1" aria-label="${label.getData()}" title='${label.getData()}'>
+                    <button id="btn-info" class="button1" aria-label="${label.getData()?html}" title='${label.getData()?html}'>
                         <span class="points">
                             <span class="trait">
                                 <span class="background">
