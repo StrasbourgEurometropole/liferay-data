@@ -8,7 +8,7 @@
         }
 
         h1{
-            @include ft($times, 1.625rem, 400, white, 1.875rem, italic);
+            @include ft($proximaNova, 1.625rem, 700, white, 1.875rem, "");
             text-transform: uppercase;
             width: calc(100% - 50px);
             @include positionAbsolute(1, translate(-50%, -50%), (top: 50%, left: 50%));

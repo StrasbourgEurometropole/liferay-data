@@ -1,17 +1,5 @@
 package eu.strasbourg.portlet.place_schedule.configuration;
 
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -26,10 +14,19 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.place_schedule.configuration.PlaceScheduleConfiguration",
@@ -85,10 +82,14 @@ public class PlaceScheduleConfigurationAction
 			// Page détail
 			String linksUuids = ParamUtil.getString(request, "linksUuids");
 			setPreference(request, "linksUuids", linksUuids);
-			
+
 			// Mode d'affichage
 			String template = ParamUtil.getString(request, "template");
 			setPreference(request, "template", template);
+
+			// Masquage de l'affluence
+			boolean hideAffluence = ParamUtil.getBoolean(request, "hideAffluence");
+			setPreference(request, "hideAffluence", String.valueOf(hideAffluence));
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -110,20 +111,31 @@ public class PlaceScheduleConfigurationAction
 			request.setAttribute("placeTypeVocabularyId",
 				placeTypeVocabulary.getVocabularyId());
 
-			// Pages sélectionnées
 			PlaceScheduleConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 					PlaceScheduleConfiguration.class);
+			// Catégorie
 			request.setAttribute("categoryId", configuration.categoryId() > 0
 				? configuration.categoryId() : "");
+
+			// Nom de la catégorie
 			request.setAttribute("categoryTitle",
 				configuration.categoryTitle());
+
+			// Text
 			request.setAttribute("textSchedule",
 				configuration.textScheduleXML());
+
+			// Page détail
 			request.setAttribute("linksUuids", configuration.linksUuids());
-			
-			// Template
+
+			// Mode d'affichage
 			request.setAttribute("template", configuration.template());
+
+			// Masquage de l'affluence
+			boolean hideAffluence = ParamUtil.getBoolean(request,
+					"hideAffluence", configuration.hideAffluence());
+			request.setAttribute("hideAffluence", hideAffluence);
 			
 
 		} catch (ConfigurationException e) {

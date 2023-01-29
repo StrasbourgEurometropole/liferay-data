@@ -68,12 +68,19 @@
     
                             @include RWD(tablet_portrait){
                                 width: calc(25% - 10px);
+                                flex-grow: 1;
                             }
     
                             legend{
                                 @include ft($proximaNova, 1.125rem, 700, white, 1.3125rem, "");
                                 margin-bottom: 15px;
                                 text-transform: capitalize;
+
+                                label{
+                                    cursor: default;
+                                    margin-bottom: 0;
+                                    display: block;
+                                }
                             }
                         }
 
@@ -117,7 +124,7 @@
     
                     .search-asset-results{ 
                         margin-bottom: 40px;
-
+ 
                         > a{
                             width: 100%;
                 

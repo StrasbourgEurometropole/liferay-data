@@ -190,12 +190,12 @@
                 li{
                     background: $color_main;
                     @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                    border: 1px solid $color_main;
 
                     &:hover {
                         background: white;
                         color: $color_main;
                         text-decoration: none;
-                        border: 1px solid $color_main;
                     }
     
                     a{
