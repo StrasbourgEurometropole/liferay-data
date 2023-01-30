@@ -60,17 +60,33 @@
             width: 100%;
 
             li{
-                width: calc(calc(100% - 40px) / 5);
+                @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                text-decoration: none;
                 aspect-ratio : 1 / 1;
                 background: $color_main;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 10px;
+                border: 1px solid $color_main;
+                width: calc(calc(100% - 40px) / 5);
+
+                &:hover {
+                    background: white;
+                    color: $color_main;
+                    text-decoration: none;
+                    border: 1px solid $color_main;
+                }
 
                 a{
-                    @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+                    width: 100%;
+                    height: 100%;
                     text-decoration: none;
+                    text-align: center;
+                    color: inherit;
+                    padding: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
             }
 
