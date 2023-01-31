@@ -40,7 +40,7 @@
                 <aui:form action="${changeDataURL}" method="post" name="fm" id="place-schedule-form">
                     <div class="place-schedule-fields">
                         <div class="place-selection">
-                            <legend><liferay-ui:message key="eu.place" /></legend>
+                            <legend><label for="place2"><liferay-ui:message key="eu.place" /></label></legend>
                             <div class="place-selection-control">
                                 <select id="place2" name="<portlet:namespace />placeId">
                                     <option value="" ></option>
@@ -84,9 +84,21 @@
                                         ${category.getTitle(locale)}
                                     </div>
                                 </th>
-                                <th class="occupation" >
-                                    <div><liferay-ui:message key="live-attendance" /></div>
-                                </th>
+                                <c:if test="${showAffluence}">
+                                    <th class="occupation" >
+                                        <c:choose>
+                                            <c:when test="${piscine or patinoire}">
+                                                <div><liferay-ui:message key="live-attendance" /></div>
+                                            </c:when>
+                                            <c:when test="${parking}">
+                                                    <div><liferay-ui:message key="occupation" /></div>
+                                            </c:when>
+                                            <c:when test="${mairie}">
+                                                    <div><liferay-ui:message key="estimated-time" /></div>
+                                            </c:when>
+                                        </c:choose>
+                                    </th>
+                                </c:if>
                                 <fmt:formatDate value="${now}" type="date" var="shortNow" dateStyle="SHORT"/>
                                 <c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
                                     <fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
@@ -125,17 +137,30 @@
                                     <td class="place-name">
                                         ${place.getAlias(locale)}
                                     </td>
-                                    <c:set var="occupationState" value="${place.getRealTime('1')}" />
-                                    <td rowspan="2" class="occupation-state" >
-                                        <div class="crowded-amount ${occupationState.cssClass}">
-                                            ${occupationState.occupationLabel}
-                                        </div>
-                                        <div class="crowded-label">
-                                            <liferay-ui:message key="${occupationState.label}" />
-                                        </div>
-                                    </td>
+                                    <c:if test="${showAffluence}">
+                                        <td rowspan="2" class="occupation-state" >
+                                            <div class="crowded-amount ${occupationState.cssClass}">
+                                                <c:choose>
+                                                    <c:when test="${piscine or patinoire}">
+                                                        <c:set var="occupationState" value="${place.getRealTime('1')}" />
+                                                        ${occupationState.occupationLabel}
+                                                    </c:when>
+                                                    <c:when test="${parking}">
+                                                        <c:set var="occupationState" value="${place.getRealTime('2')}" />
+                                                        ${occupationState.available}
+                                                    </c:when>
+                                                    <c:when test="${mairie}">
+                                                        <c:set var="occupationState" value="${place.getRealTime('3')}" />
+                                                        ${occupationState.occupationLabel}
+                                                    </c:when>
+                                                </c:choose>
+                                            </div>
+                                            <div class="crowded-label">
+                                                <liferay-ui:message key="${occupationState.label}" />
+                                            </div>
+                                        </td>
+                                    </c:if>
                                     <c:if test="${place.hasURLSchedule}">
-                                        <c:set var="occupationState" value="${place.getRealTime('3')}" />
                                         <td rowspan="2">
                                             <div>
                                                 <a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">
@@ -202,9 +227,21 @@
                                         ${category.getTitle(locale)}
                                     </div>
                                 </th>
-                                <th class="occupation" >
-                                    <div><liferay-ui:message key="live-attendance" /></div>
-                                </th>
+                                <c:if test="${showAffluence}">
+                                    <th class="occupation" >
+                                        <c:choose>
+                                            <c:when test="${piscine or patinoire}">
+                                                <div><liferay-ui:message key="live-attendance" /></div>
+                                            </c:when>
+                                            <c:when test="${parking}">
+                                                    <div><liferay-ui:message key="occupation" /></div>
+                                            </c:when>
+                                            <c:when test="${mairie}">
+                                                    <div><liferay-ui:message key="estimated-time" /></div>
+                                            </c:when>
+                                        </c:choose>
+                                    </th>
+                                </c:if>
                                 <c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
                                     <fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
                                     <fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />

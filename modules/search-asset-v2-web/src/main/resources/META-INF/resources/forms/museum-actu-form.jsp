@@ -10,7 +10,7 @@
 		varStatus="vocStatus">
 		<div class="vocabulary-selection">
             <legend>
-                ${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}
+                <label for="vocabulary_${vocStatus.index}">${not empty vocabulary.getDescription(locale) ? vocabulary.getDescription(locale) : vocabulary.getTitle(locale)}</label>
             </legend>
 	        <div class="vocabulary-selection-control">
 				<!-- Dropdown -->

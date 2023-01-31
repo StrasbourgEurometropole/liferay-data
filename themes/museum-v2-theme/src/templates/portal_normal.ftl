@@ -36,6 +36,42 @@
                 not-front
             </#if>
         ">
+		<div id="global">
+			<header id="pre-header">
+				<div class="pre-header-inner container">
+					<div class="strasbourg-eu-logo">
+						<a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu" title="strasbourg.eu">
+							<img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" title="strasbourg.eu">
+						</a>
+					</div>
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="menu-preheader"
+						settingsScope="group" />
+				</div>
+			</header>
+
+			<section id="header-top">
+				<div id="acces"  class="hidden">
+					<@liferay_portlet["runtime"]
+						portletProviderAction=portletProviderAction.VIEW
+						portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+						instanceId="acces"
+						settingsScope="group" />
+				</div>
+				<div class="header-top-inner container">
+					<a class="title" href="${homeURL}">Musées de la ville de Strasbourg</a>
+					<span id="access-by-public" class="access-by-public-menu-title show-acces"><@liferay_ui.message key="eu.museum.acces" /></span>
+					<div id="search-mobile" class="search"></div>
+					<form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
+						<input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
+						<label for="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" style="display: none;"><@liferay_ui.message key="eu.museum.search" /></label>
+						<input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key="eu.museum.search" />" value="" >
+						<input class="search" type="submit" id="search" value="GO">
+					</form>
+				</div>
+			</section>
 
     <@liferay_ui["quick-access"] contentId="#main-content" />
     <@liferay_util["include"] page=body_top_include />

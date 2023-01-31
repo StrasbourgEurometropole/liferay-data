@@ -1,0 +1,282 @@
+.contact-form-portlet .contact-form-portlet-page h1 {
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color_h1, #31455d);
+    font-family: var(--font_h1, MontSerrat,arial);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2.75rem;
+    line-height: 3.3125rem;
+}
+
+.contact-form-portlet .contact-form-portlet-page p {
+    margin-bottom: 20px
+}
+
+.contact-form-portlet .contact-form-portlet-page b,.contact-form-portlet .contact-form-portlet-page strong {
+    font-weight: 600;
+    color: var(--color_bold, #505050)
+}
+
+.contact-form-portlet .contact-form-portlet-page em {
+    font-style: italic;
+    color: var(--color_em, #505050)
+}
+
+.contact-form-portlet .contact-form-portlet-page sub {
+    vertical-align: sub
+}
+
+.contact-form-portlet .contact-form-portlet-page a {
+    text-decoration: underline;
+    transition: color,.5s;
+    color: var(--color_link, #31455d);
+    font-weight: 600
+}
+
+.contact-form-portlet .contact-form-portlet-page a:focus,.contact-form-portlet .contact-form-portlet-page a:hover {
+    color: var(--color_link_hover, #2da192);
+    text-decoration: underline
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form {
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font_form, OpenSans,arial);
+    color: var(--color_form, #5c5c5c);
+    clear: both;
+    margin-bottom: 40px
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form fieldset>:last-child {
+    margin-bottom: 0
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .widget {
+    display: block;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 10px
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .widget .title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form label {
+    font-weight: 600;
+    font-family: var(--font_label, OpenSans,arial);
+    color: var(--color_label, #505050);
+    position: relative;
+    margin-bottom: 0
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form label .required {
+    color: var(--color_required, #ff1818);
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .widget .content {
+    display: flex;
+    flex-direction: column;
+    position: relative
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form fieldset input[type=text],.contact-form-portlet .contact-form-portlet-page .main-form fieldset textarea {
+    background-color: var(--color_bg_field, #FFF);
+    font-family: var(--font_field, OpenSans,arial);
+    color: var(--color_field, #505050);
+    width: 100%;
+    height: 50px;
+    border: 1px solid var(--color_border_field, transparent);
+    border-radius: 0;
+    padding: 0 20px;
+    transition: all,.5s;
+    line-height: 50px
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form input:focus[type=text],.contact-form-portlet .contact-form-portlet-page .main-form textarea:focus {
+    border-color: var(--color_border_field_hover, #31455d);
+    outline: 0;
+    background-color: var(--color_bg_field_hover, #FFF)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form fieldset textarea {
+    padding: 15px;
+    height: auto;
+    line-height: 1.2;
+    display: block;
+    resize: vertical
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form ::-webkit-input-placeholder {
+    font-family: var(--font_placeholder, MontSerrat,arial);
+    text-transform: uppercase;
+    color: var(--color_placeholder, #7e7e7e)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form :-moz-placeholder {
+    font-family: var(--font_placeholder, MontSerrat,arial);
+    text-transform: uppercase;
+    color: var(--color_placeholder, #7e7e7e)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form ::-moz-placeholder {
+    font-family: var(--font_placeholder, MontSerrat,arial);
+    text-transform: uppercase;
+    color: var(--color_placeholder, #7e7e7e)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form :-ms-input-placeholder {
+    font-family: var(--font_placeholder, MontSerrat,arial);
+    text-transform: uppercase;
+    color: var(--color_placeholder, #7e7e7e)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row-reverse
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit>* {
+    margin-left: 20px
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .cancel-button button,.contact-form-portlet .contact-form-portlet-page .main-form .previous-button button,.contact-form-portlet .contact-form-portlet-page .main-form .submit-button button {
+    padding: 15px 20px;
+    overflow: hidden;
+    font-family: var(--font_btns, MontSerrat,arial);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all,.5s;
+    position: relative;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .cancel-button {
+    order: 2
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .cancel-button button {
+    display: inline-block;
+    border-color: var(--color_border_btn_cancel, #31455d);
+    background-color: var(--color_bg_btn_cancel, transparent);
+    color: var(--color_btn_cancel, #31455d)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .cancel-button button:focus,.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .cancel-button button:hover {
+    background-color: var(--color_bg_btn_cancel_hover, #31455d);
+    color: var(--color_btn_cancel_hover, #46cfc0)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .previous-button {
+    order: 3
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .previous-button button {
+    margin-right: auto;
+    margin-left: 0;
+    display: inline-block;
+    border-color: var(--color_border_btn_previous, transparent);
+    background-color: var(--color_bg_btn_previous, #46cfc0);
+    color: var(--color_btn_previous, #31455d)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .previous-button button:focus,.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .previous-button button:hover {
+    background-color: var(--color_bg_btn_previous_hover, #31455d);
+    color: var(--color_btn_previous_hover, #FFF)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .submit-button {
+    order: 1
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .submit-button button {
+    display: inline-block;
+    border-color: var(--color_border_btn_submit, transparent);
+    background-color: var(--color_bg_btn_submit, #46cfc0);
+    color: var(--color_btn_submit, #31455d)
+}
+
+.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .submit-button button:focus,.contact-form-portlet .contact-form-portlet-page .main-form .buttons.submit .submit-button button:hover {
+    background-color: var(--color_bg_btn_submit_hover, #31455d);
+    color: var(--color_btn_submit_hover, #46cfc0)
+}
+
+
+	.lfr-alert-container {
+	    position: static;
+	    padding: 40px;
+	    margin-bottom: 25px;
+	    background: #EF5350;
+	}
+
+	.lfr-alert-container .lfr-alert-wrapper {
+	    margin-bottom: 0;
+	    padding: 0;
+	    height: auto !important;
+	}
+
+	.lfr-alert-container .lfr-alert-wrapper + .lfr-alert-wrapper {
+		margin-top: 15px;
+	}
+
+	.lfr-alert-container .alert-danger {
+	    background: none;
+	    border: none;
+	    margin: 0;
+	    padding: 0;
+	    color: white;
+	    line-height: 25px
+	}
+
+	.lfr-alert-container .alert-danger button,
+	.lfr-alert-container .alert-danger .lead {
+	    display: none;
+	}
+
+	.mail-success {
+		background: var(--color_bg_success, #4CAF50);
+		color: white;
+		padding: 40px;
+	}
+	.previous-button {
+		margin-top: 40px;
+	}
+	.previous-button button {
+		margin-top: 40px;
+		font-weight: normal;
+	}
+
+@media only screen and (max-width: 767px) {
+    .contact-form-portlet .contact-form-portlet-page .main-form fieldset {
+        padding: 0
+    }
+
+    .contact-form-portlet .contact-form-portlet-page .main-form>.widget {
+        display: block
+    }
+
+    .contact-form-portlet .contact-form-portlet-page .main-form>.widget .title {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: block
+    }
+
+    .contact-form-portlet .contact-form-portlet-page .main-form>.widget .content {
+        width: 100%;
+        margin-left: 0
+    }
+}
