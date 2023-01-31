@@ -242,18 +242,6 @@
                         .select2{ 
                             border: 1px solid #A6A6A6;
                             background-color: white;
-                            
-                            &:after {
-                                content: '';
-                                @include positionAbsolute("", translateY(-50%) rotate(90deg), (top: 23px, right: 15px));
-                                display: block;
-                                height: 20px;
-                                width: 20px;
-                                background-size: 15px;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                                background-image: url( svg-bg-uri($svg-arrow, $color_txt) );
-                            }
 
                             .select2-selection{
                                 @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.3125rem, "");
@@ -261,6 +249,18 @@
                                 padding: 5px 8px;
                                 display: flex;
                                 align-items: center;
+                            
+                                &:before {
+                                    content: '';
+                                    @include positionAbsolute("", translateY(-50%) rotate(90deg), (top: 23px, right: 15px));
+                                    display: block;
+                                    height: 20px;
+                                    width: 20px;
+                                    background-size: 15px;
+                                    background-position: center;
+                                    background-repeat: no-repeat;
+                                    background-image: url( svg-bg-uri($svg-arrow, $color_txt) );
+                                }
                             }
                         }
                     }
