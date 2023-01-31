@@ -42,7 +42,6 @@
         display: block;
         min-height: 32px;
         user-select: none;
-        list-style: none;
       
         .select2-selection__rendered {
             display: inline-block;
@@ -50,6 +49,7 @@
             padding-left: 8px;
             text-overflow: ellipsis;
             white-space: nowrap;
+            list-style: none;
         }
     }
       
