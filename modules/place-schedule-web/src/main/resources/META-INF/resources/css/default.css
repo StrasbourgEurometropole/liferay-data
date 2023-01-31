@@ -1,37 +1,37 @@
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
     background-color: var(--color_main, #46cfc0);
     margin-bottom: 80px;
     padding: 15px;
 }
 
 @media screen and (min-width: 768px) {
-    #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
         padding: 30px 80px; 
     } 
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields {
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
     gap: 20px 10px; 
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection, #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection, .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
     width: 100%; 
 }
 
 @media screen and (min-width: 768px) {
-    #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
         width: calc(50% - 15px);
     }
 
-    #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection {
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection {
         width: calc(25% - 15px);
     }
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection legend, #global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection legend, .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend {
     font-family: var(--font_main, "Proximanova", sans-serif);
     font-size: 1.125rem;
     font-weight: 700;
@@ -41,30 +41,30 @@
     text-transform: capitalize; 
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend label{
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend label{
     cursor: default;
     margin-bottom: 0;
     display: block;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection {
     padding: 0 40px 0 0; 
 }
   
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__rendered {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__rendered {
     margin-bottom: 0; 
 }
       
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__choice + .select2-search {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__choice + .select2-search {
     display: none; 
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 {
     border: 1px solid #A6A6A6;
     background-color: white;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2:after {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2:after {
     content: '';
     position: absolute;
     top: 23px;
@@ -79,7 +79,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%232d2d2d' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 .select2-selection {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 .select2-selection {
     font-family: var(--font_main, "Proximanova", sans-serif);
     font-size: 1rem;
     font-weight: 400;
@@ -91,71 +91,71 @@
     align-items: center;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection input {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection input {
     height: 45px;
     width: 100%;
     border: none;
     padding: 10px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form a.button2 {
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form a.button2 {
     margin: 20px auto 0;
     cursor: pointer;
 }
 
-#global .place-schedule-portlet .button-holder, #global .place-schedule-portlet .not-first-day, #global .place-schedule-portlet .occupation, #global .place-schedule-portlet .occupation-state {
+.place-schedule-portlet .button-holder, .place-schedule-portlet .not-first-day, .place-schedule-portlet .occupation, .place-schedule-portlet .occupation-state {
     display: none;
 }
 
 @media screen and (min-width: 768px) {
-    #global .place-schedule-portlet .button-holder {
+    .place-schedule-portlet .button-holder {
         display: flex;
         justify-content: space-between;
     }
 
-    #global .place-schedule-portlet .button-holder:after {
+    .place-schedule-portlet .button-holder:after {
         content: none;
     }
 
-    #global .place-schedule-portlet .not-first-day, #global .place-schedule-portlet .occupation, #global .place-schedule-portlet .occupation-state {
+    .place-schedule-portlet .not-first-day, .place-schedule-portlet .occupation, .place-schedule-portlet .occupation-state {
         display: table-cell;
     }
 
-    #global .place-schedule-portlet .today-label {
+    .place-schedule-portlet .today-label {
         display: none;
     }
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table {
+.place-schedule-portlet .place-schedule-portlet-page table {
     border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
     margin-bottom: 20px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table tr:first-child, #global .place-schedule-portlet .place-schedule-portlet-page table tr:last-child {
+.place-schedule-portlet .place-schedule-portlet-page table tr:first-child, .place-schedule-portlet .place-schedule-portlet-page table tr:last-child {
     background:var(--color_main, #46cfc0);
     height: 120px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table th {
+.place-schedule-portlet .place-schedule-portlet-page table th {
     text-align: center;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table th:first-child {
+.place-schedule-portlet .place-schedule-portlet-page table th:first-child {
     width: 190px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table th.first-day div {
+.place-schedule-portlet .place-schedule-portlet-page table th.first-day div {
     color: var(--color_third, #f1b74d);
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .date-and-month {
+.place-schedule-portlet .place-schedule-portlet-page .date-and-month {
     font-weight: 400;
     text-transform: none;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table tr th div {
+.place-schedule-portlet .place-schedule-portlet-page table tr th div {
     font-weight: 700;
     font-size: 1rem;
     font-family: var(--font_main, MontSerrat,arial);
@@ -164,15 +164,15 @@
     line-height: 23px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page td, #global .place-schedule-portlet .place-schedule-portlet-page th {
+.place-schedule-portlet .place-schedule-portlet-page td, .place-schedule-portlet .place-schedule-portlet-page th {
     padding: 10px;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page table td {
+.place-schedule-portlet .place-schedule-portlet-page table td {
     text-align: center;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page td.place-name {
+.place-schedule-portlet .place-schedule-portlet-page td.place-name {
     font-family: var(--font_main, MontSerrat,arial);
     height: 120px;
     color: var(--color_main, #46cfc0);
@@ -182,48 +182,48 @@
     font-size: 1.125rem;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .bg-grey {
+.place-schedule-portlet .place-schedule-portlet-page .bg-grey {
     background-color: #f6f6f6;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page th.place, #global .place-schedule-portlet .place-schedule-portlet-page th.occupation, #global .place-schedule-portlet .place-schedule-portlet-page th.first-day {
+.place-schedule-portlet .place-schedule-portlet-page th.place, .place-schedule-portlet .place-schedule-portlet-page th.occupation, .place-schedule-portlet .place-schedule-portlet-page th.first-day {
     border-right: 2px solid #f6f6f6;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page td.place-name, #global .place-schedule-portlet .place-schedule-portlet-page td.occupation-state, #global .place-schedule-portlet .place-schedule-portlet-page td.first-day {
+.place-schedule-portlet .place-schedule-portlet-page td.place-name, .place-schedule-portlet .place-schedule-portlet-page td.occupation-state, .place-schedule-portlet .place-schedule-portlet-page td.first-day {
     border-right: 2px solid #f6f6f6;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .see-more-row :first-child() {
+.place-schedule-portlet .place-schedule-portlet-page .see-more-row :first-child() {
     border-right: 2px solid #f6f6f6;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .bg-grey td {
+.place-schedule-portlet .place-schedule-portlet-page .bg-grey td {
     border-color: #fff;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .opening-time {
+.place-schedule-portlet .place-schedule-portlet-page .opening-time {
     color: #505050;
     font-size: 1rem;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .opening-time.exception {
+.place-schedule-portlet .place-schedule-portlet-page .opening-time.exception {
     color: #F44336
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .opening-time.exception:after {
+.place-schedule-portlet .place-schedule-portlet-page .opening-time.exception:after {
     content: "*"
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .first-day {
+.place-schedule-portlet .place-schedule-portlet-page .first-day {
     font-weight: 700;
 }
 
-#global .place-schedule-portlet .place-schedule-portlet-page .see-more-row a {
-    width: auto;
+.place-schedule-portlet .place-schedule-portlet-page .see-more-row a {
+    width: auto !important;
 }
 
-#global .exceptions{
+.exceptions{
     margin-bottom: 20px;
     color: #F44336;
     font-weight: bold;
@@ -231,17 +231,17 @@
     line-height: 1.375rem;
 }
 
-#global .calendar-schedule-exceptions{
+.calendar-schedule-exceptions{
     margin-bottom: 20px;
 }
 
-#global .calendar-schedule-exceptions .title{
+.calendar-schedule-exceptions .title{
     margin-bottom: 20px;
     display: block;
     font-weight: 700;
     font-size: 1rem;
 }
 
-#global .calendar-schedule-exceptions ul{
+.calendar-schedule-exceptions ul{
     padding-left: 20px;
 }
