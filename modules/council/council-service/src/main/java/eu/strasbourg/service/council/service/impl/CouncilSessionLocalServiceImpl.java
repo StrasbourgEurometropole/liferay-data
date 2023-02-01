@@ -42,6 +42,7 @@ import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
+import eu.strasbourg.service.council.service.util.VocabularyHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
@@ -276,8 +277,12 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		// Suppression de la catégorie associée
 		CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(councilSessionId);
-		if (councilSession != null)
-			AssetVocabularyHelper.removeCategory(councilSession.getTitle(), councilSession.getGroupId());
+		if (councilSession != null) {
+			// on récupère la catégorie
+			String councilId = VocabularyHelper.getCategorieCouncilId(councilSession);
+			if(councilId != "")
+				AssetCategoryLocalServiceUtil.deleteAssetCategory(Long.parseLong(councilId));
+		}
 
 		// Supprime l'entité
 		councilSession = this.councilSessionPersistence.remove(councilSessionId);
