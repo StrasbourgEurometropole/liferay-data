@@ -49,6 +49,7 @@ public class JSONHelper {
             httpConn.setRequestProperty("Authorization", "Basic " + encoded);
         }
         InputStream is;
+        httpConn.setRequestProperty("Accept", "text/html, image/gif, image/jpeg, */*; q=.2");
         if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
             is = httpConn.getInputStream();
         } else {
@@ -56,7 +57,7 @@ public class JSONHelper {
             is = httpConn.getErrorStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String errorText = readAll(rd);
-            LogFactoryUtil.getLog(JSONHelper.class).error(errorText);
+            LogFactoryUtil.getLog(JSONHelper.class).error("URL : " +  URL + "\r\n" + errorText);
             throw new IOException();
         }
 

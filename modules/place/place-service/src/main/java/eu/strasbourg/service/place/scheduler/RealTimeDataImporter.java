@@ -1,6 +1,7 @@
 package eu.strasbourg.service.place.scheduler;
 
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
@@ -20,6 +21,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -59,7 +61,12 @@ public class RealTimeDataImporter extends BaseMessageListener {
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		this.log.info("Start updating real time");
-		JSONArray parkingJsonArray = openDataRealTimeParkingService.getParkingJSON();
+		JSONArray parkingJsonArray = JSONFactoryUtil.createJSONArray();
+		try {
+			parkingJsonArray = openDataRealTimeParkingService.getParkingJSON();
+		}catch (IOException e){
+			// erreur avec url remontée directement dans eu.strasbourg.utils.JSONHelper.readJsonFromURL
+		}
 	    _placeLocalService.updateRealTime(parkingJsonArray);
 		this.log.info("End updating real time");
 	}
