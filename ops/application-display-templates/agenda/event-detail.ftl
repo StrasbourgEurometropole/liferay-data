@@ -102,12 +102,6 @@
         </div>
     </div>
 
-    <!-- BLOC MIS EN AVANT MUSICIENS -->
-    <@liferay_portlet["runtime"]
-    portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-    instanceId="composer_${entry.eventId}"/>
-
     <#-- Recuperation des suggéstions de l'event -->
     <#assign suggestions = entry.getSuggestions(request, 10, null, "typologie") />
 	
@@ -152,12 +146,6 @@
             </div>
         </div>
     </#if>
-
-    <!-- BLOC AUDIO -->
-    <@liferay_portlet["runtime"]
-    portletProviderAction=portletProviderAction.VIEW
-    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-    instanceId="audio_${entry.eventId}"/>
 
 </div>
 
