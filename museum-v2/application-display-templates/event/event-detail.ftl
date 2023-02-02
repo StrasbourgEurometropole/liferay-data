@@ -216,37 +216,3 @@
       </#if>
     </div>
 </section>
-
-<#assign categMuseum = entry.getMuseums() />
-<#assign museums = "" />
-<#list categMuseum as category>
-    <#if museums != "" >
-        <#assign museums += "," />
-    </#if>
-    <#assign museums += "${category.getCategoryId()}" />
-</#list>
-<#assign museumsArray = museums?split(",") />
-<#assign anyAssetType = classNameService.fetchClassName(entry.getModelClassName()).getClassNameId() />
-
-<#assign template = templateHelperService.getDDMTemplateByGroupeIdAndName(groupId, "slider event") />
-<#assign templateKey = template.getTemplateKey() />
-<#assign displayStyle = "ddmTemplate_" + templateKey />
-
-<#assign defaultPreferencesValues = freeMarkerPortletPreferences.getPreferences({
-    "portletSetupPortletDecoratorId": "barebone",
-    "scopeIds" : ["Group_default","Group_20160"],
-    "anyAssetType": anyAssetType?string,
-    "queryName0": "assetCategories",
-    "queryContains0": "true",
-    "queryAndOperator0": "false",
-    "queryValues0": museums?split(","),
-    "portletSetupUseCustomTitle": "true",
-    "portletSetupTitle_fr_FR": "",
-    "displayStyle": displayStyle
-}) />
-<@liferay_portlet["runtime"]
-    instanceId="eventsForCategs-${museums?replace(',', '_')}"
-    defaultPreferences="${defaultPreferencesValues}"
-    portletProviderAction=portletProviderAction.VIEW
-    portletProviderClassName="com.liferay.asset.kernel.model.AssetEntry"
-/>
