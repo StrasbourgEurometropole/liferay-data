@@ -1,0 +1,103 @@
+#global #old-expo{
+
+    .content{ 
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+                text-align: left;
+            }
+
+            span{
+                @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
+                display: block;
+                text-transform: none;
+                
+                @include RWD(tablet_portrait){
+                    font-size: 2.25rem;
+                    line-height: 3.25rem;
+                }
+            }
+        }  
+
+        .folder{   
+            @include ft($proximaNova, 1.875rem, 400, black, 1.875rem, "");
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+    
+            button{
+                background-color: $color-main;
+                border-radius: 0;
+                width: 36px;
+                height: 36px;
+                margin-right: 20px;
+                position: relative;
+
+                @include RWD(tablet_portrait){
+                    margin-right: 60px;
+                }
+
+                &:after{
+                    content: '';
+                    @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    width: 36px;
+                    height: 36px;
+                }
+
+                &.minus:after{
+                    background-image: url( svg-bg-uri($svg-minus, white) );
+                }
+
+                &.plus:after{
+                    background-image: url( svg-bg-uri($svg-plus, white) );
+                }
+            }
+        }
+
+        .files{
+            display: none;
+            gap: 20px 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+
+            .file{
+                background: $color_third;
+                padding: 20px;
+                width: 100%;
+                @include ft($proximaNova, 0.9375rem, 400, $color_txt, 1.125rem, "");
+                text-transform: uppercase;
+                text-decoration: none;
+
+                &:hover, &:focus{
+                    text-decoration: underline;
+                }
+
+                @include RWD(tablet_portrait){
+                    padding: 50px;
+                    width: auto;
+                }
+
+                &:after{
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    margin-left: 25px;
+                    background-image: url( svg-bg-uri($svg-arrow, $color_txt) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}

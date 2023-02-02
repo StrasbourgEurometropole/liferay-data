@@ -248,6 +248,30 @@ public class EditionImpl extends EditionBaseImpl {
 	}
 
 	/**
+	 * Retourne les musées de l'édition
+	 */
+	@Override
+	public List<AssetCategory> getMuseums() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.MUSEUM);
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'édition
+	 */
+	@Override
+	public String getMuseumsLabel(Locale locale) {
+		String museums = "";
+		for (AssetCategory editionMuseum : this.getMuseums()) {
+			if (museums.length() > 0) {
+				museums += ", ";
+			}
+			museums += editionMuseum.getTitle(locale);
+		}
+		return museums;
+	}
+
+	/**
 	 * Retourne la version JSON de l'édition
 	 */
 	@Override

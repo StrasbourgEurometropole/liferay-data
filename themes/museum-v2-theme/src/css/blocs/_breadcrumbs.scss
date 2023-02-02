@@ -1,0 +1,40 @@
+#global #breadcrumbs{
+    margin-left: 10px;
+    margin-top: 20px;
+
+    @include RWD(tablet_portrait){
+        margin-top: 30px;
+    }
+
+    .content{
+        @include ft($proximaNova, 0.8125rem, 400, $color_txt, 1.25rem, "");
+        padding: 0 20px;
+
+        >:not(:last-child()){
+            &:after {
+                content: '';
+                width: 10px;
+                height: 10px;
+                margin: 0 8px;
+                background-image: url( svg-bg-uri($svg-arrow, $color_txt) );
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+            }
+        }
+
+        :last-child(){
+            color: $color_main;
+            font-weight: 700;
+        }
+
+        a{
+            color:$color_txt;
+
+            &:hover{
+                text-decoration: none;
+            }
+        }
+    }
+}

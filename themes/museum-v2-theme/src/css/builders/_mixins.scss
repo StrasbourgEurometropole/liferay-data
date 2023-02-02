@@ -1,0 +1,78 @@
+@mixin RWD($media) {
+    // inutile, par défaut, tous les css partent de la version mobile
+    @if $media == mobile_portrait {
+        @media screen and (min-width: #{$breakpoint_mobile_portrait}) {
+            @content;
+        }
+    }
+    // >= 576
+    @if $media == mobile_landscape {
+        @media only screen and (min-width: #{$breakpoint_mobile_landscape}) {
+            @content;
+        }
+    }    
+    // >= 768
+    @if $media == tablet_portrait {
+        @media screen and (min-width: #{$breakpoint_tablet_portrait}) {
+            @content;
+        }
+    }
+    // >= 992
+    @if $media == tablet_landscape {
+        @media only screen and (min-width: #{$breakpoint_tablet_landscape}) {
+            @content;
+        }
+    }
+    // >= 1200
+    @if $media == desktop {
+        @media only screen and (min-width: #{$breakpoint_desktop}) {
+            @content;
+        }
+    }
+    // >= 1250
+    @if $media == extra_large {
+        @media only screen and (min-width: #{$breakpoint_extra_large}) {
+            @content;
+        }
+    }
+}
+
+
+@mixin ft($family:"", $size:"", $weight:"", $color:"", $lineheight:"", $style:""){
+	@if $family != "" {
+		font-family: $family;
+	}
+	@if $size != "" {
+		font-size: $size;
+	}
+	@if $weight != "" {
+		font-weight: $weight;
+	}
+	@if $color != "" {
+		color: $color;
+	}
+	@if $lineheight != "" {
+		line-height: $lineheight;
+	}
+	@if $style != "" {
+		font-style: $style;
+	}
+}
+
+
+@mixin positionAbsolute($zindex:"", $transform:"", $args...) {
+    position: absolute;
+	@if $zindex != "" {
+        z-index: $zindex;
+	}
+
+	@if $transform != "" {
+		transform: $transform;
+	}
+    
+    @each $arg in $args {
+        @each $name, $value in $arg {
+            #{$name}: $value;
+        }
+    }
+}

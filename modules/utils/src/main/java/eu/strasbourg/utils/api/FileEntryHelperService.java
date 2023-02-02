@@ -40,4 +40,6 @@ public interface FileEntryHelperService {
 	public Map<String, DLFileEntry> getPictoForVocabulary(String nomRepertoireVocabulaire, String nomRepertoire)
 			throws PortalException;
 
+	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire);
+
 }

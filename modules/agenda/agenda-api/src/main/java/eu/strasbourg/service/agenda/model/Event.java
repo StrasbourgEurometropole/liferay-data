@@ -279,6 +279,28 @@ public interface Event extends EventModel, PersistedModel {
 	public String getTerritoryLabel(java.util.Locale locale);
 
 	/**
+	 * Retourne les musées de l'événement
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getMuseums();
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'événement
+	 */
+	public String getMuseumsLabel(java.util.Locale locale);
+
+	/**
+	 * Retourne le type d'activité de l'événement
+	 */
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getActivityType();
+
+	/**
+	 * Retourne le label du type d'activité de l'événement
+	 */
+	public String getActivityTypeLabel(java.util.Locale locale);
+
+	/**
 	 * Retourne les territoires de l'événement
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>

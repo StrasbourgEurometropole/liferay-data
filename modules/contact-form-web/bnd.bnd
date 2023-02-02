@@ -3,3 +3,4 @@ Bundle-SymbolicName: eu.strasbourg.portlet.contact
 Bundle-Version: 1.31.0
 Export-Package: eu.strasbourg.portlet.contact.constants
 Javac-Encoding: UTF-8
+Web-ContextPath: /contactformweb

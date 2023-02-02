@@ -1,0 +1,108 @@
+#global #header{
+    &.home{
+        background: no-repeat center center /cover;
+        height: 200px;
+
+        @include RWD(tablet_portrait){
+            height: 800px;
+        }
+
+        h1{
+            @include ft($proximaNova, 1.625rem, 700, white, 1.875rem, "");
+            text-transform: uppercase;
+            width: calc(100% - 50px);
+            @include positionAbsolute(1, translate(-50%, -50%), (top: 50%, left: 50%));
+            text-shadow: 4px 4px 14px #000000;
+            
+            @include RWD(tablet_portrait){
+                font-size: 4.75rem;
+                line-height: 5.4375rem;
+                width: auto;
+            }
+        }
+        
+        .menu{
+            display: none;
+
+            @include RWD(tablet_portrait){
+                display: block;
+                @include positionAbsolute("", translateX(-50%), (bottom: 0, left: 50%));
+                width: 100%;
+
+                .quicklinks{
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px 40px;
+                    background: white;
+                    padding: 80px;
+                    justify-content: center;
+                }
+            } 
+        }
+    }
+
+    &:not(.home){
+        margin-top: 40px;
+
+        @include RWD(tablet_portrait){
+            margin-top: 0;
+        }
+
+        h1{
+            @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
+            text-align: center;
+            text-transform: uppercase;
+
+            @include RWD(tablet_portrait){
+                font-size: 2.75rem;
+                line-height: 3.375rem;
+            }
+        }
+
+        .chapo{
+            @include ft($times, 1.5625rem, 400, $color_txt, 1.75rem, italic);
+            margin-top: 25px;
+            text-align: center;
+        }
+    }
+
+    &.editions{
+        position: relative;
+        margin-top: 40px;
+
+        .page-header-image{
+
+            @include RWD(tablet_portrait){
+                width: 66%;
+            }
+
+            img{
+                width: 100%;
+            }
+        }
+
+        .info{
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+            padding: 40px 35px 25px;
+            background-color: white;
+
+            @include RWD(tablet_portrait){
+                @include positionAbsolute("", translateY(-50%), (top: 50%, right: 0));
+                padding: 60px 55px 45px;
+                width: 520px;
+            }
+
+            h1{
+                margin-bottom: 40px;
+
+                @include RWD(tablet_portrait){
+                    margin-bottom: 80px;
+                }
+            }
+
+            .chapo{
+                font-size: 1.25rem;
+            }
+        }
+    }
+}

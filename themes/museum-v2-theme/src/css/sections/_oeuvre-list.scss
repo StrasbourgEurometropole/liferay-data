@@ -1,0 +1,147 @@
+#global #oeuvre{
+    background-color: $color_txt;
+
+    .content{
+        padding-top: 30px;
+    
+        @include RWD(tablet_portrait){
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            padding: 50px 15px;
+        }
+
+        .infos{    
+            @include RWD(tablet_portrait){
+                width: 25%;
+                margin-left: 40px;
+            }
+
+            h2{
+                @include ft($times, 1.875rem, 400, white, 2.125rem, italic);
+                text-align: center;
+                margin-bottom: 20px; 
+
+                @include RWD(tablet_portrait){
+                    text-align: start;
+                    margin-bottom: 50px;
+                    font-size: 3.75rem;
+                    line-height: 4.3125rem;
+                }
+            }
+    
+            p{
+                @include ft($proximaNova, 1.35rem, 400, white, 1.875rem, "");
+                text-align: center;
+                margin-bottom: 40px;  
+
+                @include RWD(tablet_portrait){
+                    text-align: start;
+                    margin-bottom: 45px;
+                    font-size: 0.9375rem;
+                    line-height: 1.25rem;
+                }
+            }
+    
+            .button1{
+                margin: auto;
+                @include positionAbsolute(1, translate(-50%, 50%), (bottom: 0, left: 50%));
+    
+                @include RWD(tablet_portrait){
+                    position: static;
+                    transform: none;
+                    margin: 0;
+                    font-size: 0.9375rem;
+                    line-height: 1.125rem;
+                }
+            }
+        }
+
+        .list{
+            display: inline-block;
+            padding-bottom: 50px;
+            position: relative;
+            width: 100%;
+
+            @include RWD(tablet_portrait){
+                padding-top: 20px;
+            }
+
+            &:after {
+                content: '';
+                display: block;
+                clear: both;
+            }
+
+            .gutter-sizer{
+                width: 20px;
+
+                @include RWD(tablet_portrait){
+                    width: 40px;
+                }
+            }
+
+            .oeuvre-thumbnail{
+                width: calc(50% - 10px);
+                margin-bottom: 15px;
+                float: left;
+
+                &:nth-child(3){
+                    margin-top:30px;
+    
+                    @include RWD(tablet_portrait){
+                        margin-top: 0;
+                    }
+                }
+
+                @include RWD(tablet_portrait){
+                    width: calc(calc(100% - 110px) / 3);
+                    margin-bottom: 20px;
+                }
+            }
+        }
+    }
+        
+    @include RWD(tablet_portrait){
+        &.detail-museum{
+            background: transparent;
+
+            &:before {
+                content: '';
+                width: 100vw;
+                background: #2d2d2d;
+                @include positionAbsolute(-1, '', '');
+                height: 350px;
+            }
+    
+            .content{
+                flex-direction: column;
+        
+                .infos{   
+                    width: 100%;
+        
+                    h2{
+                        text-align: center;
+                        margin-bottom: 70px;
+                    }
+
+                    .button1{
+                        @include positionAbsolute('', translate(-50%, 0), '');
+                        line-height: 3.75rem;
+                    }
+                }
+        
+                .list{   
+        
+                    .gutter-sizer{
+                        width: 95px;
+                    }
+
+                    .oeuvre-thumbnail{
+                        width: calc(calc(100% - 190px) / 3);
+                    }
+                }
+            }
+        }
+    }
+}

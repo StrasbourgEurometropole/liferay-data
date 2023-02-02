@@ -1,0 +1,247 @@
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
+    background-color: var(--color_main, #46cfc0);
+    margin-bottom: 80px;
+    padding: 15px;
+}
+
+@media screen and (min-width: 768px) {
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form {
+        padding: 30px 80px; 
+    } 
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px 10px; 
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection, .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
+    width: 100%; 
+}
+
+@media screen and (min-width: 768px) {
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection {
+        width: calc(50% - 15px);
+    }
+
+    .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection {
+        width: calc(25% - 15px);
+    }
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection legend, .place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend {
+    font-family: var(--font_main, "Proximanova", sans-serif);
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    line-height: 21px;
+    margin-bottom: 15px;
+    text-transform: capitalize; 
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection legend label{
+    cursor: default;
+    margin-bottom: 0;
+    display: block;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection {
+    padding: 0 40px 0 0; 
+}
+  
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__rendered {
+    margin-bottom: 0; 
+}
+      
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .place-selection .select2-selection__choice + .select2-search {
+    display: none; 
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 {
+    border: 1px solid #A6A6A6;
+    background-color: white;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2:after {
+    content: '';
+    position: absolute;
+    top: 23px;
+    right: 15px;
+    display: block;
+    height: 20px;
+    width: 20px;
+    background-size: 15px;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: translateY(-50%) rotate(90deg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%232d2d2d' width='31' height='22'%3E%3Cpath d='m21.2 0.3a1.1 1.1 0 1 0-1.6 1.6l8 8 -26.5 0a1.1 1.1 0 0 0-1.1 1.2 1.1 1.1 0 0 0 1.1 1.1l26.6 0 -8 8a1.1 1.1 0 0 0 0 1.6 1.1 1.1 0 0 0 1.6 0l10-10a1.1 1.1 0 0 0 0-1.6l-10.1-9.9z'/%3E%3C/svg%3E");
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form  .place-schedule-fields .place-selection .select2 .select2-selection {
+    font-family: var(--font_main, "Proximanova", sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color_txt, #2d2d2d);
+    line-height: 21px;
+    min-height: 45px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form .place-schedule-fields .date-selection input {
+    height: 45px;
+    width: 100%;
+    border: none;
+    padding: 10px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .place-schedule-form > form a.button2 {
+    margin: 20px auto 0;
+    cursor: pointer;
+}
+
+.place-schedule-portlet .button-holder, .place-schedule-portlet .not-first-day, .place-schedule-portlet .occupation, .place-schedule-portlet .occupation-state {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .place-schedule-portlet .button-holder {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .place-schedule-portlet .button-holder:after {
+        content: none;
+    }
+
+    .place-schedule-portlet .not-first-day, .place-schedule-portlet .occupation, .place-schedule-portlet .occupation-state {
+        display: table-cell;
+    }
+
+    .place-schedule-portlet .today-label {
+        display: none;
+    }
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table tr:first-child, .place-schedule-portlet .place-schedule-portlet-page table tr:last-child {
+    background:var(--color_main, #46cfc0);
+    height: 120px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table th {
+    text-align: center;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table th:first-child {
+    width: 190px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table th.first-day div {
+    color: var(--color_third, #f1b74d);
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .date-and-month {
+    font-weight: 400;
+    text-transform: none;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table tr th div {
+    font-weight: 700;
+    font-size: 1rem;
+    font-family: var(--font_main, MontSerrat,arial);
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 23px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page td, .place-schedule-portlet .place-schedule-portlet-page th {
+    padding: 10px;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page table td {
+    text-align: center;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page td.place-name {
+    font-family: var(--font_main, MontSerrat,arial);
+    height: 120px;
+    color: var(--color_main, #46cfc0);
+    line-height: 1.875rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .bg-grey {
+    background-color: #f6f6f6;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page th.place, .place-schedule-portlet .place-schedule-portlet-page th.occupation, .place-schedule-portlet .place-schedule-portlet-page th.first-day {
+    border-right: 2px solid #f6f6f6;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page td.place-name, .place-schedule-portlet .place-schedule-portlet-page td.occupation-state, .place-schedule-portlet .place-schedule-portlet-page td.first-day {
+    border-right: 2px solid #f6f6f6;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .see-more-row :first-child() {
+    border-right: 2px solid #f6f6f6;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .bg-grey td {
+    border-color: #fff;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .opening-time {
+    color: #505050;
+    font-size: 1rem;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .opening-time.exception {
+    color: #F44336
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .opening-time.exception:after {
+    content: "*"
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .first-day {
+    font-weight: 700;
+}
+
+.place-schedule-portlet .place-schedule-portlet-page .see-more-row a {
+    width: auto !important;
+}
+
+.exceptions{
+    margin-bottom: 20px;
+    color: #F44336;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.375rem;
+}
+
+.calendar-schedule-exceptions{
+    margin-bottom: 20px;
+}
+
+.calendar-schedule-exceptions .title{
+    margin-bottom: 20px;
+    display: block;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.calendar-schedule-exceptions ul{
+    padding-left: 20px;
+}

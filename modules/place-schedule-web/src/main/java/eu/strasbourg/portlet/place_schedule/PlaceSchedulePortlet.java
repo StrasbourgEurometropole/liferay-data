@@ -54,6 +54,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
 
 			String template = configuration.template();
+
+			// vérifi s'il faut masquer l'affluence
+			Boolean hideAffluence = configuration.hideAffluence();
+			request.setAttribute("showAffluence", !hideAffluence);
 			
 			// récupère le texte de la configuration
 			String text = "";
@@ -122,11 +126,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			// récupère les jours de la semaine voulue
 			List<String[]> week = new ArrayList<String[]>();
-			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
+			int delta = configuration.template() != null && (configuration.template().equals("strasbourg-table") || configuration.template().equals("default")) ? 0
 					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
-			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à
-															// afficher en front
+			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {
 				StringBuilder date = new StringBuilder(DateHelper.displayLongDate(jourSemaine.getTime(), locale));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());

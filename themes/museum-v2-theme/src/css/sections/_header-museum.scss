@@ -1,0 +1,125 @@
+@keyframes scale {
+	0% {transform: scale(1)}
+    100% { transform: scale(1.5)}
+}
+
+#global #headerMuseum{
+    h1{
+        @include ft($proximaNova, 1.5rem, 700, white, 1.875rem, "");
+        text-transform: uppercase;
+        @include positionAbsolute('', translate(-50%, -50%), (top: 50%, left: 50%));
+        text-shadow: 4px 4px 11px #000000;
+        text-align: center;
+
+        @include RWD(tablet_portrait){
+            font-size: 2.75rem;
+            line-height: 3.375rem;
+        }
+    }
+
+    .slider{
+        position: relative;
+        z-index: -1;
+
+        .swiper{
+            .swiper-slide{
+                height: 200px;
+
+                @include RWD(tablet_portrait){
+                    height: calc(100vh - 40px);
+                    
+                    &.swiper-slide-active .info .image{
+                        animation: scale 20s;
+                    }
+                }
+
+                .info{
+                    overflow: hidden;
+                    height: 100%;
+                    width: 100%; 
+
+                    .image{ 
+                        display: inline-block;   
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        height: 100%;
+                        width: 100%; 
+                    }
+
+                    .copyright{
+                        @include positionAbsolute("", "", (bottom: 10px, right: 20px));
+                        
+                        @include RWD(tablet_portrait){
+                            bottom: 30px;
+                            right: 25px;
+    
+                        }
+    
+                        :first-child(){
+                            line-height: 1.25rem;
+                        }
+                    }
+                }
+            }
+
+            .swipper-buttons {
+                display: none;
+
+                @include RWD(tablet_portrait){
+                    @include positionAbsolute(1, "", (bottom: 70px, right: 20px));
+                    display: inline-block;
+
+                    .swiper-button-prev, .swiper-button-play, .swiper-button-pause, .swiper-button-next{ 
+                        background-color: white;
+                        color: #313841;
+                        display: inline-block;
+                        position: relative;
+                        left: 0;
+
+                        &:after{
+                            @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
+                        }
+                    }
+
+                    .swiper-button-play{
+                        display: none;
+                        height: 37px;
+                        width: 37px;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        &:after{
+                            content: '';
+                            width: 20px;
+                            height: 20px;
+                            background-image: url( svg-bg-uri($svg-play, #313841) );
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            display: inline-block;
+                        }
+                    }
+
+                    .swiper-button-pause{
+                        height: 37px;
+                        width: 37px;
+                        border-radius: 50%;
+                        cursor: pointer;
+
+                        &:after{
+                            content: '';
+                            width: 20px;
+                            height: 15px;
+                            background-image: url( svg-bg-uri($svg-pause, #313841) );
+                            background-position: center;
+                            background-repeat: no-repeat;
+                            background-size: contain;
+                            display: inline-block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

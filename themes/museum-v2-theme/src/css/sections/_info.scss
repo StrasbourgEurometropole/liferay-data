@@ -1,0 +1,56 @@
+#global #info{
+    .content{
+        display: flex;
+        flex-direction: column;
+
+        @include RWD(tablet_portrait){
+            position: relative;
+        }
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 25px;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.3125rem;
+                margin-bottom: 5px;
+                text-align: start;
+            }
+        }
+        
+        .subtitle{
+            display: none;
+
+            @include RWD(tablet_portrait){
+                display: block;
+                @include ft($proximaNova, 2.1875rem, 700, $color_txt, 2.625rem, "");
+                margin-bottom: 30px;
+            }
+        }
+
+        .button1{
+            order: 1;
+            margin: auto;
+
+            @include RWD(tablet_portrait){
+                text-transform: none;
+                margin-left: 0;
+            }
+        }
+
+        .description{
+            @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+            margin-bottom: 20px;
+
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.125rem;
+                @include positionAbsolute("", "", (bottom: 0, right: 0));
+                margin-bottom: 0;
+                width: 40%;
+            }
+        }
+    }
+}

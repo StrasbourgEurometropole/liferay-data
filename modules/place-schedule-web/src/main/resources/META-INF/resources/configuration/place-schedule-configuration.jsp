@@ -28,6 +28,7 @@
 		<aui:fieldset>
 			<strasbourg-picker:layout name="linksUuids" label="detail-page" multiple="false" required="true" value="${linksUuids}" />
 		</aui:fieldset>
+
 		<aui:fieldset>
 			<!-- Mode d'affichage -->
 			<aui:select name="template">
@@ -42,6 +43,10 @@
 				</aui:option>
 			</aui:select>
 		</aui:fieldset>
+
+		<aui:fieldset>
+            <aui:input type="checkbox" name="hideAffluence" value="${hideAffluence}" label="hide-affluence" inlineField="true" />
+        </aui:fieldset>
 		
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

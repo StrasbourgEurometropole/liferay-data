@@ -1,0 +1,444 @@
+// Config
+@import 'config/_variables';
+@import 'config/_svg';
+
+//Builders
+@import 'builders/_fonts';
+@import 'builders/_mixins';
+@import 'builders/_quark-animation-hoverBar';
+@import 'builders/_select2';
+@import 'builders/_svg-factory';
+@import 'builders/_atom-datepicker';
+
+// General
+@import 'general/_footer';
+@import 'general/_header';
+@import 'general/_header-top';
+@import 'general/_menu-desktop';
+@import 'general/_menu-smartphone';
+@import 'general/_pre-header';
+
+// Blocs
+@import 'blocs/_breadcrumbs';
+@import 'blocs/_bref';
+@import 'blocs/_contact';
+@import 'blocs/_edition';
+@import 'blocs/_event';
+@import 'blocs/_expo';
+@import 'blocs/_news';
+@import 'blocs/_oeuvre';
+@import 'blocs/_paginate';
+@import 'blocs/_thumbnail';
+@import 'blocs/_useful-documents';
+@import 'blocs/_useful-links';
+
+// sections
+@import 'sections/_accroche';
+@import 'sections/_big-news';
+@import 'sections/_edition-detail';
+@import 'sections/_edition-list';
+@import 'sections/_en-bref-slider';
+@import 'sections/_event-detail';
+@import 'sections/_event-slider';
+@import 'sections/_expo-list';
+@import 'sections/_expo-slider';
+@import 'sections/_expos';
+@import 'sections/_header-museum';
+@import 'sections/_info';
+@import 'sections/_news-detail';
+@import 'sections/_news-slider';
+@import 'sections/_oeuvre-list';
+@import 'sections/_old-expo-list';
+@import 'sections/_place-detail';
+@import 'sections/_rubric';
+@import 'sections/_search-asset';
+@import 'sections/_social-wall';
+@import 'sections/_tab';
+
+@import '_tarteaucitron';
+
+.no-scroll{
+    overflow: hidden;
+}
+
+#global{
+    @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+    overflow-x: hidden;
+
+    @include RWD(tablet_portrait){
+        font-size: 0.9375rem;
+        line-height: 1.3125rem;
+    }
+
+    .signed-in & {
+        padding-top: 54px;
+    }
+
+    *{ 
+        .portlet{
+            margin-bottom: 0;
+
+            .portlet-header{
+                display: none;
+            }
+
+            .portlet-content{
+                border: none;
+                
+                .portlet-title-text {
+                    display: none;
+                }
+
+                .portlet-body .asset-full-content.clearfix.mb-5.default-asset-publisher.show-asset-title{
+
+                    .align-items-center.d-flex.mb-2, .asset-anchor.lfr-asset-anchor, .autofit-row.mb-4.metadata-author{
+                        display: none;
+                    }
+                }
+            }
+
+            &:hover > .portlet-topper{
+                width: calc(100% - 35px);
+            }
+        }
+        
+        .portlet-journal-content .portlet .portlet-header {
+            display: flex;
+            transform: translateY(-112%);
+        }
+    } 
+
+    .hidden{
+        display: none;
+    }
+
+    .margin-top{
+        margin-top: 25px;
+    
+        @include RWD(tablet_portrait){
+            margin-top: 40px;
+        }
+    }
+    
+    .margin-bottom{
+        margin-bottom: 40px;
+    
+        @include RWD(tablet_portrait){
+            margin-bottom: 60px;
+        }
+    } 
+
+    // lien
+    a{
+        color: $color_main;
+        text-decoration: underline;
+    
+        &:hover{
+            color: $color_txt;
+        }
+    }
+    
+    .chapo{
+        @include ft($proximaNova, 1.25rem, 700, $color_main, 1.5rem, "");
+    }
+    
+    h2{
+        @include ft($proximaNova, 1.5625rem, 400, $color_main, 1.875rem, "");
+    
+        @include RWD(tablet_portrait){
+            font-size: 2.8125rem;
+            line-height: 3.3125rem;
+        }
+    }
+    
+    h3{
+        @include ft($proximaNova, 0.9375rem, 400, $color_main, 1.3125rem, "");
+    
+        @include RWD(tablet_portrait){
+            font-size: 1.875rem;
+            line-height: 2.1875rem;
+        }
+    }
+
+    input{
+        box-shadow: none;
+        outline: none;
+    }
+    
+    // bouton rouge
+    a.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+        text-decoration: none;
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s ease-out;
+            font-size: 0.95rem;
+            line-height: 1.1rem;
+    
+            &:hover{
+                background: white;
+                color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // bouton gris
+    a.button2{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: white;
+        border: 1px solid white;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+        box-shadow: 0px 15px 27px rgba(0, 0, 0, 0.25);
+        text-decoration: none;
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s ease-out;
+            font-size: 0.95rem;
+            line-height: 1.1rem;
+    
+            &:hover{
+                color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // bouton blanc encadrer
+    a.button3{    
+        border: solid $color_main 1px;
+        border-radius: 0;
+        text-decoration: none;
+        background: white;
+        display: block;
+        width: 215px;
+        padding: 15px;
+        text-align: center;
+        @include ft($proximaNova, 0.9375rem, 400, $color_second, 1.3125rem, "");
+    
+        
+        @include RWD(tablet_portrait){
+            width: 260px;
+            transition : all, 0.2s ease-out;
+    
+            &:hover{
+                color: white;
+                background-color: $color_main;
+                text-decoration: none;
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    }
+    
+    // bouton blanc avec animation sur le border
+    button.button1{      
+        display: block;
+        width: 215px;
+        padding: 15px;
+        background: $color_main;
+        border: 1px solid $color_main;
+        text-align: center;
+        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+        text-transform: uppercase;
+    
+        @include RWD(tablet_portrait){
+            border: none;
+            background: none;
+            width: 290px;
+            @include ft($proximaNova, 1rem, 400, $color_txt, 3.75rem, "");
+            z-index: 10;
+            padding: 0;
+    
+            span{
+                display: block;
+                position: relative;
+            }
+    
+            .points{
+                &:before, &:after{
+                    content:'';
+                    position: absolute;
+                    width: 1px;
+                    height: 0;
+                    border: 5px solid $color_main;
+                    transition: height 0.15s ease-out, width 0.15s ease-out 0.15s;
+                }
+    
+                &:before{
+                    bottom:0;
+                    right: calc(50% - 2.5px);
+                    border-right: none;
+                    border-top: none;
+                }
+    
+                &:after{
+                    top:0;
+                    left: calc(50% - 2.5px);
+                    border-left: none;
+                    border-bottom: none;
+                }
+    
+            }
+            
+            .trait:before{
+                content:'';
+                @include positionAbsolute("", "", (bottom: 0, right: 0%));
+                width: 1px;
+                opacity: 0;
+            }
+            
+            .background{
+                &:before{
+                    content:'';
+                    @include positionAbsolute("", "", (top: 0, left: -5px));
+                    width: 0;
+                    height: calc(100% - 5px);
+                    margin: 0 5px 5px;
+                    background-color: $color_main;
+                }
+                
+                span{
+                    color: black;
+                }
+            }
+    
+            &:hover{
+                .points:before, .points:after{
+                    width: calc(50% + 2.5px);
+                    height: calc(100% - 5px);
+                    transition: width 0.15s ease-out, height 0.15s ease-out 0.15s;
+                }
+    
+                .trait:before{
+                    opacity: 1;
+                    border-bottom: 5px solid $color_main;
+                    width: calc(50%);
+                    transition: opacity 0s ease-out 0.29s, width 0.15s ease-out 0.3s;
+                }
+    
+                .background{
+                    &:before{
+                        width: calc(100% - 5px);
+                        transition: width 0.3s ease-out 0.3s;
+                    }
+    
+                    span{
+                        color: white;
+                        transition: color 0.3s ease-out 0.3s;
+                    }
+                }
+            }
+        }
+    
+        &:active, &:focus, &:hover{
+            outline: none;
+        }
+    } 
+    
+    // boutons sliders
+    .swiper-button-next, .swiper-button-prev { 
+        height: 37px;
+        width: 37px;
+        background-color: $color_main;
+        border-radius: 50%;
+        color: white;
+    
+        &.swiper-button-disabled{
+            display: none;
+        }
+    
+        &:after{
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+    }
+    .swiper-button-prev { 
+        left: -18px;
+    }
+    .swiper-button-next{ 
+        right: -18px;
+    }
+    
+    // copyright des images
+    .image-with-copyright-on-hover{
+        position: relative;
+
+        .copyright{
+            @include positionAbsolute("", "", (bottom: 8px, right: 8px));
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 60px;
+            @include ft($proximaNova, 0.8125rem, 700, white, 1rem, "");
+            text-transform: uppercase;
+            height: 21px;
+            width: 21px;
+            overflow: hidden;
+            transition: width 1s ease;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+    
+            &:active, &:focus{
+                width: auto;
+            }
+    
+            @include RWD(tablet_portrait){
+                bottom: 20px;
+                right: 20px;
+    
+                &:hover{
+                    width: auto;
+                }
+            }
+    
+            :first-child(){
+                min-width: 20px;
+                line-height: normal;
+                text-align: center;
+                font-size: 1rem;
+            }
+    
+            :nth-child(2){
+                font-size: 0.75rem;
+                padding: 0 10px;
+            }
+        }
+    }
+
+    // affichage entête + 2 colonnes
+    .container-layout{
+        .col-md-8{
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@include RWD(extra_large){
+    body .container {
+        max-width: 1240px;
+    }
+}

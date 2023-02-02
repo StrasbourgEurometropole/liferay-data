@@ -1,0 +1,99 @@
+#global #news-detail{
+
+    .content{ 
+        margin: auto;
+
+        .news-title{
+            @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 2.75rem;
+                line-height: 3.3125rem;
+                margin-bottom: 60px;
+            }
+        } 
+
+        .news-dates{
+            @include ft($times, 0.75rem, 400, black, 0.875rem, italic);
+            text-align: center;
+            margin-bottom: 15px;
+
+            date{
+                display: block;
+            }
+    
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.0625rem;
+                margin-bottom: 20px;
+            }
+        }
+
+        .news-museums{
+            @include ft($proximaNova, 0.75rem, 400, black, 0.875rem, "");
+            text-align: center;
+            margin-bottom: 15px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.125rem;
+                margin-bottom: 30px;
+            }
+        }
+
+        .news-types{
+            @include ft($proximaNova, 0.75rem, 700, $color_main, 0.9375rem, "");
+            text-align: center;
+            margin-bottom: 30px;
+
+            span{
+                color: black;
+            }
+    
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.125rem;
+            }
+        }
+
+        .image-with-copyright-on-hover{
+            margin-bottom: 30px;
+    
+            @include RWD(tablet_portrait){
+                &:before {
+                    content: '';
+                    width: 400px;
+                    height: 400px;
+                    background: #F2F2F2;
+                    @include positionAbsolute(-1, "", (bottom: -200px, right: -220px));
+                }
+            }
+        }
+
+        .news-chapo{
+            @include ft($proximaNova, 0.875rem, 700, $color_main, 1.0625rem, "");
+            margin-bottom: 30px;
+    
+            @include RWD(tablet_portrait){
+                font-size: 1.25rem;
+                line-height: 1.5rem;
+            }
+        }
+
+        .news-content{
+            @include ft($proximaNova, 0.75rem, 400, black, 1.0625rem, "");
+    
+            @include RWD(tablet_portrait){
+                font-size: 0.9375rem;
+                line-height: 1.3125rem;
+            }
+
+            ul{
+                padding-left: 30px;
+            }
+        }
+    }
+}

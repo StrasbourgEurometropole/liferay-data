@@ -6,6 +6,8 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -39,7 +41,6 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
-import eu.strasbourg.utils.bean.AssetType;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -63,7 +64,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unused"})
 public class SearchAssetDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
@@ -101,7 +102,7 @@ public class SearchAssetDisplayContext {
 		iteratorURL.setParameter("paginate", String.valueOf(true));
 		iteratorURL.setParameter("vocabulariesCount", String.valueOf(i));
 
-		iteratorURL.setParameter("className", ArrayUtil.toStringArray(this.getFilterClassNames()));
+		iteratorURL.setParameter("className", ArrayUtil.toStringArray(this.getFilterClassNamesOrStructures()));
 
 		iteratorURL.setParameter("keywords", String.valueOf(this.getKeywords()));
 
@@ -130,7 +131,7 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Retourne le(s) champ(s) sur le(s)quel on classe les résultats
+	 * Retourne le(s) champ(s) sur le(s)quel(s) on classe les résultats
 	 */
 	public Map<String, String> getSortFieldsAndTypes() throws ConfigurationException {
 		String sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
@@ -239,42 +240,28 @@ public class SearchAssetDisplayContext {
 	}
 
 	/**
-	 * Renvoie la liste des types d'entités sur lesquels on souhaite rechercher
+	 * Renvoie la liste des types d'entités ou structures sur lesquels on souhaite rechercher
 	 * les entries
 	 */
-	private List<String> getFilterClassNames() throws ConfigurationException {
-		_filterClassNames = new ArrayList<>();
-		String[] classNames = ParamUtil.getStringValues(this._request, "className");
-		for (String className : classNames) {
-			if(!className.equals("false")){
-				_filterClassNames.add(className);
+	private List<String> getFilterClassNamesOrStructures() throws ConfigurationException {
+		_filterClassNamesOrStructures = new ArrayList<>();
+		String[] classNamesOrStructures = ParamUtil.getStringValues(this._request, "classNamesOrStructures");
+		for (String classNameOrStructure : classNamesOrStructures) {
+			if(!classNameOrStructure.equals("false")){
+				_filterClassNamesOrStructures.add(classNameOrStructure);
 			}
 		}
 
-		if(classNames.length == 0) {
+		if(classNamesOrStructures.length == 0) {
 			// Si la liste est vide, on renvoie la liste complète paramétrée via la
 			// configuration (on ne recherche pas sur rien !)
-			if (_filterClassNames.size() == 0) {
-				_filterClassNames = this.getClassNames();
-			}
-		}
-		return _filterClassNames;
-	}
-
-	/**
-	 * Récupère la liste des class names sur lesquels faire la recherche
-	 */
-	public List<String> getClassNames() throws ConfigurationException {
-		_classNames = new ArrayList<>();
-		for (ConfigurationAssetData assetType : getConfigurationData().getAssetTypeDataList()){
-			if (Validator.isNotNull(assetType)){
-				if(Validator.isNotNull(assetType.getClassName())) {
-					_classNames.add(assetType.getClassName());
+			if (_filterClassNamesOrStructures.size() == 0) {
+				for (String[] classNameOrStructure : this.getClassNamesOrStructures()) {
+					_filterClassNamesOrStructures.add(classNameOrStructure[0]);
 				}
 			}
 		}
-
-		return _classNames;
+		return _filterClassNamesOrStructures;
 	}
 
 	/**
@@ -523,7 +510,7 @@ public class SearchAssetDisplayContext {
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				this.getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate,
-				toDate, categoriesIds, idSIGPlace, this.getFilterClassNames(), this._themeDisplay.getLocale(),
+				toDate, categoriesIds, idSIGPlace, this.getFilterClassNamesOrStructures(), this._themeDisplay.getLocale(),
 				getSearchContainer().getStart(), getSearchContainer().getEnd());
 
 		List<AssetEntry> results = new ArrayList<>();
@@ -568,7 +555,7 @@ public class SearchAssetDisplayContext {
 		AssetEntry result1 = this.getEntries().size() > 0 ? this.getEntries().get(0) : null;
 		AssetEntry result2 = this.getEntries().size() > 1 ? this.getEntries().get(1) : null;
 		AssetEntry result3 = this.getEntries().size() > 2 ? this.getEntries().get(2) : null;
-		long searchTime = (long) (this._searchHits.getSearchTime() * 1000);
+		long searchTime = this._searchHits.getSearchTime() * 1000;
 		SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, this.getKeywords(),
 				this.getSearchContainer().getTotal(), result1, result2, result3, null, searchTime);
 		this.getSearchContainer().getIteratorURL().setParameter("searchLogId",
@@ -587,7 +574,7 @@ public class SearchAssetDisplayContext {
 	/* utiles pour les jsp */
 	/* ******************* */
 	public String getSearchForm() throws ConfigurationException {
-		return Validator.isNotNull(getConfigurationData().getSearchForm()) ? getConfigurationData().getSearchForm() : "museum";
+		return Validator.isNotNull(getConfigurationData().getSearchForm()) ? getConfigurationData().getSearchForm() : "museum-actu";
 	}
 
 	/**
@@ -742,23 +729,24 @@ public class SearchAssetDisplayContext {
 
 	public String getFilterActivityCategoriesIdsString() {
 		if (Validator.isNull(this._filterCategoriesIdString)) {
-			String filterCategoriesIdsString = "";
+			StringBuilder filterCategoriesIdsString = new StringBuilder();
 			if(this.getFilterCategoriesIds().isEmpty()){
 				// on récupère la catégorie active du statut de modération de l'aide
 				long groupId = this._themeDisplay.getScopeGroupId();
 				AssetCategory active = AssetVocabularyHelper.getCategory("Active", groupId);
-				filterCategoriesIdsString = ""+active.getCategoryId();
+				assert active != null;
+				filterCategoriesIdsString = new StringBuilder("" + active.getCategoryId());
 			}else {
 				for (Long[] filterCategoriesForVoc : this.getFilterCategoriesIds()) {
 					for (long filterCategoryId : filterCategoriesForVoc) {
 						if (filterCategoriesIdsString.length() > 0) {
-							filterCategoriesIdsString += ",";
+							filterCategoriesIdsString.append(",");
 						}
-						filterCategoriesIdsString += filterCategoryId;
+						filterCategoriesIdsString.append(filterCategoryId);
 					}
 				}
 			}
-			this._filterCategoriesIdString = filterCategoriesIdsString;
+			this._filterCategoriesIdString = filterCategoriesIdsString.toString();
 		}
 		return this._filterCategoriesIdString;
 	}
@@ -853,7 +841,7 @@ public class SearchAssetDisplayContext {
 				getConfigurationData().getUtilsAssetTypeList(),
 				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
 				getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate, toDate, categoriesIds,
-				null, this.getFilterClassNames(), this._themeDisplay.getLocale(), -1, -1);
+				null, this.getFilterClassNamesOrStructures(), this._themeDisplay.getLocale(), -1, -1);
 
 		StringBuilder ids = new StringBuilder();
 		if (searchHits != null) {
@@ -873,7 +861,7 @@ public class SearchAssetDisplayContext {
 		}
 
 		exportURL.setParameter("ids", ids.toString());
-		exportURL.setParameter("classNames", this.getFilterClassNamesString());
+		exportURL.setParameter("classNames", this.getFilterClassNamesOrStructuresString());
 		return exportURL;
 	}
 
@@ -881,8 +869,8 @@ public class SearchAssetDisplayContext {
 	 * Retourne la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries, sous forme de String
 	 */
-	public String getFilterClassNamesString() throws ConfigurationException {
-		return StringUtil.merge(getFilterClassNames());
+	public String getFilterClassNamesOrStructuresString() throws ConfigurationException {
+		return StringUtil.merge(getFilterClassNamesOrStructures());
 	}
 
 	public Pager getPager() throws ConfigurationException {
@@ -902,9 +890,7 @@ public class SearchAssetDisplayContext {
 
 	public String getIdSIGPlace() {
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
-		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
-
-		return idSIGPlace;
+		return ParamUtil.getString(originalRequest, "idSIGPlace");
 	}
 
 	/**
@@ -917,7 +903,7 @@ public class SearchAssetDisplayContext {
 	/**
 	 * Retourne le nombre de résultats de la recherche
 	 */
-	 public int getTotal() throws PortalException {
+	 public int getTotal() {
 	 	return this.getSearchContainer().getTotal();
 	 }
 
@@ -943,6 +929,13 @@ public class SearchAssetDisplayContext {
 	 */
 	public boolean getDisplayDateSorting() throws ConfigurationException {
 		return getConfigurationData().isDisplaySorting();
+	}
+
+	/**
+	 * Retourne true si le filtre sur les types d'asset est autorisé
+	 */
+	public boolean getDisplayAssetType() throws ConfigurationException {
+		return getConfigurationData().isDisplayAssetType();
 	}
 
 	/**
@@ -999,7 +992,7 @@ public class SearchAssetDisplayContext {
 		getSortFieldsAndTypes().forEach((key, value) -> {
 			if (sortFieldsAndTypesString.length() > 0)
 				sortFieldsAndTypesString.append("--");
-			sortFieldsAndTypesString.append(key + "," + value);
+			sortFieldsAndTypesString.append(key).append(",").append(value);
 		});
 		return sortFieldsAndTypesString.toString();
 	}
@@ -1016,6 +1009,32 @@ public class SearchAssetDisplayContext {
 		}
 	}
 
+	/**
+	 * Récupère la liste des class names (ou structure pour les CW) sur lesquels faire la recherche
+	 */
+	public List<String[]> getClassNamesOrStructures() throws ConfigurationException {
+		_classNamesOrStructures = new ArrayList<>();
+		for (ConfigurationAssetData assetType : getConfigurationData().getAssetTypeDataList()){
+			if (Validator.isNotNull(assetType)){
+				if(Validator.isNotNull(assetType.getClassName())) {
+					if(!assetType.getClassName().equals("searchJournalArticle")) {
+						String[] classNameOrStructure = {assetType.getClassName(), assetType.getClassName()};
+						_classNamesOrStructures.add(classNameOrStructure);
+					}else{
+						// récupération de la structure
+						DDMStructure structure = DDMStructureLocalServiceUtil.fetchDDMStructure(assetType.getStructureID());
+						if(Validator.isNotNull(structure)) {
+							String[] classNameOrStructure = {""+structure.getStructureId(), structure.getName(this._themeDisplay.getLocale())};
+							_classNamesOrStructures.add(classNameOrStructure);
+						}
+					}
+				}
+			}
+		}
+
+		return _classNamesOrStructures;
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
@@ -1024,7 +1043,7 @@ public class SearchAssetDisplayContext {
 	private SearchAssetConfiguration _configuration;
 	private ConfigurationData _configurationData;
 
-	private List<String> _classNames;
+	private List<String[]> _classNamesOrStructures;
 
 	private SearchContainer<AssetEntry> _searchContainer;
 	private List<AssetEntry> _entries;
@@ -1032,7 +1051,7 @@ public class SearchAssetDisplayContext {
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;
-	private List<String> _filterClassNames;
+	private List<String> _filterClassNamesOrStructures;
 	private Map<String, String> _templatesMap;
 	private SearchHits _searchHits;
 	private int _entriesCount;

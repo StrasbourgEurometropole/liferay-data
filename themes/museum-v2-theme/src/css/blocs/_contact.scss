@@ -1,0 +1,68 @@
+#global .container-layout .contact{
+    background: $color_main;
+    padding: 40px 50px;
+    margin-bottom: 20px;
+
+    .title{
+        @include ft($times, 1.5625rem, 400, white, 1.3125rem, italic);
+        margin-bottom: 25px;
+        display: block;
+    }
+
+    .infos{
+        @include ft($proximaNova, 0.9375rem, 400, white, 1.3125rem, "");
+
+        .name{
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .phone{
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            a{
+                color: white;
+                text-decoration: none;
+            }
+
+            &:before{
+                content: '';
+                width: 15px;
+                height: 15px;
+                background-image: url( svg-bg-uri($svg-phone, white) );
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+                margin-right: 10px;
+            }
+        }
+
+        .mail{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            a{
+                color: white;
+            }
+
+            &:before{
+                content: '';
+                width: 17px;
+                height: 17px;
+                background-image: url( svg-bg-uri($svg-mail, white) );
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                display: inline-block;
+                margin-right: 10px;
+            }
+        }
+    }
+}

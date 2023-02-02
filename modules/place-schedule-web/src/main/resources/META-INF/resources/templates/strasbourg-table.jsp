@@ -116,23 +116,25 @@
 					        		${category.getTitle(locale)}
 					        	</div>
 					        </th>
-							<c:choose>
-								<c:when test="${piscine or patinoire}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="live-attendance" /></div>
-							        </th>
-								</c:when>
-								<c:when test="${parking}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="occupation" /></div>
-							        </th>
-								</c:when>
-								<c:when test="${mairie}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="estimated-time" /></div>
-							        </th>
-								</c:when>
-							</c:choose>
+                            <c:if test="${showAffluence}">
+                                <c:choose>
+                                    <c:when test="${piscine or patinoire}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="live-attendance" /></div>
+                                        </th>
+                                    </c:when>
+                                    <c:when test="${parking}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="occupation" /></div>
+                                        </th>
+                                    </c:when>
+                                    <c:when test="${mairie}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="estimated-time" /></div>
+                                        </th>
+                                    </c:when>
+                                </c:choose>
+                            </c:if>
 							<fmt:formatDate value="${now}" type="date" var="shortNow" dateStyle="SHORT"/>
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
@@ -171,42 +173,44 @@
 								<td class="place-name">
 								    ${place.getAlias(locale)}
 								</td>
-								<c:if test="${piscine or patinoire}">
-										<c:set var="occupationState" value="${place.getRealTime('1')}" />
-										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
-											<div class="crowded-amount ${occupationState.cssClass}">
-			                                    ${occupationState.occupationLabel}
-			                                </div>
-			                                <div class="crowded-label">
-			                                	<liferay-ui:message key="${occupationState.label}" />
-			                                </div>
-			                                <div class="crowded-label">
-			                                	<liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
-			                                </div>
-								    	</td>
-							    </c:if>
-								<c:if test="${parking}">
-										<c:set var="occupationState" value="${place.getRealTime('2')}" />
-										<td rowspan="${place.getSubPlaces().size() + 1}" class="occupation-state" >
-											<div class="crowded-amount ${occupationState.cssClass}">
-			                                    ${occupationState.available}
-			                                </div>
-			                                <div class="crowded-label">
-			                                	<liferay-ui:message key="${occupationState.label}" />
-			                                </div>
-								    	</td>
-							    </c:if>
-								<c:if test="${mairie}">
-										<c:set var="occupationState" value="${place.getRealTime('3')}" />
-										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
-											<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
-			                                    ${occupationState.occupationLabel}
-			                                </div>
-			                                <div class="crowded-label">
-			                                	<liferay-ui:message key="${occupationState.label}" />
-			                                </div>
-								    	</td>
-							    </c:if>
+                                <c:if test="${showAffluence}">
+                                    <c:if test="${piscine or patinoire}">
+                                            <c:set var="occupationState" value="${place.getRealTime('1')}" />
+                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
+                                                <div class="crowded-amount ${occupationState.cssClass}">
+                                                    ${occupationState.occupationLabel}
+                                                </div>
+                                                <div class="crowded-label">
+                                                    <liferay-ui:message key="${occupationState.label}" />
+                                                </div>
+                                                <div class="crowded-label">
+                                                    <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                                </div>
+                                            </td>
+                                    </c:if>
+                                    <c:if test="${parking}">
+                                            <c:set var="occupationState" value="${place.getRealTime('2')}" />
+                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
+                                                <div class="crowded-amount ${occupationState.cssClass}">
+                                                    ${occupationState.available}
+                                                </div>
+                                                <div class="crowded-label">
+                                                    <liferay-ui:message key="${occupationState.label}" />
+                                                </div>
+                                            </td>
+                                    </c:if>
+                                    <c:if test="${mairie}">
+                                            <c:set var="occupationState" value="${place.getRealTime('3')}" />
+                                            <td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
+                                                <div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
+                                                    ${occupationState.occupationLabel}
+                                                </div>
+                                                <div class="crowded-label">
+                                                    <liferay-ui:message key="${occupationState.label}" />
+                                                </div>
+                                            </td>
+                                    </c:if>
+                                </c:if>
 								<c:if test="${place.hasURLSchedule}">
 										<c:set var="occupationState" value="${place.getRealTime('3')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" colspan="5" >
@@ -332,23 +336,25 @@
 					        		${category.getTitle(locale)}
 					        	</div>
 					        </th>
-							<c:choose>
-								<c:when test="${piscine or patinoire}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="live-attendance" /></div>
-							        </th>
-								</c:when>
-								<c:when test="${parking}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="occupation" /></div>
-							        </th>
-								</c:when>
-								<c:when test="${mairie}">
-							        <th class="occupation" >
-							        	<div><liferay-ui:message key="estimated-time" /></div>
-							        </th>
-								</c:when>
-							</c:choose>
+                            <c:if test="${showAffluence}">
+                                <c:choose>
+                                    <c:when test="${piscine or patinoire}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="live-attendance" /></div>
+                                        </th>
+                                    </c:when>
+                                    <c:when test="${parking}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="occupation" /></div>
+                                        </th>
+                                    </c:when>
+                                    <c:when test="${mairie}">
+                                        <th class="occupation" >
+                                            <div><liferay-ui:message key="estimated-time" /></div>
+                                        </th>
+                                    </c:when>
+                                </c:choose>
+                            </c:if>
 							<c:forEach var="date" items="${weekDates}" varStatus="loopStatus" >							
 								<fmt:formatDate value="${date}" type="date" var="shortDate" dateStyle="SHORT" />
 								<fmt:formatDate value="${date}" type="date" var="dayOfWeek" pattern="EEEE" />

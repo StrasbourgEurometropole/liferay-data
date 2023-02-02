@@ -32,7 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 
 /**
  * Classe Helper pour tout ce qui concerne les fichiers
@@ -334,6 +336,32 @@ public class FileEntryHelper {
 
 		return map;
 
+	}
+
+	/**
+	 * Renvoie l'URL d'une image random
+	 * @param groupId ex: Catégorie de lieux
+	 * @param nomRepertoire ex: CSMap
+	 */
+	public static String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire) {
+
+		if (Validator.isNotNull(groupId) && Validator.isNotNull(nomRepertoire)) {
+			DLFolder folder = DLFolderLocalServiceUtil
+					.fetchFolder(groupId, 0, nomRepertoire);
+
+			if (folder != null) {
+				// Ajoute les fichiers de la rubrique qui ne sont pas dans une sous rubrique
+				List<DLFileEntry> files = DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId());
+
+				if(files.size() > 0) {
+					Random random = new Random();
+					DLFileEntry file = files.get(random.nextInt(files.size()));
+					return getFileEntryURL(file);
+				}
+			}
+		}
+
+		return "";
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());
