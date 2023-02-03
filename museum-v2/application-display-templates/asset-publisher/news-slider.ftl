@@ -7,24 +7,25 @@
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<section id="news" class="margin-bottom">
-    <div class="content container">
-            
-        <button class="button1" id="btn-all-news" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title='<@liferay_ui.message key="eu.museum.all-news" />'>
-            <span class="points">
-                <span class="trait">
-                    <span class="background">
-                        <span>
-                            <@liferay_ui.message key="eu.museum.all-news" />
+<#if entries?has_content>
+    <section id="news" class="margin-bottom">
+        <div class="content container">
+                
+            <button class="button1" id="btn-all-news" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title='<@liferay_ui.message key="eu.museum.all-news" />'>
+                <span class="points">
+                    <span class="trait">
+                        <span class="background">
+                            <span>
+                                <@liferay_ui.message key="eu.museum.all-news" />
+                            </span>
                         </span>
                     </span>
                 </span>
-            </span>
-        </button>
-        
-        <h2>${portletHelper.getPortletTitle('eu.museum.news', renderRequest)}</h2>
+            </button>
+            
+            <h2>${portletHelper.getPortletTitle('eu.museum.news', renderRequest)}</h2>
 
-        <#if entries?has_content>
+
             <div class="slider">
                 <div class="swiper">
                     <div class="swiper-wrapper">
@@ -81,10 +82,10 @@
                                                 <span>${title}</span>
                                             </p>
                                         </div>
-                    	            </a>
-                    	        </div>
+                                    </a>
+                                </div>
                             </#if>
-                    	</#list>
+                        </#list>
                     </div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
@@ -93,9 +94,9 @@
             </div>
             
             <a href="${homeURL}actualite" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
-        </#if>
-    </div>
-</section>
+        </div>
+    </section>
+</#if>
 
 <script>
     $("#btn-all-news").click(function(){

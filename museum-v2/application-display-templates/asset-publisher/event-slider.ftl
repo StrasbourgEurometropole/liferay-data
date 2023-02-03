@@ -7,14 +7,14 @@
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<section id="events" class="margin-bottom">
-    <div  class="content container">
-        <h2>${portletHelper.getPortletTitle('eu.museum.moment', renderRequest)}</h2>
-        <#if entries?has_content>
+<#if entries?has_content>
+    <section id="events" class="margin-bottom">
+        <div  class="content container">
+            <h2>${portletHelper.getPortletTitle('eu.museum.moment', renderRequest)}</h2>
             <div class="slider">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-                	    <#list entries as curEntry>
+                        <#list entries as curEntry>
                             <#assign event = curEntry.getAssetRenderer().getEvent() />
                             <#assign detailURL = homeURL + "evenement/-/entity/id/" + event.eventId + "/" + event.getNormalizedTitle(locale) />
                             <div class="swiper-slide">
@@ -37,7 +37,7 @@
                                     </div>
                                 </a>
                             </div>
-                    	</#list>
+                        </#list>
                     </div>
                     
                     <div class="swipper-buttons">
@@ -58,9 +58,9 @@
                     </span>
                 </span>
             </button>
-        </#if>
-    </div>
-</section>
+        </div>
+    </section>
+</#if>
 
 <script>
     $("#btn-all-events").click(function(){
