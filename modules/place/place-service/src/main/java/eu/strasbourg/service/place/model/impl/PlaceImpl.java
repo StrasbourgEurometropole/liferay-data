@@ -731,18 +731,18 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne le temps réel (couleur de fond,valeur)
      *
-     * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
+     * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire, 5 =Vélop)
      * @throws Exception
      */
     @Override
     public OccupationState getRealTime(String type) {
         OccupationState state = null;
-
         GregorianCalendar today = new GregorianCalendar();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.clear(Calendar.MINUTE);
         today.clear(Calendar.SECOND);
         today.clear(Calendar.MILLISECOND);
+
         if (!this.isOpenNow()) {
             state = OccupationState.CLOSED;
             return state;
@@ -752,7 +752,6 @@ public class PlaceImpl extends PlaceBaseImpl {
             state = OccupationState.DISABLED;
             return state;
         }
-
         long occupation = 0;
         switch (type) {
             case "1":
@@ -865,10 +864,12 @@ public class PlaceImpl extends PlaceBaseImpl {
                 state.setOccupation("" + occupation);
                 break;
             case "5":
+                occupation = this.getRTOccupation();
                 state = OccupationState.NOT_AVAILABLE;
-                if (Validator.isNotNull(this.getRTAvailable())) {
+                if ( occupation!=-1 ) {
                     state = OccupationState.OPEN;
                     state.setAvailable("" + this.getRTAvailable());
+                    state.setCapacity("" + this.getRTCapacity());
                 }
                 break;
         }
@@ -1588,7 +1589,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      * Renvoie le JSON de l'entite au format CSMap
      */
     @Override
-    public JSONObject getCSMapJSON() {
+    public JSONObject getCSMapJSON()    {
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put("idSurfs", this.getSIGid());

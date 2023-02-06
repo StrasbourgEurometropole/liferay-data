@@ -45,6 +45,7 @@ import eu.strasbourg.service.place.model.Place;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -386,8 +387,8 @@ public interface PlaceLocalService
 		throws SearchException;
 
 	public void updateRealTime(
-		Place place, String type, long occupation, long available,
-		long capacity, String status);
+			Place place, String type, long occupation, long available,
+			long capacity, String status, Date rtLastUpdate);
 
 	/**
 	 * Met à jour le statut du lieu par le framework workflow

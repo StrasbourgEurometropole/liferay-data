@@ -16,6 +16,8 @@ package eu.strasbourg.service.place.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
 
+import java.util.Date;
+
 /**
  * Provides a wrapper for {@link PlaceLocalService}.
  *
@@ -507,11 +509,11 @@ public class PlaceLocalServiceWrapper
 
 	@Override
 	public void updateRealTime(
-		eu.strasbourg.service.place.model.Place place, String type,
-		long occupation, long available, long capacity, String status) {
+			eu.strasbourg.service.place.model.Place place, String type,
+			long occupation, long available, long capacity, String status, Date rtLastUpdate) {
 
 		_placeLocalService.updateRealTime(
-			place, type, occupation, available, capacity, status);
+			place, type, occupation, available, capacity, status,rtLastUpdate);
 	}
 
 	/**
