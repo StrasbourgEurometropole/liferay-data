@@ -26,7 +26,7 @@
                 height: 200px;
 
                 @include RWD(tablet_portrait){
-                    height: calc(100vh - 40px);
+                    height: calc(100vh - 240px);
                     
                     &.swiper-slide-active .info .image{
                         animation: scale 20s;
@@ -62,62 +62,62 @@
                     }
                 }
             }
+        }
+    }
 
-            .swipper-buttons {
+    .swipper-buttons {
+        display: none;
+
+        @include RWD(tablet_portrait){
+            @include positionAbsolute(1, "", (bottom: 70px, right: 20px));
+            display: inline-block;
+
+            .swiper-button-prev, .swiper-button-play, .swiper-button-pause, .swiper-button-next{ 
+                background-color: white;
+                color: #313841;
+                display: inline-block;
+                position: relative;
+                left: 0;
+
+                &:after{
+                    @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
+                }
+            }
+
+            .swiper-button-play{
                 display: none;
+                height: 37px;
+                width: 37px;
+                border-radius: 50%;
+                cursor: pointer;
 
-                @include RWD(tablet_portrait){
-                    @include positionAbsolute(1, "", (bottom: 70px, right: 20px));
+                &:after{
+                    content: '';
+                    width: 20px;
+                    height: 20px;
+                    background-image: url( svg-bg-uri($svg-play, #313841) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
                     display: inline-block;
+                }
+            }
 
-                    .swiper-button-prev, .swiper-button-play, .swiper-button-pause, .swiper-button-next{ 
-                        background-color: white;
-                        color: #313841;
-                        display: inline-block;
-                        position: relative;
-                        left: 0;
+            .swiper-button-pause{
+                height: 37px;
+                width: 37px;
+                border-radius: 50%;
+                cursor: pointer;
 
-                        &:after{
-                            @include positionAbsolute("", translate(-50%, -50%), (top: 50%, left: 50%));
-                        }
-                    }
-
-                    .swiper-button-play{
-                        display: none;
-                        height: 37px;
-                        width: 37px;
-                        border-radius: 50%;
-                        cursor: pointer;
-
-                        &:after{
-                            content: '';
-                            width: 20px;
-                            height: 20px;
-                            background-image: url( svg-bg-uri($svg-play, #313841) );
-                            background-position: center;
-                            background-repeat: no-repeat;
-                            background-size: contain;
-                            display: inline-block;
-                        }
-                    }
-
-                    .swiper-button-pause{
-                        height: 37px;
-                        width: 37px;
-                        border-radius: 50%;
-                        cursor: pointer;
-
-                        &:after{
-                            content: '';
-                            width: 20px;
-                            height: 15px;
-                            background-image: url( svg-bg-uri($svg-pause, #313841) );
-                            background-position: center;
-                            background-repeat: no-repeat;
-                            background-size: contain;
-                            display: inline-block;
-                        }
-                    }
+                &:after{
+                    content: '';
+                    width: 20px;
+                    height: 15px;
+                    background-image: url( svg-bg-uri($svg-pause, #313841) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
                 }
             }
         }
