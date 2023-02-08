@@ -165,8 +165,8 @@ public class OfferMessageListener
 			Locale locale = LocaleUtil.fromLanguageId(alert.getLanguage());
 
 			log.info("Utilisateurs - Recherche ES des offres pour l'alerte : "+alert.getAlertId());
-			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds,
-					keywords, locale);
+			// récupère les offres en cours
+			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds, keywords, locale);
 
 			if (hits != null) {
 				log.info("Utilisateurs - Récupération des offres pour l'alerte : "+alert.getAlertId());
@@ -180,12 +180,10 @@ public class OfferMessageListener
 
 				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0)
 				// on ne prend que les offres externes
-				// qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
 				log.info("Utilisateurs - Filtre des offres pour l'alerte : "+alert.getAlertId());
 				offersToSend = offersToSend.stream()
 						.filter(o -> o.getEmailSend() == 0)
-						.filter(o -> !o.getTypePublication().equals("Interne uniquement"))
-						.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
+						.filter(o -> !o.getTypePublication().getName().equals("Interne uniquement"))
 						.collect(Collectors.toList());
 
 				if(offersToSend.size() > 0) {

@@ -956,7 +956,8 @@ public class SearchHelper {
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * offres
 	 */
-	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords, Locale locale) {
+	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
+					Locale locale) {
 		try {
 			SearchContext searchContext = new SearchContext();
 			searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
@@ -977,7 +978,8 @@ public class SearchHelper {
 	/**
 	 * Retourne la requête pour le webservice des offres
 	 */
-	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords, Locale locale) {
+	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords,
+					Locale locale) {
 
 		try {
 			BooleanQuery query = new BooleanQueryImpl();
@@ -1046,10 +1048,17 @@ public class SearchHelper {
 				}
 			}
 
-			return query;
-		} catch (
+			// Dates
+			LocalDateTime today = LocalDateTime.now();
+			BooleanQuery datesQuery = new BooleanQueryImpl();
+			String dateString = String.format("%04d", today.getYear())
+					+ String.format("%02d", today.getMonth().getValue())
+					+ String.format("%02d", today.getDayOfMonth()) + "000000";
+			datesQuery.addRangeTerm("dates", dateString, dateString);
+			query.add(datesQuery, BooleanClauseOccur.MUST);
 
-				ParseException e) {
+			return query;
+		} catch (ParseException e) {
 			_log.error(e);
 			return null;
 		}
