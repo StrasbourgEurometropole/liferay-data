@@ -43,12 +43,14 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -750,6 +752,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         if (Validator.isNull(this.getRTExternalId())) {
             state = OccupationState.DISABLED;
+            return state;
+        }
+
+        if(!this.isDiffDatesLessThanDuration(this.getRTLastUpdate(),new Date(),10)){
+            state = OccupationState.NOT_AVAILABLE;
             return state;
         }
         long occupation = 0;
@@ -1730,5 +1737,17 @@ public class PlaceImpl extends PlaceBaseImpl {
     @Override
     public String getNormalizedAlias(Locale locale) {
         return UriHelper.normalizeToFriendlyUrl(this.getAlias(locale));
+    }
+    private boolean isDiffDatesLessThanDuration(Date startDate, Date endDate, int dureeMinute) {
+        try {
+            Instant instantDebut = startDate.toInstant();
+            Instant instantFin = endDate.toInstant();
+            long minutesBetween = ChronoUnit.MINUTES.between(instantDebut, instantFin);
+            if (minutesBetween < dureeMinute)
+                return true;
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

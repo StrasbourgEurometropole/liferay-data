@@ -422,13 +422,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
     @Override
     public void updateRealTime(Place place, String type, long occupation, long available, long capacity, String status, Date rtLastUpdate) {
 
-        if (!this.compareDateWithDuration(place.getRTLastUpdate(), rtLastUpdate, 10)) {
-            if (type.equals("2")) { // met à jour le status dans parking
-                status = "0";
-            } else {
-                occupation = -1;
-            }
-        }
         if (rtLastUpdate != null) {
             place.setRTLastUpdate(rtLastUpdate);
         }
@@ -651,18 +644,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 
     private String printUpdateError(String lieu, String rtExternalId, String sigId) {
         return "Can not update real time data for" + "'" + lieu + "' rtExternalId :" + rtExternalId + ", sigId :" + sigId;
-    }
-    private boolean compareDateWithDuration(Date startDate, Date endDate, int dureeMinute) {
-        try {
-            Instant instantDebut = startDate.toInstant();
-            Instant instantFin = endDate.toInstant();
-            long minutesBetween = ChronoUnit.MINUTES.between(instantDebut, instantFin);
-            if (minutesBetween < dureeMinute)
-                return true;
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
     }
     private Log log = LogFactoryUtil.getLog(this.getClass().getName());
 }
