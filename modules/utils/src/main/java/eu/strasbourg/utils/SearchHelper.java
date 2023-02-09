@@ -953,8 +953,8 @@ public class SearchHelper {
 	}
 
 	/**
-	 * Retourne les Hits correspondant aux paramètres pour le webservice des
-	 * offres
+	 * Retourne les Hits des offres en cours, qui n'ont pas encore été envoyées (emailSend=0)
+	 * et qui ne sont pas uniquement internes, correspondant aux paramètres pour le scheduler offres
 	 */
 	public static Hits getOfferWebServiceSearchHits(String className, long[] categoriesIds, String keywords,
 					Locale locale) {
@@ -976,7 +976,7 @@ public class SearchHelper {
 	}
 
 	/**
-	 * Retourne la requête pour le webservice des offres
+	 * Retourne la requête pour le scheduler des offres
 	 */
 	private static Query getOfferWebServiceQuery(String className, long[] categoriesIds, String keywords,
 					Locale locale) {
@@ -1048,7 +1048,7 @@ public class SearchHelper {
 				}
 			}
 
-			// Dates
+			// Dates actives
 			LocalDateTime today = LocalDateTime.now();
 			BooleanQuery datesQuery = new BooleanQueryImpl();
 			String dateString = String.format("%04d", today.getYear())
@@ -1056,6 +1056,15 @@ public class SearchHelper {
 					+ String.format("%02d", today.getDayOfMonth()) + "000000";
 			datesQuery.addRangeTerm("dates", dateString, dateString);
 			query.add(datesQuery, BooleanClauseOccur.MUST);
+
+			// pas encore envoyées
+			query.addRequiredTerm("emailSend", 0);
+
+			// on ne veut pas les offres internes uniquement
+			BooleanQuery categoryQuery = new BooleanQueryImpl();
+			categoryQuery.addRequiredTerm(Field.ASSET_CATEGORY_TITLES, "Interne uniquement");
+			query.add(categoryQuery, BooleanClauseOccur.MUST_NOT);
+
 
 			return query;
 		} catch (ParseException e) {

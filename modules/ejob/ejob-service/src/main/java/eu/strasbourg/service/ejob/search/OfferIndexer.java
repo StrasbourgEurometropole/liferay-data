@@ -54,7 +54,7 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 	 * C'est ici qu'on choisi les champs � indexer
 	 */
 	@Override
-	protected Document doGetDocument(Offer offer) throws Exception {
+	protected Document doGetDocument(Offer offer) {
 		Document document = getBaseModelDocument(CLASS_NAME, offer);
 
 		// On indexe toute la hiérarchie de catégories (parents et enfants des
@@ -93,6 +93,7 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 		document.addLocalizedText(Field.DESCRIPTION, descriptionMap);
 		document.addLocalizedText(Field.CONTENT, contentMap);
 		document.addNumber(Field.STATUS, offer.getStatus());
+		document.addNumber("emailSend", offer.getEmailSend());
 
 		List<Date> dates = new ArrayList<Date>();
 		Date startDate = offer.getPublicationStartDate();
@@ -108,7 +109,7 @@ public class OfferIndexer extends BaseIndexer<Offer> {
 	@Override
 	protected Summary doGetSummary(Document document, Locale locale,
 		String snippet, PortletRequest portletRequest,
-		PortletResponse portletResponse) throws Exception {
+		PortletResponse portletResponse) {
 		Summary summary = createSummary(document, Field.TITLE, Field.URL);
 		return summary;
 	}

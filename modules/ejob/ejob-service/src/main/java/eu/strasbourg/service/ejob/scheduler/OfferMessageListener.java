@@ -36,6 +36,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -165,7 +166,9 @@ public class OfferMessageListener
 			Locale locale = LocaleUtil.fromLanguageId(alert.getLanguage());
 
 			log.info("Utilisateurs - Recherche ES des offres pour l'alerte : "+alert.getAlertId());
-			// récupère les offres en cours
+			// récupère les offres en cours,
+			// qui n'ont pas encore été envoyées (emailSend=0)
+			// et qui ne sont pas uniquement internes
 			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds, keywords, locale);
 
 			if (hits != null) {
@@ -178,14 +181,6 @@ public class OfferMessageListener
 					}
 				}
 
-				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0)
-				// on ne prend que les offres externes
-				log.info("Utilisateurs - Filtre des offres pour l'alerte : "+alert.getAlertId());
-				offersToSend = offersToSend.stream()
-						.filter(o -> o.getEmailSend() == 0)
-						.filter(o -> !o.getTypePublication().getName().equals("Interne uniquement"))
-						.collect(Collectors.toList());
-
 				if(offersToSend.size() > 0) {
 					log.info("Utilisateurs - Envoie de mail pour l'alerte : "+alert.getAlertId());
 					if (alert.sendMail(offersToSend)) {
@@ -196,7 +191,8 @@ public class OfferMessageListener
 			}
 		}
 		log.info(nbMailSend + " mail(s) envoyé(s) aux utilisateurs");
-		for (Offer offer : offersSend) {
+		List<Offer> offersSendWithoutDuplicates = new ArrayList<>(new HashSet<>(offersSend));
+		for (Offer offer : offersSendWithoutDuplicates) {
 			offer.setEmailSend(1);
 			_offerLocalService.updateOffer(offer);
 		}
