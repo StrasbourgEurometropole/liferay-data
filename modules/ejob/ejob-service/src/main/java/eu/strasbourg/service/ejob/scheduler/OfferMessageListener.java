@@ -14,6 +14,9 @@ import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -36,6 +39,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -165,8 +169,10 @@ public class OfferMessageListener
 			Locale locale = LocaleUtil.fromLanguageId(alert.getLanguage());
 
 			log.info("Utilisateurs - Recherche ES des offres pour l'alerte : "+alert.getAlertId());
-			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds,
-					keywords, locale);
+			// récupère les offres en cours,
+			// qui n'ont pas encore été envoyées (emailSend=0)
+			// et qui ne sont pas uniquement internes
+			Hits hits = SearchHelper.getOfferWebServiceSearchHits(classNames, categoriesIds, keywords, locale);
 
 			if (hits != null) {
 				log.info("Utilisateurs - Récupération des offres pour l'alerte : "+alert.getAlertId());
@@ -178,16 +184,6 @@ public class OfferMessageListener
 					}
 				}
 
-				// on ne garde que les offres qui n'ont pas encore été envoyées (emailSend=0)
-				// on ne prend que les offres externes
-				// qui sont ouvertes (publicationStartDate) et qui ne sont pas finies
-				log.info("Utilisateurs - Filtre des offres pour l'alerte : "+alert.getAlertId());
-				offersToSend = offersToSend.stream()
-						.filter(o -> o.getEmailSend() == 0)
-						.filter(o -> !o.getTypePublication().equals("Interne uniquement"))
-						.filter(o -> o.getPublicationStartDate().compareTo(now) <= 0 && o.getPublicationEndDate().after(now))
-						.collect(Collectors.toList());
-
 				if(offersToSend.size() > 0) {
 					log.info("Utilisateurs - Envoie de mail pour l'alerte : "+alert.getAlertId());
 					if (alert.sendMail(offersToSend)) {
@@ -198,9 +194,16 @@ public class OfferMessageListener
 			}
 		}
 		log.info(nbMailSend + " mail(s) envoyé(s) aux utilisateurs");
-		for (Offer offer : offersSend) {
+		List<Offer> offersSendWithoutDuplicates = new ArrayList<>(new HashSet<>(offersSend));
+		Indexer<Offer> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Offer.class);
+		for (Offer offer : offersSendWithoutDuplicates) {
 			offer.setEmailSend(1);
 			_offerLocalService.updateOffer(offer);
+			try {
+				indexer.reindex(offer);
+			} catch (SearchException e) {
+				log.error("Erreur lors de la réindexation de l'offre après envoi de mail. OffreId :" + offer.getOfferId());
+			}
 		}
 		log.info("End envoi mail aux utilisateurs");
 	}
