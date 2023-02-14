@@ -14,6 +14,9 @@ import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -192,9 +195,15 @@ public class OfferMessageListener
 		}
 		log.info(nbMailSend + " mail(s) envoyé(s) aux utilisateurs");
 		List<Offer> offersSendWithoutDuplicates = new ArrayList<>(new HashSet<>(offersSend));
+		Indexer<Offer> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Offer.class);
 		for (Offer offer : offersSendWithoutDuplicates) {
 			offer.setEmailSend(1);
 			_offerLocalService.updateOffer(offer);
+			try {
+				indexer.reindex(offer);
+			} catch (SearchException e) {
+				log.error("Erreur lors de la réindexation de l'offre après envoi de mail. OffreId :" + offer.getOfferId());
+			}
 		}
 		log.info("End envoi mail aux utilisateurs");
 	}
