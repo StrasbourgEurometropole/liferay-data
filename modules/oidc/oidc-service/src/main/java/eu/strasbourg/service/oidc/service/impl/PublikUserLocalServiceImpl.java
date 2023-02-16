@@ -305,6 +305,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	private List<PublikUser> getUserHasSignedPacte(){
 		List<PublikUser> publikUserList = getAllPublikUsers();
 		return publikUserList.stream().filter(publikUser -> publikUser.getPactSignature()!=null).collect(Collectors.toList());
+
 	}
 
 	/**
@@ -312,8 +313,14 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * @return le nombre de signataire.
 	 */
 	public long getCountUserHasSignedPacte(){
+		/*
 		List<PublikUser> publikUserList = getUserHasSignedPacte();
 		return publikUserList.size();
+		 */
+		DynamicQuery dq = PublikUserLocalServiceUtil.dynamicQuery();
+		Criterion pactSignatureNotNull = RestrictionsFactoryUtil.isNotNull("pactSignature");
+		dq.add(pactSignatureNotNull);
+		return PublikUserLocalServiceUtil.dynamicQueryCount(dq);
 	}
 
 	/**
