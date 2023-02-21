@@ -5,6 +5,8 @@ jQuery(function() {
     var typeCouncilSession = $('#' + namespace + 'council-type')[0].options[$('#' + namespace + 'council-type')[0].selectedIndex].text;
 
     var options = {
+        preventBadQueries : false,
+        minChars: 2,
         type : "POST",
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {

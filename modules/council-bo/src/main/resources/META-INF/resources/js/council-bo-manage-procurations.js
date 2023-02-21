@@ -123,6 +123,8 @@ jQuery(function() {
     /** Autocomplete des élus */
     var typeCouncilSession = document.getElementById(namespace+"typeCouncilSessionHidden").value;
     var options = {
+        preventBadQueries : false,
+        minChars: 2,
         type : "POST",
         serviceUrl : "/api/jsonws/council.official/get-official-by-full-name-and-type/",
         params : {
