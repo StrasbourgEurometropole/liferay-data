@@ -185,27 +185,29 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			if (Validator.isNotNull(placeId)) {
 				request.setAttribute("placeId", placeId);
 				Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
-				selectedPlaces.add(place);
-				// récupération des ouvertures et fermetures exceptionnelles du
-				// lieu sur 2 mois à partir du lundi de la semaine choisie
-				List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true, locale);
-				if (!placeSchedules.isEmpty()) {
-					for (PlaceSchedule schedule : placeSchedules) {
-						ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-								new String[] {place.getAlias(locale)}, schedule);
-						exceptions.add(placeName_Exception);
-					}
-				}
-				// récupération des ouvertures et fermetures exceptionnelles des
-				// sous lieux du lieu sur 2 mois à partir du lundi de la semaine choisie
-				List<SubPlace> subPlaces = place.getSubPlaces();
-				for (SubPlace subPlace : subPlaces) {
-					placeSchedules = subPlace.getSubPlaceScheduleException(jourChoisi, true, locale);
+				if (Validator.isNotNull(place)) {
+					selectedPlaces.add(place);
+					// récupération des ouvertures et fermetures exceptionnelles du
+					// lieu sur 2 mois à partir du lundi de la semaine choisie
+					List<PlaceSchedule> placeSchedules = place.getPlaceScheduleException(jourChoisi, true, locale);
 					if (!placeSchedules.isEmpty()) {
 						for (PlaceSchedule schedule : placeSchedules) {
 							ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-									new String[] {place.getAlias(locale), subPlace.getName(locale)}, schedule);
+									new String[]{place.getAlias(locale)}, schedule);
 							exceptions.add(placeName_Exception);
+						}
+					}
+					// récupération des ouvertures et fermetures exceptionnelles des
+					// sous lieux du lieu sur 2 mois à partir du lundi de la semaine choisie
+					List<SubPlace> subPlaces = place.getSubPlaces();
+					for (SubPlace subPlace : subPlaces) {
+						placeSchedules = subPlace.getSubPlaceScheduleException(jourChoisi, true, locale);
+						if (!placeSchedules.isEmpty()) {
+							for (PlaceSchedule schedule : placeSchedules) {
+								ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
+										new String[]{place.getAlias(locale), subPlace.getName(locale)}, schedule);
+								exceptions.add(placeName_Exception);
+							}
 						}
 					}
 				}
