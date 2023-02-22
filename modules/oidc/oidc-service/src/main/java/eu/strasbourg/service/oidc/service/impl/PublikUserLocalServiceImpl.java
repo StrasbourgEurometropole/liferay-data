@@ -313,10 +313,6 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * @return le nombre de signataire.
 	 */
 	public long getCountUserHasSignedPacte(){
-		/*
-		List<PublikUser> publikUserList = getUserHasSignedPacte();
-		return publikUserList.size();
-		 */
 		DynamicQuery dq = PublikUserLocalServiceUtil.dynamicQuery();
 		Criterion pactSignatureNotNull = RestrictionsFactoryUtil.isNotNull("pactSignature");
 		dq.add(pactSignatureNotNull);
