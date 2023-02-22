@@ -755,10 +755,21 @@ public class PlaceImpl extends PlaceBaseImpl {
             return state;
         }
 
-        if(!this.isDiffDatesLessThanDuration(this.getRTLastUpdate(),new Date(),10)){
+        // Vérifie si ce la fait plus de 10 minutes que l'on a pas reçu de temps réel
+        // Affichage "Indisponible" si c'est le cas
+        try {
+            Instant instantDebut = this.getRTLastUpdate().toInstant();
+            Instant instantFin = new Date().toInstant();
+            long minutesBetween = ChronoUnit.MINUTES.between(instantDebut, instantFin);
+            if (minutesBetween >= 10) {
+                state = OccupationState.NOT_AVAILABLE;
+                return state;
+            }
+        } catch (Exception e) {
             state = OccupationState.NOT_AVAILABLE;
             return state;
         }
+
         long occupation = 0;
         switch (type) {
             case "1":
@@ -1738,16 +1749,5 @@ public class PlaceImpl extends PlaceBaseImpl {
     public String getNormalizedAlias(Locale locale) {
         return UriHelper.normalizeToFriendlyUrl(this.getAlias(locale));
     }
-    private boolean isDiffDatesLessThanDuration(Date startDate, Date endDate, int dureeMinute) {
-        try {
-            Instant instantDebut = startDate.toInstant();
-            Instant instantFin = endDate.toInstant();
-            long minutesBetween = ChronoUnit.MINUTES.between(instantDebut, instantFin);
-            if (minutesBetween < dureeMinute)
-                return true;
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+
 }

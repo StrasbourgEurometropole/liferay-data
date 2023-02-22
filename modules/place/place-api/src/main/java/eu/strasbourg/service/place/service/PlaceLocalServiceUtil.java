@@ -18,8 +18,6 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
 
-import java.util.Date;
-
 /**
  * Provides the local service utility for Place. This utility wraps
  * <code>eu.strasbourg.service.place.service.impl.PlaceLocalServiceImpl</code> and
@@ -486,11 +484,12 @@ public class PlaceLocalServiceUtil {
 	}
 
 	public static void updateRealTime(
-			eu.strasbourg.service.place.model.Place place, String type,
-			long occupation, long available, long capacity, String status, Date rtLastUpdate) {
+		eu.strasbourg.service.place.model.Place place, String type,
+		long occupation, long available, long capacity, String status,
+		java.util.Date rtLastUpdate) {
 
 		getService().updateRealTime(
-			place, type, occupation, available, capacity, status,rtLastUpdate);
+			place, type, occupation, available, capacity, status, rtLastUpdate);
 	}
 
 	/**

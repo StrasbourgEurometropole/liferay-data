@@ -387,8 +387,8 @@ public interface PlaceLocalService
 		throws SearchException;
 
 	public void updateRealTime(
-			Place place, String type, long occupation, long available,
-			long capacity, String status, Date rtLastUpdate);
+		Place place, String type, long occupation, long available,
+		long capacity, String status, Date rtLastUpdate);
 
 	/**
 	 * Met à jour le statut du lieu par le framework workflow
