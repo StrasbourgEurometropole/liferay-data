@@ -74,7 +74,9 @@ public class SearchHelper {
 		}
 	}
 
-
+	/**
+	 * Recherche un élu par Nom ou/et prénom
+	 */
 	public static Hits getCouncilOfficialSearchHits(SearchContext searchContext, int start, int end, String className, long groupId, String keywords ) {
 		try {
 			// Pagination
@@ -185,6 +187,10 @@ public class SearchHelper {
 			return null;
 		}
 	}
+
+	/**
+	 * Recherche un élu par Nom ou/et prénom
+	 */
 	private static Query getCouncilOfficialSearchQuery(String className, long groupId, String keywords) {
 		try {
 			// Construction de la requète
