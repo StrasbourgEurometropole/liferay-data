@@ -6,12 +6,14 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -20,6 +22,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -61,6 +64,7 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -236,7 +240,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
 								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						
+
 						//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
 						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
 						//de préfiltrer sur la catégorie pour une seule entité en particuler
@@ -244,6 +248,20 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 								(activePhaseCategory == null ||
 										!AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 							entry = null;
+						}
+
+						//On elimine tous les CW qui n'ont pas de layout
+						if(document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())){
+							// on vérifie si le jourrnalArticle est utilisé
+							try {
+								JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
+								String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+								if (Validator.isNull(url)) {
+									entry = null;
+								}
+							}catch (PortalException e){
+								entry = null;
+							}
 						}
 						
 						if (entry != null) {
