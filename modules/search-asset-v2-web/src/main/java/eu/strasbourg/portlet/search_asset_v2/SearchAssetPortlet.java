@@ -660,7 +660,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 					districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations);
 		}else {
 			for (String selectedCategoriesByVocabulary : selectedAllCategories.split("--")) {
-				categoriesIds = new ArrayList<>();
 				String[] categoryIdsString = selectedCategoriesByVocabulary.split(",");
 				Long[] categoryIds = new Long[categoryIdsString.length];
 				for (int i = 0; i < categoryIdsString.length; i++) {
