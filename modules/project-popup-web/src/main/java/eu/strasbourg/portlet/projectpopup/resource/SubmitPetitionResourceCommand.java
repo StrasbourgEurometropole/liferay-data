@@ -233,7 +233,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
         try {
             writer = response.getWriter();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         if (writer != null) {
             writer.print(jsonResponse.toString());
@@ -295,8 +295,7 @@ public class SubmitPetitionResourceCommand implements MVCResourceCommand {
 			// envoi du mail aux utilisateurs
 			MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
-			_log.error(e);
-			e.printStackTrace();
+            _log.error(e.getMessage(), e);
 		}
     }
 

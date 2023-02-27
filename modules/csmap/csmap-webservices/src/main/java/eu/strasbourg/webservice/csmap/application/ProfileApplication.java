@@ -307,7 +307,7 @@ public class ProfileApplication extends Application {
                 if (Validator.isNotNull(district))
                     return AssetVocabularyHelper.getExternalId(district);
             } catch (Exception e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
             }
         }
 
@@ -344,5 +344,7 @@ public class ProfileApplication extends Application {
     protected void setPublikUserLocalService(PublikUserLocalService publikUserLocalService) {
         this.publikUserLocalService = publikUserLocalService;
     }
+
+    private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

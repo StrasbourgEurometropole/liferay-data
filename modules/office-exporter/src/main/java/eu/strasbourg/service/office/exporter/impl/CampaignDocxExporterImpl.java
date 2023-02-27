@@ -1,5 +1,7 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -165,7 +167,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			stream.flush();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 	}
@@ -229,5 +231,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			emptyFieldRun.setText("/");
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

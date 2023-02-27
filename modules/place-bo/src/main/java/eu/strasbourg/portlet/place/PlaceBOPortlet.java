@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.place;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -46,7 +48,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 		try {
 			_serviceContext = ServiceContextFactory.getInstance(renderRequest);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + renderRequest);
 		}
 
 		String cmd = ParamUtil.getString(renderRequest, "cmd");
@@ -121,5 +123,7 @@ public class PlaceBOPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

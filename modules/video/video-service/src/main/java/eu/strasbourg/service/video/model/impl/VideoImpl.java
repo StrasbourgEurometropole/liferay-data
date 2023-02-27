@@ -21,6 +21,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.search.Document;
@@ -368,7 +370,7 @@ public class VideoImpl extends VideoBaseImpl {
                     JSONObject json = JSONHelper.readJsonFromURL(url);
                     nbViews = json.getString("views_total");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + url);
                 }
             } else if (site.contains("youtube")) {
                 url = StrasbourgPropsUtil.getYoutubeApiUrl().replace("[videoID]", videoId);
@@ -378,7 +380,7 @@ public class VideoImpl extends VideoBaseImpl {
                     JSONObject statistics = item.getJSONObject("statistics");
                     nbViews = statistics.getString("viewCount");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + url);
                 }
             }
         }
@@ -680,4 +682,6 @@ public class VideoImpl extends VideoBaseImpl {
 
         return videoJSON;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

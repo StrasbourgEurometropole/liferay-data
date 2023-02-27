@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -106,11 +107,11 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 									office = places.get(0);
 							}
 						} catch (NoSuchPlaceException e) {
-							e.printStackTrace();
+							_log.error(e.getMessage() + " : " + felecResponse.getStationNumber());
 						}
 						request.setAttribute("office", office);
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + birthDate);
 					}
 				} else {
 					List<String> champsNull = new ArrayList<String>();

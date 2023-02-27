@@ -18,6 +18,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.help.model.HelpProposal;
@@ -145,7 +147,7 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 		try {
 			return HelpProposalLocalServiceUtil.getHelpProposal(this.getHelpProposalId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.info(e.getMessage() + " : " + this.getHelpProposalId());
 			return null;
 		}
 	}
@@ -199,4 +201,6 @@ public class HelpRequestImpl extends HelpRequestBaseImpl {
 			return null;
 		}
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

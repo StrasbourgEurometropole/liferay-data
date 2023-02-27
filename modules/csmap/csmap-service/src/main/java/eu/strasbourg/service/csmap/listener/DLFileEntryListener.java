@@ -6,6 +6,8 @@ import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
@@ -95,7 +97,7 @@ public class DLFileEntryListener extends BaseModelListener<DLFileEntry>
                     }
                 }
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
         return csmapFolderId;
@@ -106,5 +108,7 @@ public class DLFileEntryListener extends BaseModelListener<DLFileEntry>
     protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
         _csmapCacheLocalService = csmapCacheLocalService;
     }
+
+    private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

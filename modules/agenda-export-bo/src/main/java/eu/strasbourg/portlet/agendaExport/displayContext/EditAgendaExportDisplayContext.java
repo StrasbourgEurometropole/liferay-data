@@ -15,6 +15,8 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
@@ -31,6 +33,7 @@ import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -293,7 +296,7 @@ public class EditAgendaExportDisplayContext {
             Long categoryId = Long.parseLong(id);
             category = AssetCategoryServiceUtil.getCategory(categoryId);
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + id, e);
         }
 
         if(category == null) {
@@ -318,7 +321,7 @@ public class EditAgendaExportDisplayContext {
             Long vocabularyId = Long.parseLong(id);
             vocabulary = AssetVocabularyServiceUtil.getVocabulary(vocabularyId);
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + id, e);
         }
 
         if(vocabulary == null) {
@@ -351,13 +354,12 @@ public class EditAgendaExportDisplayContext {
         List<DLFileEntry> fileEntries = new ArrayList<>();
 
         try {
-
             folder = DLFolderLocalServiceUtil.getFolder(groupId, 0, DOCUMENT_LIBRARY_FOLDER);
             fileEntries = new ArrayList<>(DLFileEntryLocalServiceUtil.getFileEntries(groupId, folder.getFolderId()));
             fileEntries.sort(Comparator.comparing(DLFileEntryModel::getFileName, String::compareToIgnoreCase));
 
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : groupId -> " + groupId + " doc-lib-folder -> " + DOCUMENT_LIBRARY_FOLDER);
         }
 
         //Default value
@@ -462,4 +464,7 @@ public class EditAgendaExportDisplayContext {
         isAdministrator = user.getRoles().contains(adminRole);
         return isAdministrator;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(EditAgendaExportDisplayContext.class.getName());
+
 }

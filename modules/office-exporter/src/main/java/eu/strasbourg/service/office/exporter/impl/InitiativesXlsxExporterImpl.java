@@ -21,6 +21,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 @Component(
         immediate = true,
@@ -99,7 +101,7 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
             workbook.close();
             stream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
     }
@@ -136,5 +138,7 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
             result = String.valueOf(Math.toIntExact(param));
         return result;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

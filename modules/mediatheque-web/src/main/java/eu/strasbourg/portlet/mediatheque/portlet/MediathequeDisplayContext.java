@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.mediatheque.portlet;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -40,7 +42,7 @@ public class MediathequeDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(MediathequeConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage());
 		}
 	}
 
@@ -240,4 +242,6 @@ public class MediathequeDisplayContext {
 			return typeDoc.getName();
 		return null;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(MediathequeDisplayContext.class.getName());
 }

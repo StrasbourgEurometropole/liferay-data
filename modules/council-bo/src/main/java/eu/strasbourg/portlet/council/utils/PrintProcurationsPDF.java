@@ -240,7 +240,7 @@ public class PrintProcurationsPDF {
                 try {
                     startDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getStartDelib());
                 } catch (NoSuchDeliberationException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(startDelib)) {
                     startDelibValue = procuration.getStartDelib() == -1 ? "" : String.valueOf(startDelib.getOrder());
@@ -253,7 +253,7 @@ public class PrintProcurationsPDF {
                 try {
                     endDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getEndDelib());
                 } catch (NoSuchDeliberationException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(endDelib)) {
                     endDelibValue = procuration.getEndDelib() == -1 ? "" : String.valueOf(endDelib.getOrder());
@@ -301,11 +301,13 @@ public class PrintProcurationsPDF {
                 fos.close();
                 return deliberationpdf;
             } catch (IOException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(PrintProcurationsPDF.class.getName());
 }

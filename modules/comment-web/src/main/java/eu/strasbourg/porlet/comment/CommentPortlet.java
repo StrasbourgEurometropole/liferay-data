@@ -156,7 +156,7 @@ public class CommentPortlet extends MVCPortlet {
 
 			super.render(request, response);
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 	

@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.notif;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.RoleLocalService;
@@ -111,7 +113,7 @@ public class NotifBOPortlet extends MVCPortlet {
 				if(Validator.isNotNull(organisationIds) && organisationIds.length > 0)
 					services = _serviceNotifLocalService.getByOrganisationIds(organisationIds);
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : "+ themeDisplay.getUser());
 			}
 			List<NatureNotif> natures = _natureNotifLocalService.getNatureNotifs(-1, -1);
 			List<Message> messages = _messageLocalService.getMessages(-1, -1);
@@ -151,7 +153,7 @@ public class NotifBOPortlet extends MVCPortlet {
 					|| _userGroupRoleLocalService.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), siteAdministrator.getRoleId()))
 				return true;
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : companyId -> "+ this.themeDisplay.getCompanyId() + ", role -> "+ RoleNames.ADMINISTRATEUR_NOTIFICATION);
 		}
 		return false;
 	}
@@ -197,4 +199,6 @@ public class NotifBOPortlet extends MVCPortlet {
 	protected void setUserGroupRoleLocalService(UserGroupRoleLocalService userGroupRoleLocalService) {
 		_userGroupRoleLocalService = userGroupRoleLocalService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

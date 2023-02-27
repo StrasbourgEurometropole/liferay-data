@@ -21,6 +21,8 @@ import java.util.List;
 import com.liferay.portal.kernel.exception.SystemException;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.tipi.model.TipiEntry;
 import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
 import eu.strasbourg.service.tipi.service.base.TipiEntryLocalServiceBaseImpl;
@@ -100,8 +102,10 @@ public class TipiEntryLocalServiceImpl extends TipiEntryLocalServiceBaseImpl {
 			return todayEntry;
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.error(ex);
 			return null;
 		}
 	}
+
+	private Log log = LogFactoryUtil.getLog(this.getClass());
 }

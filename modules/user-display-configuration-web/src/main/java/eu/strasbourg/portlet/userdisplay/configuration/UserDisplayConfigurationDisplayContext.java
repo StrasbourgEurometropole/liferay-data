@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
@@ -45,7 +47,7 @@ public class UserDisplayConfigurationDisplayContext {
                 portletIds = layoutTypePortlet.getPortletIds();
 
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.info(e.getMessage() + " : " + themeDisplay.getScopeGroupId());
                 portletIds = new ArrayList();
             }
         }
@@ -90,7 +92,7 @@ public class UserDisplayConfigurationDisplayContext {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage() + " : " + configurationString);
         }
         return displayStatus;
     }
@@ -112,7 +114,7 @@ public class UserDisplayConfigurationDisplayContext {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage() + " : " + configurationString);
         }
         return retractableStatus;
     }
@@ -134,7 +136,7 @@ public class UserDisplayConfigurationDisplayContext {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage() + " : " + configurationString);
         }
         return displayTitle;
     }
@@ -156,7 +158,7 @@ public class UserDisplayConfigurationDisplayContext {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage() + " : " + configurationString);
         }
         return displayDescription;
         
@@ -165,4 +167,6 @@ public class UserDisplayConfigurationDisplayContext {
     public boolean isPortletHiddenByUser(String portletId) {
         return !PortletHelper.isPortletDisplayedOnDashboard(themeDisplay, portletId);
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(UserDisplayConfigurationDisplayContext.class.getName());
 }

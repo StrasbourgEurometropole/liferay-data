@@ -129,7 +129,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
             typesFiles = configuration.typesFiles();
             sizeFile = configuration.sizeFile();
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         // Verification de la validite des informations

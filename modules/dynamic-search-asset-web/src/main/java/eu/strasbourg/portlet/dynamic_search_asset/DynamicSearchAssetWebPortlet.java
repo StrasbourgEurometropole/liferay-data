@@ -140,7 +140,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			request.setAttribute("classNames", classNames);
 			
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		
 		super.render(request, response);

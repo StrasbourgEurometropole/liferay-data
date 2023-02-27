@@ -20,6 +20,8 @@ import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -259,9 +261,11 @@ public class PrintPDF {
 					fos.write(baos.toByteArray());
 					fos.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					_log.error(e.getMessage(), e);
 				}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(PrintPDF.class);
 
 }

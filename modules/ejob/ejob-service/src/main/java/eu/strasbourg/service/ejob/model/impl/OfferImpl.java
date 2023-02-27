@@ -300,7 +300,7 @@ public class OfferImpl extends OfferBaseImpl {
 		try {
 			admin = UserLocalServiceUtil.getDefaultUser(group.getCompanyId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			log.error(e + " : " + group.getCompanyId());
 		}
 		PermissionChecker checker = PermissionCheckerFactoryUtil.create(admin);
 		PermissionThreadLocal.setPermissionChecker(checker);
@@ -433,4 +433,6 @@ public class OfferImpl extends OfferBaseImpl {
 
 		return jsonOffer;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

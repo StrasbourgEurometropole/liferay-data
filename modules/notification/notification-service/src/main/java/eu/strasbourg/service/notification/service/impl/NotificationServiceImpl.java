@@ -202,7 +202,7 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 				}
 			}
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + VocabularyNames.NOTIFICATION_TYPE);
 		}
 
 		// Enregistrement des nouveaux abonnements
@@ -305,4 +305,6 @@ public class NotificationServiceImpl extends NotificationServiceBaseImpl {
 	private JSONObject error(String message) {
 		return JSONFactoryUtil.createJSONObject().put("error", message);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

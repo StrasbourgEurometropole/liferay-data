@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.exception.FileAccessException;
 import eu.strasbourg.utils.exception.FileFormatException;
 import eu.strasbourg.utils.models.GTFSModel;
@@ -71,11 +73,13 @@ public abstract class CSVParser<T extends GTFSModel> {
 				try {
 					br.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					_log.error(e.getMessage(), e);
 				}
 			}
 		}
 		return result;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

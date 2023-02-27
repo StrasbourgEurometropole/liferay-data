@@ -62,8 +62,7 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 
 			include("/templates/" + template + ".jsp", request, response);
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 

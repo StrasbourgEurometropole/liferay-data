@@ -1027,7 +1027,7 @@ public class AgendaImporter {
 						registrationStartDate = dateFormat.parse(registrationStartDateString);
 						registrationEndDate = dateFormat.parse(registrationEndDateString);
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage(), e);
 					}
 					event.setRegistrationStartDate(registrationStartDate);
 					event.setRegistrationEndDate(registrationEndDate);
@@ -1322,7 +1322,7 @@ public class AgendaImporter {
 				}
 			}
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return categories;
 	}

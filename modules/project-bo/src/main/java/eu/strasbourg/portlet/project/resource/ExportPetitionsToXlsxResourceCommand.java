@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.project.resource;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.office.exporter.api.PetitionsXlsxExporter;
@@ -40,8 +42,10 @@ public class ExportPetitionsToXlsxResourceCommand implements MVCResourceCommand 
             petitionsXlsxExporter.exportPetitions(resourceResponse.getPortletOutputStream(),petitionIds);
             resourceResponse.getPortletOutputStream().flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return true;
     }
+
+    private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

@@ -349,8 +349,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 			// envoi du mail aux utilisateurs
 			MailHelper.sendMailWithHTML(fromAddress, toAddresses, subject, mailBody);
 		} catch (Exception e) {
-			_log.error(e);
-			e.printStackTrace();
+            _log.error(e.getMessage(), e);
 		}
     }
 

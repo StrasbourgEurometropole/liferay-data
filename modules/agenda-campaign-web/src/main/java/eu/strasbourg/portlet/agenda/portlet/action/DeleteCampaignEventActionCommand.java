@@ -82,10 +82,8 @@ public class DeleteCampaignEventActionCommand implements MVCActionCommand {
 			renderUrl.setParameter("themeId",
 				ParamUtil.getString(request, "themeId"));
 			response.sendRedirect(renderUrl.toString());
-		} catch (PortalException e) {
+		} catch (PortalException | IOException e) {
 			_log.error(e);
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		return true;

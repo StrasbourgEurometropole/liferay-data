@@ -18,7 +18,7 @@ public class DossiersResponse {
 		erreurDescription = json.getString("ErreurDescription");
 		count = json.getInt("Count");
 
-		dossiers = new ArrayList<Dossier>();
+		dossiers = new ArrayList<>();
 		if (count > 0) {
 			JSONArray dossiersJSON = json.getJSONArray("Dossiers");
 			for (int i = 0; i < dossiersJSON.length(); i++) {

@@ -12,6 +12,9 @@ import javax.portlet.PortletRequest;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -36,7 +39,7 @@ public class BorrowerWebService {
 				postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
 			}
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : publikInternalId -> " + publikInternalId);
 		}
 		BorrowerResponse borrowerResponse = null;
 		try {
@@ -52,10 +55,12 @@ public class BorrowerWebService {
 				borrowerResponse = new BorrowerResponse(jsonResponse);
 			}
 		} catch (IOException | JSONException ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return borrowerResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(BorrowerWebService.class.getName());
 
 }

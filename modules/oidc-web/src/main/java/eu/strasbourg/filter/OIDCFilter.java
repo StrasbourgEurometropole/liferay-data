@@ -355,7 +355,7 @@ public class OIDCFilter extends BaseFilter {
                     + "?post_logout_redirect_uri=" + this.getDomainRoot(request)
                     + "&state=" + URLEncoder.encode(getProtocoledRequestURL(request), "UTF-8"));
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -415,4 +415,6 @@ public class OIDCFilter extends BaseFilter {
     private String getProtocoledRequestURL(HttpServletRequest request) {
         return PortalUtil.getPortalURL(request) + request.getRequestURI();
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

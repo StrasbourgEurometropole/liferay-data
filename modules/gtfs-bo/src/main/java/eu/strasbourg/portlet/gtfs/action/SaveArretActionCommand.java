@@ -169,7 +169,7 @@ public class SaveArretActionCommand implements MVCActionCommand {
 							isValid = false;
 						}
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + startDateString);
 					}
 				}else{
 					if (Validator.isNull(startDateString)) {

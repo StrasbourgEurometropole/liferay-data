@@ -12,6 +12,8 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -54,22 +56,22 @@ public class EditParticipationDisplayContext {
 			 *  liste des Ids afin d'y trouver les asset adequats, nous supprimons les references
 			 *  a la volee pour retablir l'ordre etabli
 			 */
-			String correctedEventIds = "";
+			StringBuilder correctedEventIds = new StringBuilder();
 			String eventIds = _participation.getEventsIds();
 			
 			if (!eventIds.equals("")) {
 				for (String eventId : eventIds.split(",")) {
 					try {
 						if (EventLocalServiceUtil.fetchEvent(Long.parseLong(eventId)) != null) {
-							correctedEventIds += eventId + ",";
+							correctedEventIds.append(eventId).append(",");
 						}
 					} catch (NumberFormatException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + eventId);
 					}
 				}
 			}
 			
-			_participation.setEventsIds(correctedEventIds);
+			_participation.setEventsIds(correctedEventIds.toString());
 		}
 		return _participation;
 	}
@@ -134,5 +136,7 @@ public class EditParticipationDisplayContext {
 			StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO,
 			actionId);
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

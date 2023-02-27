@@ -3,6 +3,8 @@ package eu.strasbourg.utils;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 
 import javax.crypto.Mac;
@@ -122,7 +124,7 @@ public class PublikApiClient {
 			String response = sb.toString();
 			jsonResponse = JSONFactoryUtil.createJSONObject(response);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return jsonResponse;
@@ -276,5 +278,6 @@ public class PublikApiClient {
 			return "";
 		}
 	}
+	private static final Log _log = LogFactoryUtil.getLog(PublikApiClient.class.getName());
 
 }

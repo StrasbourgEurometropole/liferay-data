@@ -347,7 +347,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                                 long available;
                                 rtLastUpdate = new Date();
                                 String infousager = parkingData.getString("infousager");
-
                                 try {
                                     available = Long.parseLong(infousager);
                                 } catch (Exception e) {

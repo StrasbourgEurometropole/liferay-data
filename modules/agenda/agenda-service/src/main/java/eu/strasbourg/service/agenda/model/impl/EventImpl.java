@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
@@ -286,7 +288,7 @@ public class EventImpl extends EventBaseImpl {
 			try {
 				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				_log.error(ex.getMessage(), ex);
 			}
 		}
 		return place;
@@ -1125,7 +1127,7 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return suggestions;
@@ -1531,5 +1533,7 @@ public class EventImpl extends EventBaseImpl {
 	public String getNormalizedTitle(Locale locale) {
 		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(EventImpl.class.getName());
 
 }

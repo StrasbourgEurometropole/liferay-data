@@ -213,7 +213,8 @@ public class PoiServiceImpl implements PoiService {
 			long duration = (endTime - startTime) / 1_000_000;
 			_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : places -> " + places + ", events -> " + events +
+					", arrets -> " + arrets + ", groupId " + groupId + ", localeId -> " + localeId);
 		}
 		return geoJson;
 	}
@@ -570,5 +571,5 @@ public class PoiServiceImpl implements PoiService {
 		_eventLocalService = eventLocalService;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(PoiServiceImpl.class.getName());
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

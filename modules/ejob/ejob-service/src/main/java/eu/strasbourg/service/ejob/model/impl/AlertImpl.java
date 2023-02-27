@@ -134,7 +134,7 @@ public class AlertImpl extends AlertBaseImpl {
 		try {
 			admin = UserLocalServiceUtil.getDefaultUser(group.getCompanyId());
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + group);
 		}
 		PermissionChecker checker = PermissionCheckerFactoryUtil.create(admin);
 		PermissionThreadLocal.setPermissionChecker(checker);
@@ -210,5 +210,7 @@ public class AlertImpl extends AlertBaseImpl {
 		}
 		return true;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

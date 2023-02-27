@@ -6,6 +6,8 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -44,8 +46,7 @@ public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
 			campaignDocxExporter.exportCampaign(resourceResponse.getPortletOutputStream(), campaign);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return true;
@@ -57,5 +58,7 @@ public class ExportCampaignToDocxResourceCommand implements MVCResourceCommand {
 	protected void setCampaignLocalService(CampaignLocalService campaignLocalService) {
 		this.campaignLocalService = campaignLocalService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }
