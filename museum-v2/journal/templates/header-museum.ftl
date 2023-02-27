@@ -17,13 +17,13 @@
 	                </#if>
                 </#list>
             </div>
-                    
-            <div class="swipper-buttons">
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-play"></div>
-                <div class="swiper-button-pause"></div>
-                <div class="swiper-button-next"></div>
-            </div>
         </div>
+    </div>
+                    
+    <div class="swipper-buttons">
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-play"></div>
+        <div class="swiper-button-pause"></div>
+        <div class="swiper-button-next"></div>
     </div>
 </section>
