@@ -485,10 +485,11 @@ public class PlaceLocalServiceUtil {
 
 	public static void updateRealTime(
 		eu.strasbourg.service.place.model.Place place, String type,
-		long occupation, long available, long capacity, String status) {
+		long occupation, long available, long capacity, String status,
+		java.util.Date rtLastUpdate) {
 
 		getService().updateRealTime(
-			place, type, occupation, available, capacity, status);
+			place, type, occupation, available, capacity, status, rtLastUpdate);
 	}
 
 	/**
