@@ -75,6 +75,31 @@ public class SearchHelper {
 	}
 
 	/**
+	 * Recherche un élu par Nom ou/et prénom
+	 */
+	public static Hits getCouncilOfficialSearchHits(SearchContext searchContext, int start, int end, String className, long groupId, String keywords ) {
+		try {
+			// Pagination
+			searchContext.setStart(start);
+			searchContext.setEnd(end);
+
+			// Query
+			Query query = SearchHelper.getCouncilOfficialSearchQuery(className, groupId, keywords);
+
+			// Ordre
+			// on trie par pertinence
+			Sort sort = SortFactoryUtil.create("_score", false);
+			searchContext.setSorts(sort);
+			// Recherche
+			Hits hits = IndexSearcherHelperUtil.search(searchContext, query);
+			_log.info("Recherche : " + hits.getSearchTime() * 1000 + "ms");
+			return hits;
+		} catch (SearchException e) {
+			_log.error(e);
+			return null;
+		}
+	}
+	/**
 	 * Retourne le nombre de résultats correspondant aux paramètres pour les
 	 * portlets du BO
 	 */
@@ -163,6 +188,44 @@ public class SearchHelper {
 		}
 	}
 
+	/**
+	 * Recherche un élu par Nom ou/et prénom
+	 */
+	private static Query getCouncilOfficialSearchQuery(String className, long groupId, String keywords) {
+		try {
+			// Construction de la requète
+			BooleanQuery query = new BooleanQueryImpl();
+
+			// ClassName
+			BooleanQuery classNameQuery = new BooleanQueryImpl();
+			classNameQuery.addExactTerm(Field.ENTRY_CLASS_NAME, className);
+			query.add(classNameQuery, BooleanClauseOccur.MUST);
+
+			// Group
+			BooleanQuery groupIdQuery = new BooleanQueryImpl();
+			groupIdQuery.addExactTerm(Field.GROUP_ID, groupId);
+			query.add(groupIdQuery, BooleanClauseOccur.MUST);
+
+			// Mots-clés
+			if (Validator.isNotNull(keywords)) {
+				BooleanQuery keywordQuery = new BooleanQueryImpl();
+				MatchQuery titleQuery = new MatchQuery(Field.TITLE, keywords);
+				titleQuery.setFuzziness(new Float(1));
+
+				keywordQuery.add(titleQuery, BooleanClauseOccur.SHOULD);
+
+				WildcardQuery titleWildcardQuery = new WildcardQueryImpl(Field.TITLE, "*" + keywords + "*");
+				keywordQuery.add(titleWildcardQuery, BooleanClauseOccur.SHOULD);
+				titleWildcardQuery.setBoost(new Float(10));
+				query.add(keywordQuery, BooleanClauseOccur.MUST);
+
+			}
+			return query;
+		} catch (ParseException e) {
+			_log.error(e);
+			return null;
+		}
+	}
 	/**
 	 * Retourne les Hits correspondant aux paramètres pour les moteurs de
 	 * recherche d'assets
