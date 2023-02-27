@@ -136,8 +136,12 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         InputStream copiedIs = null;
         boolean imageInFile;
         if (file != null) {
+            // sélection (depuis son ordi) d'une image dans un contenu web
+            // enregistrement d'un contenu web avec une image
             imageInFile = true;
         } else if (is != null) {
+            // ajout ou modification d'un fichier dans document et média
+            // sélection (depuis son ordi) d'une image dans un BO
             imageInFile = false;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
@@ -164,81 +168,83 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         // Lecture de l'image
         RenderedImage image;
         try {
-            image = readImage(imageInFile, copiedIs, file);
-            int height = image.getHeight();
-            int width = image.getWidth();
+            if (entry == null && (mimeType.equals("image/jpeg") || mimeType.equals("image/png"))) {
+                image = readImage(imageInFile, copiedIs, file);
+                int height = image.getHeight();
+                int width = image.getWidth();
 
-            if (entry == null && mimeType.equals("image/jpeg")) {
-                _log.info("Image JPEG detectee");
+                if (entry == null && mimeType.equals("image/jpeg")) {
+                    _log.info("Image JPEG detectee");
 
-                float compressionRatio = (float) width * height / size;
-                if (height > 1920 || width > 1920) {
-                    _log.info("Scaling et compression");
-                    // Scaling
-                    image = ImageToolUtil.scale(image, 1920, 1920);
-                    // Compression
-                    float compressionQuality = 0.88f;
-                    ByteArrayOutputStream baos = compressImage(image, compressionQuality);
-                    // Remplacement de l'image
-                    is = saveImage(imageInFile, baos, file);
-                    size = baos.size();
-                } else if (compressionRatio < 7) {
-                    _log.info("Compression");
-                    // Compression
-                    float compressionQuality = 0.88f;
-                    ByteArrayOutputStream baos = compressImage(image, compressionQuality);
-                    // Calcul du nouveau pourcentage de compression
-                    float newCompressionRatio = 100 * (float) baos.size() / size;
-                    // Remplacement de l'image si le pourcentage de compression est satisfaisant
-                    if (newCompressionRatio < 90) {
-                        is = saveImage(imageInFile, baos, file);
-                        size = baos.size();
-                    } else {
-                        _log.info("Compression insatisfaisante, on garde le JPEG d’origine.");
-                    }
-                }
-            } else {
-                int limitNbPixels = height * width / 4;
-                boolean isPng = entry == null && mimeType.equals("image/png");
-                boolean isSizeBiggerThan500ko = size >= 500000;
-                boolean isSizeSmallerThan500ko = size < 500000;
-
-                boolean isPngBiggerThan500ko = isPng && isSizeBiggerThan500ko;
-                boolean isSmallButHeavyPng = isPng && isSizeSmallerThan500ko && size > limitNbPixels;
-
-                if (isPngBiggerThan500ko || isSmallButHeavyPng) {
-                    _log.info("PNG lourd detecte");
-                    // Scaling
+                    float compressionRatio = (float) width * height / size;
                     if (height > 1920 || width > 1920) {
-                        _log.info("Scaling");
+                        _log.info("Scaling et compression");
+                        // Scaling
                         image = ImageToolUtil.scale(image, 1920, 1920);
-                    }
-                    // Elimination de la transparence du PNG
-                    BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-                    newImg.createGraphics().drawImage((Image) image, 0, 0, Color.WHITE, null);
-                    image = newImg;
-                    // Compression
-                    float compressionQuality = 0.88f;
-                    ByteArrayOutputStream baos = compressImage(image, compressionQuality);
-                    // Calcul du nouveau pourcentage de compression
-                    float newCompressionRatio = 100 * (float) baos.size() / size;
-                    // Remplacement de l'image si le pourcentage de compression est satisfaisant
-                    if (newCompressionRatio < 90) {
-                        _log.info("On remplace le PNG.");
+                        // Compression
+                        float compressionQuality = 0.88f;
+                        ByteArrayOutputStream baos = compressImage(image, compressionQuality);
+                        // Remplacement de l'image
                         is = saveImage(imageInFile, baos, file);
                         size = baos.size();
-                        // Modif extension fichier
-                        mimeType = "image/jpeg";
-                        if (sourceFileName.endsWith(".png")) {
-                            sourceFileName = sourceFileName.substring(0, sourceFileName.length() - 4) + ".jpg";
-                            _log.info("Nouveau nom de fichier:" + sourceFileName);
+                    } else if (compressionRatio < 7) {
+                        _log.info("Compression");
+                        // Compression
+                        float compressionQuality = 0.88f;
+                        ByteArrayOutputStream baos = compressImage(image, compressionQuality);
+                        // Calcul du nouveau pourcentage de compression
+                        float newCompressionRatio = 100 * (float) baos.size() / size;
+                        // Remplacement de l'image si le pourcentage de compression est satisfaisant
+                        if (newCompressionRatio < 90) {
+                            is = saveImage(imageInFile, baos, file);
+                            size = baos.size();
+                        } else {
+                            _log.info("Compression insatisfaisante, on garde le JPEG d’origine.");
                         }
-                        if (title.endsWith(".png")) {
-                            title = title.substring(0, title.length() - 4) + ".jpg";
-                            _log.info("Nouveau titre (doclib):" + title);
+                    }
+                } else {
+                    int limitNbPixels = height * width / 4;
+                    boolean isPng = entry == null && mimeType.equals("image/png");
+                    boolean isSizeBiggerThan500ko = size >= 500000;
+                    boolean isSizeSmallerThan500ko = size < 500000;
+
+                    boolean isPngBiggerThan500ko = isPng && isSizeBiggerThan500ko;
+                    boolean isSmallButHeavyPng = isPng && isSizeSmallerThan500ko && size > limitNbPixels;
+
+                    if (isPngBiggerThan500ko || isSmallButHeavyPng) {
+                        _log.info("PNG lourd detecte");
+                        // Scaling
+                        if (height > 1920 || width > 1920) {
+                            _log.info("Scaling");
+                            image = ImageToolUtil.scale(image, 1920, 1920);
                         }
-                    } else {
-                        _log.info("Compression insatisfaisante, on garde le PNG.");
+                        // Elimination de la transparence du PNG
+                        BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        newImg.createGraphics().drawImage((Image) image, 0, 0, Color.WHITE, null);
+                        image = newImg;
+                        // Compression
+                        float compressionQuality = 0.88f;
+                        ByteArrayOutputStream baos = compressImage(image, compressionQuality);
+                        // Calcul du nouveau pourcentage de compression
+                        float newCompressionRatio = 100 * (float) baos.size() / size;
+                        // Remplacement de l'image si le pourcentage de compression est satisfaisant
+                        if (newCompressionRatio < 90) {
+                            _log.info("On remplace le PNG.");
+                            is = saveImage(imageInFile, baos, file);
+                            size = baos.size();
+                            // Modif extension fichier
+                            mimeType = "image/jpeg";
+                            if (sourceFileName.endsWith(".png")) {
+                                sourceFileName = sourceFileName.substring(0, sourceFileName.length() - 4) + ".jpg";
+                                _log.info("Nouveau nom de fichier:" + sourceFileName);
+                            }
+                            if (title.endsWith(".png")) {
+                                title = title.substring(0, title.length() - 4) + ".jpg";
+                                _log.info("Nouveau titre (doclib):" + title);
+                            }
+                        } else {
+                            _log.info("Compression insatisfaisante, on garde le PNG.");
+                        }
                     }
                 }
             }
