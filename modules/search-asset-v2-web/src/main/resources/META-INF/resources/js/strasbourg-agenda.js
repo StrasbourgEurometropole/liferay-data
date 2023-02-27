@@ -14,6 +14,7 @@
 		   },
 		minimumInputLength : 3,
 		multiple : false,
+		allowClear:true,
 		placeholder: Liferay.Language.get("eu.event-choose-place"),
 		ajax : {
 			url : "/api/jsonws/place.place/get-places-by-name-and-language/",
