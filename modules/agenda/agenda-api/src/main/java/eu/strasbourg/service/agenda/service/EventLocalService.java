@@ -260,6 +260,14 @@ public interface EventLocalService
 	public Event fetchEventByUuidAndGroupId(String uuid, long groupId);
 
 	/**
+	 * Recherche des Evenements
+	 *
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	public List<Event> findByids(List<Long> idsEvents);
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	public List<Event> findByKeyword(

@@ -224,6 +224,19 @@ public class ArretLocalServiceWrapper
 	}
 
 	/**
+	 * Recherche des Arrets par identifiants
+	 *
+	 * @param idsArrets: list des identifiants
+	 * @return
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.gtfs.model.Arret> findByIds(
+		java.util.List<Long> idsArrets) {
+
+		return _arretLocalService.findByIds(idsArrets);
+	}
+
+	/**
 	 * Recherche par mot clés
 	 */
 	@Override

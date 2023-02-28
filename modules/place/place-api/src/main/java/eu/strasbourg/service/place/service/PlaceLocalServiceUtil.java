@@ -226,6 +226,18 @@ public class PlaceLocalServiceUtil {
 	}
 
 	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	public static java.util.List<eu.strasbourg.service.place.model.Place>
+		findByIds(java.util.List<Long> idsPlace) {
+
+		return getService().findByIds(idsPlace);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	public static java.util.List<eu.strasbourg.service.place.model.Place>

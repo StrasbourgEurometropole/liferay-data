@@ -598,7 +598,16 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		return this.placePersistence.findByGroupId(groupId);
 	}
 
-
+	/**
+	 * Recherche des places par identifiants
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	public List<Place>findByIds(List<Long>idsPlace){
+		DynamicQuery placeDynamicQuery = this.dynamicQuery();
+		placeDynamicQuery.add(PropertyFactoryUtil.forName("placeId").in(idsPlace));
+		return this.dynamicQuery(placeDynamicQuery);
+	}
 	/**
 	 * Retourne les lieux rattachés à un tarif
 	 */

@@ -213,6 +213,14 @@ public interface PlaceLocalService
 	public Place fetchPlaceByUuidAndGroupId(String uuid, long groupId);
 
 	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	public List<Place> findByIds(List<Long> idsPlace);
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	public List<Place> findByKeyword(
