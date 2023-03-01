@@ -37,6 +37,4 @@ public class DossiersWebService {
 		return dossiersResponse;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(DossiersWebService.class.getName());
-
 }
