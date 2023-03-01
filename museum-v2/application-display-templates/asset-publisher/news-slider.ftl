@@ -6,6 +6,7 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
+    <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
 <#if entries?has_content>
     <section id="news" class="margin-bottom">
@@ -32,6 +33,7 @@
                         <#assign listEntries = (entries?size gt 3)?then(entries?sequence[0..2], entries) />
                         <#list listEntries as curEntry> 
                             <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
+                                <#assign newsMuseums = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "musees") />
                                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                                 <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()") />
                                 <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
@@ -46,17 +48,17 @@
                                 <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                                 <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                                 <div class="swiper-slide">
-                                    <a href="${viewURL}" aria-label="${title?html}" title="${title?html}" class="news-thumbnail" style="background-image: url(${imageURL})">
+                                    <a href="${viewURL}"    aria-label="${title?html}" title="${title?html}" class="news-thumbnail" style="background-image: url(${imageURL});<#if entries?size == 1 && curEntry?index  == 0 >height:280px;</#if>">
                                         <div class="info">
                                             <div class="date">
                                                 <date><@liferay_ui["message"] key="eu.published-on" /> ${publishDate?date}</date>
                                             </div>
                                             <div class="museums">
-                                                <#if curEntry.categories?first?has_content>
+                                                <#if newsMuseums?first?has_content>
                                                     <#assign vocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService") />
                                                     <#assign nbMusees = 0 />
                                                     <#assign musees = ""/>
-                                                    <#list curEntry.categories as category>
+                                                    <#list newsMuseums as category>
                                                         <#assign vocabulary = vocabularyLocalService.getVocabulary(category.vocabularyId) />
                                                         <#if vocabulary.name == "Musées">
                                                             <#assign nbMusees++ />
@@ -66,7 +68,7 @@
                                                         </#if>
                                                     </#list>
                                                     <span>
-                                                        ${curEntry.categories?first.getTitle(locale)}
+                                                        ${newsMuseums?first.getTitle(locale)}
                                                         <#if nbMusees gt 2>
                                                             <@liferay_ui["message"] key="eu.museum.and-x" arguments="${nbMusees - 1}"/>
                                                         <#elseif nbMusees gt 1>
