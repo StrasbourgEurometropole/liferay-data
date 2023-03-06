@@ -4,21 +4,11 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SortFactoryUtil;
-import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.search.aggregation.Aggregations;
-import com.liferay.portal.search.aggregation.bucket.FiltersAggregation;
-import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.groupby.GroupByRequestFactory;
-import com.liferay.portal.search.groupby.GroupByResponse;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.query.BooleanQuery;
 import com.liferay.portal.search.query.FunctionScoreQuery;
@@ -53,7 +43,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 @Component(
 		immediate = true,
@@ -524,12 +513,15 @@ public class SearchHelperV2{
 		return superQuery;
 	}
 
-	private Query getEventsSearchQuery(String className,List <Long> tagIds,List<Long[]> categoriesIds
+	/**
+	 * Implémentation de Requete les événements pour interest viewer
+	 */
+	private Query getInterestEventsSearchQuery(String className,List <Long> tagIds,List<Long[]> categoriesIds
 										 , LocalDate fromDate, LocalDate toDate) {
 		// Construction de la requète
 		BooleanQuery query = queries.booleanQuery();
 
-		// ClassName
+		// ClassName exact
 		if(Validator.isNotNull(className))
 		{
 			TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, className);
@@ -559,29 +551,33 @@ public class SearchHelperV2{
 			query.addMustQueryClauses(tagsQuery);
 		}
 
-		// Dates
+		// formater la date début et la date fin en format dates ElasticSearch
 		String fromDateString = String.format("%04d", fromDate.getYear())
 				+ String.format("%02d", fromDate.getMonth().getValue())
 				+ String.format("%02d", fromDate.getDayOfMonth()) + "000000";
 		String toDateString = String.format("%04d", toDate.getYear())
 				+ String.format("%02d", toDate.getMonth().getValue())
 				+ String.format("%02d", toDate.getDayOfMonth()) + "000000";
-
 		RangeTermQuery datesQuery = queries.dateRangeTerm("dates", true, true, fromDateString, toDateString);
 				query.addMustQueryClauses(datesQuery);
-
-				// Statut et visibilité
+				// chercher les events ayant le status approuvé  et visible
 		TermQuery statusQuery = queries.term(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
 		TermQuery visibilityQuery = queries.term("visible", true);
 		query.addMustQueryClauses(statusQuery, visibilityQuery);
 		return query;
 	}
-	public SearchHits  getEventsSearchHits(SearchContext searchContext, String className,List<Long> tagIds
+
+	/**
+	 * Chercher les événements pour interest viewer
+	 * à pour but de chercher les x prochine événements à partir d'ayjourd'hui en fct de centre d'intéret d'un utilisateur
+	 */
+	public SearchHits getInterestEventsSearchHits(SearchContext searchContext, String className, List<Long> tagIds
 			, List<Long[]> categoriesIds, int start, int end) {
 
 		// Query
-		LocalDate toDate = LocalDate.now();
-		Query query = getEventsSearchQuery(className,tagIds,categoriesIds,toDate,toDate.plusYears(1));
+		LocalDate fromDate = LocalDate.now();
+		// on recherche sur 1 mois arbitrairement car on sait qu'on ne va chercher qu'une dizaine d'événement
+		Query query = getInterestEventsSearchQuery(className,tagIds,categoriesIds,fromDate,fromDate.plusMonths(1));
 
 		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
 
@@ -598,8 +594,19 @@ public class SearchHelperV2{
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
 
-		FieldSort fieldSort = sorts.field("dates_Number_sortable", SortOrder.ASC);
-		searchRequestBuilder = searchRequestBuilder.sorts(fieldSort);
+		// Tri qui a pour but de faire venir en premier les événements qui n'ont lieu qu'aujourd'hui
+
+		//Tri par ordre croissant par la date d'événement
+		// Comme on a fait un range à partir de la date d'aujourd'hui, on commence donc par les events
+		// qui se produisent aujourd'hui
+		FieldSort dateSort = sorts.field("dates_Number_sortable", SortOrder.ASC);
+
+		// faire apparaitre en premier les évenements qui finissent aujourd'hui
+		FieldSort endDateSort = sorts.field("endDate_Number_sortable", SortOrder.ASC);
+
+		// Trie par start date ordre décroissant à pour récuperer les events qui se commence aujourd'hui
+		FieldSort starDateSort = sorts.field("startDate_Number_sortable", SortOrder.DESC);
+		searchRequestBuilder = searchRequestBuilder.sorts(dateSort,endDateSort,starDateSort);
 
 		SearchRequest searchRequest = searchRequestBuilder.query(query).build();
 		SearchResponse searchResponse = searcher.search(searchRequest);

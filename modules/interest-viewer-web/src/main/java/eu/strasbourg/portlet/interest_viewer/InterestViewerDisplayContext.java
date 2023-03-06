@@ -265,9 +265,10 @@ public class InterestViewerDisplayContext {
 
 	private List<AssetEntry> getEvents(List<Long[]> prefilterCategoriesIds) {
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
+
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		if (prefilterCategoriesIds.size() > 0) {
-			entries=getSearchHitsAssetEntries(null,prefilterCategoriesIds,count);
+			entries= getEventSearchHitsAssetEntries(null,prefilterCategoriesIds,count);
 		}
 		else {
 			long[]ids=AssetTagLocalServiceUtil.getTagIds("coupdecoeur");
@@ -278,7 +279,7 @@ public class InterestViewerDisplayContext {
 						idsTag.add(id);
 					}
 				}
-			entries=getSearchHitsAssetEntries(idsTag,null,count);
+			entries= getEventSearchHitsAssetEntries(idsTag,null,count);
 		}
 		return entries;
 	}
@@ -359,7 +360,10 @@ public class InterestViewerDisplayContext {
 
 		return hits;
 	}
-	private List<AssetEntry>  getSearchHitsAssetEntries(List<Long> idsTag, List<Long[]> prefilterCategoriesIds,int count) {
+	/*
+	Chercher les événements pour interest viewer
+	 */
+	private List<AssetEntry> getEventSearchHitsAssetEntries(List<Long> idsTag, List<Long[]> prefilterCategoriesIds, int count) {
 
 		// Search context
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
@@ -371,7 +375,7 @@ public class InterestViewerDisplayContext {
 
 		// Recherche
 		List <AssetEntry> result=new ArrayList<>();
-		SearchHits searchHits = _searchHelperV2.getEventsSearchHits(searchContext,Event.class.getName(),idsTag, prefilterCategoriesIds, 0, count);
+		SearchHits searchHits = _searchHelperV2.getInterestEventsSearchHits(searchContext,Event.class.getName(),idsTag, prefilterCategoriesIds, 0, count);
 		if (searchHits != null) {
 			for (SearchHit searchHit : searchHits.getSearchHits()) {
 				com.liferay.portal.search.document.Document document = searchHit.getDocument();
