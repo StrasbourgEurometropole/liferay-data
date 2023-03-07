@@ -36,6 +36,10 @@ public class ResidDisplayContext {
 		return configuration;
 	}
 
+	public Boolean isUnderMaintenance() {
+		return configuration.maintenance();
+	}
+
 	public String getResidURL() {
 		String residURL = StrasbourgPropsUtil.getResidantURL();
 		if (Validator.isNull(residURL)) {

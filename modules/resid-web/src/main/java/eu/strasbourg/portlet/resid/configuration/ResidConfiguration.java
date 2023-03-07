@@ -8,6 +8,9 @@ import aQute.bnd.annotation.metatype.Meta;
 @Meta.OCD(id = "eu.strasbourg.portlet.resid.configuration.ResidConfiguration", localization = "content/Language", name = "portlet.resid.configuration.name")
 public interface ResidConfiguration {
 
+	@Meta.AD(name = "maintenance", required = false)
+	public boolean maintenance();
+
 	@Meta.AD(name = "liaisonURL", deflt = "", required = false)
 	public String liaisonURL();
 
