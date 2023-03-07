@@ -180,14 +180,6 @@ public class SearchAssociationDisplayContext {
 
         List<AssetEntry> results = new ArrayList<AssetEntry>();
         if (this._hits != null) {
-            int i = 0;
-            for (float s : this._hits.getScores()) {
-                _log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-                i++;
-                if (i > 10)
-                    break;
-            }
-
             List<Long> associationList = new ArrayList<Long>();
             for (Document document : this._hits.getDocs()) {
                 AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
