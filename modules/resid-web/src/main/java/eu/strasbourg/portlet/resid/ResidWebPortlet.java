@@ -37,22 +37,25 @@ public class ResidWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		ResidDisplayContext dc = new ResidDisplayContext(themeDisplay);
 		String publikInternalId = dc.getPublikID(request);
-
-		DossiersResponse dossierResponse = DossiersWebService.getResponse(publikInternalId);
-
 		String template = "";
 
-		// si l'utilisateur a activé son lien
-		if (Validator.isNull(dossierResponse)) {
+		if(dc.isUnderMaintenance()) {
 			template = "etape0";
-		} else {
-			dc.setDossierResponse(dossierResponse);
-			if (dossierResponse.dossiers.isEmpty()) {
-				template = "etape1";
+		}else {
+			DossiersResponse dossierResponse = DossiersWebService.getResponse(publikInternalId);
+
+			// si l'utilisateur a activé son lien
+			if (Validator.isNull(dossierResponse)) {
+				template = "etape0";
 			} else {
-				template = "etape2";
-				if (dossierResponse.getCodeRetour() != 0) {
-					request.setAttribute("error", dossierResponse.getErreurDescription());
+				dc.setDossierResponse(dossierResponse);
+				if (dossierResponse.dossiers.isEmpty()) {
+					template = "etape1";
+				} else {
+					template = "etape2";
+					if (dossierResponse.getCodeRetour() != 0) {
+						request.setAttribute("error", dossierResponse.getErreurDescription());
+					}
 				}
 			}
 		}

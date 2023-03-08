@@ -44,32 +44,37 @@ public class FamilySpaceWebPortlet extends MVCPortlet {
         FamilySpaceDisplayContext dc = new FamilySpaceDisplayContext(themeDisplay);
         String publikInternalId = dc.getPublikID(renderRequest);
         String template = "";
-        try {
-            FamilySpaceResponse familySpace = FamilySpaceWebService.getResponse(publikInternalId);
+        if(dc.isUnderMaintenance()) {
+            template = "etape0";
+            renderRequest.setAttribute("error", LanguageUtil.get(Locale.FRANCE, "eu.webservice-indispo"));
+        }else {
+            try {
+                FamilySpaceResponse familySpace = FamilySpaceWebService.getResponse(publikInternalId);
 
-            if (Validator.isNull(familySpace)) {
+                if (Validator.isNull(familySpace)) {
+                    // erreur technique
+                    template = "etape0";
+                    renderRequest.setAttribute("error", LanguageUtil.get(Locale.FRANCE, "eu.webservice-indispo"));
+                } else {
+                    if (familySpace.getCodeRetour() == 1) {
+                        // erreur
+                        template = "etape0";
+                        renderRequest.setAttribute("error", familySpace.getErreurDescription());
+                    } else {
+                        if (familySpace.getCount() == 0) {
+                            // pas de comptes liés
+                            template = "etape0";
+                        } else {
+                            dc.setFamilySpace(familySpace);
+                            template = "etape1";
+                        }
+                    }
+                }
+            } catch (Exception e) {
                 // erreur technique
                 template = "etape0";
                 renderRequest.setAttribute("error", LanguageUtil.get(Locale.FRANCE, "eu.webservice-indispo"));
-            } else {
-                if (familySpace.getCodeRetour() == 1) {
-                    // erreur
-                    template = "etape0";
-                    renderRequest.setAttribute("error", familySpace.getErreurDescription());
-                } else {
-                    if (familySpace.getCount() == 0) {
-                        // pas de comptes liés
-                        template = "etape0";
-                    } else {
-                        dc.setFamilySpace(familySpace);
-                        template = "etape1";
-                    }
-                }
             }
-        } catch (Exception e) {
-            // erreur technique
-            template = "etape0";
-            renderRequest.setAttribute("error", LanguageUtil.get(Locale.FRANCE, "eu.webservice-indispo"));
         }
         renderRequest.setAttribute("dc", dc);
 

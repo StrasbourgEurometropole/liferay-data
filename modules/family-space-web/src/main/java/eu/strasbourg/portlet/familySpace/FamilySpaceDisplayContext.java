@@ -35,6 +35,10 @@ public class FamilySpaceDisplayContext {
 		}
 	}
 
+	public Boolean isUnderMaintenance() {
+		return configuration.maintenance();
+	}
+
 	public FamilySpaceConfiguration getConfiguration() {
 		return configuration;
 	}
