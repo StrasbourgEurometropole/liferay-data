@@ -294,13 +294,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 				List<AssetEntry> entries = new ArrayList<>();
 				if (searchHits != null) {
-					int i = 0;
 					for (SearchHit searchHit : searchHits.getSearchHits()) {
 						com.liferay.portal.search.document.Document document = searchHit.getDocument();
-						i++;
-						if (i <= 10)
-							_log.info(document.getString("localized_title_fr_FR_sortable") + " : " + searchHit.getScore());
-
 						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
 								document.getString(Field.ENTRY_CLASS_NAME),
 								document.getLong(Field.ENTRY_CLASS_PK));
