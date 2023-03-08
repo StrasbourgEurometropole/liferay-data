@@ -4,17 +4,11 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
-import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.search.aggregation.Aggregations;
-import com.liferay.portal.search.aggregation.bucket.FiltersAggregation;
-import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.groupby.GroupByRequestFactory;
-import com.liferay.portal.search.groupby.GroupByResponse;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.query.BooleanQuery;
 import com.liferay.portal.search.query.FunctionScoreQuery;
@@ -518,6 +512,109 @@ public class SearchHelperV2{
 
 		return superQuery;
 	}
+
+	/**
+	 * Implémentation de Requete les événements pour interest viewer
+	 */
+	private Query getInterestEventsSearchQuery(String className,List <Long> tagIds,List<Long[]> categoriesIds
+										 , LocalDate fromDate, LocalDate toDate) {
+		// Construction de la requète
+		BooleanQuery query = queries.booleanQuery();
+
+		// ClassName exact
+		if(Validator.isNotNull(className))
+		{
+			TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, className);
+			query.addMustQueryClauses(classNameQuery);
+		}
+
+		// Catégories
+		// On fait un "ou" entre les catégories d'un même vocabulaire et un
+		// "et" entre les différents vocabulaires
+		if(categoriesIds!=null) {
+			for (Long[] categoriesIdsGroupByVocabulary : categoriesIds) {
+				BooleanQuery vocabularyQuery = queries.booleanQuery();
+				for (long categoryId : categoriesIdsGroupByVocabulary) {
+					TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
+					vocabularyQuery.addShouldQueryClauses(categoryQuery);
+				}
+				query.addMustQueryClauses(vocabularyQuery);
+			}
+		}
+		//tags
+		if(tagIds!=null){
+			BooleanQuery tagsQuery = queries.booleanQuery();
+			for (Long tagId :tagIds){
+				TermQuery tagQuery = queries.term(Field.ASSET_TAG_IDS, String.valueOf(tagId));
+				tagsQuery.addShouldQueryClauses(tagQuery);
+			}
+			query.addMustQueryClauses(tagsQuery);
+		}
+
+		// formater la date début et la date fin en format dates ElasticSearch
+		String fromDateString = String.format("%04d", fromDate.getYear())
+				+ String.format("%02d", fromDate.getMonth().getValue())
+				+ String.format("%02d", fromDate.getDayOfMonth()) + "000000";
+		String toDateString = String.format("%04d", toDate.getYear())
+				+ String.format("%02d", toDate.getMonth().getValue())
+				+ String.format("%02d", toDate.getDayOfMonth()) + "000000";
+		RangeTermQuery datesQuery = queries.dateRangeTerm("dates", true, true, fromDateString, toDateString);
+				query.addMustQueryClauses(datesQuery);
+				// chercher les events ayant le status approuvé  et visible
+		TermQuery statusQuery = queries.term(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
+		TermQuery visibilityQuery = queries.term("visible", true);
+		query.addMustQueryClauses(statusQuery, visibilityQuery);
+		return query;
+	}
+
+	/**
+	 * Chercher les événements pour interest viewer
+	 * à pour but de chercher les x prochine événements à partir d'ayjourd'hui en fct de centre d'intéret d'un utilisateur
+	 */
+	public SearchHits getInterestEventsSearchHits(SearchContext searchContext, String className, List<Long> tagIds
+			, List<Long[]> categoriesIds, int start, int end) {
+
+		// Query
+		LocalDate fromDate = LocalDate.now();
+		// on recherche sur 1 mois arbitrairement car on sait qu'on ne va chercher qu'une dizaine d'événement
+		Query query = getInterestEventsSearchQuery(className,tagIds,categoriesIds,fromDate,fromDate.plusMonths(1));
+
+		SearchRequestBuilder searchRequestBuilder = searchRequestBuilderFactory.builder();
+
+		// Pagination
+		searchRequestBuilder.emptySearchEnabled(true);
+		searchRequestBuilder.withSearchContext(
+				sc -> {
+					sc.setCompanyId(searchContext.getCompanyId());
+					sc.setStart(start);
+					sc.setEnd(end);
+
+				}
+		);
+		searchRequestBuilder.from(start);
+		searchRequestBuilder.size(end - start);
+
+		// Tri qui a pour but de faire venir en premier les événements qui n'ont lieu qu'aujourd'hui
+
+		//Tri par ordre croissant par la date d'événement
+		// Comme on a fait un range à partir de la date d'aujourd'hui, on commence donc par les events
+		// qui se produisent aujourd'hui
+		FieldSort dateSort = sorts.field("dates_Number_sortable", SortOrder.ASC);
+
+		// faire apparaitre en premier les évenements qui finissent aujourd'hui
+		FieldSort endDateSort = sorts.field("endDate_Number_sortable", SortOrder.ASC);
+
+		// Trie par start date ordre décroissant à pour récuperer les events qui se commence aujourd'hui
+		FieldSort starDateSort = sorts.field("startDate_Number_sortable", SortOrder.DESC);
+		searchRequestBuilder = searchRequestBuilder.sorts(dateSort,endDateSort,starDateSort);
+
+		SearchRequest searchRequest = searchRequestBuilder.query(query).build();
+		SearchResponse searchResponse = searcher.search(searchRequest);
+		SearchHits searchHits = searchResponse.getSearchHits();
+		_log.info("Recherche front-end : " + searchHits.getSearchTime() * 1000 + "ms");
+		return searchHits;
+	}
+
 
 	private static final Log _log = LogFactoryUtil.getLog(SearchHelperV2.class.getName());
 

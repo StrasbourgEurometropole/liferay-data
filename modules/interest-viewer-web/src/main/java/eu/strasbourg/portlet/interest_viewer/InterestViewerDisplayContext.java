@@ -1,10 +1,8 @@
 package eu.strasbourg.portlet.interest_viewer;
 
-import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
-import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
+
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetTag;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
@@ -31,6 +29,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.search.hits.SearchHit;
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.EventPeriod;
@@ -40,9 +39,11 @@ import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.UriHelper;
-
+import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.SearchHelperV2;
+import org.osgi.service.component.annotations.Reference;
+import com.liferay.portal.search.hits.SearchHits;
 import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -68,9 +69,12 @@ public class InterestViewerDisplayContext {
 	private List<AssetEntry> entries;
 	private InterestViewerConfiguration configuration;
 
-	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request) {
+	private SearchHelperV2 _searchHelperV2;
+
+	public InterestViewerDisplayContext(ThemeDisplay themeDisplay, RenderRequest request, SearchHelperV2 searchHelperV2) {
 		this.themeDisplay = themeDisplay;
 		this.request = request;
+		this._searchHelperV2=searchHelperV2;
 		try {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(InterestViewerConfiguration.class);
@@ -262,52 +266,23 @@ public class InterestViewerDisplayContext {
 
 	private List<AssetEntry> getEvents(List<Long[]> prefilterCategoriesIds) {
 		List<AssetEntry> entries = new ArrayList<AssetEntry>();
+
 		int count = configuration.template().equals("liste") ? configuration.eventNumberOnListPage() : 9;
 		if (prefilterCategoriesIds.size() > 0) {
-			List<AssetEntryAssetCategoryRel> entriesRel = new ArrayList<AssetEntryAssetCategoryRel>();
-			for (Long[] categoriesIdsGroupByVocabulary : prefilterCategoriesIds) {
-				for (long categoryId : categoriesIdsGroupByVocabulary) {
-					entriesRel.addAll(AssetEntryAssetCategoryRelLocalServiceUtil.getAssetEntryAssetCategoryRelsByAssetCategoryId(categoryId));
-				}
-			}
-
-			//transforme les AssetEntriesAssetCategories en AssetEntries
-			for (AssetEntryAssetCategoryRel entryRel : entriesRel) {
-				if (Validator.isNotNull(entryRel)) {
-					try {
-						entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
-					} catch (PortalException e) {
-						_log.error(e.getMessage() + " : " + entryRel);
+			entries= getEventSearchHitsAssetEntries(null,prefilterCategoriesIds,count);
+		}
+		else {
+			long[]ids=AssetTagLocalServiceUtil.getTagIds("coupdecoeur");
+			List <Long> idsTag=new ArrayList<>();
+			if(ids.length>0)
+				{
+					for(Long id :ids){
+						idsTag.add(id);
 					}
 				}
-			}
-		} else {
-			List<AssetTag> allTags = AssetTagLocalServiceUtil.getTags();
-			for (AssetTag tag : allTags) {
-				if (tag.getName().equals("coupdecoeur")) {
-					entries.addAll(AssetEntryLocalServiceUtil.getAssetTagAssetEntries(tag.getTagId()));
-				}
-			}
+			entries= getEventSearchHitsAssetEntries(idsTag,null,count);
 		}
-
-		List<AssetEntry> result = new ArrayList<AssetEntry>();
-		if(!entries.isEmpty()){
-			List<Long> classPks = entries.stream().map(AssetEntry::getClassPK).collect(Collectors.toList());
-			List<Event> listEvent = EventLocalServiceUtil.findByNextHappening();
-			listEvent = listEvent.stream().filter(e -> classPks.contains(e.getEventId())).collect(Collectors.toList());
-
-			for (Event event: listEvent) {
-				if(result.size() < count) {
-					AssetEntry assetEntry = AssetEntryLocalServiceUtil.fetchEntry(Event.class.getName(), event.getPrimaryKey());
-					if (assetEntry != null) {
-						result.add(assetEntry);
-					}
-				}else
-					break;
-			}
-		}
-
-		return result;
+		return entries;
 	}
 
 	private List<AssetEntry> getActus(List<Long[]> prefilterCategoriesIds, String tag) {
@@ -385,6 +360,35 @@ public class InterestViewerDisplayContext {
 				prefilterTagsNames, true, locale, start, end, sortField, sortDesc);
 
 		return hits;
+	}
+	/*
+	Chercher les événements pour interest viewer
+	 */
+	private List<AssetEntry> getEventSearchHitsAssetEntries(List<Long> idsTag, List<Long[]> prefilterCategoriesIds, int count) {
+
+		// Search context
+		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+
+		// Pagination
+		int start = 0;
+		int end = count;
+
+		// Recherche
+		List <AssetEntry> result=new ArrayList<>();
+		SearchHits searchHits = _searchHelperV2.getInterestEventsSearchHits(searchContext,Event.class.getName(),idsTag, prefilterCategoriesIds, 0, count);
+		if (searchHits != null) {
+			for (SearchHit searchHit : searchHits.getSearchHits()) {
+				com.liferay.portal.search.document.Document document = searchHit.getDocument();
+				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+						document.getString(Field.ENTRY_CLASS_NAME),
+						document.getLong(Field.ENTRY_CLASS_PK));
+				if (entry != null) {
+					result.add(entry);
+				}
+			}
+		}
+		return result;
 	}
 
 	public String getJSONEncodedString(String source) {
