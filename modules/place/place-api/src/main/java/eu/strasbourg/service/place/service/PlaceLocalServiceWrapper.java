@@ -224,6 +224,19 @@ public class PlaceLocalServiceWrapper
 	}
 
 	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> findByIds(
+		java.util.List<Long> idsPlace) {
+
+		return _placeLocalService.findByIds(idsPlace);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	@Override

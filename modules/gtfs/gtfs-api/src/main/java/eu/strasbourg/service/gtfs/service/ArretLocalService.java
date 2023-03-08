@@ -209,6 +209,14 @@ public interface ArretLocalService
 	public Arret fetchArretByUuidAndGroupId(String uuid, long groupId);
 
 	/**
+	 * Recherche des Arrets par identifiants
+	 *
+	 * @param idsArrets: list des identifiants
+	 * @return
+	 */
+	public List<Arret> findByIds(List<Long> idsArrets);
+
+	/**
 	 * Recherche par mot clés
 	 */
 	public List<Arret> findByKeyword(

@@ -276,6 +276,14 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	/**
+	 * Renvoie le nombre des Alertes en cours ou à venir de cet arret
+	 */
+	@Override
+	public long getCountAlertsActives() {
+		return _arret.getCountAlertsActives();
+	}
+
+	/**
 	 * Returns the create date of this arret.
 	 *
 	 * @return the create date of this arret

@@ -704,6 +704,16 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Recherche des Evenements
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	public List <Event> findByids(List<Long> idsEvents){
+		DynamicQuery eventDynamicQuery = this.dynamicQuery();
+		eventDynamicQuery.add(PropertyFactoryUtil.forName("eventId").in(idsEvents));
+		return this.dynamicQuery(eventDynamicQuery);
+	}
+	/**
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */
 	@Override

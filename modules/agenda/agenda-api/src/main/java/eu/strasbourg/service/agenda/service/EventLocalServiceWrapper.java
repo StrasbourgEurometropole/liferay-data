@@ -325,6 +325,19 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
+	 * Recherche des Evenements
+	 *
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event> findByids(
+		java.util.List<Long> idsEvents) {
+
+		return _eventLocalService.findByids(idsEvents);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	@Override

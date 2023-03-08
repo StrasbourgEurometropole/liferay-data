@@ -293,6 +293,15 @@ public interface AlertLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Alert> getByGroupId(long groupId);
 
+	/**
+	 * Renvoie le nombre des alertes en cours ou à venir de cet arret
+	 *
+	 * @param arretId : identifiant arret
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public long getCountAlertsActives(long arretId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
