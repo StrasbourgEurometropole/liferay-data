@@ -42,6 +42,10 @@ public class FamilySpaceConfigurationAction
 
 		if (cmd.equals("update")) {
 
+			// Maitenance
+			String maintenance = ParamUtil.getString(request, "maintenance");
+			setPreference(request, "maintenance", maintenance);
+
 			// URL ajout d'un repas
 			String addLunchURL = ParamUtil.getString(request, "addLunchURL");
 			setPreference(request, "addLunchURL", addLunchURL);
@@ -67,6 +71,7 @@ public class FamilySpaceConfigurationAction
 			FamilySpaceConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						FamilySpaceConfiguration.class);
+			request.setAttribute("maintenance", configuration.maintenance());
 			request.setAttribute("addLunchURL", configuration.addLunchURL());
 			request.setAttribute("linkAccountURL", configuration.linkAccountURL());
 			

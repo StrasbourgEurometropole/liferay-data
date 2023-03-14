@@ -8,6 +8,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
@@ -52,9 +54,11 @@ public class JournalArticleJSonHelper {
                 json.put(WSConstants.JSON_CATEGORIES, categories);
             }
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return  json;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(JournalArticleJSonHelper.class.getName());
 
 }

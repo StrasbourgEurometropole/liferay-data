@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -91,7 +93,7 @@ public class TwitterUtil {
 				.put(username + "_last_update", new Date().getTime());
 			return tweets;
 		} catch (TwitterException e) {
-			e.printStackTrace();
+			_log.info(e.getMessage() + " : " + username);
 			// Si on a du cache, on le renvoie
 			if (timelineFromCache != null) {
 				return (List<Tweet>) timelineFromCache;
@@ -99,5 +101,7 @@ public class TwitterUtil {
 			return tweets;
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(TwitterUtil.class);
 
 }

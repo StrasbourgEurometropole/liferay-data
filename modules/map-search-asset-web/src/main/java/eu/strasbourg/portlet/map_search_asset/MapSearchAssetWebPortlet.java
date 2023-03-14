@@ -224,7 +224,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				}
 				
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + districtCategoryId);
 			}
 			
 			this.projects = filteredProjects;

@@ -105,8 +105,7 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 		    writer.print(jsonResponse.toString());
 		    
         } catch (PortalException e1) {
-			_log.error(e1);
-			e1.printStackTrace();
+			_log.info(e1.getMessage(), e1);
 			 success = false;
 		}
 

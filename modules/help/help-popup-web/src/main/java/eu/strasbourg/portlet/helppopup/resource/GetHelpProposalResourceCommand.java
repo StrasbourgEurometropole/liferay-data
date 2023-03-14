@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -107,8 +108,7 @@ public class GetHelpProposalResourceCommand implements MVCResourceCommand {
 		    writer.print(jsonResponse.toString());
 		    
         } catch (PortalException e1) {
-			_log.error(e1);
-			e1.printStackTrace();
+			_log.info(e1.getMessage(), e1);
 			 success = false;
 		}
 

@@ -42,13 +42,20 @@ import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.base.CouncilSessionLocalServiceBaseImpl;
+import eu.strasbourg.service.council.service.util.VocabularyHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * The implementation of the council session local service.
@@ -276,8 +283,12 @@ public class CouncilSessionLocalServiceImpl extends CouncilSessionLocalServiceBa
 
 		// Suppression de la catégorie associée
 		CouncilSession councilSession = this.councilSessionLocalService.fetchCouncilSession(councilSessionId);
-		if (councilSession != null)
-			AssetVocabularyHelper.removeCategory(councilSession.getTitle(), councilSession.getGroupId());
+		if (councilSession != null) {
+			// on récupère la catégorie
+			String categoryCouncilId = VocabularyHelper.getCategorieCouncilId(councilSession);
+			if(categoryCouncilId != "")
+				AssetCategoryLocalServiceUtil.deleteAssetCategory(Long.parseLong(categoryCouncilId));
+		}
 
 		// Supprime l'entité
 		councilSession = this.councilSessionPersistence.remove(councilSessionId);

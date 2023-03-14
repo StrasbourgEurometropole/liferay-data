@@ -42,6 +42,10 @@ public class ResidConfigurationAction
 
 		if (cmd.equals("update")) {
 
+			// Maitenance
+			String maintenance = ParamUtil.getString(request, "maintenance");
+			setPreference(request, "maintenance", maintenance);
+
 			// URL liaison
 			String liaisonURL = ParamUtil.getString(request, "liaisonURL");
 			setPreference(request, "liaisonURL", liaisonURL);
@@ -73,6 +77,7 @@ public class ResidConfigurationAction
 			ResidConfiguration configuration = themeDisplay
 				.getPortletDisplay().getPortletInstanceConfiguration(
 						ResidConfiguration.class);
+			request.setAttribute("maintenance", configuration.maintenance());
 			request.setAttribute("liaisonURL", configuration.liaisonURL());
 			request.setAttribute("zones", configuration.zones());
 			

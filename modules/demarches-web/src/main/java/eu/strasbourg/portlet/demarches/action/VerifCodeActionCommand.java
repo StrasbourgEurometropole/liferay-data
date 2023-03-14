@@ -53,7 +53,7 @@ public class VerifCodeActionCommand
 				try {
 					response.sendRedirect(url);
 				} catch (IOException e) {
-					e.printStackTrace();
+					_log.error(e.getMessage() + " : " + url);
 				}
 			}else{
 				request.setAttribute("codeSuivi", codeSuivi);
@@ -64,8 +64,10 @@ public class VerifCodeActionCommand
 				}
 			}
 		} catch (IOException | JSONException ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 		return true;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

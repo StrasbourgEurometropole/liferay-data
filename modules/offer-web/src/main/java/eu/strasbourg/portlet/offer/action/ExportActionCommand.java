@@ -77,7 +77,7 @@ public class ExportActionCommand implements MVCActionCommand {
 				os.close();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return true;

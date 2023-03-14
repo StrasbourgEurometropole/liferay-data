@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.ejob.display.context;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserGroupRoleLocalServiceUtil;
@@ -295,7 +297,7 @@ public class EditOfferDisplayContext {
             Role assistantRecrutement = RoleLocalServiceUtil.getRole(this.themeDisplay.getCompanyId(), RoleNames.ASSISTANT_RECRUTEMENT);
             return UserGroupRoleLocalServiceUtil.hasUserGroupRole(themeDisplay.getUserId(),themeDisplay.getScopeGroupId(), assistantRecrutement.getRoleId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return false;
     }
@@ -325,5 +327,7 @@ public class EditOfferDisplayContext {
 
         return allCategoriesId;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

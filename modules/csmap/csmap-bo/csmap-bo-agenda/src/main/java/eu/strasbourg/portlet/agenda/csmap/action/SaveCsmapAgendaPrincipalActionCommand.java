@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.agenda.csmap.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -11,6 +13,7 @@ import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
@@ -117,7 +120,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(theme))
                 return String.valueOf(theme.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_THEME);
         }
         return null;
     }
@@ -128,7 +131,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_TYPE);
         }
         return null;
     }
@@ -139,9 +142,11 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.TERRITORY);
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(SaveCsmapAgendaPrincipalActionCommand.class.getName());
 }
 

@@ -182,7 +182,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			List<ObjectValuePair<String[], PlaceSchedule>> exceptions = new ArrayList<ObjectValuePair<String[], PlaceSchedule>>();
 			long placeId = ParamUtil.getLong(request, "placeId");
 			// Récupère le lieu choisi
-			if (Validator.isNotNull(placeId)) {
+			// On vérifie le "-1" car c'est ce qui est renvoyé dans le cas où ils choisissent la sélection vide
+			// Pour remettre la recherche à 0
+			if (Validator.isNotNull(placeId) && placeId != -1) {
 				request.setAttribute("placeId", placeId);
 				Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
 				selectedPlaces.add(place);
@@ -192,7 +194,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				if (!placeSchedules.isEmpty()) {
 					for (PlaceSchedule schedule : placeSchedules) {
 						ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-								new String[] {place.getAlias(locale)}, schedule);
+								new String[]{place.getAlias(locale)}, schedule);
 						exceptions.add(placeName_Exception);
 					}
 				}
@@ -204,7 +206,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					if (!placeSchedules.isEmpty()) {
 						for (PlaceSchedule schedule : placeSchedules) {
 							ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-									new String[] {place.getAlias(locale), subPlace.getName(locale)}, schedule);
+									new String[]{place.getAlias(locale), subPlace.getName(locale)}, schedule);
 							exceptions.add(placeName_Exception);
 						}
 					}
@@ -228,7 +230,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 								themeDisplay.getCompanyGroupId());
 						if (Validator.isNotNull(place) && place.isApproved()) {
 							places.add(place);
-							if (Validator.isNull(placeId)) {
+							// On vérifie le "-1" car c'est ce qui est renvoyé dans le cas où ils choisissent la sélection vide
+							// Pour remettre la recherche à 0
+							if (Validator.isNull(placeId) || placeId == -1) {
 
 								/* FIX Temporaire : Mantis 5899 */
 								if(place.getSIGid().equals("400_SPO_1")) {

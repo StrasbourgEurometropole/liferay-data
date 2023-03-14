@@ -6,6 +6,8 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.frontend.taglib.servlet.taglib.ManagementBarFilterItem;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -47,7 +49,7 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
             // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
             this.getSearchContainer().setDelta(100);
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -267,4 +269,6 @@ public class ViewDeliberationsDisplayContext extends ViewListBaseDisplayContext<
         AssetCategory categoryAucunConseil = AssetVocabularyHelper.getCategory(CouncilConstants.NO_COUNCIL_CATEGORY_NAME, groupId);
         authorizedRootCategories.add(categoryAucunConseil);
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

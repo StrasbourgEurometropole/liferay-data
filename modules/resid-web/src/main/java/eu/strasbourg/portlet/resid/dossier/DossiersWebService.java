@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.PasserelleHelper;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.net.HttpURLConnection;
@@ -30,7 +31,7 @@ public class DossiersWebService {
 				dossiersResponse = new DossiersResponse(PasserelleHelper.readJson(httpConn));
 			}
 		} catch (Exception ex) {
-			_log.error(ex);
+			_log.error("identifiantOpenId : " + identifiantOpenId + ", timeOut : " + timeOut, ex);
 		}
 
 		return dossiersResponse;

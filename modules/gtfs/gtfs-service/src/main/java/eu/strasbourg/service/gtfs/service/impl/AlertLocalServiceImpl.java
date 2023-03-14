@@ -14,15 +14,22 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.AlertLocalServiceBaseImpl;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -140,5 +147,19 @@ public class AlertLocalServiceImpl extends AlertLocalServiceBaseImpl {
 	@Override
 	public List<Alert> getAll() {
 		return this.alertPersistence.findAll();
+	}
+
+	/**
+	 * Renvoie le nombre des alertes en cours ou à venir de cet arret
+	 * @param arretId : identifiant arret
+	 * @return
+	 */
+	public long getCountAlertsActives(long arretId) {
+		LocalDateTime now = LocalDate.now().atTime(0,0, 0, 0);
+		Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+		DynamicQuery query= this.dynamicQuery();
+		query.add(PropertyFactoryUtil.forName("arretId").eq(arretId));
+		query.add(PropertyFactoryUtil.forName("endDate").ge(today));
+		return this.dynamicQueryCount(query);
 	}
 }

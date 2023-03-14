@@ -58,7 +58,7 @@ public class DeleteStudentCardImagesActionCommand implements MVCActionCommand {
             }
 
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + studentRequests.toString());
         }
 
         return true;

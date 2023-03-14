@@ -1,5 +1,7 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -109,7 +111,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 			workbook.close();
 			stream.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 	}
@@ -120,5 +122,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 	}
 	
 	private BudgetParticipatifLocalService _budgetParticipatifLocalService;
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

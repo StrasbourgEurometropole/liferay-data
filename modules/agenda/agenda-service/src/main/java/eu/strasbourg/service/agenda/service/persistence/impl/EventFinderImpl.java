@@ -6,6 +6,8 @@ import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.impl.EventImpl;
@@ -38,7 +40,7 @@ public class EventFinderImpl extends EventFinderBaseImpl implements EventFinder 
                 throw new SystemException(e);
             }
             catch (SystemException se) {
-                se.printStackTrace();
+                _log.error(se.getMessage(), se);
             }
         }
         finally {
@@ -55,4 +57,6 @@ public class EventFinderImpl extends EventFinderBaseImpl implements EventFinder 
 //    @Reference
     @ServiceReference(type=CustomSQL.class)
     private CustomSQL customSQL;
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

@@ -677,7 +677,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			try {
 				event = getEvent(result.getEventId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + result);
 			}
 			return event;
 		}).collect(Collectors.toList());
@@ -703,6 +703,16 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		return eventPersistence.findByPlaceSIGId(placeSIGId);
 	}
 
+	/**
+	 * Recherche des Evenements
+	 * @param idsEvents: liste des identifiants
+	 * @return
+	 */
+	public List <Event> findByids(List<Long> idsEvents){
+		DynamicQuery eventDynamicQuery = this.dynamicQuery();
+		eventDynamicQuery.add(PropertyFactoryUtil.forName("eventId").in(idsEvents));
+		return this.dynamicQuery(eventDynamicQuery);
+	}
 	/**
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */

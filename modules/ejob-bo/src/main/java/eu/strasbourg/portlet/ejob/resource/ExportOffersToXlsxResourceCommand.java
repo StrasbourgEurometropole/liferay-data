@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.ejob.resource;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import eu.strasbourg.service.office.exporter.api.OffersXlsxExporter;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -35,10 +37,11 @@ public class ExportOffersToXlsxResourceCommand implements MVCResourceCommand {
 			offersXlsExporter.exportPublishedOffers(resourceResponse.getPortletOutputStream());
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return true;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

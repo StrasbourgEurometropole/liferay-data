@@ -14,6 +14,11 @@
 	
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
+
+        <!-- Indique si le webService est en maintenance -->
+		<aui:fieldset>
+            <aui:input type="checkbox" name="maintenance" value="${maintenance}" label="maintenance" />
+		</aui:fieldset>
 		
 		<aui:fieldset>
 			<aui:input name="addLunchURL" value="${addLunchURL}" type="text" label="add-lunch-url" />

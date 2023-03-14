@@ -385,5 +385,16 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 		}
 		return arretPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	/**
+	 * Recherche des Arrets par identifiants
+	 * @param idsArrets: list des identifiants
+	 * @return
+	 */
+	public List<Arret> findByIds(List<Long> idsArrets ){
+		DynamicQuery arretDynamicQuery = this.dynamicQuery();
+		arretDynamicQuery.add(PropertyFactoryUtil.forName("arretId").in(idsArrets));
+		return this.dynamicQuery(arretDynamicQuery);
+	}
 	
 }

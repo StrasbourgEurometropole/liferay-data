@@ -224,6 +224,19 @@ public class PlaceLocalServiceWrapper
 	}
 
 	/**
+	 * Recherche des places par identifiants
+	 *
+	 * @param idsPlace : liste ids places
+	 * @return
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.Place> findByIds(
+		java.util.List<Long> idsPlace) {
+
+		return _placeLocalService.findByIds(idsPlace);
+	}
+
+	/**
 	 * Lance une recherche par mots-clés
 	 */
 	@Override
@@ -508,10 +521,11 @@ public class PlaceLocalServiceWrapper
 	@Override
 	public void updateRealTime(
 		eu.strasbourg.service.place.model.Place place, String type,
-		long occupation, long available, long capacity, String status) {
+		long occupation, long available, long capacity, String status,
+		java.util.Date rtLastUpdate) {
 
 		_placeLocalService.updateRealTime(
-			place, type, occupation, available, capacity, status);
+			place, type, occupation, available, capacity, status, rtLastUpdate);
 	}
 
 	/**

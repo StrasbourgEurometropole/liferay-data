@@ -119,7 +119,7 @@ public class ReloadProcurationsResourceCommand implements MVCResourceCommand {
             associatedProcuration.put("official", officialsJSON);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         // Recuperation de l'élément d'écriture de la réponse

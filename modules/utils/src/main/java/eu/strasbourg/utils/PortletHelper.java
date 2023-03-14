@@ -6,6 +6,8 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -85,7 +87,7 @@ public class PortletHelper {
 					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 				return true;
 			}
 		} else {
@@ -139,7 +141,7 @@ public class PortletHelper {
 					return result;
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 				return result;
 			}
 		} else {
@@ -177,7 +179,7 @@ public class PortletHelper {
 				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + configurationString);
 		}
 		return status;
 	}
@@ -254,7 +256,7 @@ public class PortletHelper {
 				user.setDisplayConfig(json.toJSONString());
 				PublikUserLocalServiceUtil.updatePublikUser(user);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 			}
 		}
 	}
@@ -331,7 +333,7 @@ public class PortletHelper {
                 user.setDisplayConfig(json.toJSONString());
                 PublikUserLocalServiceUtil.updatePublikUser(user);
             } catch (JSONException e) {
-                e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
             }
         }
 	}
@@ -370,7 +372,7 @@ public class PortletHelper {
 						if(ipToTest >= ipFrom && ipToTest <= ipTo)
 							return true;
 					} catch (UnknownHostException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage(), e);
 					}
 				}else{
 					if(ip.trim().equals(ipUtil))
@@ -406,4 +408,6 @@ public class PortletHelper {
 		}
 		return result;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(PortletHelper.class.getName());
 }

@@ -10,6 +10,8 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -58,6 +60,8 @@ import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 public class SearchAssetDisplayContext {
+
+	private static final Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
@@ -521,7 +525,7 @@ public class SearchAssetDisplayContext {
 					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return _displayExport;

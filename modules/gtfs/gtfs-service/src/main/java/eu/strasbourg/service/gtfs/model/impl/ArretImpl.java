@@ -17,6 +17,8 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -113,6 +115,12 @@ public class ArretImpl extends ArretBaseImpl {
 
         return  alerts;
     }
+	/**
+	 * Renvoie le count des Alertes en cours ou à venir de cet arret
+	 */
+	public long getCountAlertsActives() {
+	 	return  AlertLocalServiceUtil.getCountAlertsActives(this.getArretId());
+	}
 
 	/**
 	 * Renvoie la correspondance du type d'arret en format texte
@@ -184,7 +192,7 @@ public class ArretImpl extends ArretBaseImpl {
 		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText().toLowerCase() + ".png");
 
 		// vérifi si l'arrêt a une alerte
-		if(this.getAlertsActives().size() > 0)
+		if(this.getCountAlertsActives() > 0)
 			properties.put("alert", true);
 
 		// récupère les numéros de lignes de l'arrêt

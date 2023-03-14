@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.notif.service.impl;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
@@ -74,7 +76,7 @@ public class ServiceNotifLocalServiceImpl
 			
 			serviceNotifPersistence.remove(serviceId);
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.info(e.getMessage() + " : " + serviceId);
 		}
 	}
 
@@ -87,4 +89,6 @@ public class ServiceNotifLocalServiceImpl
 	public ServiceNotif getByTopic(String topic) throws NoSuchServiceNotifException {
 		return serviceNotifPersistence.findByTopic(topic);
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

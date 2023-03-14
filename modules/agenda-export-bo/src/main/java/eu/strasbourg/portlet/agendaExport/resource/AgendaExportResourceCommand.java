@@ -5,9 +5,12 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
+import eu.strasbourg.portlet.agendaExport.displayContext.EditAgendaExportDisplayContext;
 import eu.strasbourg.portlet.agendaExport.dto.EventFiltersDTO;
 import eu.strasbourg.portlet.agendaExport.exporter.Exporter;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -115,7 +118,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
 
             //Close output stream if needed
             if(os != null) {
@@ -123,7 +126,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                     os.flush();
                     os.close();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    _log.error(ex.getMessage(), ex);
                 }
             }
         }
@@ -188,7 +191,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 try {
                     categories.add(AssetCategoryLocalServiceUtil.getCategory(id));
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + id);
                 }
             }
         }
@@ -227,7 +230,7 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
                 file = DLFileEntryLocalServiceUtil.getFileEntry(fileEntryId);
             }
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + fileEntryId);
         }
 
         return file;
@@ -251,4 +254,6 @@ public class AgendaExportResourceCommand implements MVCResourceCommand {
 
         return "";
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(AgendaExportResourceCommand.class.getName());
 }

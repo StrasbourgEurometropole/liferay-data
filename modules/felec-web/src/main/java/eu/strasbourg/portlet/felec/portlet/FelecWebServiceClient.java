@@ -15,6 +15,8 @@ import java.util.Map;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class FelecWebServiceClient {
@@ -78,9 +80,11 @@ public class FelecWebServiceClient {
 				.getJSONObject("cwsTabElecRetour");
 			felecResponse = new FelecResponse(jsonResponse);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return felecResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(FelecWebServiceClient.class.getName());
 }

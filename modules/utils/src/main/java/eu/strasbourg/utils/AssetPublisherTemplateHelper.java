@@ -62,7 +62,7 @@ public class AssetPublisherTemplateHelper {
                 taille = width + "," + height;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return taille;
@@ -145,6 +145,8 @@ public class AssetPublisherTemplateHelper {
         url += museeUrl;
         return url;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(AssetPublisherTemplateHelper.class);
 
 
 }

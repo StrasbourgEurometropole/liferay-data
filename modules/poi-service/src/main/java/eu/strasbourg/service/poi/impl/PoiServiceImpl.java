@@ -6,6 +6,9 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -19,7 +22,9 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.Event;
@@ -44,6 +49,7 @@ import org.osgi.service.component.annotations.Reference;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -116,60 +122,40 @@ public class PoiServiceImpl implements PoiService {
 		// Recherche
 		List<Place> places = new ArrayList<Place>();
 		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Place.class.getName());
-			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
-					.collect(Collectors.toList());
-			if(!vocabularies.isEmpty())
+			boolean vocabularies=isVocabularies(Place.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds);
+			if(!vocabularies)
 				_log.debug("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else{
 				// récupère les lieux des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
 				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Hits hits = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
-						false, fromDate, toDate, localeId, globalGroupId);
-
-				if (hits != null) {
-					for (Document document : hits.getDocs()) {
-						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						if (entry != null) {
-							Place place = _placeLocalService.fetchPlace(entry.getClassPK());
-							places.add(place);
-						}
-					}
+				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
+						false, fromDate, toDate, localeId, globalGroupId).getDocs();
+				if (documents != null) {
+					// récuperer les identifiants de places
+					List<Long> idsplaceEntries= getClassPkFromAssetEntryByHits(documents);
+					places=_placeLocalService.findByIds(idsplaceEntries);
 				}
 			}
 		}
-
 		List<Event> events = new ArrayList<Event>();
 		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Event.class.getName());
-			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
-					.collect(Collectors.toList());
-			if(!vocabularies.isEmpty())
+			boolean vocabularies=isVocabularies(Event.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds);
+
+			if(!vocabularies)
 				_log.debug("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else {
 				// récupère les évènements des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
 				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Hits hits = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
-						dateField, fromDate, toDate, localeId, globalGroupId);
+				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
+						dateField, fromDate, toDate, localeId, globalGroupId).getDocs();
 
-				if (hits != null) {
-					for (Document document : hits.getDocs()) {
-						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						if (entry != null) {
-							Event event = _eventLocalService.fetchEvent(entry.getClassPK());
-							events.add(event);
-						}
-					}
+				if (documents != null) {
+					List<Long> idsEventEntries= getClassPkFromAssetEntryByHits(documents);
+					events=_eventLocalService.findByids(idsEventEntries);
 				}
 			}
 		}
@@ -177,34 +163,23 @@ public class PoiServiceImpl implements PoiService {
 		// récupère les arrêts
 		List<Arret> arrets = new ArrayList<Arret>();
 		if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
-			List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil
-					.getGroupsVocabularies(new long[]{groupId, globalGroupId}, Arret.class.getName());
-			vocabularies = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
-					.collect(Collectors.toList());
-			if(!vocabularies.isEmpty())
+			boolean vocabularies=isVocabularies(Arret.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds);
+			if(!vocabularies)
 				_log.debug("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
 			else {
 				// récupère les arrets des catégories et centres d'intérêt
 				long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
 				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
 				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Hits hits = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
-						false, fromDate, toDate, localeId, globalGroupId);
+				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
+						false, fromDate, toDate, localeId, globalGroupId).getDocs();
 
-				if (hits != null) {
-					for (Document document : hits.getDocs()) {
-						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
-								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						if (entry != null) {
-							Arret arret = _arretLocalService.fetchArret(entry.getClassPK());
-							arrets.add(arret);
-						}
-					}
+				if (documents != null) {
+					List<Long> idsArretEntries= getClassPkFromAssetEntryByHits(documents);
+					arrets=_arretLocalService.findByIds(idsArretEntries);
 				}
 			}
 		}
-
 		// récupère le fichier geoJson
 		try {
 			long startTime = System.nanoTime();
@@ -213,7 +188,8 @@ public class PoiServiceImpl implements PoiService {
 			long duration = (endTime - startTime) / 1_000_000;
 			_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : places -> " + places + ", events -> " + events +
+					", arrets -> " + arrets + ", groupId " + groupId + ", localeId -> " + localeId);
 		}
 		return geoJson;
 	}
@@ -221,7 +197,6 @@ public class PoiServiceImpl implements PoiService {
 	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId) {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
-		
 		Locale locale = LocaleUtil.fromLanguageId(localeId);
 
 		// récupère les favoris de l'uilisateur
@@ -571,4 +546,40 @@ public class PoiServiceImpl implements PoiService {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(PoiServiceImpl.class.getName());
+
+	/**
+	 * Renvoit la liste des ClassPK from assetEntry
+	 * @param documents
+	 * @return
+	 */
+	private static List<Long> getClassPkFromAssetEntryByHits(Document []documents )
+	{
+		DynamicQuery assetEntrieDynamicQuery = AssetEntryLocalServiceUtil.dynamicQuery();
+		//recupére la liste de classeNames from elastic search
+		List<String> classNameEntries=Arrays.asList(documents).stream()
+				.map(document -> GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)))
+				.collect(Collectors.toList());
+		//recupére la liste de classPK from elastic search
+		List<Long> classPkEntries= Arrays.asList(documents).stream()
+				.map(document -> GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))
+				.collect(Collectors.toList());
+		// chercher classNameId from className
+		List<Long> classNameIds=new ArrayList<>();
+		classNameEntries.forEach(className->classNameIds.add(ClassNameLocalServiceUtil.getClassNameId(className)));
+		assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classNameId").in(classNameIds));
+		assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classPK").in(classPkEntries));
+		assetEntrieDynamicQuery.setProjection(ProjectionFactoryUtil.property("classPK"));
+		List<Long> assetEntries = AssetEntryLocalServiceUtil.dynamicQuery(assetEntrieDynamicQuery);
+		return assetEntries.stream().filter(assetEntry -> assetEntry!=null)
+				.collect(Collectors.toList());
+	}
+	private static boolean isVocabularies(String clazzName,long groupId,long globalGroupId, String vocabulariesEmptyIds){
+
+		List <AssetVocabulary> vocabularies= AssetVocabularyLocalServiceUtil.getGroupsVocabularies(new long[]{groupId, globalGroupId}, clazzName);
+		long countVocabularie = vocabularies.stream().filter(v -> vocabulariesEmptyIds.contains(""+v.getVocabularyId()))
+						.map(AssetVocabulary::getVocabularyId).count();
+		boolean result= countVocabularie==0?true:false;
+		return result;
+	}
+
 }

@@ -345,6 +345,16 @@ public class AlertLocalServiceUtil {
 		return getService().getByGroupId(groupId);
 	}
 
+	/**
+	 * Renvoie le nombre des alertes en cours ou à venir de cet arret
+	 *
+	 * @param arretId : identifiant arret
+	 * @return
+	 */
+	public static long getCountAlertsActives(long arretId) {
+		return getService().getCountAlertsActives(arretId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

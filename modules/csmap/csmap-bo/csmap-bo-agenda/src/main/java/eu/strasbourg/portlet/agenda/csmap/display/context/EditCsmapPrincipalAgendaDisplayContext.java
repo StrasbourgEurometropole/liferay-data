@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.agenda.csmap.display.context;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.Campaign;
 import eu.strasbourg.service.agenda.model.Event;
@@ -69,7 +71,7 @@ public class EditCsmapPrincipalAgendaDisplayContext {
             if(Validator.isNotNull(theme))
                 return String.valueOf(theme.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         return null;
     }
@@ -80,7 +82,7 @@ public class EditCsmapPrincipalAgendaDisplayContext {
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         return null;
     }
@@ -91,9 +93,11 @@ public class EditCsmapPrincipalAgendaDisplayContext {
             if(Validator.isNotNull(territory))
                 return String.valueOf(territory.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(EditCsmapPrincipalAgendaDisplayContext.class.getName());
 
 }

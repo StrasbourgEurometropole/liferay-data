@@ -2,6 +2,8 @@ package eu.strasbourg.service.office.exporter.impl;
 
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
@@ -97,7 +99,9 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 			workbook.close();
 			stream.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

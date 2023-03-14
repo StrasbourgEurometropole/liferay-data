@@ -2,8 +2,11 @@ package eu.strasbourg.portlet.familySpace;
 
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -31,10 +34,12 @@ public class FamilySpaceWebService {
 			familySpaceResponse = new FamilySpaceResponse(jsonResponse);
 			//}
 		} catch (IOException | JSONException ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return familySpaceResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(FamilySpaceWebService.class.getName());
 
 }

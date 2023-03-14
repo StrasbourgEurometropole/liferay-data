@@ -146,8 +146,8 @@ function createNews(news){
                     news.jsonMuseumsTitle[0];
         if (nbMusees > 2)
             vignette += ' ' + Liferay.Language.get("eu.museum.and-x", [(nbMusees - 1)]);
-        else
-            vignette += ' ' + Liferay.Language.get("eu.museum.and");
+        else if (nbMusees > 1)
+                vignette += ' ' + Liferay.Language.get("eu.museum.and");
         vignette +=
                  '</span>' +
                  '<ul class="list-museums">';

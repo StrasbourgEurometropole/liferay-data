@@ -20,6 +20,8 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -250,7 +252,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 					cities.add(territory);
 				}
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage());
 			}
 		}
 		return cities;
@@ -270,7 +272,7 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 					districts.add(territory);
 				}
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage());
 			}
 		}
 		return districts;
@@ -449,4 +451,6 @@ public class HelpProposalImpl extends HelpProposalBaseImpl {
 
 		return jsonHelpProposal;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

@@ -4,7 +4,11 @@ package eu.strasbourg.service.place.model.impl;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -43,12 +47,14 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
 import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -232,21 +238,33 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne les territoire du lieu
      */
+
     @Override
-    public List<AssetCategory> getTerritories() {
-        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-                VocabularyNames.TERRITORY);
+    public List <AssetCategory>getTerritories() {
+        AssetVocabulary assetVocabulary=AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.TERRITORY);
+        List<AssetCategory> assetCategories = AssetCategoryLocalServiceUtil.getCategories(Place.class.getName(), this.getPlaceId());
+
+        assetCategories = assetCategories.stream()
+                .filter(assetCategory->assetCategory!=null
+                        && assetCategory.getVocabularyId() == assetVocabulary.getVocabularyId())
+                .collect(Collectors.toList());
+        return assetCategories;
     }
 
     /**
      * Retourne les types du lieu
      */
     @Override
-    public List<AssetCategory> getTypes() {
-        return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-                VocabularyNames.PLACE_TYPE);
-    }
+    public List <AssetCategory>getTypes() {
+        AssetVocabulary assetVocabulary=AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.PLACE_TYPE);
+        List<AssetCategory> assetCategories = AssetCategoryLocalServiceUtil.getCategories(Place.class.getName(), this.getPlaceId());
 
+        assetCategories = assetCategories.stream()
+                        .filter(assetCategory->assetCategory!=null
+                        && assetCategory.getVocabularyId() == assetVocabulary.getVocabularyId())
+                        .collect(Collectors.toList());
+        return assetCategories;
+    }
     /**
      * Retourne le label des types de l'événement
      */
@@ -731,18 +749,18 @@ public class PlaceImpl extends PlaceBaseImpl {
     /**
      * Retourne le temps réel (couleur de fond,valeur)
      *
-     * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
+     * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire, 5 =Vélop)
      * @throws Exception
      */
     @Override
     public OccupationState getRealTime(String type) {
         OccupationState state = null;
-
         GregorianCalendar today = new GregorianCalendar();
         today.set(Calendar.HOUR_OF_DAY, 0);
         today.clear(Calendar.MINUTE);
         today.clear(Calendar.SECOND);
         today.clear(Calendar.MILLISECOND);
+
         if (!this.isOpenNow()) {
             state = OccupationState.CLOSED;
             return state;
@@ -750,6 +768,21 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         if (Validator.isNull(this.getRTExternalId())) {
             state = OccupationState.DISABLED;
+            return state;
+        }
+
+        // Vérifie si ce la fait plus de 10 minutes que l'on a pas reçu de temps réel
+        // Affichage "Indisponible" si c'est le cas
+        try {
+            Instant instantDebut = this.getRTLastUpdate().toInstant();
+            Instant instantFin = new Date().toInstant();
+            long minutesBetween = ChronoUnit.MINUTES.between(instantDebut, instantFin);
+            if (minutesBetween >= 10) {
+                state = OccupationState.NOT_AVAILABLE;
+                return state;
+            }
+        } catch (Exception e) {
+            state = OccupationState.NOT_AVAILABLE;
             return state;
         }
 
@@ -865,10 +898,12 @@ public class PlaceImpl extends PlaceBaseImpl {
                 state.setOccupation("" + occupation);
                 break;
             case "5":
+                occupation = this.getRTOccupation();
                 state = OccupationState.NOT_AVAILABLE;
-                if (Validator.isNotNull(this.getRTAvailable())) {
+                if ( occupation!=-1 ) {
                     state = OccupationState.OPEN;
                     state.setAvailable("" + this.getRTAvailable());
+                    state.setCapacity("" + this.getRTCapacity());
                 }
                 break;
         }
@@ -1414,7 +1449,6 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
-
         JSONObject properties = JSONFactoryUtil.createJSONObject();
         properties.put("name", this.getAlias(locale));
         properties.put("address", this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
@@ -1436,15 +1470,17 @@ public class PlaceImpl extends PlaceBaseImpl {
             url += "lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(locale);
             properties.put("url", url);
         }
-
         // gestion des doublons
         properties.put("sigId", this.getSIGid());
         String types = "";
-        for (AssetCategory type : this.getTypes()) {
+        // type de lieu)
+        List<AssetCategory> categories = this.getTypes();
+        for (AssetCategory assetCategory : categories) {
             if (types.length() > 0) {
                 types += ", ";
             }
-            types += type.getTitle(locale);
+            types += assetCategory.getTitle(locale);
+
         }
         properties.put("listeTypes", types);
 
@@ -1515,11 +1551,9 @@ public class PlaceImpl extends PlaceBaseImpl {
                 }
             }
         }
-
         // Icône (on prend le premier icon que l'on trouve dans une des catégories de
         // type de lieu)
         String icon = "";
-        List<AssetCategory> categories = this.getTypes();
         String[] icons = null;
         for (AssetCategory category : categories) {
             if (!category.getDescription(locale).isEmpty()) {
@@ -1536,9 +1570,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                 break;
             }
         }
-
         properties.put("icon", icon);
-
         // Temps réel
         if (this.getRTEnabled()) {
             OccupationState occupation = this.getRealTime();
@@ -1580,15 +1612,13 @@ public class PlaceImpl extends PlaceBaseImpl {
         coordinates.put(Float.valueOf(this.getMercatorY()));
         geometry.put("coordinates", coordinates);
         feature.put("geometry", geometry);
-
         return feature;
     }
-
     /**
      * Renvoie le JSON de l'entite au format CSMap
      */
     @Override
-    public JSONObject getCSMapJSON() {
+    public JSONObject getCSMapJSON()    {
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put("idSurfs", this.getSIGid());
@@ -1730,4 +1760,5 @@ public class PlaceImpl extends PlaceBaseImpl {
     public String getNormalizedAlias(Locale locale) {
         return UriHelper.normalizeToFriendlyUrl(this.getAlias(locale));
     }
+
 }

@@ -20181,10 +20181,7 @@ function scrollToAnchor(anchorId) {
        .animate({scrollTop: $(anchorId).offset().top}, 1000 );
 }
 
-// Service Google Analytics (gtag.js)
-tarteaucitron.user.gtagUa = 'G-RQF81GVH8X';
-tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
-(tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+
 $(function()
 {
 	ar_menu();

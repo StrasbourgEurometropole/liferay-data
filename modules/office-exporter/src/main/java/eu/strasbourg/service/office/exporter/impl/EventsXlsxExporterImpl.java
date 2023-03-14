@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -127,7 +129,9 @@ public class EventsXlsxExporterImpl implements EventsXlsxExporter {
 			workbook.close();
 			stream.flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

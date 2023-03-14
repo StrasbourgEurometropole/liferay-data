@@ -1,8 +1,3 @@
-// Service Google Analytics (universal)
-tarteaucitron.user.analyticsUa = 'UA-52624981-1'; // Ne pas oublier de vider le champ Identifiant Google Analytics dans les paramètres avancés du site
-tarteaucitron.user.analyticsMore = function () {  };
-(tarteaucitron.job = tarteaucitron.job || []).push('analytics');
-
 // Service Google Tag Manager
 /*tarteaucitron.user.googletagmanagerId = 'GTM-XXXX';
 (tarteaucitron.job = tarteaucitron.job || []).push('googletagmanager');*/

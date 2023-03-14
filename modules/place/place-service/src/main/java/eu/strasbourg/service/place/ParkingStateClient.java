@@ -4,6 +4,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.OccupationState;
@@ -29,7 +31,7 @@ public class ParkingStateClient {
 				occupation = capacity - available;
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + parkingCode);
 		}
 
 		return occupation;
@@ -48,7 +50,7 @@ public class ParkingStateClient {
 				capacity = Long.parseLong(parkingJSON.getString("dt"));
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + parkingCode);
 		}
 
 		return capacity;
@@ -93,7 +95,7 @@ public class ParkingStateClient {
 				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + parkingCode);
 		}
 
 		return state;
@@ -129,4 +131,6 @@ public class ParkingStateClient {
 
 		return parking;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(ParkingStateClient.class.getName());
 }

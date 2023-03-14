@@ -11,6 +11,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -19,6 +21,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -73,7 +76,7 @@ public class EditFormSendDisplayContext{
                                 }
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            _log.error(e.getMessage() + " : " + jsonString);
                         }
                     }
                 }
@@ -125,11 +128,11 @@ public class EditFormSendDisplayContext{
                                 }
                             }
                         } catch (PortalException e) {
-                            e.printStackTrace();
+                            _log.error(e.getMessage(), e);
                         }
                     }
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + _record);
                 }
             }
 
@@ -155,10 +158,12 @@ public class EditFormSendDisplayContext{
                 formSendRecordField.setInstanceId(instanceId);
                 FormSendRecordFieldLocalServiceUtil.updateFormSendRecordField(formSendRecordField);
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         }
 
         return formSendRecordField;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(EditFormSendDisplayContext.class.getName());
 }

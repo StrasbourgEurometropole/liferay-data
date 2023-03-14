@@ -9,6 +9,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import eu.strasbourg.utils.SearchHelperV2;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.log.Log;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author angelique.champougny
@@ -53,7 +55,7 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 			}
 			
 
-			InterestViewerDisplayContext dc = new InterestViewerDisplayContext(themeDisplay, request);
+			InterestViewerDisplayContext dc = new InterestViewerDisplayContext(themeDisplay, request, _searchHelperV2);
 
 			request.setAttribute("dc", dc);
 			
@@ -62,9 +64,16 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 
 			include("/templates/" + template + ".jsp", request, response);
 		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
+	}
+
+	@Reference
+	private SearchHelperV2 _searchHelperV2;
+
+	@Reference(unbind = "-")
+	protected void setSearchHelperV2(SearchHelperV2 searchHelperV2) {
+		_searchHelperV2 = searchHelperV2;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

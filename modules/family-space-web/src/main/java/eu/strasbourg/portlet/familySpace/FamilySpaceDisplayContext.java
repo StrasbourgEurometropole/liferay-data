@@ -1,5 +1,7 @@
 package eu.strasbourg.portlet.familySpace;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -9,6 +11,7 @@ import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.familySpace.configuration.FamilySpaceConfiguration;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.VocabularyNames;
 
 import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +31,12 @@ public class FamilySpaceDisplayContext {
 			this.configuration = themeDisplay.getPortletDisplay()
 					.getPortletInstanceConfiguration(FamilySpaceConfiguration.class);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
+	}
+
+	public Boolean isUnderMaintenance() {
+		return configuration.maintenance();
 	}
 
 	public FamilySpaceConfiguration getConfiguration() {
@@ -95,4 +102,6 @@ public class FamilySpaceDisplayContext {
 	public boolean isFolded() {
 		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

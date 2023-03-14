@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.help.action;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -66,7 +68,7 @@ public class ChangeStatusHelpRequestActionCommand implements MVCActionCommand {
 
             _helpRequestLocalService.updateHelpRequest(helpRequest, sc);
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return true;
@@ -78,4 +80,6 @@ public class ChangeStatusHelpRequestActionCommand implements MVCActionCommand {
     }
 
     private HelpRequestLocalService _helpRequestLocalService;
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
