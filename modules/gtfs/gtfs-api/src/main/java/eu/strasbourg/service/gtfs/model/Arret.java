@@ -86,7 +86,7 @@ public interface Arret extends ArretModel, PersistedModel {
 		getAlertsActives();
 
 	/**
-	 * Renvoie le nombre des alertes en cours ou à venir de cet arret
+	 * Renvoie le count des Alertes en cours ou à venir de cet arret
 	 */
 	public long getCountAlertsActives();
 

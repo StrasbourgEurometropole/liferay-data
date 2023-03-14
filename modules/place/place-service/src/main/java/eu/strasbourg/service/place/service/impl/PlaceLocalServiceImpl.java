@@ -629,14 +629,6 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 		return this.placePersistence.findByPriceId(priceId);
 	}
 
-    /**
-     * Retourne les lieux rattachés à un tarif
-     */
-    @Override
-    public List<Place> getByPriceId(long priceId) {
-        return this.placePersistence.findByPriceId(priceId);
-    }
-
     @Override
     public Place getPlaceBySIGId(String idSIG) {
         return this.placePersistence.fetchBySIGId(idSIG);
