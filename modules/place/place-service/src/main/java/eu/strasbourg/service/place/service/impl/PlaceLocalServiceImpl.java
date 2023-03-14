@@ -66,6 +66,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -617,6 +618,10 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
 	 * @return
 	 */
 	public List<Place>findByIds(List<Long>idsPlace){
+        // Si pas d'Ids envoyé, on renvoie une liste vide
+        if(idsPlace.isEmpty()) {
+            return new ArrayList<Place>();
+        }
 		DynamicQuery placeDynamicQuery = this.dynamicQuery();
 		placeDynamicQuery.add(PropertyFactoryUtil.forName("placeId").in(idsPlace));
 		return this.dynamicQuery(placeDynamicQuery);

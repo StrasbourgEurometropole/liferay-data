@@ -1,13 +1,12 @@
 package eu.strasbourg.service.poi.impl;
 
 import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -22,9 +21,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.model.Event;
@@ -554,6 +551,7 @@ public class PoiServiceImpl implements PoiService {
 	 */
 	private static List<Long> getClassPkFromAssetEntryByHits(Document []documents )
 	{
+		List<Long> assetEntries = new ArrayList<>();
 		DynamicQuery assetEntrieDynamicQuery = AssetEntryLocalServiceUtil.dynamicQuery();
 		//recupére la liste de classeNames from elastic search
 		List<String> classNameEntries=Arrays.asList(documents).stream()
@@ -566,12 +564,18 @@ public class PoiServiceImpl implements PoiService {
 		// chercher classNameId from className
 		List<Long> classNameIds=new ArrayList<>();
 		classNameEntries.forEach(className->classNameIds.add(ClassNameLocalServiceUtil.getClassNameId(className)));
-		assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classNameId").in(classNameIds));
-		assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classPK").in(classPkEntries));
-		assetEntrieDynamicQuery.setProjection(ProjectionFactoryUtil.property("classPK"));
-		List<Long> assetEntries = AssetEntryLocalServiceUtil.dynamicQuery(assetEntrieDynamicQuery);
-		return assetEntries.stream().filter(assetEntry -> assetEntry!=null)
-				.collect(Collectors.toList());
+		// Si rien pour les clauses IN on renvoit une liste vide (sinon ça plante)
+		if(classNameIds.isEmpty() || classPkEntries.isEmpty()) {
+			return assetEntries;
+		} else {
+			assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classNameId").in(classNameIds));
+			assetEntrieDynamicQuery.add(PropertyFactoryUtil.forName("classPK").in(classPkEntries));
+			assetEntrieDynamicQuery.setProjection(ProjectionFactoryUtil.property("classPK"));
+			assetEntries = AssetEntryLocalServiceUtil.dynamicQuery(assetEntrieDynamicQuery);
+
+			return assetEntries.stream().filter(assetEntry -> assetEntry!=null)
+					.collect(Collectors.toList());
+        }
 	}
 	private static boolean isVocabularies(String clazzName,long groupId,long globalGroupId, String vocabulariesEmptyIds){
 
