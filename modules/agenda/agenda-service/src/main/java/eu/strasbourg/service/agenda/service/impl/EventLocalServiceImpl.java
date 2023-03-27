@@ -709,6 +709,9 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 * @return
 	 */
 	public List <Event> findByids(List<Long> idsEvents){
+		if(idsEvents.isEmpty()) {
+			return new ArrayList<Event>();
+		}
 		DynamicQuery eventDynamicQuery = this.dynamicQuery();
 		eventDynamicQuery.add(PropertyFactoryUtil.forName("eventId").in(idsEvents));
 		return this.dynamicQuery(eventDynamicQuery);

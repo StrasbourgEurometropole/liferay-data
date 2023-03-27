@@ -392,6 +392,10 @@ public class ArretLocalServiceImpl extends ArretLocalServiceBaseImpl {
 	 * @return
 	 */
 	public List<Arret> findByIds(List<Long> idsArrets ){
+		// Si pas d'Ids envoyé, on renvoie une liste vide
+		if(idsArrets.isEmpty()) {
+			return new ArrayList<Arret>();
+		}
 		DynamicQuery arretDynamicQuery = this.dynamicQuery();
 		arretDynamicQuery.add(PropertyFactoryUtil.forName("arretId").in(idsArrets));
 		return this.dynamicQuery(arretDynamicQuery);
