@@ -194,7 +194,7 @@
         },
         {
             "label": {
-                "fr_FR": "Accueil (description)"
+                "fr_FR": "Bandeau de la semaine du numérique"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -205,16 +205,15 @@
             "tip": {
                 "fr_FR": ""
             },
-            "dataType": "html",
-            "fieldNamespace": "ddm",
+            "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "home",
+            "name": "banner",
             "readOnly": false,
             "repeatable": false,
             "required": false,
             "showLabel": true,
-            "type": "ddm-text-html"
+            "type": "text"
         },
         {
             "label": {
