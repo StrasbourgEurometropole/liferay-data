@@ -394,6 +394,18 @@ public class ApiCsmapUtil {
 
             jsonThematique.put("imageURL", imageURL);
 
+            if(Validator.isNotNull(thematique.getLabelLink(Locale.FRANCE))) {
+                JSONObject jsonLabelLink = JSONFactoryUtil.createJSONObject();
+                jsonLabelLink.put("fr_FR", thematique.getLabelLink(Locale.FRANCE));
+                jsonThematique.put("labelLink", jsonLabelLink);
+            }
+
+            if(Validator.isNotNull(thematique.getLink(Locale.FRANCE))) {
+                JSONObject jsonLink = JSONFactoryUtil.createJSONObject();
+                jsonLink.put("fr_FR", thematique.getLink(Locale.FRANCE));
+                jsonThematique.put("link", jsonLink);
+            }
+
             json.put("thematique", jsonThematique);
         }
 
