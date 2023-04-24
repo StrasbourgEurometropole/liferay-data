@@ -42,6 +42,19 @@ public class WSTokenUtil {
         return StringUtil.randomString(length);
     }
 
+    /**
+     * Hashage de la valeur du RefreshTOken via SHA-256 avec un pepper
+     *
+     * @param refreshTokenValue
+     * @return String (refreshToken hashed)
+     * @throws NoSuchAlgorithmException
+     */
+    public static String hashToken(String refreshTokenValue) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] refreshTokenHashed = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
+        return String.format("%064x", new java.math.BigInteger(1, refreshTokenHashed));
+    }
+
     public static boolean isRefreshTokensDateValid(Date date, int validityDate) {
         boolean result = false;
 

@@ -125,10 +125,7 @@ public class WSAuthenticator {
 
             refreshToken.setCreateDate(new Date());
             refreshToken.setPublikId(publikId);
-            // Hashage de la valeur du RefreshTOken via SHA-256 avec un pepper
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash256 = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
-            refreshToken.setValue(String.format("%064x", new java.math.BigInteger(1, hash256)));
+            refreshToken.setValue(WSTokenUtil.hashToken(refreshTokenValue));
 
             return refreshTokenLocalService.updateRefreshToken(refreshToken, sc);
         } catch (PortalException | NoSuchAlgorithmException e) {
@@ -166,10 +163,7 @@ public class WSAuthenticator {
      */
     public RefreshToken controlRefreshToken(String refreshTokenValue)
             throws NoSuchRefreshTokenException, RefreshTokenExpiredException, NoSuchAlgorithmException {
-        // On hashe la valeur pour matcher les refreshToken hashé en base
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashRefreshTokenValue = digest.digest(refreshTokenValue.getBytes(StandardCharsets.UTF_8));
-        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(String.format("%064x", new java.math.BigInteger(1, hashRefreshTokenValue)));
+        RefreshToken refreshToken = refreshTokenLocalService.fetchByValue(WSTokenUtil.hashToken(refreshTokenValue));
 
         if (Validator.isNull(refreshToken))
             throw new NoSuchRefreshTokenException(refreshTokenValue);
