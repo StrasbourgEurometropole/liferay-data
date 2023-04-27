@@ -5,11 +5,11 @@
     <#assign homeURL = "" />
 </#if>
 
-<section id="expo-list">
-    <div  class="content container">
-        <#if entries?has_content>
+<#if entries?has_content>
+    <section id="expo-list">
+        <div  class="content container">
             <div class="list">
-        	    <#list entries as curEntry>
+                <#list entries as curEntry>
                     <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                         <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
@@ -68,9 +68,9 @@
                     </#if>
                 </#list>
             </div>
-        </#if>
-    </div>
-</section>
+        </div>
+    </section>
+</#if>
 
 <script>
     $('.btn-more').click(function(element){

@@ -47,9 +47,6 @@
                                 <div class="title">
                                     <span>${title}</span>
                                 </div>
-                                <div class="description">
-                                    ${imageDescription}
-                                </div>
                                 <div class="museums">
                                     <#if curEntry.categories?first?has_content>
                                         <#assign vocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService") />

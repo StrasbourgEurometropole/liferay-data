@@ -4,17 +4,17 @@
 <#else>
     <#assign homeURL = "" />
 </#if>
-<section id="expo" class="margin-bottom">
-    <div  class="content container">
-        <h2>
-            <@liferay_ui.message key="eu.museum.expos" />
-            <span><@liferay_ui.message key="eu.museum.collection.discover" /></span>
-        </h2>
-        <#if entries?has_content>
+<#if entries?has_content>
+    <section id="expo" class="margin-bottom">
+        <div  class="content container">
+            <h2>
+                <@liferay_ui.message key="eu.museum.expos" />
+                <span><@liferay_ui.message key="eu.museum.collection.discover" /></span>
+            </h2>
             <div class="slider">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-                	    <#list entries as curEntry>
+                        <#list entries as curEntry>
                             <#if curEntry?has_content && curEntry.getAssetRenderer()?has_content && curEntry.getAssetRenderer().getArticle()?has_content>
                                 <#assign docXml = saxReaderUtil.read(curEntry.getAssetRenderer().getArticle().getContentByLocale(locale)) />
                                 <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
@@ -98,12 +98,12 @@
                     </span>
                 </span>
             </button>
-        </#if>
-    </div>
-</section>
+        </div>
+    </section>
+</#if>
 
 <script>
     $("#btn-all-expos").click(function(){
-      location.href= '${themeDisplay.getPortalURL()}${homeURL}/exposition'
+      location.href= '${themeDisplay.getPortalURL()}${homeURL}/expositions'
     });
 </script>
