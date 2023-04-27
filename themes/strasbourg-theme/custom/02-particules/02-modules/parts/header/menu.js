@@ -1431,8 +1431,8 @@ var menuOverlay = {
     },
 
     initEventsFirstLevel: function () {
-        $(menuOverlay._selector.firstLvlClass, menuOverlay._selector.headerContainer).on("click", function (e) {
-            if (this.getAttribute("data-th-menu")) {
+        $(menuOverlay._selector.firstLvlClass, menuOverlay._selector.headerContainer).on("click keyup", function (e) {
+            if (this.getAttribute("data-th-menu") && (e.keyCode == undefined || e.keyCode == 13 || e.keyCode == 32)) {
                 e.preventDefault();
                 var correspondingMenu = $(menuOverlay._selector.firstLvlClass + "[data-th-menu='" + this.getAttribute("data-th-menu") + "']", menuOverlay._selector.overlayContainer).get(0);
 
@@ -1450,6 +1450,9 @@ var menuOverlay = {
 					correspondingMenu.setAttribute('aria-expanded', "true");
 					// on change la valeur aria-expanded du premier sous menu
 					correspondingMenu.parentNode.querySelector(".th-submenu .th-hav-level-3.th-active a").setAttribute('aria-expanded', "true");
+
+					// on donne le focus au sous-menu
+					correspondingMenu.focus()
                 }
             }
         })
