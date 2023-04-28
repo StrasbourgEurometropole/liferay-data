@@ -91,7 +91,7 @@
 						}
 			
 						> a, > span{
-							&.btn-fb, &.btn-twitter, &.btn-insta {
+							&.btn-fb, &.btn-twitter, &.btn-insta, &.btn-linkdin {
 								background-size: contain;
 								background-position: center;
 								background-repeat: no-repeat;
@@ -107,6 +107,9 @@
 							}
 							&.btn-insta {
 								background-image: url(../images/pictos/instagram-sml.png);
+							}
+							&.btn-linkdin {
+								background-image: url(../images/pictos/linkdin-sml.png);
 							}
 						}
 					}
