@@ -215,6 +215,7 @@
                         @include ft($montserrat, 0.875rem, 700, white, 1.375rem, "");
                         display: block;
                         position: relative;
+                        text-align: center;
 
                         &:before{
                             @extend %animation-hoverBar-in;
