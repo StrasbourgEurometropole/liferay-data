@@ -5,6 +5,7 @@
         <li><a class="btn-fb" href="//www.facebook.com/strasetudiants" target="_blank" ></a></li>
         <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank" ></a></li>
         <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank" ></a></li>
+        <li><a class="btn-linkdin" href="//www.linkedin.com/showcase/strasbourg-aime-ses-%C3%A9tudiants" target="_blank" ></a></li>
     </ul>
     <ul class="main-nav">
       <#list nav_items as nav_item>

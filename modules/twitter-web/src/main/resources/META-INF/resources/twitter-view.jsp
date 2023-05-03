@@ -42,7 +42,9 @@
                         <li><a class="btn-fb" href="https://www.facebook.com/strasetudiants" target="_blank"></a></li>
                         <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
                         <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
-                    </ul>
+						<li><a class="btn-linkdin" href="//www.linkedin.com/showcase/strasbourg-aime-ses-%C3%A9tudiants/" target="_blank"></a></li>
+
+					</ul>
                 </div>
 			</div>
 		</section>
