@@ -191,7 +191,7 @@ public class PublikApiClient {
 		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
 		String endpoint = "api/users/";
 		try {
-			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint + userId,
+			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint +userId+"/",
 					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret(), timeOut);
 			responseObject.remove("password");
 			return responseObject;
