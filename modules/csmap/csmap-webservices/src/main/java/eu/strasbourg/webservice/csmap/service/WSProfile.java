@@ -33,8 +33,8 @@ public class WSProfile {
         connection.setReadTimeout(timeOut);
 
         // Authentification
-        String username = StrasbourgPropsUtil.getPublikClientId();
-        String password = StrasbourgPropsUtil.getPublikClientSecret();
+        String username = StrasbourgPropsUtil.getPublikUserName();
+        String password = StrasbourgPropsUtil.getPublikPassword();
         String encoded = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
         // Création du paramètre
