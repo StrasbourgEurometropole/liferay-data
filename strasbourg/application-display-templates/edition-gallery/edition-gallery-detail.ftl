@@ -45,7 +45,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 
     <#if entry.publishedEditions?has_content>
-        <#list entry.publishedEditions as edition>
+        <#list entry.publishedEditions?reverse as edition>
             <div class="wi-search-result wi-edition-thumbnail">
                 <div class="seu-result-left seu-result-thumbnail">
                     <a href="${homeURL}edition/-/entity/id/${edition.editionId}" title="${edition.getTitle(locale)}">
