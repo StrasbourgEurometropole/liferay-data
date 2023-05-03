@@ -204,13 +204,18 @@
 
                 .link{
                     padding-top: 25px;
+                    width: fit-content;
+                    margin: auto;
 
+                    @include RWD(tablet_portrait){
+                        width: auto;
+                    }
                     .bottom-links{
                         margin-bottom: 15px;
                         @include ft($montserrat, 0.875rem, 700, white, 1.375rem, "");
                         display: block;
                         position: relative;
-                        width: fit-content;
+                        text-align: center;
 
                         &:before{
                             @extend %animation-hoverBar-in;
@@ -229,6 +234,7 @@
                         @include RWD(tablet_portrait){
                             justify-content: normal;
                             font-size: 1.125rem;
+                            text-align: start;
                         }      
                     }
                 }
