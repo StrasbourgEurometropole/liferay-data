@@ -87,6 +87,12 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             Long imageId = ParamUtil.getLong(request, "imageId");
             agenda.setImageId(imageId);
 
+            String link = ParamUtil.getString(request, "link");
+            agenda.setLink(link);
+
+            String labelLink = ParamUtil.getString(request, "labelLink");
+            agenda.setLabelLink(labelLink);
+
             StringBuilder campaigns = new StringBuilder();
             long[] campaignsIds = ParamUtil.getLongValues(request, "campaigns");
             for (long campaignsId : campaignsIds) {

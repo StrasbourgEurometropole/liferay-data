@@ -46,6 +46,12 @@
 
 				<strasbourg-picker:image label="image" name="imageId"
 					required="false" value="${dc.agendaThematique.imageId}" global="true" />
+
+				<aui:input name="labelLink" label="labelLink">
+				</aui:input>
+
+				<aui:input name="link" label="link">
+				</aui:input>
             </aui:fieldset>
 
             <%-- Champ : CategoriesIds --%>

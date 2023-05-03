@@ -17,6 +17,7 @@ package eu.strasbourg.service.csmap.model;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +37,10 @@ public class AgendaSoap implements Serializable {
 		soapModel.setEditorialTitle(model.getEditorialTitle());
 		soapModel.setSubtitle(model.getSubtitle());
 		soapModel.setImageId(model.getImageId());
+		soapModel.setLabelLink(model.getLabelLink());
+		soapModel.setLink(model.getLink());
+		soapModel.setPublicationStartDate(model.getPublicationStartDate());
+		soapModel.setPublicationEndDate(model.getPublicationEndDate());
 		soapModel.setIsPrincipal(model.getIsPrincipal());
 		soapModel.setIsActive(model.getIsActive());
 		soapModel.setCampaignsIds(model.getCampaignsIds());
@@ -143,6 +148,38 @@ public class AgendaSoap implements Serializable {
 		_imageId = imageId;
 	}
 
+	public String getLabelLink() {
+		return _labelLink;
+	}
+
+	public void setLabelLink(String labelLink) {
+		_labelLink = labelLink;
+	}
+
+	public String getLink() {
+		return _link;
+	}
+
+	public void setLink(String link) {
+		_link = link;
+	}
+
+	public Date getPublicationStartDate() {
+		return _publicationStartDate;
+	}
+
+	public void setPublicationStartDate(Date publicationStartDate) {
+		_publicationStartDate = publicationStartDate;
+	}
+
+	public Date getPublicationEndDate() {
+		return _publicationEndDate;
+	}
+
+	public void setPublicationEndDate(Date publicationEndDate) {
+		_publicationEndDate = publicationEndDate;
+	}
+
 	public Boolean getIsPrincipal() {
 		return _isPrincipal;
 	}
@@ -205,6 +242,10 @@ public class AgendaSoap implements Serializable {
 	private String _editorialTitle;
 	private String _subtitle;
 	private Long _imageId;
+	private String _labelLink;
+	private String _link;
+	private Date _publicationStartDate;
+	private Date _publicationEndDate;
 	private Boolean _isPrincipal;
 	private Boolean _isActive;
 	private String _campaignsIds;

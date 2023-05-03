@@ -14,6 +14,14 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="imageId" type="Long" />
+		<field localized="true" name="labelLink" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="link" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="publicationStartDate" type="Date" />
+		<field name="publicationEndDate" type="Date" />
 		<field name="isPrincipal" type="Boolean" />
 		<field name="isActive" type="Boolean" />
 		<field name="campaignsIds" type="String">

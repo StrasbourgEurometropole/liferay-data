@@ -41,6 +41,7 @@ import java.lang.reflect.InvocationHandler;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -75,10 +76,12 @@ public class AgendaModelImpl
 		{"uuid_", Types.VARCHAR}, {"agendaId", Types.BIGINT},
 		{"title", Types.VARCHAR}, {"editorialTitle", Types.VARCHAR},
 		{"subtitle", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"isPrincipal", Types.BOOLEAN}, {"isActive", Types.BOOLEAN},
-		{"campaignsIds", Types.VARCHAR}, {"themesIds", Types.VARCHAR},
-		{"typesIds", Types.VARCHAR}, {"territoriesIds", Types.VARCHAR},
-		{"tags", Types.VARCHAR}
+		{"labelLink", Types.VARCHAR}, {"link", Types.VARCHAR},
+		{"publicationStartDate", Types.TIMESTAMP},
+		{"publicationEndDate", Types.TIMESTAMP}, {"isPrincipal", Types.BOOLEAN},
+		{"isActive", Types.BOOLEAN}, {"campaignsIds", Types.VARCHAR},
+		{"themesIds", Types.VARCHAR}, {"typesIds", Types.VARCHAR},
+		{"territoriesIds", Types.VARCHAR}, {"tags", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -91,6 +94,10 @@ public class AgendaModelImpl
 		TABLE_COLUMNS_MAP.put("editorialTitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("labelLink", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("link", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("publicationStartDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationEndDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("isPrincipal", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("campaignsIds", Types.VARCHAR);
@@ -101,7 +108,7 @@ public class AgendaModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title STRING null,editorialTitle STRING null,subtitle STRING null,imageId LONG,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,territoriesIds STRING null,tags STRING null)";
+		"create table csmap_Agenda (uuid_ VARCHAR(75) null,agendaId LONG not null primary key,title STRING null,editorialTitle STRING null,subtitle STRING null,imageId LONG,labelLink STRING null,link STRING null,publicationStartDate DATE null,publicationEndDate DATE null,isPrincipal BOOLEAN,isActive BOOLEAN,campaignsIds STRING null,themesIds STRING null,typesIds STRING null,territoriesIds STRING null,tags STRING null)";
 
 	public static final String TABLE_SQL_DROP = "drop table csmap_Agenda";
 
@@ -274,6 +281,22 @@ public class AgendaModelImpl
 		attributeGetterFunctions.put("imageId", Agenda::getImageId);
 		attributeSetterBiConsumers.put(
 			"imageId", (BiConsumer<Agenda, Long>)Agenda::setImageId);
+		attributeGetterFunctions.put("labelLink", Agenda::getLabelLink);
+		attributeSetterBiConsumers.put(
+			"labelLink", (BiConsumer<Agenda, String>)Agenda::setLabelLink);
+		attributeGetterFunctions.put("link", Agenda::getLink);
+		attributeSetterBiConsumers.put(
+			"link", (BiConsumer<Agenda, String>)Agenda::setLink);
+		attributeGetterFunctions.put(
+			"publicationStartDate", Agenda::getPublicationStartDate);
+		attributeSetterBiConsumers.put(
+			"publicationStartDate",
+			(BiConsumer<Agenda, Date>)Agenda::setPublicationStartDate);
+		attributeGetterFunctions.put(
+			"publicationEndDate", Agenda::getPublicationEndDate);
+		attributeSetterBiConsumers.put(
+			"publicationEndDate",
+			(BiConsumer<Agenda, Date>)Agenda::setPublicationEndDate);
 		attributeGetterFunctions.put("isPrincipal", Agenda::getIsPrincipal);
 		attributeSetterBiConsumers.put(
 			"isPrincipal", (BiConsumer<Agenda, Boolean>)Agenda::setIsPrincipal);
@@ -670,6 +693,235 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public String getLabelLink() {
+		if (_labelLink == null) {
+			return "";
+		}
+		else {
+			return _labelLink;
+		}
+	}
+
+	@Override
+	public String getLabelLink(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLabelLink(languageId);
+	}
+
+	@Override
+	public String getLabelLink(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLabelLink(languageId, useDefault);
+	}
+
+	@Override
+	public String getLabelLink(String languageId) {
+		return LocalizationUtil.getLocalization(getLabelLink(), languageId);
+	}
+
+	@Override
+	public String getLabelLink(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getLabelLink(), languageId, useDefault);
+	}
+
+	@Override
+	public String getLabelLinkCurrentLanguageId() {
+		return _labelLinkCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getLabelLinkCurrentValue() {
+		Locale locale = getLocale(_labelLinkCurrentLanguageId);
+
+		return getLabelLink(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getLabelLinkMap() {
+		return LocalizationUtil.getLocalizationMap(getLabelLink());
+	}
+
+	@Override
+	public void setLabelLink(String labelLink) {
+		_labelLink = labelLink;
+	}
+
+	@Override
+	public void setLabelLink(String labelLink, Locale locale) {
+		setLabelLink(labelLink, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLabelLink(
+		String labelLink, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(labelLink)) {
+			setLabelLink(
+				LocalizationUtil.updateLocalization(
+					getLabelLink(), "LabelLink", labelLink, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setLabelLink(
+				LocalizationUtil.removeLocalization(
+					getLabelLink(), "LabelLink", languageId));
+		}
+	}
+
+	@Override
+	public void setLabelLinkCurrentLanguageId(String languageId) {
+		_labelLinkCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setLabelLinkMap(Map<Locale, String> labelLinkMap) {
+		setLabelLinkMap(labelLinkMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLabelLinkMap(
+		Map<Locale, String> labelLinkMap, Locale defaultLocale) {
+
+		if (labelLinkMap == null) {
+			return;
+		}
+
+		setLabelLink(
+			LocalizationUtil.updateLocalization(
+				labelLinkMap, getLabelLink(), "LabelLink",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public String getLink() {
+		if (_link == null) {
+			return "";
+		}
+		else {
+			return _link;
+		}
+	}
+
+	@Override
+	public String getLink(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLink(languageId);
+	}
+
+	@Override
+	public String getLink(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getLink(languageId, useDefault);
+	}
+
+	@Override
+	public String getLink(String languageId) {
+		return LocalizationUtil.getLocalization(getLink(), languageId);
+	}
+
+	@Override
+	public String getLink(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getLink(), languageId, useDefault);
+	}
+
+	@Override
+	public String getLinkCurrentLanguageId() {
+		return _linkCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getLinkCurrentValue() {
+		Locale locale = getLocale(_linkCurrentLanguageId);
+
+		return getLink(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getLinkMap() {
+		return LocalizationUtil.getLocalizationMap(getLink());
+	}
+
+	@Override
+	public void setLink(String link) {
+		_link = link;
+	}
+
+	@Override
+	public void setLink(String link, Locale locale) {
+		setLink(link, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLink(String link, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(link)) {
+			setLink(
+				LocalizationUtil.updateLocalization(
+					getLink(), "Link", link, languageId, defaultLanguageId));
+		}
+		else {
+			setLink(
+				LocalizationUtil.removeLocalization(
+					getLink(), "Link", languageId));
+		}
+	}
+
+	@Override
+	public void setLinkCurrentLanguageId(String languageId) {
+		_linkCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setLinkMap(Map<Locale, String> linkMap) {
+		setLinkMap(linkMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setLinkMap(Map<Locale, String> linkMap, Locale defaultLocale) {
+		if (linkMap == null) {
+			return;
+		}
+
+		setLink(
+			LocalizationUtil.updateLocalization(
+				linkMap, getLink(), "Link",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@Override
+	public Date getPublicationStartDate() {
+		return _publicationStartDate;
+	}
+
+	@Override
+	public void setPublicationStartDate(Date publicationStartDate) {
+		_publicationStartDate = publicationStartDate;
+	}
+
+	@Override
+	public Date getPublicationEndDate() {
+		return _publicationEndDate;
+	}
+
+	@Override
+	public void setPublicationEndDate(Date publicationEndDate) {
+		_publicationEndDate = publicationEndDate;
+	}
+
+	@Override
 	public Boolean getIsPrincipal() {
 		return _isPrincipal;
 	}
@@ -842,6 +1094,28 @@ public class AgendaModelImpl
 			}
 		}
 
+		Map<Locale, String> labelLinkMap = getLabelLinkMap();
+
+		for (Map.Entry<Locale, String> entry : labelLinkMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> linkMap = getLinkMap();
+
+		for (Map.Entry<Locale, String> entry : linkMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		return availableLanguageIds.toArray(
 			new String[availableLanguageIds.size()]);
 	}
@@ -912,6 +1186,25 @@ public class AgendaModelImpl
 			setSubtitle(
 				getSubtitle(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String labelLink = getLabelLink(defaultLocale);
+
+		if (Validator.isNull(labelLink)) {
+			setLabelLink(getLabelLink(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setLabelLink(
+				getLabelLink(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String link = getLink(defaultLocale);
+
+		if (Validator.isNull(link)) {
+			setLink(getLink(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setLink(getLink(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -939,6 +1232,10 @@ public class AgendaModelImpl
 		agendaImpl.setEditorialTitle(getEditorialTitle());
 		agendaImpl.setSubtitle(getSubtitle());
 		agendaImpl.setImageId(getImageId());
+		agendaImpl.setLabelLink(getLabelLink());
+		agendaImpl.setLink(getLink());
+		agendaImpl.setPublicationStartDate(getPublicationStartDate());
+		agendaImpl.setPublicationEndDate(getPublicationEndDate());
 		agendaImpl.setIsPrincipal(getIsPrincipal());
 		agendaImpl.setIsActive(getIsActive());
 		agendaImpl.setCampaignsIds(getCampaignsIds());
@@ -1063,6 +1360,41 @@ public class AgendaModelImpl
 
 		if (imageId != null) {
 			agendaCacheModel.imageId = imageId;
+		}
+
+		agendaCacheModel.labelLink = getLabelLink();
+
+		String labelLink = agendaCacheModel.labelLink;
+
+		if ((labelLink != null) && (labelLink.length() == 0)) {
+			agendaCacheModel.labelLink = null;
+		}
+
+		agendaCacheModel.link = getLink();
+
+		String link = agendaCacheModel.link;
+
+		if ((link != null) && (link.length() == 0)) {
+			agendaCacheModel.link = null;
+		}
+
+		Date publicationStartDate = getPublicationStartDate();
+
+		if (publicationStartDate != null) {
+			agendaCacheModel.publicationStartDate =
+				publicationStartDate.getTime();
+		}
+		else {
+			agendaCacheModel.publicationStartDate = Long.MIN_VALUE;
+		}
+
+		Date publicationEndDate = getPublicationEndDate();
+
+		if (publicationEndDate != null) {
+			agendaCacheModel.publicationEndDate = publicationEndDate.getTime();
+		}
+		else {
+			agendaCacheModel.publicationEndDate = Long.MIN_VALUE;
 		}
 
 		Boolean isPrincipal = getIsPrincipal();
@@ -1201,6 +1533,12 @@ public class AgendaModelImpl
 	private String _subtitle;
 	private String _subtitleCurrentLanguageId;
 	private Long _imageId;
+	private String _labelLink;
+	private String _labelLinkCurrentLanguageId;
+	private String _link;
+	private String _linkCurrentLanguageId;
+	private Date _publicationStartDate;
+	private Date _publicationEndDate;
 	private Boolean _isPrincipal;
 	private Boolean _originalIsPrincipal;
 	private boolean _setOriginalIsPrincipal;
