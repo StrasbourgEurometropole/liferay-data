@@ -6,7 +6,7 @@
     "fields": [
         {
             "label": {
-                "fr_FR": "Edito"
+                "fr_FR": "Description de haut de page"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -30,7 +30,7 @@
         },
         {
             "label": {
-                "fr_FR": "Retour sur l’édition"
+                "fr_FR": "Edito (1ère section)"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -45,7 +45,7 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "RetourSurLédition1",
+            "name": "EditoSeperator",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -54,7 +54,7 @@
         },
         {
             "label": {
-                "fr_FR": "Titre « Retour sur l’édition »"
+                "fr_FR": "Titre « Edito »"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -68,7 +68,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "editionTitle",
+            "name": "editoTitle",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -77,7 +77,7 @@
         },
         {
             "label": {
-                "fr_FR": "Image « Retour sur l’édition »"
+                "fr_FR": "Image « Edito »"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -92,7 +92,7 @@
             "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
-            "name": "editionImage",
+            "name": "editoImage",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -102,7 +102,7 @@
         },
         {
             "label": {
-                "fr_FR": "Description « Retour sur l’édition »"
+                "fr_FR": "Description « Edito »"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -117,7 +117,7 @@
             "fieldNamespace": "ddm",
             "indexType": "text",
             "localizable": true,
-            "name": "editionContent",
+            "name": "editoContent",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -126,7 +126,7 @@
         },
         {
             "label": {
-                "fr_FR": "Label bouton « Retour sur l’édition »"
+                "fr_FR": "Label bouton « Edito »"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -140,7 +140,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "editionLabelButton",
+            "name": "editoLabelButton",
             "readOnly": false,
             "repeatable": false,
             "required": false,
@@ -149,7 +149,7 @@
         },
         {
             "label": {
-                "fr_FR": "Lien bouton « Retour sur l’édition »"
+                "fr_FR": "Lien bouton « Edito »"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -163,7 +163,7 @@
             "dataType": "string",
             "indexType": "keyword",
             "localizable": true,
-            "name": "editionUrlButton",
+            "name": "editoUrlButton",
             "readOnly": false,
             "repeatable": false,
             "required": false,
