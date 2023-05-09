@@ -154,6 +154,7 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 				String shareLinkedin = LanguageUtil.get(bundle, "no");
 				if (offer.isShareLinkedin())
 					shareLinkedin = LanguageUtil.get(bundle, "yes");
+				// .replaceAll("<\\/?[a-zA-Z][^>]*>", "")  permet de supprimer toutes les balises HTML
 				Object[] offerRow = {
 						offer.getPublicationId(),
 						offer.getTypePublication().getTitle(Locale.FRANCE),
@@ -174,11 +175,11 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 						grade4,
 						grade5,
 						levelStudy,
-						offer.getIntroduction(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z0-9]+( style=\"[a-zA-Z0-9 -:;]+\")?>", ""),
-						offer.getActivities(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z0-9]+( style=\"[a-zA-Z0-9 -:;]+\")?>", ""),
-						offer.getProfil(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z0-9]+( style=\"[a-zA-Z0-9 -:;]+\")?>", ""),
-						offer.getConditions(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z0-9]+( style=\"[a-zA-Z0-9 -:;]+\")?>", ""),
-						offer.getAvantages(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z0-9]+( style=\"[a-zA-Z0-9 -:;]+\")?>", ""),
+						offer.getIntroduction(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z][^>]*>", ""),
+						offer.getActivities(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z][^>]*>", ""),
+						offer.getProfil(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z][^>]*>", ""),
+						offer.getConditions(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z][^>]*>", ""),
+						offer.getAvantages(Locale.FRANCE).replaceAll("<\\/?[a-zA-Z][^>]*>", ""),
 						families,
 						dateFormat.format(offer.getLimitDate()),
 						contact,
