@@ -52,6 +52,15 @@
 
 				<aui:input name="link" label="link">
 				</aui:input>
+                 <fmt:formatDate value="${dc.agendaThematique.publicationStartDate}"
+                    var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
+                 <aui:input type="text" name="publicationStartDate2" required="false" placeHolder="JJ/MM/AAAA"
+                    value="${empty dc.agendaThematique.publicationStartDate?'':formattedPublicationStartDate}" />
+
+                 <fmt:formatDate value="${dc.agendaThematique.publicationEndDate}"
+                    var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
+                 <aui:input type="text" name="publicationEndDate2" required="false" placeHolder="JJ/MM/AAAA"
+                    value="${empty dc.agendaThematique.publicationEndDate?'':formattedPublicationEndDate}" />
             </aui:fieldset>
 
             <%-- Champ : CategoriesIds --%>
@@ -95,7 +104,8 @@
 
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<aui:button cssClass="btn-lg" type="submit" name="save" value="save" />
-			<aui:button cssClass="btn-lg" type="submit" name="save-and-active" value="save-and-active" />
+			<aui:button cssClass="btn-lg" type="submit" name="save-and-active"
+			value="save-and-active" />
 
 		</aui:button-row>
 

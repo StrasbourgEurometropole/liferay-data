@@ -89,11 +89,10 @@ public class AgendaLocalServiceImpl extends AgendaLocalServiceBaseImpl {
 	@Override
 	public Agenda getAgendaThematiqueActif() {
 		List<Agenda> agendaThematique = this.agendaPersistence.findByIsPrincipalAndIsActive(false, true);
-		if(agendaThematique.isEmpty()){
-			return null;
-		} else {
+		if(!agendaThematique.isEmpty()){
 			return agendaThematique.get(0);
 		}
+		return null;
 	}
 
 	@Override
