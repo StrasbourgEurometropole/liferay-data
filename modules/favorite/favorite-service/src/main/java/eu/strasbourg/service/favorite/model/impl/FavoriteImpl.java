@@ -57,7 +57,9 @@ public class FavoriteImpl extends FavoriteBaseImpl {
 
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(this.getFavoriteType().getFavoriteClass().getName(),
+        String className=this.getFavoriteType().getFavoriteClass()!=null
+                ?this.getFavoriteType().getFavoriteClass().getName():null;
+		return AssetEntryLocalServiceUtil.fetchEntry(className,
 				this.getEntityId());
 	}
 

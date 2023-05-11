@@ -129,6 +129,9 @@
 				&.btn-insta {
 					background-image: url(../images/pictos/instagram-sml.png);
 				}
+				&.btn-linkdin {
+					background-image: url(../images/pictos/linkdin-sml.png);
+				}
 			}
 		}
 		@include RWD(tablet){

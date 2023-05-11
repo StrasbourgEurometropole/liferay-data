@@ -191,8 +191,8 @@ public class PublikApiClient {
 		String baseUrl = StrasbourgPropsUtil.getPublikIssuer();
 		String endpoint = "api/users/";
 		try {
-			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint + userId,
-					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret(), timeOut);
+			JSONObject responseObject = JSONHelper.readJsonFromURL(baseUrl + endpoint + userId +"/",
+					StrasbourgPropsUtil.getPublikUserName(), StrasbourgPropsUtil.getPublikPassword(), timeOut);
 			responseObject.remove("password");
 			return responseObject;
 		} catch (Exception ex) {
@@ -221,7 +221,7 @@ public class PublikApiClient {
 		String endpoint = "api/users/";
 		try {
 			JSONHelper.put(baseUrl + endpoint + userId + "/", lastName, address, zipCode, city,
-					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
+					StrasbourgPropsUtil.getPublikUserName(), StrasbourgPropsUtil.getPublikPassword());
 			return true;
 		} catch (Exception ex) {
 			return false;
@@ -256,7 +256,7 @@ public class PublikApiClient {
 		String endpoint = "api/users/";
 		try {
 			JSONHelper.put(baseUrl + endpoint + userId + "/", lastName, address, zipCode, city, phoneNumber, cellNumber, dateNaiss,
-					StrasbourgPropsUtil.getPublikClientId(), StrasbourgPropsUtil.getPublikClientSecret());
+					StrasbourgPropsUtil.getPublikUserName(), StrasbourgPropsUtil.getPublikPassword());
 			return true;
 		} catch (Exception ex) {
 			return false;

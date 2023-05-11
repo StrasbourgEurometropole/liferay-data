@@ -186,6 +186,7 @@
                                 <portlet:actionURL name="resetUserConfiguration"
                                     var="resetUserConfiguration">
                                     <portlet:param name="mvcPath" value="/map-view.jsp"></portlet:param>
+                                    <portlet:param name="configId" value="${configId}" />
                                 </portlet:actionURL>
                                 <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
                                     <span class="flexbox">
@@ -196,6 +197,7 @@
                                 <portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">
                                     <portlet:param name="checkboxNamesCategories" value="${checkboxNamesCategories}" />
                                     <portlet:param name="checkboxNamesInterests" value="${checkboxNamesInterests}" />
+                                    <portlet:param name="configId" value="${configId}" />
                                 </portlet:resourceURL>
                                 <a href="" class="filtres__btn filtres__btn--save">
                                     <span class="flexbox">
