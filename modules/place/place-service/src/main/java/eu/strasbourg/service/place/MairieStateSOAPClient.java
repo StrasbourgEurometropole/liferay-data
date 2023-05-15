@@ -23,6 +23,7 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -60,13 +61,13 @@ public class MairieStateSOAPClient {
 	}
 
 	/**
-	 * Appelle le service SOAP de l'occupation des piscines, récupère la réposne sous forme de XML
+	 * Appelle le service SOAP de l'occupation des piscines, récupère la réponse sous forme de XML
 	 */
 	private static String getWaitingSoap(String codeMairie) throws IOException {
 		//Code to make a webservice HTTP request
 		String responseString = "";
 		String outputString = "";
-		String wsURL = "https://webservices.strasbourg.eu/filat/eSirius/webservices/sitewaitingindicator/v1.0?wsdl";
+		String wsURL = StrasbourgPropsUtil.getWaintingURL();
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
 		HttpURLConnection httpConn = (HttpURLConnection) connection;
