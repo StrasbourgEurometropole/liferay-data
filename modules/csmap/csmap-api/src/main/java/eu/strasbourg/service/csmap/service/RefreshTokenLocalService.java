@@ -204,6 +204,12 @@ public interface RefreshTokenLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
+	/**
+	 * Retrouve un refresh token par sa valeur
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<RefreshToken> getByPublikId(String publikId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 

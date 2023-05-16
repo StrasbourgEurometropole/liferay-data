@@ -26,6 +26,9 @@
 		<finder name="Value" return-type="RefreshToken">
 			<finder-column name="value" />
 		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
 
 	</entity>
 
