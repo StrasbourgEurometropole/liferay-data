@@ -99,7 +99,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             agenda.setLabelLink(labelLink);
 
             Date publicationStartDate = ParamUtil.getDate(request,
-                    "publicationStartDate2" , dateFormat, null);
+                    "publicationStartDate" , dateFormat, null);
             if(Validator.isNotNull(publicationStartDate)) {
                 LocalDateTime startPublication = new Timestamp(publicationStartDate.getTime())
                         .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
@@ -108,7 +108,7 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
                 agenda.setPublicationStartDate(null);
 
             Date publicationEndDate = ParamUtil.getDate(request,
-                    "publicationEndDate2" , dateFormat, null);
+                    "publicationEndDate" , dateFormat, null);
             if(Validator.isNotNull(publicationEndDate)) {
                 LocalDateTime endPublication = new Timestamp(publicationEndDate.getTime())
                         .toLocalDateTime().withHour(23).withMinute(59).withSecond(59).withNano(999999999);

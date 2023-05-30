@@ -52,15 +52,10 @@
 
 				<aui:input name="link" label="link">
 				</aui:input>
-                 <fmt:formatDate value="${dc.agendaThematique.publicationStartDate}"
-                    var="formattedPublicationStartDate" type="date" pattern="dd/MM/yyyy" />
-                 <aui:input type="text" name="publicationStartDate2" required="false" placeHolder="JJ/MM/AAAA"
-                    value="${empty dc.agendaThematique.publicationStartDate?'':formattedPublicationStartDate}" />
 
-                 <fmt:formatDate value="${dc.agendaThematique.publicationEndDate}"
-                    var="formattedPublicationEndDate" type="date" pattern="dd/MM/yyyy" />
-                 <aui:input type="text" name="publicationEndDate2" required="false" placeHolder="JJ/MM/AAAA"
-                    value="${empty dc.agendaThematique.publicationEndDate?'':formattedPublicationEndDate}" />
+                <aui:input name="publicationStartDate" required="false" />
+
+                <aui:input name="publicationEndDate" required="false" />
             </aui:fieldset>
 
             <%-- Champ : CategoriesIds --%>
@@ -157,6 +152,8 @@
 	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.territoryVocabularyId}{
 	        display:block;
         }
+
+	    .lfr-input-time { display: none;}
 	</style>
 
     <!-- Include Choices CSS -->
