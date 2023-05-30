@@ -1,5 +1,11 @@
 package eu.strasbourg.service.place;
 
+import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,24 +15,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLStreamHandler;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class MairieStateSOAPClient {
 
@@ -44,7 +32,7 @@ public class MairieStateSOAPClient {
 				outputString.getBytes("UTF-8"));
 		Document doc = dBuilder.parse(input);
 
-		NodeList waitingNodeList = doc.getElementsByTagName("ns3:realAvgWaitingTime");
+		NodeList waitingNodeList = doc.getElementsByTagName("ns2:realAvgWaitingTime");
 		String waitingString = waitingNodeList.item(0).getTextContent();
 
 		if (waitingString.equals("-")) {
