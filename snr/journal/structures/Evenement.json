@@ -259,6 +259,7 @@
                     "readOnly": false,
                     "repeatable": false,
                     "required": false,
+                    "requiredDescription": true,
                     "showLabel": true,
                     "type": "ddm-image"
                 }
@@ -266,7 +267,7 @@
         },
         {
             "label": {
-                "fr_FR": "Lien d'inscription"
+                "fr_FR": "Lien d'inscription en présentiel"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -281,6 +282,29 @@
             "indexType": "",
             "localizable": true,
             "name": "signUpLink",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Lien d'inscription en distanciel"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": "Si ce lien est vide, le bouton d'inscription ne sera pas affiché"
+            },
+            "dataType": "string",
+            "indexType": "",
+            "localizable": true,
+            "name": "signUpDistLink",
             "readOnly": false,
             "repeatable": false,
             "required": false,
