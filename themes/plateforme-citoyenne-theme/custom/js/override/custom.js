@@ -607,7 +607,7 @@ function getInitiativeMarker(initiative, mercators) {
                     '<span class="pro-time">Publié le <time datetime="' + initiative.unformatedPublishedDate + '">' + initiative.publishedDate + '</time></span>' +
                 '</div> ' + 
                 '</div></div>' +
-                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes soutiennent cet atelier</p>' +
+                '<div class="pro-footer-initiative"><div class="pro-avis"><span>' + initiative.nbHelps + '</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
                 '</div>' +
             '</a>' +
         '</div>'

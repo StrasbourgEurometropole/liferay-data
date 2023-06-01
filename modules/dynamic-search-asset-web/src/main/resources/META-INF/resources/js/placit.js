@@ -310,7 +310,7 @@ function createInitiativeThumbnail(initiative) {
 		            '<div class="pro-avis">' +
 		                '<span>' + initiative.nbHelps + '</span>' +
 		            '</div>' +
-		            '<p>Citoyens-nes soutiennent cet atelier</p>' +
+		            '<p>Citoyens-nes ont proposé leur aide</p>' +
 		        '</div>' +
 		    '</div>' +
 		'</div>';

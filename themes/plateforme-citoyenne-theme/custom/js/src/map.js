@@ -327,7 +327,7 @@ function callbackCarteInteractive(macarte) {
         '<div class="pro-content-initiative">' +
         '<h3>Titre de l’initiative<br>Sur deux lignes</h3><span class="pro-time">Publiée le <time datetime="2018-01-10">10/04/2018</time></span></div> ' +
         '</div></div>' +
-        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes soutiennent cet atelier</p>' +
+        '<div class="pro-footer-initiative"><div class="pro-avis"><span>188</span></div><p>Citoyens-nes ont proposé leur aide</p>' +
         '</div></a></div>', markerInitiative, 247);
 
     contentInitiative = th_maps.createInfoWindow('<div class="item pro-bloc-card-projet">' +
