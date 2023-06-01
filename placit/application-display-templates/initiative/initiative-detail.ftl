@@ -334,7 +334,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 									<div class="pro-avis">
 										<span>${suggestion.getNbHelps()}</span>
 									</div>
-									<p>Citoyens-nes soutiennent cet atelier</p>
+									<p>Citoyens-nes ont proposé leur aide</p>
 								</div>
 							</div>						
 						</#list>

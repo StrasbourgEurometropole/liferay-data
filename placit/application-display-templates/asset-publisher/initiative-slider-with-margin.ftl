@@ -58,7 +58,7 @@
                                 <div class="pro-avis">
                                     <span>${entry.getNbHelps()}</span>
                                 </div>
-                                <p>Citoyens-nes soutiennent cet atelier</p>
+                                <p>Citoyens-nes ont proposé leur aide</p>
                             </div>
                         </div>
 
