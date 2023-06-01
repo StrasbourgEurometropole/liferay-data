@@ -13,6 +13,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="editorial-title-error" message="editorial-title-error" />
+	<liferay-ui:error key="publication-date-error" message="publication-date-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveAgendaThematiqueURL}" method="post" name="fm" onSubmit="submitForm(event);">

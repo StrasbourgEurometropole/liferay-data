@@ -49,6 +49,8 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             sc.setScopeGroupId(td.getCompanyGroupId());
 
+            long agendaId = ParamUtil.getLong(request, "agendaId");
+
             // Validation
             boolean isValid = validate(request);
             if (!isValid) {
@@ -60,15 +62,12 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
                 PortletURL returnURL = PortletURLFactoryUtil.create(request,
                         portletName, td.getPlid(),
                         PortletRequest.RENDER_PHASE);
-                returnURL.setParameter("tab", request.getParameter("tab"));
-
+                response.setRenderParameter("tab", "");
                 response.setRenderParameter("returnURL", returnURL.toString());
-                response.setRenderParameter("mvcPath",
-                        "/csmap-bo-agenda-edit-thematique.jsp");
+                response.setRenderParameter("mvcPath", "/csmap-bo-agenda-edit-thematique.jsp");
                 return false;
             }
 
-            long agendaId = ParamUtil.getLong(request, "agendaId");
             Agenda agenda;
             if (agendaId == 0) {
                 agenda = _agendaLocalService.createAgenda();
@@ -208,6 +207,16 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             isValid = false;
         }
 
+        Date publicationStartDate = ParamUtil.getDate(request,
+                "publicationStartDate" , dateFormat, null);
+        Date publicationEndDate = ParamUtil.getDate(request,
+                "publicationEndDate" , dateFormat, null);
+
+        if(Validator.isNotNull(publicationEndDate) && Validator.isNotNull(publicationStartDate)
+        && publicationEndDate.compareTo(publicationStartDate) < 0 ) {
+            SessionErrors.add(request, "publication-date-error");
+            isValid = false;
+        }
         return isValid;
     }
 
