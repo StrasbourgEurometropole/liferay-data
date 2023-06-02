@@ -28,6 +28,11 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -92,6 +97,24 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
             String labelLink = ParamUtil.getString(request, "labelLink");
             agenda.setLabelLink(labelLink);
+
+            Date publicationStartDate = ParamUtil.getDate(request,
+                    "publicationStartDate" , dateFormat, null);
+            if(Validator.isNotNull(publicationStartDate)) {
+                LocalDateTime startPublication = new Timestamp(publicationStartDate.getTime())
+                        .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
+                agenda.setPublicationStartDate(Timestamp.valueOf(startPublication));
+            }else
+                agenda.setPublicationStartDate(null);
+
+            Date publicationEndDate = ParamUtil.getDate(request,
+                    "publicationEndDate" , dateFormat, null);
+            if(Validator.isNotNull(publicationEndDate)) {
+                LocalDateTime endPublication = new Timestamp(publicationEndDate.getTime())
+                        .toLocalDateTime().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+                agenda.setPublicationEndDate(Timestamp.valueOf(endPublication));
+            }else
+                agenda.setPublicationEndDate(null);
 
             StringBuilder campaigns = new StringBuilder();
             long[] campaignsIds = ParamUtil.getLongValues(request, "campaigns");
@@ -235,5 +258,6 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
     }
 
     private static final Log _log = LogFactoryUtil.getLog(SaveCsmapAgendaThematiqueActionCommand.class.getName());
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 }
 

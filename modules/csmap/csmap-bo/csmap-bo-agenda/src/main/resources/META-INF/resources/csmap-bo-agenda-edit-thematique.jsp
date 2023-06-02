@@ -52,6 +52,10 @@
 
 				<aui:input name="link" label="link">
 				</aui:input>
+
+                <aui:input name="publicationStartDate" required="false" />
+
+                <aui:input name="publicationEndDate" required="false" />
             </aui:fieldset>
 
             <%-- Champ : CategoriesIds --%>
@@ -95,7 +99,8 @@
 
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<aui:button cssClass="btn-lg" type="submit" name="save" value="save" />
-			<aui:button cssClass="btn-lg" type="submit" name="save-and-active" value="save-and-active" />
+			<aui:button cssClass="btn-lg" type="submit" name="save-and-active"
+			value="save-and-active" />
 
 		</aui:button-row>
 
@@ -147,6 +152,8 @@
 	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.territoryVocabularyId}{
 	        display:block;
         }
+
+	    .lfr-input-time { display: none;}
 	</style>
 
     <!-- Include Choices CSS -->
