@@ -61,6 +61,7 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 		Object[][] offerData = {
 				{
 					LanguageUtil.get(bundle,"offer-number"),
+					LanguageUtil.get(bundle, "ejobTypeRecrutement"),
 					LanguageUtil.get(bundle, "ejob-type-publication"),
 					LanguageUtil.get(bundle, "post-number"),
 					LanguageUtil.get(bundle, "job-creation-description"),
@@ -97,11 +98,7 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 		};
 
 		List<Offer> offers = offerLocalService.getOffers(-1, -1);
-		// on ne prend que les offres permanantes
 		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
-		offers = offers.stream()
-				.filter(o -> o.getTypeRecrutement().getTitle(Locale.FRANCE).equals("Permanent"))
-				.collect(Collectors.toList());
 		for (Offer offer : offers) {
 			try {
 				String direction = "";
@@ -157,6 +154,7 @@ public class OffersXlsxExporterImpl implements OffersXlsxExporter {
 				// .replaceAll("<\\/?[a-zA-Z][^>]*>", "")  permet de supprimer toutes les balises HTML
 				Object[] offerRow = {
 						offer.getPublicationId(),
+						offer.getTypeRecrutement().getTitle(Locale.FRANCE),
 						offer.getTypePublication().getTitle(Locale.FRANCE),
 						offer.getPostNumber(),
 						offer.getJobCreationDescription(Locale.FRANCE),
