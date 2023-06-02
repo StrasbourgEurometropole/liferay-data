@@ -229,6 +229,15 @@ public class RefreshTokenLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	/**
+	 * Retrouve un refresh token par sa valeur
+	 */
+	public static java.util.List<eu.strasbourg.service.csmap.model.RefreshToken>
+		getByPublikId(String publikId) {
+
+		return getService().getByPublikId(publikId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

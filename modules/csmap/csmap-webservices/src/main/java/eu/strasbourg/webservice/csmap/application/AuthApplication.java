@@ -195,7 +195,7 @@ public class AuthApplication extends Application {
 
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
-            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getRefreshTokens(-1,-1).stream().filter(t -> t.getPublikId().equals(publikUser.getPublikId())).collect(Collectors.toList());
+            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getByPublikId(publikUser.getPublikId());
             for(RefreshToken refreshToken : refreshTokens) {
                 RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
             }
