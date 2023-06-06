@@ -28,6 +28,11 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Component(
         immediate = true,
@@ -44,6 +49,8 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             ThemeDisplay td = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
             sc.setScopeGroupId(td.getCompanyGroupId());
 
+            long agendaId = ParamUtil.getLong(request, "agendaId");
+
             // Validation
             boolean isValid = validate(request);
             if (!isValid) {
@@ -55,15 +62,12 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
                 PortletURL returnURL = PortletURLFactoryUtil.create(request,
                         portletName, td.getPlid(),
                         PortletRequest.RENDER_PHASE);
-                returnURL.setParameter("tab", request.getParameter("tab"));
-
+                response.setRenderParameter("tab", "");
                 response.setRenderParameter("returnURL", returnURL.toString());
-                response.setRenderParameter("mvcPath",
-                        "/csmap-bo-agenda-edit-thematique.jsp");
+                response.setRenderParameter("mvcPath", "/csmap-bo-agenda-edit-thematique.jsp");
                 return false;
             }
 
-            long agendaId = ParamUtil.getLong(request, "agendaId");
             Agenda agenda;
             if (agendaId == 0) {
                 agenda = _agendaLocalService.createAgenda();
@@ -92,6 +96,24 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
             String labelLink = ParamUtil.getString(request, "labelLink");
             agenda.setLabelLink(labelLink);
+
+            Date publicationStartDate = ParamUtil.getDate(request,
+                    "publicationStartDate" , dateFormat, null);
+            if(Validator.isNotNull(publicationStartDate)) {
+                LocalDateTime startPublication = new Timestamp(publicationStartDate.getTime())
+                        .toLocalDateTime().withHour(0).withMinute(0).withSecond(0).withNano(0);
+                agenda.setPublicationStartDate(Timestamp.valueOf(startPublication));
+            }else
+                agenda.setPublicationStartDate(null);
+
+            Date publicationEndDate = ParamUtil.getDate(request,
+                    "publicationEndDate" , dateFormat, null);
+            if(Validator.isNotNull(publicationEndDate)) {
+                LocalDateTime endPublication = new Timestamp(publicationEndDate.getTime())
+                        .toLocalDateTime().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+                agenda.setPublicationEndDate(Timestamp.valueOf(endPublication));
+            }else
+                agenda.setPublicationEndDate(null);
 
             StringBuilder campaigns = new StringBuilder();
             long[] campaignsIds = ParamUtil.getLongValues(request, "campaigns");
@@ -185,6 +207,16 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
             isValid = false;
         }
 
+        Date publicationStartDate = ParamUtil.getDate(request,
+                "publicationStartDate" , dateFormat, null);
+        Date publicationEndDate = ParamUtil.getDate(request,
+                "publicationEndDate" , dateFormat, null);
+
+        if(Validator.isNotNull(publicationEndDate) && Validator.isNotNull(publicationStartDate)
+        && publicationEndDate.compareTo(publicationStartDate) < 0 ) {
+            SessionErrors.add(request, "publication-date-error");
+            isValid = false;
+        }
         return isValid;
     }
 
@@ -235,5 +267,6 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
     }
 
     private static final Log _log = LogFactoryUtil.getLog(SaveCsmapAgendaThematiqueActionCommand.class.getName());
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 }
 

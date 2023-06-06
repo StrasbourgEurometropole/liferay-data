@@ -1109,6 +1109,7 @@ public class StrasbourgServiceImpl extends StrasbourgServiceBaseImpl {
 	}
 
 	private JSONObject error(String message) {
+	    log.error(message);
 		return JSONFactoryUtil.createJSONObject().put("error", message);
 	}
 

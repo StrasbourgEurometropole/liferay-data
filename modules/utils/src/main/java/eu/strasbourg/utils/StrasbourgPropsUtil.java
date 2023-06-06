@@ -429,4 +429,8 @@ public class StrasbourgPropsUtil {
 	public static String getOpenDataVelhops() {
 		return PropsUtil.get("eu.strasbourg.opendata.velhops");
 	}
+
+	public static String getWaintingURL() {
+		return PropsUtil.get("eu.strasbourg.webservices.waiting.url");
+	}
 }

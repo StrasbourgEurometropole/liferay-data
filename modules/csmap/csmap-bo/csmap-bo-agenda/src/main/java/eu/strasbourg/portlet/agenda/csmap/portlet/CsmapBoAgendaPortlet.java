@@ -61,15 +61,15 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 		}
 
 		// display context}
-		if (tab.equals("agendaThematique")) {
-			ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editAgendaThematique") || mvcPath.equals("/csmap-bo-agenda-edit-thematique.jsp")) {
+		 if (cmd.equals("editAgendaThematique") || mvcPath.equals("/csmap-bo-agenda-edit-thematique.jsp")) {
 			EditCsmapThematiqueAgendaDisplayContext dc = new EditCsmapThematiqueAgendaDisplayContext(
 					renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
-		}else{
+		} else if (tab.equals("agendaThematique")) {
+			ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(
+					renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
+		} else {
 			EditCsmapPrincipalAgendaDisplayContext dc = new EditCsmapPrincipalAgendaDisplayContext();
 			renderRequest.setAttribute("dc", dc);
 		}

@@ -95,57 +95,9 @@
             </liferay-ui:search-container>
         </div>
 
-        <p class="text">${dc.getTexte()}</p>
-
         <h2><liferay-ui:message key="my-alerts" /></h2>
-
         <div class="alertes">
-            <!-- Liste des résultats -->
-
-            <c:if test="${dc.alertSearchContainer.total == 0}">
-                <liferay-ui:message key="no-alert" />
-            </c:if>
-
-            <liferay-ui:search-container id="alertSearchContainer"
-                        searchContainer="${dc.alertSearchContainer}">
-                <c:if test="${dc.alertSearchContainer.total gt 0}">
-                    <div class="alertesList">
-                        <div class="alerteInfo titre"><liferay-ui:message key="title" /></div>
-                        <div class="alerteInfo filtre"><liferay-ui:message key="keywords-categories" /></div>
-                        <div class="alerteInfo supprimer"></div>
-                        <c:forEach var="alert" items="${dc.alerts}">
-                            <portlet:actionURL name="deleteAlert" var="deleteAlert">
-                                <portlet:param name="alertId" value="${alert.alertId}"></portlet:param>
-                            </portlet:actionURL>
-
-                            <div class="alerteDetail titre">${alert.name}</div>
-                            <div class="alerteDetail filtre">
-                                ${alert.keyWord}
-                                <c:if test="${not empty alert.keyWord && not empty alert.categories}">
-                                    ,
-                                </c:if>
-                                <c:forEach var="category" items="${alert.categories}" varStatus="status">
-                                    <c:if test="${status.index > 0}">
-                                        ,
-                                    </c:if>
-                                   ${category.getTitle(locale)}
-                                </c:forEach>
-                            </div>
-                            <div class="alerteDetail supprimer">
-                                <a href="${deleteAlert}" class="delete-alert">Supprimer</a>
-                            </div>
-                        </c:forEach>
-                    </div>
-                </c:if>
-            </liferay-ui:search-container>
-
-            <a class="btn-square bordered core" title="<liferay-ui:message key="create-another-alert" />"
-                href="${dc.searchOfferURL}" style="float: right;">
-                <span class="flexbox">
-                    <span class="btn-text"><liferay-ui:message key="create-another-alert" /></span>
-                    <span class="btn-arrow"></span>
-                </span>
-            </a>
+            <p class="text">${dc.getTexte()}</p>
         </div>
     </div>
 </div>

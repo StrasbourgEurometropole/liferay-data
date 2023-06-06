@@ -352,6 +352,178 @@ public class RefreshTokenUtil {
 	}
 
 	/**
+	 * Returns all the refresh tokens where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the matching refresh tokens
+	 */
+	public static List<RefreshToken> findByPublikId(String publikId) {
+		return getPersistence().findByPublikId(publikId);
+	}
+
+	/**
+	 * Returns a range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @return the range of matching refresh tokens
+	 */
+	public static List<RefreshToken> findByPublikId(
+		String publikId, int start, int end) {
+
+		return getPersistence().findByPublikId(publikId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching refresh tokens
+	 */
+	public static List<RefreshToken> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<RefreshToken> orderByComparator) {
+
+		return getPersistence().findByPublikId(
+			publikId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching refresh tokens
+	 */
+	public static List<RefreshToken> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<RefreshToken> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByPublikId(
+			publikId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching refresh token
+	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
+	 */
+	public static RefreshToken findByPublikId_First(
+			String publikId, OrderByComparator<RefreshToken> orderByComparator)
+		throws eu.strasbourg.service.csmap.exception.
+			NoSuchRefreshTokenException {
+
+		return getPersistence().findByPublikId_First(
+			publikId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching refresh token, or <code>null</code> if a matching refresh token could not be found
+	 */
+	public static RefreshToken fetchByPublikId_First(
+		String publikId, OrderByComparator<RefreshToken> orderByComparator) {
+
+		return getPersistence().fetchByPublikId_First(
+			publikId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching refresh token
+	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
+	 */
+	public static RefreshToken findByPublikId_Last(
+			String publikId, OrderByComparator<RefreshToken> orderByComparator)
+		throws eu.strasbourg.service.csmap.exception.
+			NoSuchRefreshTokenException {
+
+		return getPersistence().findByPublikId_Last(
+			publikId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching refresh token, or <code>null</code> if a matching refresh token could not be found
+	 */
+	public static RefreshToken fetchByPublikId_Last(
+		String publikId, OrderByComparator<RefreshToken> orderByComparator) {
+
+		return getPersistence().fetchByPublikId_Last(
+			publikId, orderByComparator);
+	}
+
+	/**
+	 * Returns the refresh tokens before and after the current refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param refreshTokenId the primary key of the current refresh token
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next refresh token
+	 * @throws NoSuchRefreshTokenException if a refresh token with the primary key could not be found
+	 */
+	public static RefreshToken[] findByPublikId_PrevAndNext(
+			long refreshTokenId, String publikId,
+			OrderByComparator<RefreshToken> orderByComparator)
+		throws eu.strasbourg.service.csmap.exception.
+			NoSuchRefreshTokenException {
+
+		return getPersistence().findByPublikId_PrevAndNext(
+			refreshTokenId, publikId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the refresh tokens where publikId = &#63; from the database.
+	 *
+	 * @param publikId the publik ID
+	 */
+	public static void removeByPublikId(String publikId) {
+		getPersistence().removeByPublikId(publikId);
+	}
+
+	/**
+	 * Returns the number of refresh tokens where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the number of matching refresh tokens
+	 */
+	public static int countByPublikId(String publikId) {
+		return getPersistence().countByPublikId(publikId);
+	}
+
+	/**
 	 * Caches the refresh token in the entity cache if it is enabled.
 	 *
 	 * @param refreshToken the refresh token

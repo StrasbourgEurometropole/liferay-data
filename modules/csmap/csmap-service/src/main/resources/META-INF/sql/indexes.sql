@@ -9,6 +9,7 @@ create index IX_4096E817 on csmap_CsmapCache (isLastProcessSuccess);
 create index IX_24001F16 on csmap_PlaceCategories (categoriesIds[$COLUMN_LENGTH:4000$]);
 create index IX_C04F161E on csmap_PlaceCategories (uuid_[$COLUMN_LENGTH:75$]);
 
+create index IX_DDDFD897 on csmap_RefreshToken (publikId[$COLUMN_LENGTH:200$]);
 create index IX_E80807DD on csmap_RefreshToken (uuid_[$COLUMN_LENGTH:75$]);
 create index IX_FAFF6E0A on csmap_RefreshToken (value[$COLUMN_LENGTH:300$]);
 

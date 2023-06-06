@@ -13,6 +13,7 @@
 <div class="container-fluid-1280 main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="editorial-title-error" message="editorial-title-error" />
+	<liferay-ui:error key="publication-date-error" message="publication-date-error" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveAgendaThematiqueURL}" method="post" name="fm" onSubmit="submitForm(event);">
@@ -52,6 +53,10 @@
 
 				<aui:input name="link" label="link">
 				</aui:input>
+
+                <aui:input name="publicationStartDate" required="false" />
+
+                <aui:input name="publicationEndDate" required="false" />
             </aui:fieldset>
 
             <%-- Champ : CategoriesIds --%>
@@ -95,7 +100,8 @@
 
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
 			<aui:button cssClass="btn-lg" type="submit" name="save" value="save" />
-			<aui:button cssClass="btn-lg" type="submit" name="save-and-active" value="save-and-active" />
+			<aui:button cssClass="btn-lg" type="submit" name="save-and-active"
+			value="save-and-active" />
 
 		</aui:button-row>
 
@@ -147,6 +153,8 @@
 	    #<portlet:namespace />sxvx___assetCategoriesSelector_${dc.territoryVocabularyId}{
 	        display:block;
         }
+
+	    .lfr-input-time { display: none;}
 	</style>
 
     <!-- Include Choices CSS -->

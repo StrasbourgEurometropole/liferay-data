@@ -23,6 +23,8 @@ import eu.strasbourg.service.csmap.service.base.RefreshTokenLocalServiceBaseImpl
 import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.List;
+
 /**
  * The implementation of the refresh token local service.
  *
@@ -79,6 +81,15 @@ public class RefreshTokenLocalServiceImpl extends RefreshTokenLocalServiceBaseIm
 	@Override
 	public RefreshToken fetchByValue(String value) {
 		return refreshTokenPersistence.fetchByValue(value);
+	}
+
+
+	/**
+	 * Retrouve un refresh token par sa valeur
+	 */
+	@Override
+	public List<RefreshToken> getByPublikId(String publikId) {
+		return refreshTokenPersistence.findByPublikId(publikId);
 	}
 
 }

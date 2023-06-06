@@ -93,7 +93,7 @@
 	                <div class="pro-group">
 	                    <div class="pro-item">
 	                    	<span class="icon-ico-map-initiative"></span>
-	                        <label for="initiatives_printator_mk1"><liferay-ui:message key="initiatives" /></label>
+	                        <label for="initiatives_printator_mk1"><liferay-ui:message key="atelier-quartier" /></label>
 	                        <input type="checkbox" id="initiatives_printator_mk1" value="initiative" checked />
 	                        <div class="pro-switch pro-round"></div>
 	                        

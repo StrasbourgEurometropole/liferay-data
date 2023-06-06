@@ -38,9 +38,7 @@
         top: 0;
         transform: translateX(0);
         transform: translate3d(0, 0, 0);
-    }
-
-    &:not(.overlay-absolute) {
+        
         .overlay-load & {
             display: block;
         }
