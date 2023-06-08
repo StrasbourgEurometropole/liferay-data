@@ -1,0 +1,120 @@
+/* Police de caractères sur tous les éléments tarteaucitron */
+div#tarteaucitronRoot, .tac_activate {
+
+    /* Suppression icônes coche et croix sur boutons */
+    .tarteaucitronCheck,
+    .tarteaucitronCross {
+        display:none;
+    }
+
+    /* Conteneur Bandeau cookies */
+    #tarteaucitronAlertBig {
+        padding: 20px;
+        width: 100%;
+    }
+    
+    #tarteaucitronDisclaimerAlert {
+        line-height: 1.8;
+        padding: 0px;
+        margin: 0 10px 20px 10px;
+    }
+
+    .tarteaucitronH1 {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .tarteaucitronMainLine .tarteaucitronH2 {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* Commun aux boutons du bandeau, du pop-up de personnalisation et aux services bloqués */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllAllowed.tarteaucitronIsSelected,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllDenied.tarteaucitronIsSelected,
+div.tac_activate .tarteaucitronAllow{
+    padding: 15px 20px;
+    margin: 10px 10px 25px 10px;
+    text-transform: uppercase;
+}
+
+/* bandeau */
+#tarteaucitronRoot #tarteaucitronAlertBig {
+    
+    /* Bouton personnaliser */
+    #tarteaucitronCloseAlert {
+        background-color: transparent;
+        text-decoration-line: underline;
+        text-transform: none;
+        padding: 0px;
+    }
+}
+
+/* Masquage URL confidentialité du bandeau */
+button#tarteaucitronPrivacyUrl {
+    display: none;
+}
+
+/* Panneau de personnalisation des cookies */
+div#tarteaucitron {
+
+    #tarteaucitronServices .tarteaucitronMainLine,
+    #tarteaucitronServices .tarteaucitronMainLine:hover,
+    #tarteaucitronInfo,
+    #tarteaucitronClosePanel {
+        border: none;
+    }
+
+    .tarteaucitronBorder {
+        border: none;
+    }
+
+    #tarteaucitronInfo {
+        z-index: 2147483646;
+    }
+    
+    #tarteaucitronPrivacyUrlDialog {
+        background: transparent;
+        text-decoration-line: underline;
+    }
+
+    #tarteaucitronServices .tarteaucitronH3 {
+        font-weight: 400!important;
+        margin-top: 0;
+    }
+    
+    #tarteaucitronServices {
+        .tarteaucitronLine .tarteaucitronAsk {
+            margin-left: 12px;
+            margin-right: 12px;
+        }
+        
+        .tarteaucitronLine {
+            border-left: 0px;
+        }
+        
+        .tarteaucitronHidden {
+            background: transparent;
+        }
+    }
+}
+#tarteaucitronClosePanel {
+    transform: translate(-18px,21px);
+    z-index: 2147483647;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+/* Gestion affichage services bloqués */
+div.tac_activate {
+    font-size: 15px;
+    padding-top: 25px;
+}

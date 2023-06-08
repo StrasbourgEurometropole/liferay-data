@@ -1,0 +1,122 @@
+.ops-bloc-distribution{
+	position: relative;
+	overflow: hidden;
+	padding: 0 0 20px 0;
+	@include mobile{
+		padding: 0 0 30px 0;
+	}
+
+	.slick-carousel{
+		margin: 0 -20px;
+		.slick-list{
+			overflow: visible;
+			.slick-slide{
+				opacity: 0.4;
+				@include addTransition();
+				&.slick-active{
+					opacity: 1;
+				}
+				&:focus{
+					outline: none;
+				}
+			}
+		}
+		.ops-item{
+			width: 33.33%;
+			vertical-align: top;
+			margin: 20px 0;
+			@include tablet_portrait{
+				width: 50%;
+			}
+			@include mobile{
+				width: 100%;
+				margin: 10px 0;
+			}
+			figure{
+				&:before{
+					content: none;
+				}
+			}
+		}
+
+
+		.slick-prev, .slick-next{
+			width: 54px;
+			height: 54px;
+			top: 50%;
+			margin-top: -27px;
+			background: $c_dark;
+			border-radius: 50%;
+			@include addTransition();
+			@include mobile{
+				width: 40px;
+				height: 40px;
+				margin-top: -20px;
+			}
+			&:hover, &:focus{
+				#ops-wrapper:not(.no-hover) & {
+					background: $c_main;
+				}
+			}
+			&:before{
+				color: $c_white;
+				font-size: 24px;
+				position: relative;
+				@include addTransition();
+				@include mobile{
+					font-size: 18px;
+				}
+			}
+		}
+
+		.slick-prev{
+			left: -75px;
+			@media screen and (max-width: 1440px){
+				left: 0;
+			}
+			@include mobile{
+				display: none !important;
+			}
+
+			&.slick-disabled{
+				background: none;
+				@include mobile{
+					display: none !important;
+				}
+				&:hover, &:focus{
+					#ops-wrapper:not(.no-hover) & {
+						background: $c_dark;
+						&:before{
+							color: $c_white;
+						}
+					}
+				}
+				&:before{
+					color: $c_dark;
+				}
+			}
+			&:before{
+				left: -1px;
+			}
+		}
+		.slick-next{
+			right: -75px;
+			@media screen and (max-width: 1440px){
+				right: 0;
+			}
+			@include mobile{
+				right: 20px;
+			}
+			&:before{
+				left: 1px;
+			}
+
+			&.slick-disabled {
+				@include mobile {
+					display: none !important;
+				}
+			}
+		}
+
+	}
+}

@@ -1,0 +1,4 @@
+Bundle-Name: objtp-web
+Bundle-SymbolicName: eu.strasbourg.portlet.objtp
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.objtp.constants

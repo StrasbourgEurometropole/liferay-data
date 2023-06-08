@@ -1,0 +1,17 @@
+Bundle-Name: social-service
+Bundle-SymbolicName: eu.strasbourg.service.social
+Bundle-Version: 1.31.0
+Bundle-ClassPath: \
+  .,\
+ lib/twitter4j.jar
+ 
+-includeresource: \
+ lib/twitter4j.jar=org.apache.servicemix.bundles.twitter4j-4.0.7_1.jar
+
+Export-Package: \
+    eu.strasbourg.service.social,\
+    eu.strasbourg.service.social.instagram,\
+    eu.strasbourg.service.social.twitter
+
+Import-Package: !android.os,\
+    !com.google.appengine.api.urlfetch,*

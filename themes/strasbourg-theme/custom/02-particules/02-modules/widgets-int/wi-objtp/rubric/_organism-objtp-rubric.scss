@@ -1,0 +1,16 @@
+%organism-objtp-rubric{
+    margin-bottom: 40px;
+.objtp-grid-item{
+        @include RWD(desktop){            
+            width: calc(33% - 10px);
+        }
+        @include RWD(tablet_only){
+            width: calc(50% - 10px);
+        }
+        @include RWD(mobile){
+            width: 100%;
+        }
+        @extend %atom-objtp-vignette;
+        margin-bottom: 20px;
+    }
+}

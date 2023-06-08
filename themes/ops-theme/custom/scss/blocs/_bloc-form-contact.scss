@@ -1,0 +1,115 @@
+.ops-bloc-form-contact{
+	position: relative;
+	background: $c_dark;
+	margin-top: 40px;
+
+	.ops-bloc-form{
+		h2{
+			font-size: 73px;
+			line-height: 73px;
+			color: $c_white;
+			text-align: center;
+			@include tablet_landscape{
+				font-size: 60px;
+				line-height: 60px;
+			}
+			@include tablet_portrait{
+				font-size: 50px;
+				line-height: 50px;
+			}
+			@include mobile{
+				font-size: 40px;
+				line-height: 45px;
+			}
+			&:after{
+				content: none;
+			}
+		}
+		p{
+			color: $c_white;
+		}
+
+
+		form{
+			margin-bottom: 10px;
+
+			.ops-section-form{
+				input, select, textarea{
+					border-color: $c_main;
+					color: $c_white;
+					&:hover, &:focus{
+						#ops-wrapper:not(.no-hover) & {
+							border-color: $c_white;
+						}
+					}
+				}
+
+				.ops-textarea{
+					margin: 10px 0;
+				}
+
+				.selectric-wrapper{
+					.selectric{
+						.label{
+							border-color: $c_main;
+							color: $c_white;
+							&:hover{
+								#ops-wrapper:not(.no-hover) & {
+									border-color: $c_white;
+								}
+							}
+							&:after{
+								color: $c_white;
+							}
+						}
+					}
+					.selectric-items{
+						background: $c_dark;
+						border-color: $c_main;
+						ul{
+							li{
+								color: $c_white;
+								&:hover{
+									#ops-wrapper:not(.no-hover) & {
+										background: none;
+										color: $c_main;
+									}
+								}
+								&.selected, &.highlighted{
+									background: none;
+									color: $c_main;
+								}
+							}
+						}
+					}
+				}
+
+				label{
+					color: $c_main;
+					background: $c_dark;
+				}
+
+				.ops-checkbox{
+					label{
+						color: #868686;
+						@include addTransition();
+						&:hover{
+							#ops-wrapper:not(.no-hover) & {
+								color: $c_white;
+							}
+						}
+					}
+				}
+			}
+
+
+			.ops-submit{
+				margin-top: 25px;
+				input{
+					color: $c_white;
+				}
+			}
+
+		}
+	}
+}

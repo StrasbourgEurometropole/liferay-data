@@ -1,0 +1,48 @@
+#main-content .form-assembly-portlet .wFormContainer {
+	background: none;
+}
+
+.form-assembly-portlet form * {
+	color: #2d2d2d;
+	font-family: Lato, Helvetica, sans-serif !important;
+}
+
+#main-content .form-assembly-portlet .wFormTitle {
+	font-size: 26px;
+	line-height: 1em;
+	font-family: 'Open Sans', sans-serif;
+	background: url(../../img/bg/title_underline.png) bottom left no-repeat;
+	margin: 0;
+	padding-bottom: 20px !important;
+	padding-left: 0;
+	width: 100%;
+	color: #3a3a3a;
+	font-weight: bold;
+}
+
+.wForm .field-hint {
+	background-color: transparent !important;
+}
+
+.wForm input[type="submit"] {
+	width: auto !important;
+	height: auto !important;
+}
+.form-assembly-portlet form input[type='text'], 
+.form-assembly-portlet form input[type='password'],
+.form-assembly-portlet form input[type='file'], 
+.form-assembly-portlet form textarea,
+ .form-assembly-portlet form select {
+	border-color: #dfdfd5 !important;
+}
+input:focus,textarea:focus {
+	background: white !important;
+}
+input[type="file"] {
+	padding: 2px !important;
+	background: none;
+}
+/* Couleur titres sections */
+.form-assembly-portlet fieldset legend {
+	 color: #ad3939; 
+}

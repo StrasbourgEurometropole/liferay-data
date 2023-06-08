@@ -1,0 +1,11 @@
+$(document).ready(function(){
+    if($('.view-activity button[data-tab]').length){
+        $('.view-activity button[data-tab]').on('click', function(){
+            var target = $(this).attr('data-tab');
+            $(this).closest('.grid-item').find('button').not('[data-tab="'+target+'"]').removeClass('opened');
+            $(this).toggleClass('opened');
+            $(this).closest('.grid-item').find('.item-bottom').not('[data-tab="'+target+'"]').slideUp();
+            $(this).closest('.grid-item').find('.item-bottom[data-tab="'+target+'"]').slideToggle();
+        });
+    }
+}); 

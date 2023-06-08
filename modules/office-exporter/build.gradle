@@ -1,0 +1,37 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+
+	compileInclude group: 'com.github.virtuald', name: 'curvesapi', version: '1.04'
+
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
+	compileInclude group: 'commons-codec', name: 'commons-codec', version: '1.10'
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
+	compileOnly group: 'commons-net', name: 'commons-net', version: '3.5'
+
+	compileOnly group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+	compileOnly group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+
+	compileInclude group: 'org.apache.poi', name: 'poi', version: '3.17'
+	compileInclude group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+	compileInclude group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.17'
+
+	compileInclude group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '3.1.0'
+	compileInclude group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compileInclude group: 'com.jcraft', name: 'jsch', version: '0.1.54'
+
+	compile project (':modules:place:place-api')
+	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:oidc:oidc-api')
+	compile project (':modules:comment:comment-api')
+	compile project (':modules:project:project-api')
+	compile project (':modules:council:council-api')
+	compile project (':modules:ejob:ejob-api')
+}

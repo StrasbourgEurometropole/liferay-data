@@ -1,0 +1,23 @@
+{
+  "ecmaVersion": 5,
+  "plugins": {
+    "guess-types": {
+      
+    },
+    "outline": {
+      
+    },
+    "jscs": {
+      
+    },
+    "yui3": {
+      
+    },
+    "aui1.5.x": {
+      
+    }
+  },
+  "libs": [
+    "browser"
+  ]
+}

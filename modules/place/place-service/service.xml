@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.place">
+	<author>Angelique Zunino Champougny</author>
+	<namespace>place</namespace>
+
+	<entity local-service="true" cache-enabled="true" name="Place"
+		remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+		<column name="placeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Informations générales non modifiables -->
+		<column name="SIGid" type="String" />
+		<column name="name" type="String" />
+		<column name="addressComplement" type="String" />
+		<column name="addressStreet" type="String" />
+		<column name="addressDistribution" type="String" />
+		<column name="addressZipCode" type="String" />
+		<column name="addressCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
+		<column name="RGF93X" type="String" />
+		<column name="RGF93Y" type="String" />
+		<column name="locationId" type="String" />
+		
+		<!-- Informations générales modifiables -->
+		<column name="alias" type="String" localized="true" />
+		<column name="presentation" type="String" localized="true" />
+		<column name="serviceAndActivities" type="String" localized="true" />
+		<column name="characteristics" type="String" localized="true" />
+		<column name="subjectToPublicHoliday" type="boolean" />
+		<column name="exceptionalSchedule" type="String" localized="true" />
+		<column name="displayEvents" type="boolean" />
+		<column name="additionalInformation" type="String" localized="true" />
+		<column name="contenuTooltipCarto" type="String" localized="true" />
+		<column name="hasURLSchedule" type="boolean" />
+		<column name="scheduleLinkName" type="String" localized="true" />
+		<column name="scheduleLinkURL" type="String" localized="true" />
+
+		<!-- Contact -->
+		<column name="phone" type="String" />
+		<column name="mail" type="String" />
+		<column name="siteURL" type="String" localized="true" />
+		<column name="siteLabel" type="String" localized="true" />
+		<column name="facebookURL" type="String" localized="true" />
+		<column name="facebookLabel" type="String" localized="true" />
+		<column name="instagramURL" type="String" localized="true" />
+		<column name="instagramLabel" type="String" localized="true" />
+
+		<!-- Accès -->
+		<column name="accesMap" type="String" localized="true" />
+		<column name="access" type="String" localized="true" />
+		<column name="accessForDisabled" type="String" localized="true" />
+		<column name="accessForBlind" type="Boolean" />
+		<column name="accessForDeaf" type="Boolean" />
+		<column name="accessForWheelchair" type="Boolean" />
+		<column name="accessForElder" type="Boolean" />
+		<column name="accessForDeficient" type="Boolean" />
+
+		<!-- Temps réel -->
+		<column name="RTEnabled" type="Boolean" />
+		<column name="RTType" type="String" />
+		<column name="RTExternalId" type="String" />
+		<column name="RTAvailable" type="long" />>
+		<column name="RTOccupation" type="long" />
+		<column name="RTCapacity" type="long" />
+		<column name="RTStatus" type="String" />
+		<column name="RTLastUpdate" type="Date" />
+		
+		
+		<!-- Links with other entities -->
+		<column name="imageId" type="long" />
+		<column name="imageWidth" type="Integer" />
+		<column name="imageHeight" type="Integer" />
+		<column name="imageIds" type="String" />
+		<column name="videosIds" type="String" />
+		<column name="priceId" type="long" />
+		<column name="documentsIds" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PriceId" return-type="Collection">
+			<finder-column name="priceId" />
+		</finder>
+		<finder name="SIGId" return-type="Place">
+			<finder-column name="SIGid" />
+		</finder>
+		<finder name="name" return-type="Collection">
+			<finder-column name="name" comparator="LIKE" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" name="Price"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="priceId" primary="true" type="long" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Informations générales -->
+		<column name="title" type="String" localized="true" />
+		<column name="priceDescription" type="String" localized="true" />
+		
+	</entity>
+
+	<entity local-service="true" name="SubPlace"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="subPlaceId" primary="true" type="long" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" localized="true" />
+		<column name="description" type="String" localized="true" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="ScheduleException"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="exceptionId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		
+		<!-- Pour chaque exception il peut y avoir un ou plusieurs horaires -->
+		<column name="openingTimes" type="String" />
+		<!-- Pour chaque horaire il peut y avoir un commentaire -->
+		<column name="firstComment" type="String" localized="true" />
+		<column name="secondComment" type="String" localized="true" />
+		<column name="thirdComment" type="String" localized="true" />
+		<column name="fourthComment" type="String" localized="true" />
+		<column name="fifthComment" type="String" localized="true" />
+		
+		<column name="comment" type="String" localized="true" />
+		<column name="closed" type="boolean" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+		<column name="subPlaceId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="Period"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="periodId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" localized="true" />
+		<column name="defaultPeriod" type="Boolean" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="alwaysOpen" type="Boolean" />
+
+		<!-- Temps réel -->
+		<column name="RTGreenThreshold" type="long" />
+		<column name="RTOrangeThreshold" type="long" />
+		<column name="RTRedThreshold" type="long" />
+		<column name="RTMaxThreshold" type="long" />
+		
+		<!-- Links with other entities -->
+		<column name="placeId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PlaceId" return-type="Collection">
+			<finder-column name="placeId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="Slot"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="slotId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="dayOfWeek" type="long" />
+		<column name="startHour" type="String" />
+		<column name="endHour" type="String" />
+		<column name="comment" type="String" localized="true" />
+		
+		<!-- Links with other entities -->
+		<column name="periodId" type="long" />
+		<column name="subPlaceId" type="long" />
+        
+		<!-- Finder methods -->
+		<finder name="PeriodId" return-type="Collection">
+			<finder-column name="periodId" />
+		</finder>
+		<finder name="SubPlaceId" return-type="Collection">
+			<finder-column name="subPlaceId" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" name="PublicHoliday"
+		cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="publicHolidayId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" localized="true" />
+		<column name="date" type="Date" />
+		<column name="recurrent" type="boolean" />
+		
+		<!-- Finder methods -->
+		<finder name="Recurrent" return-type="Collection">
+			<finder-column name="recurrent" />
+		</finder>
+		
+	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="GoogleMyBusinessHistoric" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="googleMyBusinessHistoricId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		<!-- Other fields -->
+		<column name="result" type="int" />
+		<column name="operations" type="String" />
+		<column name="errorDescription" type="String" />
+		<column name="errorStackTrace" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="finishDate" type="Date" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="googleMyBusinessHistoricId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" name="Historic"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="sigId" primary="true" type="String" />
+
+		<!-- Informations générales -->
+		<column name="name" type="String" />
+		<column name="suppressionDate" type="Date" />
+
+		<finder name="SuppressionDate" return-type="Collection">
+			<finder-column comparator="&gt;=" name="suppressionDate" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CsmapCacheJson"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="sigId" primary="true" type="String" />
+
+		<!-- Informations générales -->
+		<column name="jsonLieu" type="String" />
+		<column name="jsonHoraire" type="String" />
+		<column name="createPlace" type="Date" />
+		<column name="modifiedPlace" type="Date" />
+		<column name="isActive" type="boolean" />
+
+		<finder name="sigId" return-type="Collection">
+			<finder-column name="sigId" />
+		</finder>
+
+		<finder name="CreatedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createPlace" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;" name="createPlace" />
+			<finder-column comparator="&gt;=" name="modifiedPlace" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="ModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="modifiedPlace" />
+			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
+</service-builder>

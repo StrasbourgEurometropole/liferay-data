@@ -1,0 +1,14 @@
+@media 
+(-webkit-min-device-pixel-ratio: 2), 
+(min-resolution: 192dpi) { 
+
+	.footer .closure a {
+	    background: transparent url(../../img/logo_strasbourg@2x.png) center center no-repeat;
+	    background-size: 126px 24px;
+	}
+
+	.footer .footer-top .social-network ul li a {
+		background: transparent url(../../img/btn/social-network@2x.png) top left no-repeat;
+		background-size: 95px 24px;
+	}
+}

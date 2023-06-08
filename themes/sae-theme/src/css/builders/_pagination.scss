@@ -1,0 +1,32 @@
+%pagination{
+	width: 100%;
+	text-align: center;
+	@include flex(display, flex);
+
+	.pagin-item{
+		display: inline-block;
+		color: inherit;
+
+		a{
+			text-decoration: none;
+		}
+	}
+	.pagin-item.is-active{
+		text-decoration: underline;
+	}
+	.pagin-item:not(.pagin-next):not(.pagin-prev){
+		margin-right: 15px;
+	}
+	.pagin-next{
+		margin-left: auto;
+	}
+	.pagin-prev{
+		margin-right: auto;
+	}
+	.pagin-prev{}
+	@include RWD(mobile){
+		.pagin-item:not(.pagin-next):not(.pagin-prev){
+			display: none;
+		}
+	}
+}

@@ -1,0 +1,10 @@
+var maDiv = document.createElement('div');
+maDiv.style.position = 'fixed';
+maDiv.style.top = 0;
+maDiv.style.bottom = 0;
+maDiv.style.left = 0;
+maDiv.style.right = 0;
+document.body.appendChild(maDiv);
+var boundind = maDiv.getBoundingClientRect();
+document.body.removeChild(maDiv);
+$('.mns-vheight').attr('style','height:'+boundind.height+'px!important;');

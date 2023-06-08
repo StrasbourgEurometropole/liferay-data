@@ -1,0 +1,11 @@
+%text-basis-rte{    
+    font-family: $main-font;
+    font-size: 1.8rem;
+    line-height: 1.66666666;
+    color: $text-basis-color;
+    font-weight: 400;
+
+    @include RWD(mobile){
+        font-size: 1.4rem;
+    }
+}

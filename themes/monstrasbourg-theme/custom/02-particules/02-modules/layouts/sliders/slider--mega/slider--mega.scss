@@ -1,0 +1,24 @@
+.slider--mega{
+    // Filtres
+    .filters{
+        @extend %molecule-slider-filters--mega;
+    }
+
+    // Slider
+    .slider-mega-container{
+        @extend %organism-slider--mega;
+    }
+
+    // Templates
+    #mega-templates{
+        display: none;
+    }
+    .btn-line{
+        text-align: center;
+        a{
+            padding: 10px 20px;
+            background-color: $core-color;
+            color: white; 
+        }
+    }
+}

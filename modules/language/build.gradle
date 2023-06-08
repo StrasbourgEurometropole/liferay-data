@@ -1,0 +1,7 @@
+dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+	
+	compileInclude group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+}

@@ -1,0 +1,103 @@
+%organism-wi-infos{
+    margin-top: 40px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: $third-color;
+    @extend %wi-centered-text;
+    // Couleurs Titre
+    .seu-section-title{
+        .seu-title{
+            color: $core-color;
+        }
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, #ffffff) ); 
+        }
+    }
+    // Contenu
+    .seu-wi-content{
+        margin-bottom: 40px;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+    }
+    .seu-wi-content{
+        display: flex;
+        text-align: left;
+        margin-bottom: 0;
+        @include RWD(mobile){
+            display: block;
+        }
+        .seu-left{
+            padding-right: 20px;
+        }
+        .seu-right{
+            padding-left: 20px;
+        }
+        .seu-left, .seu-right{
+            width: 50%;
+            @include RWD(mobile){
+                width: 100%;
+                padding: 0;
+            }
+        }
+        .seu-wi-text{
+            margin-bottom: 20px;
+        }
+        .seu-wi-title{
+            color: $core-color;
+        }
+        p{
+            color: $core-color;
+        }
+        .seu-pictos{
+            display: flex;
+            align-items: center;
+        }
+        .seu-picto{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-size: 30px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .seu-picto + .seu-picto{
+            margin-left: 10px;
+        }
+        .seu-picto-wheelchair{
+            background-image: url( svg-bg-uri($svg-wheelchair, $core-color) );
+        }
+        .seu-picto-blind{
+            background-image: url( svg-bg-uri($svg-blind, $core-color) );
+        }
+        .seu-picto-deaf{
+            background-image: url( svg-bg-uri($svg-deaf, $core-color) );
+            background-size: 39px;
+        }
+        .seu-picto-deficient{
+            background-image: url( svg-bg-uri($svg-tabou, $core-color) );
+            background-size: 29px;
+        }
+        .seu-picto-elder{
+            background-image: url( svg-bg-uri($svg-pmr, $core-color) );
+        }
+        .rte{
+            & > * {
+                color: $core-color;
+            }
+            & > *:last-child{
+                margin-bottom: 0;
+            }
+            a{
+                &:hover, &:focus{
+                    color: #505050;
+                }
+            }
+            .registration-date{
+                font-size:1.8rem;
+            }
+        }
+    }
+}

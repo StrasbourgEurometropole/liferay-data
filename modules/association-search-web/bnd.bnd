@@ -1,0 +1,5 @@
+Bundle-Name: association-search-web
+Bundle-SymbolicName: eu.strasbourg.portlet.association
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.association.constants
+Web-ContextPath: /associationsearchweb

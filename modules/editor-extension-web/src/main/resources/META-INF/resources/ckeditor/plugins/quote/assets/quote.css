@@ -1,0 +1,18 @@
+.seu-wi-quote {
+    background-color: #fbb52d;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    text-align: center;
+}
+.seu-wi-quote .seu-section-title .seu-title {
+    color: #31455d;
+    font-weight: 500;
+    font-size: 24px;
+}
+.seu-wi-quote .seu-section-title .seu-subtitle {
+    display: block;
+    color: #31455d;
+    font-style: italic;
+    font-size: 16px;
+    margin-top: 20px;
+}

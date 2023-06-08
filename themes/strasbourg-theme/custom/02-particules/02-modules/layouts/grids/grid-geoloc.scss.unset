@@ -1,0 +1,29 @@
+.seu-not-front .view-maps .view-grid{
+    @extend %molecule-grid-basic;  
+    
+    /* Vignettes */
+    .grid-item{
+        margin-bottom: 30px;
+        display: flex;
+
+        a{
+            flex: 1;
+            @extend %atom-vignette;
+
+            &:hover, &:focus{
+                @extend %animation-vignette;
+            }
+        }
+        .view-full-contain{
+            display: none;
+        }
+    }
+
+    // View Full
+    #view-full{
+        display: none;
+        .view-full-contain{
+            @extend %atom-vignette--map-full;
+        }
+    }
+}

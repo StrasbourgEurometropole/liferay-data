@@ -1,0 +1,16 @@
+.mns-slider-instagram{
+	overflow: hidden;
+	.owl-carousel{
+		.owl-stage-outer{
+			padding-bottom: 20px;
+		}
+		.owl-item{
+			.item{
+				iframe{
+					width: 100%;
+				}
+			}
+		}
+	}
+
+}

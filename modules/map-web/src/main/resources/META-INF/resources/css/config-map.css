@@ -1,0 +1,42 @@
+.important{
+    color: red;
+    font-weight: 700;
+}
+
+fieldset a{
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+fieldset .panel-collapse .panel-body > div{
+    margin-top: 25px;
+}
+
+fieldset .panel-collapse .panel-body > div.margin-less{
+    margin-top: 10px;
+}
+
+fieldset .panel-collapse .panel-body > div:first-child{
+    margin-top: 10px;
+}
+
+.margin{
+    margin-top: 25px;
+}
+
+fieldset .panel-collapse .panel-body > div label{
+    font-weight: 500;
+}
+
+.zoom{
+    width: 100px;
+}
+
+.cadrage{
+    display: inline-block;
+}
+
+fieldset .panel-collapse .panel-body > div p{
+    font-size: 0.875rem;
+    font-style: italic;
+}

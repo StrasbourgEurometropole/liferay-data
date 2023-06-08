@@ -1,0 +1,79 @@
+.mseu header{
+    @extend %organism-header;
+}
+.mseu #nav-side{
+    @extend %organism-nav-side;
+
+}
+
+.mseu{
+    &.mobile,
+    &.tablet{
+        #nav-side{
+            #nav-notifications{
+		        margin-bottom: 10px;	
+            }
+            #nav-menu{
+                transform: translateX(0);
+                &.opened{
+                    transform: translateX(-100%);
+                }
+    
+                #trigger-menu{
+                    display: block;
+                }
+                .menu-list{
+                    max-height: 50vh;    
+                    overflow: auto;   
+                    max-width: 240px; 
+                }
+            }
+        }
+    }
+    @include RWD(vsmall){
+        #nav-side{
+            #nav-notifications{
+		        margin-bottom: 10px;	
+            }
+            #nav-menu{
+                transform: translateX(0);
+                &.opened{
+                    transform: translateX(-100%);
+                }
+    
+                #trigger-menu{
+                    display: block;
+                }
+                .menu-list{
+                    max-height: 50vh;    
+                    overflow: auto;   
+                    max-width: 240px;  
+                }
+            }
+
+        }
+    }
+    @include RWD(mobile){
+        #nav-side{
+            #nav-notifications{
+		        margin-bottom: 10px;	
+            }
+            #nav-menu{
+                transform: translateX(0);
+                &.opened{
+                    transform: translateX(-100%);
+                }
+    
+                #trigger-menu{
+                    display: block;
+                }
+                .menu-list{
+                    max-height: 50vh;    
+                    overflow: auto;   
+                    max-width: 240px;  
+                }
+            }
+
+        }
+    }
+}

@@ -1,0 +1,12 @@
+(function ($) {
+    $(document).ready(function(){
+        if($('.toggle-collapse').length){
+            $('.toggle-collapse').on('click', function(){
+                $(this).toggleClass('opened')
+                .parent('.wi--collapsing').toggleClass('opened')
+                .find('.collapsing-box').slideToggle();
+            });
+            $('.wi--collapsing.first-opened .toggle-collapse').click();
+        }
+    });
+ }(jQuery));

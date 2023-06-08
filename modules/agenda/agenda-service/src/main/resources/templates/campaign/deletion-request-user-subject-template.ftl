@@ -1,0 +1,1 @@
+ ${campaignTitle} - Votre demande de suppression d’un événement

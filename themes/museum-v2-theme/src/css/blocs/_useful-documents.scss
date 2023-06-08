@@ -1,0 +1,40 @@
+#global .useful-documents{
+    background: $color_third;
+    padding: 40px 50px;
+    margin-bottom: 20px;
+
+    .title{
+        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
+        margin-bottom: 25px;
+        display: block;
+    }
+
+    ul{
+        padding: 0;
+
+        li{
+            list-style: none;
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 15px;
+
+            a{
+                @include ft($proximaNova, 0.9375rem, 700, $color_txt, 1.3125rem, "");
+                text-decoration: none;
+
+                &:after{
+                    content: '';
+                    width: 12px;
+                    height: 13px;
+                    background-image: url( svg-bg-uri($svg-download, $color_main) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                    flex-shrink: 0;
+                    @include positionAbsolute("", "", (top: 5px, right: 0));
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+#global #bref{
+    padding: 0 5px 20px;
+
+    @include RWD(tablet_portrait){
+        padding: 0;
+    }
+
+    .content{
+
+        @include RWD(tablet_portrait){
+            display: flex;
+        }
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 25px;
+
+            @include RWD(tablet_portrait){
+                margin: auto;
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+            }
+        }
+
+        .slider{
+            position: relative;
+            width: 100%;
+
+            @include RWD(tablet_portrait){
+                width: calc(75% - 110px);
+                margin-right: 110px;
+            }
+
+            .swiper{
+                position: static;
+
+                .swiper-slide{
+                    height: auto;
+
+                    &:first-child{
+                        .paginate {                     
+                            .first{
+                                background: $color_main;
+                            }
+    
+                            .second{
+                                background: white;
+                            }
+                        }
+                    }
+    
+                    &:last-child{
+                        .paginate {                     
+                            .first{
+                                background: white;
+                            }
+    
+                            .second{
+                                background: $color_main;
+                            }
+                        }
+                    }
+                }
+
+                .swiper-pagination{
+                    bottom: -30px;
+
+                    @include RWD(tablet_portrait){
+                        display: none;
+                    }
+
+                    .swiper-pagination-bullet{
+                        border-radius: 0;
+                        width: 12px;
+                        height: 12px;
+                        background: $color_third;
+                        opacity: 1;
+            
+                        &.swiper-pagination-bullet-active{
+                            background: $color_main;
+                        }
+                    }
+                }
+                
+                .swiper-button-next, .swiper-button-prev {             
+                    @include RWD(tablet_portrait){
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

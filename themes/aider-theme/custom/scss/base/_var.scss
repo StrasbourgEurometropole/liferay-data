@@ -1,0 +1,98 @@
+/* ------------------
+--- VARIABLES ---
+------------------ */
+
+//Roboto Regular
+@font-face {
+    font-family: 'robotoregular';
+    src: url('../fonts/roboto/roboto-regular-webfont.woff2') format('woff2'),
+        url('../fonts/roboto/roboto-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+//ProximaNova Light
+@font-face {
+    font-family: 'proximanovalight';
+    src: url('../fonts/proximanova/proximanova-light-webfont.woff2') format('woff2'),
+        url('../fonts/proximanova/proximanova-light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+//Lato Semibold
+@font-face {
+    font-family: 'latosemibold';
+    src: url('../fonts/lato/lato-semibold-webfont.woff2') format('woff2'),
+        url('../fonts/lato/lato-semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+//Roadway Regular
+@font-face {
+    font-family: 'roadwayregular';
+    src: url('../fonts/roadway/roadway-regular-webfont.woff2') format('woff2'),
+        url('../fonts/roadway/roadway-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../fonts/fontawesome-webfont.woff2') format('woff2'),
+    url('../fonts/fontawesome-webfont.woff') format('woff')
+      format('svg');
+}
+
+
+// Fonts
+// ==========================================================================
+$f_txt: 'robotoregular', Arial, sans-serif;
+$f_hx: 'proximanovalight', Arial, sans-serif;
+$f_spe: 'latosemibold', Arial, sans-serif;
+
+// Colors
+// ==========================================================================
+$c_main: #00aeef;
+$c_sub: #32455c;
+$c_lightgrey: #7E7E7E;
+$c_grey: #3a3a3a;
+$c_darkgrey: #343433;
+$c_txt: #000;
+$c_dark: #000000;
+$c_white: #FFFFFF;
+$c_filet: #cacaca;
+$c_grey50 : #505050;
+
+
+// Sizes
+// ==========================================================================
+$s_h1: 36px;																			
+$s_h2: 3em;
+$s_h3: 1.500em;
+$s_h4: 18px;																			
+$s_p: 0.938em;
+$s_link: 1.125em;
+$s_small: 0.813em;
+
+
+// Width / Height / Spacing
+// ==========================================================================
+$header-height: 122px;
+
+
+// Breakpoints
+// ==========================================================================
+$breakpoint_paysage: 1024px; // taille ipad
+$breakpoint_portrait: 992px;
+$breakpoint_mo: 767px;
+$breakpoint_mo_small: 360px;
+
+// Cookies
+// ==========================================================================
+// Fonts
+$f_c_text: $f_hx;
+$f_c_btn: $f_hx;

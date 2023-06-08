@@ -1,0 +1,137 @@
+%molecule-slider--mega{
+    position: relative;
+    // left: 50%;
+    // transform: translateX(-50%);
+    width: 100%;
+        .slider-overflow{
+            overflow: hidden;
+            padding: 10px;
+            margin: -10px;
+        }
+        .slider{
+            width: 900px;
+            margin: 0 auto;
+            @include RWD(tablet){ 
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .owl-stage-outer{
+                overflow: visible !important;
+            }
+
+            // Taille et couleur des slides
+            .owl-item{
+                transition: opacity 1s 0.3s;
+                &.active{
+                    .item{
+                        opacity: 1;
+                    }
+                }
+                .page{
+                    width: 100%;
+                    &.big{
+                        @include RWD(desktop){
+                            @include grid-distribution(4, 20, 'item');
+                        }
+                    }     
+                    &:not(.big){
+                        @include RWD(desktop){
+                            @include grid-distribution(3, 20, 'item');
+                        }
+                    }                  
+                    @include RWD(tablet){
+                        @include grid-distribution(2, 20, 'item');
+                    }
+                    @include RWD(mobile){
+                        @include grid-distribution(1, 0, 'item');
+                    }
+                    // Pas de gestion des big ici
+                    // &.big{
+                    //     @include RWD(desktop){
+                    //         display: flex;
+                    //         flex-wrap: wrap;
+                    //         justify-content: space-between;
+                    //         .item{
+                    //             &.big{
+                    //                 width: calc(50% - ( (60px) / 6));
+                    //             }
+                    //             width: calc(25% - ( (60px) / 4));
+                    //         }                            
+                    //     }         
+                    //     @include RWD(tablet){
+                    //         @include grid-distribution(2, 20, 'item');
+                    //     }
+                    //     @include RWD(mobile){
+                    //         @include grid-distribution(1, 0, 'item');
+                    //     }
+                    // }
+                }
+            }
+
+            // Animate Out
+            @for $i from 1 through 8{
+                $delay: $i * 0.05;
+                .owl-item.active{
+                    .item:nth-child(#{$i}){
+                        transition: transform 0.3s #{$delay}s , opacity 0.3s #{$delay}s;
+                    }
+                }
+            } 
+            &.animate-out{
+                .owl-item{
+                    &:not(.active){
+                        opacity: 0;
+                        transition: opacity 0.3s;
+                    }
+                    &.active{
+                        .item{
+                            transform: translate(0, 40px);
+                            opacity: 0;
+                        }
+                    }
+                }
+                @for $i from 1 through 8{
+                    $delay: (8 - $i) * 0.05;
+                    .owl-item.active{
+                        .item:nth-child(#{$i}){
+                            transition: transform 0.3s #{$delay}s , opacity 0.3s #{$delay}s;
+                        }
+                    }
+                } 
+            }
+        }
+
+        // NEXT/PREV ARROWS
+        .owl-nav{
+            z-index: 10;
+
+            @include RWD(mobile){
+                // display: none;
+            }
+
+            .owl-prev{
+                @extend %atom-slider-arrow--mega; // Flèches
+                transform: rotate(180deg);
+                left: -20px;
+                width: 15%;
+                outline: none;
+                @include RWD(tablet){
+                    width: 80px;
+                }
+            }
+            .owl-next{ 
+                @extend %atom-slider-arrow--mega; // Flèches
+                right: -20px;
+                width: 15%;
+                outline: none;
+                @include RWD(tablet){
+                    width: 80px;
+                }
+            } 
+
+            &.disabled{
+                display: none;
+            }
+        }
+}

@@ -1,0 +1,252 @@
+// =============================================
+// Share button
+// =============================================
+@font-face {
+	font-family: 'icomoon';
+	src:  url('../fonts/icomoon.woff2?xfoi9s') format('woff2'),
+	url('../fonts/icomoon.woff?xfoi9s') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+// Share Button Wrapper
+.social-share {
+	position: fixed;
+	right: 30px;
+	bottom: 30px;
+	z-index: 140;
+	opacity: 0;
+	@include addTransition();
+
+	@include RWD(mobile){
+		right: 20px;
+		bottom: 20px;
+	}
+
+	.sub-menu-open & {
+		opacity: 0 !important;
+	}
+
+	&.fadein {
+		opacity: 1;
+	}
+}
+
+// Toggle Button
+.toggle {
+	position: relative;
+	height: 50px;
+	display: block;
+	z-index: 130;
+	background: $second-color;
+	border-radius: 50%;
+	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
+	@include addTransition();
+
+	// Share Icon
+	&:after {
+		content: "\e912";
+		font-family: 'icomoon' !important;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 24px;
+		padding: 0;
+		text-align: center;
+		position: relative;
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+		left: -1px;
+		color: $core-color;
+		@include addTransition();
+	}
+
+	&:hover, &:focus {
+		cursor: pointer;
+		background: $core-color;
+		&:after {
+			color: white;
+		}
+	}
+
+	// Hidden input to toggle state
+	&-input {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		opacity: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		&:focus {
+			color: red;
+			& + label {
+				cursor: pointer;
+				color: $core-color;
+				&:after {
+					color: white;
+				}
+			}
+		}
+	}
+
+	span {
+		display: none;
+	}
+
+}
+
+// =============================================
+// Network List
+// =============================================
+
+.network-list {
+	// List Item
+	position: absolute;
+	bottom: 30px;
+	margin-bottom: 15px;
+	
+	li {
+		position: absolute;
+		top: 0;
+		left: 4px;
+		display: block;
+		width: 40px;
+		height: 40px;
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		opacity: 0;
+		transition: all 0.25s cubic-bezier(0.43, 1.17, 0.69, 1.24);
+		font-size: 16px;
+	}
+
+	// Link
+	a {
+		position: relative;
+		display: block;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 50%;
+		background: $core-color;
+		overflow: hidden;
+		text-indent: 120%;
+		text-decoration: none;
+		font-size: 0.938em;
+		@include addTransition();
+		&:hover, &:focus {
+			background: $second-color;
+			&:before {
+				color: $core-color !important;
+			}
+		}
+	}
+
+	// Network Icon
+	a:before {
+		font-family: 'icomoon' !important;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		display: inline-block;
+		vertical-align: middle;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		border-radius: 50%;
+		font-size: 0.875em;
+		-webkit-font-smoothing: antialiased;
+		text-align: center;
+		text-indent: 0;
+		@include addTransition();
+		// box-shadow: inset 0 0 0 1px $toggle;
+	}
+
+	// Twitter
+	.twitter {
+		a:before {
+			content: "\e901";
+			color: white;
+		}
+	}
+
+	// Facebook
+	.facebook {
+		a:before {
+			content: "\e904";
+			color: white;
+		}
+	}
+
+	// Linkedin
+	.linkedin {
+		a:before {
+			content: "\e910";
+			color: white;
+		}
+	}
+
+	// Googleplus
+	.googleplus {
+		a:before {
+			content: "\e90f";
+			color: white;
+		}
+	}
+
+	// Mail
+	.mail {
+		a:before {
+			content: "\e911";
+			color: white;
+		}
+	}
+}
+
+// =============================================
+// Open Network List
+
+input:checked ~ .network-list {
+	li {
+		opacity: 1;
+	}
+	li:nth-child(1) {
+		top: -70px;
+	}
+	li:nth-child(2) {
+		top: -120px;
+	}
+	li:nth-child(3) {
+		top: -170px;
+	}
+	li:nth-child(4) {
+		top: -220px;
+	}
+	li:nth-child(5) {
+		top: -270px;
+	}
+	li:nth-child(6) {
+		top: -320px;
+	}
+}

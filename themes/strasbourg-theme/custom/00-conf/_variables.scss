@@ -1,0 +1,76 @@
+// BreakPoints
+$breakpoint_mo_small: 320px;
+$break-small: 767;
+$break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
+$breakpoint_portrait: 980px;
+$container-width: 1200;
+
+//~#COLORS
+	$core-color: #31455d;
+	$core-color-access: $core-color;
+	$core-color-light: lighten($core-color,65);
+	$c_main_dark: #2A3D53;
+	$second-color: #46cfc0;
+	$third-color: #fbb52d;
+	$text-basis-color: #5c5c5c;
+	$c_grey_txt: #505050;
+	$success: $core-color;   
+	$error: #ff1818;
+	$c_white: #FFFFFF;
+	$c_grey: #7E7E7E;
+	$c_dark: #000000;
+
+	$crowded-orange: #ff470f;
+	$crowded-green: #40a040;
+	$crowded-grey: #9E9E9E;
+	$crowded-white: #FFFFFF;
+	$crowded-red: #FF0F0F;
+	$crowded-black: #000000;
+//#COLORS
+
+// Fonts  
+$montserrat: 'MontSerrat', arial;
+$opensans: 'OpenSans', arial;
+$amiko: 'Amiko', arial;
+$site-font: $montserrat;
+$fancy-font: $site-font; 
+$main-font: $opensans; 
+
+/*IMAGES RTE*/
+$image-xs: 240px;
+$image-sm: 400px;
+$image-md: 675px;
+
+// Margin RTE
+$margin-item-rte: 40px;
+$margin-p: 10px;
+
+$margin-h2: 10px;
+$margin-h3: 10px;
+$margin-h4: 20px;
+$margin-h5: 20px;
+
+$margin-h2-mobile: 20px;
+$margin-h3-mobile: 20px;
+$margin-h4-mobile: 15px;
+$margin-h5-mobile: 10px;
+
+// Map engine
+$icon-color: #595959;
+$icon-color-active: $second-color;
+
+
+// Cookies
+// ==========================================================================
+$th-nav-height: 80px;
+// Font
+$f_c_text: $site-font;
+$f_c_btn: $site-font;
+
+// Colors
+$c_c_grey: #F5F5F5;  // fond
+$c_c_main: $second-color; // bouton accepter
+$c_c_dark: $core-color;  // bouton accepter:hover
+$c_c_black: #000000;
+$c_c_white: #FFFFFF;  // bouton refuser
+$c_c_lightgrey: #7E7E7E; // bouton refuser:hover

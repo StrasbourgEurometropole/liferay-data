@@ -1,0 +1,21 @@
+dependencies {
+	compileOnly group: "javax.ws.rs", name: "javax.ws.rs-api"
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "org.osgi", name: "org.osgi.service.jaxrs"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.dynamic.data.mapping.api'
+
+	compileOnly project (":modules:utils")
+	compileOnly project (':modules:agenda:agenda-api')
+	compileOnly project (':modules:gtfs:gtfs-api')
+	compileOnly project (':modules:place:place-api')
+	compileOnly project (':modules:favorite:favorite-api')
+	compileOnly project (':modules:csmap:csmap-api')
+	compileOnly project (':modules:notif:notif-api')
+	compileOnly project (':modules:mediatheque-web')
+	compileOnly project (':modules:resid-web')
+	compileOnly project (':modules:family-space-web')
+	compile project (':modules:open-data')
+}

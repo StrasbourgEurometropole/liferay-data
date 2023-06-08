@@ -1,0 +1,19 @@
+.seu-wi-chiffres {
+    background-color: #46cfc0;
+    padding: 10px;
+    color: #31455d;
+}
+.seu-wi-chiffres-list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+}
+.seu-wi-chiffres .seu-section-title {
+    font-size: 20px;
+}
+.seu-wi-chiffres-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: 5px;
+}

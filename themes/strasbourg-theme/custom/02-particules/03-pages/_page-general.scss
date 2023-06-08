@@ -1,0 +1,75 @@
+.seu{
+    font-size: 10px;
+    font-family: $site-font;
+    line-height: 1.2;
+    overflow-x: hidden;
+    @include RWD(tablet){
+        padding: 0;
+    }
+    @include RWD(mobile){
+        padding: 0;
+    }
+
+    .seu-container{
+        @extend %container;
+    }
+    ::selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-moz-selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-webkit-input-placeholder {
+        opacity: 1 !important;
+    }
+    :-moz-placeholder{ 
+        opacity: 1 !important;
+    } 
+    ::-moz-placeholder { 
+        opacity: 1 !important;
+    }
+    :-ms-input-placeholder {  
+    opacity: 1 !important;
+    }
+    .element-invisible, .hidden{
+        display: none;
+    }
+
+}
+
+.seu-no-scroll,
+.seu-no-scroll .seu-body{
+    height: 100%;
+    overflow: hidden;
+}
+
+.seu-body{
+    overflow-x: hidden;
+    position: relative;
+
+    &.th-no-scroll{
+        overflow: hidden;
+    }
+}
+
+.overlayed{
+
+    &:before{
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background-color: rgba(#212121, 0.8);
+    }
+}
+
+#aroundme__center {
+    z-index: 5;
+    width: 100%;
+    position: relative;
+  }

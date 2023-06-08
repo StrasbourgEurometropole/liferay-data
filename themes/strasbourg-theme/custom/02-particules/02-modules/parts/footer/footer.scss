@@ -1,0 +1,12 @@
+.seu footer{
+    @extend %organism-footer;
+}
+// Spé hp
+.seu-front footer{
+  padding-top: 190px;
+  margin-top: -160px; 
+  @include RWD(mobile){
+      padding-top: 120px;
+      margin-top: -120px;
+  }
+}

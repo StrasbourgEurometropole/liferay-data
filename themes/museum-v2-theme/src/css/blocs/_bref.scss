@@ -1,0 +1,59 @@
+#global .bref-thumbnail{
+    display: flex;
+    flex-direction: column;
+    background: $color_third;
+    padding: 20px 25px 13px;
+    height: 100%;
+
+    @include RWD(tablet_portrait){
+        padding: 20px 30px 36px;
+    }
+
+    .title{
+        @include ft($proximaNova, 0.875rem, 700, $color_txt, 1rem, "");
+        margin-bottom: 10px;
+
+        @include RWD(tablet_portrait){
+            font-size: 1.15rem;
+            line-height: 1.4rem;
+        }
+    }
+
+    .chapo{
+        @include ft($proximaNova, 0.875rem, 400, $color_txt, 1rem, "");
+        margin-bottom: 10px;
+
+        @include RWD(tablet_portrait){
+            font-size: 0.95rem;
+            line-height: 1.25rem;
+        }
+    }
+
+    .date{
+        @include ft($proximaNova, 0.875rem, 400, $color_txt, 1rem, "");
+        margin-bottom: 0;
+        margin-top: auto;
+
+        @include RWD(tablet_portrait){
+            font-size: 1.05rem;
+            line-height: 1.25rem;
+        }
+    }
+
+    .paginate{
+        display: none;
+
+        @include RWD(tablet_portrait){
+            display: block;
+            @include positionAbsolute("", "", (bottom: 18px, right: 32px));
+
+            .first, .second{
+                display: inline-block;
+                border-radius: 0;
+                width: 12px;
+                height: 12px;
+                opacity: 1;
+            }
+        }
+    }
+}

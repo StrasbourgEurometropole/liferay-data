@@ -1,0 +1,43 @@
+%organism-link-banner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: #{$container-width}px;
+    margin: 0 auto 40px;
+
+    @include RWD(tablet){
+        width: calc(100% - 80px);
+        margin-left: 40px;
+    }
+    @include RWD(mobile){
+        width: calc(100% - 40px);
+        margin-left: 20px;
+    }
+
+    .smag-quicklink{
+        margin: 0 5px 10px 5px;
+
+        &.btn-square.filled.second{
+            border-color: white;
+            background-color: white;
+        }
+        @include RWD(mobile){
+            padding: 5px 10px;
+            .btn-text{
+                margin-right: 5px;
+                font-size: 1.2rem;
+            }
+        }
+    }
+    
+    @for $i from 1 through 15{
+        .smag-quicklink{
+            &:nth-child(#{$i}){
+                transition: all, 0.5s;
+                transition-delay: #{ ( ($i - 1) * 0.1 ) + 0.5}s;
+            }
+        }
+    }
+           
+}

@@ -1,0 +1,15 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compileOnly group: 'org.apache.servicemix.bundles', name: 'org.apache.servicemix.bundles.twitter4j', version: '4.0.7_1'
+
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compile project (':modules:utils')
+}

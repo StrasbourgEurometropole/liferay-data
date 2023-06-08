@@ -1,0 +1,44 @@
+.mseu .front{
+    position: relative;
+
+    .portlet{
+        margin-bottom: 0;
+    }
+
+    &.home{
+        background-color: $core-color;
+    }
+    
+    .nested-portlet-layout{
+        background-color: #f6f6f6;
+    }
+
+    .wi-wrapper{
+        display: flex;
+        box-shadow: 0 0 10px rgba(#203146, 0.15);
+        margin-bottom: 40px;
+        & > * {
+            width: 50%;
+        }
+        @include RWD(tablet){
+            display: block;
+        }& > * {
+            width: 100%;
+        }
+    }
+    section{
+        transition: transform 0.5s $t-bam;
+    }
+    section.deleted{
+        transform: translateX(100vw);
+    }
+    
+    &.home #main-content .custom-container{
+        width: 100%;
+
+        @include RWD(tablet){
+            padding: 0;
+        }
+    }
+    
+}

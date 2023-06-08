@@ -1,0 +1,29 @@
+.aroundme--title{
+    @extend %atom-main-title;
+    &:before{ 
+        content: '';
+        display: block;
+        height: 15px;
+        background-size: 50px; 
+        background-position: center;
+        background-repeat: no-repeat; 
+        background-image: url( svg-bg-uri($svg-wave, #dddddd) ); 
+        margin-bottom: 15px;
+
+        @include RWD(mobile){
+            margin-bottom: 10px;
+            background-size: 35px;
+        }
+    }
+
+    color: white;
+    padding: 40px 0px;
+    background-color: #31455d;
+}
+
+#aroundme{
+    margin-bottom: 40px;
+    h2:before{
+        display: none;
+    }
+}

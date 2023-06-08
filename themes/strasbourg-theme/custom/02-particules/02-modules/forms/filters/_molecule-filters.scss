@@ -1,0 +1,163 @@
+%molecule-filters{
+    @extend %molecule-form-components;
+    padding: 40px 50px;
+    background-color: $second-color;
+    @include RWD(tablet){
+        padding: 40px 30px;
+    }
+    @include RWD(mobile){
+        padding: 15px;
+    }
+    
+    //  SELECTS
+    .customSelectContain{
+        @extend %atom-customSelect--custom;  
+    } 
+    .type-heure{
+        .content{
+            display: flex;
+            & > * {
+                flex: 1;
+            }
+            & > * + *{
+                margin-left: 10px;
+            }
+        }
+    }
+    .seu-filter-line{
+        display: flex;
+        align-items: flex-start;
+        @include RWD(mobile){
+            flex-wrap: wrap;
+        }
+        & + .seu-filter-line{
+            margin-top: 20px;
+        }
+
+        // Structure des champs
+        .widget{
+            width: calc( 25% - 15px );
+            margin-right: 20px;
+            &:last-child{
+                margin-right: 0;
+            }
+            &.widget-big{
+                flex-grow: 1;
+            }
+            @include RWD(mobile){
+                width: 100% !important;
+                &:not(:last-child){
+                    margin: 0 0 20px 0 !important;
+                }
+            }
+        }
+
+        // Design des champs
+        .title label{
+            @extend %text-form-label;
+            color: $core-color;
+            margin-bottom: 12px;
+            line-height: 1;
+            vertical-align: top;
+        }
+        .content{
+            position: relative;
+            @include RWD(desktop){
+                &.type-date:after{
+                    content: '';
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    background-size: 20px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-image: url( svg-bg-uri($svg-calendar, #7e7e7e) );
+                    position: absolute;
+                    right: 20px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+            }
+            input{
+                @extend %atom-form-input;
+                &[type="date"]{
+                    font-family: $site-font;
+                    font-size: 1.4rem;
+                    text-transform: uppercase;
+                    color: #7e7e7e;
+                    @include RWD(tablet){
+                        padding: 0;
+                        padding-left: 5px;
+                        padding: 0;
+                        padding-left: 10px !important;
+                        padding-right: 0px !important;
+                        font-size: 1.4rem !important;
+                    }
+                }
+            }
+        }
+    }
+    .seu-trigger-advanced-search{
+        .seu-btn-arrow{
+            transform: rotate(90deg);
+        }
+        &.opened{
+            .seu-btn-arrow{
+                transform: rotate(-90deg);
+            }
+        }
+    }
+    .seu-filter-advanced-search{
+        display: none;
+
+        @include RWD(tablet){
+            .seu-filter-line{
+                flex-wrap: wrap;
+            }
+            .widget{
+                width: calc(50% - 10px);
+                margin-right: 0;
+                &:nth-child(1),
+                &:nth-child(2){
+                    margin-bottom: 20px;
+                }
+                &:nth-child(2n){
+                    margin-left: 20px;
+                }
+            }
+        }
+        @include RWD(mobile){
+            .widget{
+                &:nth-child(2n){
+                    margin-left: 0px;
+                }
+            }
+        }
+    }
+    .seu-btn-line{
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        &.advanced{
+            justify-content: flex-end;
+        }
+        button + button{
+            margin-left: 20px;
+        }
+        & + .seu-filter-advanced-search{
+            margin-top: 20px;
+        }
+
+        @include RWD(mobile){
+            display: block;
+            text-align: center;
+            button{
+                margin: 0;
+                & + button{
+                    margin: 0;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}

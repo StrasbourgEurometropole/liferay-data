@@ -1,0 +1,52 @@
+#global .oeuvre-thumbnail{
+    position: relative; 
+    min-height: 120px;
+    display: block;
+
+    @include RWD(tablet_portrait){
+
+        &:hover{
+            .info{
+                display: flex;
+            }
+        }
+    }
+
+    img{
+        width: 100%;
+        display: block;
+    }
+
+    .info{
+        @include positionAbsolute("", "", (bottom: 0, left: 0));
+        width: 100%;
+        max-height: 160px; 
+        background: linear-gradient(360deg, $color_main 0.52%, rgba(49, 7, 17, 0.5) 70.83%, rgba(0, 0, 0, 0) 100%);
+        padding: 20px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+
+        @include RWD(tablet_portrait){
+            display: none;
+        }
+
+        .title{
+            @include ft($times, 0.95rem, 400, white, 1.125rem, italic);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            text-decoration: underline;
+
+            span{
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+        }
+
+        .museums{
+            @include ft($proximaNova, 0.875rem, 400, white, 1.05rem, "");
+        }
+    }
+}

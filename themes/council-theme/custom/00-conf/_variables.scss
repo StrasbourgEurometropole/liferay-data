@@ -1,0 +1,18 @@
+// BreakPoints
+$break-small: 767;
+$break-large: 1280; // Cette valeur doit être égale à la largeur du container + X pixel. Le passage en tablette se fera dont à X pixel de plus que la largeur du container principal, permettant de ne jamais avoir le contenu collé au bord de l'écran.
+$container-width: 1200;
+
+//~#COLORS
+	$core-color: #31455d;
+	$second-color: #46cfc0;
+	$third-color: #fbb52d;
+	$text-basis-color: #5c5c5c;  
+//#COLORS
+
+// Fonts  
+$montserrat: Verdana;
+$opensans: Verdana;
+$site-font: $montserrat;
+$fancy-font: $site-font; 
+$main-font: $opensans; 

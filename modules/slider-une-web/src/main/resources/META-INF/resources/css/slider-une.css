@@ -1,0 +1,116 @@
+.vignettes{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.vignette{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc((100% / 4) - 20px);
+    border: solid black 1px;
+    background-color: ghostwhite;
+    margin: 10px;
+    padding: 15px;
+}
+
+.vignette:nth-child(5){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(6){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(7){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(8){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(13){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(14){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(15){
+    margin-bottom: 50px;
+}
+
+.vignette:nth-child(16){
+    margin-bottom: 50px;
+}
+
+.additionalPicker{
+    display: none;
+}
+
+.strasbourg-slider-picker{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.strasbourg-slider-picker .detail{
+    position: relative;
+    padding-left: 0px;
+    padding-right: 10px;
+    min-height: 57px;
+}
+
+.strasbourg-slider-picker .detail li{
+    list-style: none;
+}
+
+.strasbourg-slider-picker .detail li a{
+    position: absolute;
+    top: 0;
+    left: calc(100% - 5px);
+}
+
+.strasbourg-slider-picker .detail + p{
+    margin-top: auto;
+    align-self: center;
+}
+
+.buttons{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.vignette-move, .vignette-delete{
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.vignette-move{
+    cursor: move;
+}
+
+.vignette-move:before {
+    content: "\e068";
+}
+
+.vignette-delete{
+    cursor: pointer;
+}
+
+.vignette-delete:before {
+    content: "\e020";
+}
+
+fieldset {
+    margin-bottom: 20px;
+}

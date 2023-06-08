@@ -1,0 +1,23 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+
+	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compile project(":modules:form-send-record-field:form-send-record-field-api")
+	compile project (':modules:utils')
+	compile project(":modules:oidc:oidc-api")
+	compile project(":modules:like:like-api")
+}
+
+buildService {
+	apiDir = "../form-send-record-field-api/src/main/java"
+}
+
+group = "eu.strasbourg.service.formSendRecordField"

@@ -1,0 +1,643 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.agenda">
+    <author>BenjaminBini</author>
+	<namespace>agenda</namespace>
+
+	<entity local-service="true" cache-enabled="true" name="Event" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Champs généraux -->
+        <column name="title" type="String" localized="true" />
+        <column name="subtitle" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="externalImageURL" type="String" />
+        <column name="externalImageCopyright" type="String" />
+        <column name="imageWidth" type="Integer" />
+        <column name="imageHeight" type="Integer" />
+
+        <!-- Lieu -->
+        <column name="placeSIGId" type="String" />
+        <column name="placeName" type="String" localized="true" />
+        <column name="placeStreetNumber" type="String" />
+        <column name="placeStreetName" type="String" />
+        <column name="placeZipCode" type="String" />
+        <column name="placeCity" type="String" />
+        <column name="placeCountry" type="String" />
+		<column name="mercatorX" type="String" />
+		<column name="mercatorY" type="String" />
+
+		<!-- Accès -->
+		<column name="access" type="String" localized="true" />
+		<column name="accessForDisabled" type="String" localized="true" />
+		<column name="accessForBlind" type="Boolean" />
+		<column name="accessForDeaf" type="Boolean" />
+		<column name="accessForWheelchair" type="Boolean" />
+		<column name="accessForElder" type="Boolean" />
+		<column name="accessForDeficient" type="Boolean" />
+
+		<!-- Contact -->
+		<column name="promoter" type="String" />
+		<column name="phone" type="String" />
+		<column name="email" type="String" />
+		<column name="websiteURL" type="String" localized="true" />
+		<column name="websiteName" type="String" localized="true" />
+
+		<!-- Tarif -->
+		<column name="free" type="Integer" />
+		<column name="price" type="String" localized="true" />
+
+		<!-- Reservation billeterie -->
+		<column name="bookingDescription" type="String" localized="true" />
+		<column name="bookingURL" type="String" />
+		<column name="subscriptionURL" type="String" />
+
+		<!-- Infos de gestion -->
+        <column name="source" type="String" />
+        <column name="idSource" type="String" />
+		<column name="publicationDate" type="Date" />
+
+		<!-- Infos du concert -->
+		<column name="distribution" type="String" localized="true"/>
+		<column name="composer" type="String" />
+		<column name="concertId" type="String" />
+		<column name="program" type="String" localized="true"/>
+
+		<!-- Dates -->
+		<column name="firstStartDate" type="Date" />
+		<column name="lastEndDate" type="Date" />
+
+		<!-- Dates Provider Source -->
+		<column name="createDateSource" type="Date" />
+		<column name="modifiedDateSource" type="Date" />
+
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="eventPeriods" type="Collection" entity="EventPeriod"/>
+        <column name="manifestations" type="Collection" entity="Manifestation" mapping-table="EventToManifestation" />
+
+		<!-- Inscription -->
+		<column name="registration" type="boolean" />
+		<column name="registrationStartDate" type="Date" />
+		<column name="registrationEndDate" type="Date" />
+		<column name="maxGauge" type="long" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="GroupIdAndTitle" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="title" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="LastEndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="lastEndDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="SourceAndIdSource" return-type="Event">
+			<finder-column name="source" />
+			<finder-column name="idSource" />
+		</finder>
+		<finder name="IdSource" return-type="Event">
+			<finder-column name="idSource" />
+		</finder>
+		<finder name="PlaceSIGId" return-type="Collection">
+			<finder-column name="placeSIGId" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" name="Manifestation" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="manifestationId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="events" type="Collection" entity="Event" mapping-table="EventToManifestation" />
+
+		<!-- Other fields -->
+        <column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="externalImageURL" type="String" />
+        <column name="externalImageCopyright" type="String" />
+        <column name="startDate" type="Date" />
+        <column name="endDate" type="Date" />
+        <column name="source" type="String" />
+        <column name="idSource" type="String" />
+		<column name="publicationDate" type="Date" />
+
+		<!-- Dates COZE -->
+		<column name="createDateSource" type="Date" />
+		<column name="modifiedDateSource" type="Date" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="EndDate" return-type="Collection">
+			<finder-column comparator="&lt;" name="endDate" />
+		</finder>
+		<finder name="StatusDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="statusDate" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="SourceAndIdSource" return-type="Manifestation">
+			<finder-column name="source" />
+			<finder-column name="idSource" />
+		</finder>
+		<finder name="IdSource" return-type="Manifestation">
+			<finder-column name="idSource" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" name="EventPeriod" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="eventPeriodId" primary="true" type="long" />
+
+		<!-- Other fields -->
+        <column name="startDate" type="Date" />
+        <column name="endDate" type="Date" />
+        <column name="timeDetail" type="String" localized="true" />
+
+		<!-- Links with other entities -->
+        <column name="eventId" type="long" />
+        <column name="campaignEventId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="EventId" return-type="Collection">
+			<finder-column name="eventId" />
+		</finder>
+		<finder name="CampaignEventId" return-type="Collection">
+			<finder-column name="campaignEventId" />
+		</finder>
+
+	</entity>
+
+	<entity  local-service="true" name="ImportReport" cache-enabled="true" remote-service="false" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="reportId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="provider" type="String" />
+		<column name="filename" type="String" />
+		<column name="status" type="long" /> <!-- 0 : erreur globale, 1 : succès global, 2 : des erreurs -->
+		<column name="globalErrorCause" type="String" />
+		<column name="newEventsCount" type="long" />
+		<column name="modifiedEventsCount" type="long" />
+		<column name="errorEventsCount" type="long" />
+		<column name="unmodifiedEventsCount" type="long" />
+		<column name="deletedEventsCount" type="long" />
+		<column name="newManifestationsCount" type="long" />
+		<column name="modifiedManifestationsCount" type="long" />
+		<column name="errorManifestationsCount" type="long" />
+		<column name="unmodifiedManifestationsCount" type="long" />
+		<column name="deletedManifestationsCount" type="long" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="lines" type="Collection" entity="ImportReportLine" />
+
+	</entity>
+
+	<entity local-service="true" name="ImportReportLine" cache-enabled="true" remote-service="false" uuid="true" >
+		<!-- PK fields -->
+		<column name="lineId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="type" type="String" /> <!-- Event / Manifestation -->
+		<column name="status" type="long" /> <!-- 0 : erreur, 1 : ajout, 2 : modif -->
+		<column name="log" type="String" />
+		<column name="entityName" type="String" />
+		<column name="entityExternalId" type="String" />
+		<column name="entityId" type="long" />
+
+		<!-- Links with other entities -->
+		<column name="reportId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="TypeAndStatus" return-type="Collection">
+			<finder-column name="type" />
+			<finder-column name="status" />
+		</finder>
+		<finder name="ReportId" return-type="Collection">
+			<finder-column name="reportId" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" remote-service="false" name="CampaignEvent" cache-enabled="true" uuid="true">
+		<!-- PK fields -->
+		<column name="campaignEventId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<column name="status" type="int" />
+
+		<column name="firstName" type="String" />
+		<column name="lastName" type="String" />
+		<column name="phone" type="String" />
+		<column name="email" type="String" />
+		<column name="serviceId" type="Long" />
+		<column name="service" type="String" />
+		<column name="onSiteFirstName" type="String" />
+		<column name="onSiteLastName" type="String" />
+		<column name="onSitePhone" type="String"/>
+		<column name="title" type="String" localized="true" />
+		<column name="subtitle" type="String" localized="true" />
+		<column name="description" type="String" localized="true" />
+		<column name="imageId" type="Long" />
+		<column name="webImageId" type="Long" />
+		<column name="imageOwner" type="String" />
+		<column name="manifestationsIds" type="String" />
+		<column name="placeSIGId" type="String" />
+		<column name="placeName" type="String" localized="true" />
+		<column name="placeStreetNumber" type="String" />
+		<column name="placeStreetName" type="String" />
+		<column name="placeZipCode" type="String" />
+		<column name="placeCityId" type="Long" />
+		<column name="placeCountry" type="String" />
+		<column name="promoter" type="String" />
+		<column name="publicPhone" type="String" />
+		<column name="publicEmail" type="String" />
+		<column name="websiteURL" type="String" localized="true" />
+		<column name="websiteName" type="String" localized="true" />
+		<column name="free" type="Integer" />
+		<column name="price" type="String" localized="true" />
+		<column name="campaignId" type="Long" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
+		<column name="publicsIds" type="String" />
+		<column name="bookingDescription" type="String" localized="true" />
+		<column name="bookingURL" type="String" />
+
+		<!-- Inscription -->
+		<column name="registration" type="boolean" />
+		<column name="registrationStartDate" type="Date" />
+		<column name="registrationEndDate" type="Date" />
+		<column name="maxGauge" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="CampaignId" return-type="Collection">
+			<finder-column name="campaignId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" remote-service="false" name="Campaign" cache-enabled="true" uuid="true">
+		<!-- PK fields -->
+		<column name="campaignId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Champs généraux -->
+        <column name="title" type="String" localized="true" />
+        <column name="defaultImageId" type="long" />
+        <column name="defaultImageCopyright" type="String" localized="true" />
+        <column name="managersIds" type="String" />
+        <column name="exportEnabled" type="Boolean" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" name="CampaignEventStatus" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="statusId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="status" type="Integer" />
+		<column name="comment" type="String" />
+		<column name="deletionDenied" type="Boolean" />
+		<column name="date" type="Date" />
+
+		<!-- Links with other entities -->
+        <column name="campaignEventId" type="long" />
+        <column name="previousStatusId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="CampaignEventId" return-type="Collection">
+			<finder-column name="campaignEventId" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" name="EventParticipation" remote-service="true" uuid="false">
+
+		<!-- PK fields -->
+		<column name="eventParticipationId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="publikUserId" type="String" />
+        <column name="eventId" type="long" />
+        <column name="groupId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="PublikUserId" return-type="Collection" db-index="true" >
+			<finder-column name="publikUserId" />
+		</finder>
+		<finder name="EventId" return-type="Collection" db-index="true" >
+			<finder-column name="eventId" />
+		</finder>
+		<finder name="PublikUserIdAndEventId" return-type="EventParticipation"  >
+			<finder-column name="publikUserId" />
+			<finder-column name="eventId" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="AgendaExport" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="agendaExportId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Champs généraux -->
+        <column name="title" type="String" localized="true" />
+
+		<!-- Champs de recherche -->
+		<column name="language" type="String" localized="false" />
+		<column name="exportFormat" type="String" localized="false" />
+		<column name="templateId" type="long" localized="false" />
+
+		<!-- Champs JSON -->
+		<column name="eventCategories" type="String" json-enabled="true"/>
+		<column name="aggregations" type="String" json-enabled="true"/>
+
+		<!-- Collections -->
+		<column name="agendaExportPeriod" type="Collection" entity="AgendaExportPeriod"/>
+
+		<!-- Finder -->
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="GroupIdAndStatus" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="status" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+	<entity local-service="true" name="AgendaExportPeriod" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="agendaExportPeriodId" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="agendaExportId" type="long" />
+
+		<!-- Finder methods -->
+		<finder name="AgendaExportId" return-type="Collection">
+			<finder-column name="agendaExportId" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" name="Historic"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="title" type="String" />
+		<column name="suppressionDate" type="Date" />
+
+		<finder name="SuppressionDate" return-type="Collection">
+			<finder-column comparator="&gt;=" name="suppressionDate" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CsmapCacheJson"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonEvent" type="String" />
+		<column name="createEvent" type="Date" />
+		<column name="modifiedEvent" type="Date" />
+		<column name="isActive" type="boolean" />
+		<column name="regeneratedDate" type="Date" />
+		<column name="hasSchedules" type="boolean" />
+
+		<finder name="eventId" return-type="Collection">
+			<finder-column name="eventId" />
+		</finder>
+		<finder name="CreatedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createEvent" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;" name="createEvent" />
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="CreatedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&gt;=" name="createEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
+		</finder>
+		<finder name="CreatedDateAndModifiedDateAndIsActiveAndWithSchedules" return-type="Collection">
+			<finder-column comparator="&lt;" name="createEvent" />
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+			<finder-column name="hasSchedules" />
+		</finder>
+		<finder name="ModifiedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&gt;=" name="modifiedEvent" />
+			<finder-column name="isActive" />
+		</finder>
+		<finder name="RegeneratedDateAndIsActive" return-type="Collection">
+			<finder-column comparator="&lt;=" name="regeneratedDate" />
+			<finder-column name="isActive" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheJson"
+			cache-enabled="true" remote-service="false" uuid="false">
+
+		<!-- PK fields -->
+		<column name="eventId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonEvent" type="String" />
+		<column name="createEvent" type="Date" />
+		<column name="modifiedEvent" type="Date" />
+		<column name="isApproved" type="boolean" />
+
+		<finder name="eventId" return-type="CacheJson">
+			<finder-column name="eventId" />
+		</finder>
+
+		<finder name="eventIdAndIsApproved" return-type="CacheJson">
+			<finder-column name="eventId" />
+			<finder-column name="isApproved" />
+		</finder>
+
+		<finder name="isApproved" return-type="Collection">
+			<finder-column name="isApproved" />
+		</finder>
+
+	</entity>
+
+</service-builder>

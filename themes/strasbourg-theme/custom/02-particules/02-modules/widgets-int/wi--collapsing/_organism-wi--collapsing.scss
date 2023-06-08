@@ -1,0 +1,191 @@
+%organism-wi--collapsing{
+    .seu-toggle-collapse{
+        padding: 15px 0;
+        border-bottom: solid 1px #f6f6f6;
+        width: 100%;
+        h2{
+            @extend %atom-h2-rte;
+            display: flex;
+            align-items: flex-start;
+            span{
+                flex: 1;
+                text-align: left;
+                line-height: 1.2em;
+                padding-top: 2px;
+                margin-left: 10px;
+                @include RWD(mobile){
+                    font-size: 1.8rem;
+                }
+            }
+            &:before{
+                content: '';
+                display: inline-block;
+                width: 40px;
+                height: 46px;
+                background-size: 30px;
+                background-position: center;
+                background-repeat: no-repeat;
+                // transform: translateY(5px);
+                @include RWD(mobile){
+                    background-size: 20px;
+                    width: 30px;
+                    height: 35px;
+                    transform: translateY(-7px);
+                }
+            }
+            &:after{
+                content: '';
+                display: inline-block;
+                width: 40px;
+                height: 46px;
+                background-size: 30px;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-image: url( svg-bg-uri($svg-plus, #525252) );
+                // transform: translateY(5px);
+                @include RWD(mobile){
+                    background-size: 20px;
+                    width: 27px;
+                    height: 20px;
+                    transform: translate(0);
+                }
+            }
+            &.schedule{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-clock, $core-color) );
+                }
+            }
+            &.description{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-pie-chart, $core-color) );
+                    background-size: 25px;
+                    @include RWD(mobile){
+                        background-size: 17px;
+                    }
+                }
+            }
+            &.infos{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-inbox, $core-color) );
+                }
+            }
+            &.media{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-folder, $core-color) );
+                }
+            }
+            &.geoloc{
+                &:before{
+                    background-size: 22px;
+                    background-image: url( svg-bg-uri($svg-marker, $core-color) );
+                    @include RWD(mobile){
+                        background-size: 15px;
+                    }
+                }
+            }
+            &.contact{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-contact, $core-color) );
+                }
+            }
+            &.services{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-services, $core-color) );
+                }
+            }
+            &.activites{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-activites, $core-color) );
+                }
+            }
+            &.agenda{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-calendar, $core-color) );
+                }
+            }
+            &.caracteristiques{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-caracteristiques, $core-color) );
+                }
+            }
+            &.handicap{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-handicap, $core-color) );
+                }
+            }
+            &.more{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-more, $core-color) );
+                }
+            }
+            &.file{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-file, $core-color) );
+                }
+            }
+
+        }
+        &.seu-opened{
+            h2:after{
+                background-image: url( svg-bg-uri($svg-minus, #525252) );
+            }
+        }
+    }
+    .seu-collapsing-box{
+        background-color: #f6f6f6;
+        padding: 50px 30px;
+        display: none;
+
+        @include RWD(mobile){
+            padding: 20px;
+        }
+        &.white-box{
+            background-color: #ffffff;
+        }
+
+        & > *:last-child{
+            margin-bottom: 0;
+        }
+        .seu-wi{
+            background-color: transparent;
+            &.seu-wi-embed{
+                padding: 0;
+                margin-bottom: 0;
+            }
+            &.seu-wi-download{
+                padding-left: 0;
+                padding-right: 0;
+                margin-bottom: 0;
+                & + .seu-wi-download{
+                    border-top: solid 1px #ffffff;
+                    margin-top: 0;
+                }
+            }
+            &:last-child{
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .seu-dates-list{
+        transition: height 0.5s;
+        overflow: hidden;
+    }
+    .seu-line-left{
+        text-align: left;
+    }
+    .seu-see-more{
+        &.opened{
+            .seu-btn-arrow{
+                transform: rotate(-90deg);
+            }
+        }
+        .seu-btn-arrow{ 
+            transform: rotate(90deg);
+        }
+        &:hover, &:focus{
+            text-decoration: underline;
+        }
+    }
+}

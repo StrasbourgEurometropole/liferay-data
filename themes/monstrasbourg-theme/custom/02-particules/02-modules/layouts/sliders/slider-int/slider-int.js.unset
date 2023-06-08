@@ -1,0 +1,35 @@
+(function ($) {
+    $(document).ready(function(){
+        if($('.slider-int-container').length){
+            $('.slider-int-container .slider').addClass('owl-carousel');
+
+            var sliders_int = $('.slider-int-container');
+            sliders_int.each(function(index, element){        
+
+                // Init Class custom
+                var $slider = $(element).find('.owl-carousel');
+                var $prev = $(element).find('.owl-prev');
+                var $next = $(element).find('.owl-next'); 
+ 
+                // Init Addons     
+                var config_slider = {
+                    margin : 20,
+                    items: 1, 
+                    nav: false, 
+                    mosueDrag: false,
+                    smartSpeed: 800,
+                    onInitialized: function(e){
+                        manageNavigationDisplay(e, $prev, $next);
+                        attachCustomNavEvents($slider, $prev, $next);
+                    },
+                    onTranslate : function(e){
+                        manageNavigationDisplay(e, $prev, $next);
+                    }
+                };
+
+                // Build Slider
+                $slider.owlCarousel(config_slider);
+            });
+        }
+    })
+}(jQuery));

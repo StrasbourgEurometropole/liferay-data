@@ -1,0 +1,476 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="eu.strasbourg.service.gtfs">
+
+	<author>Cedric Henry</author>
+	<namespace>gtfs</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="ImportHistoric" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="importHistoricId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="result" type="int" />
+		<column name="operations" type="String" />
+		<column name="errorDescription" type="String" />
+		<column name="errorStackTrace" type="String" />
+		<column name="startDate" type="Date" />
+		<column name="finishDate" type="Date" />
+		<column name="gtfsFileHash" type="String" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="importHistoricId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Arret" remote-service="true" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="arretId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="stopId" type="String" />
+		<column name="title" type="String" />
+		<column name="code" type="String" />
+		<column name="latitude" type="String" />
+		<column name="longitude" type="String" />
+		<column name="type" type="int" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="arretId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="StopId" return-type="Arret">
+			<finder-column name="stopId" />
+		</finder>
+		<finder name="Code" return-type="Collection">
+			<finder-column name="code" />
+		</finder>
+		
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Direction" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="directionId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		
+		<!-- Other fields -->
+		<column name="tripId" type="String" />
+		<column name="stopId" type="String" />
+		<column name="routeId" type="String" />
+		<column name="destinationName" type="String" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="directionId" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="TripId" return-type="Direction">
+			<finder-column name="tripId" />
+		</finder>
+		<finder name="StopId" return-type="Collection">
+			<finder-column name="stopId" />
+		</finder>
+		<finder name="RouteId" return-type="Collection">
+			<finder-column name="routeId" />
+		</finder>
+		
+	</entity>
+	
+	<entity local-service="true" cache-enabled="true" name="Ligne" remote-service="true" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="ligneId" primary="true" type="long" />
+		
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+		
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+		
+		<!-- Other fields -->
+		<column name="routeId" type="String" />
+		<column name="shortName" type="String" />
+		<column name="title" type="String" />
+		<column name="type" type="int" />
+		<column name="backgroundColor" type="String" />
+		<column name="textColor" type="String" />
+		
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="ligneId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="RouteId" return-type="Ligne">
+			<finder-column name="routeId" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="ShortNameAndStatus" return-type="Collection">
+			<finder-column name="shortName" />
+			<finder-column name="status" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		
+	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="Alert" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="alertId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+
+		<!-- Other fields -->
+		<column name="arretId" type="long" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="ligneAndDirection" type="String" localized="true" />
+		<column name="perturbation" type="String" localized="true" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="alertId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="ArretId" return-type="Collection">
+			<finder-column name="arretId" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="Agency" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="agency_name" type="String" />
+		<column name="agency_url" type="String" />
+		<column name="agency_timezone" type="String" />
+		<column name="agency_phone" type="String" />
+		<column name="agency_fare_url" type="String" />
+		<column name="agency_lang" type="String" />
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="agency_name" />
+		</order>
+
+	</entity>
+	
+	<entity local-service="true" name="Calendar" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="service_id" type="String" />
+		<column name="monday" type="boolean" />
+		<column name="tuesday" type="boolean" />
+		<column name="wednesday" type="boolean" />
+		<column name="thursday" type="boolean" />
+		<column name="friday" type="boolean" />
+		<column name="saturday" type="boolean" />
+		<column name="sunday" type="boolean" />
+		<column name="start_date" type="Date" />
+		<column name="end_date" type="Date" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="service_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
+		<finder name="StartDate" return-type="Collection">
+			<finder-column name="start_date" />
+		</finder>
+		<finder name="EndDate" return-type="Collection">
+			<finder-column name="end_date" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="CalendarDate" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="service_id" type="String" />
+		<column name="date" type="Date" />
+		<column name="exception_type" type="int" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="service_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
+		<finder name="Date" return-type="Collection">
+			<finder-column name="date" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="Route" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="route_id" type="String" />
+		<column name="route_short_name" type="String" />
+		<column name="route_long_name" type="String" />
+		<column name="route_desc" type="String" />
+		<column name="route_type" type="int" />
+		<column name="route_color" type="String" />
+		<column name="route_text_color" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="route_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="RouteId" return-type="Route">
+			<finder-column name="route_id" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="StopTime" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+
+		<!-- Other fields -->
+		<column name="trip_id" type="String" />
+		<column name="arrival_time" type="Date" />
+		<column name="departure_time" type="Date" />
+		<column name="stop_id" type="String" />
+		<column name="stop_sequence" type="int" />
+		<column name="pickup_type" type="String" />
+		<column name="drop_off_type" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="trip_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="TripId" return-type="Collection">
+			<finder-column name="trip_id" />
+		</finder>
+		<finder name="StopId" return-type="Collection">
+			<finder-column name="stop_id" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="Stop" remote-service="false" uuid="true">
+		
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="stop_id" type="String" />
+		<column name="stop_code" type="String" />
+		<column name="stop_lat" type="String" />
+		<column name="stop_lon" type="String" />
+		<column name="stop_name" type="String" />
+		<column name="stop_url" type="String" />
+		<column name="stop_desc" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="stop_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="StopId" return-type="Stop">
+			<finder-column name="stop_id" />
+		</finder>
+		<finder name="StopCode" return-type="Collection">
+			<finder-column name="stop_code" />
+		</finder>
+
+	</entity>
+	
+	<entity local-service="true" name="Trip" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="id" primary="true" type="long" />
+		
+		<!-- Other fields -->
+		<column name="route_id" type="String" />
+		<column name="service_id" type="String" />
+		<column name="trip_id" type="String" />
+		<column name="trip_headsign" type="String" />
+		<column name="direction_id" type="boolean" />
+		<column name="block_id" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="trip_id" />
+		</order>
+		
+		<!-- Finder methods -->
+		<finder name="RouteId" return-type="Collection">
+			<finder-column name="route_id" />
+		</finder>
+		<finder name="ServiceId" return-type="Collection">
+			<finder-column name="service_id" />
+		</finder>
+		<finder name="TripId" return-type="Collection">
+			<finder-column name="trip_id" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheAlertJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="cacheId" primary="true" type="long" />
+
+		<!-- Informations générales -->
+		<column name="jsonAlert" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="cacheId" return-type="Collection">
+			<finder-column name="cacheId" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" name="CacheHoursJSON"
+			cache-enabled="true" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="stopCode" primary="true" type="String" />
+		<column name="type" primary="true" type="int" />
+
+		<!-- Informations générales -->
+		<column name="jsonHour" type="String" />
+		<column name="creationDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<finder name="StopCode" return-type="Collection">
+			<finder-column name="stopCode" />
+		</finder>
+		<finder name="Type" return-type="Collection">
+			<finder-column name="type" />
+		</finder>
+		<finder name="StopCodeAndType" return-type="CacheHoursJSON">
+			<finder-column name="stopCode" />
+			<finder-column name="type" />
+		</finder>
+
+	</entity>
+	
+</service-builder>

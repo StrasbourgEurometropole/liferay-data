@@ -1,0 +1,30 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+	
+	compileOnly group: "com.liferay", name: "com.liferay.osgi.util"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api"
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
+	compile project(":modules:strasbourg:strasbourg-api")
+	compile project(":modules:adict")
+	compile project (':modules:open-data')
+	compile project(":modules:poi-service")
+	compile project (":modules:utils")
+}
+
+buildService {
+	apiDir = "../strasbourg-api/src/main/java"
+	osgiModule = true
+	propsUtil = "eu.strasbourg.service.strasbourg.service.util.PropsUtil"
+}

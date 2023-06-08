@@ -1,0 +1,117 @@
+#global #news{
+    padding: 0 5px;
+
+    .content{
+        @include RWD(tablet_portrait){
+            padding-right: 0;
+            position: relative;
+            
+            &:before{
+                content: '';
+                display: block;
+                width: 490px;
+                height: 70%;
+                background: $color_third;
+                @include positionAbsolute(-1, "", (top: 3.5rem, left: -85px));
+            }
+        }
+
+        button.button1{
+            display: none;
+
+            @include RWD(tablet_portrait){
+                display: block;
+                line-height: 2.5rem;
+                width: 190px;
+                text-transform: none;
+                font-weight: 700;
+                float: right;
+                margin-top: 65px;
+            }
+        }
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 15px;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+                text-align: start;
+                margin-bottom: 35px;
+            }
+
+            span{
+                @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
+                display: block;
+    
+                @include RWD(tablet_portrait){
+                    font-size: 2.25rem;
+                    line-height: 3.25rem;
+                    margin-bottom: 35px;
+                }
+            }
+        }
+
+        .slider{
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
+
+            @include RWD(tablet_portrait){
+                margin-bottom: 0;
+            }
+
+            .swiper{
+                position: static;
+                padding-bottom: 10px;
+
+                @include RWD(tablet_portrait){
+                    padding-bottom: 0;
+                    overflow: visible;
+
+                    .swiper-wrapper{
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        grid-template-rows: repeat(2, 1fr);
+                        grid-column-gap: 25px;
+                        grid-row-gap: 10px;
+                    }
+                }
+
+                .swiper-slide{
+
+                    @include RWD(tablet_portrait){
+                        &:first-child(){
+                            grid-area: 1 / 1 / 3 / 2;
+
+                            .news-thumbnail{
+                                height: calc(100% - 15px);
+                                
+                                .info .title{
+                                    font-size: 1.45rem;
+                                    line-height: 1.75rem;
+                                }
+                            } 
+                        }
+                    }
+                }
+                
+                .swiper-button-next, .swiper-button-prev {             
+                    @include RWD(tablet_portrait){
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        a.button1{
+            margin: auto;
+
+            @include RWD(tablet_portrait){
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+/* Welcome to Compass. Use this file to define print styles.
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/print.css" media="print" rel="stylesheet" type="text/css" /> */
+@media print {
+  body {
+    width: auto!important;
+    margin: auto!important;
+    font-family: serif;
+    font-size: 12pt;
+    background-color: #fff!important;
+    color: #000!important;
+  }
+  h1, h2, h3, h4, h5, h6, blockquote, ul, ol {
+    color: #000!important;
+    margin: auto!important;
+  }
+  .printable {
+    display: block; /* affichage des elements de classe printable */
+  }
+  p, blockquote {
+    orphans: 3; /* pas de ligne seule en bas */
+    widows: 3; /* pas de ligne seule en haut */
+  }
+  blockquote, ul, ol {
+    page-break-inside: avoid; /* pas de coupure dans ces elements */
+  }
+  h1 {
+    /*page-break-before: always;  chaque titre commence sur une nouvelle page */
+  }
+  h1, h2, h3, caption {
+    page-break-after: avoid; /* pas de saut aprÃ¨s ces elements */
+  }
+  a {
+    color: #000!important;
+    text-decoration: underline!important;
+  }
+  /*Affichage des URL des liens*/
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  nav, menu, form, aside, button, audio, video{
+    display: none !important;
+  }  
+}

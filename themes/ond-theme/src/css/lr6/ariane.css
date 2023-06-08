@@ -1,0 +1,67 @@
+
+/**** ARIANE ****/
+    
+.ariane
+{
+    padding-top: 10px;
+}
+.ariane .fil-ariane
+{
+    font-size: 14px;
+    width: 85%;
+    float: left;
+    color:#7a7977;
+}
+.ariane .fil-ariane a
+{
+    color:#7a7977;
+}
+.ariane .fil-ariane .select
+{
+   font-weight: 700;
+}
+.ariane .fil-ariane a:hover
+{
+    text-decoration: underline;
+}
+.ariane .quick-links-medias
+{
+    float: right;
+}
+.ariane .quick-links-medias ul
+{
+    margin: 0;
+}
+.ariane .quick-links-medias ul li
+{
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    float: right;
+}
+.ariane .quick-links-medias ul li a
+{
+    text-indent: -99999px;
+    width: 45px;
+    height: 30px;
+    display: block;
+    margin: 0
+}
+.ariane .quick-links-medias ul li a.images
+{
+    background: url(../../img/btn/galerie_photos.png) top center no-repeat;
+}
+.ariane .quick-links-medias ul li a.images:hover
+{
+    background-position: bottom center;
+}
+
+.ariane .quick-links-medias ul li a.videos
+{
+    background: url(../../img/btn/galerie_videos.png) top center no-repeat;
+}
+
+.ariane .quick-links-medias ul li a.videos:hover
+{
+    background-position: bottom center;
+}

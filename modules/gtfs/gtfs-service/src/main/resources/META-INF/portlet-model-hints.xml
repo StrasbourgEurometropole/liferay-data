@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.gtfs.model.Agency">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="agency_name" type="String" />
+		<field name="agency_url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="agency_timezone" type="String" />
+		<field name="agency_phone" type="String" />
+		<field name="agency_fare_url" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="agency_lang" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Alert">
+		<field name="uuid" type="String" />
+		<field name="alertId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="arretId" type="long" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field localized="true" name="ligneAndDirection" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="perturbation" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Arret">
+		<field name="uuid" type="String" />
+		<field name="arretId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="stopId" type="String" />
+		<field name="title" type="String" />
+		<field name="code" type="String" />
+		<field name="latitude" type="String" />
+		<field name="longitude" type="String" />
+		<field name="type" type="int" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CacheAlertJSON">
+		<field name="uuid" type="String" />
+		<field name="cacheId" type="long" />
+		<field name="jsonAlert" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="creationDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CacheHoursJSON">
+		<field name="uuid" type="String" />
+		<field name="stopCode" type="String" />
+		<field name="type" type="int" />
+		<field name="jsonHour" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="creationDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Calendar">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="service_id" type="String" />
+		<field name="monday" type="boolean" />
+		<field name="tuesday" type="boolean" />
+		<field name="wednesday" type="boolean" />
+		<field name="thursday" type="boolean" />
+		<field name="friday" type="boolean" />
+		<field name="saturday" type="boolean" />
+		<field name="sunday" type="boolean" />
+		<field name="start_date" type="Date" />
+		<field name="end_date" type="Date" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.CalendarDate">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="service_id" type="String" />
+		<field name="date" type="Date" />
+		<field name="exception_type" type="int" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Direction">
+		<field name="uuid" type="String" />
+		<field name="directionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="tripId" type="String" />
+		<field name="stopId" type="String" />
+		<field name="routeId" type="String" />
+		<field name="destinationName" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.ImportHistoric">
+		<field name="uuid" type="String" />
+		<field name="importHistoricId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="result" type="int" />
+		<field name="operations" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorDescription" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="errorStackTrace" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="startDate" type="Date" />
+		<field name="finishDate" type="Date" />
+		<field name="gtfsFileHash" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Ligne">
+		<field name="uuid" type="String" />
+		<field name="ligneId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="routeId" type="String" />
+		<field name="shortName" type="String" />
+		<field name="title" type="String" />
+		<field name="type" type="int" />
+		<field name="backgroundColor" type="String" />
+		<field name="textColor" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Route">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="route_id" type="String" />
+		<field name="route_short_name" type="String" />
+		<field name="route_long_name" type="String">
+			<hint name="max-length">200</hint>
+		</field>
+		<field name="route_desc" type="String" />
+		<field name="route_type" type="int" />
+		<field name="route_color" type="String" />
+		<field name="route_text_color" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Stop">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="stop_id" type="String" />
+		<field name="stop_code" type="String" />
+		<field name="stop_lat" type="String" />
+		<field name="stop_lon" type="String" />
+		<field name="stop_name" type="String" />
+		<field name="stop_url" type="String" />
+		<field name="stop_desc" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.StopTime">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="trip_id" type="String" />
+		<field name="arrival_time" type="Date" />
+		<field name="departure_time" type="Date" />
+		<field name="stop_id" type="String" />
+		<field name="stop_sequence" type="int" />
+		<field name="pickup_type" type="String" />
+		<field name="drop_off_type" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.gtfs.model.Trip">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="route_id" type="String" />
+		<field name="service_id" type="String" />
+		<field name="trip_id" type="String" />
+		<field name="trip_headsign" type="String" />
+		<field name="direction_id" type="boolean" />
+		<field name="block_id" type="String" />
+	</model>
+</model-hints>

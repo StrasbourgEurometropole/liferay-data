@@ -1,0 +1,9 @@
+Bundle-Name: mediatheque-web
+Bundle-SymbolicName: eu.strasbourg.portlet.mediatheque
+Bundle-Version: 1.0.0
+Export-Package: \
+    eu.strasbourg.portlet.mediatheque.constants,\
+    eu.strasbourg.portlet.mediatheque.borrower,\
+    eu.strasbourg.portlet.mediatheque.mapping,\
+    eu.strasbourg.portlet.mediatheque.portlet
+

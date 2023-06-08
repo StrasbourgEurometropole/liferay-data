@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="eu.strasbourg.service.ejob.service.impl.AlertLocalServiceImpl" id="eu.strasbourg.service.ejob.service.AlertLocalService" />
+	<bean class="eu.strasbourg.service.ejob.service.impl.AlertServiceImpl" id="eu.strasbourg.service.ejob.service.AlertService" />
+	<bean class="eu.strasbourg.service.ejob.service.persistence.impl.AlertPersistenceImpl" id="eu.strasbourg.service.ejob.service.persistence.AlertPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.ejob.service.impl.OfferLocalServiceImpl" id="eu.strasbourg.service.ejob.service.OfferLocalService" />
+	<bean class="eu.strasbourg.service.ejob.service.impl.OfferServiceImpl" id="eu.strasbourg.service.ejob.service.OfferService" />
+	<bean class="eu.strasbourg.service.ejob.service.persistence.impl.OfferPersistenceImpl" id="eu.strasbourg.service.ejob.service.persistence.OfferPersistence" parent="basePersistence" />
+</beans>

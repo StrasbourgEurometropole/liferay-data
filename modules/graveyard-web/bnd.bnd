@@ -1,0 +1,5 @@
+Bundle-Name: graveyard-web
+Bundle-SymbolicName: eu.strasbourg.portlet.graveyard
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.constants
+Web-ContextPath: /graveyardweb

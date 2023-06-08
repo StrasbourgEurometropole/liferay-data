@@ -1,0 +1,30 @@
+.view-filters{
+    @extend %molecule-filters;
+}
+
+.view-activity{
+    .view-filters{
+        .btn-line{
+            justify-content: flex-end;
+        }
+        .filter-line + .filter-line{
+            margin-top: 60px;
+            @include RWD(mobile){
+                margin-top: 0px;
+            }
+        }
+        .filter-line{
+            @include RWD(tablet){
+                flex-wrap: wrap;
+                .widget{
+                    width: calc(50% - 10px);
+                    margin-right: 20px;
+                    margin-bottom: 20px;
+                    &:nth-child(2n){
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

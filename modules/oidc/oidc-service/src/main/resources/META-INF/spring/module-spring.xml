@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<beans
+	default-destroy-method="destroy"
+	default-init-method="afterPropertiesSet"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+	<bean class="eu.strasbourg.service.oidc.service.impl.AnonymisationHistoricLocalServiceImpl" id="eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.AnonymisationHistoricPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.oidc.service.impl.PublikUserLocalServiceImpl" id="eu.strasbourg.service.oidc.service.PublikUserLocalService" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.PublikUserPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence" parent="basePersistence" />
+</beans>

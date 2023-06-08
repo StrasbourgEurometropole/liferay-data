@@ -1,0 +1,99 @@
+@charset "UTF-8";
+
+/***************************/
+/***************************/
+
+   /* -- BLOC AGENDA -- */
+
+/***************************/
+/***************************/
+
+#mns-global{
+	.mns-bloc-agenda{
+		position: relative;
+
+		a{
+			@include an(all,0.3);
+			display: block;
+
+			&:hover{
+				transform: translateY(-20px);
+				text-decoration: none;
+
+				.basic-link{
+					opacity: 1;
+					@include an(opacity,1);
+				}
+			}
+
+			.date{
+				background: $c_main;
+				@include ft($f_ms, 0.875rem, 400, $c_white, 1.0625rem);
+				position: absolute;
+				top: 22px;
+				left: -12px;
+				padding: 15px;
+				max-width: 260px;
+				text-align: center;
+				z-index: 1;
+			}
+
+			figure{
+				margin-bottom: 14px;
+
+				img{
+					object-fit:cover;
+					height: 400px;
+					max-width: 260px;
+					width: 100%;
+					margin-bottom: 0;
+
+					@include mobile{
+						max-width: none;
+					}
+				}
+			}
+
+			> div{
+				padding-bottom: 15px;
+
+				.mns-indic{
+					@include not-mobile{
+						max-width: 260px;
+					}
+
+					span{
+						justify-content: center;
+						display: flex;
+					}
+				}
+	
+				h3{
+					@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+					margin: auto;
+					padding-bottom: 12px;
+					display: -webkit-box; 
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+					max-height: 4.875rem;
+					text-align: center;
+				}
+	
+				.basic-link{
+					opacity: 0;
+					@include an(opacity,0.3);
+					text-align: center;
+
+					@include mobile{
+						opacity: 1;
+					}
+		
+					&:hover{
+						color: $c_main;
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,6 @@
+.not-front .hat{
+    @extend %atom-hat-default;
+    & > *:last-child{
+        margin-bottom: 0;
+    }
+}

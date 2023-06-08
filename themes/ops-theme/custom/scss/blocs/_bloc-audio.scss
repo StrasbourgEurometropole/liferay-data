@@ -1,0 +1,34 @@
+.ops-bloc-audio{
+	position: relative;
+
+	& + .ops-bloc-video{
+		margin-top: -20px;
+	}
+
+	.ops-col-25{
+		margin-top: 20px;
+		@include mobile{
+			min-height: auto !important;
+		}
+	}
+
+	.ops-embed{
+		@include aspect-ratio(1,1);
+		margin-bottom: 8px;
+		> * {
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+
+	h4{
+		@include ft($f_txt,18px,400,$c_dark,24px);
+		margin: 0 0 5px 0;
+	}
+	.ops-name{
+		@include ft($f_txt,15px,400,#909090,20px);
+		display: block;
+	}
+}

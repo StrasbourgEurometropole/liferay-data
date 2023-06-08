@@ -1,0 +1,75 @@
+.favoris__chapo{
+    margin-bottom: 40px;
+}
+
+// Vue "liste" uniquement en desktop/tablette
+@media (min-width: $break-small + 'px') {
+    .favoris-list{
+        .favoris-teaser{
+            display: flex;
+            align-items: center;
+            padding-bottom: 0;
+            border-bottom: solid 2px #f6f6f6;
+
+            &:after{
+                display: none;
+            }
+
+            &__link{
+                padding: 20px 20px 20px 0;
+                flex: 1;
+                // border-right: solid 2px #f6f6f6;
+            }
+            &__trash, &__add, &__remove{
+                position: static;
+                flex-shrink: 0;
+                // font-size: 0;
+                transition: all, 0.5s;
+                flex-direction: column;
+
+                &:before{
+                    width: 60px;
+                    height: 60px;
+                }
+            }
+            &__trash{
+                &:before{
+                    margin: 0 40px;
+                    background-size: 30px;
+                    margin-bottom: 5px;
+                }
+                
+                &:hover, &:focus{
+                    &:before{
+                        background-color: $core-color;
+                        background-image: url( svg-bg-uri($svg-trash, #f6f6f6) );
+                    }
+                }
+            }
+            &__add{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
+                    margin-bottom: 5px;
+                }
+
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    }
+                }
+            }
+            &__remove{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-remove-dashboard, $core-color) );
+                    margin-bottom: 5px;
+                }
+
+                &:hover, &:focus{
+                    &:before{
+                        background-image: url( svg-bg-uri($svg-add-dashboard, $core-color) );
+                    }
+                }
+            }
+        }
+    }
+}

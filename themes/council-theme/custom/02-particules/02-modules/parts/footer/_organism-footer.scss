@@ -1,0 +1,31 @@
+%organism-footer{
+    background-color: #3a3a3a;
+    .seu-container{
+        display: flex;
+        flex-wrap: wrap;
+        @include RWD(mobile){
+            display: block;
+        }
+    }
+    
+    .seu-footer-bottom{
+        background-color: #2D2D2D;
+
+        .seu-container{
+            display: flex;
+            align-items: center;
+            height: 50px;
+
+            @include RWD(mobile){
+                display: block;
+                height: unset;
+                padding: 20px;
+                text-align: center;
+            }
+        }
+
+        .seu-fill{
+            flex: 1;
+        }
+    }
+}

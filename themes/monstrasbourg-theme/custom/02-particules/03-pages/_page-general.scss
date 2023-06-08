@@ -1,0 +1,133 @@
+.mseu{
+    font-size: 10px;
+    font-family: $main-font;
+    line-height: 1.2;
+    @include RWD(tablet){
+        padding: 0;
+    }
+    @include RWD(mobile){
+        padding: 0;
+    }
+    &.no-scroll,
+    &.no-scroll .body{
+        height: 100%;
+        overflow: hidden;
+    }
+
+    &.overlayed{
+
+        &:before{
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            background-color: rgba(#212121, 0.8);
+        }
+    }
+
+    body{
+        overflow-x: hidden;
+        position: relative;
+        background-color: #f6f6f6;
+    }
+
+    main{
+        overflow: hidden;
+    }
+
+    #main-content > *:not(.bg-banner) {
+        z-index: 2;
+        position: relative;
+    }
+    .bg-banner{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 755px;
+        z-index: 1;
+        background-image: url('../images/banner.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    .custom-container{
+        @extend %container;
+    }
+    ::selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-moz-selection{
+        background-color: $core-color;
+        color: #FFFFFF;
+    }
+    ::-webkit-input-placeholder {
+        opacity: 1 !important;
+    }
+    :-moz-placeholder{ 
+        opacity: 1 !important;
+    } 
+    ::-moz-placeholder { 
+        opacity: 1 !important;
+    }
+    :-ms-input-placeholder {  
+    opacity: 1 !important;
+    }
+    .element-invisible, .hidden{
+        display: none;
+    }
+
+    .seu-published {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .add-favorites{
+        font-family: "MontSerrat", arial;
+        font-size: 1.4rem;
+        color: $core-color;
+        text-transform: uppercase;
+        font-weight: 700;
+        position: relative;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+        &:before{
+            content: '';
+            display: inline-block;
+            width: 21px;
+            height: 21px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 12px;
+            flex-shrink: 0;
+            background-image: url( svg-bg-uri($svg-favoris, $core-color) );
+        }
+        &.liked{
+            &:before{
+                background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+            }
+        }
+        span{
+            position: relative;
+        }
+        span:after{
+            @extend %animation-hoverBar-in;
+            background-color: $core-color;
+        }
+        &:hover, &:focus{
+            text-decoration: none;
+            span:after{
+                @extend %animation-hoverBar-out;
+            }
+        }
+    }
+}

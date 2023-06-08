@@ -1,0 +1,24 @@
+.hidden{
+	display: none !important;
+}
+
+main{
+	background-color:#fff;
+}
+
+// div effacer les flaot
+.clearer{
+	display: block;
+	height: 0;
+	clear: both;
+}
+
+// 
+.back-button-event{
+	display: none;
+}
+
+// Share this
+.taglib-search-iterator-page-iterator-top, .addinto_sharebox{
+	display: none;
+}

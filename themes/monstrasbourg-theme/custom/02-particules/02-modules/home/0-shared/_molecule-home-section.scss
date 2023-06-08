@@ -1,0 +1,119 @@
+%molecule-home-section{
+    padding: 45px 75px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(#203146, 0.15);
+    position: relative;
+    background-color: #FFFFFF;
+    max-width: #{$container-width}px;
+    margin: 0 auto 40px;
+
+    @include RWD(tablet){
+        padding: 45px;
+        width: calc(100% - 80px);
+    }
+    @include RWD(mobile){
+        padding: 45px 20px;
+        width: calc(100% - 40px);
+    }
+
+    div.buttons{
+        text-align: right;
+        margin-bottom: -30px;
+        width: 100%;
+
+        @include RWD(mobile){
+            margin-bottom: 0;
+            margin-top: -20px;
+        }
+
+        button + button {
+            margin-left: 15px;
+        }
+        
+        .delete-wi, .retractable-folded-wi, .retractable-unfolded-wi{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-size: 30px;
+            background-position: center right;
+            background-repeat: no-repeat;
+            
+            &:focus{
+                outline: none;
+            }
+        }
+    
+        .delete-wi{
+            background-image: url( svg-bg-uri($svg-filled-close-white, red) );
+            
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-filled-close-white, $core-color) );
+            }
+        }
+    
+        .retractable-folded-wi{
+            background-image: url( svg-bg-uri($svg-plus, $text-basis-color) );
+    
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-plus, $core-color) );
+            }
+        }
+    
+        .retractable-unfolded-wi{
+            background-image: url( svg-bg-uri($svg-minus, $text-basis-color) );
+    
+            &:hover, &:focus{
+                background-image: url( svg-bg-uri($svg-minus, $core-color) );
+            }
+        }
+    }
+
+    h2{
+        @extend %text-section-title-hp;
+        color: $core-color;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 25px;
+
+        &:before{
+            display: block;
+            content: '';
+            width: 53px;
+            height: 20px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            background-image: url( svg-bg-uri($svg-wave, #dddddd) );
+
+            @include RWD(mobile){
+                width: 43px;
+                height: 15px;
+            }
+        }
+        @include RWD(mobile){
+            font-size: 2.5rem;
+            &:before{
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+.home-section {
+    @extend %molecule-home-section;
+    margin-bottom: 40px;
+
+    .rte {
+        font-size: 1.8rem;
+        color: #5c5c5c;
+        margin-bottom: 20px;
+
+        a {
+            color: #31455d;
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,0 +1,187 @@
+.seu-view-offer, .seu-view-due-offer{
+    
+    .seu-filter-line{
+        justify-content: flex-end;
+    }
+
+    .widget{
+        margin-top: 20px;
+        flex: 0 0 31%;
+        max-width: 31%;
+    }
+    .seu-view-filters .seu-filter-line .widget:last-child{
+        margin-right: 20px;
+    }
+
+    .formCreateAlerte{
+        display: none;
+        margin-top: 30px;
+        justify-content: center;
+        align-items: flex-end;
+
+        .seu-filter-line{
+            width: 50%;
+
+            .widget{
+                max-width: none;
+                margin-top: 0;
+                margin-right: 15px;
+            }
+        }
+
+        button{
+            height: 50px;
+        }
+    }
+
+
+    #createAlert {
+
+        .seu-btn-alert{
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-image: url( svg-bg-uri($svg-bell, $core-color) );
+            background-size: 20px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+            
+        &:hover .seu-btn-alert{
+            background-image: url( svg-bg-uri($svg-bell, white) );
+        }
+    }
+}
+
+.wi-search-result.wi-search-offer {
+    width: 61em;
+    margin: auto;
+    .seu-result-right{
+        .seu-result-grade {
+            font-weight: 600;
+            color: #5c5c5c;
+        }
+
+        .seu-result-infos{
+            width: 310px;
+        }
+
+        .seu-result-infos-top {
+            color: $core-color;        
+            display: flex;
+            justify-content: center;
+            min-height: 50%;
+            padding: 10px 0;
+            font-family: $montserrat;
+            font-size: 1.2rem;
+            color: $core-color;
+            text-transform: none;
+            font-weight: 500;
+            &:before {
+                content:'';
+                background-image: url(svg-bg-uri($svg-calendar, $core-color));
+                margin-right: 12px;
+                margin-top: -3px;
+                background-position: center;
+                background-repeat: no-repeat;
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+            }
+            &:after {
+                display: none;
+            }
+            &+.seu-result-infos-bottom {
+                margin-top: 0;
+            }
+        }
+
+        .seu-result-infos-bottom {
+            display: flex;
+            justify-content: center;
+            font-family: $montserrat;
+            font-size: 1.2rem;
+            color: $core-color;
+            text-transform: uppercase;
+            font-weight: 500;
+            min-height: 50%;
+            padding: 10px 0;
+        }
+    }
+}
+
+.offer-contact {
+    margin-bottom: 0;
+
+    .seu-container:before, .seu-container:after{
+        content: none;
+    }
+
+    h2 span.seu-title{
+        text-transform: uppercase;
+    }
+    
+    .seu-btn-square.seu-filled.seu-core{
+        display: block;
+        margin: 0 auto;
+        
+        a{
+            color: white;
+            text-decoration: none;
+        }
+        
+        &:hover a{
+            color: $core-color;
+        }
+    }
+}
+
+
+@include RWD(mobile){
+    .seu-view-offer, .seu-view-due-offer{
+         .seu-filter-line .widget {
+            padding: 20px;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        .seu-view-filters .seu-filter-line .widget:last-child{
+            margin: 0px;
+        }
+        .seu-view-filters .seu-filter-line .widget:not(:last-child){
+            margin: 0px !important;
+        }
+    }
+    .wi-search-result.wi-search-offer {
+        width: auto;
+    }
+}
+
+@include RWD(tablet){
+
+    .seu-view-offer, .seu-view-due-offer{
+        .seu-filter-line {
+            justify-content: center;
+        }
+
+        .seu-filter-line .widget {
+            padding: 10px;
+            flex: 0 0 100%;
+        }
+        .seu-view-filters .seu-filter-line .widget:last-child{
+            margin: 0px;
+        }
+        .seu-view-filters .seu-filter-line .widget:not(:last-child){
+            margin: 0px !important;
+        }
+    }
+    .wi-search-result.wi-search-offer {
+        width: auto;
+    }
+}
+
+@include RWD(desktop){    
+    .offer-banner.seu-quicklinks {
+        width: 900px;
+    }
+}

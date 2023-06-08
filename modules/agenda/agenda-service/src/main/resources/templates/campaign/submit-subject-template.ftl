@@ -1,0 +1,1 @@
+${campaignTitle} - Un nouvel événement est à valider

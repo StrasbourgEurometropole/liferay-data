@@ -1,0 +1,4 @@
+Bundle-Name: dynamic-search-asset-web
+Bundle-SymbolicName: eu.strasbourg.portlet.dynamic_search_asset
+Bundle-Version: 1.0.0
+Web-ContextPath: /dynamicsearchassetweb

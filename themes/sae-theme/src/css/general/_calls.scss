@@ -1,0 +1,53 @@
+// Texts
+html {
+    font-size: 10px;
+}
+body{
+    @extend %basis;
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+a {
+    @extend %link;
+    &.external-link{
+       @extend %external-link;
+    }
+}
+img{
+    max-width: 100%;
+}
+// Structures
+// .grid-list{
+//     @extend %grid-list-basic;
+// }
+// Buttons
+
+// Pagination
+.pagination{
+    @extend %pagination;
+}
+// Ariane
+.ariane{
+    @extend %ariane;
+}
+
+.hidden-only{
+    @extend %hidden-only;
+}
+
+.container{
+    @extend %container;
+}
+
+p{
+    @extend %basis;
+    margin-bottom:30px;
+}
+
+.left{
+    @extend %float-left;
+}
+.right{
+    @extend %float-right;
+}

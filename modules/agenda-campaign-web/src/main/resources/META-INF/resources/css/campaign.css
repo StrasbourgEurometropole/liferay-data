@@ -1,0 +1,235 @@
+.searchcontainer-content th {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.period-label {
+	margin-bottom: 10px;
+}
+
+#date-fields .date-range {
+	cursor: pointer; 
+	padding: 5px 10px; 
+	border: 1px solid #ccc; 
+	width: 100%;
+}
+
+.time-detail-wrapper {
+   margin-top: 10px;
+   margin-bottom: -40px;
+}
+
+.time-detail-generator-wrapper {
+	margin-top: 10px;
+}
+
+.event-periods-title {
+	margin-top: 30px;
+}
+
+.event-periods-title .control-label {
+	font-size: 16px;
+}
+
+.add-dates-section {
+	padding-top: 15px;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.event-no-period, .language-error {
+    margin-top: 40px;
+    display: inline-block;
+    padding: 5px 10px;
+    background: #F44336;
+    color: white;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
+.language-error ul {
+	margin-top: 10px;
+}
+
+.portlet-body > .daterangepicker {
+    display: none;
+}
+
+.daterangepicker {
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+	display: -ms-flexbox;  /* TWEENER - IE 10 */
+	display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+	display: flex;
+	width: 740px;
+	margin-top: 33px;
+    margin-left: 10px;  
+}
+
+.daterangepicker th {
+	font-weight: bold;
+}
+
+.daterangepicker .calendar {
+	height: 300px;
+}
+
+.daterangepicker .input-mini {
+	font-size: 16px;
+}
+
+.daterangepicker .input-mini.active {
+    border: 4px solid #0088cc;
+    border-radius: 4px;
+    padding: 0px 3px 0 25px;
+}
+
+.daterangepicker .range_inputs button {
+    display: block;
+    width: 160px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.daterangepicker .range_inputs button.applyAndNewBtn {
+    white-space: normal;
+}
+
+.add-row.btn, .delete-row.btn {
+	margin-right: 10px;
+}
+
+.btn {
+    margin: 0 15px 15px 0;
+}
+
+#wrapper .btn-cancel {
+	border-radius: 4px;
+    border: 1px solid #97bf0c !important;
+    padding: 13px 49px !important;
+    text-decoration: none !important;
+}
+
+#wrapper .btn-cancel:hover {
+    background-color: #98d90d;
+    border-color: #98d90d !important;
+    color: white;
+    font-weight: 500;
+}
+
+img {
+	max-width: 500px;
+}
+
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}
+
+.campaign-web .portlet-title-text {
+	display: none;
+}
+
+.big-button {
+	text-align: center;
+}
+
+.big-button .btn {
+    font-size: 32px;
+    padding: 25px 30px;
+    margin-top: 40px;
+}
+
+.campaign-web .panel-title {
+    display: block;
+    padding: 10px 15px;
+    background: #97bf0c;
+    color: white;
+}
+
+.campaign-web .panel-group .panel-title > a {
+    padding: 0;
+}
+
+.campaign-web .panel-body {
+    border-top: 2px solid #97bf0c;
+}
+
+.campaign-web .status-history {
+	column-count: 3;
+}
+
+.panel-group fieldset fieldset {
+    background: #f5f7f8;
+}
+
+.input-localized-textarea textarea {
+    resize: vertical;
+    height: 20em;
+}
+
+.selected-place .choices__item span{
+    font-size: 16px;
+    font-weight: 400;
+    vertical-align: middle;
+}
+
+.selected-place .remove_place{
+    height: 32px;
+    background-size: 12px !important;
+}
+
+a.show-manual-place, a.show-autocomplete-place,
+a.show-manual-place:not([href]):not([tabindex]),
+a.show-autocomplete-place:not([href]):not([tabindex]),
+a.show-manual-place:not([href]):not([tabindex]):hover,
+a.show-autocomplete-place:not([href]):not([tabindex]):hover,
+a.show-manual-place:not([href]):not([tabindex]):focus,
+a.show-autocomplete-place:not([href]):not([tabindex]):focus{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #65B6F0;
+}
+
+.importante{
+    color: red;
+    padding: 0 15px 15px 15px;
+}
+
+.form-group{
+    min-width: 55px;
+}
+
+.form-group label .reference-mark {
+    font-size: 12px;
+}
+
+#registrationDiv input{
+    max-width: 300px;
+}

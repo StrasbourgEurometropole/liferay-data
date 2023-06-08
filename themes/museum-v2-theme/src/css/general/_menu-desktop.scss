@@ -1,0 +1,205 @@
+#global{
+    #menu-desktop {
+        display: none;
+                
+        @include RWD(tablet_portrait){
+            display: block;
+            @include positionAbsolute("", "", (top: 0, left: 50%));
+            transform: translateX(-50%) translateY(40px);
+            width: 100%;
+            z-index: 2;
+        }
+
+        .container{
+            position: relative;
+            transform: translateY(-40px);
+
+            #burger{
+                @include positionAbsolute("", "", (top: 0, right: 0));
+                background: $color_main;
+                width: 90px;
+                height: 90px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                text-transform: uppercase;
+                @include ft($proximaNova,  0.8125rem, 400, white, 0.9375rem, "");
+                cursor: pointer;
+                z-index: 2;
+
+                .burger-inner{
+                    position: relative;
+                    width: 39px;
+                    height: 30px;
+                    outline: none;
+
+                    span {
+                        @include positionAbsolute("", "", (top: 50%, left: 0));
+                        background-color: white;
+                        width: 19px;
+                        height: 3px;
+                        transition: all 0.3s ease-in-out 0s;
+                        border-radius: 5px;
+    
+                        &:before, &:after{
+                            position: absolute;
+                            background-color: white;
+                            height: 3px;
+                            content: "";
+                            display: block;
+                            transition: all 0.3s ease-in-out 0s;
+                            border-radius: 5px;
+                        }
+    
+                        &:before{
+                            top: 13px;
+                            width: 29px;
+                        }
+    
+                        &:after{
+                            bottom: 13px;
+                            width: 39px;
+                        }
+                    }
+                }
+            
+                //Quand le menu est ouvert
+                &.show-nav{
+                    span{
+                        background-color: transparent;
+
+                        &:after{
+                            transform: rotate(-45deg);
+                            bottom:0;
+                        }
+
+                        &:before{
+                            transform: rotate(45deg);
+                            width: 39px;
+                            top:0;
+                        }
+                    }
+                }
+            }
+        }
+
+        #nav{
+            transition : max-width 1s;
+            max-width: 100vw;
+            height: calc(100vh - 40px);
+            overflow-x: hidden;
+            background: white;
+            margin-left: auto;
+            display: flex;
+
+            &.hidden{
+                max-width: 0;
+                height: 0;
+            }
+
+            .nav-quicklink{
+                background: #F9F9F9;
+                width: 20%;
+
+                .quicklinks{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 35px;
+                    margin-top: 180px;
+                    align-items: center;
+
+                    a.button1{
+                        width: 180px;
+                        background: none;
+                        border: none;
+                        @include ft($proximaNova,  1.375rem, 400, black, 1.625rem, "");
+                        text-transform: none;
+                        position: relative;
+                        padding: 10px 20px;
+                        text-align: left;
+
+                        &:before{
+                            content: '';
+                            width: 10px;
+                            height: 10px;
+                            background: $color_main;
+                            @include positionAbsolute("", "", (bottom: 0, left: 0));
+                        }
+
+                        &:hover {
+                            background: $color_main;
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            .nav-thumbnails{
+                width: 100%;
+                overflow: auto;
+
+                .list{                    
+                    display: grid;
+                    grid-template-columns: 33% 33%;
+                    gap: 40px;
+                    margin-top: 80px;
+                    margin-left: 15%;
+
+                    .nav-thumbnail{
+                        display: block;
+                        background-size: cover;
+                        background-position: center;
+                        position: relative;
+                        box-shadow: 0px 15px 10px 0px #{$color_second}2;
+                        transition: all 1s ease;
+                        width: 100%;
+                        height: 240px;
+                    
+                        &:hover{
+                            height: 220px;
+                        }
+                
+                        &:not(:hover) .info:after{
+                            content: none;
+                        }
+                    
+                        .info{
+                            @include positionAbsolute("", "", (bottom: 0, left: 0));
+                            width: 100%; 
+                            height: 110px;
+                            padding: 0 75px;
+                    
+                            &:not(.noImage){
+                                background: linear-gradient(360deg, $color_main 0.52%, rgba(49, 7, 17, 0.5) 70.83%, rgba(0, 0, 0, 0) 100%);
+                            }
+                            
+                            &:after{
+                                content: '';
+                                @include positionAbsolute("", "", (bottom: -15px, left: calc(50% - 15px)));
+                                text-align: center;
+                                background: white;
+                                background-image: url( svg-bg-uri($svg-plus, $color_main) );
+                                background-position: center;
+                                background-repeat: no-repeat;
+                                padding: 5px;
+                                width: 30px;
+                                height: 30px;
+                            }
+                    
+                            .title{
+                                @include ft($proximaNova, 1.25rem, 700, white, 1.5rem, "");
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                text-align: center;
+                                height: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

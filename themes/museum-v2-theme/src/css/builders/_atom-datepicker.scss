@@ -1,0 +1,125 @@
+#ui-datepicker-div{
+    padding: 0; 
+    @include ft($proximaNova, 1 rem, 400, $color_second, 1.5rem, "");
+    border: none;
+    background-color: $color_third; 
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+
+    %datepicker-arrow{
+        width: 20px;
+        height: 20px;
+        position: static;
+        background-size: 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: all, 0.5s;
+        span{
+            display: none;
+        }
+
+        &:hover, &:focus{
+            opacity: 1;
+        }
+    }
+    .ui-datepicker-next{
+        @extend %datepicker-arrow; 
+        background-image: url( svg-bg-uri($svg-chevron, $color_txt) );
+        order: 3; 
+    }    
+    .ui-datepicker-prev{
+        @extend %datepicker-arrow;
+        order: 0;
+        background-image: url( svg-bg-uri($svg-chevron, $color_txt) );
+        transform: rotate(180deg);
+    }    
+    .ui-datepicker-header{
+        background-color: $color-main;
+        padding: 25px 15px;
+        order: 2;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:before, &:after{
+            display: none;
+        }
+
+        .ui-datepicker-title{
+            line-height: 1;
+            margin: 0;
+            display: flex;
+        }
+        .ui-datepicker-month{
+            @include ft($proximaNova, 1.25 rem, 300, white, 1.5rem, "");
+            display: block;
+            text-transform: uppercase;
+        }
+        .ui-datepicker-year{
+            @include ft($proximaNova, 1.25 rem, 300, white, 1.5rem, "");
+        }
+    }
+    select{
+        background-color: $color-main;
+        border: solid 1px #FFFFFF;
+        border-radius: 0px;
+        background: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYWxxdWVfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHZpZXdCb3g9IjAgMCA2Mi43IDQ5IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2Mi43IDQ5OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cG9seWdvbiBzdHlsZT0iZmlsbDogI0ZGRkZGRjsiIHBvaW50cz0iMTMuNiwyMy40IDQ4LjgsMjMuNCAzMS4yLDM5ICIvPg0KPC9zdmc+DQo=) no-repeat 95% 50%;
+        background-size: 15px;
+        -moz-appearance: none; 
+        -webkit-appearance: none; 
+        appearance: none;
+        padding: 5px;
+        padding-right: 20px;
+
+        option{
+            background-color: $color-main;
+        }
+
+        & + select{
+            margin-left: 20px;
+        }
+    }
+    table{
+        width: 80%;
+        margin: 10px;
+        th, td{
+            padding: 6px;
+        }
+        th{
+            @include ft($proximaNova, 1 rem, 600, $color_txt, 1.5rem, "");
+            text-transform: uppercase;
+            text-align: center;
+        }
+        td{
+            font-size: 1 rem;
+            text-align: center;
+            a{
+                color: $color_second;
+                text-align: center;
+                transition: all, 0.5s;
+
+                &:hover, &:focus{
+                    opacity: 0.5;
+                }
+            }
+
+            &.ui-datepicker-today{
+                a{
+                    color: #FFFFFF; 
+                }
+                position: relative;
+
+                &:before{
+                    content: '';
+                    display: block;
+                    border-radius: 5000px;
+                    background-color: $color_txt;
+                    height: 22px;
+                    width: 22px;
+                    @include positionAbsolute(-1, translate(-50%, -50%), (top: 50%, left: 50%));
+                }
+            }
+        }
+    }
+}

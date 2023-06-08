@@ -1,0 +1,170 @@
+.embed-responsive {
+    position: relative;
+    display: block;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    iframe{
+    	position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+    }
+}
+
+// ajout d'un media sur une page int
+.media{
+	margin-bottom:40px;
+}
+
+//Carto google map
+.poi{
+	margin-bottom:60px;
+	position:relative;
+	.map{
+		height: 550px;
+		width: 100%;
+		@include RWD(mobile){
+			height:300px;
+		}
+	}
+}
+
+// Popup gmap
+.gmap-popup{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color: rgba(52,52,51,0.65);
+	text-align: center;
+	padding:150px 200px 0px;
+	span{
+		font-family: $font-title;
+		font-size:24px;
+		font-size:2.4rem;
+		line-height: normal;
+		color:#f2f2f2;
+		text-transform: uppercase;
+		display: block;
+		margin-bottom:30px;
+		max-height: 55px;
+		overflow: hidden;
+	}
+	.infos{
+		p{
+			font-family: $font-text;
+			font-size:15px;
+			font-size:1.5rem;
+			line-height: 1.6em;
+			color:#fff;
+			max-height: 72px;
+			overflow: hidden;
+		}
+		a{
+			color:#fff;
+			@include transition(color 0.3s);
+			&:hover, &:active, &:focus{
+				color:#a7a6a6;
+			}
+		}
+	}
+	.gmap-close{
+		@extend %btn-close;
+		@include RWD(mobile){
+			top: 20px;
+			right: 20px;
+		}
+	}
+	@include RWD(tablet_only){
+		padding:150px 100px 0px;
+	}
+	@include RWD(mobile){
+		padding: 40px 20px 0px;
+	}
+}
+
+//Gallery images
+.owl-gallery{
+	margin-bottom:35px !important;
+	margin-left: 0px !important;
+	.item-gallery{
+		position:relative;
+		img{
+			margin: 0 auto;
+		}
+	}
+	.caption{
+		position:absolute;
+		bottom:0;
+		left:0;
+		right:0;
+		width:100%;
+		background-color:rgba(52,52,51,0.87);
+		padding:15px 20px 20px;
+		height: auto;
+		span{
+			font-family: $font-text;
+			font-size:14px;
+			font-size:1.4rem;
+			line-height: 1.43em;
+			color:#ffffff;
+		}
+		@include RWD(mobile){
+			display: none;
+		}
+	}
+	.owl-nav{
+		margin-left:0;
+		z-index:1;
+		@include RWD(tablet){
+			width:100%;
+		}
+	}
+}
+
+//Tableau
+
+.table-reponsive{
+	overflow: hidden;
+	width:100%;
+	overflow-x: auto;
+}
+table{
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0px 1px;
+	margin-bottom:30px;
+	p{
+		font-family: $font-text;
+		font-size: 17px;
+		font-size: 1.7rem;
+		line-height: 1.4em;
+		margin: 0px;
+	}
+	tr{
+		min-height: 50px;
+		text-align: center;
+	}
+	th, .td-color{
+		padding: 15px 0px;
+		background-color: $color-primary;
+		text-align: center;
+		p{
+			color: #fff;
+		}
+	}
+	td{
+		padding: 15px 0px;
+		background-color: #e2e2e2;
+		text-align: center;
+		p{
+			color:#676767;
+		}
+	}
+}

@@ -1,0 +1,161 @@
+.pro-wrapper-top-listing {
+	padding: 20px 0;
+	border-bottom: 1px solid $c_filet;
+	@include clearfix();
+
+	#breadcrumb {
+		float: left;
+		width: auto;
+	}
+
+	.pro-wrapper-sort {
+		float: right;
+		@include tablet_portrait {
+			float: none;
+			display: block;
+			margin-top: 40px;
+			&:after {
+				content: '';
+				clear: both;
+				display: block;
+			}
+		}
+		@include mobile {
+			margin-top: 55px;
+		}
+
+		.pro-facette-date {
+			.pro-wrapper-date {
+				&:after {
+					top: 1px;
+				}
+			}
+		}
+
+	}
+}
+
+.pro-listing {
+	padding: 25px 0 0;
+	> * {
+		margin: 20px 0;
+		@include mobile {
+			margin: 10px 0;
+			min-height: auto !important;
+		}
+		&:last-child {
+			@include mobile {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&.pro-listing-news{
+		.vignette{
+			&:nth-of-type(4){
+				clear: left;
+			}
+		}
+	}
+	
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 0;
+		right: -15px;
+		bottom: 0;
+		height: 100%;
+		width: 1px;
+		background: #CECECE;
+	}
+}
+
+
+.pro-listing-container {
+	> * {
+		@include tablet_portrait {
+			min-height: auto !important;
+		}
+	}
+}
+
+.pro-wrapper-listing-general {
+	position: relative;
+	padding: 10px 0;
+	margin-top: -30px;
+	@include tablet_landscape {
+		padding-top: 0;
+		margin-top: 0;
+	}
+	@include mobile {
+		padding: 15px 0;
+	}
+
+	.pro-bloc-card-help {
+		margin: 20px 0;
+		&:first-child {
+			@include tablet_landscape {
+				margin-top: 0;
+			}
+		}
+
+		&:hover, &:focus {
+			transform: none;
+			box-shadow: 0px 0 20px 0px rgba(0,0,0,0.2);
+		}
+
+		> figure, .fit-cover {
+			width: 240px !important;
+			@include mobile {
+				width: 100% !important;
+				height: 150px;
+			}
+			& + div {
+				width: calc(100% - 240px);
+				left: 240px;
+				@include mobile {
+					width: 100%;
+					left: 0;
+				}
+			}
+		}
+
+		.pro-header-help {
+			margin-bottom: 15px;
+			padding: 25px 25px 0 25px;
+		}
+
+		.pro-content-help {
+			padding: 0 25px 15px 25px;
+
+			.pro-meta {
+				margin-bottom: 15px;
+			}
+
+			h3 {
+				@include ft($f_hx, 1.875em, 700, $c_txt, 1.15em);
+				margin-bottom: 15px;
+				height: 35px;
+				overflow: hidden;				
+				text-overflow: ellipsis;
+				@include mobile{
+					font-size: 22px;
+					line-height: 28px;
+					height: auto;
+				}
+			}
+
+			.description{
+				/* $height = (nbLigne + 1) x line-height du contenu x font-size du contenu
+					(3 + 1) x 1.6em x 0.938em */
+				@include multiLineEllipsis(6.0032em, $c_white); 
+			}
+
+			.pro-time {
+				@include ft($f_txt, 0.875em, 400, $c_txt, normal);
+				margin-bottom: 10px;
+			}
+		}
+	}
+}

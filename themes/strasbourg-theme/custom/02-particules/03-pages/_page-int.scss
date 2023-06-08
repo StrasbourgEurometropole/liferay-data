@@ -1,0 +1,155 @@
+.seu-not-front {
+    @extend %text-basis-rte;
+}
+
+.seu-not-front .seu{
+    @extend %text-basis-rte;
+    padding-top: 105px;
+    
+    @include RWD(tablet){
+        padding-top: 45px;
+    }
+    .seu-published{
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    .add-favorites{
+        font-family: "MontSerrat", arial;
+        font-size: 1.4rem;
+        color: $core-color;
+        text-transform: uppercase;
+        font-weight: 700;
+        position: relative;
+        height: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+        &:before{
+            content: '';
+            display: inline-block;
+            width: 21px;
+            height: 21px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 12px;
+            flex-shrink: 0;
+            background-image: url( svg-bg-uri($svg-heart, $core-color) );
+        }
+        &.liked{
+            &:before{
+                background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+            }
+        }
+        span{
+            position: relative;
+        }
+        span:after{
+            @extend %animation-hoverBar-in;
+            background-color: $core-color;
+        }
+        &:hover, &:focus{
+            text-decoration: none;
+            span:after{
+                @extend %animation-hoverBar-out;
+            }
+        }
+    }
+    .detail-line{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        & > * {
+            width: 33.33%;
+            @include RWD(tablet){
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        .seu-published{
+            margin-bottom: 0;
+            @include RWD(tablet){
+                margin-bottom: 10px;
+            }
+        }
+        .add-favorites{
+            margin-bottom: 0;
+        }
+        margin-bottom: 20px;
+    }
+    h1{
+        @extend %atom-main-title;
+        &:before{ 
+            content: '';
+            display: block;
+            height: 15px;
+            background-size: 50px; 
+            background-position: center;
+            background-repeat: no-repeat; 
+            background-image: url( svg-bg-uri($svg-wave, #dddddd) ); 
+            margin-bottom: 25px;
+
+            @include RWD(mobile){
+                margin-bottom: 10px;
+                background-size: 35px;
+            }
+        }
+        margin-bottom: 30px;
+        @include RWD(mobile){
+            margin-bottom: 30px;
+        }
+    }
+    .hat{
+        margin-bottom: 30px;
+        @include RWD(mobile){
+            margin-bottom: 30px;
+        }
+    }
+    .region-post-header{
+        .region-nav-tools{
+            position: relative;
+            z-index: 10;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            @extend %container;
+            display: flex;
+            align-items: center;     
+            margin-bottom: 50px;
+            margin-top: 40px;
+       /*     @include RWD(mobile){
+                display: none;
+            }*/
+
+        }
+        .block-container-breadcrumb{
+            margin-right: auto;
+            padding-left: 0;
+        }
+        &.has-banner{
+            .region-nav-tools{
+                margin-top: 0;
+                transform: translateY(-50%);
+                margin-bottom: 5px;
+            }
+            .block-container-breadcrumb{
+                background-color: #f6f6f6;
+                box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+                padding: 20px 30px;
+                @include RWD(mobile){
+                    padding: 10px 15px;
+                }
+            }
+        }
+    }
+
+    // Publié le d'une actu
+    .actu-published{
+        text-align: right;
+        font-style: italic;
+        color: $core-color-access;
+        font-size: 12px;
+        font-size: 1.2rem;
+    }
+}

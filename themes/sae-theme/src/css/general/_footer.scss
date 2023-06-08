@@ -1,0 +1,278 @@
+footer{
+	background-color:#3a3a3a;
+	padding-top: 20px;
+	margin-top:30px;
+
+	@include RWD(tablet){
+		padding-top: 15px;
+	}
+	
+	@include RWD(mobile){
+		background: #1e1e1e;
+	}
+	
+	.footer-top {
+		display: flex;
+		justify-content: space-between;
+		margin: 0 260px 60px;
+		align-items: center;
+
+	    @include RWD(tablet){
+			margin: 0 110px;
+	    }
+	
+		@include RWD(mobile){
+		    margin: 0;
+			flex-direction: column-reverse;
+		}
+
+		.nav-footer{
+		    margin: 0 0 30px;
+		    padding-bottom: 20px;
+		    border-bottom: 1px solid #4d4d4d;
+			font-size:0;
+			
+			@include RWD(tablet){
+				margin-bottom: 15px;
+				padding-bottom: 5px;
+			}
+
+		    @include RWD(mobile){
+				background-color:#3a3a3a;
+		    	border: none;
+			    padding: 0;
+			    margin: 0;
+		    }
+			
+		    li{
+		    	display: inline-block;
+				border-right: 1px solid #4d4d4d;
+				
+			    @include RWD(mobile){
+				    width: 100%;
+				    border: none;
+				    border-bottom: 1px solid #4d4d4d;
+					text-align: center;
+					padding: 20px;
+			    }
+				
+			    a{
+				    line-height: 1.6rem;
+				    color: #fff;
+				    text-decoration: none;
+				    text-transform: uppercase;
+				    font-weight: bold;
+				    padding: 0 11px;
+				    @include transition(all 0.3s ease 0s);
+				    font-family: 'Arial', sans-serif;
+					font-size:1.3rem;
+
+					@include RWD(tablet){
+						line-height: 0.9rem;
+						padding: 0 5px;
+						font-size: 0.8rem;
+					}
+				    @include RWD(mobile){
+					    line-height: 1.4rem;
+					    padding: 0;
+					    font-size: 1.2rem;
+				    }
+					
+				    &:hover, &:active, &:focus{
+				    	color: $color-primary;
+				    }
+				}
+				
+			    &:first-child{
+					a{
+						padding-left: 0;
+					}
+				}
+				
+			    &:last-child{
+					border:none;
+				}
+			}
+		}
+
+		.content-footer{
+			display: flex;
+			justify-content: space-between;
+
+			.coordonnees{
+				@include RWD(mobile){
+					display: none;
+				}
+
+				.footer-contact, .numeros, .adresse, a{
+					font-size: 1.3rem;
+					line-height: 1.5rem;
+					color: #b1b1b1;
+					font-family: 'Arial', sans-serif;
+					margin-bottom: 20px;
+	
+					@include RWD(tablet){
+						line-height: 0.8rem;
+						font-size: 0.7rem;
+						margin-bottom: 10px;
+					}
+				}
+	
+				a{
+					@include transition(color 0.3s ease 0s);
+					&:hover, &:active, &:focus{
+						color: $color-primary;
+					}
+				}
+			}
+
+			.social-network{
+				float: none;
+				width: 350px;
+
+				@include RWD(tablet){
+					width: auto;
+				}
+				
+				@include RWD(mobile){
+					width: 100%;
+					text-align: center;
+					margin-top: 20px;
+				}
+
+				span{
+					display: block;
+					font-size:1.4rem;
+					line-height: 1.6rem;
+					color: #fff;
+					text-transform: uppercase;
+					font-weight: bold;
+					padding: 0 0 10px;
+					font-family: 'Arial', sans-serif;
+
+					@include RWD(tablet){
+						font-size: 0.8rem;
+						line-height: 0.9rem;
+						padding-bottom: 3px;
+					}
+					@include RWD(mobile){
+						font-size: 1.2rem;
+						line-height: 1.4rem;
+						padding-bottom: 15px;
+					}
+				}
+
+				ul{
+					margin: 0;
+
+					li{
+						margin: 0;
+						padding: 0 6px;
+
+						@include RWD(tablet){
+							padding: 0 2px;
+						}
+
+						@include RWD(mobile){
+    						display: inline;
+						}
+
+						a{
+							width: 20px;
+							height: 20px;
+							background-size: contain;
+							margin: 0;
+							@include transition(all 0.3s ease 0s);
+
+							@include RWD(tablet){
+								width: 10px;
+								height: 10px;
+							}
+							@include RWD(mobile){
+								width: 30px;
+								height: 30px; 
+								margin: auto;
+							}
+
+							&.btn-twitter{
+								background-image:url(../images/icone/icone-twitter.jpg);
+							}
+							&.btn-linkedin{
+								background-image:url(../images/icone/picto_linkedin_footer.png);
+							}
+							&.btn-soundcloud{
+								background-image:url(../images/icone/picto_soundcloud_footer.png);
+							}
+							&.btn-daily{
+								background-image:url(../images/icone/picto_dailymotion_footer.png);
+							}
+							&.btn-tumblr{
+								background-image:url(../images/icone/icone-tumblr.jpg);
+							}
+							&.btn-insta{
+								background-image:url(../images/icone/icone-instagram.jpg);
+							}
+							&.btn-netvibes{
+								background-image:url(../images/icone/icone-netvibes.jpg);
+							}
+							&.btn-fb{
+								background-image:url(../images/icone/icone-facebook.jpg);
+							}
+
+							&:hover, &:active, &:focus{
+								opacity: 0.4;
+							}
+						}
+
+						&:first-child{
+							padding-left: 0;
+						}
+					}
+				}
+			}
+		}
+		
+		.europtimist{
+			width: 140px;
+			margin-top: 30px;
+			margin-left: 60px;
+
+			@include RWD(tablet){
+				width: 80px;
+				margin-top: 0;
+			}
+	
+			@include RWD(mobile){
+				width: 140px;
+				margin-left: 0;
+				margin-bottom: 15px;
+			}
+		}
+	}
+
+	.footer-bottom{
+		height: 50px;
+	    width: 100%;
+	    background: #1e1e1e;
+		margin-top: 15px;
+		padding-left: 260px;
+
+		@include RWD(tablet){
+			padding-left: 110px;
+		}
+
+	    @include RWD(mobile){
+			padding-left: 0;
+	    }
+
+	    a{
+		    background: url(../images/btn-stras-eu.png) left center no-repeat;
+		    height: 50px;
+			display: block;
+			
+		    @include RWD(mobile){ 
+    			background-position: center;
+		    }
+	    }
+	}
+}

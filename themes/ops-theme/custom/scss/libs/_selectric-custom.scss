@@ -1,0 +1,37 @@
+.selectric-wrapper{
+	.selectric{
+		border-color: $c_main;
+		background: none;
+		height: 50px;
+		.label{
+			@include ft($f_txt, 15px, 400, $c_txt, 50px);
+			display: block;
+			height: 100%;
+			margin: 0;
+			padding: 0 15px;
+		}
+		.button{
+			display: none;
+		}
+	}
+	.selectric-items{
+		background: $c_white;
+		.selectric-scroll{
+			ul{
+				padding: 0;
+				li{
+					@include ft($f_txt,15px,400,$c_greydark,20px);
+					padding: 15px 20px;
+					margin-bottom: 0;
+					@include addTransition();
+					&:hover{
+						background: #F5F5F5;
+					}
+					&.selected{
+						background: #EEE;
+					}
+				}
+			}
+		}
+	}
+}

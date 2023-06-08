@@ -1,0 +1,46 @@
+#global .useful-links{
+    background: $color_third;
+    padding: 40px 50px;
+    margin-bottom: 20px;
+
+    .useful-links-title{
+        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
+        margin-bottom: 25px;
+    }
+
+    ul{
+        padding: 0;
+
+        li{
+            list-style: none;
+            margin-bottom: 10px;
+            padding-right: 15px;
+            position: relative;
+
+            a{
+                @include ft($proximaNova, 0.9375rem, 700, $color_txt, 0.75rem, "");
+                text-decoration: none;
+        
+                @include RWD(tablet_portrait){
+                    font-size: 0.9375rem;
+                    line-height: 1.3125rem;
+                }
+
+                &:after{
+                    content: '';
+                    width: 12px;
+                    height: 13px;
+                    background-image: url( svg-bg-uri($svg-arrow, $color_main) );
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    display: inline-block;
+                    position: absolute;
+                    top: 5px;
+                    right: 0;
+                    flex-shrink: 0;
+                }
+            }
+        }
+    }
+}

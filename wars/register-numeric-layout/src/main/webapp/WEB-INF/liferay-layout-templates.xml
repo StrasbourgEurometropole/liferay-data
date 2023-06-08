@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!DOCTYPE layout-templates PUBLIC "-//Liferay//DTD Layout Templates 7.2.0//EN" "http://www.liferay.com/dtd/liferay-layout-templates_7_2_0.dtd">
+
+<layout-templates>
+	<custom>
+		<layout-template id="register-numeric-layout" name="registre numérique">
+			<template-path>/register-numeric-layout.ftl</template-path>
+			<thumbnail-path>/register-numeric-layout.png</thumbnail-path>
+		</layout-template>
+	</custom>
+</layout-templates>

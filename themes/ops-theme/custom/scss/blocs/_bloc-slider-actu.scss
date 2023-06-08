@@ -1,0 +1,184 @@
+.ops-bloc-slider-actu {
+	position: relative;
+	overflow: hidden;
+	padding: 25px 0;
+
+	h2 {
+		@include ft($f_hx, 40px, 400, $c_dark, 50px);
+		position: relative;
+		display: block;
+		text-align: center;
+		margin: 0 0 20px 0;
+		&:after {
+			content: '';
+			position: relative;
+			background: url(../images/ico/deco-line-vertical-black.png) repeat-y;
+			width: 1px;
+			height: 56px;
+			display: block;
+			margin: 15px auto;
+		}
+	}
+
+	.slick-carousel {
+		.slick-list {
+			overflow: visible;
+		}
+
+		.slick-prev, .slick-next {
+			width: 54px;
+			height: 54px;
+			top: 50%;
+			margin-top: -27px;
+			background: $c_dark;
+			border-radius: 50%;
+			@include addTransition();
+			@include mobile {
+				width: 40px;
+				height: 40px;
+				margin-top: -20px;
+			}
+			&:hover, &:focus {
+				#ops-wrapper:not(.no-hover) & {
+					background: $c_main;
+				}
+			}
+			&:before {
+				color: $c_white;
+				font-size: 24px;
+				position: relative;
+				@include addTransition();
+				@include mobile {
+					font-size: 18px;
+				}
+			}
+		}
+
+		.slick-prev {
+			left: -65px;
+			@media screen and (max-width: 1345px) {
+				left: 0;
+			}
+			@include tablet_landscape {
+				display: none !important;
+			}
+
+			&.slick-disabled {
+				background: none;
+				&:hover, &:focus {
+					#ops-wrapper:not(.no-hover) & {
+						background: $c_dark;
+						&:before {
+							color: $c_white;
+						}
+					}
+				}
+				&:before {
+					color: $c_dark;
+				}
+			}
+			&:before {
+				left: -1px;
+			}
+		}
+		.slick-next {
+			right: 0;
+			&:before {
+				left: 1px;
+			}
+
+			&.slick-disabled {
+				@include mobile {
+					display: none !important;
+				}
+			}
+		}
+
+		.ops-card-actu {
+			margin-right: 80px;
+			opacity: 0.4;
+			&.slick-active{
+				opacity: 1;
+			}
+			@include mobile{
+				margin-right: 50px;
+			}
+			figure {
+				&:before {
+					position: relative;
+				}
+			}
+		}
+	}
+}
+
+.ops-card-actu {
+	position: relative;
+	display: block;
+	font-size: 0;
+	width: 100%;
+	@include addTransition();
+	&:hover, &:focus {
+		outline: none;
+		#ops-wrapper:not(.no-hover) & {
+			.ops-link {
+				color: $c_dark;
+			}
+		}
+	}
+	> * {
+		display: inline-block;
+		vertical-align: top;
+	}
+	figure {
+		width: 285px;
+		@include aspect-ratio(285, 180);
+		@include tablet_portrait {
+			width: 200px;
+		}
+		@include mobile{
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		&:before {
+			position: relative;
+		}
+		img {
+			@extend %ops-center;
+			width: 100%;
+			height: 100%;
+		}
+
+		& + .ops-actu-text {
+			width: calc(100% - 285px);
+			padding-left: 50px;
+			@include tablet_portrait {
+				width: calc(100% - 200px);
+			}
+			@include mobile{
+				width: 100%;
+				padding-left: 0;
+			}
+		}
+	}
+	.ops-actu-text {
+		width: 100%;
+		h3 {
+			@include ft($f_hx, 28px, 400, $c_dark, 34px);
+			margin: 0 0 20px 0;
+			@include addTransition();
+			@include mobile{
+				font-size: 22px;
+				line-height: 28px;
+			}
+		}
+		p {
+			@include ft($f_txt, 15px, 400, $c_greydark, 26px);
+			margin-bottom: 13px;
+		}
+		.ops-link {
+			color: $c_main;
+			@include addTransition();
+		}
+	}
+}

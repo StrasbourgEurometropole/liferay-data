@@ -1,0 +1,139 @@
+/* Police de caractères sur tous les éléments tarteaucitron */
+div#tarteaucitronRoot, .tac_activate {
+    * {
+        font-family: $f_ms !important;
+    }
+
+    /* Conteneur Bandeau cookies */
+    #tarteaucitronAlertBig {
+        background: $c_grey;
+    }
+
+    .tarteaucitronH1 {
+        font-size: 1.0625rem;
+    }
+}
+
+/* Commun aux boutons du bandeau, du pop-up de personnalisation et aux services bloqués */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllAllowed.tarteaucitronIsSelected,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllDenied.tarteaucitronIsSelected,
+div.tac_activate .tarteaucitronAllow{
+    font-size: 0.9375rem !important;
+    font-weight: 700;
+    border-radius: 0;
+}
+
+/* bandeau */
+#tarteaucitronRoot #tarteaucitronAlertBig {
+    /* Bouton accepter */
+    #tarteaucitronPersonalize2 {
+        background-color: $c_main;
+
+        &:hover {
+            background-color: $c_dark;
+            color: $c_white;
+        }
+    }
+    
+    /* Bouton refuser */
+    #tarteaucitronAllDenied2 {
+        background-color: $c_white;
+        color: $c_lightgrey;
+    
+        &:hover {
+            background-color: $c_lightgrey;
+            color: $c_white;
+        }
+    }
+    
+    /* Bouton personnaliser */
+    #tarteaucitronCloseAlert {
+        color:$c_white;
+    
+        &:hover {
+            color: #C1C1C1;
+        }
+    }
+}
+
+/* Panneau de personnalisation des cookies */
+div#tarteaucitron {
+    #tarteaucitronServices .tarteaucitronMainLine,
+    #tarteaucitronServices .tarteaucitronMainLine:hover,
+    #tarteaucitronInfo,
+    #tarteaucitronClosePanel {
+        background: $c_grey;
+    }
+
+    #tarteaucitronInfo,
+    .tarteaucitronH2 {
+        font-size: 1rem !important;
+    }
+    
+    #tarteaucitronPrivacyUrlDialog {
+        font-size: 0.75rem !important;
+    }
+
+    #tarteaucitronServices .tarteaucitronH3 {
+        font-size: 0.875rem;
+    }
+    
+    #tarteaucitronServices {
+    
+        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+        #tarteaucitronAllAllowed.tarteaucitronIsSelected {
+            background-color: $c_main;
+            color: $c_white;
+
+            &:hover {
+                background-color: $c_dark;
+                color: $c_white;
+            }
+        }
+        
+        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+        #tarteaucitronAllDenied.tarteaucitronIsSelected {
+            background-color: $c_white;
+            color: $c_lightgrey;
+
+            &:hover {
+                background-color: $c_lightgrey;
+                color: $c_white;
+            }
+        }
+        
+        .tarteaucitronTitle button {
+            background-color: $c_grey;
+        }
+        
+        .tarteaucitronBorder .tarteaucitronLine:hover {
+            background: rgba(51, 51, 51, 0.1);
+        }
+    }
+}
+div#tarteaucitronRoot .tarteaucitronH1,
+div#tarteaucitron #tarteaucitronClosePanel,
+div#tarteaucitron #tarteaucitronInfo,
+div#tarteaucitron #tarteaucitronPrivacyUrlDialog,
+#tarteaucitronRoot .tarteaucitronName .tarteaucitronH2 {
+    color: $c_white;
+}
+
+/* Gestion affichage services bloqués */
+div.tac_activate {
+    background: #3a3a3a;
+
+    .tac_float .tarteaucitronAllow{
+        background-color: $c_main;
+
+        &:hover {
+            background-color: $c_dark;
+            color: $c_white;
+        }
+    }
+}

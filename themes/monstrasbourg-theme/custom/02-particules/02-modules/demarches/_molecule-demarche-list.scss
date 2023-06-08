@@ -1,0 +1,20 @@
+.demarche-list{
+    background-color: $second-color;
+    padding: 30px 0;
+
+    .demarche-list__item{
+        position: relative;
+        padding: 0 25px;
+        & > * {
+            width: 100%;
+        }
+    }
+
+    @include RWD(mobile){
+        padding: 10px 0 25px;
+
+        .demarche-list__item{
+            padding: 0 15px;
+        }
+    }
+}

@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder  package-path="eu.strasbourg.service.council">
+	<namespace>council</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Type" uuid="true">
+
+		<!-- PK fields -->
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="title" type="String" />
+		<column name="titleLong" type="String" />
+		<column name="roleId" type="long" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column case-sensitive="false" name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="RoleId" return-type="Collection">
+			<finder-column name="roleId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Official" uuid="true">
+
+		<!-- PK fields -->
+		<column name="officialId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="email" type="String" />
+		<column name="firstname" type="String" />
+		<column name="lastname" type="String" />
+		<column name="isActive" type="boolean" />
+		<column name="lastActivity" type="Date" />
+		<column name="lastSignInDeviceInfo" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column case-sensitive="false" name="lastname" />
+			<order-column case-sensitive="false" name="firstname" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Email" return-type="Official">
+			<finder-column name="email" />
+		</finder>
+		<finder name="GroupIdAndIsActive" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="isActive" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="OfficialTypeCouncil" uuid="true">
+
+		<!-- PK fields -->
+		<column name="officialId" primary="true" type="long" />
+		<column name="typeId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
+		<column name="result" type="String" />
+
+		<!-- Finder methods -->
+		<finder name="OfficialId" return-type="Collection">
+			<finder-column name="officialId" />
+		</finder>
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
+		</finder>
+		<finder name="TypeIdAndOfficialId" return-type="Vote">
+			<finder-column name="typeId" />
+			<finder-column name="officialId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="CouncilSession" uuid="true">
+
+		<!-- PK fields -->
+		<column name="councilSessionId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="title" type="String" />
+		<column name="date" type="Date" />
+		<column name="lastDelibProcessed" type="long" />
+
+		<!-- Links with other entities -->
+		<column name="officialLeaderId" type="long" />
+		<column name="typeId" type="long" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="Date" return-type="Collection">
+			<finder-column name="date" />
+		</finder>
+		<finder name="TypeId" return-type="Collection">
+			<finder-column name="typeId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="true" cache-enabled="false" name="Deliberation" uuid="true">
+
+		<!-- PK fields -->
+		<column name="deliberationId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Business fields -->
+		<column name="title" type="String" />
+		<column name="order" type="int" />
+		<column name="stage" type="String" />
+		<column name="countOfficialsVoting" type="int" />
+		<column name="countOfficialsActive" type="int" />
+		<column name="quorum" type="int" />
+		<column name="beginningVoteDate" type="Date" />
+		<column name="endVoteDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="councilSessionId" type="long" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="CouncilSessionId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Procuration" uuid="true">
+
+		<!-- PK fields -->
+		<column name="procurationId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Links with other entities -->
+		<column name="officialVotersId" type="long" />
+		<column name="officialUnavailableId" type="long" />
+		<column name="councilSessionId" type="long" />
+		<column name="isAbsent" type="boolean" />
+
+		<column name="procurationMode" type="int" />
+		<column name="presential" type="int" />
+		<column name="isAfterVote" type="boolean" />
+		<column name="startHour" type="Date" />
+		<column name="endHour" type="Date" />
+		<column name="startDelib" type="long" />
+		<column name="endDelib" type="long" />
+		<column name="otherProcurationMode" type="String" />
+
+
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="procurationId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="CouncilSessionId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+		</finder>
+		<finder name="CouncilSessionIdAndOfficialVotersId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialVotersId" />
+		</finder>
+		<finder name="CouncilSessionIdAndOfficialUnavailableId" return-type="Collection">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialUnavailableId" />
+		</finder>
+		<finder name="CouncilSessionIdAndOfficialVotersAndUnavailableIds" return-type="Procuration">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialVotersId" />
+			<finder-column name="officialUnavailableId" />
+		</finder>
+		<finder name="AbsenceForCouncilSession" return-type="Procuration">
+			<finder-column name="councilSessionId" />
+			<finder-column name="officialUnavailableId" />
+			<finder-column name="isAbsent" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Vote" uuid="true">
+
+		<!-- PK fields -->
+		<column name="officialId" primary="true" type="long" />
+		<column name="deliberationId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="createDate" type="Date" />
+		<column name="result" type="String" />
+
+		<!-- Links with other entities -->
+		<column name="officialProcurationId" type="long" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="deliberationId" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="DeliberationId" return-type="Collection">
+			<finder-column name="deliberationId" />
+		</finder>
+		<finder name="DeliberationIdAndOfficialId" return-type="Vote">
+			<finder-column name="deliberationId" />
+			<finder-column name="officialId" />
+		</finder>
+
+	</entity>
+
+</service-builder>

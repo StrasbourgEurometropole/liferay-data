@@ -1,0 +1,110 @@
+// Pagination
+.search-pages{
+	text-align: center;
+	margin-top:20px;
+	margin-bottom:30px;
+	
+	@include RWD(mobile){
+		margin:0;
+	}
+
+	// Prev / Next
+	.nav{
+		width: 40px;
+		height: 40px;
+		background-color: #fff;
+		font-size: 0;
+		position: relative;
+		@include box-shadow(0px, 3px, 7px, rgba(0,0,0,0.35));
+		@include transition(all 0.3s ease 0s);
+		&:before{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 1;
+			background-repeat: no-repeat;
+			background-position: center center;
+			@include transition(opacity 0.3s ease 0s);
+		}
+		&:after{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			opacity: 0;
+			background-repeat: no-repeat;
+			background-position: center center;
+			@include transition(opacity 0.3s ease 0s);
+		}
+		&:hover, &:active, &:focus{
+			@include box-shadow(0px, 3px, 7px, rgba(0,0,0,0.55));
+			&:before{
+				opacity: 0;
+			}
+			&:after{
+				opacity: 1;
+			}
+		}
+	}
+	.nav-prev{
+		float:left;
+		&:before{
+			background-image: url(../images/pictos/arrow-left.png);
+		}
+		&:after{
+			background-image: url(../images/pictos/arrow-hover-left.png);
+		}
+	}
+	.nav-next{
+		float:right;
+		&:before{
+			background-image: url(../images/pictos/arrow-right.png);
+		}
+		&:after{
+			background-image: url(../images/pictos/arrow-hover-right.png);
+		}
+	}
+
+	// Pager
+	ul{
+		margin:0 !important;
+		line-height: 40px;
+		display: inline-block;
+		li{
+			display: inline-block;
+			padding:0px !important;
+			&:before{
+				content:none !important;
+			}
+			a{
+				font-family: 'robotomedium';
+				font-size:16px;
+				font-size:1.6rem;
+				line-height: 26px;
+				color:#33383a;
+				display: block;
+				padding:0px 8px;
+				text-decoration: none;
+				@include transition(all 0.3s);
+				&:hover, &:active, &:focus{
+					color:#117a7e;
+					text-decoration: underline;
+				}
+			}
+			&.active{
+				a{
+					color:#fff;
+					background-color: $color-primary;
+				}	
+			}
+		}
+		@include RWD(mobile){
+			display: none;
+		}
+	}
+}

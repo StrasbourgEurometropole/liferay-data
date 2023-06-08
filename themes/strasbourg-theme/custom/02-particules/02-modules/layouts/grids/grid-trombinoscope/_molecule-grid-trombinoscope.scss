@@ -1,0 +1,12 @@
+%molecule-grid-trombinoscope{    
+    @include RWD(tablet){
+        margin-bottom: 20px;
+    }
+    
+    @include RWD(desktop){
+        @include grid-distribution(2, 40, 'grid-item'); 
+    }
+    @include RWD(tablet_only){
+        @include grid-distribution(2, 20, 'grid-item');
+    }
+}

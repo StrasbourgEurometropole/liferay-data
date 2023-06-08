@@ -1,0 +1,37 @@
+dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.map.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.layout.item.selector.web"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.journal.item.selector.web"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: 'com.liferay.portal', name: 'com.liferay.util.taglib'
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
+	compileOnly group: "javax.servlet.jsp", name: "javax.servlet.jsp-api", version: "2.3.2-b01"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compile project(":modules:edition-web")
+	compile project(":modules:artwork-web")
+	compile project(":modules:link-web")
+	compile project(":modules:video-web")
+	compile project(":modules:agenda-web")
+	compile project(":modules:place-web")
+	compile project(":modules:activity-web")
+	compile project(":modules:official-web")
+	compile project(":modules:project-web")
+	compile project(":modules:article-web")
+	compile project(":modules:gtfs-web")
+	compile project(":modules:ejob-web")
+	compile project(":modules:help:help-web")
+	compile project(":modules:utils")
+}

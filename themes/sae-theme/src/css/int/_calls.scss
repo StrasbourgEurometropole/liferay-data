@@ -1,0 +1,102 @@
+h1 {
+    @extend %h1;
+    margin-top:60px;
+    margin-bottom:40px;
+    @include RWD(mobile){
+		margin-bottom:20px;
+	}
+}
+
+h2 {
+    @extend %h2;
+    margin-top:70px;
+    margin-bottom:20px;
+}
+
+h3 {
+    @extend %h3;
+    margin-top:50px;
+    margin-bottom:20px;
+}
+
+h4 {
+    @extend %h4;
+    margin-top:40px;
+    margin-bottom:20px;
+}
+
+h5 {
+    @extend %h5;
+    margin-top:30px;
+    margin-bottom:20px;
+}
+
+a{
+	@extend %link;
+}
+
+//Chapô
+.hat{
+    @extend %hat;
+    margin-bottom:40px;
+}
+
+figure{
+	@extend %figure;
+	img{
+		max-width: 100%;
+		height: auto;
+		vertical-align: top;
+		@include RWD(mobile){
+			width:100%;
+		}
+	}
+	figcaption{
+		font-family: $font-text;
+		font-size: 14px;
+		font-size: 1.4rem;
+		line-height: 1.43em;
+		color: #fff;
+		background-color: #343433;
+		padding: 15px 20px;
+	}
+	&.image-xs{
+		@extend %image-xs;
+	}
+	&.image-sm{
+		@extend %image-sm;
+	}
+	&.image-md{
+		@extend %image-md;
+	}
+	&.image-full{
+		@extend %image-full;
+	}
+	&.left{
+		margin-right:20px;
+		@include RWD(mobile){
+			margin-right:0px;
+		}
+	}
+	&.right{
+		margin-left:20px;
+		@include RWD(mobile){
+			margin-left:0px;
+		}
+	}
+}
+
+.btn-general{
+	@extend %btn-light;
+}
+
+.content{
+	ul{
+	    @extend %ul;
+	    margin-bottom:30px;
+	}
+	ol{
+	    @extend %ol;
+	    margin-bottom:30px;
+	}
+}

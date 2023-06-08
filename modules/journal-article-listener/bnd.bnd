@@ -1,0 +1,4 @@
+Bundle-Name: journal-article-listener
+Bundle-SymbolicName: eu.strasbourg.listener.journalArticle
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.listener.journalArticle.constants

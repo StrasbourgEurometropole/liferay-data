@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.ejob.model.Alert">
+		<field name="uuid" type="String" />
+		<field name="alertId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="keyWord" type="String" />
+		<field name="publikUserId" type="String" />
+		<field name="language" type="String" />
+	</model>
+	<model name="eu.strasbourg.service.ejob.model.Offer">
+		<field name="uuid" type="String" />
+		<field name="offerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
+		<field name="publicationId" type="String" />
+		<field name="postNumber" type="String" />
+		<field localized="true" name="jobCreationDescription" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="startDate" type="Date" />
+		<field localized="true" name="permanentDescription" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="duration" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="post" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field name="isFullTime" type="boolean" />
+		<field localized="true" name="fullTimeDescription" type="String">
+			<hint name="max-length">400</hint>
+		</field>
+		<field localized="true" name="introduction" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="activities" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="profil" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="conditions" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field localized="true" name="avantages" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
+		<field name="limitDate" type="Date" />
+		<field name="contact" type="String" />
+		<field name="emails" type="String" />
+		<field name="shareLinkedin" type="boolean" />
+		<field name="publicationStartDate" type="Date" />
+		<field name="publicationEndDate" type="Date" />
+		<field name="isExported" type="int" />
+		<field name="emailSend" type="int" />
+		<field name="emailPartnerSent" type="int" />
+	</model>
+</model-hints>

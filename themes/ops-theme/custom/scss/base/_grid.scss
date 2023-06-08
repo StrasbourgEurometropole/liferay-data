@@ -1,0 +1,211 @@
+// Container sans colonnes
+// ==========================================================================
+.ops-content-wrapper {
+	display: block;
+	position: relative;
+	max-width: $max-width;
+	margin: 0 auto;
+
+	&.ops-content-wrapper-large{
+		@media screen and (min-width: 1600px) {
+			max-width: 1600px - $border-gutter - $border-gutter !important;
+		}
+	}
+
+	@media screen and (min-width: 1600px) {
+
+		&.ops-bloc-medium {
+			max-width: 1160px !important; // 1120px + 30 (goutière intérieur des blocs)
+		}
+		&.ops-bloc-small {
+			max-width: 960px !important; // 1120px + 30 (goutière intérieur des blocs)
+		}
+	}
+	@media screen and (min-width: 1240px) {
+		&.ops-bloc-medium {
+			max-width: 1160px !important; // 1120px + 30 (goutière intérieur des blocs)
+		}
+	}
+
+	@media screen and (max-width: $max-width+$border-gutter+$border-gutter+0px) {
+		margin: 0 $border-gutter;
+	}
+	@media screen and (max-width: 480px) {
+		margin: 0 $border-gutter;
+	}
+
+	// BLOC SMALL -> Force a 960px par défaut sur écran normaux
+	@media screen and (min-width: 1240px) {
+		&.ops-bloc-small {
+			max-width: 960px !important; // 960px + 30 (goutière intérieur des blocs)
+		}
+		&.ops-bloc-medium {
+			max-width: 1160px !important; // 960px + 30 (goutière intérieur des blocs)
+		}
+	}
+
+	// BLOC SMALL -> Doit rester centré tant qu'il est plus petit que le contenu normal, donc : margin:auto;
+	// Une fois à la taille normale, il reprend le comportement d'un bloc normal (min-width IMPORTANT)
+	@media screen and (max-width: $max-width+$border-gutter+$border-gutter) and (min-width: 960px+$border-gutter+$border-gutter+$content-gutter) {
+		&.ops-bloc-small {
+			max-width: 960px+$content-gutter !important;
+			margin: 0 auto !important;
+		}
+		&.ops-bloc-medium {
+			max-width: 1160px+$content-gutter + $content-gutter !important;
+		}
+	}
+
+	// Breakpoint mobile, on met les marge de l'écran pour tout
+	@media screen and (max-width: 480px) {
+		margin-left: ($border-gutter/2) !important;
+		margin-right: ($border-gutter/2) !important;
+	}
+
+	> .ops-content-wrapper {
+		//@media screen and (max-width: 1060px){
+		//	margin: 0 auto !important;
+		//	max-width: 960px+$content-gutter !important;
+		//}
+		@media screen and (max-width: $max-width+$border-gutter+$border-gutter) and (min-width: 1024px) {
+			&.ops-bloc-small {
+				max-width: 960px+$content-gutter !important;
+				margin: 0 auto !important;
+			}
+			&.ops-bloc-medium {
+				max-width: 1160px+$content-gutter !important;
+			}
+		}
+		@include tablet_landscape {
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+		}
+	}
+
+}
+
+// Container avec colonnes
+// ==========================================================================
+.ops-col-wrapper {
+	box-sizing: content-box;
+	margin: 0 auto;
+	max-width: $max-width+$content-gutter !important; // 1200 + 30 (goutière intérieur des blocs)
+
+	&.ops-col-wrapper-large{
+		// Pour les écrans supérieurs à 1600px on agrandit le contenu (1600px - les bords de l'écran border-gutter)
+		@media screen and (min-width: 1600px) {
+			max-width: 1600px + $content-gutter - $border-gutter - $border-gutter !important;
+			// max -> 1600 + 30 (goutière des bords pour que les colonnes empiètes) - les bords de l'écran 2*40px
+		}
+	}
+
+	// BLOC SMALL -> Force a 960px par défaut sur écran normaux
+	@media screen and (min-width: 1240px) {
+		&.ops-bloc-small {
+			max-width: 960px+$content-gutter !important; // 960px + 30 (goutière intérieur des blocs)
+		}
+	}
+
+	@media screen and (min-width: 1240px) {
+		&.ops-bloc-medium {
+			max-width: 1160px+$content-gutter !important; // 1120px + 30 (goutière intérieur des blocs)
+		}
+	}
+
+	// Résolution jusqu'à 1280px, on met le contenu par défaut à 40 px des bords (FLUID)
+	@media screen and (max-width: $max-width+$border-gutter+$border-gutter) {
+		margin-left: $border-gutter - ($content-gutter/2) !important;
+		margin-right: $border-gutter - ($content-gutter/2) !important;
+	}
+
+	// BLOC SMALL -> Doit rester centré tant qu'il est plus petit que le contenu normal, donc : margin:auto;
+	// Une fois à la taille normale, il reprend le comportement d'un bloc normal (min-width IMPORTANT)
+	@media screen and (max-width: $max-width+$border-gutter+$border-gutter) and (min-width: 960px+$border-gutter+$border-gutter+$content-gutter) {
+		&.ops-bloc-small {
+			max-width: 960px+$content-gutter !important;
+			margin: 0 auto !important;
+		}
+		&.ops-bloc-medium {
+			max-width: $max-width + $content-gutter - $border-gutter !important;
+			margin: 0 auto !important;
+		}
+	}
+
+	@media screen and (max-width: $max-width) {
+		&.ops-bloc-medium {
+			max-width: $max-width + $content-gutter - $border-gutter !important;
+			margin-left: $border-gutter - ($content-gutter/2) !important;
+			margin-right: $border-gutter - ($content-gutter/2) !important;
+		}
+	}
+
+	// Breakpoint mobile, on met les marge de l'écran pour tout
+	@media screen and (max-width: 480px) {
+		margin-left: ($border-gutter/2) - ($content-gutter/2) !important;
+		margin-right: ($border-gutter/2) - ($content-gutter/2) !important;
+		&.ops-bloc-medium {
+			margin-left: 10px !important;
+			margin-right: 10px !important;
+		}
+	}
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+	> * {
+		padding-left: $content-gutter/2 !important;
+		padding-right: $content-gutter/2 !important;
+	}
+}
+
+// Grille en colonnes
+// ==========================================================================
+.ops-col-20, .ops-col-25, .ops-col-33, .ops-col-50, .ops-col-66, .ops-col-100 {
+	float: left;
+	display: block;
+}
+
+.ops-col-20 {
+	width: calc(20% - 20px);
+
+	@include tablet_landscape {
+		width: calc(25% - 20px);
+	}
+}
+
+.ops-col-25 {
+	width: 25%;
+}
+
+.ops-col-33 {
+	width: 33.33333%;
+}
+
+.ops-col-50 {
+	width: 50%;
+}
+
+.ops-col-66 {
+	width: 66.66666%;
+}
+
+.ops-col-100 {
+	width: 100%;
+}
+
+@include tablet_portrait {
+
+	.ops-col-25 {
+		width: 50%;
+	}
+}
+
+@include mobile {
+	.ops-col-20, .ops-col-25, .ops-col-33, .ops-col-66, .ops-col-50 {
+		float: none;
+		clear: both;
+		margin: 0 auto;
+		width: 100%;
+	}
+}

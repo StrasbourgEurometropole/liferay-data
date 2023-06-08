@@ -1,0 +1,81 @@
+.wi-search-result.wi-search-generic {
+    .seu-result-right .seu-result-infos-bottom .seu-add-favorites:before {
+         width: 30px;
+    }
+
+    .seu-result-right .seu-result-infos-top {
+        color: $core-color;
+    }
+    &.wi-search-edition {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-document, $core-color));
+            background-size: 30px;
+        }
+        .seu-result-right .seu-result-infos-top:before {
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+            margin-right: 12px;
+            margin-top: -3px;
+            background-size: 19px !important;
+            width: 30px;
+        }
+    }
+    &.wi-search-edition-gallery {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-document-gallery, $core-color));
+            background-size: 50px;
+            background-position-y: 8px;
+        }
+    }
+    &.wi-search-event,
+    &.wi-search-manifestation {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+        }
+        .seu-result-right .seu-result-infos-top:before {
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+            margin-right: 12px;
+            margin-top: -3px;
+            background-size: 19px !important;
+            width: 30px;
+        }
+    }
+    &.wi-search-cw {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-file, $core-color));
+        }
+        .seu-result-right .seu-result-infos-top:before {
+            background-image: url(svg-bg-uri($svg-calendar, $core-color));
+            margin-right: 12px;
+            margin-top: -3px;
+            background-size: 19px !important;
+            width: 30px;
+        }
+    }
+    &.wi-search-official {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-official, $core-color));
+            background-size: 35px;
+        }
+        .seu-result-right .seu-result-infos-top {
+            color: #2da192;
+            &:before {
+                background-image: url(svg-bg-uri($svg-marker, #2da192));
+                margin-right: 12px;
+                margin-top: -3px;
+            }
+        }
+    }
+    &.wi-search-activity,
+    &.wi-search-activity-course {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-sport-activity, $core-color));
+            background-size: 45px;
+        }
+    }
+    &.wi-search-procedure {
+        .seu-result-icon {
+            background-image: url(svg-bg-uri($svg-download, $core-color));
+            background-size: 25px;
+        }
+    }
+}

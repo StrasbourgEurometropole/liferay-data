@@ -1,0 +1,154 @@
+.seu-page-association{
+    // Structure
+    main > .seu-flexbox{
+        display: flex;    
+        @include RWD(tablet){
+            flex-direction: column;
+        } 
+    }
+    .seu-container-left{
+        flex: 1;
+        @include RWD(tablet){
+            order: 2;
+            flex: auto;
+        }
+
+
+        .seu-wi--collapsing{
+            margin-bottom: 45px;
+            &:last-child{
+                // margin-bottom: 0;
+            }
+            @include RWD(mobile){
+                margin-left: -20px;
+                margin-right: -20px;
+                .seu-toggle-collapse{
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+            }
+            
+            h3{
+                font-family: $site-font;
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 2.4rem;
+            }
+    
+            .seu-wi-practices{
+                display: block;
+                background-color: #ffffff !important;
+                margin-bottom: 30px;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+        
+                // Contenu du tableau
+                .seu-content{
+                    padding: 30px;
+                    @include RWD(mobile){
+                        padding: 20px;
+                    }
+        
+                    .title{
+                        font-family: "MontSerrat", arial;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        color: $core-color;
+                        &:first-child{
+                            margin-top: 0;
+                        }   
+                    }
+                    
+                    .rte{
+                        text-transform: uppercase;
+                        font-family: $montserrat;
+                        font-size: 1.4rem;
+                        color: $core-color;
+                
+                    }
+
+                    .category-list{
+                        padding: 0 20px;
+                        margin-bottom: 30px;
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+                
+                        li{
+                            display: flex;
+                            border-bottom: solid 1px #DDDDDD;
+                            padding: 5px 0;
+                            &:last-child{
+                                border-bottom: none;
+                            }
+                
+                            span{
+                                flex-shrink: 0;
+                            }
+                            span + span{
+                                text-align: right;
+                                padding-left: 100px;
+                                flex: 1;
+                
+                                @include RWD(mobile){
+                                    padding-left: 50px;
+                                }
+                            }
+                            .exception {
+                                color: #F44336;
+                                &:after {
+                                    content: "*";
+                                    display: inline;
+                                }
+                            }
+                        }
+                        @include RWD(mobile){
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .seu-container-right{
+        @include RWD(desktop){
+            margin-left: 20px;
+            width: 340px;            
+        }
+        @include RWD(tablet){
+            order: 1;
+        }
+        @include RWD(tablet_only){
+            padding: 20px;
+            display: flex;
+            background-color: $second-color;
+        }
+        flex-shrink: 0;
+
+        // Encart information
+        .seu-location-infos{
+            background-color: $second-color;
+            padding: 45px 30px;
+            @include RWD(tablet_only){
+                flex: 1;
+                padding-top: 0; padding-bottom: 0; padding-right: 0;
+            }
+            font-family: $main-font;
+            font-size: 1.8rem;
+            color: $core-color;
+            h3{
+                font-family: $site-font;
+                font-weight: 700;
+                text-transform: uppercase;
+            }
+            .rte{
+                color: $core-color;
+    
+                a:hover, &:focus{
+                    color: #545454;
+                }
+            }
+        }
+    } 
+}

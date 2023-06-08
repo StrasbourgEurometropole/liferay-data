@@ -1,0 +1,137 @@
+// Style pour la sélection d'image et de documents
+.pro-bloc-pcs-form {
+    .upload-image, .upload-file {
+        padding-right: 35px;
+        border-radius: 4px;
+    }
+
+    .documentSelected{
+        width: 100%;
+        margin-bottom: 10px;
+        position: relative;
+    
+        .browsePicture{
+            padding-top: 0;
+    
+            .form-group{
+                margin-bottom: 0;
+            }
+        }
+    } 
+    
+    .deleteImage, .deleteFile {
+        font-family: 'icomoon' !important; 
+        position: absolute;
+        margin-top: -28px;
+        right: 10px;
+        cursor: pointer;
+        
+        &::before {
+            content: "\e91b";
+        }
+    }
+
+    .help-block + .deleteImage, .help-block + .deleteFile{
+        margin-top: calc(-1em - 43px);
+    }
+
+    .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
+        color: $c_main;
+    }
+} 
+// Fin style pour la sélection d'images et de documents
+
+// Affichage des menus des portlets
+.portlet:hover > .portlet-topper{
+    width: calc(100% - 35px);
+    height: auto;
+  }
+  .portlet-journal-content.portlet-barebone .portlet .portlet-header{
+    z-index: 150;
+    transform: translateY(-112%);
+
+    .visible-interaction {
+      
+      display: inline;
+      .lfr-icon-menu{
+        background-color: transparent;
+        display: inline;
+  
+        > a{
+          height: 32px;
+          line-height: 32px;
+          width: 32px;
+  
+          .lexicon-icon{
+            height: 32px;
+            width: 32px;
+            padding: 8px;
+          }
+        }
+      }
+    }
+  }
+// Fin affichage des menus des portlets
+
+// Correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+.journal-content-article, .pro-comment, .pro-comment-response, .pro-bloc-accordion {
+
+    li, p, h3 {
+        a, a:hover{
+            color: #000;
+            text-decoration: underline;
+        }
+    }
+
+}
+// Fin correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
+
+// Hotfix de SimplebarJS (version 5.3.0) ne permettant plus le scroll plus sous Chrome 89 et Safari
+#th-global .pro-modal .modal-dialog {
+    pointer-events: inherit;
+}
+
+// Affichage des statuts de propositions d'aide sur les vignettes de la recherche
+#th-global .pro-bloc-card-help .pro-header-help .pro-statut {
+
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    width: auto;
+    text-align: right;
+
+    span {
+        font-family: "proximanovalight",Arial,sans-serif;
+        font-size: .875em;
+        font-weight: 700;
+        color: #fff;
+        line-height: normal;
+        background: #000;
+        border-radius: 4px;
+        text-transform: uppercase;
+        display: block;
+        padding: 3px 10px;
+    }
+
+}
+
+// Affichage des statuts de propositions d'aide sur les vignettes du slider
+#th-global .pro-bloc-card-help .pro-statut {
+
+    float: left;
+    padding: 0 15px 10px;
+
+    span {
+        font-family: "proximanovalight",Arial,sans-serif;
+        font-size: .875em;
+        font-weight: 700;
+        color: #fff;
+        line-height: normal;
+        background: #000;
+        border-radius: 4px;
+        text-transform: uppercase;
+        display: block;
+        padding: 3px 10px;
+    }
+
+}

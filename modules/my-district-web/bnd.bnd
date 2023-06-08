@@ -1,0 +1,4 @@
+Bundle-Name: my-district-web
+Bundle-SymbolicName: my.district.web
+Bundle-Version: 1.0.0
+Export-Package: my.district.web.constants

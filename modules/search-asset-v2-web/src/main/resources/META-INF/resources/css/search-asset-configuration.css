@@ -1,0 +1,48 @@
+.asset-types .asset-type-configuration .input-select-wrapper label,
+	.asset-types .input-text-wrapper label, .vocabulary-configuration .input-select-wrapper label
+	{
+	display: none;
+	float: right;
+}
+
+.asset-types .input-select-wrapper, .vocabulary-configuration .input-select-wrapper
+	{
+	width: 250px;
+}
+.vocabulary-configuration .input-select-wrapper2
+ 	{
+ 	width: 500px;
+ }
+
+.asset-types .input-text-wrapper {
+	margin-bottom: 10px;
+	margin-left: 50px;
+	width: 250px;
+}
+
+.asset-types .asset-type-configuration select
+	{
+	margin-left: 20px;
+	min-width: 150px;
+	margin-bottom: -5px;
+}
+
+.vocabulary-configuration select
+	{
+	margin-bbottom: -17px;
+}
+
+.asset-types .input-checkbox-wrapper, .vocabulary-configuration .input-checkbox-wrapper
+	{
+	width: 250px;
+}
+p {
+	max-width: 800px;
+}
+p.date {
+	margin-top: 20px;
+}
+
+.date-range {
+	width: 100px;
+}

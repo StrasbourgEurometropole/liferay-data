@@ -1,0 +1,165 @@
+.nav-lang{
+	background-color:#343433;
+	line-height: 40px;
+	@include RWD(tablet){
+		line-height: 33px;
+	}
+	.center{
+		@extend %container;
+		@include RWD(tablet){
+			padding: 0 10px;
+		}
+	}
+	.logo-strasbourg{
+		color:#fff;
+		img{
+			width: 195px;
+			@include RWD(tablet){
+				width: 175px;
+			}
+			@include RWD(tablet){
+				width: 150px;
+			}
+		}
+	}
+	ul{
+		float:right;
+		font-size:0;
+		margin:0;
+		li{
+			display: inline-block;	
+			a{
+				font-family: 'latosemibold';
+				font-size:16px;
+				font-size:1.6rem;
+				line-height: 2.5em;
+				color:#fff;
+				text-transform:uppercase;
+				text-decoration: none;
+				padding:0px 12px;
+				@include RWD(tablet){
+					line-height: 2.1em;
+					padding:0px 10px;
+				}
+				@include RWD(mobile){
+					line-height: 2.1em;
+					padding:0px 5px;
+				}
+				display: block;
+				@include transition(background-color 0.3s ease 0s);
+				&:hover, &:active, &:focus{
+					background-color:#1e1e1e;
+				}
+				&.menu-search{
+					&:hover{
+						color:#00AFEA;
+					}
+				}
+			}
+			&.active{
+				a{
+					background-color:#1e1e1e;
+				}
+			}
+		}
+	}
+}
+
+//recherche
+.content-close{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 70px;
+	height: 70px;
+	line-height: 70px;
+	@include RWD(tablet){
+		width: 50px;
+		height: 50px;
+		line-height: 50px;
+	}
+	@include RWD(mobile){
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+	}
+	cursor: pointer;
+
+	svg{
+		opacity: 0.3;
+		width: 30px;
+		height: 30px;
+		@include RWD(tablet){
+			width: 40px;
+			height: 40px;
+		}
+		@include RWD(mobile){
+			width: 30px;
+			height: 30px;
+		}
+	}
+
+	button:focus, button:focus-visible{
+		outline: none;
+	}
+}
+
+.mns-search-bar {
+	background: $c_white;
+	position: relative;
+	width: 100%;
+	z-index: 800;
+	transition:all 0.3s;
+	display: none;
+
+	&.search-display{
+		display: block;
+		transition:all 0.3s;
+	}
+
+	input {
+		-webkit-appearance: none;
+		height: 70px;
+		line-height: 70px;
+		@include RWD(tablet){
+			height: 50px;
+			line-height: 50px;
+		}
+		@include RWD(mobile){
+			height: 40px;
+			line-height: 40px;
+		}
+		width: 100%;
+		border: none;
+		border-style: none;
+		display: block;
+		font-size: 30px;
+		font-weight: 300;
+		&:hover, &:active, &:focus{
+			outline: none;
+		}
+
+		@include RWD(mobile){
+			font-size: 18px;
+			height: 50px;
+			line-height: 50px;
+		}
+
+		&::-webkit-input-placeholder {
+			opacity: 0.3;
+			font-style: italic;
+		}
+		&::-moz-placeholder {
+			opacity: 0.3;
+			font-style: italic;
+		}
+		&:-ms-input-placeholder {
+			opacity: 0.3;
+			font-style: italic;
+		}
+		&:-moz-placeholder {
+			opacity: 0.3;
+			font-style: italic;
+		}
+	}
+}

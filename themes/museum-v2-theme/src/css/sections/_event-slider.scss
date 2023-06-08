@@ -1,0 +1,62 @@
+#global #events{
+    .content{
+        @include RWD(tablet_portrait){
+            padding: 0;
+        }
+
+        h2{
+            @include ft($times, 1.875rem, 400, $color_main, 2.125rem, italic);
+            text-align: center;
+            margin-bottom: 15px;
+
+            @include RWD(tablet_portrait){
+                font-size: 3.75rem;
+                line-height: 4.25rem;
+                text-align: right;
+            }
+
+            span{
+                @include ft($proximaNova, 1.35rem, 700, $color_txt, 1.875rem, "");
+                display: block;
+                
+                @include RWD(tablet_portrait){
+                    font-size: 2.25rem;
+                    line-height: 3.25rem;
+                }
+            }
+        }
+
+        .slider{
+            position: relative;
+            width: 100%;
+            margin-bottom: 30px;
+
+            .swiper{
+                position: static;
+                padding-bottom: 10px;
+
+                @include RWD(tablet_portrait){
+                    padding-bottom: 15px;
+                }
+
+                .swiper-slide{
+                    width: 75%;
+                }
+
+                .swipper-buttons {
+                    display: none;
+
+                    @include RWD(tablet_portrait){
+                        display: block;
+                        width: 93px;
+                        @include positionAbsolute("", "", (bottom: -50px, right: 33px));
+                    }
+                }
+            }
+        }
+
+        button.button1{
+            margin: auto;
+        }
+    }
+}

@@ -1,0 +1,83 @@
+%organism-wi-quote{
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: #F6F6F6;
+    @extend %wi-centered-text;
+    // Couleurs Titre
+    .seu-container{
+        position: relative;
+        &:before, &:after{
+            content: '';
+            display: inline-block;
+            width: 165px;
+            height: 140px;
+            background-size: 165px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url( svg-bg-uri($svg-quote, #E5E5E5) );
+            position: absolute;
+            @include RWD(mobile){
+                width: 40px;
+                height: 50px;
+                background-size: 40px;
+            }
+        }
+        &:before{
+            top: 15px; left: 50px;
+        }
+        &:after{
+            top: 35px; right: 50px;
+            transform: rotate(180deg);
+        }
+    }
+    .seu-section-title{
+        margin-bottom: 0 !important;
+        position: relative;
+        .seu-title{
+            color: $core-color;
+            font-weight: 500; 
+            font-size: 2.3rem;
+            line-height: 1.2;
+            margin-bottom: 40px;
+            text-transform: none;
+            z-index: 2;
+            max-width: 870px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+
+            @include RWD(mobile){
+                font-size: 2.2rem;
+            }
+        }
+        &:before{
+            background-image: url( svg-bg-uri($svg-wave, #ffffff) ); 
+        }
+        .seu-subtitle{
+            font-family: $site-font;
+            font-weight: 400;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            color: $core-color;
+            text-align: center;
+            display: block;
+        }
+    }
+    // Contenu
+    .seu-wi-content{
+        text-align: center;
+        margin-bottom: 40px;
+
+        @include RWD(mobile){
+            margin-bottom: 20px;
+        }
+    }
+    .seu-wi-content{
+        .seu-wi-title{
+            color: #FFFFFF;
+        }
+        p{
+            color: #FFFFFF;
+        }
+    }
+}

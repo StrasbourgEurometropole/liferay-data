@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="eu.strasbourg.service.csmap">
+
+	<namespace>csmap</namespace>
+
+	<entity local-service="true" cache-enabled="true" name="RefreshToken" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="refreshTokenId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="value" type="String" />
+		<column name="publikId" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Value" return-type="RefreshToken">
+			<finder-column name="value" />
+		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" cache-enabled="true" name="BaseNonce" remote-service="false" uuid="false">
+
+		<!-- PK fields -->
+		<column name="baseNonceId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+		<column name="value" type="String" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="createDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Value" return-type="BaseNonce">
+			<finder-column name="value" />
+		</finder>
+
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="PlaceCategories" uuid="true">
+		<!-- PK fields -->
+		<column name="placeCategoriesId" primary="true" type="long" />
+		<column name="categoriesIds" type="String" />
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Agenda" uuid="true">
+		<!-- PK fields -->
+		<column name="agendaId" primary="true" type="long" />
+		<column name="title" type="String" localized="true" />
+		<column name="editorialTitle" type="String" localized="true" />
+		<column name="subtitle" type="String" localized="true" />
+		<column name="imageId" type="Long" />
+		<column name="labelLink" type="String" localized="true" />
+		<column name="link" type="String" localized="true" />
+		<column name="publicationStartDate" type="Date" />
+		<column name="publicationEndDate" type="Date" />
+		<column name="isPrincipal" type="Boolean" />
+		<column name="isActive" type="Boolean" />
+		<column name="campaignsIds" type="String" />
+		<column name="themesIds" type="String" />
+		<column name="typesIds" type="String" />
+		<column name="territoriesIds" type="String" />
+		<column name="tags" type="String" />
+		<!-- Finder methods -->
+		<finder name="IsPrincipal" return-type="Collection">
+			<finder-column name="isPrincipal" />
+		</finder>
+		<finder name="IsPrincipalAndIsActive" return-type="Collection">
+			<finder-column name="isPrincipal" />
+			<finder-column name="isActive" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="CsmapCache" uuid="false">
+		<!-- PK fields -->
+		<column name="cacheId" primary="true" type="long" />
+		<column name="codeCache" type="long" />
+		<column name="description" type="String" />
+		<column name="cacheJson" type="String" />
+		<column name="isLastProcessSuccess" type="Boolean" />
+		<column name="modifiedDate" type="Date" />
+		<column name="processedDate" type="Date" />
+
+		<finder name="CodeCache" return-type="CsmapCache" db-index="true" >
+			<finder-column name="codeCache" />
+		</finder>
+		<finder name="LastProcessNotSuccess" return-type="Collection" db-index="true" >
+			<finder-column name="isLastProcessSuccess" />
+		</finder>
+	</entity>
+
+	<entity local-service="true" remote-service="false" cache-enabled="false" name="Thematic" uuid="true">
+		<!-- PK fields -->
+		<column name="thematicId" primary="true" type="long" />
+		<column name="name" type="String" />
+		<column name="favorite" type="String" />
+		<column name="topics" type="String" />
+	</entity>
+
+</service-builder>

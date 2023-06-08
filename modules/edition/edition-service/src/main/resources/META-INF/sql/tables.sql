@@ -1,0 +1,60 @@
+create table edition_Edition (
+	uuid_ VARCHAR(75) null,
+	editionId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	lastPublishDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	title STRING null,
+	subtitle STRING null,
+	description TEXT null,
+	URL STRING null,
+	author STRING null,
+	editor STRING null,
+	distribution VARCHAR(75) null,
+	ISBN VARCHAR(75) null,
+	price VARCHAR(75) null,
+	availableForExchange BOOLEAN,
+	inStock BOOLEAN,
+	diffusionDateYear VARCHAR(75) null,
+	diffusionDateMonth VARCHAR(75) null,
+	pageNumber VARCHAR(75) null,
+	pictureNumber VARCHAR(75) null,
+	publicationDate DATE null,
+	imageId LONG,
+	fileId STRING null
+);
+
+create table edition_EditionGallery (
+	uuid_ VARCHAR(75) null,
+	galleryId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	lastPublishDate DATE null,
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null,
+	imageId LONG,
+	title STRING null,
+	description TEXT null,
+	publicationDate DATE null
+);
+
+create table edition_EditionToEditionGallery (
+	companyId LONG not null,
+	editionId LONG not null,
+	galleryId LONG not null,
+	primary key (editionId, galleryId)
+);

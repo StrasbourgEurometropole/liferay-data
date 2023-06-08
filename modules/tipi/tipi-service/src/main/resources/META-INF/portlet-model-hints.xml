@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="eu.strasbourg.service.tipi.model.TipiEntry">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="date" type="Date" />
+		<field name="total" type="int" />
+		<field name="paidCount" type="int" />
+		<field name="refusedCount" type="int" />
+		<field name="canceledCount" type="int" />
+		<field name="type" type="String" />
+	</model>
+</model-hints>

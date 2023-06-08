@@ -1,0 +1,16 @@
+%organism-nav-side{
+    display: block;
+    position: fixed;
+    right: -2px;
+    top: 50vh;
+    transform: translateY(-50%) translateX(100%);
+
+
+    #nav-notifications{
+        @extend %molecule-nav-notifications;
+    }
+
+    #nav-menu{
+        @extend %molecule-nav-menu;
+    }
+}

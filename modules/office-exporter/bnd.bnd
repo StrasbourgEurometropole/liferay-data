@@ -1,0 +1,8 @@
+Bundle-Name: office-exporter
+Bundle-SymbolicName: eu.strasbourg.service.office.exporter
+Bundle-Version: 1.31.0
+
+Import-Package: eu.strasbourg.*,*;resolution:=optional
+ 
+Export-Package: eu.strasbourg.service.office.exporter.api
+Javac-Encoding: UTF-8

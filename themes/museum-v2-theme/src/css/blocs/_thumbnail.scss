@@ -1,0 +1,59 @@
+#global .thumbnail-general{
+    padding: 35px 10px;
+    display: block;
+    border-top: 1px solid #d8dae4;
+    transition: all .3s;
+    width: 100%;
+    text-decoration: none;
+    position: relative;
+    margin-bottom: -46px;
+    color: $color_txt;
+
+    .title{
+        text-align: left;
+        margin-bottom: 10px;
+        @include ft($proximaNova, 1.125rem, 700, $color_txt, 1.4375rem, "");
+        text-transform: uppercase;
+        display: flex;
+        gap: 15px;
+        justify-content: space-between;
+            
+        @include RWD(tablet_portrait){
+            font-size: 1.4375rem;
+            line-height: 1.75rem;
+        }
+
+        .type{
+            @include ft($proximaNova, 0.75rem, 700, $color_third, 0.95rem, "");
+            background: $color_main;
+            padding: 10px 15px;
+            text-transform: uppercase;
+            margin-bottom: auto;
+            margin-top: -15px;
+            
+            @include RWD(tablet_portrait){
+                font-size: 0.95rem;
+                line-height: 1.1rem;
+            }
+        }
+    }
+
+    .content{
+        margin-bottom: 10px;
+    }
+
+    .basic-link{
+        font-weight: 700;
+        color: $color_main;
+
+        &:hover{
+            color: $color_txt;
+        }
+    }
+
+    &:hover{
+        transform: scale(1.02);
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0,  0.15);
+        color: $color_txt;
+    }
+}

@@ -1,0 +1,49 @@
+.seu-view-agenda,
+.seu-view-activity,
+.seu-view-places,
+.seu-view-offer,
+.seu-view-due-offer {
+    .seu-view-results {
+        display: flex;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 30px;
+        @include RWD(mobile) {
+            display: block;
+        }
+        .seu-filler {
+            flex: 1;
+        }
+        .seu-result-filter {
+            display: flex;
+            align-items: center;
+            .customSelectContain {
+                width: 85px;
+                margin-left: 20px;
+                @extend %atom-customSelect--custom;
+            }
+        }
+    }
+    #seu-grid--list01 {
+        margin-bottom: 45px;
+    }
+    .seu-pagination {
+        position: relative;
+        padding-top: 45px;
+        &:before {
+            //display: block;
+            //content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #f6f6f6;
+        }
+        margin-bottom: 60px;
+    }
+}
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    margin-left: 10px;
+    top: 2px;
+}

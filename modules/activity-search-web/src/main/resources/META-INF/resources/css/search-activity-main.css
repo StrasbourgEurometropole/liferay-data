@@ -1,0 +1,20 @@
+.search-asset-portlet {
+	margin-top: 40px;
+}
+
+.place-autocomplete-input-wrapper {
+	position: relative;
+}
+.autocomplete-suggestions {
+	margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}

@@ -1,0 +1,83 @@
+#global #edition-detail{
+
+    .content{
+    
+        @include RWD(tablet_portrait){
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .image-with-copyright-on-hover{
+            width: fit-content;
+            height: fit-content;
+            margin: 0 auto 30px;
+
+            img{
+                filter: drop-shadow(0px 12px 29px rgba(0, 0, 0, 0.25));
+                max-width: 100%;
+            }
+        }
+
+        .edition-info{
+            @include ft($proximaNova, 0.875rem, 400, $color_txt, 1.25rem, "");
+
+            .edition-title{
+                @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
+                text-align: center;
+                text-transform: uppercase;
+                margin-bottom: 15px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                    font-size: 2.75rem;
+                    line-height: 3.3125rem;
+                }
+            }
+
+            .edition-subtitle{
+                @include ft($proximaNova, 1.125rem, 400, $color_txt, 1.6875rem, "");
+                text-align: center;
+                margin-bottom: 20px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                    font-size: 1.3125rem;
+                }
+            }
+
+            .edition-date{
+                @include ft($proximaNova, 1rem, 400, $color_txt, 1.5rem, "");
+                text-align: center;
+                margin-bottom: 10px;
+    
+                @include RWD(tablet_portrait){
+                    text-align: left;
+                }
+            }
+
+            .edition-description{
+                iframe{
+                    max-width: 100%;
+                }
+
+            }
+
+            .edition-meta{
+                color: $color_second;
+                border-left: 3px solid $color_main;
+                padding: 10px 15px;
+                margin: 30px 0;
+
+            }
+
+            > div{
+                margin-bottom: 30px;
+    
+                @include RWD(tablet_portrait){
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

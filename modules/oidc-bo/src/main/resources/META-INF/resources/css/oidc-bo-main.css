@@ -1,0 +1,25 @@
+.lfr-form-row {
+    width: 40%;
+    display: inline-block;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+.lfr-form-row:hover {
+    border: 1px solid #B2FF3A;
+    padding-top: 1px;
+}
+
+.row-fields {
+	padding: 20px;
+}
+
+.tooltip-inner{
+    display: none;
+    left: 170px;
+    position: absolute;
+    bottom: 60px;
+}
+
+button.disabled:hover + .tooltip-inner{
+    display: block;
+}

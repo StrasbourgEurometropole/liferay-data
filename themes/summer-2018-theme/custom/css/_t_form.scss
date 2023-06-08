@@ -1,0 +1,143 @@
+@charset "UTF-8";
+
+#mns-global{
+
+	label{
+		@include ft($f_ms, 0.875rem, 700, $c_txt, 1.625rem);
+	}
+
+	input{
+		background: none;
+		border: 1px solid #a6a6a6;
+		border-radius: 0;
+		height: 3rem;
+		@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+
+		&:focus{
+			border-color: $c_main;
+			box-shadow: none;
+		}
+	}
+
+	textarea{
+		background: none;
+		border: 1px solid #a6a6a6;
+		border-radius: 0;
+		height: 275px;
+		@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+
+		&:focus{
+			border-color: $c_main;
+			box-shadow: none;
+		}
+	}
+
+	.checkbox, .radio{
+		display: inline-block;
+		margin: 0;
+		position: relative;
+
+		label{
+			@include ft($f_ms, 0.875rem, 400, $c_txt, 1.625rem);
+			padding-left: 0;
+		}
+
+		input{
+			vertical-align: middle;
+			height: 1.375rem;
+			margin: 0;
+			margin-right: 15px;
+			position: absolute;
+			left: 0;
+		}
+	}
+
+	.checkbox label:after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	.checkbox .cr {
+		position: relative;
+		display: inline-block;
+		vertical-align: middle;
+		border: 1px solid #a6a6a6;
+		border-radius: 0;
+		width: 18px;
+		height: 18px;
+		margin-right: .5em;
+		top: -2px;
+	}
+
+	.checkbox .cr .cr-icon{
+		position: absolute;
+		font-size: 1.125rem;
+		line-height: 0;
+		top: 30%;
+		left: 15%;
+		color: $c_main;
+	}
+
+	.radio .cr .cr-icon {
+		margin-left: 0.04em;
+	}
+
+	.checkbox label input[type="checkbox"]{
+		display: none;
+	}
+
+	.checkbox label input[type="checkbox"] + .cr > .cr-icon{
+		transform: scale(3) rotateZ(-20deg);
+		opacity: 0;
+		transition: all .2s ease-in;
+
+		&:before{
+			text-shadow: 2px 2px 0 #FFF, 0px -4px 0 #FFF;
+		}
+	}
+
+	.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon{
+		transform: scale(1) rotateZ(0deg);
+		opacity: 1;
+	}
+
+	.checkbox label input[type="checkbox"]:disabled + .cr{
+		opacity: .5;
+	}
+
+	.mns-submit{
+		text-align: center;
+		margin-top: 30px;
+		margin-bottom: 40px;
+		position: relative;
+
+		span{
+			width: 100%;
+			height: 1px;
+			background: #a6a6a6;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			z-index: -1;
+		}
+
+		input{
+			width: 275px;
+			padding: 12px 0;
+			height: auto;
+			background: $c_white;
+			border: none;
+			box-shadow: 0px 1px 4px rgba(0,0,0,0.25);
+			@include ft($f_nr, 1.125rem, 400, $c_main, 1.625rem);
+			@include an(all,0.3);
+
+			&:hover{
+				background: $c_main;
+				color: $c_white;
+			}
+		}
+	}
+
+}

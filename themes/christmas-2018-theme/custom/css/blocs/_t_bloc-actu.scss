@@ -1,0 +1,86 @@
+/***************************/
+/***************************/
+
+/* -- BLOC ACTUALITES -- */
+
+/***************************/
+/***************************/
+
+.mns-bloc-actu {
+	@include an(all, 0.3);
+
+	.no-hover & {
+		&:hover{
+			> a{
+				transform: none;
+			}
+		}
+	}
+
+	> a {
+		display: block;
+		transform: translateY(0px);
+		@include addTransition();
+		@include mobile{
+			min-height: auto !important;
+		}
+	}
+	.mns-bloc-top-img {
+		figure{
+			background: none;
+		}
+		img {
+			@include an(all, 0.3);
+			width: 100%;
+		}
+	}
+
+	.no-photo{
+		@include aspect-ratio(450,300);
+	}
+
+	.mns-bloc-content-actu {
+		padding: 15px 0 40px 0;
+		img {
+			width: 100%;
+		}
+	}
+	.publication {
+		margin-bottom: 15px;
+	}
+	h1, h4 {
+		@include ft($f_hx, 18px, 700, $c_txt, normal);
+		display: block;
+		padding-bottom: 20px;
+		margin: 0;
+	}
+	h3 {
+		@include ft($f_hx, 24px, 700, $c_txt, normal);
+		display: block;
+		padding-bottom: 20px;
+		margin: 0;
+	}
+	p, strong {
+		margin-bottom: 15px;
+		display: block;
+		color: $c_txt;
+	}
+
+	&:hover {
+		a {
+			transform: translateY(-20px);
+			img {
+				box-shadow: 0 -20px 28px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.22);
+			}
+		}
+	}
+}
+
+.mns-detail-actu-content {
+	float: none;
+	margin-bottom: 80px;
+	@include mobile {
+		margin-bottom: 40px;
+		padding: 0;
+	}
+}

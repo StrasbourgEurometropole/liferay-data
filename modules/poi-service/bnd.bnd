@@ -1,0 +1,4 @@
+Bundle-Name: poi-service
+Bundle-SymbolicName: eu.strasbourg.service.poi
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.service.poi

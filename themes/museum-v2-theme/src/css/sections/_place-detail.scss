@@ -1,0 +1,190 @@
+#global #place-detail{
+    .content{
+
+        .place-header{
+            text-align: center;        
+            margin-bottom: 30px;
+
+            @include RWD(tablet_portrait){
+                margin-bottom: 50px;
+            }
+
+            h1{
+                @include ft($proximaNova, 1.5rem, 700, $color_txt, 1.8125rem, "");
+                margin: 40px 0 15px;
+                text-transform: uppercase;
+
+                @include RWD(tablet_portrait){
+                    margin-bottom: 20px;
+                    font-size: 2.75rem;
+                    line-height: 3.3125rem;
+                }
+            }
+
+            .place-address{
+                @include ft($times, 0.75rem, 400, $color_txt, 0.875rem, italic);
+                margin-bottom: 10px;
+
+                @include RWD(tablet_portrait){
+                    margin-bottom: 15px;
+                    font-size: 1.5625rem;
+                    line-height: 1.3125rem;
+                }
+            }
+
+            .place-phone{
+                @include ft($proximaNova, 0.75rem, 700, $color_txt, 0.875rem, "");
+
+                @include RWD(tablet_portrait){
+                    font-size: 0.9375rem;
+                    line-height: 1.3125rem;
+                }
+            }
+        }
+
+        .place-info{
+
+            @include RWD(tablet_portrait){
+                display: flex;
+                gap: 150px;
+            }
+
+            .place-60{
+
+                @include RWD(tablet_portrait){
+                    width: calc(calc(100% - 150px) * 0.6);
+                }
+
+                .place-info-section{
+                    margin-bottom: 15px;
+
+                    h2{
+                        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
+                        margin-bottom: 20px;
+                    }
+
+                    .access-for-disabled-icons{
+                        margin-bottom: 20px;
+                    }
+
+                    .slider{
+                        position: relative;
+                        width: 100%;
+                        margin-bottom: 30px;
+            
+                        .swiper{
+                            position: static;
+                            padding-bottom: 10px;
+            
+                            @include RWD(tablet_portrait){
+                                padding-bottom: 15px;
+                            }
+            
+                            .swiper-slide{
+                                width: 75%;
+                            }
+            
+                            .swipper-buttons {
+                                display: none;
+            
+                                @include RWD(tablet_portrait){
+                                    display: block;
+                                    width: 93px;
+                                    @include positionAbsolute("", "", (bottom: -50px, right: 33px));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .place-40{
+                margin-top: 40px;
+
+                @include RWD(tablet_portrait){
+                    margin-top: 0;
+                    width: calc(calc(100% - 150px) * 0.4);
+                }
+
+                .image-with-copyright-on-hover{
+                    display: none;
+
+                    @include RWD(tablet_portrait){
+                        display: block;
+
+                        img{
+                            width: 100%;
+                            margin-bottom: 4px;
+                        }
+                    }
+                }
+
+                .place-info-section{
+                    margin-bottom: 4px;
+                    background-color: $color_main;
+                    padding: 30px 30px 45px;
+                    position: relative;
+
+                    h2{
+                        @include ft($times, 1.5625rem, 400, white, 1.3125rem, italic);
+                        margin-bottom: 20px;
+
+                        @include RWD(tablet_portrait){
+                            margin-bottom: 25px;
+                        }
+                    }
+
+                    .place-schedule{
+                        @include ft($proximaNova, 0.75rem, 400, white, 0.875rem, "");
+
+                        @include RWD(tablet_portrait){
+                            font-size: 0.9375rem;
+                            line-height: 1.3125rem;
+                        }
+
+                        ul{
+                            list-style-type: none;
+                            margin: 0;
+                            padding: 0;
+
+                            li{
+                                padding: 5px 0;
+                                background: none;
+                                display: flex;
+                                justify-content: space-between;
+
+                                .schedule-time{
+                                    text-align: right;
+                                }
+                            }
+                        }
+                    }
+
+                    .button2{
+                        margin: auto;
+                        @include positionAbsolute('', translate(-50%, 50%), (bottom: 0, left: 50%));
+                    }
+                }
+
+                .place-info-section2{
+                    background: $color_third;
+                    padding: 45px 30px 30px;
+
+                    h2{
+                        @include ft($times, 1.5625rem, 400, $color_main, 1.3125rem, italic);
+                        margin-bottom: 20px;
+                    }
+
+                    div{
+                        @include ft($proximaNova, 0.75rem, 400, $color_txt, 0.875rem, "");
+
+                        @include RWD(tablet_portrait){
+                            font-size: 0.9375rem;
+                            line-height: 1.3125rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

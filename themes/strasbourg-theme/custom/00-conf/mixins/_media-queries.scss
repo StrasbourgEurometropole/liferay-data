@@ -1,0 +1,38 @@
+@mixin RWD($media) {
+    @if $media == mobile_small {
+        @media screen and (max-width: #{$breakpoint_mo_small}) {
+            @content;
+        }
+    }
+    @if $media == mobile {
+        @media only screen and (max-width: $break-small + "px") {
+            @content;
+        }
+    }
+    @if $media == not-mobile {
+        @media only screen and (min-width: $break-small + 1 + "px") {
+            @content;
+        }
+    }
+    @if $media == tablet_only {
+        @media only screen and (min-width: $break-small + "px") and (max-width: $break-large - 1 + "px") {
+            @content;
+        }
+    }
+    @if $media == tablet {
+        @media only screen and (max-width: $break-large - 1 + "px") {
+            @content;
+        }
+    }
+
+    @if $media == tablet_portrait {
+        @media screen and (max-width: #{$breakpoint_portrait}) {
+            @content;
+        }
+    }
+    @if $media == desktop {
+        @media only screen and (min-width: $break-large + "px") {
+            @content;
+        }
+    }
+}

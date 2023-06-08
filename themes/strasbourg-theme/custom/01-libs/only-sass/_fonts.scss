@@ -1,0 +1,78 @@
+$path: '../fonts/';
+
+// MontSerrat
+    // Regular
+    @font-face {
+        font-family: 'MontSerrat';
+        src: url('#{$path}montserrat-regular-webfont.woff2') format('woff2'),
+             url('#{$path}montserrat-regular-webfont.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+    }
+    // medium
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('#{$path}montserrat-medium-webfont.woff2') format('woff2'),
+             url('#{$path}montserrat-medium-webfont.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+    }
+    // semibold
+    @font-face {
+        font-family: 'Montserrat';
+        src: url('#{$path}montserrat-semibold-webfont.woff2') format('woff2'),
+             url('#{$path}montserrat-semibold-webfont.woff') format('woff');
+        font-weight: 600;
+        font-style: normal;
+    }
+    // Bold
+    @font-face {
+        font-family: 'MontSerrat';
+        src: url('#{$path}montserrat-bold-webfont.woff2') format('woff2'),
+             url('#{$path}montserrat-bold-webfont.woff') format('woff');
+        font-weight: 700;
+        font-style: normal;
+    }
+    // ExtraBold
+    @font-face {
+        font-family: 'MontSerrat';
+        src: url('#{$path}montserrat-extrabold-webfont.woff2') format('woff2'),
+             url('#{$path}montserrat-extrabold-webfont.woff') format('woff');
+        font-weight: 800;
+        font-style: normal;
+    }
+
+// OpenSans
+    // Regular
+    @font-face {
+        font-family: 'OpenSans';
+        src: url('#{$path}opensans-regular-webfont.woff2') format('woff2'),
+             url('#{$path}opensans-regular-webfont.woff') format('woff');
+        font-weight: 400;
+        font-style: normal;
+    }
+    // SemiBold
+    @font-face {
+        font-family: 'OpenSans';
+        src: url('#{$path}opensans-semibold-webfont.woff2') format('woff2'),
+             url('#{$path}opensans-semibold-webfont.woff') format('woff');
+        font-weight: 600;
+        font-style: normal;
+    }
+    // Bold
+    @font-face {
+        font-family: 'OpenSans';
+        src: url('#{$path}opensans-bold-webfont.woff2') format('woff2'),
+             url('#{$path}opensans-bold-webfont.woff') format('woff');
+        font-weight: 700;
+        font-style: normal;
+    }
+
+// Amiko
+    // Bold
+    @font-face {
+        font-family: 'Amiko';
+        src: url('#{$path}Amiko-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+    }

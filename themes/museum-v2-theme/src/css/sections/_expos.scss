@@ -1,0 +1,83 @@
+#global #expos{
+    background: $color_txt;
+
+    .content{
+        @include RWD(tablet_portrait){
+            display: flex;
+            flex-direction: row-reverse;
+            margin-left: auto;
+            padding: 80px 0;
+        }
+
+        picture{
+
+            @include RWD(tablet_portrait){
+                width: 66%;
+                max-width: 1050px;
+            }
+
+            img{
+                margin-top: 20px;
+
+                @include RWD(tablet_portrait){
+                    width: 100%;
+                }
+            }
+        }
+
+        .info{
+            padding: 25px 40px 45px;
+
+            @include RWD(tablet_portrait){
+                padding: 0;
+                margin: auto;
+                //(100% - 720px(maw-width) + 30px(padding)) / 2(marge d'un coté)
+                // -> (50% - 360px + 15px)  -> (50% - 345px)
+                margin-left: calc(50% - 345px);
+            }
+
+            @include RWD(tablet_landscape){
+                //(100% - 960px(maw-width) + 30px(padding)) / 2(marge d'un coté)
+                // -> (50% - 480px + 15px)  -> (50% - 465px)
+                margin-left: calc(50% - 465px);
+            }
+
+            @include RWD(desktop){
+                //(100% - 1140px(maw-width) + 30px(padding)) / 2(marge d'un coté)
+                // -> (50% - 570px + 15px)  -> (50% - 555px)
+                margin-left: calc(50% - 555px);
+            }
+
+            @include RWD(extra_large){
+                //(100% - 1240px(maw-width) + 30px(padding)) / 2(marge d'un coté)
+                // -> (50% - 6200px + 15px)  -> (50% - 605px)
+                margin-left: calc(50% - 605px);
+            }
+
+            h2{
+                @include ft($times, 1.875rem, 400, white, 2.25rem, italic);
+
+                @include RWD(tablet_portrait){
+                    font-size: 3.75rem;
+                    line-height: 4.25rem;
+                }
+
+                span{
+                    @include ft($proximaNova, 1.05rem, 400, white, 1.25rem, "");
+                    display: block;
+                }
+            }
+
+            a.button1{
+                @include positionAbsolute(2, translate(-50%, 50%), (left: 50%)); 
+
+                @include RWD(tablet_portrait){
+                    position: relative;
+                    left: 0;
+                    transform: none;
+                    margin-top: 30px;
+                }
+            }
+        }
+    }
+}

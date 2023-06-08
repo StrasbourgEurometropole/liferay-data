@@ -1,0 +1,238 @@
+/* Taille des champs texte */
+input[type=text], textarea {
+	width: 300px !important;
+}
+
+textarea {
+	height: 100px !important;
+}
+
+/* Drag and drop*/
+
+ #drag div div,  #enteteDrag div div {
+    float:left;
+    padding: 5px;
+    text-align:center;
+    border-right: 1px solid black;
+    height: 42px;
+}
+
+ #enteteDrag div.header-dd div {
+    padding-top:15px;
+    height: 32px;
+}
+
+ #drag div div.column-checkbox,  #enteteDrag div div.column-checkbox {
+    width: 20px;
+}
+
+ #drag div div.column-image,  #enteteDrag div div.column-image {
+    width: 80px;
+}
+
+ #drag div div.column-image img {
+    height: 40px;
+}
+
+ #drag div div.column-title,  #enteteDrag div div.column-title {
+    width: 200px;
+}
+
+ #drag div div.column-publication-date,  #enteteDrag div div.column-publication-date {
+    width: 80px;
+}
+
+ #drag div div.column-state,  #enteteDrag div div.column-state {
+    width: 70px;
+}
+
+ #drag div div.column-action,  #enteteDrag div div.column-action {
+    width: 100px;
+}
+
+
+ #drag div div.column-action input.remove {
+    background-image: url("/Cus-all-hook/images/commons/icons/bin.gif");
+    width: 16px;
+    height: 16px;
+    margin: 10px;
+}
+
+ #drag div div.column-action input.edit {
+    background-image: url("/Cus-all-hook/images/commons/icons/pen.png");
+    width: 16px;
+    height: 16px;
+    margin: 10px;
+}
+/*
+
+Darko Bunic
+http://www.redips.net/
+Mar, 2011.
+
+*/
+
+body{
+	font-family: arial;
+	margin: 0px; /* for IE6 / IE7 */
+}
+
+/*
+* 	le 13 oct. 2011
+* 	modifié par JDE  pour le mantis : 3021 
+*
+*/
+
+/* drag area */
+#drag, #enteteDrag{
+	display: table;
+	margin: 0px auto;
+}
+
+
+/* drag objects (DIV elements inside table cells) */
+.drag{
+	cursor: move;
+	margin: auto;
+	z-index: 10;
+	background-color: white;
+	text-align: center;
+	font-size: 8pt; /* needed for cloned object */
+	opacity: 0.7;
+	filter: alpha(opacity=70);
+	/* without width, IE6/7 will not apply filter/opacity to the element ?! */
+	width: 700px;
+	height: 52px;
+	line-height: 35px;
+}
+
+
+/* styles for left table */
+#table1, #enteteTable1{
+	background-color: #eee;
+	border-collapse: collapse;
+}
+/* border for table1 */
+#table1 td {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    height: 45px;
+    width: 700px;
+    text-align: center;
+    font-size: 10pt;
+}
+
+    /* border for table1 */
+#enteteTable1 td {
+    border: 1px solid black;
+    height: 45px;
+    width: 700px;
+    text-align: center;
+    font-size: 10pt;
+}
+
+/* bouton d'ajout et de suppression */
+#main-content .add-button input {
+	background-image: url("/html/themes/control_panel/images/common/add.png");
+	background-color: white;
+	margin-bottom: 10px;
+	border: none;
+	width: 16px;
+	height: 16px;
+	margin-right: 5px;
+}
+
+ #main-content .delete-button input {
+	background-image: url("/html/themes/control_panel/images/common/delete.png");
+	background-color: white;
+	margin-bottom: 10px;
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+
+#main-content .portal-popup .aui-form {
+	margin-top: 40px;
+}
+
+#main-content .add-button input,
+#main-content .add-button input:hover,
+	.add-button input:visited {
+	background-image: url("/html/themes/control_panel/images/common/add.png");
+	background-color: white;
+	margin-bottom: 10px;
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+
+#main-content .delete-button input,
+#main-content .delete-button input:hover,
+	.delete-button input:visited {
+	background-image: url("/html/themes/control_panel/images/common/delete.png");
+	background-color: white;
+	margin-bottom: 10px;
+	border: none;
+	width: 16px;
+	height: 16px;
+}
+
+.document-div {
+	margin-top: 10px;
+	border-bottom: 1px dotted grey;
+}
+.document-div fieldset {
+	margin-bottom: 10px;
+}
+
+/* Gestion des onglets */
+fieldset#activity-description,
+fieldset#activity-medias,
+fieldset#activity-schedules {
+	display: none;
+}
+fieldset.currentTab {
+	display: block !important;
+}
+
+ul.tabs li {
+    display: inline-block;
+    background: grey;
+    color:  white;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+ul.tabs li:hover {
+    text-decoration: underline;
+}
+
+ul.tabs li.currentTab {
+    text-decoration: underline;
+}
+
+/* Schedules */
+.schedules {
+	border-bottom: 1px dotted black;
+	margin-top: 20px;
+}
+.schedule-line {
+    background-color: #cccccc;
+    width: 300px;
+    padding: 20px;
+    margin-bottom: 5px;
+    display: inline-block;
+}
+
+.times > * {
+    display: inline-block;
+    float: none;
+    margin-right: 5px;
+}
+
+.days > * {
+    display: inline-block;
+    margin-right: 13px;
+}

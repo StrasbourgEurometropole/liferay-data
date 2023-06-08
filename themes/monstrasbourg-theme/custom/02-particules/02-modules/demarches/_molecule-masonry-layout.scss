@@ -1,0 +1,14 @@
+.masonry-demarche{
+
+    .demarche-topic{
+        @include RWD(desktop){            
+            width: calc(33% - 10px);
+        }
+        @include RWD(tablet_only){
+            width: calc(50% - 10px);
+        }
+        @include RWD(mobile){
+            width: 100%;
+        }
+    }
+}

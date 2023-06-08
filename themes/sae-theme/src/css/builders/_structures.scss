@@ -1,0 +1,161 @@
+// Container
+%container {
+	width:1200px;
+	position:relative;
+	margin:0 auto;
+	display: block;
+	@include RWD(tablet){
+		width:100%;
+		padding:0px 40px;
+	}
+	@include RWD(mobile){
+		padding:0px 20px;
+	}
+}
+
+//Centrer un contenu
+%content-center{
+	text-align: center;
+}
+
+// Sections
+%hp-section {
+}
+
+%flex{
+	@include flex($property:display, $value:flex);
+	@include flex($property: flex-flow, $value:row wrap);//forcer le passage à la ligne
+}
+
+//elements statique off
+%off{
+	opacity: 1;
+}
+//elements absolute on
+%on{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	opacity: 0;
+}
+
+//Centrer un élément verticalement à son parent
+%center-vertical{
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	right:0;
+	&:after{
+		content:'';
+		display: inline-block;
+		vertical-align: middle;
+		height:100%;
+	}
+}
+
+// List Vignettes
+%grid-list-basic{
+	@include flex(display, flex);
+	@include flex(flex-wrap, wrap);
+	@include grid-structure($type: visu-left, $width: 50%);
+	.grid-item{
+		margin-bottom: 30px;
+	}
+	.grid-item a{
+		display: block;
+	}
+	.grid-item .grid-item-visu{
+	    background-size: cover;
+	    background-position: center;
+	    background-repeat: no-repeat; 			
+	}
+	@include RWD(desktop){
+		@include grid-distribution($number: 1, $margin: 0);
+	}
+	@include RWD(tablet_only){
+		@include grid-distribution($number: 3, $margin: 30);
+	}
+	@include RWD(mobile){
+		@include grid-distribution($number: 1, $margin: 0);
+	}
+}
+
+%hidden-only{
+	display: none;
+}
+
+%figure{
+	margin:0 0 25px;
+	max-width: 100%;
+	clear: both;
+	display: block;
+}
+
+%float-left{
+	float:left;
+}
+%float-right{
+	float:right;
+}
+
+%image-xs{
+	width: 240px;
+	height: auto;
+	@include RWD(mobile){
+		width:100%;
+	}
+}
+%image-sm{
+	width: 320px;
+	height: auto;
+	@include RWD(mobile){
+		width:100%;
+	}
+}
+%image-md{
+	width: 465px;
+	height: auto;
+	@include RWD(mobile){
+		width:100%;
+	}
+}
+%image-full{
+	width: 100%;
+	height: auto;
+}
+
+%date{
+	margin-bottom: 20px;
+	display: block;
+	padding-left:30px;
+	position:relative;
+	&:before{
+		content:'';
+		position:absolute;
+		left:0;
+		top:3px;
+		display: block;
+		width: 20px;
+		height: 20px;
+		background:url(../images/pictos/clock.png) no-repeat center center;
+	}
+}
+
+%map{
+	padding-left:30px;
+	position:relative;
+	line-height: normal;
+	&:before{
+		content:'';
+		position:absolute;
+		left:0;
+		top:0px;
+		display: block;
+		width: 20px;
+		height: 20px;
+		background:url(../images/pictos/map.png) no-repeat center center;
+	}
+}

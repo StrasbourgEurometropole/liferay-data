@@ -1,0 +1,1 @@
+${campaignTitle} - Votre événement a été validé

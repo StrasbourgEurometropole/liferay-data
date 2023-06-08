@@ -1,0 +1,34 @@
+%ariane{
+	@include flex(display, flex);
+
+	.ariane-item{
+		margin-right: 7.5px;
+
+		&:after{
+			display: inline-block;
+			content: ' /';
+			margin-left: 7.5px;
+		}
+
+		&:last-child{
+			&:after{
+				display: none;
+			}
+		}
+	}
+	.back-to{
+		display: none;
+
+		&:after{
+			display: none;
+		}
+	}
+	@include RWD(tablet){
+		.back-to{
+			display: block;
+		}
+		.ariane-item:not(.back-to){
+			display: none;
+		}
+	}
+}

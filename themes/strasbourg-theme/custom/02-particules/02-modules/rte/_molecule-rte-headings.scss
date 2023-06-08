@@ -1,0 +1,34 @@
+%molecule-headings-rte {
+    h2 {
+        @extend %atom-h2-rte; // clear: both;
+        margin-bottom: $margin-h2;
+        margin-top: 50px;
+        z-index: 1;
+        @include RWD(mobile) {
+            margin-bottom: $margin-h2-mobile;
+        }
+    }
+    h3 {
+        @extend %atom-h3-rte; // clear: both;
+        margin-bottom: $margin-h3;
+        margin-top: 40px;
+        @include RWD(mobile) {
+            margin-bottom: $margin-h3-mobile;
+        }
+    }
+    h4 {
+        @extend %atom-h4-rte; // clear: both;
+        margin-bottom: $margin-h4;
+        margin-top: 30px;
+        @include RWD(mobile) {
+            margin-bottom: $margin-h4-mobile;
+        }
+    }
+    h5 {
+        @extend %atom-h5-rte; // clear: both;
+        margin-bottom: $margin-h5;
+        @include RWD(mobile) {
+            margin-bottom: $margin-h5-mobile;
+        }
+    }
+}

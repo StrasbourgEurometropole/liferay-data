@@ -1,0 +1,11 @@
+.select2-container--default .select2-selection--single .select2-selection__placeholder {
+	font-size:0.8em;
+	text-transform: uppercase;
+	padding: 10px;
+	font-family: "MontSerrat", arial;
+	font-weight: 400;
+	color: #7e7e7e;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+	display: none;
+}

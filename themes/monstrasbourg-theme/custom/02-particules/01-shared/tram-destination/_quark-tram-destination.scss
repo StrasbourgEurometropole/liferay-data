@@ -1,0 +1,53 @@
+%tram-destination{
+    .tram-destination{
+        display: flex;
+
+        p{
+            width: auto;
+        }
+    
+        .tram-destination-letter {
+            display: table-cell;
+            margin: 0;
+            
+            .transport-letters-icon {
+                display:inline-block;
+                font-size:1em;
+                font-weight: bold;
+                min-width:2.5em;
+                height:2.5em;
+                line-height:2.5em;
+                text-align:center;
+                border-radius:6px;
+                vertical-align:middle;
+                margin-right:0;
+                padding: 0 5px;
+            }
+        }
+    
+        .tram-destination-name {
+            position: relative;
+            flex-grow: 1;
+            padding: 0 15px;
+
+            p{
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                margin: auto;
+                overflow: hidden;
+                color: $core-color;
+                font-size: 1.5rem;
+                text-align: left;
+                line-height: 1.5rem;
+            }
+        }
+    
+        .tram-destination-schedule {
+            margin: auto;
+            font-weight: bold;
+            color: $core-color;
+            padding-right: 5px;
+        }
+    }
+}

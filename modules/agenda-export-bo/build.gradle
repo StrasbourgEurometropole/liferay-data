@@ -1,0 +1,28 @@
+dependencies {
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.application.list.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+	
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
+	
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+	
+	compileOnly group: "jstl", name: "jstl"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compileOnly group: 'org.docx4j', name: 'docx4j-JAXB-ReferenceImpl', version: '8.2.1'
+	compileOnly group: "org.slf4j", name: "jcl-over-slf4j", version: "1.7.30"
+	compileOnly group: "org.slf4j", name: "slf4j-api", version: "1.7.30"
+	compileOnly group: "org.slf4j", name: "slf4j-simple", version: "1.7.30"
+
+	compile project (':modules:utils')
+	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:place:place-api')
+}

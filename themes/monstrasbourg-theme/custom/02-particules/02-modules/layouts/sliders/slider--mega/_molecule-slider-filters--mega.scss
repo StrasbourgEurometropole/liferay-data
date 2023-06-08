@@ -1,0 +1,32 @@
+%molecule-slider-filters--mega{
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40px;
+        z-index: 2;
+        position: relative;
+        width: 100%;
+
+        .actu-filter{
+            margin: 0 5px;
+            &:not(.actif){
+                padding: 10px 20px;
+            }
+            &.actif{
+                background-color: $second-color;
+                color: $core-color;
+                .btn-text{
+                    color: $core-color;
+                }
+                pointer-events: none;
+                padding: 10px 20px;
+            }
+            @include RWD(mobile){
+                padding: 10px !important;
+                .btn-text{
+                    font-size: 1.2rem !important;
+                }
+            }
+        }
+}

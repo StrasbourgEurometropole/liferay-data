@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder database-name-max-length="63" package-path="eu.strasbourg.service.edition">
+    <author>BenjaminBini</author>
+	<namespace>edition</namespace>
+	
+	<entity local-service="true" cache-enabled="true" name="Edition" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="editionId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Other fields -->
+        <column name="title" type="String" localized="true" />
+        <column name="subtitle" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="URL" type="String" localized="true" />
+        <column name="author" type="String" localized="true" />
+        <column name="editor" type="String" localized="true" />
+        <column name="distribution" type="String" />
+        <column name="ISBN" type="String" />
+        <column name="price" type="String" />
+        <column name="availableForExchange" type="boolean" />
+        <column name="inStock" type="boolean" />
+        <column name="diffusionDateYear" type="String" />
+        <column name="diffusionDateMonth" type="String" />
+        <column name="pageNumber" type="String" />
+        <column name="pictureNumber" type="String" />
+		<column name="publicationDate" type="Date" />
+		
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="fileId" type="String" localized="true" /> <!-- Devrait être Long, mais impossible car localized -->
+        <column name="galleries" type="Collection" entity="EditionGallery" mapping-table="EditionToEditionGallery" />
+
+		<!-- Order -->
+		<order by="desc">
+			<order-column name="modifiedDate" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="Title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="GroupIdAndTitle" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="title" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+		
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	
+	</entity>
+	
+	<entity local-service="true" name="EditionGallery" cache-enabled="true" remote-service="true" uuid="true" >
+
+		<!-- PK fields -->
+		<column name="galleryId" primary="true" type="long" />
+
+		<!-- Group instance -->
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="lastPublishDate" type="Date" />
+
+		<!-- Workflow fields -->
+		<column name="status" type="int" />
+		<column name="statusByUserId" type="long" />
+		<column name="statusByUserName" type="String" />
+		<column name="statusDate" type="Date" />
+
+		<!-- Links with other entities -->
+        <column name="imageId" type="Long" />
+        <column name="editions" type="Collection" entity="Edition" mapping-table="EditionToEditionGallery" />
+
+		<!-- Other fields -->
+        <column name="title" type="String" localized="true" />
+        <column name="description" type="String" localized="true" />
+        <column name="publicationDate" type="Date" />
+
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="title" />
+		</order>
+
+		<!-- Finder methods -->
+		<finder name="title" return-type="Collection">
+			<finder-column name="title" />
+		</finder>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
+		<finder name="PublicationDateAndStatus" return-type="Collection">
+			<finder-column comparator="&lt;" name="publicationDate" />
+			<finder-column name="status" />
+		</finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	
+	</entity>
+</service-builder>

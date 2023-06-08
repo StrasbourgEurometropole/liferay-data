@@ -1,0 +1,311 @@
+.council-bo {
+
+    /* Tableau des procurations */
+    .lfr-input-time {
+        display : none;
+    }
+
+    .text-normal {
+        font-weight: normal;
+        margin-top: 7px;
+    }
+    
+    /* Titre du conseil dans la connexion des élus */
+    .council-title {
+	    text-align: center;
+	    padding: 20px;
+	    padding-top: 30px;
+	    font-weight: bold;
+	    margin-top: 10px;
+    }
+    
+    /* Headers de la connexion des élus */
+    .officials-unconnected .panel-heading {
+	    background: #C73C42;
+    }
+    .officials-absents .panel-heading {
+	    background: #AAA;
+    }
+    .officials-connected .panel-heading {
+	    background: #76BD4A;
+    }
+    
+    .connexion-list {
+    	padding-left: 15px;
+    }
+
+}
+
+#procurations-table{
+	text-align: center;
+	margin-bottom: 20px;
+	padding : 10px;
+}
+
+#procurations-table table {
+	border: #869CAD;
+	width: 100%;
+}
+#procurations-table table tr{
+	vertical-align: middle;
+	text-align: center !important;
+}
+
+#procurations-table table th{
+	padding: 10px;
+	text-align: center !important;
+	font-size: 18px;
+	background-color: #ddd;
+	height: 50px;
+
+	.reduceColumn{
+	    width : 8%;
+	}
+	.largeColumn {
+		width: 25%;
+	}
+}
+
+#procurations-table table td{
+	height: 35px;
+}
+
+#procurations-table table td .input-text-wrapper{
+	height: 35px;
+}
+
+#procurations-table table .text-left {
+	text-align: left;
+    padding-left: 5px;
+}
+
+#procurations-table .form-group{
+	margin-bottom: 0px;
+}
+
+.green {
+    color: #76BD4A;
+}
+
+.red {
+    color: #C73C42;
+}
+
+.orange {
+    color: #F47521;
+}
+
+.focus-stage {
+    font-weight: 800;
+    text-decoration: underline;
+    color: black;
+}
+
+.wrapper-vote {
+    display: flex;
+    flex-direction: row;
+
+    .wrapper-column {
+        display: flex;
+        flex-direction: column;
+        width: 33%;
+
+        .wrapper-row {
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            &:first-child {
+                margin-bottom: 25px;
+            }
+            &:nth-of-type(2) {
+                margin-bottom: 25px;
+            }
+
+            label {
+                padding-right: 15px;
+            }
+
+            span {
+                font-weight: 600;
+                margin-right: 50px;
+            }
+        }
+    }
+}
+
+/* Autocomplete */
+.official-leader-autocomplete-input-wrapper {
+    position: relative;
+}
+
+.autocomplete-suggestions {
+    margin: 3px 0;
+    background: white;
+    border: 1px solid #d8d8d8;
+    top: 60px;
+    overflow: auto;
+    max-height: 150px;
+}
+
+.autocomplete-suggestion {
+    cursor: pointer;
+    padding: 2px 11px;
+}
+
+//Ne pas afficher les classes hidden
+.hidden{
+  display: none;
+}
+
+//Surcharge classe disabled
+#procurations-table{
+    .form-control[disabled]{
+        border-color: #F1F2F5;
+        cursor: not-allowed;
+        padding: 0px;
+    }
+
+    .disabled{
+        background-color: transparent;
+        border-color: #A7A9BC;
+        cursor: auto;
+    }
+
+    .field{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+
+.th-hidden{
+    background-color: white !important;
+    border : none;
+}
+
+.inputMode{
+    display: none;
+}
+
+.inputMode, .selectMode, .autocomplete-shown, .official-autocomplete-input-wrapper-procurations{
+    padding: 10px;
+    label {
+        display: none;
+    }
+}
+
+.checkAbsent {
+    height: 25px;
+    width: 25px;
+}
+
+.saveButton, .editButton, .closeButton, .resetButton, .reloadButton {
+    border: none;
+    background: none;
+}
+
+img {
+    width: 25px;
+    height: 25px;
+}
+
+
+h3 {
+    text-align: center;
+    font-size: 25px;
+    padding: 10px;
+}
+
+.closeAll {
+    border-radius: 0.25rem;
+    color: #FFF;
+    background-color: #6B6C7E;
+    border-color: #6B6C7E;
+    background-color: #FFF;
+    border-color: #cdced9;
+    color: #6B6C7E;
+    font-weight: 600;
+    border-width: thin;
+    font-size: 18px;
+    display:flex;
+    max-width: 300px;
+    margin-left:80%;
+    padding: 10px;
+}
+
+.errorDiv {
+    margin: auto;
+    width: 50%;
+    border: 1px solid;
+    padding: 10px;
+    background-color : #ffe6e6;
+    border-color: #ff0000;
+    color : #ff0000;
+    justify-content: space-between;
+}
+
+.errorMessageInput {
+     display: inline-block;
+}
+
+.closeMessageError {
+    border: none;
+    background-color: #ffe6e6;
+    display: inline-block;
+}
+
+.warnDiv {
+    margin: auto;
+    width: 50%;
+    border: 1px solid;
+    padding: 10px;
+    background-color : #ffffe6;
+    border-color: #ffff00;
+    justify-content: space-between;
+}
+
+.warnMessageInput {
+     display: inline-block;
+}
+
+.closeMessageWarn {
+    border: none;
+    background-color: #ffffe6;
+    display: inline-block;
+}
+
+.refresh {
+    padding: 10px;
+    }
+
+tr:nth-child(even){
+    background:#ffffff;}
+
+tr:nth-child(odd){
+    background:#f2f2f2;}
+
+button:focus {
+    border: none;
+    outline: none;
+}
+
+.closeAllIcon {
+    margin-right: 4px;
+}
+
+.import {
+    padding: 20px;
+}
+
+.form-group .form-control[readonly] {
+    background-color: #F1F2F5;
+    border-color: #F1F2F5;
+    color: #A7A9BC;
+    cursor: not-allowed;
+}
+
+.exportProcurations {
+    margin-top: 15px;
+}

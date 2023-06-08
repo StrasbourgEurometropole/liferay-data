@@ -1,0 +1,33 @@
+dependencies {
+	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "4.3.0"
+
+	compileInclude group: "com.auth0", name: "java-jwt", version: "3.3.0"
+
+	compileOnly group: "com.liferay", name: "com.liferay.journal.api"
+	compileOnly group: "com.liferay", name: "com.liferay.frontend.taglib"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.api"
+	compileOnly group: "com.liferay", name: "com.liferay.item.selector.criteria.api"
+	compileOnly group: 'com.liferay', name: 'com.liferay.petra.string'
+
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.2.0"
+
+	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
+
+	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+
+	compileOnly group: "javax.portlet", name: "portlet-api"
+
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+
+	compileInclude group: "org.apache.commons", name: "commons-csv", version: "1.7"
+	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+
+
+	compile project (':modules:oidc:oidc-api')
+}
+
+

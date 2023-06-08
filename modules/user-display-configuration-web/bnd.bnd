@@ -1,0 +1,4 @@
+Bundle-Name: user-display-configuration-web
+Bundle-SymbolicName: eu.strasbourg.portlet.userdisplay
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.userdisplay.constants

@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+// FONT
+// ==========================================================================
+@mixin ft($family, $size, $weight, $color, $lineheight) 
+{
+	font-family: $family;
+	font-size: $size;
+	font-weight: $weight;
+	color: $color;
+	line-height: $lineheight;
+}
+
+// BUTTON
+// ==========================================================================
+@mixin btn($radius, $background, $font, $size, $weight, $color, $line)
+{
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 15px 50px;
+	border-radius: $radius+px;
+	background-color: $background;
+	@include ft($font,$size,$weight,$color,$line);
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+// BREAKPOINTS
+// ==========================================================================
+/*@mixin wide {
+	@media screen and (min-width: #{$breakpoint_wd}) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@content;
+}
+
+@mixin tablet_landscape {
+	@media screen and (max-width: #{$breakpoint_tl}) {
+		@content;
+	}
+}*/
+
+@mixin not_tablet_portrait 
+{
+	@media screen and (min-width: #{$breakpoint_tp + 1}) {
+		@content;
+	}
+}
+
+@mixin tablet_portrait 
+{
+	@media screen and (max-width: #{$breakpoint_tp}) {
+		@content;
+	}
+}
+
+@mixin not_mobile
+{
+	@media screen and (min-width: #{$breakpoint_mo + 1})
+	{
+		@content;
+	}
+}
+
+@mixin mobile {
+	@media screen and (max-width: #{$breakpoint_mo}) {
+		@content;
+	}
+}
+
+@mixin mobile_small {
+	@media screen and (max-width: #{$breakpoint_mo_small}) {
+		@content;
+	}
+}
+
+
+// TRANSITION
+// ==========================================================================
+@mixin addTransition($effect: all, $duration: 0.2s, $easeing:ease)  // define animation effect
+{
+	$anim: $effect $duration $easeing;
+	transition: $anim;
+}
+
+@mixin an($type, $time) // define animation
+{
+	-webkit-transition:$type $time+s;
+	-moz-transition:$type $time+s;
+	transition:$type $time+s;
+}
+
+@mixin dl($time) // define animation delais
+{
+	-webkit-transition-delay:$time+s;
+	-moz-transition-delay: $time+s;
+	transition-delay: $time+s;
+}
+
+// RATIO
+// ==========================================================================
+@mixin aspect-ratio($width, $height, $add: 0px) {
+	position: relative;
+	overflow: hidden;
+	&:before {
+		display: block;
+		content: "";
+		width: 100%;
+		padding-bottom: $add;
+		padding-top: ($height / $width) * 100%;
+	}
+	> div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+}

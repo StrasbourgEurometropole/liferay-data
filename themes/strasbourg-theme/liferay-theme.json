@@ -1,0 +1,9 @@
+{
+  "LiferayTheme": {
+    "deployPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/deploy",
+    "themeName": "strasbourg-theme",
+    "appServerPathTheme": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip/webapps/strasbourg-theme",
+    "deployed": true,
+    "appServerPath": "C:/liferay/ems-workspace/liferay-workspace/bundles/tomcat-9.0.17.zip"
+  }
+}

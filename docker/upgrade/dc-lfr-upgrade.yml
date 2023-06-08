@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+
+  # --- Si pas de mysql local ou remote ----
+  #mysql:
+  #  image: mysql-upgrade:${MYSQL_TAG}
+  #  environment:
+  #    - MYSQL_DATABASE=liferay-db
+  #    - MYSQL_USER=liferay
+  #    - MYSQL_PASSWORD=sully
+  #    - MYSQL_ROOT_PASSWORD=root
+  #  command:
+  #    - --character-set-server=utf8
+  #    - --collation-server=utf8_unicode_ci
+  #    - --max-allowed-packet=1024M
+  #  volumes:
+  #    - ./configs/mysql-upgrade/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+  #  ports:
+  #    - "3306:3306"
+  #  networks:
+  #    - upgrade-ems-net
+
+  liferay-portal:
+    image: liferay-upgrade
+    build : 
+      context: ./images/liferay-upgrade
+    volumes:
+      - ./configs/liferay-upgrade/osgi:/opt/liferay/osgi/configs
+      - ./configs/liferay-upgrade/app-server.properties:/opt/liferay/tools/portal-tools-db-upgrade-client/app-server.properties
+      - ./configs/liferay-upgrade/portal-upgrade-database.properties:/opt/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-database.properties
+      - ./configs/liferay-upgrade/portal-upgrade-ext.properties:/opt/liferay/tools/portal-tools-db-upgrade-client/portal-upgrade-ext.properties
+      - ./output/upgrade.log:/opt/liferay/tools/portal-tools-db-upgrade-client/logs/upgrade.log
+      - ${DATA}/liferay/doclib:/data/liferay/document_library
+    entrypoint:
+      - /opt/liferay/tools/portal-tools-db-upgrade-client/db_upgrade.sh
+      - -j
+      - '-Xmx10G'
+    networks:
+      - upgrade-ems-net
+
+
+networks:
+
+  upgrade-ems-net:
+    name: upgrade-ems-net
+    driver: bridge

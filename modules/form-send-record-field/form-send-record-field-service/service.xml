@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_1_0.dtd">
+
+<service-builder database-name-max-length="63" package-path="eu.strasbourg.service.formSendRecordField">
+    <author>Angélique Zunino</author>
+	<namespace>formSendRecordField</namespace>
+
+	<entity local-service="true" name="FormSendRecordField" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+		<column name="formSendRecordFieldId" primary="true" type="long" />
+
+        <!-- Group instance -->
+        <column name="groupId" type="long" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Workflow fields -->
+        <column name="status" type="int" />
+        <column name="statusByUserId" type="long" />
+        <column name="statusByUserName" type="String" />
+        <column name="statusDate" type="Date" />
+
+        <!-- main fields -->
+        <column name="response" type="String" />
+
+        <!-- Links with other entities -->
+        <column name="assetEntryId" type="long" />
+        <column name="contentId" type="long" />
+        <column name="instanceId" type="String" />
+        <column name="responseUserId" type="long" />
+
+		<!-- Finder methods -->
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId" />
+        </finder>
+        <finder name="AssetEntryId" return-type="Collection">
+            <finder-column name="assetEntryId" />
+            <finder-column name="status" />
+        </finder>
+        <finder name="ContentId" return-type="Collection">
+            <finder-column name="contentId" />
+        </finder>
+        <finder name="ContentAndInstanceId" return-type="Collection">
+            <finder-column name="contentId" />
+            <finder-column name="instanceId" />
+        </finder>
+
+		<!-- References -->
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+	</entity>
+
+    <entity local-service="true" cache-enabled="true" name="FormSendRecordFieldSignalement" remote-service="false" uuid="true">
+
+        <!-- PK fields -->
+        <column name="signalementId" type="long" primary="true"/>
+
+        <!-- Group instance -->
+        <column name="groupId" type="long" />
+
+        <!-- Audit fields -->
+        <column name="companyId" type="long" />
+        <column name="userId" type="long" />
+        <column name="userName" type="String" />
+        <column name="createDate" type="Date" />
+        <column name="modifiedDate" type="Date" />
+
+        <!-- Workflow fields -->
+        <column name="status" type="int" />
+        <column name="statusByUserId" type="long" />
+        <column name="statusByUserName" type="String" />
+        <column name="statusDate" type="Date" />
+
+        <!-- Links with other entities -->
+        <column name="formSendRecordFieldId" type="long"/>
+        <column name="publikId" type="String" />
+
+        <!-- Order -->
+        <order by="asc">
+            <order-column name="createDate" />
+        </order>
+
+        <!-- Finder methods -->
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId" />
+        </finder>
+        <finder name="PublikId" return-type="Collection">
+            <finder-column name="publikId" />
+        </finder>
+        <finder name="FormSendRecordFieldId" return-type="Collection">
+            <finder-column name="formSendRecordFieldId" />
+        </finder>
+
+        <!-- References -->
+        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+        <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+
+    </entity>
+</service-builder>

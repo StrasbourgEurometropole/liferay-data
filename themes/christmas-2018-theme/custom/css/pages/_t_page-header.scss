@@ -1,0 +1,26 @@
+.mns-header-fullpage{
+	height: calc(100vh - 140px);
+	text-align: center;
+	position: relative;
+	transform: translate3d(0, 0, 0);
+	@include tablet_portrait {
+		height: calc(100vh - 350px);
+	}
+	@include mobile {
+		height: 500px;
+	}
+	figure{
+		height: 100%;
+		&:before{
+			content: '';
+			@extend .gradient-top;
+		}
+	}
+	.mns-caption{
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+		transform: translateY(-50%);
+	}
+}

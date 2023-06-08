@@ -1,0 +1,375 @@
+#wi-aroundme.no-widget{
+    width: auto;
+    box-shadow: none;
+    padding: 0;
+}
+
+#wi-aroundme{
+    #aroundme{
+        
+        .add-favorites{
+            color: $core-color !important;
+        }
+
+        .top__overflow,
+        .side__overflow{
+            form{
+
+                .info-text {
+                    font-family: $opensans;
+                    a {
+                        font-family: $opensans;
+                    }
+                }
+            }
+        }
+
+
+        /* ------------------------------- UI */
+
+        .side__trigger{
+            &--pull{
+                z-index: 406;           
+                &:before{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                }
+            }
+            &--close{
+                background-image: url( svg-bg-uri($svg-filled-close, $second-color) );
+            }
+        }
+        .top__trigger{
+
+            &:before{
+                background-image: url( svg-bg-uri($svg-filters, $second-color) );
+            }
+
+            &--pull{
+                background-color: $core-color;
+            }
+
+            &--close{
+                background-image: url( svg-bg-uri($svg-filled-close, $second-color) );
+            }
+        }
+
+        .aroundme__ui{
+            
+            &--fullscreen{background-image: url( svg-bg-uri($svg-fullscreen, #FFFFFF) );}
+            &--zoomin{background-image: url( svg-bg-uri($svg-zoomin, #FFFFFF) );}
+            &--zoomout{background-image: url( svg-bg-uri($svg-zoomout, #FFFFFF) );}
+            &--locate{background-image: url( svg-bg-uri($svg-locate, #FFFFFF) );}
+            &--home{background-image: url( svg-bg-uri($svg-home, #FFFFFF) );}
+        }
+
+
+        /* ------------------------------------ FILTERS */
+        .filtres{
+
+
+            &__title, &__title label{
+                font-family: $fancy-font;
+            }
+            &__item{
+                
+                @extend %tram-destination; 
+                .tram-destination{
+                    padding: 0 10px;
+
+                    .ligne{
+                        align-self: center;
+                        padding: 0 5px 10px 10px;
+                    }
+                }
+
+                .types{
+                    font-family: $main-font;
+                }
+
+                a {
+                    color: #505050;
+
+                }
+
+                [type="checkbox"]{
+
+                    & + label{
+                        font-family: $fancy-font;
+                    }
+                }            
+
+            }
+            &__btn{
+                .btn-text{
+                    text-transform: uppercase;
+                    font-family: $fancy-font;
+                }
+                .btn-arrow{
+                    content: '';
+                    display: inline-block;
+                    width: 21px;
+                    height: 20px;
+                    flex-shrink: 0;
+                    background-size: 20px 20px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-right: 7px;
+                }
+                &--reset{
+                    .btn-arrow{
+                        background-image: url( svg-bg-uri($svg-delete, #b3b3b3) );
+                    }
+                }
+                &--save{
+                    .btn-text{
+                        color: $second-color;
+                    }
+                    .btn-arrow{
+                        background-image: url( svg-bg-uri($svg-success, $second-color) );
+                    }
+                }
+
+            }
+
+            input{
+                @extend %atom-form-input;
+            }
+
+
+            // Panneau filtres categories
+            &--category{
+                background-color: $core-color;
+
+                .filtres{
+                    &__title{
+                        .icon{
+                            background-image: url( svg-bg-uri($svg-filters, $second-color) );
+                        }
+                        input {
+                            background-color: #fff;
+                        }
+                    }
+                    &__list{
+                        @include RWD(desktop){
+                            @include grid-distribution(3, 30, grid-item);
+                        }
+                        @include RWD(tablet_only){
+                            @include grid-distribution(3, 30, grid-item);
+                        }
+                        @include RWD(mobile){
+                            @include grid-distribution(1, 0, grid-item);
+                        }
+                    }
+                    &__item{
+                        [type="checkbox"]{
+            
+                            & + label{
+                                &:after{
+                                    background-color: $second-color;
+                                }
+                            }
+                            &:checked{
+                                & + label{
+                                    color: $second-color;
+                                    &:before{
+                                        border-color: $second-color;
+                                    }
+                                }
+                            }
+                        }
+                        &--favorite{
+                            [type="checkbox"]{
+                                & + label{
+                                    color: $third-color !important;
+                                    &:before{
+                                        border-color: $third-color !important;
+                                    }
+                                    &:after{
+                                        background-color: $third-color !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            // Panneau filtres liste de pois
+            &--poi{
+                .filtres{
+                    &__title{
+                        color: $core-color;
+                        .icon{
+                            background-image: url( svg-bg-uri($svg-poi-list, $core-color) );
+                        }
+                        @include RWD(desktop){
+                            display: none;
+                        }
+                    }
+                    &__item{
+                        [type="checkbox"]{
+            
+                            & + label{
+                                &:before{
+                                    border: solid 1px $core-color;
+                                }
+                                &:after{
+                                    background-color: $core-color;
+                                }
+                            }
+                            &:checked{
+                                & + label{
+                                    &:before{
+                                        border-color: $core-color;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    
+
+
+
+
+        /* -------------------------- MARKER */
+        .aroundme__marker{
+            &-amount{
+                white-space: nowrap;
+
+                &.red{
+                    background-color: $crowded-red;
+                }
+                &.orange{
+                    background-color: $crowded-orange;
+                }
+                &.green{
+                    background-color: $crowded-green;
+                }
+                &.black{
+                    background-color: $crowded-black;
+                }
+                &.grey,&.white{
+                    background-color: $crowded-grey;
+                }
+                /*
+                &.white{
+                    background-color: $crowded-white;
+                }
+                */
+            }
+            &-alert{
+                background-image: url( svg-bg-uri($svg-alert, $error) );
+            }
+        }
+
+
+        /* ------------------------------- Infowindow */
+        .leaflet-popup-tip {
+            background: $core-color;
+        }
+        .infowindow{
+            &__close{
+                background-image: url( svg-bg-uri($svg-filled-close, $core-color) );
+            }
+            &__name{
+                font-family: $fancy-font;
+                text-transform: uppercase;
+            }
+            &__like{
+                a{
+                    &:not(.liked){
+                        background-image: url( svg-bg-uri($svg-favoris, $core-color) );
+                    }
+                    &.liked{
+                        background-image: url( svg-bg-uri($svg-heart-filled, $core-color) );
+                    }
+        
+                }
+            }
+            &__address{
+                font-family: $main-font;
+            }
+            &__middle{
+
+                .infowindow__contenu:not(:empty){
+
+                    @extend %tram-destination;
+                }
+            }
+            &__opened{
+                font-family: $main-font;
+            }
+            &__schedules{
+                font-family: $fancy-font;
+            }
+            &__amount{
+                .infowindow__frequentation{
+                    white-space: nowrap;
+
+                    &.orange{
+                        background-color: $crowded-orange;
+                    }
+                    &.green{
+                        background-color: $crowded-green;
+                    }
+                    &.grey, &.white{
+                        background-color: $crowded-grey;
+                    }
+                    /*
+                    &.white{
+                        background-color: $crowded-white;
+                    }
+                    */
+                    &.red{
+                        background-color: $crowded-red;
+                    }
+                    &.black{
+                        background-color: $crowded-black;
+                    }
+                }
+                .crowded-label{
+                    color: $core-color;
+                    font-family: $main-font;
+                }
+            }
+            &__url {
+                a{
+                    @extend %atom-btn-square--filled--core;
+                    padding: 10px 20px;
+
+                    &.alert-arret span.flexbox:before {
+                        background-image: url( svg-bg-uri($svg-alert, $error) );
+                    }
+                }
+            }
+        }
+
+        /* ------------------------------- Etat et ouverture des panels */
+
+        // Ouverture du panneau latéral
+        &.side-opened{
+            // En desktop/tablet on change le picto par une flèche pour replier le panel
+            .side__trigger--pull{
+                &:before{
+                    background-image: url( svg-bg-uri($svg-arrow1, $core-color) );
+                    transform: translate(-50%, -50%);
+                }     
+            }
+        }
+    }
+
+    /* ------------------------------ Etat full screen */
+
+    .aroundme--fullscreen{
+        #aroundme{
+            .aroundme__ui--fullscreen{
+                background-image: url( svg-bg-uri($svg-smallscreen, #FFFFFF) );
+            }
+        }
+    }
+}

@@ -1,0 +1,113 @@
+.details{
+	h2{
+		@extend %h1;
+		margin-top: 60px;
+		margin-bottom: 40px;
+	}
+	.event-themes{
+		font-family: 'robotomedium';
+		font-size: 15px;
+		font-size: 1.5rem;
+		line-height: normal;
+		color:#008ce7;
+		text-transform:uppercase;
+		margin-bottom:45px;
+		text-align: center;
+	}
+}
+
+// Block info
+.event-info{
+	display: block;
+	background-color: #f2f2f2;
+	.f-left{
+		width:500px;
+		position:relative;
+		display: inline-block;
+		vertical-align: top;
+		img{
+			width: 100%;
+		}
+		.copyright{
+			position:absolute;
+			bottom:0;
+			left:0;
+			right:0;
+			background-color: #343433;
+			color:#fffefe;
+			font-family: Arial;
+			font-size:14px;
+			font-size:1.4rem;
+			line-height: 1.43em;
+			padding:10px 20px;
+		}
+		@include RWD(tablet_only){
+			width: 50%;
+			margin-left:-2px;
+		}
+		@include RWD(mobile){
+			width: 100%;
+		}
+	}
+	.f-right{
+		width:calc(100% - 504px);
+		padding:30px;
+		display: inline-block;
+		vertical-align: top;
+		.date{
+			@extend %date;
+		}
+		.place{
+			@extend %map;
+		}
+		address{
+			margin-left:30px;
+			p{
+				margin:0px;
+			}
+			a{
+				@extend %btn-light;
+				margin-left:-30px;
+				margin-top:60px;
+				@include RWD(mobile){
+					margin-top:40px;
+				}
+			}
+		}
+		@include RWD(tablet_only){
+			width: 50%;
+			margin-left:-2px;
+		}
+		@include RWD(mobile){
+			width: 100%;
+		}
+	}
+}
+
+// Block description
+.event-description{
+	.col-50{
+		width: 48%;
+		display: inline-block;
+		vertical-align: top;
+		margin-left: -2px;
+		border-top: 1px solid #3a3a3a;
+		margin-right:2%;
+		@include RWD(mobile){
+			width: 100%;
+			border:none;
+			margin-right:0px;
+		}
+		h4{
+			margin-top: 30px;
+			@include RWD(mobile){
+				margin-top:0px;
+			}
+		}		
+	}
+	.pictos{
+		img{
+			margin-right: 6px;
+		}
+	}
+}

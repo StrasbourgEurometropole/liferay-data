@@ -1,0 +1,113 @@
+%organism-footer{
+    .footer {
+        .footer-bottom{
+            background-color: #3a3a3a;
+            .col-top {
+                margin-top: 40px;
+                padding-top: 20px;
+                border-top: solid 1px #505050;
+                svg{
+                    width: 260px;
+                    height: auto;
+                    fill: #606060;
+                }
+            }
+
+            .container .col-bottom {
+                color: #b4b4b4;
+                font-size: 1.4rem;
+                padding-bottom: 20px;
+                h1{
+                    font-size: 3.5rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    font-family: $site-font;
+                    line-height: 1.2;
+                    color: #FFFFFF;
+                    margin-bottom: inherit;
+                    text-align: inherit;
+
+                    @include RWD(mobile){
+                        font-size: 2.5rem;
+                    }
+                    &:before{
+                        display: none;
+                    }
+                }
+                h2{
+                    font-family: $site-font;
+                    color: #FFFFFF;
+                    font-size: 2.5rem; 
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    line-height: 1.2;
+                    word-break: break-word;
+                    hyphens: auto;
+
+                    @include RWD(mobile){
+                        font-size: 2rem;
+                    }
+                }
+                h3{
+                    font-family: $site-font;
+                    color: #FFFFFF;
+                    font-size: 2.2rem; 
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    line-height: 1.2;
+                    word-break: break-word;
+                    hyphens: auto;
+
+                    @include RWD(mobile){
+                        font-size: 1.8rem;
+                    }
+                }
+
+                ul {
+                    list-style: disc;
+                    padding-left: 60px;
+                }
+
+                ol {
+                    list-style: decimal;
+                    padding-left: 60px;
+                }
+                strong, b{
+                    font-weight: 600;
+                }
+                em{
+                    font-style: italic;
+                }
+                sup{
+                   // vertical-align: super;
+                    font-size: smaller;
+                    line-height: normal; 
+                }
+                sub{
+                    vertical-align: sub;
+                    font-size: smaller;
+                    line-height: normal;
+                }
+                a {
+                    color: #b4b4b4;
+                    text-decoration: none;
+                    &:hover {
+                       color: #b4b4b4; 
+                       text-decoration: underline;
+                    }
+                }
+            }
+
+            .fill{
+                flex: 1;
+            }  
+        }
+        .portlet-content-editable {
+                border-width: 0 !important;
+        }
+
+        .portlet {
+            margin-bottom: 0px !important;
+        }
+    }
+}

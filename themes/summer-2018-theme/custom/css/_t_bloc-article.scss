@@ -1,0 +1,33 @@
+#mns-global{
+
+	.mns-bloc-article{
+		@include not-mobile{
+			h2,
+			span.h2
+			{
+				font-size: 3rem;
+				line-height: 3.5rem;
+			}				
+
+			h3,
+			span.h3
+			{
+				font-size: 2rem;
+				line-height: 2.5rem;
+			}
+		}
+
+		.mns-title,.mns-catcher{
+			text-align: center;
+		}
+		
+		a{
+			@include ft($f_ms, 1rem, 700, $c_main, 1.625rem);
+			text-decoration: underline;
+
+			&:hover{
+				color: $c_txt;
+			}
+		}
+	}
+}

@@ -1,0 +1,123 @@
+.page-offre{
+    @extend %molecule-inlines-rte;
+
+    h2{
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+
+    .candidaturePagination{
+        display: flex;
+
+        ul{
+            width: auto;
+            margin-top: 0;
+            flex-grow: 1;
+            justify-content: center;
+
+            @include RWD(tablet){
+                order: -1;
+                margin-left: -15px;
+
+                .pagin-item{
+                    display: inline-block !important;
+                }
+            }
+        }
+        
+        @include RWD(tablet){
+            flex-direction: column;
+        }
+    }
+
+    .candidatures, .alertes{
+        margin-bottom: 40px;
+    }
+
+    .candidaturesList, .alertesList{
+        margin-bottom: 30px;
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+
+        .candidatureInfo, .alerteInfo{
+            @extend %text-section-title-hp;
+            grid-row: 1 / auto;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #31455d;
+            letter-spacing: 0.03em;
+
+            @include RWD(tablet){
+                display: none;
+            }
+        }
+
+        .candidatureDetail, .alerteDetail{
+            line-height: normal;
+
+            @include RWD(tablet){
+                margin-top: 10px;
+                padding-left: 45%;
+                position: relative;
+                min-height: 25px;
+            }
+
+            .button-holder{
+                margin: 0;
+            }
+
+            &:before{
+                @extend %text-section-title-hp;
+                font-size: 1.2rem;
+                font-weight: 600;
+                color: #31455d;
+                letter-spacing: 0.03em;
+                width: 40%;
+                position: absolute;
+                left: 0;
+
+                @include RWD(desktop){
+                    content: none;
+                }
+            }
+    
+            .delete-alert{
+                line-height: 30px;
+                
+                &:after{
+                    content: '';
+                    display: inline-block;
+                    width: 30px;
+                    height: 30px;
+                    background-image: url( svg-bg-uri($svg-filled-close-white, $core-color) );
+                    background-size: 20px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    position: absolute;
+                }
+                
+                &:focus{
+                    outline: none;
+                }
+            
+                
+                &:hover:after, &:focus:after{
+                    background-image: url( svg-bg-uri($svg-filled-close-white,  $second-color) );
+                }
+            }
+        }
+
+        .candidatureDetail:nth-child(5n):not(:last-child){
+            @include RWD(tablet){
+                border-bottom: solid black 1px;
+            }
+        }
+        
+        .alerteDetail:nth-child(3n):not(:last-child){
+            @include RWD(tablet){
+                border-bottom: solid black 1px;
+            }
+        }
+    }
+}

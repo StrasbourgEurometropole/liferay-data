@@ -1,0 +1,37 @@
+%molecule-print-this{
+    display: flex;
+    justify-content: space-between;
+ 
+    span{
+        margin-right: 10px;
+        a{
+            font-size: 0;
+            text-decoration: none;
+            display: block;
+            &:before{
+                font-size: 20px;
+                font-size: 2.0rem;
+                color: #595959;
+                transition: all, 0.5s;
+                font-family: 'FontAwesome';
+            }
+            &:hover, &:focus{
+                &:before{
+                    color: $core-color;
+                } 
+            } 
+        }
+
+        &.print_html{
+            a:before{
+                content: '\f02f';
+            }
+        }
+        &.print_pdf{
+            a:before{
+                content: '\f1c1';
+            }
+        }
+
+    }
+}

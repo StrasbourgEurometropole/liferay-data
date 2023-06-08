@@ -1,0 +1,3 @@
+Bundle-Name: oidc-web
+Bundle-SymbolicName: eu.strasbourg.portlet.oidc
+Bundle-Version: 1.18.0
