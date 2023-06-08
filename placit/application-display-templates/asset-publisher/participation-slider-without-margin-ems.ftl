@@ -19,7 +19,7 @@
         <div class="container">
             
             <div>
-                <h2>Participer eurometropole (${entries?size})</h2>
+                <h2>Participer <span  class='pro-listing-ems'>eurometropole</span> <span class='pro-listing-count'>(${entries?size})</span></h2>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 

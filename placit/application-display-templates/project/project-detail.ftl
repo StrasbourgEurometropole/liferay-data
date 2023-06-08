@@ -138,7 +138,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     }
      
     .pro-page-detail.pro-page-detail-projet aside{
-        margin-top : 124px;
+        margin-top : -200px;
     }
     .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
         margin: 0;
@@ -149,7 +149,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     }
      
     .col-sm-4 {
-    	z-index : 50;
+        z-index : 50;
     }
 </style>
  
@@ -173,7 +173,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     $(document).ready(function() {
 
         // Déplacement du bloc de la fiche entité
-        $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
+        $(".col-sm-4-to-move").appendTo(".col-sm-4");
         $(".portlet-content>.portlet-title-text").hide();
 
         // Vérification de l'existance de la timeline verticale

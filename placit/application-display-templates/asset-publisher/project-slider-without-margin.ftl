@@ -60,14 +60,21 @@
                                 <figure role="group">
                                     <img src='${entry.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
                                 </figure>
-                                <span>Voir le projet</span>
+                                
                             </div>
                             <div class="content">
                                 <span class="location">${entry.getDistrictLabel(locale)}</span>
                                 <h3>${entry.title}</h3>
                             </div>
+                            <ul>
+                               <li>
+                                <span>Voir le projet</span>
+                            </li> 
+                            </ul>
+                            
                         </a>
                         <ul>
+                            
                             <li>
                                 <a href="${homeURL + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
                                     ${entry.getParticipations()?size} Participation(s) en cours
