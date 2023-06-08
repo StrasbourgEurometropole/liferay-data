@@ -60,18 +60,19 @@
                                     </figure>
                                     <p>Concertation publiée par :</p>
                                     <p><strong>${user.getFullName()}</strong></p>
-                                    <div class="pro-info-top-right">
-                                        <span class="pro-encart-theme" style="background : #${participationColor}">
-                                            ${participationType}
-                                        </span>
-                                    </div>
+                                    
+                                </div>
+                                <div class="pro-info-top">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
                                 </div>
                                 <div class="pro-content-participation">
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                         <h3>${entry.title}</h3>
                                     </a>
                                     <span class="pro-time">
-                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
+                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> - <span class="pro-duree">${proDuree}</span>
                                     </span>
                                 </div>
                                 <!-- Selection du type de template selon le status de la participation -->

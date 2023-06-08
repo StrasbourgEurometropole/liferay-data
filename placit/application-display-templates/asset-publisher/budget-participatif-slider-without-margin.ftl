@@ -78,7 +78,7 @@
                                 <p>Projet déposé par :</p>
                                 <p><strong>${entry.getAuthor()?html}</strong></p>
                                 <div class="pro-info-top-right">
-                                    <span class="pro-encart-theme" style="background : #${statusColor}">
+                                    <span class="pro-encart-theme encart-budget">
                                         ${entry.getBudgetParticipatifStatusTitle(locale)}
                                     </span>
                                 </div>
