@@ -15,7 +15,7 @@
         <#assign homeURL = "/" />
     </#if>
 
-    <section id="pro-link-participation" class="pro-bloc-slider pro-slider-participation">
+    <section id="pro-link-participation-ems" class="pro-bloc-slider pro-slider-participation">
         <div class="container">
             
             <div>

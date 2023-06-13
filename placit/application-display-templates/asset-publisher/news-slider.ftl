@@ -16,10 +16,12 @@
 
 <section class="pro-bloc-select pro-bloc-slider">
     <div class="container">
-        <div class="pro-intro">
-            <h2>Actualités</h2>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
-        </div>
+		<div>
+			<h2>Actualités</h2>
+                    <div class="pro-wrapper">
+                        <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
+                    </div>
+            </div>
         <div>
             <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
@@ -59,9 +61,13 @@
 	                        </span>
 	                        <h3>${title}</h3>
 	                        <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
-	                        	<span class="actu-location"> ${territoriesLabel} <span>		
-	                        <span class="link">Lire la suite</span>
+	                        	<span class="actu-location"> ${territoriesLabel} </span>		
+	                       
 	                    </div>
+						<div class="footer-news">
+							<span class="link">Lire la suite</span>
+							<span class="icon-ico-chevron-right"></span>
+						</div>
 	                </a>
 	            </div> 
 
