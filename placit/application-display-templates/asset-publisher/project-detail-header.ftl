@@ -83,7 +83,7 @@
    
 	<div class="container caption-project-title">
 		<div class="row">
-			<div class="pro-title col-8">
+			<div class="pro-title col-md-8">
 				<div><h1>${currEntry.title}</h1></div>
 				<div class="pro-bloc-meta"><span class="pro-surtitre">${currEntry.getProjectStatus(locale)}</span> <span class="pro-soustitre"><strong>${currEntry.getDistrictLabel(locale)}</strong></span></div>
 				<div class="pro-bloc-display-desc"><p>${currEntry.description}</p></div>

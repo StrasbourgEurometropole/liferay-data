@@ -63,14 +63,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </figure>
         </header>
         
-        <div id="breadcrumb">
+        <!-- <div id="breadcrumb">
             <span>
                 <span><a href="${homeURL}accueil">Accueil</a>
                     <a href="${homeURL}actualites">Toutes les actualités</a>
                     <span class="breadcrumb_last">${title.getData()}</span>
                 </span>
             </span>
-        </div>
+        </div> -->
         <div class="pro-content pro-bloc-texte col-lg-10 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
             ${content.getData()}
         </div>

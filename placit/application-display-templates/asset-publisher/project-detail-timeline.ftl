@@ -38,7 +38,7 @@
              <div style="padding-top: ${timeline.getSpacing()}px;">
                  <div class="pro-date">
                   <span class="pro-day">Jour</span>
-                  <span class="pro-day-more">J+${timeline.startDay}</span>
+                  <span class="pro-day-more">+${timeline.startDay}</span>
                  </div>
                  <div class="pro-titre">
                      <span>Le <time datetime="2017-02-14">${timeline.getDate()?string[timeline.getFreeMarkerFormatDate()]}</time></span>

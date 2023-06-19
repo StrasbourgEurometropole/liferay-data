@@ -127,7 +127,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					</div>
 					<a href="${timeline.getLink()}" class="pro-jalon-hover">
 						<div class="pro-wrapper-date">
-							<div>
 								<#switch timeline.getFreeMarkerFormatDate()>
 									<#case "dd/MM/yyyy">
 										<span class="pro-day-month">${timeline.getDate()?string["dd MMMM"]}</span>
@@ -142,7 +141,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 										<span class="pro-year">${timeline.getDate()?string["yyyy"]}</span>
 										  <#break>			                      
 								</#switch>
-							</div>
 						</div>
 						<div class="pro-txt-jalon">
 							<p>${timeline.getTitle()}</p>
@@ -168,18 +166,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <h1>${entry.title}</h1>
                             <div class="pro-wrapper-meta">
                                 <div class="pro-statut" >
-                                    <span style="background : #${statusColor}">
+                                    <span class="pro-encart-theme encart-budget" >
                                         ${entry.getBudgetParticipatifStatusTitle(locale)}
                                     </span>
                                 </div>
-                                <div class="pro-meta">
+                                <div class="pro-meta prefix-location">
                                     <#assign districtsLabel = entry.getDistrictLabel(locale) />
                                     <#assign themacticsLabel = entry.getThematicsLabel(locale) />
                                     <#assign projectLabel = entry.getProjectName() />
     
                                     <#if districtsLabel?has_content ><span>${districtsLabel}</span></#if>
-                                    <#if themacticsLabel?has_content ><span>${themacticsLabel}</span></#if>
-                                    <#if projectLabel?has_content ><span>${projectLabel}</span></#if>
                                 </div>
                             </div>
                             <div class="pro-header-auteur">
@@ -267,30 +263,33 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 ${entry.description}
                             </div>
     
-                            <div class="pro-bloc-texte pro-bloc-telechargements">
-                                <h3>Documents à télécharger</h3>
-                                <div class="row">
+                            <div class="pro-bloc-telechargements">
+                                <h2>Documents utiles</h2>
+                                <#if entry.filesURLs?has_content>
+                                <div class="download-file-wrapper">
     
-                                    <#if entry.filesURLs?has_content>
+                                    
                                         <#list entry.filesURLs as fileURL>
     
                                             <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
                                             <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
                                             <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
     
-                                            <div class="col-sm-6">
+                                            <div class="download-file-row">
                                                 <a href="${fileURL}" download title="${title}">
                                                     <span class="pro-filename">${title}</span>
-                                                    <span class="pro-poids">Poids ${size}</span>
+                                                    <div>
+                                                        <span class="pro-poids">Télécharger</span>
+                                                        <span class="pro-poids">(PDF - ${size})</span>
+                                                    </div>
+                                                    
                                                 </a>
                                             </div>
-    
                                         </#list>
-                                    <#else>
-                                        Aucun document associé pour le moment
-                                    </#if>
-    
                                 </div>
+                                <#else>
+                                        <span>Aucun document associé pour le moment</span>
+                                    </#if>
                             </div>
                         </div>
                     </div>
@@ -315,7 +314,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     
             <!-- Encart : Budget -->
             <#if entry.budget?has_content>
-                <p><span class="pro-euros">€</span> <strong>Budget : </strong>${entry.budget}</p>
+                <p><strong>Budget : </strong>${entry.budget}</p>
             </#if>
     
             ${entry.getBPMessageState(request)}
@@ -354,10 +353,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned && isAuthor>
                 <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a> 
             <#else>
-                <a href="#" class="pro-btn-yellow" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
+                <a href="#" class="pro-btn-black" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
             </#if>
+            <p class="pro-comment-count">${entry.getNbApprovedComments()} commentaire(s)</p>
             
-            <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+            <a href="#pro-link-commentaire" class="pro-btn-black" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
         </div>
     </aside>
             </div>
@@ -376,21 +376,20 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     
 	
 	<#if bpsSlider?size gt 0 >
-		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+		<section section id="pro-link-budget-participatif-suggestion" class="pro-bloc-slider pro-slider-event">
             <div class="container">
-                <div class="col-lg-10 col-lg-offset-1">
+                <div>
                     <#if childs?has_content>
                         <h2>Projet fusionné avec</h2>
                     <#else>
                         <h2>D’autres projets citoyens</h2>
                     </#if>
-                    
-                    <div class="pro-wrapper">
-                        <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tous les projets</a>
-                    </div>
+                        <div class="pro-wrapper">
+                            <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tout voir</a>
+                        </div>
                 </div>
 
-                <div class="col-lg-10 col-lg-offset-1">
+                <div class="other-projects-slider">
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
 					
 						<#list bpsSlider as suggestion >
@@ -406,45 +405,45 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<#assign classFaisable = "pro-theme-faisable" />
 							</#if>
 							
-							<div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
-                                <#if suggestion.getImageURL()?has_content>
-									<figure role="group" class="fit-cover">
+                            <div class="item pro-bloc-card-budget ${classFaisable}" data-linkall="a">
+                                        <figure role="group" class="fit-cover">
+                                            <#if suggestion.getImageURL()?has_content>
 										<img src="${suggestion.getImageURL()}" width="155" height="200" alt="Image du budget participatif"/>
-									</figure>
-								</#if>
-								<div class="pro-header-budget">
-									<#if imageURL?has_content >
-										<figure role="group">
+                                        </#if>    
+                                    </figure>
+                                <div class="pro-header-budget">
+                                    <#if imageURL?has_content >
+                                        <figure role="group">
 											<img src="${imageURL}" width="40" height="40" alt="Image du budget participatif"/>
-										</figure>
-									</#if>
-									<p>Projet déposé par :</p>
+                                        </figure>
+                                    </#if>
+                                    <p>Projet déposé par :</p>
 									<p><strong>${suggestion.getAuthor()}</strong></p>
-									<div class="pro-info-top-right">
-										<span class="pro-encart-theme" style="background : #${statusColor}">
-											${suggestion.getBudgetParticipatifStatusTitle(locale)}
-										</span>
-									</div>
-								</div>
-								<div class="pro-content-budget">
-									<a href="${homeURL}detail-budget-participatif/-/entity/id/${suggestion.budgetParticipatifId}" title="lien de la page de détail">
-										<h3>${suggestion.title}</h3>
-									</a>
-									<p>Projet adressée à <u>la ville de Strasbourg</u></p>
-									<span class="pro-time">
-										Publiée le <time datetime="${suggestion.createDate?date?string['dd/MM/yyyy']}">${suggestion.createDate?date?string['dd/MM/yyyy']}</time>
-									</span>
-								</div>
-								<div class="pro-footer-budget">
-									<p>
-										<#if suggestion.isNotDoable()>
-											Ce projet a été étudié et déclaré "${suggestion.getBudgetParticipatifStatusTitle(locale)}"
-										<#else>
+                                    <div class="pro-info-top-right">
+                                        <span class="pro-encart-theme encart-budget">
+                                            ${suggestion.getBudgetParticipatifStatusTitle(locale)}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="pro-content-budget">
+                                    <a href="${homeURL}detail-budget-participatif/-/entity/id/${suggestion.budgetParticipatifId}" title="lien de la page de détail">
+                                        <h3>${suggestion.title?html}</h3>
+                                    </a>
+                                    <p>Projet adressée à <u>la ville de Strasbourg</u></p>
+                                    <span class="pro-time">
+                                        Publiée le <time datetime="${suggestion.createDate?date?string['dd/MM/yyyy']}">${suggestion.createDate?date?string['dd/MM/yyyy']}</time>
+                                    </span>
+                                </div>
+                                <div class="pro-footer-budget">
+                                    <p>
+                                        <#if suggestion.isNotDoable()>
+                                            Ce projet a été étudié et déclaré "${suggestion.getBudgetParticipatifStatusTitle(locale)}"
+                                        <#else>
 											<strong>${suggestion.getNbSupports()}</strong> vote(s) pour ce projet
-										</#if>									
-									</p>
-								</div>
-							</div>						
+                                        </#if>                                  
+                                    </p>
+                                </div>
+                            </div>						
 						</#list>
                     </div>
                 </div>

@@ -26,10 +26,14 @@
 <h3 class="mb-2">Suivez-nous</h3>
 
 <ul>
-	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
-	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a></li>
-	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
-	<li class="mail"><a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a></li>
+	<li class="facebook"><a aria-label="Partagez sur Facebook" data-href="#" href="https://www.facebook.com/strasbourg.eu" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a></li>
+	<li class="twitter"><a aria-label="Partagez sur Twitter" id="sharetwitter" href="https://twitter.com/strasbourg" target="_blank" title="Lien de partage sur Twitter"></a></li>
+	<li class="linkedin"><a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" href="https://www.linkedin.com/company/strasbourg-eurometropole" target="_blank" title="Lien de partage sur LinkedIn"></a></li>
+	<li class="instagram"><a aria-label="Partagez par Instragram" id="ShareInstragram" href="https://www.instagram.com/strasbourg_eurometropole" title="Lien de partage par Instragram"></a></li>
+	<li class="dailymotion"><a aria-label="Partagez par Dailymotion" id="ShareDailymotion" href="https://www.dailymotion.com/villedestrasbourg" title="Lien de partage par Dailymotion"></a></li>
+	<li class="tumblr"><a aria-label="Partagez par Tumblr" id="ShareTumblr" href="https://www.strasblr.eu/" title="Lien de partage par Tumblr"></a></li>
+	<li class="snapchat"><a aria-label="Partagez par Snapchat" id="ShareSnapchat" href="https://www.strasbourg.eu/reseaux-sociaux#snap" title="Lien de partage par Snapchat"></a></li>
+	<li class="soundcloud"><a aria-label="Partagez par Soundchat" id="ShareSoundchat" href="https://soundcloud.com/strasbourg_eu" title="Lien de partage par Soundchat"></a></li>
 </ul>
 
 <h3 class="mt-4"><a href="/pacte" class="link-pacte" style="color: white;text-decoration: none;">Le pacte</a></h3>
