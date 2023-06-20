@@ -56,58 +56,56 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
-		<div class="col-lg-11 col-lg-offset-1">
+		<div class="col-lg-12">
 			<article>
-				<header>
-					<div class="pro-header-participation pro-theme-croissance">
-						<h1>${entry.title}</h1>
-						<div class="pro-wrapper-meta">
-							<#if entry.getStatusCategory()?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
-							</#if>
-							<div class="pro-meta">
-							
-								<!-- Liste des quartiers  -->
-								<span>${entry.getDistrictLabel(locale)}</span>
-
-								<!-- Liste des thématiques -->
-								<#if initiativeThematics?? >
-									<#list initiativeThematics as initiativeThematic >
-										<span>${initiativeThematic.getTitle(locale)}</span>
-									</#list>
-								</#if>
-
-								<!-- Liste des projets -->						
-								<#if initiativeProjects?? >
-									<#list initiativeProjects as initiativeProject >
-										<span>${initiativeProject.getTitle(locale)}</span>
-									</#list>
-								</#if>
-							</div>
-						</div>
-						<div class="pro-header-auteur">
-							<figure>
-								<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
-							</figure>
-							<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
-							<p><strong>${entry.getAuthorLabel()}</strong></p>
-						</div>
-					</div>
-
-					<div id="breadcrumb">
-					<span>
-						<span>
-							<a href="${homeURL}">Accueil</a>
-						<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
-						<span class="breadcrumb_last">${entry.title}</span>
-						</span>
-					</span>
-					</div>
-				</header>
-
 				<div class="row pro-container-detail-event">
 					<div class="col-sm-8">
-
+						<header>
+							<div class="pro-header-participation pro-theme-croissance">
+								<h1>${entry.title}</h1>
+								<div class="pro-wrapper-meta">
+									<#if entry.getStatusCategory()?has_content>
+										<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
+									</#if>
+									<div class="pro-meta">
+									
+										<!-- Liste des quartiers  -->
+										<span>${entry.getDistrictLabel(locale)}</span>
+		
+										<!-- Liste des thématiques -->
+										<#if initiativeThematics?? >
+											<#list initiativeThematics as initiativeThematic >
+												<span>${initiativeThematic.getTitle(locale)}</span>
+											</#list>
+										</#if>
+		
+										<!-- Liste des projets -->						
+										<#if initiativeProjects?? >
+											<#list initiativeProjects as initiativeProject >
+												<span>${initiativeProject.getTitle(locale)}</span>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="pro-header-auteur">
+									<figure>
+										<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
+									</figure>
+									<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+									<p><strong>${entry.getAuthorLabel()}</strong></p>
+								</div>
+							</div>
+		
+							<div id="breadcrumb">
+							<span>
+								<span>
+									<a href="${homeURL}">Accueil</a>
+								<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
+								<span class="breadcrumb_last">${entry.title}</span>
+								</span>
+							</span>
+							</div>
+						</header>
 						<!-- Test du choix du media : "true"/image, "false"/video --> 
 						<#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
 							<div class="pro-bloc-texte pro-main-img">
@@ -206,8 +204,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						</div>
 					</div>
 
-					<aside class="col-sm-4">
+					<aside class="col-sm-4 side-atelier">
 					
+						
+					
+						<!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 						<!-- Bloc : avis -->
                         <div class="pro-push-avis">
                             <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
@@ -245,36 +247,33 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </a>
                             </#if>
                         </div>
-					
-						<!-- Bloc : map -->
-                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 						
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
+								<a href="#" class="pro-btn-black active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
 								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le/la porteur-teuse </a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
+								<a name="#IsBanned" class="pro-btn-black" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
+								<a name="#Pact-sign" class="pro-btn-black" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<#if isUserHelps >
-									<a href="#popin" class="pro-btn-yellow active" title="Je souhaite retirer mon aide" 
+									<a href="#popin" class="pro-btn-black active" title="Je souhaite retirer mon aide" 
 										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposée, la retirer</a>
 								<#else>
-									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
+									<a href="#popin" class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide" 
 										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
 								</#if>
 							<#elseif isUserBanned>
-								<a name="#IsBanned"class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
+								<a name="#IsBanned"class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" >Proposer mon aide</a>
+								<a name="#Pact-sign" class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide" >Proposer mon aide</a>
 							</#if>
 							
-							<a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+							<a href="#pro-link-commentaire" class="pro-btn-black" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
 
 						</div>
 					</aside>

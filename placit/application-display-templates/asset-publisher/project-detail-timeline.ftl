@@ -35,7 +35,7 @@
 
       <#if firstTimeLine != timeline>
          <a <#if timeline.link?has_content> href="${timeline.link}" </#if> class="pro-jalon ${css}">
-             <div style="padding-top: ${timeline.getSpacing()}px;">
+             <div>
                  <div class="pro-date">
                   <span class="pro-day">Jour</span>
                   <span class="pro-day-more">+${timeline.startDay}</span>
