@@ -66,51 +66,51 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 	<div class="container">
 
-        <div class="col-lg-11 col-lg-offset-1">
+        <div>
 
             <article>
-                <header>
-                    <div class="pro-header-participation">
-                        <span class="pro-encart-theme" style="background : #${participationColor}">
-                            ${participationType}
-                        </span>
-                        <h1>${entry.title}</h1>
-                        <div class="pro-meta">
-
-                            <!-- Liste des quartiers de la participation -->
-                            <span>${entry.getDistrictLabel(locale)}</span>
-
-                            <!-- Liste des thématiques de la participation -->
-                            <#if participationThematics?? >
-                                <#list participationThematics as participationThematic >
-                                    <span>${participationThematic.getTitle(locale)}</span>
-                                </#list>
-                            </#if>
-
-                        </div>											
-                        <div class="pro-header-auteur">
-                            <figure>
-                                <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image de l'auteur"/>
-                            </figure>
-                            <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
-                            <p><strong>${entry.getStatusByUserName()}</strong></p>
-                        </div>
-                    </div>
-
-                    <div id="breadcrumb">
-                    <span>
-                        <span>
-                            <a href="${homeURL}">Accueil</a>
-                            <a href="${homeURL}participations">Participations</a>
-                            <span class="breadcrumb_last">${entry.title}</span>
-                        </span>
-                    </span>
-                    </div>
-                </header>
+                
 
                 <div class="row pro-container-detail-event">
                     <div class="col-sm-8">
-
+                        <header>
+                            <div class="pro-header-participation">
+                                
+                                <h1>${entry.title}</h1>
+                                <div class="mt-3">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
+                                    <!-- Liste des thématiques de la participation -->
+                                    <#if participationThematics?? >
+                                        <#list participationThematics as participationThematic >
+                                            <span class="pro-encart-theme" >${participationThematic.getTitle(locale)}</span>
+                                        </#list>
+                                    </#if>
+                                </div>
+                                <div class="pro-meta">
+                                    <!-- Liste des quartiers de la participation -->
+                                    <span class="prefix-location">${entry.getDistrictLabel(locale)}</span>
+                                </div>											
+                                <div class="pro-header-auteur">
+                                    <figure>
+                                        <img src="${user.getPortraitURL(themeDisplay)}" width="40" height="40" alt="Image de l'auteur"/>
+                                    </figure>
+                                    <p>Participation publiée le ${entry.getPublicationDate()?date?string['dd/MM/yyyy']} par :</p>
+                                    <p><strong>${entry.getStatusByUserName()}</strong></p>
+                                </div>
+                            </div>
+        
+                            <div id="breadcrumb">
+                            <span>
+                                <span>
+                                    <a href="${homeURL}">Accueil</a>
+                                    <a href="${homeURL}participations">Participations</a>
+                                    <span class="breadcrumb_last">${entry.title}</span>
+                                </span>
+                            </span>
+                            </div>
+                        </header>
                         <!-- Test du choix du media : "true"/image, "false"/video --> 
                         <#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
                             <div class="pro-bloc-texte pro-main-img">
@@ -196,29 +196,41 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </div>
                         </div>
 
-                        <#if entry.filesURLs?has_content>
-                            <div class="pro-bloc-texte pro-bloc-telechargements">
-                                <h3>Documents à télécharger</h3>
-                                <div class="row">
+                        <div class="pro-bloc-telechargements">
+                            <h2>Documents à télécharger</h2>
+                            <#if entry.filesURLs?has_content>
+                            <div class="download-file-wrapper">
+
+                                
                                     <#list entry.filesURLs as fileURL>
+
                                         <#assign file = fileEntryHelper.getFileEntryByRelativeURL(fileURL) />
                                         <#assign title = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
                                         <#assign size = fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale) />
-                                        <div class="col-sm-6">
+
+                                        <div class="download-file-row">
                                             <a href="${fileURL}" download title="${title}">
                                                 <span class="pro-filename">${title}</span>
-                                                <span class="pro-poids">Poids ${size}</span>
+                                                <div>
+                                                    <span class="pro-poids">Télécharger</span>
+                                                    <span class="pro-poids">(PDF - ${size})</span>
+                                                </div>
+                                                
                                             </a>
                                         </div>
                                     </#list>
-                                </div>
                             </div>
-                        </#if>
+                            <#else>
+                                    <span>Aucun document associé pour le moment</span>
+                                </#if>
+                        </div>
 
                     </div>
 
                     <!-- Fiche de l'entité -->
                     <aside class="col-sm-4">
+                        <!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 
                         <!-- Bloc : avis -->
                         <div class="pro-push-avis">
@@ -258,14 +270,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                         </div>
 
-                        <!-- Bloc : map -->
-                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
-
                         <!-- Bloc : compteur commentaires -->
                         <div class="pro-compteur">
                             <span class="pro-compt">${entry.nbApprovedCommentsLabel}</span>
                             <p>Citoyens(nes) ont réagi</p>
-                            <a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+                            
+                        </div>
+                        <div class="pro-wrapper-links">
+                            <a href="#pro-link-commentaire" class="pro-btn-black" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
                         </div>
 
                         <!-- Bloc : à venir -->
