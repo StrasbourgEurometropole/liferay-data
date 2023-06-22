@@ -56,58 +56,56 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <div class="pro-page-detail pro-page-detail-initiative">
 	<div class="container">
-		<div class="col-lg-11 col-lg-offset-1">
+		<div class="col-lg-12">
 			<article>
-				<header>
-					<div class="pro-header-participation pro-theme-croissance">
-						<h1>${entry.title}</h1>
-						<div class="pro-wrapper-meta">
-							<#if entry.getStatusCategory()?has_content>
-								<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
-							</#if>
-							<div class="pro-meta">
-							
-								<!-- Liste des quartiers  -->
-								<span>${entry.getDistrictLabel(locale)}</span>
-
-								<!-- Liste des thématiques -->
-								<#if initiativeThematics?? >
-									<#list initiativeThematics as initiativeThematic >
-										<span>${initiativeThematic.getTitle(locale)}</span>
-									</#list>
-								</#if>
-
-								<!-- Liste des projets -->						
-								<#if initiativeProjects?? >
-									<#list initiativeProjects as initiativeProject >
-										<span>${initiativeProject.getTitle(locale)}</span>
-									</#list>
-								</#if>
-							</div>
-						</div>
-						<div class="pro-header-auteur">
-							<figure>
-								<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
-							</figure>
-							<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
-							<p><strong>${entry.getAuthorLabel()}</strong></p>
-						</div>
-					</div>
-
-					<div id="breadcrumb">
-					<span>
-						<span>
-							<a href="${homeURL}">Accueil</a>
-						<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
-						<span class="breadcrumb_last">${entry.title}</span>
-						</span>
-					</span>
-					</div>
-				</header>
-
 				<div class="row pro-container-detail-event">
 					<div class="col-sm-8">
-
+						<header>
+							<div class="pro-header-participation pro-theme-croissance">
+								<h1>${entry.title}</h1>
+								<div class="pro-wrapper-meta">
+									<#if entry.getStatusCategory()?has_content>
+										<div class="pro-statut" ><span style="background : #${entry.getStatusCategoryColor()};">${entry.getStatusCategory().getTitle(locale)}</span></div>
+									</#if>
+									<div class="pro-meta">
+									
+										<!-- Liste des quartiers  -->
+										<span class="prefix-location">${entry.getDistrictLabel(locale)}</span>
+		
+										<!-- Liste des thématiques -->
+										<#if initiativeThematics?? >
+											<#list initiativeThematics as initiativeThematic >
+												<span>${initiativeThematic.getTitle(locale)}</span>
+											</#list>
+										</#if>
+		
+										<!-- Liste des projets -->						
+										<#if initiativeProjects?? >
+											<#list initiativeProjects as initiativeProject >
+												<span>${initiativeProject.getTitle(locale)}</span>
+											</#list>
+										</#if>
+									</div>
+								</div>
+								<div class="pro-header-auteur">
+									<figure>
+										<img src="${entry.authorImageURL}" width="40" height="40" alt="Image de l'auteur"/>
+									</figure>
+									<p>Atelier publié le ${entry.publicationDate?date?string['dd/MM/yyyy']} par :</p>
+									<p><strong>${entry.getAuthorLabel()}</strong></p>
+								</div>
+							</div>
+		
+							<div id="breadcrumb">
+							<span>
+								<span>
+									<a href="${homeURL}">Accueil</a>
+								<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
+								<span class="breadcrumb_last">${entry.title}</span>
+								</span>
+							</span>
+							</div>
+						</header>
 						<!-- Test du choix du media : "true"/image, "false"/video --> 
 						<#if entry.getMediaChoice() == false && entry.getVideoUrl() != "" >
 							<div class="pro-bloc-texte pro-main-img">
@@ -193,7 +191,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 													</figure>
 													<div>
 														<time datetime="2018-02-1">Le ${initiativeHelp.getCreateDate()?date?string['dd/MM/yyyy']}</time>
-														<h3>${initiativeHelp.getAuthorLabel()}</h3>
+														<h3>${initiativeHelp.getAuthorLabel()!""}</h3>
 														<p>a proposé ${initiativeHelp.getTypesLabel()}</p>
 													</div>
 												</div>
@@ -206,8 +204,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 						</div>
 					</div>
 
-					<aside class="col-sm-4">
+					<aside class="col-sm-4 side-atelier">
 					
+						
+					
+						<!-- Bloc : map -->
+                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 						<!-- Bloc : avis -->
                         <div class="pro-push-avis">
                             <#if isUserloggedIn && hasUserPactSign && !isUserBanned>
@@ -245,36 +247,33 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 </a>
                             </#if>
                         </div>
-					
-						<!-- Bloc : map -->
-                        <div class="bloc-iframe leaflet-map" id="mapid" ></div>
 						
 						<div class="pro-wrapper-links">
 						
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
-								<a href="#" class="pro-btn-yellow active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
+								<a href="#" class="pro-btn-black active" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor"
 								data-toggle="modal" data-target="#modalInitiativeContact">Contacter le/la porteur-teuse </a>
 							<#elseif isUserBanned>
-								<a name="#IsBanned" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
+								<a name="#IsBanned" class="pro-btn-black" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
+								<a name="#Pact-sign" class="pro-btn-black" title="Ouverture d'une pop-in pour contacter le/la porteur-teuse " id="buttonContactInitiativeAuthor">Contacter le/la porteur-teuse </a>
 							</#if>
 							
 							<#if isUserloggedIn && hasUserPactSign && !isUserBanned>
 								<#if isUserHelps >
-									<a href="#popin" class="pro-btn-yellow active" title="Je souhaite retirer mon aide" 
+									<a href="#popin" class="pro-btn-black active" title="Je souhaite retirer mon aide" 
 										data-toggle="modal" data-target="#modalRemoveInitiativeHelp">Aide proposée, la retirer</a>
 								<#else>
-									<a href="#popin" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" 
+									<a href="#popin" class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide" 
 										data-toggle="modal" data-target="#modalGiveInitiativeHelp">Proposer mon aide</a>
 								</#if>
 							<#elseif isUserBanned>
-								<a name="#IsBanned"class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
+								<a name="#IsBanned"class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide">Proposer mon aide</a>
 							<#else>
-								<a name="#Pact-sign" class="pro-btn-yellow" title="Ouverture d'une pop-in pour proposer mon aide" >Proposer mon aide</a>
+								<a name="#Pact-sign" class="pro-btn-black" title="Ouverture d'une pop-in pour proposer mon aide" >Proposer mon aide</a>
 							</#if>
 							
-							<a href="#pro-link-commentaire" class="pro-btn-yellow" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
+							<a href="#pro-link-commentaire" class="pro-btn-black" title="Scroll jusqu'à la zone de commentaire">Réagir</a>
 
 						</div>
 					</aside>
@@ -289,16 +288,16 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <#assign suggestions = entry.getSuggestions(request, 10) />
 	
 	<#if suggestions?size gt 0 >
-		<section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+		<section id="pro-link-atelier" class="pro-bloc-slider pro-slider-event">
             <div class="container">
-                <div class="col-lg-10 col-lg-offset-1">
+                <div>
                     <h2>D’autres ateliers</h2>
                     <div class="pro-wrapper">
                         <a href="${homeURL}ateliers-quartier" class="pro-btn">Tous les ateliers</a>
                     </div>
                 </div>
 
-                <div class="col-lg-10 col-lg-offset-1">
+                <div>
                     <div class="owl-carousel owl-opacify owl-theme owl-cards">
 					
 						<#list suggestions as suggestion >
@@ -306,35 +305,48 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<#assign imageURL = suggestion.getImageURL() />
 							
 							<#assign imagePortraitURL = suggestion.getAuthorImageURL() />
-														
-							<div class="item pro-bloc-card-initiative" data-linkall="a">
-								<div class="wrapper-card-initiative">
-									<#if imageURL?has_content >
-											<figure role="group">
-												<img src="${imageURL}" width="40" height="40" alt="Image de l'atelier"/>
-											</figure>
-									</#if>
-									<div>
-										<div class="pro-header-initiative">										
-											<p>Atelier publié par :</p>
-											<p><strong>${suggestion.getAuthorLabel()}</strong></p>								
-										</div>
-										<div class="pro-content-initiative">
-											<a href="${homeURL}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
-												<h3>${suggestion.title}</h3>
-											</a>
-
-											<span class="pro-time">
-												Publié le <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
-											</span>    
-										</div>
+							<div class="item pro-bloc-card-budget" data-linkall="a">
+								<figure role="group">
+									<img src="${imageURL}" width="155" height="200" alt="Image de l'atelier"/>
+								</figure>
+								<div class="pro-header-budget">
+									<figure role="group">
+										<img src="${imagePortraitURL}" width="40" height="40" alt="Portrait du ${suggestion.getAuthorLabel()}"/>
+									</figure>
+									<p>Atelier publié par :</p>
+									<p>
+										<strong>${suggestion.getAuthorLabel()}</strong>
+									</p>
+									<div class="pro-info-top-right">
+										<#if suggestion.getStatusCategory()?has_content >
+										<span class="pro-encart-theme encart-budget">
+											${suggestion.getStatusCategory().getTitle(locale)}
+										</span>
+										</#if>
+										<#list suggestion.getThematicCategories()  as assetCategory>
+										<span class="pro-encart-theme encart-budget">
+											${assetCategory?string}
+										</span>
+										</#list>
 									</div>
 								</div>
-								<div class="pro-footer-initiative">
-									<div class="pro-avis">
-										<span>${suggestion.getNbHelps()}</span>
-									</div>
-									<p>Citoyens-nes ont proposé leur aide</p>
+								<div class="pro-content-budget">
+                                <span class="prefix-location">
+                                    Strasbourg
+                                </span>
+									<a href="${homeURL}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
+										<h3>${suggestion.title}</h3>
+									</a>
+									<span class="pro-time">
+										Publié le 
+                                    <time datetime="${suggestion.getPublicationDateFr()}">${suggestion.getPublicationDateFr()}</time>
+                                </span>
+								</div>
+
+								<div class="pro-footer-budget">
+									<p>
+										<strong>${suggestion.getNbHelps()} Citoyens-nes</strong> ont soutenus cette initiative
+									</p>
 								</div>
 							</div>						
 						</#list>

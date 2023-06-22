@@ -88,7 +88,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
  </div>
 
 <!-- Fiche de l'entité -->
-<aside class="col-sm-4-to-move">
+<aside class="col-md-4-to-move">
 
     <!-- Bloc : map -->
     <div class="bloc-iframe leaflet-map" id="mapid" ></div>
@@ -136,10 +136,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     .pro-page-detail.pro-page-detail-projet section>.pro-wrapper{
         left : 0px;
     }
-     
-    .pro-page-detail.pro-page-detail-projet aside{
-        margin-top : 124px;
-    }
     .pro-page-detail.pro-page-detail-projet .pro-wrapper .portlet-body>* {
         margin: 0;
         padding: 7px 0;
@@ -148,8 +144,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         opacity: 0;
     }
      
-    .col-sm-4 {
-    	z-index : 50;
+    .col-md-4 {
+        z-index : 50;
     }
 </style>
  
@@ -173,7 +169,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     $(document).ready(function() {
 
         // Déplacement du bloc de la fiche entité
-        $(".col-sm-4-to-move").contents().appendTo(".col-sm-4");
+        $(".col-md-4-to-move").appendTo(".col-md-4");
         $(".portlet-content>.portlet-title-text").hide();
 
         // Vérification de l'existance de la timeline verticale

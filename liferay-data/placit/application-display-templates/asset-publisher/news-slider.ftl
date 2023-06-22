@@ -14,16 +14,18 @@
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
-<section class="pro-bloc-select">
+<section class="pro-bloc-select pro-bloc-slider">
     <div class="container">
-        <div class="pro-intro">
-            <h2>Actualités</h2>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
-        </div>
+		<div>
+			<h2>Actualités</h2>
+                    <div class="pro-wrapper">
+                        <a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
+                    </div>
+            </div>
+        <div>
+            <div class="owl-carousel owl-opacify owl-theme owl-cards">
 
-        <div class="row">
-
-    		<!-- Parcours des entites de l'asset publisher -->
+                <!-- Parcours des entites de l'asset publisher -->
             <#list entries as curEntry>
 
 			<#assign territories = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "territoire") />
@@ -45,15 +47,13 @@
 
              <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', curEntry.getAssetRenderer().getArticle().resourcePrimKey) >
 
-	            <div class="col-md-3 col-sm-6 col-xs-12">
+	            <div class="item">
 	                <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
 	                    <div class="img">
 	                        <figure role="group">
 	                            <img src='${imageURL}?imagePreview=1' loading="lazy" alt="Image agenda" width="360" height="174" class="fit-cover"/>
 	                        </figure>
-	                        <span>
-	                        	<span> ${territoriesLabel} <span>								
-							</span>
+	                        
 	                    </div>
 	                    <div class="content">
 	                        <span class="publication">
@@ -61,13 +61,19 @@
 	                        </span>
 	                        <h3>${title}</h3>
 	                        <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
-	                        <span class="link">Lire la suite</span>
+	                        	<span class="actu-location"> ${territoriesLabel} </span>		
+	                       
 	                    </div>
+						<div class="footer-news">
+							<span class="link">Lire la suite</span>
+							<span class="icon-ico-chevron-right"></span>
+						</div>
 	                </a>
 	            </div> 
 
             </#list>
 
+            </div>
         </div>
     </div>
 </section>

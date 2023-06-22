@@ -31,14 +31,14 @@
 </#list>
 <#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 
-    <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
+    <section id="pro-link-budget-participatif" class="pro-bloc-slider pro-slider-event">
         <div class="container">
 
             <div>
                 <h2><@liferay_ui.message key="eu.budgetParticipatif" /></h2>
                 <#if pageListing?? >
                     <div class="pro-wrapper">
-                        <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>
+                        <a href="${homeURL2}${pageListing}" class="pro-btn pro-btn-white">Voir tous les projets</a>
                     </div>
                 </#if>
             </div>
@@ -78,7 +78,7 @@
                                 <p>Projet déposé par :</p>
                                 <p><strong>${entry.getAuthor()?html}</strong></p>
                                 <div class="pro-info-top-right">
-                                    <span class="pro-encart-theme" style="background : #${statusColor}">
+                                    <span class="pro-encart-theme encart-budget">
                                         ${entry.getBudgetParticipatifStatusTitle(locale)}
                                     </span>
                                 </div>

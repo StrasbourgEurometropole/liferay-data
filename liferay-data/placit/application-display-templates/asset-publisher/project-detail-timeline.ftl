@@ -8,12 +8,11 @@
   <#assign firstTimeLine = currProject.getProjectTimelines()?first>
 </#if>
 
-<div class="pro-timeline">
+<div class="pro-timeline-content">
 
   <div class="pro-jalon pro-first">
       <div>
           <div class="pro-date">
-              <div>
                   <#if !firstTimeLine??>
                     <span>${entry.getPublishDate()?string["dd/MM"]}</span>
                     <span class="pro-year">${entry.getPublishDate()?string["yyyy"]}</span>
@@ -21,7 +20,6 @@
                     <span>${firstTimeLine.getDate()?string["dd/MM"]}</span>
                     <span class="pro-year">${firstTimeLine.getDate()?string[firstTimeLine.getFreeMarkerFormatDate()]}</span>
                   </#if>
-              </div>
           </div>
       </div>
   </div>
@@ -37,12 +35,10 @@
 
       <#if firstTimeLine != timeline>
          <a <#if timeline.link?has_content> href="${timeline.link}" </#if> class="pro-jalon ${css}">
-             <div style="padding-top: ${timeline.getSpacing()}px;">
+             <div>
                  <div class="pro-date">
-                     <div>
-                         <span class="pro-day">Jour</span>
-                         <span class="pro-day-more">J+${timeline.startDay}</span>
-                     </div>
+                  <span class="pro-day">Jour</span>
+                  <span class="pro-day-more">+${timeline.startDay}</span>
                  </div>
                  <div class="pro-titre">
                      <span>Le <time datetime="2017-02-14">${timeline.getDate()?string[timeline.getFreeMarkerFormatDate()]}</time></span>

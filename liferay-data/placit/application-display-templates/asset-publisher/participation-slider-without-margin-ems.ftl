@@ -15,11 +15,11 @@
         <#assign homeURL = "/" />
     </#if>
 
-    <section id="pro-link-participation" class="pro-bloc-slider pro-slider-participation">
+    <section id="pro-link-participation-ems" class="pro-bloc-slider pro-slider-participation">
         <div class="container">
             
             <div>
-                <h2>Participer eurometropole (${entries?size})</h2>
+                <h2>Participer <span  class='pro-listing-ems'>eurometropole</span> <span class='pro-listing-count'>(${entries?size})</span></h2>
                 <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
             </div>
 
@@ -60,18 +60,19 @@
                                     </figure>
                                     <p>Concertation publiée par :</p>
                                     <p><strong>${user.getFullName()}</strong></p>
-                                    <div class="pro-info-top-right">
-                                        <span class="pro-encart-theme" style="background : #${participationColor}">
-                                            ${participationType}
-                                        </span>
-                                    </div>
+                                    
+                                </div>
+                                <div class="pro-info-top">
+                                    <span class="pro-encart-theme" style="background : #${participationColor}">
+                                        ${participationType}
+                                    </span>
                                 </div>
                                 <div class="pro-content-participation">
                                     <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                         <h3>${entry.title}</h3>
                                     </a>
                                     <span class="pro-time">
-                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> / <span class="pro-duree">${proDuree}</span>
+                                        Publiée le <time datetime="${entry.publicationDate?string['dd/MM/yyyy']}">${entry.publicationDate?date?string['dd/MM/yyyy']}</time> - <span class="pro-duree">${proDuree}</span>
                                     </span>
                                 </div>
                                 <!-- Selection du type de template selon le status de la participation -->

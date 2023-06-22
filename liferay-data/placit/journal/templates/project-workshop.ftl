@@ -62,15 +62,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <figcaption>Crédit de la photographie</figcaption>
             </figure>
         </header>
-        
-        <div id="breadcrumb">
+        <!-- breadcrumb , a decomment si a utiliser -->
+        <!-- <div id="breadcrumb">
             <span>
                 <span><a href="${homeURL}accueil">Accueil</a>
                     <a href="${homeURL}liste-ateliers-de-projet">Tous les ateliers de projet</a>
                     <span class="breadcrumb_last">${title.getData()}</span>
                 </span>
             </span>
-        </div>
+        </div> -->
         <div class="pro-content pro-bloc-texte col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
             ${content.getData()}
         </div>
